@@ -1,0 +1,23 @@
+
+        .386p
+        .387
+
+_TEXT  SEGMENT BYTE PUBLIC USE16 'CODE'
+_TEXT  ENDS
+_DATA  SEGMENT WORD PUBLIC USE16 'DATA'
+_DATA  ENDS
+_BSS   SEGMENT WORD PUBLIC USE16 'BSS'
+_BSS   ENDS
+DGROUP GROUP   _DATA, _BSS
+
+	PUBLIC		_tst1
+
+_TEXT	SEGMENT
+	assume	cs: _TEXT
+_tst1:
+	mov	ah,62h
+	int	21h
+	mov	ax,bx
+        ret
+_TEXT	ENDS
+	END

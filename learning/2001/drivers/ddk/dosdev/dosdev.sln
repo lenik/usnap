@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "devinfo", "devinfo\devinfo.vcproj", "{FA93AC87-A23F-4803-B172-05DBFDB2C791}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dosdev", "dosdev\dosdev.vcproj", "{827B725D-7708-475E-AFFC-EB84995CFF45}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "enumdev", "enumdev\enumdev.vcproj", "{69F7367E-DEF5-4071-A10D-5D9833B82668}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gdg", "gdg\gdg.vcproj", "{EE24008A-DF01-4053-BCE9-936447C3CE72}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{FA93AC87-A23F-4803-B172-05DBFDB2C791}.Debug.ActiveCfg = Debug|Win32
+		{FA93AC87-A23F-4803-B172-05DBFDB2C791}.Debug.Build.0 = Debug|Win32
+		{FA93AC87-A23F-4803-B172-05DBFDB2C791}.Release.ActiveCfg = Release|Win32
+		{FA93AC87-A23F-4803-B172-05DBFDB2C791}.Release.Build.0 = Release|Win32
+		{827B725D-7708-475E-AFFC-EB84995CFF45}.Debug.ActiveCfg = Debug|Win32
+		{827B725D-7708-475E-AFFC-EB84995CFF45}.Debug.Build.0 = Debug|Win32
+		{827B725D-7708-475E-AFFC-EB84995CFF45}.Release.ActiveCfg = Release|Win32
+		{827B725D-7708-475E-AFFC-EB84995CFF45}.Release.Build.0 = Release|Win32
+		{69F7367E-DEF5-4071-A10D-5D9833B82668}.Debug.ActiveCfg = Debug|Win32
+		{69F7367E-DEF5-4071-A10D-5D9833B82668}.Debug.Build.0 = Debug|Win32
+		{69F7367E-DEF5-4071-A10D-5D9833B82668}.Release.ActiveCfg = Release|Win32
+		{69F7367E-DEF5-4071-A10D-5D9833B82668}.Release.Build.0 = Release|Win32
+		{EE24008A-DF01-4053-BCE9-936447C3CE72}.Debug.ActiveCfg = Debug|Win32
+		{EE24008A-DF01-4053-BCE9-936447C3CE72}.Debug.Build.0 = Debug|Win32
+		{EE24008A-DF01-4053-BCE9-936447C3CE72}.Release.ActiveCfg = Release|Win32
+		{EE24008A-DF01-4053-BCE9-936447C3CE72}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
