@@ -1,0 +1,59 @@
+
+
+
+# EPD - Embedded Prototype Declaring
+# Grammer
+
+
+- EPD 支持
+
+	- PE 结构 API 调用(参数列表)：
+		. pascal
+		. cdecl
+		. thiscall
+		. fastcall
+	- COM 接口声明
+		. 虚表接口
+		. 调度接口
+		. coclass 导出接口
+		. 结构体的附加支持
+	-
+
+
+- C+3 内部支持 EPD.
+
+
+
+
+EPD_statement:
+	EPD_call
+	EPD_struct
+	EPD_com_interface
+	EPD_com_coclass
+	EPD_corba_interface
+	EPD_hfvc
+	EPD_epfs
+	EPD_typedef
+	EPD_template
+
+EPD:
+	NULL
+	'__EPD'
+
+EPD_call:
+	EPD call_attributes call_type_pre call_name '(' call_parameters ')' call_type_post
+
+call_attributes:
+	NULL
+	'[' call_attributes1 ']'
+
+call_attributes1:
+	call_attribute
+	call_attributes call_attribute
+
+call_attribute:
+	'library' '(' STRING ')'
+	'entry' '(' STRING ')'
+
+call_name:
+	identifier

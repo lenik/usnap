@@ -1,0 +1,101 @@
+
+#  +3
+# C  Óï·¨
+
+
+complex_type:
+	primary_type
+	pointer_type
+	reference_type
+	static_type
+	const_type
+	external_type
+	array_type
+
+primary_type:
+	built_in_type
+	struct_type
+	class_type
+	interface_type
+	hfvc_type
+	epfs_type
+	gtype_type
+	typedef_type
+
+built_in_type:
+	integer_type
+	real_type
+	specific_type
+
+integer_type:
+	'int'
+	'short'
+	'short' 'int'
+	'long'
+	'long' 'int'
+	'char'
+	'long' 'long'
+	'long' 'long' 'int'
+	'__int8'
+	'__int16'
+	'__int32'
+	'__int64'
+	'__int128'
+	'unsigned' integer_type
+
+real_type:
+	'float'
+	'double'
+	'long' 'double'
+
+specific_type:
+	'void'
+	'__bcd8'
+	'__bcd32'
+	'__pointer'
+
+struct_type:
+	['struct'] struct_name
+
+class_type:
+	['class'] class_name
+
+interface_type:
+	['interface'] interface_name
+
+hfvc_type:
+	['__hfvc'] hfvc_name
+
+epfs_type:
+	['__epfs'] epfs_name
+
+gtype_type:
+	['__gtype'] gtype_name
+
+typedef_type:
+	typedef_name
+
+pointer_type:
+	complex_type '*'
+
+reference_type:
+	complex_type '&'
+
+static_type:
+	'static' complex_type
+
+const_type:
+	'const' complex_type
+
+external_type:
+	'extern' complex_type
+
+array_type:
+	complex_type '[' [count] ']'
+
+
+extern const static
+
+const int *pConstInt
+
+int const *Const_pInt

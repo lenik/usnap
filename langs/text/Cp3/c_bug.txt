@@ -1,0 +1,80 @@
+
+
+
+
+
+- 存在问题
+
+	- 对字体的敏感性，而不仅仅对大小写
+
+	- 高级字串 (沙子系统)
+		- 字串属性
+			- [coding]"", L"", __unicode"", __ascii"", __utf_8"", __mbcs"", __base64""
+			  根据内外模式, coding 可以这样写：
+				. [coding(unicode)] 存储为默认ascii, 表示为unicode
+				. [coding(base64, utf8)] 存储为utf8, 表示为base64
+			- [hash(hash_method)]""
+				. hash(0)	== '' (比如 'hello')
+				. hash(1)	== crc(""), 简记 [""]
+				...
+		-
+
+	- 并行设计
+
+		- 1, 传统函数+系统底层支持 实现 {
+			...
+			// 分叉调用的目标可以是：
+			//	入口地址
+			//	函数
+			// 分叉调用能返回。
+			fork_call(t1, t2, ...);
+			// exit flow --> goes here.
+			return;
+
+			t1:
+
+				exit flow;
+			t2:
+				exit flow;
+
+
+			// 分叉流
+			fork_flow(t2);
+			// t1:
+				...
+				if (sync) wait for t2.
+				return;
+			t2:
+				exit flow;
+
+		}
+
+		- 2, 关键字，内部优化设计支持
+
+			parellel {
+				thread t1, t2, t3;
+				t1 {
+					...
+				}
+				t2 {
+					...
+				}
+				t3 {
+					...
+				}
+			}
+
+			- 自动调度	[auto]parellel
+			- 时间片调度	[time]parellel
+			- 人工调度	[manual]parellel
+			- 权值调度，如上t1,t2...可以赋予权值，以便对调度进行定制：
+				[power(2)] t1;
+				[power(10)] t2;
+				[power(5)] t3;
+
+	-
+
+
+- 实现方法
+
+	- 分析过程的纤程分枝

@@ -1,0 +1,49 @@
+
+# ¿¼ÂÇ private ¼Ì³ÐÊ±£¬ÓÐÑ¡ÔñµÄ¼Ì³Ð´æ´¢·ÖÅä¡£
+
+
+class CWithPrivate {
+public:
+	int GetA() {
+		return m_a;
+	}
+	int GetB() {
+		return m_b;
+	}
+
+protected:
+	int m_a;
+
+private:
+	int m_b;
+};
+
+class CDerivedFromPrivate : public CWithPrivate {
+public:
+	int GetC() {
+		return m_c;
+	}
+	int GetD() {
+		return m_d;
+	}
+
+protected:
+	int m_c;
+
+private:
+	int m_d;
+};
+
+
+void main() {
+	CWithPrivate p;
+	CDerivedFromPrivate d;
+	int sP, sD;
+
+	sP = sizeof(p);
+	sD = sizeof(d);
+
+	cout << sP << endl;
+	cout << sD << endl;
+
+}

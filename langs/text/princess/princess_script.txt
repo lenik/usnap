@@ -1,0 +1,118 @@
+
+# Princess Script
+
+- 实例1
+
+	小明在家，要烧水做饭，以及给朋友写一封信，需要完成下列任务：
+
+		洗水壶		2
+		烧水(1L)	10
+		泡水(1L)	3
+
+		洗锅		2.5
+		淘米		4
+
+		烧饭		16
+			- 需要 1.5L 水
+
+		写信
+			构思	3
+			执笔	10
+			封缄	2
+			寄信	5
+
+
+	[singleton]class 洗水壶 {
+		time = 2;
+		using 小明;
+	};
+
+	[singleton]class 烧水 {
+		time = 10;
+		pre = 洗水壶;
+		product = 水 1L;
+	};
+
+	class 泡水 {
+		time = 3;
+		pre = 烧水;
+		using 小明;
+	};
+
+	[singleton]class 洗锅 {
+		time = 2.5;
+		using 小明;
+	};
+	[singleton]class 淘米 {
+		time = 4;
+		using 小明;
+	};
+	class 烧饭 {
+		time = 16;
+		pre = 洗锅 && 淘米;
+		require = 水 1.5L
+	};
+
+	class 写信 {
+		[singleton]class 构思 {
+			time = 3;
+			using 小明.思维;
+		};
+		[singleton]class 执笔 {
+			time = 10;
+			pre = 构思;
+			using 小明 && 小明.思维;
+		};
+		[singleton]class 封缄 {
+			time = 2;
+			pre = 执笔;
+			using 小明;
+		};
+		[singleton]class 寄信 {
+			time = 5;
+			pre = 封缄;
+			using 小明;
+		};
+	};
+
+
+
+- 实例2
+
+	小张要去杭州办事，他从火车东站出发，最后要到城站坐车回去：
+
+		- 到汽车东站进购小商品
+
+		- 到武陵门朋友家拿报告，并交给浙江日报社
+
+		- 到曙光路还书，以及借书
+
+		- 到浙江大学会见老朋友
+
+		- 到大关苑
+
+
+	class 到汽车东站 {
+		time = 长度(pre,汽车东站);
+		product = 小商品;
+	};
+	class 到武陵门 {
+		time = 长度(pre,武陵门);
+		product = 报告;
+	};
+	class 到日报社 {
+		time = 长度(pre,日报社);
+		require = 报告;
+	};
+	class 到曙光路 {
+		time = 长度(pre,曙光路);
+	};
+	class 到浙大 {
+		time = 长度(pre,浙大);
+	};
+	class 到大关苑 {
+		time = 长度(pre,大关苑);
+	};
+
+
+-

@@ -1,0 +1,146 @@
+#
+# FAT32.tios
+#
+
+
+Compiler:
+	don't compile
+
+
+keywords:
+
+	_extern("external type name")
+	_jmp
+	_block
+	[...]
+	_id("...")
+	_ignore
+	$var
+
+
+
+## eg.1
+	[
+		desc("a member variable #1"),
+		show_as(ieee1234-date-format),
+	]
+	_u32 "Member var 1";
+
+	_check(explicit) _field("Member var 1") == 123 + 456;
+
+	# sum the check result to main result.
+	_check(fuzzy) abs(_field("Member var 1") - 123);
+
+
+## eg.2 union
+
+	_u16 flag;
+
+	if (flag = 1) jmp s1;
+	else jmp s2;
+
+s1:
+		# union-1
+		Word "the word";
+		jmp s_exit;
+s2:
+		# union-2
+		Byte "the byte 1";
+		Byte "the byte 2";
+
+s_exit:
+
+
+## eg.3 union (2)
+	_u16 flag;
+	if (flag = 1) Word "the word";
+	else {
+		Byte "the byte 1";
+		Byte "the byte 2";
+	}
+
+
+## eg.4 union (3)
+	_u16 flag;
+	switch(Flag) {
+	case 1:
+		Word "the word";
+	else:
+		Byte "the byte 1";
+		Byte "the byte 2";
+	}
+
+
+
+
+
+####
+
+
+
+
+[ _desc("the boot sector of file system, never changes."), color(#ff0000) ]
+Block "Boot Sector" {
+	_ignore 1*3; 		# jump code
+	_ignore 1*8; 		# oem name
+
+	_runtime_assert("==200h");
+	Word "Bytes per sector";
+
+	Byte "Sectors per cluster";
+	Word "Reserved Sectors";
+
+	_compile_assert("ds==10h");	# assert Data Stream now is offset 10h
+
+	[ _desc("number of FAT copies") ]
+	u8 "FAT copies";
+
+	u16 "Max root entries";
+
+	_switch("ext sign") {
+	case(29h):
+		_ignore 2; 		# total sectors
+		Byte Media;
+		_ignore 2; 		# sectors/fat
+		DW "Sectors/Track";
+		DW Heads;
+		DD "Hidden sectors";
+		DD "Total sectors";
+		DD "Sectors/FAT";
+	else:
+		Word "Total sectors";
+		Byte Media;
+		Word "Sectors/FAT";
+		DW "Sectors/Track";
+		DW Heads;
+		DD "Hidden sectors";
+		_ignore 4; 		# total sectors
+		_ignore 4; 		# sectors per fat
+	}
+
+	union {
+		_ignore Word Flags;
+		Bits(0,5) "Active FAT";
+		Bit(7) "FAT Mirroring";
+	}
+
+	union {
+		_ignore WORD DriveVersion;
+		[ show_as("ver minor"."ver major") ] {
+			Byte "ver minor";
+			Byte "ver major";
+		}
+	}
+
+	DWORD	clusterRoot;		    //+2Ch  Cluster of Root directory entry
+	WORD	sectorFileSystemInfo;	//+30h  referenced from the start of partition.
+	WORD	sectorBootBackup;
+	BYTE	_res1[12];
+	BYTE	PhysicalDriveNumber;	//+40h  The value is typically 0x80 for hard disks
+	BYTE	_res2;
+	BYTE	SignEx;			        //+42h  == 29h, so nTotalSectors and on are available.
+	DWORD	VolumeSerial;
+	BYTE	VolumeLabel[11];
+	BYTE	FATName[8];		        // "FAT32   "
+	BYTE	_Executable[420];
+	WORD	Signature;	        	// 55 AA

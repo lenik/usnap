@@ -1,0 +1,67 @@
+
+#
+# Example:
+#	EPD file for Image application
+#
+# 14-4-2003	zauj.g.d.
+#
+
+
+# elements:
+#	author: first/last name, company, email, web, ... each 40-chars fixed.
+#	color: rgb, yuv, cmyk
+#	image: 8-bit+palette, 32-bit
+# functions:
+#	invert, mirror, rotate
+#	lighten, darken
+#
+
+
+
+[template<type _char_type = _c.char>]
+pos.hfvc {
+	type = bits;
+	len = 32;
+	name = "AuthorType" + _char_type == _c.char ? "A" :
+				_char_type == _c.wchar ? "W" :
+				macro_qq(_char_type);
+
+	# the typeid of "AuthorType" is a posid, and instance of it
+	# will have pvt==pvt_subtype_posid
+	posid = _auto_id;
+
+	fields = {
+		_char_type szFirstName[40];
+		_char_type szLastName[40];
+		_char_type szCompany[40];
+		_char_type szEmail[40];
+		_char_type szWeb[40];
+		_char_type szTelephone[40];
+		_char_type szAddress[40];
+		};
+};
+
+_c.struct ColorRGB {
+	BYTE red;
+	BYTE green;
+	BYTE blue;
+};
+
+_c.struct ColorYUV {
+	BYTE y;
+	BYTE u;
+	BYTE v;
+};
+
+_c.struct ColorCMYK {
+	BYTE cyan;
+	BYTE meg;
+	BYTE yellow;
+	BYTE black;
+};
+
+_c.union Color {
+	ColorRGB rgb;
+	ColorYUV yuv;
+	ColorCMYK cmyk;
+};
