@@ -30,3 +30,4 @@ protected:
 };
 
 typedef CaEDViewer	*PCAEDVIEWER, *LPCAEDVIEWER;
+
