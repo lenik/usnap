@@ -1,0 +1,149 @@
+
+// 用 A 语言写的 A 语言编译器
+//
+// (C)版权所有 桃壳高科技, 2001
+
+s:
+	[\ \n\t\r]: j s ;
+	/: j- s0_comment_1 ;			// 注释 // 的第一个 /
+	[a-zA-Z_]: j- s0_statusname ;		// 状态名以字母开始
+	~: j s Ej { adderror("获取状态名时发现非法字符"); } ;
+	all: Ea clearB ;
+	;
+s0_comment_1:
+	/: j* s0_comments Ej clearB ;		// 开始进入注释状态，承认保护区的行为，并且忽略“//”
+	~: j+ s Ej { adderror("获取状态名时发现非法字符。如果写注释请用双斜杠“//”"); } ;
+	;
+s0_comments:
+	\n: j+ s0_comments_end ;		// 注释结束
+	~: j s0_comments ; 			// 读取注释直至结束
+	;
+s0_comments_end:
+	~: j s Ej clearB ;			// 忽略注释内容
+	;
+s0_statusname:
+	[a-zA-Z_0-9]: j+ s0_statusname_char ;	// 状态名可以使用字母和数字
+	~: j+- s0_statusname_end Ej init_S ;	// B=状态名 取消对~的提取, 进入s0_statusname_end判断
+	;
+s0_statusname_char:
+	~: j- s0_statusname ;
+	;
+s0_statusname_end:
+	\:: j*- s0_statusname_end ;		// 状态名[:]
+	[\ \n\t\r]: j*- s0_statusname_end ;
+	;: j* s Ej submit_S ;			// 第一个就是;结束
+	~: j+ s1 ;				// 接受一个跳转, 以后的条转由s1接受
+	;
+
+// 跳转分析开始
+s1:
+	;: j s Ej submit_S ;	// 不是第一个的;结束
+	\.: j s2 ;		// .是完整的单字符
+	[0-9]: j s2 ;		// 数字不能作为标识符的开始, 只能做单字符解
+	[a-zA-Z_]: j- s11 ;	// 标识符以字母开头
+	\\: j s15 ;
+	~: j s1 Ej { adderror("获取跳转接受表达式时发现非法字符。"); } ;
+	all: Ea clearB ;
+	;
+s11:
+	[a-zA-Z_0-9]: j+ s12 ;	// 标识符可以使用字母和数字
+	~: j+ s2 ;		// 第一个字母后接不是字母或数字, 认为该字母是单字符
+	;
+s12:
+	~: j- s13 ;		// .=[a-zA-Z_0-9]
+	;
+s13:
+	\:: j+ s2 Ej cond ;	// 判断是否特殊接受字符
+	[a-zA-Z_0-9]: j+ s12 ;
+	~: j*- s13 Ej { adderror("获取特殊接受字符时发现非法字符。"); } ;
+	;
+s15:
+	[0-7]: j- s16 ;		// \nnn 八进制的第一个数字
+	x: j- s1a ;		// \xnn
+	~: j s2 ;		// literal 文字
+	;
+s16:
+	[0-7]: j+ s17 ;
+	~: j+ s2 ;		// \n
+	;
+s17:
+	~: j- s18 ;		// .=n
+	;
+s18:
+	[0-7]: j+ s19 ;
+	~: j+ s2 ;		// \nn
+	;
+s19:
+	~: j s2 ;		// \nnn
+	;
+s1a:
+	[0-9a-fA-F]: j+ s16 ;
+	~: j+ s2 ;		// literal 文字
+	;
+s1b:
+	~: j- s1c ;		// .=[0-9a-fA-F]
+	;
+s1c:
+	[0-9a-fA-F]: j+ s1d ;		// \xnn
+	~: j+ s2 ;		// \xn
+	;
+s1d:
+	~: j s2 ;		// \xnn
+	;
+
+// 跳转的自动机
+s2:
+	\:: j s2 Ej clearB ;	// 忽略冒号
+	[\ \n\t\r]: j s2 Ej clearB ;
+	;: j s1 Ej submit_J ;	// 提交跳转
+	j: j s21 Ej set_j_type ;
+	c: j s21 Ej set_c_type ;
+	x: j s21 Ej set_x_type ;
+	E: j s22 ;
+	all: Ea submit_Char ;
+	;
+s21:
+	\+: j s21 Ej set_jump_level_inc ;
+	\-: j s21 Ej set_jump_level_d ;
+	\*: j s21 Ej set_jump_forced ;
+	[\ \n\t\r]: j s3 ;
+	~: j s21 Ej { adderror("获取跳转类型时发现非法字符。"); } ;
+	;
+s22:
+	b: j s4 Ej set_E_begin ;
+	j: j s4 Ej set_E_jumping ;
+	e: j s4 Ej set_E_end ;
+	a: j s4 Ej set_E_arrival ;
+	~: j s22 Ej { adderror("非法事件类型。"); } ;
+	;
+s3:
+	[a-zA-Z_]: j- s31 ;
+	[\ \n\t\r]: j s3 Ej clearB ;
+	~: j s2 Ej { adderror("获取跳转目标状态时发现非法状态名。"); } ;
+	all: Ea clearB ;
+	;
+s31:
+	[a-zA-Z_0-9]: j+ s32 ;
+	~: j+ s2 Ej submit_J ;
+	;
+s32:
+	~: j- s32 ; 		// .=[a-zA-Z_0-9]
+	;
+s4:
+	{: j s41 Ej read_until_right_brace ;
+	[\ \n\t\r]: j s4 ; 		// 这里的[\ \n\t\r]保留
+	[a-zA-Z_]: j- s42 Eb clearB ;	// Eb触发可以保证过程名的正确性
+	~: j s2 Ej submit_J ;
+	;
+s41:
+	~: j s2 Ej set_procbody ; 	// 理想的.=}
+	;
+s42:
+	[a-zA-Z_0-9]: j+ s43 ;
+	~: j+ s2 Ej save_userproc ;
+	;
+s43:
+	~: j- s42 ; 		// .=[a-zA-Z_0-9]
+	;
+
+// 分析结束

@@ -1,0 +1,23 @@
+
+
+s:
+	\ :	j s ;
+	[0-9]:	j- numstart ;
+	\+:	j s Ej ret_plus ;
+	\-:	j s Ej ret_minus ;
+	\*:	j s Ej ret_ast ;
+	\/:	j s Ej ret_slash ;
+	\^:	j s Ej ret_power ;
+	\(:	j s Ej ret_leftb ;
+	\):	j s Ej ret_rightb ;
+	all: Ea clearB ;
+;
+
+numstart:
+	[0-9]: 	j*- numstart ;
+	\.:	j*- numstart ;
+	~: j+ s Ej ret_NUM ;
+;
+
+e:
+;

@@ -1,0 +1,26 @@
+
+s:
+	/: j- a ;
+	!: j e ;
+	else: j s Ej out ;
+	;
+a:
+	*: j- b ;
+	else: j+ n ;
+	;
+n:
+	~: j s ;	// j s Ej out
+	;
+b:
+	*: j c ;
+	else: j+ d ;
+	;
+c:
+	/: j** s Ej clear ;
+	else: j+ d ;
+	;
+d:
+	~: j- b ;
+	;
+e:
+	;
