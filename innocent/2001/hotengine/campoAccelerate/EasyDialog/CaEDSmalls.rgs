@@ -1,0 +1,21 @@
+HKCR {
+	CampoAccelerate.CaEDSmalls.1 = s 'CaEDSmalls class ' {
+		CLSID = s '{00000000-4341-1000-0002-486954656368}'
+	}
+	CampoAccelerate.CaEDSmalls = s 'CaEDSmalls class ' {
+		CLSID = s '{00000000-4341-1000-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaEDSmalls.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-1000-0002-486954656368} = s 'CaEDSmalls' {
+			ProgID = s 'CampoAccelerate.CaEDSmalls.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaEDSmalls'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-1000-0001-486954656368} = s 'ICaEDSmalls'
+	}
+}

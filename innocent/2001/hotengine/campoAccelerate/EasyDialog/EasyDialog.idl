@@ -1,0 +1,55 @@
+// EasyDialog.idl : IDL source for EasyDialog.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (EasyDialog.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4341-1000-0001-486954656368),
+	helpstring("ICaEDSmalls接口 小对话框")
+]
+interface ICaEDSmalls : IUnknown {
+	HRESULT DoPrompt([out, retval]int *ret);
+};
+
+[
+	uuid(00000000-4341-1001-0001-486954656368),
+	helpstring("ICaEDViewer接口 观察器易话")
+]
+interface ICaEDViewer : IUnknown {
+	[id(0), propget]HRESULT Html([out, retval]BSTR *ret);
+	[id(0), propput]HRESULT Html([in]BSTR *htmlcode);
+
+	HRESULT DoModal([out, retval]int *ret);
+};
+
+[
+	uuid(00000000-4341-1000-0004-486954656368),
+	version(1.0),
+	helpstring("CampoAccelerate.CaEasyDialog 类型库 草原加速易话库 加速您的设计与调试 1.0")
+]
+library CaEasyDialogLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4341-1000-0002-486954656368),
+		helpstring("CaEDSmalls 小易话库, 提供小巧对话框")
+	]
+	coclass CaEDSmalls {
+		[default]interface ICaEDSmalls;
+		interface ICaEDViewer;
+	};
+
+	[
+		uuid(00000000-4341-1001-0002-486954656368),
+		helpstring("CaEDViewer 结果观察易话库, 提供观察结果的工具")
+	]
+	coclass CaEDViewer {
+		[default]interface ICaEDViewer;
+	};
+};

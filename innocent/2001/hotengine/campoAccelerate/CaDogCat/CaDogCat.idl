@@ -1,0 +1,20 @@
+// CaDogCat.idl : IDL source for CaDogCat.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CaDogCat.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4341-FFE0-0004-486954656368),
+	version(1.0),
+	helpstring("CampoAccelerate.DogCat 1.0 Type Library")
+]
+library CaDogCatLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

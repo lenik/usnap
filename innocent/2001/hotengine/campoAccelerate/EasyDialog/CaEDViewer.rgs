@@ -1,0 +1,21 @@
+HKCR {
+	CampoAccelerate.CaEDViewer.1 = s 'CaEDViewer class ' {
+		CLSID = s '{00000000-4341-1001-0002-486954656368}'
+	}
+	CampoAccelerate.CaEDViewer = s 'CaEDViewer class ' {
+		CLSID = s '{00000000-4341-1001-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaEDViewer.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-1001-0002-486954656368} = s 'CaEDViewer' {
+			ProgID = s 'CampoAccelerate.CaEDViewer.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaEDViewer'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-1001-0001-486954656368} = s 'ICaEDViewer'
+	}
+}
