@@ -1,0 +1,7 @@
+/* PmkUndefineFile #01 */
+  #undef bolff__
+  #undef eurff__
+  #undef comff__
+  #undef scrff__
+  #undef simff__
+  #undef tscff__

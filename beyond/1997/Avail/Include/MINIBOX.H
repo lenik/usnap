@@ -1,0 +1,28 @@
+#ifndef __MINIBOX_H
+  #define __MINIBOX_H
+     #include<pmkdrawm.s>
+      #ifndef swap
+      #define swap(a,b,c) {c=a;a=b;b=c;}
+      #endif
+	int      far  switchdir(int dir){return ((4+dir)%8);}
+
+	struct        iorec{int x1,y1,x2,y2,width,height,paint:1,db:1;unsigned char bc,cl,cd,cb,fl,fd,fb,dir;};
+	unsigned char far iorecget3dcolor(struct iorec *i,unsigned int place,unsigned char opt){unsigned char sc1,sc2;switch (i->dir){
+					case 0: switch(place){case getlo:case getto:case getri:case getbi:sc1=i->cl;sc2=i->fl;break;case getli:case getti:case getro:case getbo:sc1=i->cd;sc2=i->fd;break;default:;}break;case 1: switch(place){case getto:case getbi:sc1=i->cl;sc2=i->fl;break;case getti:case getbo:sc1=i->cd;sc2=i->fd;break;default:;}break;case 2: switch(place){case getli:case getto:case getro:case getbi:sc1=i->cl;sc2=i->fl;break;case getlo:case getti:case getri:case getbo:sc1=i->cd;sc2=i->fd;break;default:;}break;case 3: switch(place){case getro:case getli:sc1=i->cl;sc2=i->fl;break;case getlo:case getri:sc1=i->cd;sc2=i->fd;break;default:;}break;
+					case 4: switch(place){case getli:case getti:case getro:case getbo:sc1=i->cl;sc2=i->fl;break;case getlo:case getto:case getri:case getbi:sc1=i->cd;sc2=i->fd;break;default:;}break;case 5: switch(place){case getti:case getbo:sc1=i->cl;sc2=i->fl;break;case getto:case getbi:sc1=i->cd;sc2=i->fd;break;default:;}break;case 6: switch(place){case getlo:case getbo:case getti:case getri:sc1=i->cl;sc2=i->fl;break;case getli:case getbi:case getto:case getro:sc1=i->cd;sc2=i->fd;break;default:;}break;case 7: switch(place){case getlo:case getri:sc1=i->cl;sc2=i->fl;break;case getli:case getro:sc1=i->cd;sc2=i->fd;break;default:;}default:;}return (opt==0?sc1:sc2);}
+	void     far  iorecinit(struct iorec *i){i->x1=i->y1=i->bc=i->dir=i->db=i->paint=0;i->x2=i->y2=80;i->width=i->height=5;i->fl=i->fd=i->fb=1;i->cl=15;i->cb=7;i->cd=8;}
+	void     far  iorecdraw(struct iorec *i){int poly[8],temp;setlinestyle(0,0,1);if(i->db)setcolor(i->bc);if(i->x1>i->x2)swap(i->x1,i->x2,temp);if(i->y1>i->y2)swap(i->y1,i->y2,temp);
+						 if(!i->db)setcolor(iorecget3dcolor(i,getto,getrc));setfillstyle(iorecget3dcolor(i,getto,getrf),iorecget3dcolor(i,getto,getrc));poly[0]=i->x1;poly[1]=poly[3]=i->y1;poly[2]=i->x2;poly[4]=i->x2-i->width+1;poly[5]=poly[7]=i->y1+i->height-1;poly[6]=i->x1+i->width-1;fillpoly(4,poly);if(!i->db)setcolor(iorecget3dcolor(i,getlo,getrc));setfillstyle(iorecget3dcolor(i,getlo,getrf),iorecget3dcolor(i,getlo,getrc));poly[2]=poly[0];poly[3]=i->y2;poly[4]=poly[6]=i->x1+i->width-1;poly[5]=i->y2-i->height+1;poly[7]=i->y1+i->height-1;fillpoly(4,poly);if(!i->db)setcolor(iorecget3dcolor(i,getbo,getrc));setfillstyle(iorecget3dcolor(i,getbo,getrf),iorecget3dcolor(i,getbo,getrc));poly[0]=i->x2;poly[1]=i->y2;poly[6]=i->x2-i->width+1;poly[7]=i->y2-i->height+1;fillpoly(4,poly);if(!i->db)setcolor(iorecget3dcolor(i,getro,getrc));setfillstyle(iorecget3dcolor(i,getro,getrf),iorecget3dcolor(i,getro,getrc));poly[2]=i->x2;poly[3]=i->y1;poly[4]=i->x2-i->width+1;poly[5]=i->y1+i->height-1;fillpoly(4,poly);
+						 if(i->paint){setfillstyle(i->fb,i->cb);bar(i->x1+i->width,i->y1+i->height,i->x2-i->width,i->y2-i->height);}}
+
+	struct        flatrec{int x1,y1,x2,y2,width,height,paint:1,db:1;unsigned char fb,cb,bc,c,f;};
+	void     far  flatrecinit(struct flatrec *i){i->x1=i->y1=0;i->x2=i->y2=80;i->width=i->height=5;i->fb=i->f=i->db=i->paint=1;i->cb=8;i->c=7;i->bc=15;}
+	void     far  flatrecdraw(struct flatrec *i){if(i->f){setcolor(i->c),setfillstyle(i->f,i->c);bar(i->x1,i->y1,i->x2,i->y1+i->height);bar(i->x2-i->width,i->y1,i->x2,i->y2);bar(i->x2,i->y2-i->height,i->x1,i->y2);bar(i->x1,i->y2,i->x1+i->width,i->y1);}if(i->db){setcolor(i->bc);rectangle(i->x1,i->y1,i->x2,i->y2);rectangle(i->x1+i->width-1,i->y1+i->height-1,i->x2-i->width+1,i->y2-i->height+1);}if(i->paint){setfillstyle(i->fb,i->cb);bar(i->x1+i->width,i->y1+i->height,i->x2-i->width,i->y2-i->height);}}
+
+	struct        rec3d{struct iorec o,i;struct flatrec n;unsigned int dir,paint:1,db:1;};
+	void     far  rec3dset1(struct rec3d *i,int num,int val)
+			       {switch(num){case recx1:i->o.x1=val;i->n.x1=i->o.x1+i->o.width;i->i.x1=i->n.x1+i->n.width;break;case recy1:i->o.y1=val;i->n.y1=i->o.y1+i->o.height;i->i.y1=i->n.y1+i->n.height;break;case recx2:i->o.x2=val;i->n.x2=i->o.x2-i->o.width;i->i.x2=i->n.x2-i->n.width;break;case recy2:i->o.y2=val;i->n.y2=i->o.y2-i->o.height;i->i.y2=i->n.y2-i->n.height;break;case recwh:i->o.width=i->n.width=i->i.width=val;break;case recht:i->o.height=i->n.height=i->i.height=val;break;
+					    case reccl:i->o.cl=i->i.cl=val;break;case reccn:i->n.c=val;break;case reccd:i->o.cd=i->i.cd=val;break;case recbc:i->o.bc=i->i.bc=i->n.bc=val;break;case recfl:i->o.fl=i->i.fl=val;break;case recfn:i->n.f=val;break;case recfd:i->o.fd=i->i.fd=val;break;case reccx:i->o.x1+=val;i->o.x2+=val;i->n.x1+=val;i->n.x2+=val;i->i.x1+=val;i->i.x2+=val;break;case reccy:i->o.y1+=val;i->o.y2+=val;i->n.y1+=val;i->n.y2+=val;i->i.y1+=val;i->i.y2+=val;break;case recdir:i->o.dir=val;i->i.dir=switchdir(val);break;default:;}}
+	void     far  rec3dinit(struct rec3d *i){iorecinit(&i->o);iorecinit(&i->i);flatrecinit(&i->n);rec3dset1(i,recx1,0);rec3dset1(i,recy1,0);rec3dset1(i,recx2,i->o.x2);rec3dset1(i,recy2,i->o.y2);i->n.db=i->n.paint=0;i->i.dir=switchdir(i->i.dir);}
+	void     far  rec3ddraw(struct rec3d *i){if(i->db){i->n.db=i->o.db=i->i.db=1;}if(i->paint){i->o.paint=i->n.paint=0;i->i.paint=1;}iorecdraw(&i->o);flatrecdraw(&i->n);iorecdraw(&i->i);}
+#endif

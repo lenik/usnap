@@ -1,0 +1,67 @@
+#if !defined(__PMKDRAW_SHELL)
+  #define PMKDRAW_SHELL
+	#define getrc  0   //Return Color                                (get3dcolor)
+	#define getrf  1   //Return FillStyle                            (get3dcolor)
+
+	#define getto  0   //Return Top-Outside's    Color or Fillstyle  (get3dcolor)
+	#define gettm  1   //Return Top-Middle's     Color or Fillstyle  (get3dcolor)
+	#define getti  2   //Return Top-Inside's     Color or Fillstyle  (get3dcolor)
+	#define getro  3   //Return Right-Outside's  Color or Fillstyle  (get3dcolor)
+	#define getrm  4   //Return Right-Middle's   Color or Fillstyle  (get3dcolor)
+	#define getri  5   //Return Right-Inside's   Color or Fillstyle  (get3dcolor)
+	#define getbo  6   //Return Bottom-Outside's Color or Fillstyle  (get3dcolor)
+	#define getbm  7   //Return Bottom-Middle's  Color or Fillstyle  (get3dcolor)
+	#define getbi  8   //Return Bottom-Inside's  Color or Fillstyle  (get3dcolor)
+	#define getlo  9   //Return Left-Outside's   Color or Fillstyle  (get3dcolor)
+	#define getlm  10  //Return Left-Middle's    Color or Fillstyle  (get3dcolor)
+	#define getli  11  //Return Left-Inside's    Color or Fillstyle  (get3dcolor)
+
+	#define sizerx 0   //Return X                                    (char3d::getsize)
+	#define sizery 1   //Return Y                                    (char3d::getsize)
+
+	#define recx1   0  //Set Recs' X1 in one time                (rec3d::set1)
+	#define recy1   1  //Set Recs' Y1 in one time                (rec3d::set1)
+	#define recx2   2  //Set Recs' X2 in one time                (rec3d::set1)
+	#define recy2   3  //Set Recs' Y2 in one time                (rec3d::set1)
+
+	#define recwh  14  //Set Recs' Width        in one time      (rec3d::set1)
+	#define recht  15  //Set Recs' Height       in one time      (rec3d::set1)
+	#define reccl   4  //Set Recs' Light  color in one time      (rec3d::set1)
+	#define reccn   5  //Set Recs' Normal color in one time      (rec3d::set1)
+	#define reccd   6  //Set Recs' Dark   color in one time      (rec3d::set1)
+	#define recbc  12  //Set Recs' BorderColor in one time       (rec3d::set1)
+	#define recfl   7  //Set Recs' Light  fillstyle in one time  (rec3d::set1)
+	#define recfn  13  //Set Recs' Normal fillstyle in one time  (rec3d::set1)
+	#define recfd   8  //Set Recs' Dark   fillstyle in one time  (rec3d::set1)
+
+	#define reccx   9  //Change Recs' X (Add or Sub) in one time (rec3d::set1)
+	#define reccy  10  //Change Recs' Y (Add or Sub) in one time (rec3d::set1)
+	#define recdir 11  //Change Recs' dir in one time            (rec3d::set1)
+
+	#define recpaint 16
+	#define recdb 17
+
+	#define m3d1cx  0  //Change it[]'s X (Add or Sub) in one time(m3d?::set1)
+	#define m3d1cy  1  //Change it[]'s Y (Add or Sub) in one time(m3d?::set1)
+	#define m3d1fn  2  //Set it[]'s FontName in one time         (m3d?::set1)
+	#define m3d1fs  3  //Set it[]'s FontSize in one time         (m3d?::set1)
+	#define m3d1dir 4  //Set it[]'s FontDir  in one time         (m3d?::set1)
+	#define m3d1dep 5  //Set it[]'s FontDep  in one time         (m3d?::set1)
+	#define m3d1skp 6  //Set lines' x or y skip in one time      (m3d?::set1)
+	#define m3d1c   7  //Set it[]'s FontDark color in one time   (m3d?::set1)
+	#define m3d1co  8  //Set it[]'s FontOutside color in one time(m3d?::set1)
+	#define m3d1hz  9  //Set it[]'s FontHorizMode in one time    (m3d?::set1)
+	#define m3d1vt 10  //Set it[]'s FontVectMode in one time     (m3d?::set1)
+	#define m3d1x1 11  //Set Curs' X1 in one time                (m3d?::set1)
+	#define m3d1y1 12  //Set Curs' Y1 in one time                (m3d?::set1)
+	#define m3d1x2 13  //Set Curs' X2 in one time                (m3d?::set1)
+	#define m3d1y2 14  //Set Curs' Y2 in one time                (m3d?::set1)
+	#define m3d1px 15  //Set Curs' PutX in one time              (m3d?::set1)
+	#define m3d1py 16  //Set Curs' PutY in one time              (m3d?::set1)
+	#define m3d1cc 17  //Set Curs' Color in one time             (m3d?::set1)
+	#define m3d1cb 18  //Set Curs' Border Color in one time      (m3d?::set1)
+	#define m3d1cf 19  //Set Curs' Fillpattern in one time       (m3d?::set1)
+
+	#define	release 0  //Release current button                  (cmd3d::setxy)
+	#define press   1  //Press current button                    (cmd3d::setxy)
+#endif

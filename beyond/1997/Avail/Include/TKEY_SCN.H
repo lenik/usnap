@@ -1,12 +1,25 @@
+/*
+ *	Scan Codes Head File
+ *	DanSei/TopCroak-Software	2000.3.4
+ *
+ *	ScanCode-macros using:
+ *		SCAN_keyname(combined-key)
+ *	Examples:
+ *		SCAN_F2(SCAN_NORMAL) means key: "<F2>"
+ *		SCAN_SLASH(SCAN_ALT) means key: "<Alt>-</>"
+ */
+
+#define SCAN_NORMAL		1000
+#define SCAN_SHIFT		1001
+#define SCAN_CTRL		1002
+#define SCAN_ALT		1003
+
 #define SCAN_REPLACE(m, vnormal, vshift, vctrl, valt) \
   ((m)==SCAN_NORMAL)?(vnormal):\
   ((m)==SCAN_SHIFT)?(vshift):\
   ((m)==SCAN_CTRL)?(vctrl):(valt)
 
-#define SCAN_NORMAL		0
-#define SCAN_SHIFT		1
-#define SCAN_CTRL		2
-#define SCAN_ALT		3
+#define NOSCAN			999999
 
 #define SCAN_A(m)		(SCAN_REPLACE((m), 0x1e61, 0x1e41, 0x1e01, 0x1e00))
 #define SCAN_B(m)		(SCAN_REPLACE((m), 0x3062, 0x3042, 0x3002, 0x3000))
@@ -35,28 +48,28 @@
 #define SCAN_Y(m)		(SCAN_REPLACE((m), 0x1579, 0x1559, 0x1519, 0x1500))
 #define SCAN_Z(m)		(SCAN_REPLACE((m), 0x2c7a, 0x2c5a, 0x2c1a, 0x2c00))
 
-#define SCAN_1(m)		(SCAN_REPLACE((m), 0x0231, 0x0221, 999999, 0x7800))
+#define SCAN_1(m)		(SCAN_REPLACE((m), 0x0231, 0x0221, NOSCAN, 0x7800))
 #define SCAN_2(m)		(SCAN_REPLACE((m), 0x0332, 0x0340, 0x0300, 0x7900))
-#define SCAN_3(m)		(SCAN_REPLACE((m), 0x0433, 0x0423, 999999, 0x7a00))
-#define SCAN_4(m)		(SCAN_REPLACE((m), 0x0534, 0x0524, 999999, 0x7b00))
-#define SCAN_5(m)		(SCAN_REPLACE((m), 0x0635, 0x0625, 999999, 0x7c00))
+#define SCAN_3(m)		(SCAN_REPLACE((m), 0x0433, 0x0423, NOSCAN, 0x7a00))
+#define SCAN_4(m)		(SCAN_REPLACE((m), 0x0534, 0x0524, NOSCAN, 0x7b00))
+#define SCAN_5(m)		(SCAN_REPLACE((m), 0x0635, 0x0625, NOSCAN, 0x7c00))
 #define SCAN_6(m)		(SCAN_REPLACE((m), 0x0736, 0x075e, 0x071e, 0x7d00))
-#define SCAN_7(m)		(SCAN_REPLACE((m), 0x0837, 0x0826, 999999, 0x7e00))
-#define SCAN_8(m)		(SCAN_REPLACE((m), 0x0938, 0x092a, 999999, 0x7f00))
-#define SCAN_9(m)		(SCAN_REPLACE((m), 0x0a39, 0x0a28, 999999, 0x8000))
-#define SCAN_0(m)		(SCAN_REPLACE((m), 0x0b30, 0x0b29, 999999, 0x8100))
+#define SCAN_7(m)		(SCAN_REPLACE((m), 0x0837, 0x0826, NOSCAN, 0x7e00))
+#define SCAN_8(m)		(SCAN_REPLACE((m), 0x0938, 0x092a, NOSCAN, 0x7f00))
+#define SCAN_9(m)		(SCAN_REPLACE((m), 0x0a39, 0x0a28, NOSCAN, 0x8000))
+#define SCAN_0(m)		(SCAN_REPLACE((m), 0x0b30, 0x0b29, NOSCAN, 0x8100))
 
 #define SCAN_MINUS(m)		(SCAN_REPLACE((m), 0x0c2d, 0x0c5f, 0x0c1f, 0x8200))
-#define SCAN_EQUAL(m)		(SCAN_REPLACE((m), 0x0d3d, 0x0d2b, 999999, 0x8300))
+#define SCAN_EQUAL(m)		(SCAN_REPLACE((m), 0x0d3d, 0x0d2b, NOSCAN, 0x8300))
 #define SCAN_LEFTBRACKET(m)	(SCAN_REPLACE((m), 0x1a5b, 0x1a7b, 0x1a1b, 0x1a00))
 #define SCAN_RIGHTBRACKET(m)	(SCAN_REPLACE((m), 0x1b5d, 0x1b7d, 0x1b1d, 0x1b00))
-#define SCAN_SEMICOLON(m)	(SCAN_REPLACE((m), 0x273b, 0x273a, 999999, 0x2700))
-#define SCAN_QUOTE(m)		(SCAN_REPLACE((m), 0x2827, 0x2822, 999999, 999999))
-#define SCAN_BACKQUOTE(m)	(SCAN_REPLACE((m), 0x2960, 0x297e, 999999, 999999))
+#define SCAN_SEMICOLON(m)	(SCAN_REPLACE((m), 0x273b, 0x273a, NOSCAN, 0x2700))
+#define SCAN_QUOTE(m)		(SCAN_REPLACE((m), 0x2827, 0x2822, NOSCAN, NOSCAN))
+#define SCAN_BACKQUOTE(m)	(SCAN_REPLACE((m), 0x2960, 0x297e, NOSCAN, NOSCAN))
 #define SCAN_BACKSLASH(m)	(SCAN_REPLACE((m), 0x2b5c, 0x2b7c, 0x2b1c, 0x2600))
-#define SCAN_COMMA(m)		(SCAN_REPLACE((m), 0x332c, 0x333c, 999999, 999999))
-#define SCAN_PERIOD(m)		(SCAN_REPLACE((m), 0x342e, 0x343e, 999999, 999999))
-#define SCAN_SLASH(m)		(SCAN_REPLACE((m), 0x352f, 0x353f, 999999, 999999))
+#define SCAN_COMMA(m)		(SCAN_REPLACE((m), 0x332c, 0x333c, NOSCAN, NOSCAN))
+#define SCAN_PERIOD(m)		(SCAN_REPLACE((m), 0x342e, 0x343e, NOSCAN, NOSCAN))
+#define SCAN_SLASH(m)		(SCAN_REPLACE((m), 0x352f, 0x353f, NOSCAN, NOSCAN))
 
 #define SCAN_F1(m)		(SCAN_REPLACE((m), 0x3b00, 0x5400, 0x5e00, 0x6800))
 #define SCAN_F2(m)		(SCAN_REPLACE((m), 0x3c00, 0x5500, 0x5f00, 0x6900))
@@ -84,11 +97,11 @@
 #define SCAN_END(m)		(SCAN_REPLACE((m), 0x4f00, 0x4f31, 0x7500, 0x9f00))
 #define SCAN_PGUP(m)		(SCAN_REPLACE((m), 0x4900, 0x4939, 0x8400, 0x9900))
 #define SCAN_PGDN(m)		(SCAN_REPLACE((m), 0x5100, 0x5133, 0x7600, 0xa100))
-#define SCAN_PAD5(m)		(SCAN_REPLACE((m), 999999, 0x4c35, 0x8f00, 999999))
-#define SCAN_PADPLUS(m)		(SCAN_REPLACE((m), 0x4e2b, 0x4e2b, 999999, 0x4e00))
+#define SCAN_PAD5(m)		(SCAN_REPLACE((m), NOSCAN, 0x4c35, 0x8f00, NOSCAN))
+#define SCAN_PADPLUS(m)		(SCAN_REPLACE((m), 0x4e2b, 0x4e2b, NOSCAN, 0x4e00))
 #define SCAN_PADMINUS(m)	(SCAN_REPLACE((m), 0x4a2d, 0x4a2d, 0x8e00, 0x4a00))
-#define SCAN_PADASTERISK(m)	(SCAN_REPLACE((m), 0x372a, 999999, 0x9600, 0x3700))
+#define SCAN_PADASTERISK(m)	(SCAN_REPLACE((m), 0x372a, NOSCAN, 0x9600, 0x3700))
 #define SCAN_PADSLASH(m)	(SCAN_REPLACE((m), 0x352f, 0x352f, 0x9500, 0xa400))
 #define SCAN_INSERT(m)		(SCAN_REPLACE((m), 0x5200, 0x5230, 0x9200, 0xa200))
 #define SCAN_DEL(m)		(SCAN_REPLACE((m), 0x5300, 0x532e, 0x9300, 0xa300))
-#define SCAN_PRTSC(m)		(SCAN_REPLACE((m), 999999, 999999, 0x7200, 999999))
+#define SCAN_PRTSC(m)		(SCAN_REPLACE((m), NOSCAN, NOSCAN, 0x7200, NOSCAN))
