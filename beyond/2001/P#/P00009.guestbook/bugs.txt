@@ -1,0 +1,14 @@
+
+Microsoft Winsock Control Bugs Report
+
+
+	- Can't wait for socket connected by DoEvents loop.
+		Error:
+			socket_dataarrival raised before socket_connected, and
+			pop the error state dialog box.
+		Resolution:
+			wait connected state in socket_dataarrival:
+			_DataArrival()
+				while not =.sckConnect:doevents:wend
+
+	-

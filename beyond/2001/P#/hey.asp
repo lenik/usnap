@@ -1,0 +1,4 @@
+
+<%
+response.write "Hey!" & vbnewline
+%>

@@ -1,0 +1,38 @@
+VERSION 5.00
+Begin VB.UserDocument Doc1
+   ClientHeight    =   1275
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   2565
+   HScrollSmallChange=   1.875
+   ScaleHeight     =   5.313
+   ScaleMode       =   0  'User
+   ScaleWidth      =   21.375
+   VScrollSmallChange=   0.938
+   Begin VB.CommandButton Command1
+      Caption         =   "Command1"
+      Height          =   615
+      Left            =   120
+      TabIndex        =   0
+      Top             =   120
+      Width           =   2055
+   End
+   Begin VB.Label Label1
+      Caption         =   "Developpment"
+      Height          =   255
+      Left            =   2040
+      TabIndex        =   1
+      Top             =   1080
+      Width           =   975
+   End
+End
+Attribute VB_Name = "Doc1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Private Sub Command1_Click()
+    MsgBox "Hello!"
+End Sub

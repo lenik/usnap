@@ -1,0 +1,39 @@
+// atl1.idl : IDL source for atl1.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (atl1.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(819833DA-E706-44D1-853B-D1EC4B0DF9C8),
+		dual,
+		helpstring("Ic1 Interface"),
+		pointer_default(unique)
+	]
+	interface Ic1 : IDispatch
+	{
+		[id(1), helpstring("method f1")] HRESULT f1();
+	};
+
+[
+	uuid(DAB14B83-12E0-4874-AA0E-378047319A58),
+	version(1.0),
+	helpstring("atl1 1.0 Type Library")
+]
+library ATL1Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(F6480BDA-60AD-464B-A764-C64F8B7E4801),
+		helpstring("c1 Class")
+	]
+	coclass c1
+	{
+		[default] interface Ic1;
+	};
+};

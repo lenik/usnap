@@ -1,0 +1,9 @@
+y2 = y1
+x2 = x1 * COS(yr) - z1 * SIN(yr)
+z2 = x1 * SIN(yr) + z1 * COS(yr)
+y3 = z2 * SIN(xr) + y2 * COS(xr)
+x3 = x2
+z3 = z2 * COS(xr) - y2 * SIN(xr)
+y4 = y3 * COS(zr) - x3 * SIN(zr)
+x4 = y3 * SIN(zr) + x3 * COS(zr)
+z4 = z3

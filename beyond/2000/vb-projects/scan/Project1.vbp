@@ -1,0 +1,36 @@
+Type=Exe
+Form=Form1.frm
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\WINNT\System32\stdole2.tlb#OLE Automation
+Object={009541A3-3B81-101C-92F3-040224009C02}#2.1#0; ImgAdmin.ocx
+Object={6D940288-9F11-11CE-83FD-02608C3EC08A}#2.2#0; ImgEdit.ocx
+Object={84926CA3-2941-101C-816F-0E6013114B7F}#1.0#0; ImgScan.ocx
+Object={E1A6B8A3-3603-101C-AC6E-040224009C02}#1.0#0; ImgThumb.ocx
+Startup="Form1"
+Command32=""
+Name="Project1"
+HelpContextID="0"
+CompatibleMode="0"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=0
+VersionCompanyName="TopCroak HiTech Development Ltd."
+CompilationType=0
+OptimizationType=0
+FavorPentiumPro(tm)=0
+CodeViewDebugInfo=0
+NoAliasing=0
+BoundsCheck=0
+OverflowCheck=0
+FlPointCheck=0
+FDIVCheck=0
+UnroundedFP=0
+StartMode=0
+Unattended=0
+Retained=0
+ThreadPerObject=0
+MaxNumberOfThreads=1
+
+[MS Transaction Server]
+AutoRefresh=1

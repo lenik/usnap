@@ -1,0 +1,3264 @@
+.\TCHAIN.CPP
+#include "TChain.h"
+
+void TChainClassBase::Constructor() {
+  Prev=Next=NULL;
+}
+
+void TChainClassBase::Destroy() {
+  if (Prev!=NULL) Prev->Destroy();
+  if (Next!=NULL) Next->Destroy();
+}
+
+// Change Current Node Functions
+char TChainClassBasic::GoTop(void) {
+  if (Chain==NULL) return 0;
+  while (Chain->Prev!=NULL) Chain=Chain->Prev;
+  return 1;
+}
+char TChainClassBasic::GoBottom(void) {
+  if (Chain==NULL) return 0;
+  while (Chain->Next!=NULL) Chain=Chain->Next;
+  return 1;
+}
+char TChainClassBasic::GoPrev(void) {
+  if (IsPrevNull()) return 0;
+  Chain=Chain->Prev;
+  return 1;
+}
+char TChainClassBasic::GoNext() {
+  if (IsNextNull()) return 0;
+  Chain=Chain->Next;
+  return 1;
+}
+char TChainClassBasic::GoSomePrev(Word Num) {
+  if (Chain==NULL) return 0;
+  while ((Num--)&&(Chain->Prev!=NULL)) Chain=Chain->Prev;
+  return 1;
+}
+char TChainClassBasic::GoSomeNext(Word Num) {
+  if (Chain==NULL) return 0;
+  while ((Num--)&&(Chain->Next!=NULL)) Chain=Chain->Next;
+  return 1;
+}
+
+// Test Current Node Functions
+char TChainClassBasic::IsPrevNull(void) {
+  return ((Chain==NULL)||(Chain->Prev==NULL))?1:0;
+}
+char TChainClassBasic::IsNextNull(void) {
+  return ((Chain==NULL)||(Chain->Next==NULL))?1:0;
+}
+char TChainClassBasic::IsSomePrevNull(Word Num) {
+  if (Chain==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Chain->Prev==NULL) {
+      IsNull=1;
+      break;
+    }Chain=Chain->Prev;
+  }
+  return IsNull;
+}
+char TChainClassBasic::IsSomeNextNull(Word Num) {
+  if (Chain==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Chain->Next==NULL) {
+      IsNull=1;
+      break;
+    }Chain=Chain->Next;
+  }
+  return IsNull;
+}
+
+// Insert And Delete Node Functions
+char TChainClassBasic::Push(TChainClassBase *_TChainClassBaseNew) {
+  TChainClassBase *_OriPoint=Chain;
+  if (!_TChainClassBaseNew->GoBottom()) return 0;
+  if (!GoTop()) Chain=_TChainClassBaseNew;
+  else {
+    Chain->Prev=_TChainClassBaseNew;
+    _TChainClassBaseNew->Next=Chain;
+    Chain=_OriPoint;
+  }
+  return 1;
+}
+char TChainClassBasic::Append(TChainClassBase *_TChainClassBaseNew) {
+  TChainClassBase *_OriPoint=Chain;
+  if (!_TChainClassBaseNew->GoTop()) return 0;
+  if (!GoBottom()) Chain=_TChainClassBaseNew;
+  else {
+    Chain->Next=_TChainClassBaseNew;
+    _TChainClassBaseNew->Prev=Chain;
+    Chain=_OriPoint;
+  }
+  return 1;
+}
+char TChainClassBasic::Insert(TChainClassBase *_TChainClassBaseNew) {
+  TChainClassBase *_OriPoint=Chain;
+  if (!_TChainClassBaseNew->GoBottom()) return 0;
+  if (Chain==NULL) Chain=_TChainClassBaseNew;
+  else {
+    _TChainClassBaseNew->Next=Chain;
+    if (IsPrevNull()) {
+      Chain->Prev=_TChainClassBaseNew;
+    } else {
+      Chain=Chain->Prev;
+      Chain->Next->Prev=_TChainClassBaseNew;
+      _TChainClassBaseNew->GoTop();
+      _TChainClassBaseNew->Prev=Chain;
+      Chain->Next=_TChainClassBaseNew;
+    } Chain=_OriPoint;
+  }
+  return 1;
+}
+char TChainClassBasic::PushBlank(void) {
+  TChainClassBase *_BlankTChainClassBase;
+  if (!(_BlankTChainClassBase=new TChainClassBase)) return 0;
+  return Push(_BlankTChainClassBase);
+}
+char TChainClassBasic::AppendBlank(void) {
+  TChainClassBase *_BlankTChainClassBase;
+  if (!(_BlankTChainClassBase=new TChainClassBase)) return 0;
+  return Append(_BlankTChainClassBase);
+}
+char TChainClassBasic::InsertBlank(void) {
+  TChainClassBase *_BlankTChainClassBase;
+  if (!(_BlankTChainClassBase=new TChainClassBase)) return 0;
+  return InsertBefore(_BlankTChainClassBase);
+}
+char TChainClassBasic::Distil(void) {
+  TChainClassBase *_OriPoint=Chain;
+  if (IsPrevNull()) _OriPoint=Chain->Next;
+  if (!GoTop()) return 0;
+  if (Chain->Next==NULL) {
+    delete Chain;
+    Chain=NULL;
+  } else {
+    Chain=Chain->Next;
+    delete Chain->Prev;
+    Chain->Prev=NULL;
+    Chain=_OriPoint;
+  }
+  return 1;
+}
+char TChainClassBasic::Pull(void) {
+  TChainClassBase *_OriPoint=Chain;
+  if (IsNextNull()) _OriPoint=Chain->Prev;
+  if (!GoBottom()) return 0;
+  if (Chain->Prev==NULL) {
+    delete Chain;
+    Chain=NULL;
+  } else {
+    Chain=Chain->Prev;
+    delete Chain->Next;
+    Chain->Next=NULL;
+    Chain=_OriPoint;
+  }
+  return 1;
+}
+char TChainClassBasic::Delete(void) {
+  TChainClassBase *_OriPoint=Chain;
+  if (Chain==NULL) return 0;
+  if (!IsPrevNull()) {
+    Chain->Prev->Next=Chain->Next;
+  }
+  if (!IsNextNull()) {
+    Chain->Next->Prev=Chain->Prev;
+  }
+  if (!IsNextNull()) {
+    Chain=Chain->Next;
+    delete _OriPoint;
+  } else if (!IsPrevNull()) {
+    Chain=Chain->Prev;
+    delete _OriPoint;
+  } else {
+    delete Chain;
+    Chain=NULL;
+  }
+  return 1;
+}
+char TChainClassBasic::DeleteSomePrev(Word Num) {
+  if (IsPrevNull()) return 0;
+  TChainClassBase *_OriPoint=Chain;
+  while ((Num--)&&(Chain!=NULL)) {
+    TChainClassBase *_LastTChainClassBase=Chain;
+    Chain=Chain->Prev;
+    delete _LastTChainClassBase;
+  }
+  if (Chain==NULL) _OriPoint->Prev=NULL;
+  else {
+    Chain->Next=_OriPoint;
+    _OriPoint->Prev=Chain;
+  }
+  return 1;
+}
+char TChainClassBasic::DeleteSomeNext(Word Num) {
+  if (IsNextNull()) return 0;
+  TChainClassBase *_OriPoint=Chain;
+  while ((Num--)&&(Chain!=NULL)) {
+    TChainClassBase *_LastTChainClassBase=Chain;
+    Chain=Chain->Next;
+    delete _LastTChainClassBase;
+  }
+  if (Chain==NULL) _OriPoint->Next=NULL;
+  else {
+    Chain->Prev=_OriPoint;
+    _OriPoint->Next=Chain;
+  }
+  return 1;
+}
+char TChainClassBasic::DeleteAll(void) {
+  if (!GoTop()) return 0;
+  while (!IsNextNull()) {
+    Chain=Chain->Next;
+    delete Chain->Prev;
+  } delete Chain;
+  Chain=NULL;
+  return 1;
+}
+char TChainClassBasic::Replace(TChainClassBase *_TChainClassBaseAnother) {
+  TChainClassBase *_OriPoint=Chain;
+  if (!Delete()) return 0;
+  InsertBefore(_TChainClassBaseAnother);
+  Chain=_OriPoint;
+  return 1;
+}
+
+// Swap Node Functions
+char TChainClassBasic::SwapWithPrev(void) {
+  if (IsPrevNull()) return 0;
+  TChainClassBase *_OriPointPrev=Chain->Prev;
+  Chain->Next->Prev=_OriPointPrev;
+  Chain->Prev=_OriPointPrev->Prev;
+  _OriPointPrev->Prev=_OriPointPrev->Next;
+  _OriPointPrev->Next=Chain->Next;
+  Chain->Next=_OriPointPrev;
+  Chain->Prev->Next=Chain;
+  return 1;
+}// swap current Node with prev Node !!! Note the nods before current decreased !!!
+char TChainClassBasic::SwapWithNext(void) {
+  if (IsNextNull()) return 0;
+  TChainClassBase *_OriPointNext=Chain->Next;
+  Chain->Prev->Next=_OriPointNext;
+  Chain->Next=_OriPointNext->Next;
+  _OriPointNext->Next=_OriPointNext->Prev;
+  _OriPointNext->Prev=Chain->Prev;
+  Chain->Prev=_OriPointNext;
+  Chain->Next->Prev=Chain;
+  return 1;
+}// swap current Node with next Node !!! Note the nods behind current decreased!!!
+char TChainClassBasic::SwapPrevWithNext(void) {
+  if (IsNextNull()||IsPrevNull()) return 0;
+  TChainClassBase *_Before=Chain->Prev, *_Behind=Chain->Next;
+  _Before->Prev->Next=_Behind;
+  _Before->Next=_Behind->Next;
+  _Behind->Next->Prev=_Before;
+  _Behind->Prev=_Before->Prev;
+  Chain->Next=_Before;
+  _Behind->Next=Chain;
+  Chain->Prev=_Behind;
+  _Before->Prev=Chain;
+  return 1;
+}// swap the two Node beside current Node
+char TChainClassBasic::SwapWithOther(TChainClassBase **_TChainClassBaseOther) {
+  if (_TChainClassBaseOther==NULL) return 0;
+  TChainClassBase ChainNext=Chain->Next;
+  TChainClassBase *_TChainClassBaseOtherNext=(*_TChainClassBaseOther)->Next;
+  TChainClassBase *ChainC;
+  ChainC=Chain->Prev->Next;
+  Chain->Prev->Next=(*_TChainClassBaseOther)->Prev->Next;
+  (*_TChainClassBaseOther)->Prev->Next=ChainC;
+  ChainC=Chain->Next;
+  Chain->Next=(*_TChainClassBaseOther)->Next;
+  (*_TChainClassBaseOther)->Next=ChainC;
+  ChainC=ChainNext->Prev;
+  ChainNext->Prev=_TChainClassBaseOtherNext->Prev;
+  _TChainClassBaseOtherNext->Prev=ChainC;
+  ChainC=Chain->Prev;
+  Chain->Prev=(*_TChainClassBaseOther)->Prev;
+  (*_TChainClassBaseOther)->Prev=ChainC;
+  ChainC=Chain;
+  Chain=*_TChainClassBaseOther;
+  *_TChainClassBaseOther=ChainC;
+  return 1;
+}
+.\TOPMDATA.CPP
+#include <_Null.h>
+
+#include "TopType.h"
+
+Word Trans2BytesToWord(Byte _Byte1, Byte _Byte2){
+  return (Word)_Byte2<<8+_Byte1;
+}
+
+DWord Trans4BytesToDWord(Byte _Byte1, Byte _Byte2, Byte _Byte3, Byte _Byte4){
+  return (DWord)((Word)_Byte4<<8+_Byte3)<<16+(Word)_Byte2<<8+_Byte1;
+}
+
+Byte* TransExpressToStore(Byte *_EBytes, Word Num){
+  if (!Num) return _EBytes;
+  for (Word HalfLoop=0; HalfLoop<(Num)/2-1; HalfLoop++){
+    Byte _ByteSwap=_EBytes[HalfLoop];
+    _EBytes[HalfLoop]=_EBytes[Num-1-HalfLoop];
+    _EBytes[Num-1-HalfLoop]=_ByteSwap;
+  }
+  return _EBytes;
+}
+.\TOPFILE.CPP
+#include <_Null.h>
+#include <io.h>
+#include <fcntl.h>
+
+#include "TopBin.h"
+
+Word _BlockSize=0x1000;		// 4k
+long _FileMax=0x7FFF0000;	// 2G Max!
+
+Word topfileGetBlockSize(void);
+void topfileSetBlockSize(Word _setBlockSize);
+long topfileGetFileMax(void);
+void topfileSetFileMax(long _setFileMax);
+
+long topfileFindTillByteForward(int handle, Byte _byte);
+TRetStr topfileGetStringTillByteForward(int handle, Byte _byte);
+
+Word topfileGetBlockSize(void) {
+  return _BlockSize;
+}
+void topfileSetBlockSize(Word _setBlockSize) {
+  if (_setBlockSize<=_FileMax) _BlockSize=_setBlockSize;
+}
+long topfileGetFileMax(void) {
+  return _FileMax;
+}
+void topfileSetFileMax(long _setFileMax) {
+  if (_setFileMax>=_BlockSize) _FileMax=_setFileMax;
+}
+
+long topfileFindTillByteForward(int handle, Byte _byte) {
+  void *Buf;
+  long len=0;
+  long Restore=0;
+  if ((Restore=tell(handle))==-1) return 0;
+  while (len<=_FileMax-_BlockSize) {
+    if (
+	 (!(Buf=new char[_BlockSize+1])) ||
+	 (read(handle, Buf, _BlockSize)==-1) // Memory out or File not exist
+    ) {
+      lseek(handle, Restore, SEEK_SET);
+      return 0;
+    } else {
+      ((char *)Buf)[_BlockSize]=0;
+      topbinSetMaxLen(_BlockSize);
+      if (!topbinFindByteInString((char *)Buf, _byte).s) { // More Data...
+	len+=_BlockSize;
+	delete Buf;
+	continue;
+      } else {
+	len+=_TRetNum.r;
+	delete Buf;
+	lseek(handle, Restore, SEEK_SET);
+	return len; // The position relative to current
+      } // Deal with block
+    } // Read success
+  } // loop
+  lseek(handle, Restore, SEEK_SET);
+  return 0; // Haven't found
+}
+
+#define topfileGetForwardASCIIZLength(handle) topfileFindTillByteForward(handle, '\x0')
+
+TRetStr topfileGetStringTillByteForward(int handle, Byte _byte) {
+  void *_RetStr;
+  long len=topfileFindTillByteForward(handle, _byte)+1;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  if (
+       (len==0) ||
+       (!(_RetStr=new char[len])) ||
+       (read(handle, _RetStr, len)==-1)
+  ) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  } else {
+    _TRetStr.r=(char *)_RetStr;
+    return _TRetStr;
+  }
+}
+
+#define topfileGetForwardASCIIZ(handle) topfileGetStringTillByteForward(handle, '\x0')
+
+/*
+#include <stdio.h>
+void main() {
+  int test;
+  test=open("test\\Text01.", O_BINARY|O_RDONLY);
+  long aa=tell(test);
+  topfileGetStringTillByteForward(test, 'W');
+  aa=tell(test);
+  lseek(test,0,SEEK_SET);
+  _TRetStr.r[topfileFindTillByteForward(test, 'W')]=0;
+  aa=tell(test);
+  printf("%send.\n", _TRetStr.r);
+  close(test);
+}
+*/.\TOPFILEE.CPP
+#include <io.h>
+#include "TopType.h"
+#include "TopMData.h"
+
+TRetByte topfileGetByte(int Handle, long Offset, int FromWhere=SEEK_SET){
+  _TRetByte.r='\x0';
+  _TRetByte.s=1;
+  long OriginStart=tell(Handle);
+  if (lseek(Handle, Offset, FromWhere)==-1L){
+    _TRetByte.s=0;
+    return _TRetByte;
+  }
+  if (read(Handle, &_TRetByte.r, 1)==-1){
+    lseek(Handle, OriginStart, SEEK_SET);
+    _TRetByte.r='\x0';
+    _TRetByte.s=0;
+    return _TRetByte;
+  }
+  return _TRetByte;
+}
+
+TRetWord topfileGetWord(int Handle, long Offset, int FromWhere=SEEK_SET){
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  long OriginStart=tell(Handle);
+  if (lseek(Handle, Offset, FromWhere)==-1L){
+    _TRetWord.s=0;
+    return _TRetWord;
+  }
+  if (read(Handle, &_TRetWord.r, 2)==-1){
+    lseek(Handle, OriginStart, SEEK_SET);
+    _TRetWord.r='\x0';
+    _TRetWord.s=0;
+    return _TRetWord;
+  }
+  _TRetWord.r=Trans2BytesToWord(_TRetWord.r>>8, _TRetWord.r&0xF);
+  return _TRetWord;
+}
+.\TGALGOR.CPP
+// TOP GRAPHICS ALGORITHM CLASS
+// DANSEI 1998.11.27
+
+#include <math.h>
+
+#include "TGAlgor.h"
+
+TSpace2D::TSpace2D (TPoint _Base, TPoint _Trans) {
+  BasePoint = _Base;
+  TransPoint = _Trans;
+}
+
+TPoint TSpace2D::Move (int _x, int _y) {
+  return TPoint (TransPoint.x + _x, TransPoint.y + _y);
+}
+
+TPoint TSpace2D::Scale (float _ratiox, float _ratioy) {
+  return TPoint (
+    BasePoint.x + (TransPoint.x - BasePoint.x) * _ratiox,
+    BasePoint.y + (TransPoint.y - BasePoint.y) * _ratioy
+  );
+}
+
+TPoint TSpace2D::Rotate (float _angle) {
+  TPoint _RetPoint = TransPoint - BasePoint;
+  _RetPoint.x = _RetPoint.x * cos (_angle) + _RetPoint.y * sin (_angle);
+  _RetPoint.y = -_RetPoint.x * sin (_angle) + _RetPoint.y * cos (_angle);
+  return _RetPoint + BasePoint;
+}
+
+TPoint TSpace2D::Slip (float _MA, float _MB, float _MC, float _MD) {
+  TPoint _RetPoint = TransPoint - BasePoint;
+  TPoint _OriPoint = _RetPoint;
+  /* Multipling Point with Matrix:
+     | a b | * [X Y] = [aX + cY   bX + dY]
+     | c d |
+  */
+  _RetPoint.x = _MA * _OriPoint.x + _MC * _OriPoint.y;
+  _RetPoint.y = _MB * _OriPoint.x + _MD * _OriPoint.y;
+  return _RetPoint + BasePoint;
+}
+
+TSpace3D::TSpace3D (TPoint3D _Base, TPoint3D _Trans) {
+  BasePoint = _Base;
+  TransPoint = _Trans;
+}
+
+TPoint3D TSpace3D::Move (int _x, int _y, int _z) {
+  return TPoint3D (TransPoint.x + _x, TransPoint.y + _y, TransPoint.z + _z);
+}
+
+TPoint3D TSpace3D::Scale (float _ratiox, float _ratioy, float _ratioz) {
+  return TPoint3D (
+    BasePoint3D.x + (TransPoint3D.x - BasePoint3D.x) * _ratiox,
+    BasePoint3D.y + (TransPoint3D.y - BasePoint3D.y) * _ratioy,
+    BasePoint3D.z + (TransPoint3D.z - BasePoint3D.z) * _ratioz
+  );
+}
+
+TPoint3D TSpace3D::Rotate (float _anglex, float _angley, float _anglez) {
+  TPoint3D _RetPoint3D = TransPoint3D - BasePoint3D;
+  TPoint3D _OriPoint3D = _RetPoint3D;
+
+  _RetPoint3D.x = _OriPoint3D.x * cos (_angley) - _OriPoint3D.z * sin (_angley);
+  _RetPoint3D.z = _OriPoint3D.x * sin (_angley) + _OriPoint3D.z * sin (_angley);
+  _RetPoint3D.y = _RetPoint3D.z * sin (_anglex) + _OriPoint3D.y * cos (_anglex);
+  _RetPoint3D.z = _RetPoint3D.z * cos (_anglex) - _OriPoint3D.y * sin (_anglex);
+  _OriPoint3D.x = _RetPoint3D.x;
+  _RetPoint3D.x = _RetPoint3D.y * sin (_anglez) + _OriPoint3D.x * cos (_anglez);
+  _RetPoint3D.y = _RetPoint3D.y * cos (_anglez) - _OriPoint3D.x * sin (_anglez);
+
+  return _RetPoint3D + BasePoint3D;
+}
+.\TTIME.CPP
+#include <dos.h>
+#include <_Null.h>
+
+#include "TopType.h"
+#include "TTime.h"
+
+Byte ToBCD_Byte(Byte Bin) {
+  return ((Bin)/10*0x10+(Bin)%10);
+}
+
+Byte ToBin_Byte(Byte BCD) {
+  return (((BCD)>>4)*10+((BCD)&0xf));
+}
+
+DWord GetClockCount(void){
+  REGS _r;
+  _r.h.ah=0;
+  int86(0x1a, &_r, &_r);
+  return (DWord)_r.x.cx<<16+_r.x.dx;
+}
+
+void SetClockCount(DWord CC){
+  REGS _r;
+  CC%=_MaxClockCount;
+  _r.x.cx=CC>>16;
+  _r.x.dx=CC&0xffff;
+  _r.h.ah=1;
+  int86(0x1a, &_r, &_r);
+}
+
+Word GetDayCount(void){
+  REGS _r;
+  _r.h.ah=0xa;
+  int86(0x1a, &_r, &_r);
+  return _r.x.cx;
+}
+
+void SetDayCount(Word DC){
+  REGS _r;
+  _r.x.cx=DC;
+  _r.h.ah=0xb;
+  int86(0x1a, &_r, &_r);
+}
+
+Byte ReadRTCTime(void){
+  REGS _r;
+  _r.h.ah=2;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) return 0;
+  _RTCTime.DST=ToBin_Byte(_r.h.dl);
+  _RTCTime.Hour=ToBin_Byte(_r.h.ch);
+  _RTCTime.Minute=ToBin_Byte(_r.h.cl);
+  _RTCTime.Second=ToBin_Byte(_r.h.dh);
+  return 1;
+}
+
+Byte SetRTCTime(RTCTime __RTCTime){
+  REGS _r;
+  _r.h.dl=__RTCTime.DST;
+  _r.h.ch=ToBCD_Byte(__RTCTime.Hour);
+  _r.h.cl=ToBCD_Byte(__RTCTime.Minute);
+  _r.h.dh=ToBCD_Byte(__RTCTime.Second);
+  _r.h.ah=3;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) return 0;
+  return 1;
+}
+
+Byte ReadRTCDate(void){
+  REGS _r;
+  _r.h.ah=4;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) return 0;
+  _RTCDate.Century=ToBin_Byte(_r.h.ch);
+  _RTCDate.Year=ToBin_Byte(_r.h.cl);
+  _RTCDate.Month=ToBin_Byte(_r.h.dh);
+  _RTCDate.Day=ToBin_Byte(_r.h.dl);
+  return 1;
+}
+
+Byte SetRTCDate(RTCDate __RTCDate){
+  REGS _r;
+  _r.h.ch=ToBCD_Byte(__RTCDate.Century);
+  _r.h.cl=ToBCD_Byte(__RTCDate.Year);
+  _r.h.dh=ToBCD_Byte(__RTCDate.Month);
+  _r.h.dl=ToBCD_Byte(__RTCDate.Day);
+  _r.h.ah=5;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) return 0;
+  return 1;
+}
+
+void interrupt (*OldAlarmVect)(...);
+void (*__ExternFunc)()=NULL;
+void interrupt __AlarmFunc(...) {
+  (*__ExternFunc)();
+}
+
+Byte SetRTCAlarm(RTCTime __RTCAlarmTime, void (*AlarmFunc)()) {
+  REGS _r;
+  disable();
+  OldAlarmVect=getvect(0x4a);
+  __ExternFunc=AlarmFunc;
+  setvect(0x4a, __AlarmFunc);
+  _r.h.ch=ToBCD_Byte(__RTCAlarmTime.Hour);
+  _r.h.cl=ToBCD_Byte(__RTCAlarmTime.Minute);
+  _r.h.dh=ToBCD_Byte(__RTCAlarmTime.Second);
+  _r.h.ah=6;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) {
+    setvect(0x4a, OldAlarmVect);
+    enable();
+    return 0;
+  } else {
+    enable();
+    return 1;
+  }
+}
+
+void DisableRTCAlarm(void){
+  REGS _r;
+  disable();
+  _r.h.ah=7;
+  int86(0x1a, &_r, &_r);
+  setvect(0x4a, OldAlarmVect);
+  enable();
+}
+
+Byte ReadRTCAlarm(void){
+  REGS _r;
+  _r.h.ah=9;
+  int86(0x1a, &_r, &_r);
+  _RTCTime.Hour=ToBin_Byte(_r.h.ch);
+  _RTCTime.Minute=ToBin_Byte(_r.h.cl);
+  _RTCTime.Second=ToBin_Byte(_r.h.dh);
+  return _r.h.dl;
+}
+
+Byte SetRTCActivatePowerUp(RTCTime __RTCTime){
+  REGS _r;
+  _r.h.ch=ToBCD_Byte(__RTCTime.Hour);
+  _r.h.cl=ToBCD_Byte(__RTCTime.Minute);
+  _r.h.dh=ToBCD_Byte(__RTCTime.Second);
+  _r.h.ah=8;
+  int86(0x1a, &_r, &_r);
+  if (_r.x.flags&1) return 0;
+  return 1;
+}
+
+SDate GetDate(void) {
+  REGS _r;
+  _r.h.ah=0x2a;
+  int86(0x21, &_r, &_r);
+  _SDate.Year=_r.x.cx;
+  _SDate.Month=_r.h.dh;
+  _SDate.Day=_r.h.dl;
+  _SDate.Week=_r.h.al;
+  return _SDate;
+}
+
+Byte SetDate(SDate __SDate) {
+  REGS _r;
+  _r.x.cx=__SDate.Year;
+  _r.h.dh=__SDate.Month;
+  _r.h.dl=__SDate.Day;
+  _r.h.ah=0x2b;
+  int86(0x21, &_r, &_r);
+  if (_r.h.al) return 0;
+  return 1;
+}
+
+STime GetTime(void) {
+  REGS _r;
+  _r.h.ah=0x2c;
+  int86(0x21, &_r, &_r);
+  _STime.Hour=_r.h.ch;
+  _STime.Minute=_r.h.cl;
+  _STime.Second=_r.h.dh;
+  _STime.Second100=_r.h.dl;
+  return _STime;
+}
+
+Byte SetTime(STime __STime){
+  REGS _r;
+  _r.h.ch=__STime.Hour;
+  _r.h.cl=__STime.Minute;
+  _r.h.dh=__STime.Second;
+  _r.h.dl=__STime.Second100;
+  _r.h.ah=0x2d;
+  int86(0x21, &_r, &_r);
+  if (_r.h.al) return 0;
+  return 1;
+}
+.\TDVIDEOA.CPP
+#include "TDVideoA.h"
+
+#ifdef __DOS_H
+#define TFP_SEG( fp )FP_SEG( fp )
+#define TFP_OFF( fp )FP_OFF( fp )
+#else
+#define TFP_SEG( fp )( (unsigned )( void _seg * )( void far * )( fp ))
+#define TFP_OFF( fp )( (unsigned )( fp ))
+#endif
+
+void TGetCharMap(Word CharBegin, Word CharCount, Byte *FontStartAddr, Byte InfoDesire=6) {
+  Word FontStartAddrSeg=TFP_SEG(FontStartAddr), FontStartAddrOff=TFP_OFF(FontStartAddr);
+  Word LengthOffset=CharBegin*((InfoDesire==2)?14:16);
+  Word CopyLength=CharCount*((InfoDesire==2)?14:16);
+  asm {
+    push ax
+    push cx
+    push bx
+    push si
+    push di
+    push bp
+    push es
+    push ds
+    mov ax, 0x1130	// Get current character generator information
+    mov bh, InfoDesire
+    xor bl, bl
+    int 0x10
+    push es
+    pop ds
+    mov si, bp
+    add si, LengthOffset
+    mov cx, FontStartAddrSeg
+    mov es, cx
+    mov di, FontStartAddrOff
+    mov cx, CopyLength
+    rep movsb
+    pop ds
+    pop es
+    pop bp
+    pop di
+    pop si
+    pop bx
+    pop cx
+    pop ax
+  }
+}
+
+void TSetCharMap(Word CharBegin, Word CharCount, Byte *FontStartAddr) {
+  Word FontStartAddrSeg=TFP_SEG(FontStartAddr), FontStartAddrOff=TFP_OFF(FontStartAddr);
+  asm {
+    push ax
+    push cx
+    push dx
+    push bx
+    push es
+    push bp
+    mov ax, 0x1100	// User character load
+    mov bx, 0x1000	// BH=number of bytes per character BL=table in character generator RAM
+    mov cx, CharCount
+    mov dx, CharBegin
+    mov es, FontStartAddrSeg
+    mov bp, FontStartAddrOff
+    int 0x10
+    pop bp
+    pop es
+    pop bx
+    pop dx
+    pop cx
+    pop ax
+  }
+}
+
+void TResetCharMap(void) {
+  asm {
+    push ax
+    push bx
+    mov ax, 0x1104
+    mov bx, 0
+    int 0x10
+    pop bx
+    pop ax
+  }
+}
+
+void TChineseFont16(Byte Font[16][2], Byte StartAscii) {
+  Byte Temp[16];
+  for (Byte m=0; m<2; m++) {
+    for (Byte n=0; n<16; n++)
+      Temp[n]=Font[n][m];
+    TSetCharMap(StartAscii, 1, Temp);
+  }
+}
+
+void TChineseFont32(Byte Font[16][8], Byte StartAscii) {
+  Byte Temp[16];
+  for (Byte m=0; m<8; m++) {
+    for (Byte n=0; n<16; n++)
+      Temp[n]=Font[n][m];
+    TSetCharMap(StartAscii, 1, Temp);
+  }
+}
+
+void TChineseFont48(Byte Font[16][18], Byte StartAscii) {
+  Byte Temp[16];
+  for (Byte m=0; m<18; m++) {
+    for (Byte n=0; n<16; n++)
+      Temp[n]=Font[n][m];
+    TSetCharMap(StartAscii, 1, Temp);
+  }
+}
+
+#undef TFP_SEG
+#undef TFP_OFF.\TSTRNUM.CPP
+#include <_Null.h>
+
+#include "TopType.h"
+#include "TopBin.h"
+
+TRetStr GetCloseNum(char *str, Word p1){
+  char *Num;
+  Word count=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((str[p1+count]>='0')&&(str[p1+count]<='9')) count++;
+  Num=new char[count+1];
+  Num[count]=0;
+  while (count) Num[count-1]=str[p1+count---1];
+  _TRetStr.r=Num;
+  delete Num;
+  return _TRetStr;
+}
+TRetStr GetCloseNotNum(char *str, Word p1){
+  char *NotNum;
+  Word count=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((str[p1+count]<'0')||(str[p1+count]>'9')) count++;
+  NotNum=new char[count+1];
+  NotNum[count]=0;
+  while (count) NotNum[count-1]=str[p1+count---1];
+  _TRetStr.r=NotNum;
+  delete NotNum;
+  return _TRetStr;
+}
+
+Byte _SingleMulTable[10][10]={
+  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+  { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09 },
+  { 0x00, 0x02, 0x04, 0x06, 0x08, 0x10, 0x12, 0x14, 0x16, 0x18 },
+  { 0x00, 0x03, 0x06, 0x09, 0x12, 0x15, 0x18, 0x21, 0x24, 0x27 },
+  { 0x00, 0x04, 0x08, 0x12, 0x16, 0x20, 0x24, 0x28, 0x32, 0x36 },
+  { 0x00, 0x05, 0x10, 0x15, 0x20, 0x25, 0x30, 0x35, 0x40, 0x45 },
+  { 0x00, 0x06, 0x12, 0x18, 0x24, 0x30, 0x36, 0x42, 0x48, 0x54 },
+  { 0x00, 0x07, 0x14, 0x21, 0x28, 0x35, 0x42, 0x49, 0x56, 0x63 },
+  { 0x00, 0x08, 0x16, 0x24, 0x32, 0x40, 0x48, 0x56, 0x64, 0x72 },
+  { 0x00, 0x09, 0x18, 0x27, 0x36, 0x45, 0x54, 0x63, 0x72, 0x81 }
+};
+
+TRetStr PureAdd(char *StrA, char *StrB, ...){
+
+}.\TARGS.CPP
+#include "TArgs.h"
+
+#include <alloc.h>
+#include <string.h>
+
+/* i should add:
+   DistilArgs
+   PullArgs */
+TArgs::TArgs(int _argc, char **_argv) {
+  Sep[0]='/';
+  Sep[1]='-';
+  Sep[2]=0;
+  Sep[3]=0;
+  argc=0;
+  argv=NULL;
+  Init(_argc, _argv);
+}
+
+void TArgs::Destroy() {
+  for (int n=0; n<argc; n++)
+    if (argv[n]!=NULL) {
+      delete argv[n];
+      argv[n]=NULL;
+    }
+  if (argv!=NULL) {
+    delete argv;
+    argv=NULL;
+  }
+}
+
+void TArgs::Init(int _argc, char **_argv) {
+  if (_argc==0) return;
+  argc=_argc;
+  argv=new char*[_argc];
+  for (int n=0, in=0; n<_argc; n++, in++) {
+    argv[in]=new char[strlen(_argv[n])+1];
+    strcpy(argv[in], _argv[n]);
+    argv[in][strlen(_argv[n])]='\x0';
+    for (int s=0; s<MAXSEPARATECHAR; s++) {
+      while ((Sep[s])&&(strchr(argv[in]+1, Sep[s])!=NULL)) {
+	int _1stLen=(int)(strchr(argv[in]+1, Sep[s])-argv[in++]);
+	argv=(char **)realloc(argv, sizeof(char*)*(++argc));
+	argv[in]=new char[strlen(argv[in-1])-_1stLen+1];
+	strcpy(argv[in], argv[in-1]+_1stLen);
+	argv[in-1]=(char *)realloc(argv[in-1], _1stLen+1);
+	argv[in-1][_1stLen]='\x0';
+	s=0;
+      } // while strchr sep
+    } // for separate
+  } // for _argc
+}
+.\TGDEFS.CPP
+#include "TGDefs.h"
+
+TPoint::TPoint() {
+  x = y = 0;
+}
+TPoint::TPoint(int _x, int _y) {
+  x = _x;
+  y = _y;
+}
+TPoint::TPoint(const TPoint& _Point) {
+  x = _Point.x;
+  y = _Point.y;
+}
+
+TPoint TPoint::operator = (TPoint _Assign) {
+  x = _Assign.x;
+  y = _Assign.y;
+  return *this;
+}
+
+TPoint TPoint::operator += (TPoint adder) {
+  x += adder.x;
+  y += adder.y;
+  return *this;
+}
+TPoint TPoint::operator -= (TPoint subber) {
+  x -= subber.x;
+  y -= subber.y;
+  return *this;
+}
+
+TPoint operator + (TPoint one, TPoint two) {
+  return TPoint (two.x + one.x, two.y + one.y);
+}
+TPoint operator - (TPoint one, TPoint two) {
+  return TPoint (two.x - one.x, two.y - one.y);
+}
+
+int operator == (TPoint one, TPoint two) {
+  return one.x == two.x && one.y == two.y;
+}
+int operator != (TPoint one, TPoint two) {
+  return one.x != two.x || one.y != two.y;
+}
+
+TPoint3D::TPoint3D() {
+  x = y = z = 0;
+}
+TPoint3D::TPoint3D(int _x, int _y, int _z) {
+  x = _x;
+  y = _y;
+  z = _z;
+}
+TPoint3D::TPoint3D(const TPoint3D& _Point3D) {
+  x = _Point3D.x;
+  y = _Point3D.y;
+  z = _Point3D.z;
+}
+
+TPoint3D TPoint3D::operator = (TPoint3D _Assign) {
+  x = _Assign.x;
+  y = _Assign.y;
+  y = _Assign.z;
+  return *this;
+}
+
+TPoint3D TPoint3D::operator += (TPoint3D adder) {
+  x += adder.x;
+  y += adder.y;
+  z += adder.z;
+  return *this;
+}
+TPoint3D TPoint3D::operator -= (TPoint3D subber) {
+  x -= subber.x;
+  y -= subber.y;
+  z -= subber.z;
+  return *this;
+}
+
+TPoint3D operator + (TPoint3D one, TPoint3D two) {
+  return TPoint3D (two.x + one.x, two.y + one.y, two.z + one.z);
+}
+TPoint3D operator - (TPoint3D one, TPoint3D two) {
+  return TPoint3D (two.x - one.x, two.y - one.y, two.z - one.z);
+}
+
+int operator == (TPoint3D one, TPoint3D two) {
+  return one.x == two.x && one.y == two.y && one.z == two.z;
+}
+int operator != (TPoint3D one, TPoint3D two) {
+  return one.x != two.x || one.y != two.y || one.z != two.z;
+}
+
+TRect::TRect() {
+  Init();
+}
+TRect::TRect(int ax, int ay, int bx, int by) {
+  TRect();
+  a.x = ax;
+  a.y = ay;
+  b.x = bx;
+  b.y = by;
+}
+TRect::TRect(TPoint _TLeft, TPoint _BottomRight) {
+  TRect();
+  a = _TLeft;
+  b = _BottomRight;
+}
+TRect::TRect(const TRect& _Rect) {
+  TRect();
+  a = _Rect.a;
+  b = _Rect.b;
+}
+void TRect::Init() {
+  Left = &a.x; Top = &a.y; Right = &b.x; Bottom = &b.y;
+}
+
+Byte TRect::operator == (TRect _Rect) {
+  return a == _Rect.a && b == _Rect.b;
+}
+Byte TRect::operator != (TRect _Rect) {
+  return a != _Rect.a || b != _Rect.b;
+}
+
+Byte TRect::IsEmpty() {
+  return a.x > b.x||a.y > b.y;
+}
+Byte TRect::Contains(TPoint _Point) {
+  return a.x<=_Point.x&&a.y<=_Point.y&&b.x>=_Point.x&&b.y>=_Point.y;
+}
+
+void TRect::Move(int _MoveX, int _MoveY) {
+  TPoint _MovePoint(_MoveX, _MoveY);
+  a += _MovePoint;
+  b += _MovePoint;
+}
+void TRect::Move(TPoint _MovePoint) {
+  a += _MovePoint;
+  b += _MovePoint;
+}
+void TRect::Grow(int _GrowX, int _GrowY) {
+  TPoint _GrowPoint(_GrowX, _GrowY);
+  a -= _GrowPoint;
+  b += _GrowPoint;
+}
+void TRect::Intersect(TRect _Rect) {
+  a.x = (a.x > _Rect.a.x) ? a.x : _Rect.a.x;
+  a.y = (a.y > _Rect.a.y) ? a.y : _Rect.a.y;
+  b.x = (b.x < _Rect.b.x) ? b.x : _Rect.b.x;
+  b.y = (b.y < _Rect.b.y) ? b.y : _Rect.b.y;
+}
+void TRect::Union(TRect _Rect) {
+  a.x = (a.x < _Rect.a.x) ? a.x : _Rect.a.x;
+  a.y = (a.y < _Rect.a.y) ? a.y : _Rect.a.y;
+  b.x = (b.x > _Rect.b.x) ? b.x : _Rect.b.x;
+  b.y = (b.y > _Rect.b.y) ? b.y : _Rect.b.y;
+}
+
+TWindowRegion::TWindowRegion() {
+  Parent = NULL;
+  Image = NULL;
+}
+TWindowRegion::TWindowRegion(int _Left, int _Top, int _Right, int _Bottom) {
+  Actual.Left	= Alter.Left	= _Left;
+  Actual.Top	= Alter.Top	= _Top;
+  Actual.Right	= Alter.Right	= _Right;
+  Actual.Bottom	= Alter.Bottom	= _Bottom;
+}
+TWindowRegion::TWindowRegion(TPoint _TopLeft, TPoint _BottomRight) {
+  TWindowRegion(_TopLeft.x, _TopLeft.y, _BottomRight.x, _BottomRight.y);
+}
+TWindowRegion::TWindowRegion(const TWindowRegion& _Region) {
+  Actual.Left	= _Region.Actual.Left;
+  Actual.Top	= _Region.Actual.Top;
+  Actual.Right	= _Region.Actual.Right;
+  Actual.Bottom	= _Region.Actual.Bottom;
+  Alter.Left	= _Region.Alter.Left;
+  Alter.Top	= _Region.Alter.Top;
+  Alter.Right	= _Region.Alter.Right;
+  Alter.Bottom	= _Region.Alter.Bottom;
+  Parent	= _Region.Parent;
+  Image		= _Region.Image;
+}
+TWindowRegion::~TWindowRegion() {
+}
+void TWindowRegion::Move(int _MoveX, int _MoveY) {
+  Actual.Left += _MoveX;
+  Actual.Right += _MoveX;
+  Actual.Top += _MoveY;
+  Actual.Bottom += _MoveY;
+}
+.\TGINTRFC.CPP
+#include "TGDefs.h"
+
+class TGraphInterface{
+public:
+  TopWindowRegion Window;
+  TopPoint CurPos;
+  TopColor ScreenColor;
+  TopColor WindowColor;
+  TStringChain Palette;	// 256 Units
+public:
+  TopRect Fake;
+  enum {Direct=0, And, Or, Xor, Add, Sub}DrawMode;
+public:
+  struct __tgi__Dither{
+    Byte Strength;
+    Word Influence;
+  }Dither;
+public:
+  class __tgi__Modify{
+  public:
+    Byte WindowLink; /* =1: Window modified after functions called. */
+
+    TopPoint Center;
+    TopRect InRect;
+    Byte Fusion; /* =1: NoMissing */
+
+    // Shift functions. Each function returns lines actually shifted.
+    // Using:	Fake	InRect
+    Byte Shift(int _ShiftX, int _ShiftY);
+    Byte ShiftCycle(int _ShiftX, int _ShiftY);
+    Byte shl(), shr(), shu(), shd();
+    Byte rol(), ror(), rou(), rod();
+    // Scale functions. Each function returns the rect after call.
+    // Using:	Fake	Fusion	InRect
+    TopRect Scale(float _RatioX, float _RatioY);
+    TopRect Scale(TRect _FormRect);
+    // Rotate functions.
+    // Using:	Fake	Fusion	Center	InRect
+    void Rotate(float Angle);
+    // Flip functions.
+    // Using:	Fake	InRect
+    void Flip(int _FlipLeft, int _FlipTop, int _FlipRight, int _FlipBottom);
+  }Modify;
+public:
+  class __tgi__Draw{
+  public:
+    TopColor DrawColor;
+    Byte LineMask;
+    enum InternalLinkMask{SolidLine=0xFF, DottedLine=0x55, CenterLine=0xFA, DashedLine=0xFC};
+    Byte Fill, FillColor;
+    TStringChain FillMask, FillPattern;
+  public:
+    void Init(Byte Mode);
+  public:
+    void SetFillStyle(TopRect _PatternRect, Byte **_FillMask, Byte **_FillPattern);
+  public:
+    Byte GetPoint(int _X, int _Y);
+    Byte GetPoint(TopPoint _Point);
+    void SetPoint(int _X, int _Y);
+    void SetPoint(TopPoint _Point);
+  public:
+    void Line(int _X1, int _Y1, int _X2, int _Y2);
+    void Line(TopPoint _Point1, TopPoint _Point2);
+    void Rect(int _Left, int _Top, int _Right, int _Bottom);
+    void Rect(TopPoint _LeftTop, TopPoint _RightBottom);
+    void Rect(TopRect _Rect);
+    void Bar(int _Left, int _Top, int _Right, int _Bottom);
+    void Bar(TopPoint _LeftTop, TopPoint _RightBottom);
+    void Bar(TopRect _Rect);
+  public:
+    void Poly(TopPoint *_EndPoints, Word _EndPointNum);
+  public:
+    void Circle(int _CenterX, int _CenterY, Word _Radius);
+    void Circle(TopPoint _Center, Word _Radius);
+    void Ellipse(int _CenterX, int _CenterY, Word _Radius, float _RatioX, float _RatioY);
+    void Ellipse(TopPoint _Center, Word _Radius, float _RatioX, float _RatioY);
+    void Ellipse(int _Left, int _Top, int _Right, int _Bottom);
+    void Ellipse(TopRect _EllipseRect);
+
+    void CirArc(int _CenterX, int _CenterY, Word _Radius, float _Start, float _End);
+    void CirArc(TopPoint _Center, Word _Radius, float _Start, float _End);
+    void EllArc(int _CenterX, int _CenterY, Word _Radius, float _Start, float _End, float _RatioX, float _RatioY);
+    void EllArc(TopPoint _Center, Word _Radius, float _Start, float _End, float _RatioX, float _RatioY);
+    void EllArc(int _Left, int _Top, int _Right, int _Bottom, float _Start, float _End);
+    void EllArc(TopRect _EllipseRect, float _Start, float _End);
+  public:
+    void TextOut(TStringChain _Text);	// Each char in TStringChain take 2 BYTES, the First is Char and the other is Attribute.
+    void TextOutXY(int _X, int _Y, TStringChain, _Text);
+  public:
+    void FloodFill(int _X, int _Y, Byte _Fill);
+    void FloodFill(TopPoint _FillPoint, Byte _Fill);
+  }Draw;
+public:
+  class __tgi__ArtDraw{
+    ;
+  }ArtDraw;
+};.\TTEXTSTR.CPP
+#include "TTextStr.h"
+
+.\TSTRSTCK.CPP
+#include "TStrStck.h"
+#include <alloc.h>
+
+TStringStack::TStringStack(){
+  bp=sp=0;
+  String=NULL;
+}
+TStringStack::TStringStack(Word _InitSize){
+  TStringStack();
+  if (!(String=new Byte[_InitSize])) return;
+  sp=bp+_InitSize-1;
+}
+TStringStack::~TStringStack(){
+  if (String) delete String;
+}
+
+void TStringStack::push(DWord _PushDWord){
+  Byte *_TestPoint;
+  if (!String) {
+    if (!(String=new Byte[sizeof(_PushDWord)])) return;
+    sp=(Word)-1;
+  } else {
+    _TestPoint=(Byte *)realloc(String, sp+1+sizeof(_PushDWord));
+    if (_TestPoint!=NULL) String=_TestPoint;
+  }
+  for (Byte _LoopVar=0; _LoopVar<sizeof(_PushDWord); _LoopVar++){
+    String[++sp]=(_PushDWord>>((sizeof(_PushDWord)-1-_LoopVar)*8))&0xFF;
+  }
+}
+void TStringStack::push(Word _PushWord){
+  Byte *_TestPoint;
+  if (!String) {
+    if (!(String=new Byte[sizeof(_PushWord)])) return;
+    sp=(Word)-1;
+  } else {
+    _TestPoint=(Byte *)realloc(String, sp+1+sizeof(_PushWord));
+    if (_TestPoint!=NULL) String=_TestPoint;
+  }
+  for (Byte _LoopVar=0; _LoopVar<sizeof(_PushWord); _LoopVar++){
+    String[++sp]=(_PushWord>>((sizeof(_PushWord)-1-_LoopVar)*8))&0xFF;
+  }
+}
+void TStringStack::push(Byte _PushByte){
+  Byte *_TestPoint;
+  if (!String) {
+    if (!(String=new Byte[sizeof(_PushByte)])) return;
+    sp=(Word)-1;
+  } else {
+    _TestPoint=(Byte *)realloc(String, sp+1+sizeof(_PushByte));
+    if (_TestPoint!=NULL) String=_TestPoint;
+  }
+  for (Byte _LoopVar=0; _LoopVar<sizeof(_PushByte); _LoopVar++){
+    String[++sp]=(_PushByte>>((sizeof(_PushByte)-1-_LoopVar)*8))&0xFF;
+  }
+}
+
+Byte TStringStack::pop(){
+  return popb();
+}
+Byte TStringStack::popb(){
+  if (!String) return (Byte)0;
+  if (sp<=bp) {
+    Byte _Saving=String[sp];
+    clear();
+    return _Saving;
+  }
+  return String[sp--];
+}
+Word TStringStack::popw(){
+  Word _RetWord=0;
+  if (!String) return (Word)0;
+  _RetWord=(Word)popb();
+  _RetWord+=(Word)popb()<<8;
+  return _RetWord;
+}
+DWord TStringStack::popdw(){
+  DWord _RetDWord=0;
+  if (!String) return (DWord)0;
+  _RetDWord=(DWord)popw();
+  _RetDWord+=(DWord)popw()<<16;
+  return _RetDWord;
+}
+void TStringStack::clear(){
+  if (String) delete String;
+  bp=sp=0;
+  String=NULL;
+}
+.\TBINMISC.CPP
+#include "TBinMisc.h"
+
+TBinaryMisc::TBinaryMisc (Byte *_Binary, Word _Length) {
+  Stream = _Binary;
+  StreamLength = _Length;
+}
+
+void TBinaryMisc::operator = (Byte _n) { 	// Assignment
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] = _n;
+  return;
+}
+
+void TBinaryMisc::operator ++ () {		// Increment
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i]++;
+  return;
+}
+
+void TBinaryMisc::operator -- () {		// Decrement
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i]--;
+  return;
+}
+
+void TBinaryMisc::operator += (Byte _n) {	// Addition
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] += _n;
+  return;
+}
+
+void TBinaryMisc::operator -= (Byte _n) {	// Substraction
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] -= _n;
+  return;
+}
+
+void TBinaryMisc::operator *= (Byte _n) {	// Multiply
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] *= _n;
+  return;
+}
+
+void TBinaryMisc::operator /= (Byte _n) {	// Divide
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] /= _n;
+  return;
+}
+
+void TBinaryMisc::operator %= (Byte _n) {	// Remainder
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] %= _n;
+  return;
+}
+
+
+void TBinaryMisc::operator &= (Byte _n) {	// Logical AND
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] &= _n;
+  return;
+}
+
+void TBinaryMisc::operator |= (Byte _n) {	// Logical OR
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] |= _n;
+  return;
+}
+
+void TBinaryMisc::operator ^= (Byte _n) {	// Logical XOR
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] ^= _n;
+  return;
+}
+
+void TBinaryMisc::operator <<= (Byte _c) {	// Left Shift
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] <<= _c;
+  return;
+}
+
+void TBinaryMisc::operator >>= (Byte _c) {	// Right Shift
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] >>= _c;
+  return;
+}
+
+void TBinaryMisc::SubFrom (Byte _n) {
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] = _n - Stream[i];
+  return;
+}
+
+void TBinaryMisc::DivFrom (Byte _n) {
+  for (int i = 0; i <StreamLength; i++)
+    Stream[i] = _n / Stream[i];
+  return;
+}
+
+void TBinaryMisc::Not () {
+  asm Push AX
+  for (int i = 0; i <StreamLength; i++) {
+    _AL = Stream[i];
+    asm Not AL
+    Stream[i] = _AL;
+  }
+  asm Pop AX
+  return;
+}
+
+void TBinaryMisc::Neg () {
+  asm Push AX
+  for (int i = 0; i <StreamLength; i++) {
+    _AL = Stream[i];
+    asm Neg AL
+    Stream[i] = _AL;
+  }
+  asm Pop AX
+  return;
+}
+
+void TBinaryMisc::Rol (Byte _c) {
+  asm Push AX
+  for (int i = 0; i <StreamLength; i++) {
+    _AL = Stream[i];
+    _CL = _c;
+    asm Rol AL, CL
+    Stream[i] = _AL;
+  }
+  asm Pop AX
+  return;
+}
+
+void TBinaryMisc::Ror (Byte _c) {
+  asm Push AX
+  for (int i = 0; i <StreamLength; i++) {
+    _AL = Stream[i];
+    _CL = _c;
+    asm Ror AL, CL
+    Stream[i] = _AL;
+  }
+  asm Pop AX
+  return;
+}
+.\TOBJECT.CPP
+#include <_Null.h>
+
+#include "TObject.h"
+
+TObjectChain::TObjectChain(void) {
+  Prev=Next=Parent=Sub=NULL;
+  Name=Data=NULL;
+  Funcs.Source=this;
+}
+TObjectChain::~TObjectChain(void) {
+  if (Name!=NULL) delete Name;
+  if (Data!=NULL) delete Data;
+  if ((Parent!=NULL)&&(Parent->Sub==this)) {
+    if (!Funcs.IsPrevNull()) Parent->Sub=Prev;
+    else if (!Funcs.IsNextNull()) Parent->Sub=Next;
+    else Parent->Sub=NULL;
+  }
+  if (Sub!=NULL) Sub->Funcs.DeleteAll();
+}
+
+char TObjectChainFuncs::GetObjectType() {
+  return (Source->Data[0]>>5);
+}
+
+char TObjectChainFuncs::_GoTop(void) {
+  if (Source==NULL) return 0;
+  while (Source->Prev!=NULL) Source=Source->Prev;
+  return 1;
+}
+char TObjectChainFuncs::_GoBottom(void) {
+  if (Source==NULL) return 0;
+  while (Source->Next!=NULL) Source=Source->Next;
+  return 1;
+}
+char TObjectChainFuncs::_GoPrev(void) {
+  if (IsPrevNull()) return 0;
+  Source=Source->Prev;
+  return 1;
+}
+char TObjectChainFuncs::_GoNext() {
+  if (IsNextNull()) return 0;
+  Source=Source->Next;
+  return 1;
+}
+char TObjectChainFuncs::_GoNPrev(Word Num) {
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Prev!=NULL)) Source=Source->Prev;
+  return 1;
+}
+char TObjectChainFuncs::_GoNNext(Word Num) {
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Next!=NULL)) Source=Source->Next;
+  return 1;
+}
+
+char TObjectChainFuncs::IsPrevNull(void) {
+  return ((Source==NULL)||(Source->Prev==NULL))?1:0;
+}
+char TObjectChainFuncs::IsNextNull(void) {
+  return ((Source==NULL)||(Source->Next==NULL))?1:0;
+}
+char TObjectChainFuncs::IsSomePrevNull(Word Num) {
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Source->Prev==NULL) {
+      IsNull=1;
+      break;
+    }Source=Source->Prev;
+  }
+  return IsNull;
+}
+char TObjectChainFuncs::IsSomeNextNull(Word Num) {
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Source->Next==NULL) {
+      IsNull=1;
+      break;
+    }Source=Source->Next;
+  }
+  return IsNull;
+}
+
+void TObjectChainFuncs::CopyTo(TObjectChain *_CopyTo) {
+  _CopyTo->Prev=Source->Prev;
+  _CopyTo->Next=Source->Next;
+  _CopyTo->Parent=Source->Parent;
+  _CopyTo->Sub=Source->Sub;
+  _CopyTo->Name=Source->Name;
+  _CopyTo->Data=Source->Data;
+}// Only Copy the Pointers in Source To _CopyTo
+
+char TObjectChainFuncs::Push(TObjectChain *_TObjectChainNew) {
+  TObjectChain *_OriPoint=Source;
+  if (!_TObjectChainNew->Funcs._GoBottom()) return 0;
+  if (!_GoTop()) Source=_TObjectChainNew;
+  else {
+    Source->Prev=_TObjectChainNew;
+    _TObjectChainNew->Next=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TObjectChainFuncs::Append(TObjectChain *_TObjectChainNew) {
+  TObjectChain *_OriPoint=Source;
+  if (!_TObjectChainNew->Funcs._GoTop()) return 0;
+  if (!_GoBottom()) Source=_TObjectChainNew;
+  else {
+    Source->Next=_TObjectChainNew;
+    _TObjectChainNew->Prev=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TObjectChainFuncs::InsertBefore(TObjectChain *_TObjectChainNew) {
+  TObjectChain *_OriPoint=Source;
+  if (!_TObjectChainNew->Funcs._GoBottom()) return 0;
+  if (Source==NULL) Source=_TObjectChainNew;
+  else {
+    _TObjectChainNew->Next=Source;
+    if (IsPrevNull()) {
+      Source->Prev=_TObjectChainNew;
+    } else {
+      Source=Source->Prev;
+      Source->Next->Prev=_TObjectChainNew;
+      _TObjectChainNew->Funcs._GoTop();
+      _TObjectChainNew->Prev=Source;
+      Source->Next=_TObjectChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert before current Node
+char TObjectChainFuncs::InsertBehind(TObjectChain *_TObjectChainNew) {
+  TObjectChain *_OriPoint=Source;
+  if (!_TObjectChainNew->Funcs._GoTop()) return 0;
+  if (Source==NULL) Source=_TObjectChainNew;
+  else {
+    _TObjectChainNew->Prev=Source;
+    if (IsNextNull()) {
+      Source->Next=_TObjectChainNew;
+    } else {
+      Source=Source->Next;
+      Source->Prev->Next=_TObjectChainNew;
+      _TObjectChainNew->Funcs._GoBottom();
+      _TObjectChainNew->Next=Source;
+      Source->Prev=_TObjectChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert behind current Node
+
+char TObjectChainFuncs::PushBlank(void) {
+  TObjectChain *_BlankTObjectChain;
+  if (!(_BlankTObjectChain=new TObjectChain)) return 0;
+  return Push(_BlankTObjectChain);
+}
+char TObjectChainFuncs::AppendBlank(void) {
+  TObjectChain *_BlankTObjectChain;
+  if (!(_BlankTObjectChain=new TObjectChain)) return 0;
+  return Append(_BlankTObjectChain);
+}
+char TObjectChainFuncs::InsertBeforeBlank(void) {
+  TObjectChain *_BlankTObjectChain;
+  if (!(_BlankTObjectChain=new TObjectChain)) return 0;
+  return InsertBefore(_BlankTObjectChain);
+}
+char TObjectChainFuncs::InsertBehindBlank(void) {
+  TObjectChain *_BlankTObjectChain;
+  if (!(_BlankTObjectChain=new TObjectChain)) return 0;
+  return InsertBehind(_BlankTObjectChain);
+}
+
+char TObjectChainFuncs::Distil(void) {
+  TObjectChain *_OriPoint=Source;
+  if (IsPrevNull()) _OriPoint=Source->Next;
+  if (!_GoTop()) return 0;
+  if (Source->Next==NULL) {
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Next;
+    delete Source->Prev;
+    Source->Prev=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TObjectChainFuncs::Pull(void) {
+  TObjectChain *_OriPoint=Source;
+  if (IsNextNull()) _OriPoint=Source->Prev;
+  if (!_GoBottom()) return 0;
+  if (Source->Prev==NULL) {
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Prev;
+    delete Source->Next;
+    Source->Next=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TObjectChainFuncs::Delete(void) {
+  TObjectChain *_OriPoint=Source;
+  if (Source==NULL) return 0;
+  if (!IsPrevNull()) {
+    Source->Prev->Next=Source->Next;
+  }
+  if (!IsNextNull()) {
+    Source->Next->Prev=Source->Prev;
+  }
+  if (!IsNextNull()) {
+    Source=Source->Next;
+    delete _OriPoint;
+  } else if (!IsPrevNull()) {
+    Source=Source->Prev;
+    delete _OriPoint;
+  } else {
+    delete Source;
+    Source=NULL;
+  }
+  return 1;
+}
+char TObjectChainFuncs::DeletePrev(void) {
+  if (!IsPrevNull()) return 0;
+  TObjectChain *_OriPointPrev=Source->Prev;
+  if (_OriPointPrev->Funcs.IsPrevNull()) {
+    delete _OriPointPrev;
+    Source->Prev=NULL;
+  } else {
+    _OriPointPrev->Prev->Next=Source;
+    Source->Prev=_OriPointPrev->Prev;
+    delete _OriPointPrev;
+  }
+  return 1;
+}// Delete the Node before current Node
+char TObjectChainFuncs::DeleteNext(void) {
+  if (!IsNextNull()) return 0;
+  TObjectChain *_OriPointNext=Source->Next;
+  if (_OriPointNext->Funcs.IsNextNull()) {
+    delete _OriPointNext;
+    Source->Next=NULL;
+  } else {
+    _OriPointNext->Next->Prev=Source;
+    Source->Next=_OriPointNext->Next;
+    delete _OriPointNext;
+  }
+  return 1;
+}// Delete the Node behind current Node
+char TObjectChainFuncs::DeleteSomePrev(Word Num) {
+  if (IsPrevNull()) return 0;
+  TObjectChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TObjectChain *_LastTObjectChain=Source;
+    Source=Source->Prev;
+    delete _LastTObjectChain;
+  }
+  if (Source==NULL) _OriPoint->Prev=NULL;
+  else {
+    Source->Next=_OriPoint;
+    _OriPoint->Prev=Source;
+  }
+  return 1;
+}
+char TObjectChainFuncs::DeleteSomeNext(Word Num) {
+  if (IsNextNull()) return 0;
+  TObjectChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TObjectChain *_LastTObjectChain=Source;
+    Source=Source->Next;
+    delete _LastTObjectChain;
+  }
+  if (Source==NULL) _OriPoint->Next=NULL;
+  else {
+    Source->Prev=_OriPoint;
+    _OriPoint->Next=Source;
+  }
+  return 1;
+}
+char TObjectChainFuncs::DeleteAll(void) {
+  if (!_GoTop()) return 0;
+  while (!IsNextNull()) {
+    Source=Source->Next;
+    delete Source->Prev;
+  } delete Source;
+  Source=NULL;
+  return 1;
+}
+char TObjectChainFuncs::Replace(TObjectChain *_TObjectChainAnother) {
+  TObjectChain *_OriPoint=Source;
+  if (!Delete()) return 0;
+  InsertBefore(_TObjectChainAnother);
+  Source=_OriPoint;
+  return 1;
+}
+
+char TObjectChainFuncs::SwapWithNext(void) {
+  if (IsNextNull()) return 0;
+  TObjectChain *_OriPointNext=Source->Next;
+  Source->Prev->Next=_OriPointNext;
+  Source->Next=_OriPointNext->Next;
+  _OriPointNext->Next=_OriPointNext->Prev;
+  _OriPointNext->Prev=Source->Prev;
+  Source->Prev=_OriPointNext;
+  Source->Next->Prev=Source;
+  return 1;
+}// swap current Node with next Node !!! Note the nods behind current decreased!!!
+char TObjectChainFuncs::SwapWithPrev(void) {
+  if (IsPrevNull()) return 0;
+  TObjectChain *_OriPointPrev=Source->Prev;
+  Source->Next->Prev=_OriPointPrev;
+  Source->Prev=_OriPointPrev->Prev;
+  _OriPointPrev->Prev=_OriPointPrev->Next;
+  _OriPointPrev->Next=Source->Next;
+  Source->Next=_OriPointPrev;
+  Source->Prev->Next=Source;
+  return 1;
+}// swap current Node with prev Node !!! Note the nods before current decreased !!!
+char TObjectChainFuncs::SwapPrevWithNext(void) {
+  if (IsNextNull()||IsPrevNull()) return 0;
+  TObjectChain *_Before=Source->Prev, *_Behind=Source->Next;
+  _Before->Prev->Next=_Behind;
+  _Before->Next=_Behind->Next;
+  _Behind->Next->Prev=_Before;
+  _Behind->Prev=_Before->Prev;
+  Source->Next=_Before;
+  _Behind->Next=Source;
+  Source->Prev=_Behind;
+  _Before->Prev=Source;
+  return 1;
+}// swap the two Node beside current Node
+char CommonSwapTObjectChain(TObjectChain **SourceA, TObjectChain **SourceB) {
+  if ((SourceA==NULL)||(SourceB==NULL)) return 0;
+  TObjectChain *SourceANext=(*SourceA)->Next;
+  TObjectChain *SourceBNext=(*SourceB)->Next;
+  TObjectChain *SourceC;
+  SourceC=(*SourceA)->Prev->Next;
+  (*SourceA)->Prev->Next=(*SourceB)->Prev->Next;
+  (*SourceB)->Prev->Next=SourceC;
+  SourceC=(*SourceA)->Next;
+  (*SourceA)->Next=(*SourceB)->Next;
+  (*SourceB)->Next=SourceC;
+  SourceC=SourceANext->Prev;
+  SourceANext->Prev=SourceBNext->Prev;
+  SourceBNext->Prev=SourceC;
+  SourceC=(*SourceA)->Prev;
+  (*SourceA)->Prev=(*SourceB)->Prev;
+  (*SourceB)->Prev=SourceC;
+  SourceC=*SourceA;
+  *SourceA=*SourceB;
+  *SourceB=SourceC;
+  return 1;
+}
+
+
+#include <stdio.h>
+#include <Alloc.h>
+#include "TString.cpp"
+
+void DumpTObjectChain(TObjectChain *Source, char *Title="This TObjectChain") {
+  Source->Funcs._GoTop();
+  printf("%s", Title);
+  while (Source!=NULL) {
+    printf("-: this=%p <-%p %p-> Name=%s\n", Source, Source->Prev, Source->Next, Source->Name);
+    Source=Source->Next;
+  }
+}
+void DumpThis(TObjectChain *Source, char *Title="") {
+  printf("%s", Title);
+  printf("-: this=%p <-%p %p-> Name=%s\n", Source->Funcs.Source, Source->Funcs.Source->Prev, Source->Funcs.Source->Next, Source->Funcs.Source->Name);
+}
+/*
+void m() {
+  long lc=coreleft(); printf("Left: %ld\n", lc);
+  TObjectChain *test1, *test2;
+  TObjectChain *temp;
+  lc=coreleft(); printf("Left: %ld\n", lc);
+  test1=new TObjectChain; strinit(&test1->Name, "Class A---1");
+  temp=new TObjectChain;  strinit(&temp->Name, "Class A---2");  test1->Funcs.Append(temp);
+  temp=new TObjectChain;  strinit(&temp->Name, "Class A---3");  test1->Funcs.Append(temp);
+  temp=new TObjectChain;  strinit(&temp->Name, "Class A---4");  test1->Funcs.Append(temp);
+  lc=coreleft(); printf("Left: %ld\n", lc);
+  test2=new TObjectChain;  strinit(&test2->Name, "Class B+++1");
+  temp=new TObjectChain;  strinit(&temp->Name, "Class B+++2");  test2->Funcs.Append(temp);
+  temp=new TObjectChain;  strinit(&temp->Name, "Class B+++3");  test2->Funcs.Append(temp);
+  lc=coreleft(); printf("Left: %ld\n", lc);
+
+  test1->Funcs._GoNext();
+  test2->Funcs._GoNext();
+  lc=coreleft(); printf("Left: %ld\n", lc);
+
+  TObjectChain *testx=test1->Funcs.Source->Next;
+  CommonSwapTObjectChain(&(test1->Funcs.Source), &(testx->Funcs.Source));
+  lc=coreleft(); printf("Left: %ld\n", lc);
+  test1->Funcs.DeleteAll();
+  test2->Funcs.DeleteAll();
+}
+
+void main() {
+  long lc=coreleft(); printf("Left: %ld\n", lc);
+  m();
+  lc=coreleft(); printf("Left: %ld\n", lc);
+}
+*/.\TOPBIN.CPP
+#include <_Null.h>
+
+#include "TopType.h"
+
+Word _topbinMaxLen=0x1000;
+
+Word topbinGetMaxLen(void);
+void topbinSetMaxLen(Word _setMaxLen);
+TRetNum topbinFindByteInString(char *Str, Byte _byte);
+TRetStr topbinDistilString(char *Str, Byte _endmark);
+TRetNum topbinFindInScopeInString(char *Str, Byte _MinByte, Byte _MaxByte);
+TRetNum topbinFindOutScopeInString(char *Str, Byte _MinByte, Byte _MaxByte);
+TRetStr topbinDistilStringInScope(char *Str, Byte _MinByte, Byte _MaxByte);
+TRetStr topbinDistilStringOutScope(char *Str, Byte _MinByte, Byte _MaxByte);
+
+Word topbinGetMaxLen(void) {
+  return _topbinMaxLen;
+}
+void topbinSetMaxLen(Word _setMaxLen) {
+  _topbinMaxLen=_setMaxLen;
+}
+
+TRetNum topbinFindByteInString(char *Str, Byte _byte) {
+  Word p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (p<_topbinMaxLen) {
+    if (Str[p]==_byte) {
+      _TRetNum.r=p;
+      return _TRetNum;
+    } p++;
+  }
+  _TRetNum.s=0;
+  return _TRetNum;
+}
+
+TRetStr topbinDistilString(char *Str, Byte _endmark) {
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  Byte *_Ret;
+  if (!topbinFindByteInString(Str, _endmark).s) { // Cannot find _endmark
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(_Ret=new char[_TRetNum.r+1])) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  _Ret[_TRetNum.r]=0;
+  while (_TRetNum.r) { // Copy
+    _Ret[_TRetNum.r-1]=Str[_TRetNum.r---1];
+  }
+  _TRetStr.r=_Ret;
+  _TRetStr.s=1;
+  return _TRetStr;
+}
+
+TRetNum topbinFindInScopeInString(char *Str, Byte _MinByte, Byte _MaxByte) {
+  Word p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (p<_topbinMaxLen) {
+    if (
+	 ((_MinByte<=_MaxByte) && (
+	   (Str[p]>=_MinByte) &&
+	   (Str[p]<=_MaxByte)
+	 )) ||
+	 ((_MinByte>_MaxByte) && (
+	   (Str[p]>=_MinByte) ||
+	   (Str[p]<=_MaxByte)
+	 ))
+       ) {
+      _TRetNum.r=p;
+      return _TRetNum;
+    } p++;
+  }
+  _TRetNum.s=0;	// No char In scope
+  return _TRetNum;
+}	// The 1st char In scope
+
+TRetNum topbinFindOutScopeInString(char *Str, Byte _MinByte, Byte _MaxByte) {
+  Word p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (p<_topbinMaxLen) {
+    if (
+	 ((_MinByte<=_MaxByte) && (
+	   (Str[p]<_MinByte) ||
+	   (Str[p]>_MaxByte)
+	 )) ||
+	 ((_MinByte>_MaxByte) && (
+	   (Str[p]<_MinByte) &&
+	   (Str[p]>_MaxByte)
+	 ))
+       ) {
+      _TRetNum.r=p;	// The 1st char out of scope
+      return _TRetNum;
+    } p++;
+  }
+  _TRetNum.s=0;	// No char Out scope
+  return _TRetNum;
+}
+
+TRetStr topbinDistilStringInScope(char *Str, Byte _MinByte, Byte _MaxByte) {
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  char *_Ret;
+  if (!topbinFindOutScopeInString(Str, _MinByte, _MaxByte).s) { // All In Scope
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(_Ret=new char[_TRetNum.r+1])) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  _Ret[_TRetNum.r]=0;
+  while (_TRetNum.r) { // Copy
+    _Ret[_TRetNum.r-1]=Str[_TRetNum.r---1];
+  }
+  _TRetStr.r=_Ret;
+  _TRetStr.s=1;
+  return _TRetStr;
+}
+
+TRetStr topbinDistilStringOutScope(char *Str, Byte _MinByte, Byte _MaxByte) {
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  char *_Ret;
+  if (!topbinFindInScopeInString(Str, _MinByte, _MaxByte).s) { // All In Scope
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(_Ret=new char[_TRetNum.r+1])) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  _Ret[_TRetNum.r]=0;
+  while (_TRetNum.r) { // Copy
+    _Ret[_TRetNum.r-1]=Str[_TRetNum.r---1];
+  }
+  _TRetStr.r=_Ret;
+  _TRetStr.s=1;
+  return _TRetStr;
+}
+
+/*
+#include <stdio.h>
+#include <alloc.h>
+void main() {
+  char *test;
+  DWord LC=coreleft();
+  strinit(&test, "1234567890 abcdefgrstuvwxyz Hi! Every one! my telephone= 05767444659 . Welcome!");
+  LC=coreleft();
+  printf("\nnum:\t\t@%s\n", topbinDistilString(test, ' ').r);
+  test+=topbinFindByteInString(test, ' ').r+1;
+  LC=coreleft();
+  printf("alpha:\t\t@%s\n", topbinDistilStringInScope(test, 'a', 'z').r);
+  test+=topbinFindOutScopeInString(test, 'a', 'z').r+1;
+  LC=coreleft();
+  printf("Welcome:\t@%s\n", topbinDistilStringOutScope(test, '0', '9').r);
+  test+=topbinFindInScopeInString(test, '0', '9').r;
+  LC=coreleft();
+  printf("Phone:\t\t@%s\n", topbinDistilString(test,'.').r);
+  test+=topbinFindByteInString(test, '.').r+1;
+  LC=coreleft();
+  printf("Rest:\t\t@%s\n", topbinDistilString(test, '\x0').r);
+  LC=coreleft();
+  delete test;
+  LC=coreleft();
+}
+*/
+.\TSEARCH.CPP
+#include <_Null.h>
+#include "TopType.h"
+
+#define SO_BackSort	1
+#define SO_CaseSens	2
+
+/*
+char LinearSortBubble(
+	void *(*GetData)(Word RecNo, Word *Len),
+	int (*Sort2)(void **DataA, void **DataB)
+) {
+  Word RecNo;
+  return 1;
+}
+*/
+
+#include <string.h>
+char StringSortBubble(char **StringArray, Word Num, Byte Option) {
+  Word Limit=Num-1;
+  Word Switch=0;
+  do {
+    Switch=0;
+    Word Row=0;
+    for (; Row<Limit; Row++) {
+      if (((Option&SO_CaseSens)?strcmp(StringArray[Row], StringArray[Row+1]):stricmp(StringArray[Row], StringArray[Row+1]))>0) {
+	char *Temp;
+	Temp=StringArray[Row];
+	StringArray[Row]=StringArray[Row+1];
+	StringArray[Row+1]=Temp;
+	Switch=Row;
+      }
+    }
+    Limit=Switch;
+  } while(Switch);
+  return 1;
+}
+
+/*
+#include <stdio.h>
+void main() {
+  char *sa[]={
+    "Pear", "Apple", "orange", "Tree"
+  };
+  StringSortBubble(sa, 4, SO_BackSort|SO_CaseSens);
+  for (int k=0; k<4; k++)
+    printf("No.%d\t%s\n", k, sa[k]);
+}
+*/
+
+
+
+
+
+
+
+
+/*
+' ============================= ExchangeSort =================================
+'   The ExchangeSort compares each element in SortArray - starting with
+'   the first element - with every following element.  If any of the
+'   following elements is smaller than the current element, it is exchanged
+'   with the current element and the process is repeated for the next
+'   element in SortArray.
+' ============================================================================
+'
+SUB ExchangeSort STATIC
+   FOR Row = 1 TO MaxRow
+      SmallestRow = Row
+      FOR J = Row + 1 TO MaxRow
+	 IF SortArray(J).Length < SortArray(SmallestRow).Length THEN
+            SmallestRow = J
+            ElapsedTime J
+         END IF
+      NEXT J
+
+      ' Found a row shorter than the current row, so swap those
+      ' two array elements:
+      IF SmallestRow > Row THEN
+         SWAP SortArray(Row), SortArray(SmallestRow)
+         SwapBars Row, SmallestRow
+      END IF
+   NEXT Row
+END SUB
+
+' =============================== HeapSort ===================================
+'  The HeapSort procedure works by calling two other procedures - PercolateUp
+'  and PercolateDown.  PercolateUp turns SortArray into a "heap," which has
+'  the properties outlined in the diagram below:
+'
+'                               SortArray(1)
+'                               /          \
+'                    SortArray(2)           SortArray(3)
+'                   /          \            /          \
+'         SortArray(4)   SortArray(5)   SortArray(6)  SortArray(7)
+'          /      \       /       \       /      \      /      \
+'        ...      ...   ...       ...   ...      ...  ...      ...
+'
+'
+'  where each "parent node" is greater than each of its "child nodes"; for
+'  example, SortArray(1) is greater than SortArray(2) or SortArray(3),
+'  SortArray(3) is greater than SortArray(6) or SortArray(7), and so forth.
+'
+'  Therefore, once the first FOR...NEXT loop in HeapSort is finished, the
+'  largest element is in SortArray(1).
+'
+'  The second FOR...NEXT loop in HeapSort swaps the element in SortArray(1)
+'  with the element in MaxRow, rebuilds the heap (with PercolateDown) for
+'  MaxRow - 1, then swaps the element in SortArray(1) with the element in
+'  MaxRow - 1, rebuilds the heap for MaxRow - 2, and continues in this way
+'  until the array is sorted.
+' ============================================================================
+'
+SUB HeapSort STATIC
+   FOR I = 2 TO MaxRow
+      PercolateUp I
+   NEXT I
+
+   FOR I = MaxRow TO 2 STEP -1
+      SWAP SortArray(1), SortArray(I)
+      SwapBars 1, I
+      PercolateDown I - 1
+   NEXT I
+END SUB
+
+' ============================= InsertionSort ================================
+'   The InsertionSort procedure compares the length of each successive
+'   element in SortArray with the lengths of all the preceding elements.
+'   When the procedure finds the appropriate place for the new element, it
+'   inserts the element in its new place, and moves all the other elements
+'   down one place.
+' ============================================================================
+'
+void InsertionSort() {
+  SortType TempVal;
+  DWord Row;
+  for (Row=2; Row<=MaxRow) {
+    TempVal=SortArray[Row];
+    TempLength=TempVal.Length;
+    for (J=Row; J<=2; J--) {
+      if (SortArray[J-1].Length>TempLength) {
+	SortArray[J]=SortArray[J-1];
+	PrintOneBar J;
+	ElapsedTime J;
+      }else break;
+    }
+    SortArray[J]=TempVal;
+    PrintOneBar J;
+    ElapsedTime J;
+  }
+}
+
+' ============================ PercolateDown =================================
+'   The PercolateDown procedure restores the elements of SortArray from 1 to
+'   MaxLevel to a "heap" (see the diagram with the HeapSort procedure).
+' ============================================================================
+'
+
+void PercolateDown(DWord MaxLevel) {
+  DWord I=1;
+  do {
+    DWord Child=2*I;
+    if (Child>MaxLevel) break;
+    if (Child+1<=MaxLevel)
+      if (SortArray[Child+1]>SortArray[Child]) Child++;
+    if (SortArray[I]<SortArray[Child]) {
+      Swap SortArray[I], SortArray[Child];
+      I=Child;
+    } else break;
+  }
+
+' ============================== PercolateUp =================================
+'   The PercolateUp procedure converts the elements from 1 to MaxLevel in
+'   SortArray into a "heap" (see the diagram with the HeapSort procedure).
+' ============================================================================
+'
+void PercolateUp(MaxLevel) {
+  DWord I=MaxLevel;
+  while (I!=1) {
+    DWord Parent=I/2;
+    if (SortArray[I]>SortArray[Parent]) {
+      Swap (SortArray[Parent], SortArray[I]);
+      I=Parent;
+    }else break;
+  }
+}
+
+' ============================== QuickSort ===================================
+'   QuickSort works by picking a random "pivot" element in SortArray, then
+'   moving every element that is bigger to one side of the pivot, and every
+'   element that is smaller to the other side.  QuickSort is then called
+'   recursively with the two subdivisions created by the pivot.  Once the
+'   number of elements in a subdivision reaches two, the recursive calls end
+'   and the array is sorted.
+' ============================================================================
+'
+void QuickSort(DWord Low, DWord High) {
+  if (Low<High) {
+    if ((High-Low)==1) {
+      if (SortArray[Low]>SortArray[High]) Swap(SortArray[Low), SortArray[High]);
+    } // Only 2
+    else {
+      DWord RandIndex=RandBetween(Low, High);
+      Swap (SortArray[High], SortArray[RandIndex]);
+      Partition=SortArray[High]; //Original SortArray[RandIndex]
+      do {
+	DWord I=Low, J=High;
+	while (I<J)&&(SortArray[I]<=Partition) I++;
+	while (J>I)&&(SortArray[J]>=Partition) J--;
+	if (I<J) Swap (SortArray[I], SortArray[J]);
+      } while (I<J);
+      Swap (SortArray[I], SortArray[High]);
+      if ((I-Low)<(High-I)) {
+	this(Low, I-1);
+	this(I+1, High);
+      } else {
+	this(I+1, High);
+	this(Low, I-1);
+      }
+    } // >2
+  }
+}
+
+SUB ShellSort STATIC
+
+   ' Set comparison offset to half the number of records in SortArray:
+   Offset = MaxRow \ 2
+
+   DO WHILE Offset > 0          ' Loop until offset gets to zero.
+      Limit = MaxRow - Offset
+      DO
+	 Switch = FALSE         ' Assume no switches at this offset.
+
+	 ' Compare elements and switch ones out of order:
+	 FOR Row = 1 TO Limit
+	    IF SortArray(Row).Length > SortArray(Row + Offset).Length THEN
+	       SWAP SortArray(Row), SortArray(Row + Offset)
+	       SwapBars Row, Row + Offset
+	       Switch = Row
+	    END IF
+	 NEXT Row
+
+	 ' Sort on next pass only to where last switch was made:
+	 Limit = Switch - Offset
+      LOOP WHILE Switch
+
+      ' No switches at last offset, try one half as big:
+      Offset = Offset \ 2
+   LOOP
+END SUB
+*/.\TMISC.CPP
+#include <string.h>
+
+#include "TMisc.h"
+
+TSelfControl::TSelfControl(char *_EFName) {
+  int _b;
+  Byte _id[0xE] = {'S', 'R', 'B', 'H', 0xAD, 0xAD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  Byte _Buf[0xE];
+
+  for (int c = 0; c < 0xE; c++) ++_id[c];
+
+  Status = NoIDFound;
+  ExecuteFile = _EFName;
+  if ((Handle = fopen(ExecuteFile, "r+b")) == NULL) {
+    Status = FileError;
+    return;
+  }
+  while ((_b = fgetc(Handle)) != EOF) {
+    if (_b == 0xAF)
+      if (fgetc(Handle) == 0xAF) {
+	fread (_Buf, 0xE, 1, Handle);
+	if (! memcmp (_id, _Buf, 0xE)) {
+	  Status = OK;
+	  Pointer = ftell (Handle);
+	  break;
+	}
+      }
+  }
+  return;
+}
+
+int TSelfControl::TReadSelfConfigByte(Word Offset) {
+  fseek (Handle, Pointer + Offset, SEEK_SET);
+  return fgetc (Handle);
+}
+
+int TSelfControl::TWriteSelfConfigByte(Word Offset, Byte _Byte) {
+  fseek (Handle, Pointer + Offset, SEEK_SET);
+  return fputc (_Byte, Handle);
+}
+
+int TSelfControl::TReadSelfConfig(Word Offset, Byte *WriteBuf, Word ReadSize) {
+  fseek (Handle, Pointer + Offset, SEEK_SET);
+  return fread (WriteBuf, ReadSize, 1, Handle);
+}
+
+int TSelfControl::TWriteSelfConfig(Word Offset, Byte *WriteData, Word WriteSize) {
+  fseek (Handle, Pointer + Offset, SEEK_SET);
+  return fwrite (WriteData, WriteSize, 1, Handle);
+}
+.\TSTRING.CPP
+#include <_Null.h>
+#include <errno.h>
+
+#ifndef InCRange
+#define InCRange(x,a,b)  ((x>=a)&&(x<=b))
+#endif
+#ifndef OutCRange
+#define OutCRange(x,a,b) ((x<=a)||(x>=b))
+#endif
+#ifndef InORange
+#define InORange(x,a,b)  ((x>a)&&(x<b))
+#endif
+#ifndef OutORange
+#define OutORange(x,a,b) ((x<a)||(x>b))
+#endif
+
+#include <mem.h>
+#include <alloc.h>
+#include "TString.h"
+#include "TopType.h"
+
+void TStringChain::Init() {
+  MaxLength=0x4000;
+  Prev=Next=NULL;
+  Length=CurPos=0;
+  String=NULL;
+  FillByte=0;
+  Funcs.Source=this;
+}
+TStringChain::TStringChain() {
+  Init();
+}
+TStringChain::TStringChain(Word _InitSize) {
+  Init();
+  if (_InitSize>MaxLength) _InitSize=MaxLength;
+  String=new Byte[_InitSize];
+  Length=_InitSize;
+}
+TStringChain::TStringChain(Byte *_InitStr, Word _Len) {
+  Init();
+  Init(_InitStr, _Len);
+}
+TStringChain::~TStringChain() {
+  if (String!=NULL) delete String;
+}
+
+// General String Type Test Functions
+Byte TStringChain::AllAlnum(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 (*str<'0') ||
+	 InORange(*str, '9', 'A') ||
+	 InORange(*str, 'Z', 'a') ||
+	 (*str>'z')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllAlpha(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 (*str<'A') ||
+	 InORange(*str, 'Z', 'a') ||
+	 (*str>'z')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllAscii(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (*str>>7) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllCntrl(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 InORange(*str, 0x1f, 0x7f) ||
+	 (*str>>7)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllDigit(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if OutORange(*str, '0', '9') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllGraph(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 (*str<0x20) ||
+	 (*str>0x7e)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllLower(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if OutORange(*str, 'a', 'z') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllPrint(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if OutORange(*str, 0x20, 0x7e) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllPunct(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 InORange(*str, 0x20, 0x7f) ||
+	 (*str>>7)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllSpace(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 (*str!=' ') &&
+	 OutORange(*str, 0x09, 0x0d)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllUpper(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if OutORange(*str, 'A', 'Z') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte TStringChain::AllXDigit(void) {
+  Byte *str=String;
+  if (!*str) return 0xff;
+  while (*str) {
+    if (
+	 (*str<'0') ||
+	 InORange(*str, '9', 'A') ||
+	 InORange(*str, 'F', 'a') ||
+	 (*str>'f')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+// String Shift Functions
+void TStringChain::Shift(int _Len, Word _SStart=0, Word _SEnd=0xFFFF) {
+  if (!_Len) return;
+  if (_SEnd==0xFFFF) _SEnd=Length-1;
+  if (_Len>0) if (_Len>_SEnd-_SStart+1) _Len=_SEnd-_SStart+1;
+  if (_Len<0) if (-_Len>_SEnd-_SStart+1) _Len=_SStart-_SEnd-1;
+  if (_Len>0) {
+    Byte *_StringCopy=String+_SEnd;
+    Byte _Count=_SEnd-_SStart+1-_Len;
+    for (; _Count>0; _Count--) *_StringCopy=*(_StringCopy---_Len);
+    memset(String+_SStart, FillByte, _Len);
+    CurPos+=_Len;
+    if (CurPos>_SEnd) CurPos=_SEnd;
+  } else {
+    memcpy(String+_SStart, String+_SStart-_Len, _SEnd-_SStart+1+_Len);
+    memset(String+_SEnd+_Len+1, FillByte, -_Len);
+    (CurPos<_SStart-_Len)?(CurPos=_SStart):(CurPos+=_Len);
+  }
+}
+
+void TStringChain::ShiftCycle(int _Len, Word _SStart=0, Word _SEnd=0xFFFF) {
+  if (!_Len) return;
+  if (_SEnd==0xFFFF) _SEnd=Length-1;
+  _Len=_Len%(int)(_SEnd-_SStart+1);
+  Byte *__Save=new Byte[_Len>0?_Len:-_Len];
+  if (_Len>0) memcpy(__Save, String+_SEnd-_Len+1, _Len);
+  else memcpy(__Save, String+_SStart, -_Len);
+  Shift(_Len, _SStart, _SEnd);
+  if (_Len>0) memcpy(String+_SStart, __Save, _Len);
+  else memcpy(String+_SEnd+_Len+1, __Save, -_Len);
+  delete __Save;
+}
+
+// Base String Functions
+void TStringChain::Init(Byte *_InitStr, Word _Len=1) {
+  if (!(String=new Byte[_Len])) return;
+  Length=_Len;
+  memcpy(String, _InitStr, _Len);
+  _TRetStr.r=String;
+}
+
+void TStringChain::Assign(Byte *_AssignStr, Word _Len=1) {
+  if (String!=NULL) delete String;
+  Init(_AssignStr, _Len);
+}
+
+void TStringChain::Count() {
+  Byte *_String = String;
+  Length = 0;
+  while (*(String++)) Length++;
+  String = _String;
+}
+
+void TStringChain::Push(Byte *_PushStr, Word _Len=1) {
+  if (Length+_Len>MaxLength) _Len=MaxLength-Length;
+  Length+=_Len;
+  String=(Byte *)realloc(String, Length);
+  Shift(_Len);
+  memcpy(String, _PushStr, _Len);
+}
+
+void TStringChain::Append(Byte *_AppendStr, Word _Len=1) {
+  if (Length+_Len>MaxLength) _Len=MaxLength-Length;
+  Length+=_Len;
+  String=(Byte *)realloc(String, Length);
+  memcpy(String+Length-1, _AppendStr, _Len);
+}
+
+void TStringChain::Insert(Byte *_InsertStr, Word _Len=1) {
+  if (Length+_Len>MaxLength) _Len=MaxLength-Length;
+  Length+=_Len;
+  String=(Byte *)realloc(String, Length);
+  Shift(_Len, CurPos);
+  memcpy(String+CurPos-_Len, _InsertStr, _Len);
+} // Insert Between [CurPos-1,CurPos].
+
+void TStringChain::Distil(Word _Len=1) {
+  if (!_Len) return;
+  if (Length<_Len) _Len=Length;
+  Shift(-_Len);
+  Length-=_Len;
+  String=(Byte *)realloc(String, Length);
+}
+
+void TStringChain::Pull(Word _Len=1) {
+  if (!_Len) return;
+  if (Length<_Len) _Len=Length;
+  Length-=_Len;
+  String=(Byte *)realloc(String, Length);
+  if (CurPos>Length-1) CurPos=Length-1;
+}
+
+void TStringChain::Delete(Word _Len=1) {
+  if (!_Len) return;
+  if (Length<_Len) _Len=Length;
+  Shift(-_Len, CurPos);
+  Length-=_Len;
+  String=(Byte *)realloc(String, Length);
+} // Delete include String[curpos].
+
+Byte *TStringChain::Colon(Word _Len) {
+  if (!_Len) return NULL;
+  if (_Len>Length-CurPos) _Len=Length-CurPos;
+  Byte *_RetStr=new Byte[_Len];
+  memcpy(_RetStr, String+CurPos, _Len);
+  return _RetStr;
+}
+
+Byte *TStringChain::Part(Word _Len) {
+  if (!_Len) return NULL;
+  if (_Len>Length-CurPos) _Len=Length-CurPos;
+  Byte *_RetStr=new Byte[_Len];
+  memcpy(_RetStr, String+CurPos, _Len);
+  Delete(_Len);
+  return _RetStr;
+}
+
+// String Compare Functions
+int TStringChain::Compare(Byte *_CompareStr, Word _Len) {
+  Word _SaveLen=_Len;
+  if (!_Len) return (Length)?1:0;
+  if (Length<_Len) _Len=Length;
+  for (Word _p=0; _p<_Len; _p++) {
+    if (String[_p]==_CompareStr[_p]) continue;
+    return (String[_p]>_CompareStr[_p])?1:-1;
+  }
+  if ((_p == _Len) || (Length == _SaveLen)) return 0;
+  return (Length>_SaveLen)?1:-1;
+} // Return: string>comparestr?1:-1, ==:0
+
+// String Scan Functions
+TRetWord TStringChain::WhereByte(Byte _Byte) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    if (String[_p]==_Byte) {
+      _TRetWord.r=_p;
+      return _TRetWord;
+    }
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::WhereRevByte(Byte _Byte) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=Length; _p>0; _p--) {
+    if (String[_p-1]==_Byte) {
+      _TRetWord.r=_p-1;
+      return _TRetWord;
+    }
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::WhereStr(Byte *_Str, Word _Len) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    String+=_p;
+    if (Compare(_Str, _Len)==0) {
+      _TRetWord.r=_p;
+      return _TRetWord;
+    }
+    String-=_p;
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::WhereRevStr(Byte *_Str, Word _Len) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=Length; _p>0; _p--) {
+    String+=_p-1;
+    if (Compare(_Str, _Len)==0) {
+      _TRetWord.r=_p-1;
+      return _TRetWord;
+    }
+    String-=_p-1;
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::ByteDupTimes(Byte _Byte) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    if (String[_p]==_Byte) _TRetWord.r++;
+  }
+  return _TRetWord;
+}
+
+TRetWord TStringChain::ByteOnDispTime(Byte _Byte, Word _Time) {
+  Word _Count=0;
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    if (String[_p]==_Byte) {
+      if (_Count++==_Time) {
+	_TRetWord.r=_p;
+	return _TRetWord;
+      }
+    }
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::ByteOnRevDispTime(Byte _Byte, Word _RevTime) {
+  Word _Count=0;
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=Length; _p>0; _p--) {
+    if (String[_p-1]==_Byte) {
+      if (_Count++==_RevTime) {
+	_TRetWord.r=_p-1;
+	return _TRetWord;
+      }
+    }
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::StrDupTimes(Byte *_Str, Word _Len) {
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    String+=_p;
+    if (Compare(_Str, _Len)==0) _TRetWord.r++;
+    String-=_p;
+  }
+  return _TRetWord;
+}
+
+TRetWord TStringChain::StrOnDispTime(Byte *_Str, Word _Len, Word _Time) {
+  Word _Count=0;
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=0; _p<Length; _p++) {
+    String+=_p;
+    if (Compare(_Str, _Len)==0) {
+      if (_Count++==_Time) {
+	_TRetWord.r=_p;
+	return _TRetWord;
+      }
+    }
+    String-=_p;
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+TRetWord TStringChain::StrOnRevDispTime(Byte *_Str, Word _Len, Word _RevTime) {
+  Word _Count=0;
+  _TRetWord.r=0;
+  _TRetWord.s=1;
+  for (Word _p=Length; _p>0; _p--) {
+    String+=_p-1;
+    if (Compare(_Str, _Len)==0) {
+      if (_Count++==_RevTime) {
+	_TRetWord.r=_p-1;
+	return _TRetWord;
+      }
+    }
+    String-=_p-1;
+  }
+  _TRetWord.s=0; // No match
+  return _TRetWord;
+}
+
+// Enhanced String Modify Functions
+void TStringChain::StrChange(Byte *_ValueStr, Word _Len, Word _SrcLen) {
+  if (_SrcLen>Length-CurPos) {
+    _Len-=_SrcLen-(Length-CurPos);
+    _SrcLen=Length-CurPos;
+  }
+  if (_Len>_SrcLen) {
+    if (_Len-_SrcLen>MaxLength-Length) {
+      _Len=MaxLength-Length+_SrcLen;
+    }
+  }
+  Delete(_SrcLen);
+  Insert(_ValueStr, _Len);
+}
+
+/*
+TRetStr StrReplace(Byte *StrOld, Word _OldLen, Byte *StrNew, Word _NewLen, Word _StartScanPos) {
+TRetStr StrReplaceAll(Byte *StrOld, Word _OldLen, Byte *StrNew, Word _NewLen, Word _StartScanPos) {
+*/
+
+// Change Current Nod Functions
+char TStringChainFuncs::_GoTop(void) {
+  if (Source==NULL) return 0;
+  while (Source->Prev!=NULL) Source=Source->Prev;
+  return 1;
+}
+
+char TStringChainFuncs::_GoBottom(void) {
+  if (Source==NULL) return 0;
+  while (Source->Next!=NULL) Source=Source->Next;
+  return 1;
+}
+
+char TStringChainFuncs::_GoPrev(void) {
+  if (IsPrevNull()) return 0;
+  Source=Source->Prev;
+  return 1;
+}
+
+char TStringChainFuncs::_GoNext() {
+  if (IsNextNull()) return 0;
+  Source=Source->Next;
+  return 1;
+}
+
+char TStringChainFuncs::_GoNPrev(Word Num) {
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Prev!=NULL)) Source=Source->Prev;
+  return 1;
+}
+
+char TStringChainFuncs::_GoNNext(Word Num) {
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Next!=NULL)) Source=Source->Next;
+  return 1;
+}
+
+// Test Current Nod Functions
+char TStringChainFuncs::IsPrevNull(void) {
+  return ((Source==NULL)||(Source->Prev==NULL))?1:0;
+}
+
+char TStringChainFuncs::IsNextNull(void) {
+  return ((Source==NULL)||(Source->Next==NULL))?1:0;
+}
+
+char TStringChainFuncs::IsSomePrevNull(Word Num) {
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Source->Prev==NULL) {
+      IsNull=1;
+      break;
+    }Source=Source->Prev;
+  }
+  return IsNull;
+}
+
+char TStringChainFuncs::IsSomeNextNull(Word Num) {
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--) {
+    if (Source->Next==NULL) {
+      IsNull=1;
+      break;
+    }Source=Source->Next;
+  }
+  return IsNull;
+}
+
+// Copy Nod Functions
+void TStringChainFuncs::CopyTo(TStringChain *_CopyTo) {
+  _CopyTo->Prev=Source->Prev;
+  _CopyTo->Next=Source->Next;
+  _CopyTo->String=Source->String;
+  _CopyTo->Length=Source->Length;
+  _CopyTo->CurPos=Source->CurPos;
+}// Only Copy the Pointers in Source To _CopyTo
+
+// Insert And Delete Nod Functions
+char TStringChainFuncs::Push(TStringChain *_TStringChainNew) {
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->Funcs._GoBottom()) return 0;
+  if (!_GoTop()) Source=_TStringChainNew;
+  else {
+    Source->Prev=_TStringChainNew;
+    _TStringChainNew->Next=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::Append(TStringChain *_TStringChainNew) {
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->Funcs._GoTop()) return 0;
+  if (!_GoBottom()) Source=_TStringChainNew;
+  else {
+    Source->Next=_TStringChainNew;
+    _TStringChainNew->Prev=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::InsertBefore(TStringChain *_TStringChainNew) {
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->Funcs._GoBottom()) return 0;
+  if (Source==NULL) Source=_TStringChainNew;
+  else {
+    _TStringChainNew->Next=Source;
+    if (IsPrevNull()) {
+      Source->Prev=_TStringChainNew;
+    } else {
+      Source=Source->Prev;
+      Source->Next->Prev=_TStringChainNew;
+      _TStringChainNew->Funcs._GoTop();
+      _TStringChainNew->Prev=Source;
+      Source->Next=_TStringChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert before current nod
+char TStringChainFuncs::InsertBehind(TStringChain *_TStringChainNew) {
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->Funcs._GoTop()) return 0;
+  if (Source==NULL) Source=_TStringChainNew;
+  else {
+    _TStringChainNew->Prev=Source;
+    if (IsNextNull()) {
+      Source->Next=_TStringChainNew;
+    } else {
+      Source=Source->Next;
+      Source->Prev->Next=_TStringChainNew;
+      _TStringChainNew->Funcs._GoBottom();
+      _TStringChainNew->Next=Source;
+      Source->Prev=_TStringChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert behind current nod
+
+char TStringChainFuncs::PushBlank(void) {
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return Push(_BlankTStringChain);
+}
+
+char TStringChainFuncs::AppendBlank(void) {
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return Append(_BlankTStringChain);
+}
+
+char TStringChainFuncs::InsertBeforeBlank(void) {
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return InsertBefore(_BlankTStringChain);
+}
+
+char TStringChainFuncs::InsertBehindBlank(void) {
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return InsertBehind(_BlankTStringChain);
+}
+
+char TStringChainFuncs::Distil(void) {
+  TStringChain *_OriPoint=Source;
+  if (IsPrevNull()) _OriPoint=Source->Next;
+  if (!_GoTop()) return 0;
+  if (Source->Next==NULL) {
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Next;
+    delete Source->Prev;
+    Source->Prev=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+
+char TStringChainFuncs::Pull(void) {
+  TStringChain *_OriPoint=Source;
+  if (IsNextNull()) _OriPoint=Source->Prev;
+  if (!_GoBottom()) return 0;
+  if (Source->Prev==NULL) {
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Prev;
+    delete Source->Next;
+    Source->Next=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+
+char TStringChainFuncs::Delete(void) {
+  TStringChain *_OriPoint=Source;
+  if (Source==NULL) return 0;
+  if (!IsPrevNull()) {
+    Source->Prev->Next=Source->Next;
+  }
+  if (!IsNextNull()) {
+    Source->Next->Prev=Source->Prev;
+  }
+  if (!IsNextNull()) {
+    Source=Source->Next;
+    delete _OriPoint;
+  } else if (!IsPrevNull()) {
+    Source=Source->Prev;
+    delete _OriPoint;
+  } else {
+    delete Source;
+    Source=NULL;
+  }
+  return 1;
+}
+
+char TStringChainFuncs::DeletePrev(void) {
+  if (!IsPrevNull()) return 0;
+  TStringChain *_OriPointPrev=Source->Prev;
+  if (_OriPointPrev->Funcs.IsPrevNull()) {
+    delete _OriPointPrev;
+    Source->Prev=NULL;
+  } else {
+    _OriPointPrev->Prev->Next=Source;
+    Source->Prev=_OriPointPrev->Prev;
+    delete _OriPointPrev;
+  }
+  return 1;
+}// Delete the nod before current nod
+
+char TStringChainFuncs::DeleteNext(void) {
+  if (!IsNextNull()) return 0;
+  TStringChain *_OriPointNext=Source->Next;
+  if (_OriPointNext->Funcs.IsNextNull()) {
+    delete _OriPointNext;
+    Source->Next=NULL;
+  } else {
+    _OriPointNext->Next->Prev=Source;
+    Source->Next=_OriPointNext->Next;
+    delete _OriPointNext;
+  }
+  return 1;
+}// Delete the nod behind current nod
+
+char TStringChainFuncs::DeleteSomePrev(Word Num) {
+  if (IsPrevNull()) return 0;
+  TStringChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TStringChain *_LastTStringChain=Source;
+    Source=Source->Prev;
+    delete _LastTStringChain;
+  }
+  if (Source==NULL) _OriPoint->Prev=NULL;
+  else {
+    Source->Next=_OriPoint;
+    _OriPoint->Prev=Source;
+  }
+  return 1;
+}
+
+char TStringChainFuncs::DeleteSomeNext(Word Num) {
+  if (IsNextNull()) return 0;
+  TStringChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TStringChain *_LastTStringChain=Source;
+    Source=Source->Next;
+    delete _LastTStringChain;
+  }
+  if (Source==NULL) _OriPoint->Next=NULL;
+  else {
+    Source->Prev=_OriPoint;
+    _OriPoint->Next=Source;
+  }
+  return 1;
+}
+
+char TStringChainFuncs::DeleteAll(void) {
+  if (!_GoTop()) return 0;
+  while (!IsNextNull()) {
+    Source=Source->Next;
+    delete Source->Prev;
+  } delete Source;
+  Source=NULL;
+  return 1;
+}
+
+// Replace Nod Functions
+char TStringChainFuncs::Replace(TStringChain *_TStringChainAnother) {
+  TStringChain *_OriPoint=Source;
+  if (!Delete()) return 0;
+  InsertBefore(_TStringChainAnother);
+  Source=_OriPoint;
+  return 1;
+}
+
+// Swap Nod Functions
+char TStringChainFuncs::SwapWithNext(void) {
+  if (IsNextNull()) return 0;
+  TStringChain *_OriPointNext=Source->Next;
+  Source->Prev->Next=_OriPointNext;
+  Source->Next=_OriPointNext->Next;
+  _OriPointNext->Next=_OriPointNext->Prev;
+  _OriPointNext->Prev=Source->Prev;
+  Source->Prev=_OriPointNext;
+  Source->Next->Prev=Source;
+  return 1;
+}// swap current nod with next nod !!! Note the nods behind current decreased!!!
+
+char TStringChainFuncs::SwapWithPrev(void) {
+  if (IsPrevNull()) return 0;
+  TStringChain *_OriPointPrev=Source->Prev;
+  Source->Next->Prev=_OriPointPrev;
+  Source->Prev=_OriPointPrev->Prev;
+  _OriPointPrev->Prev=_OriPointPrev->Next;
+  _OriPointPrev->Next=Source->Next;
+  Source->Next=_OriPointPrev;
+  Source->Prev->Next=Source;
+  return 1;
+}// swap current nod with prev nod !!! Note the nods before current decreased !!!
+
+char TStringChainFuncs::SwapPrevWithNext(void) {
+  if (IsNextNull()||IsPrevNull()) return 0;
+  TStringChain *_Before=Source->Prev, *_Behind=Source->Next;
+  _Before->Prev->Next=_Behind;
+  _Before->Next=_Behind->Next;
+  _Behind->Next->Prev=_Before;
+  _Behind->Prev=_Before->Prev;
+  Source->Next=_Before;
+  _Behind->Next=Source;
+  Source->Prev=_Behind;
+  _Before->Prev=Source;
+  return 1;
+}// swap the two nod beside current nod
+
+char CommonSwapTStringChain(TStringChain **SourceA, TStringChain **SourceB) {
+  if ((SourceA==NULL)||(SourceB==NULL)) return 0;
+  TStringChain *SourceANext=(*SourceA)->Next;
+  TStringChain *SourceBNext=(*SourceB)->Next;
+  TStringChain *SourceC;
+  SourceC=(*SourceA)->Prev->Next;
+  (*SourceA)->Prev->Next=(*SourceB)->Prev->Next;
+  (*SourceB)->Prev->Next=SourceC;
+  SourceC=(*SourceA)->Next;
+  (*SourceA)->Next=(*SourceB)->Next;
+  (*SourceB)->Next=SourceC;
+  SourceC=SourceANext->Prev;
+  SourceANext->Prev=SourceBNext->Prev;
+  SourceBNext->Prev=SourceC;
+  SourceC=(*SourceA)->Prev;
+  (*SourceA)->Prev=(*SourceB)->Prev;
+  (*SourceB)->Prev=SourceC;
+  SourceC=*SourceA;
+  *SourceA=*SourceB;
+  *SourceB=SourceC;
+  return 1;
+}
+
+// TStringClass
+TStringClass::TStringClass() {
+  ChainDesc=NULL;
+  StringBlocks=NULL;
+  BlockNum=CurBlock=0;
+  UnitLen=1;
+  StatusFuncs.Clear(&Status);
+}
+TStringClass::TStringClass(DWord _InitSize) {
+  TStringClass();
+  if (_InitSize<1L) return;
+  ChainDesc=new TStringChain*[(Word)((_InitSize-1)/StringBlocks->MaxLength+1)];
+  for (; ; _InitSize-=StringBlocks->MaxLength) {
+    BlockNum++;
+    if (_InitSize<=StringBlocks->MaxLength) {
+      StringBlocks->Funcs.Append(new TStringChain((Word)_InitSize));
+      break;
+    } else {
+      StringBlocks->Funcs.Append(new TStringChain(StringBlocks->MaxLength));
+    } ChainDesc[BlockNum-1]=StringBlocks;
+  }
+}
+TStringClass::~TStringClass() {
+  if (StringBlocks!=NULL) StringBlocks->Funcs.DeleteAll();
+  if (ChainDesc!=NULL) { // Actually, if stringblocks not NULL, the ChainDesc of course not NULL.
+    delete ChainDesc;
+  }
+}
+.\TTYPE.CPP
+#include "TType.h"
+
+struct TRetStr _TRetStr;
+struct TRetNum _TRetNum;
+
+struct TRetByte _TRetByte;
+struct TRetWord _TRetWord;
+struct TRetDWord _TRetDWord;
+
+
+Byte GetBit(Byte _SrcByte, Byte _Bit){
+  return (_SrcByte>>_Bit)&0x1;
+}
+Byte GetBit(Word _SrcWord, Byte _Bit){
+  return (_SrcWord>>_Bit)&0x1;
+}
+Byte GetBit(DWord _SrcDWord, Byte _Bit){
+  return (_SrcDWord>>_Bit)&0x1;
+}
+void SetBit(Byte& _SrcByte, Byte _Bit, Byte _Val){
+  if (GetBit(_SrcByte, _Bit)!=_Val){
+    if (_Val) _SrcByte+=_Val<<_Bit;
+    else _SrcByte-=_Val<<_Bit;
+  }
+}
+void SetBit(Word& _SrcWord, Byte _Bit, Byte _Val){
+  if (GetBit(_SrcWord, _Bit)!=_Val){
+    if (_Val) _SrcWord+=_Val<<_Bit;
+    else _SrcWord-=_Val<<_Bit;
+  }
+}
+void SetBit(DWord& _SrcDWord, Byte _Bit, Byte _Val){
+  if (GetBit(_SrcDWord, _Bit)!=_Val){
+    if (_Val) _SrcDWord+=_Val<<_Bit;
+    else _SrcDWord-=_Val<<_Bit;
+  }
+}
+
+void TVarSetFuncs::Clear(TVarSet *_tvs){
+  _tvs->d32[0]=_tvs->d32[1]=_tvs->d32[2]=_tvs->d32[3]=0;
+}
+void TVarSetFuncs::Fill(TVarSet *_tvs){
+  _tvs->d32[0]=_tvs->d32[1]=_tvs->d32[2]=_tvs->d32[3]=0xFFFFFFFFul;
+}
+
+Byte TVarSetFuncs::B4Get(TVarSet _tvs, Byte Num){
+  Num%=0x20;
+  return (Num&1)?(_tvs.d8[Num/2]&0xF):(_tvs.d8[Num/2]>>4);
+}
+Byte TVarSetFuncs::B2Get(TVarSet _tvs, Byte Num){
+  Num%=0x40;
+  return (Num&1)?(B4Get(_tvs, Num/2)&0x3):(B4Get(_tvs, Num/2)>>2);
+}
+Byte TVarSetFuncs::B1Get(TVarSet _tvs, Byte Num){
+  Num%=0x80;
+  return (Num&1)?(B2Get(_tvs, Num/2)&0x1):(B2Get(_tvs, Num/2)>>1);
+}
+
+void TVarSetFuncs::B4Set(TVarSet *_tvs, Byte Num, Byte Val){
+  Num%=0x20; Val%=0x10;
+  (Num&1)?(_tvs->d8[Num/2]=(_tvs->d8[Num/2]&0xF0)|Val):(_tvs->d8[Num/2]=(_tvs->d8[Num/2]&0xF)|(Val<<4));
+}
+void TVarSetFuncs::B2Set(TVarSet *_tvs, Byte Num, Byte Val){
+  Num%=0x40; Val%=0x4;
+  (Num&1)?(B4Set(_tvs, Num/2, (B4Get(*_tvs, Num/2)&0xC)|Val)):
+	  (B4Set(_tvs, Num/2, (B4Get(*_tvs, Num/2)&3)|(Val<<2)));
+}
+void TVarSetFuncs::B1Set(TVarSet *_tvs, Byte Num, Byte Val){
+  Num%=0x80; Val%=0x2;
+  (Num&1)?(B2Set(_tvs, Num/2, (B2Get(*_tvs, Num/2)&0x2)|Val)):
+	  (B2Set(_tvs, Num/2, (B2Get(*_tvs, Num/2)&0x1)|(Val<<1)));
+}

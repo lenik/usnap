@@ -1,0 +1,59 @@
+
+ifdef debugversion
+        ; debug memory
+        logCommandcheck:
+                pusha
+                pushf
+                push ds
+                push es
+
+                call dumpRegisters
+
+                push es
+                pusha
+                mov ah, 34h             ; get INDOS in es:bx, exit if set
+                int 21h
+                or byte ptr es: [bx], 0
+                popa
+                pop es
+                jz $+5
+                jmp log_end
+
+                push cs
+                pop es
+
+                mov cx, 10
+                lea di, ds_si
+                rep movsb               ; ds:si -> cs:ds_si
+
+                mov cx, 40
+                mov si, bx
+                lea di, ds_bx
+                ll:
+                lodsb
+                or al, 20h
+                stosb
+                loop ll
+
+                lea dx, mm01
+                call DisplayCodeString
+
+                jmp log_end
+
+                mm01    db 'DS:SI->['
+                ds_si   db 40 dup ('_'), ']', 13, 10
+                        db 'DS:BX->['
+                ds_bx   db 60 dup ('_'), ']', 13, 10, '$'
+endif
+
+ifdef debugversion
+        debug_string    db 20h, 0
+        logmessage      db 'logging start..', 0dh, 0ah, '$'
+        writemessage    db 'take notes of command line...', 0dh, 0ah, '$'
+        writeseekmessage db 'seeking...', 0dh, 0ah, '$'
+        writeappendmessage db 'appending data...', 0dh, 0ah, '$'
+        logfile_end_ok  db 'logfile ended, OK!', 0dh, 0ah, '$'
+        logfile_end_err db 'logfile ended with errors. ', 0dh, 0ah, '$'
+        logfile_close_ok  db 'logfile closed OK. ', 0dh, 0ah, '$'
+        logfile_close_err db 'logfile closed error. ', 0dh, 0ah, '$'
+endif

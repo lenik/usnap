@@ -1,0 +1,935 @@
+#include <_Null.h>
+#include <errno.h>
+
+#ifndef InCRange
+#define InCRange(x,a,b)  ((x>=a)&&(x<=b))
+#endif
+#ifndef OutCRange
+#define OutCRange(x,a,b) ((x<=a)||(x>=b))
+#endif
+#ifndef InORange
+#define InORange(x,a,b)  ((x>a)&&(x<b))
+#endif
+#ifndef OutORange
+#define OutORange(x,a,b) ((x<a)||(x>b))
+#endif
+
+#include <string.h>
+#include "TString.h"
+#include "TopType.cpp"
+
+Byte AllAlnum(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 (*str<'0') ||
+	 InORange(*str, '9', 'A') ||
+	 InORange(*str, 'Z', 'a') ||
+	 (*str>'z')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllAlpha(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 (*str<'A') ||
+	 InORange(*str, 'Z', 'a') ||
+	 (*str>'z')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllAscii(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (*str>>7) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllCntrl(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 InORange(*str, 0x1f, 0x7f) ||
+	 (*str>>7)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllDigit(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if OutORange(*str, '0', '9') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllGraph(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 (*str<0x20) ||
+	 (*str>0x7e)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllLower(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if OutORange(*str, 'a', 'z') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllPrint(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if OutORange(*str, 0x20, 0x7e) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllPunct(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 InORange(*str, 0x20, 0x7f) ||
+	 (*str>>7)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllSpace(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 (*str!=' ') &&
+	 OutORange(*str, 0x09, 0x0d)
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllUpper(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if OutORange(*str, 'A', 'Z') return 0;
+    *str++;
+  } return 1;
+}
+
+Byte AllXDigit(char *str){
+  if (!*str) return 0xff;
+  while (*str){
+    if (
+	 (*str<'0') ||
+	 InORange(*str, '9', 'A') ||
+	 InORange(*str, 'F', 'a') ||
+	 (*str>'f')
+    ) return 0;
+    *str++;
+  } return 1;
+}
+
+TRetStr strinit(char **str, char *init){
+  Word _initlen=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while (init[_initlen]) _initlen++;
+  if(!((*str)=new char[_initlen+1])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  (*str)[_initlen]=0;
+  while (_initlen) (*str)[_initlen-1]=init[_initlen---1];
+  _TRetStr.r=(*str);
+  return _TRetStr;
+}
+
+TRetStr strassign(char **str, char *src){
+  char *result;
+  Word _srclen=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while (src[_srclen]) _srclen++;
+  if (!(result=new char[_srclen+1])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  result[_srclen]='\x0';
+  while (_srclen) result[_srclen-1]=src[_srclen---1];
+  delete (*str);
+  (*str)=result;
+  _TRetStr.r=result;
+  return _TRetStr;
+}
+
+TRetStr strcatt(char **str, char *src){
+  char *result;
+  Word _strlen=0, _srclen=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((*str)[_strlen]) _strlen++;
+  while (src[_srclen]) _srclen++;
+  if (!(result=new char[_strlen+_srclen+1])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  result[_strlen+_srclen]='\x0';
+  while (_srclen) result[_strlen+_srclen-1]=src[_srclen---1];
+  while (_strlen) result[_strlen-1]=(*str)[_strlen---1];
+  delete (*str);
+  (*str)=result;
+  _TRetStr.r=result;
+  return _TRetStr;
+}
+
+TRetStr strncatt(char **str, char *src, Word len){
+  char *result;
+  Word _strlen=0, _srclen=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((*str)[_strlen]) _strlen++;
+  while (src[_srclen]) _srclen++;
+  if (len<_srclen) _srclen=len;
+  if (!(result=new char[_strlen+_srclen+1])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  result[_strlen+_srclen]='\x0';
+  while (_srclen) result[_strlen+_srclen-1]=src[_srclen---1];
+  while (_strlen) result[_strlen-1]=(*str)[_strlen---1];
+  delete (*str);
+  (*str)=result;
+  _TRetStr.r=result;
+  return _TRetStr;
+}
+
+TRetNum strchrnum(char *str, char chr){
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (*str++) {
+    if (*str==chr) _TRetNum.r++;
+  } return _TRetNum;
+}
+
+TRetNum strchrn(char *str, char chr, Word num){
+  Word count=0, p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (str[p]) {
+    if (str[p]==chr) {
+      if (count==num) {
+	_TRetNum.r=p;
+	return _TRetNum;
+      } count++;
+    } p++;
+  }
+  _TRetNum.s=0;
+  return _TRetNum;
+}
+
+TRetNum strrchrn(char *str, char chr, Word num){
+  Word count=0, p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (str[p++]);
+  while (p){
+    if(str[p-1]==chr) {
+      if(count==num) {
+	_TRetNum.r=p-1;
+	return _TRetNum;
+      } count++;
+    } p--;
+  }
+  _TRetNum.s=0;
+  return _TRetNum;
+}
+
+TRetNum strstrnum(char *str1, char *str2){
+  Word _str1len=0, _str2len=0, p=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (str1[_str1len]) _str1len++;
+  while (str2[_str2len]) _str2len++;
+  if (_str2len>_str1len) return _TRetNum;
+  while (p<_str1len-_str2len+1) {
+    Byte diff=0;
+    Word pn=0;
+    while (pn<_str2len){
+      if (str1[p+pn]!=str2[pn]){
+	diff=1;
+	break;
+      }pn++;
+    } //compare part of string
+    if (diff){
+      p++; //Offset to next start
+      continue;
+    }
+    _TRetNum.r++;
+    if (p+_str2len<=_str1len-_str2len+1) {
+      p+=_str2len;
+      continue;
+    } else break;
+  } return _TRetNum;
+}
+
+TRetNum strstrn(char *str1, char *str2, Word num){
+  Word count=0, p=0;
+  Word _str1len=0, _str2len=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (str1[_str1len]) _str1len++;
+  while (str2[_str2len]) _str2len++;
+  if (_str2len>_str1len){
+    _TRetNum.s=0;
+    return _TRetNum;
+  }
+
+  while (p<=_str1len-_str2len) {
+    Byte diff=0;
+    Word pn=0;
+    while (pn<_str2len){
+      if (str1[p+pn]!=str2[pn]){
+	diff=1;
+	break;
+      }pn++;
+    } //compare part of string
+    if (diff){
+      p++; //Offset to next start
+      continue;
+    }
+    count++;
+    if (count==num) {
+      _TRetNum.r=p;
+      return _TRetNum;
+    }
+    if (p+_str2len<=_str1len-_str2len) {
+      p+=_str2len;
+      continue;
+    }
+  }
+  _TRetNum.s=0;
+  return _TRetNum;
+}
+
+TRetNum strrstrn(char *str1, char *str2, Word num){
+  Word count=0, p=0;
+  Word _str1len=0, _str2len=0;
+  _TRetNum.r=0;
+  _TRetNum.s=1;
+  while (str1[_str1len]) _str1len++;
+  while (str2[_str2len]) _str2len++;
+  if (_str2len>_str1len){
+    _TRetNum.s=0;
+    return _TRetNum;
+  }
+  p=_str1len;
+  while (p>=_str2len-1) {
+    Byte diff=0;
+    Word pn=0;
+    while (pn<_str2len){
+      if ((str1[p-pn-1])!=str2[_str2len-pn-1]){
+	diff=1;
+	break;
+      } pn++;
+    } //compare part of string
+    if (diff){
+      p--; //Offset to prev start
+      continue;
+    }
+    count++;
+    if (count==num) {
+      _TRetNum.r=p-_str2len;
+      return _TRetNum;
+    }
+    if (p-_str2len>=_str2len-1) {
+      p-=_str2len;
+      continue;
+    }
+  }
+  _TRetNum.s=0;
+  return _TRetNum;
+}
+
+TRetStr strcutmatchn(char **str, char chra, Word ano, char chrb, Word bno){
+  char *cuts;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  int p=0, pa=0, pb=0;
+  if (
+      (strchrn((*str), chra, ano).s==-1) ||
+      (strrchrn((*str), chrb, bno).s==-1)
+  ) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  pa=strchrn((*str), chra, ano).r;
+  pb=strrchrn((*str), chrb, bno).r;
+  if (pa>pb) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(cuts=new char[pb-pa+2])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  for (p=pa; p<=pb; p++)
+    cuts[p-pa]=(*str)[p];
+  cuts[pb-pa+1]='\x0';
+  delete (*str);
+  (*str)=cuts;
+  _TRetStr.r=cuts;
+  return _TRetStr;
+}
+
+TRetStr strcut(char **str, Word p1, Word p2){
+  Word p=0, _strlen=0;
+  char *Remain;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((*str)[_strlen]) _strlen++;
+  if (
+       (p1>_strlen) ||
+       (p2>_strlen)
+  ) {
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(Remain=new char[_strlen-(p2-p1)])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  while (p<p1) Remain[p]=(*str)[p++];
+  p=p2+1;
+  while (p<=_strlen+1) Remain[p-(p2-p1+1)]=(*str)[p++];
+  delete (*str);
+  (*str)=Remain;
+  _TRetStr.r=(*str);
+  return _TRetStr;
+}
+
+TRetStr strichr(char **str, Word ip, char ichr){
+  char *strgen;
+  Word _strlen=0;
+  Word p=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((*str)[_strlen]) _strlen++;
+  if (ip>_strlen){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(strgen=new char[_strlen+2])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  while (p<ip) strgen[p]=(*str)[p++];
+  strgen[ip]=ichr;
+  p=0;
+  while (p<_strlen-ip+1) strgen[p+ip+1]=(*str)[ip+p++];
+  strgen[_strlen+1]=0;
+  delete (*str);
+  (*str)=strgen;
+  _TRetStr.r=strgen;
+  return _TRetStr;
+}
+
+TRetStr stristr(char **str, Word ip, char *istr){
+  char *strgen;
+  Word _strlen=0, _istrlen=0;
+  Word p=0;
+  _TRetStr.r=NULL;
+  _TRetStr.s=1;
+  while ((*str)[_strlen]) _strlen++;
+  while (istr[_istrlen]) _istrlen++;
+  if (ip>_strlen){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  if (!(strgen=new char[_strlen+_istrlen+1])){
+    _TRetStr.s=0;
+    return _TRetStr;
+  }
+  while (p<ip) strgen[p]=(*str)[p++];
+  p=0;
+  while (p<_istrlen) strgen[p+ip]=istr[p++];
+  p=0;
+  while (p<_strlen-ip+1) strgen[p+ip+_istrlen]=(*str)[ip+p++];
+  strgen[_strlen+_istrlen]=0;
+  delete (*str);
+  (*str)=strgen;
+  _TRetStr.r=strgen;
+  return _TRetStr;
+}
+
+TRetStr strchg(char **str, Word p1, Word len, char *str2){
+  if (!strcut(str, p1, p1+len-1).s) return _TRetStr;
+  if (!stristr(str, p1, str2).s) return _TRetStr;
+  return _TRetStr;
+}
+
+Word __Default__=0;
+TRetStr strrepl1(char **str, char *strold, char *strnew, Word *initp=&__Default__){
+  Word p=*initp, oldlen=0, newlen=0;
+  Byte found=0;
+  _TRetStr.r=NULL;
+  while (strold[oldlen]) oldlen++;
+  while (strnew[newlen]) newlen++;
+  while ((*str)[p]){
+    Byte diff=0;
+    Word pn=0;
+    while (strold[pn]){
+      if ((*str)[p+pn]!=strold[pn]){
+	diff=1;
+	break;
+      }pn++;
+    } //compare part of string
+    if (diff){
+      p++; //Offset to next start
+      continue;
+    }
+    found=1;
+    if (!strchg(str, p, oldlen, strnew).s) return _TRetStr;
+    break;
+  }//Scan part or all (*str)
+  if (initp!=&__Default__) { //Caller has passed a init pointer
+    *initp=p+newlen;
+  }
+  _TRetStr.s=found;
+  _TRetStr.r=(*str);
+  return _TRetStr;
+}
+
+TRetStr strrepl(char **str, char *strold, char *strnew){
+  Word _Last_=0;
+  while (1){
+    if (!strrepl1(str, strold, strnew, &_Last_).s)
+      if (errno==ENOMEM) return _TRetStr;
+      else break;
+  }
+  _TRetStr.r=(*str);
+  _TRetStr.s=1;
+  return _TRetStr;
+}
+
+TStringChain::TStringChain(){
+  MaxLength=0x4000;
+  Prev=Next=NULL;
+  Length=CurPos=0;
+  String=NULL;
+  nf=new TStringChainStrFuncs;
+  nf->Source=this;
+  cf=new TStringChainFuncs;
+  cf->Source=this;
+}
+TStringChain::TStringChain(Word _InitSize){
+  TStringChain();
+  if (_InitSize>MaxLength) _InitSize=MaxLength;
+  String=new Byte[_InitSize];
+  Length=_InitSize;
+}
+TStringChain::TStringChain(Byte *_InitStr, Word _Len){
+  TStringChain();
+  String=new Byte[_Len];
+  memcpy(String, _InitStr, _Len);
+  Length=_Len;
+}
+TStringChain::~TStringChain(){
+  if (nf!=NULL) delete nf;
+  if (cf!=NULL) delete cf;
+  if (String!=NULL) delete String;
+}
+
+// TStringChainStrFuncs::...
+
+char TStringChainFuncs::_GoTop(void){
+  if (Source==NULL) return 0;
+  while (Source->Prev!=NULL) Source=Source->Prev;
+  return 1;
+}
+char TStringChainFuncs::_GoBottom(void){
+  if (Source==NULL) return 0;
+  while (Source->Next!=NULL) Source=Source->Next;
+  return 1;
+}
+char TStringChainFuncs::_GoPrev(void){
+  if (IsPrevNull()) return 0;
+  Source=Source->Prev;
+  return 1;
+}
+char TStringChainFuncs::_GoNext(){
+  if (IsNextNull()) return 0;
+  Source=Source->Next;
+  return 1;
+}
+char TStringChainFuncs::_GoNPrev(Word Num){
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Prev!=NULL)) Source=Source->Prev;
+  return 1;
+}
+char TStringChainFuncs::_GoNNext(Word Num){
+  if (Source==NULL) return 0;
+  while ((Num--)&&(Source->Next!=NULL)) Source=Source->Next;
+  return 1;
+}
+
+char TStringChainFuncs::IsPrevNull(void){
+  return ((Source==NULL)||(Source->Prev==NULL))?1:0;
+}
+char TStringChainFuncs::IsNextNull(void){
+  return ((Source==NULL)||(Source->Next==NULL))?1:0;
+}
+char TStringChainFuncs::IsSomePrevNull(Word Num){
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--){
+    if (Source->Prev==NULL){
+      IsNull=1;
+      break;
+    }Source=Source->Prev;
+  }
+  return IsNull;
+}
+char TStringChainFuncs::IsSomeNextNull(Word Num){
+  if (Source==NULL) return 1;
+  char IsNull=0;
+  while (Num--){
+    if (Source->Next==NULL){
+      IsNull=1;
+      break;
+    }Source=Source->Next;
+  }
+  return IsNull;
+}
+
+void TStringChainFuncs::CopyTo(TStringChain *_CopyTo){
+  _CopyTo->Prev=Source->Prev;
+  _CopyTo->Next=Source->Next;
+  _CopyTo->String=Source->String;
+  _CopyTo->Length=Source->Length;
+  _CopyTo->CurPos=Source->CurPos;
+}// Only Copy the Pointers in Source To _CopyTo
+
+char TStringChainFuncs::Push(TStringChain *_TStringChainNew){
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->cf->_GoBottom()) return 0;
+  if (!_GoTop()) Source=_TStringChainNew;
+  else {
+    Source->Prev=_TStringChainNew;
+    _TStringChainNew->Next=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::Append(TStringChain *_TStringChainNew){
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->cf->_GoTop()) return 0;
+  if (!_GoBottom()) Source=_TStringChainNew;
+  else {
+    Source->Next=_TStringChainNew;
+    _TStringChainNew->Prev=Source;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::InsertBefore(TStringChain *_TStringChainNew){
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->cf->_GoBottom()) return 0;
+  if (Source==NULL) Source=_TStringChainNew;
+  else {
+    _TStringChainNew->Next=Source;
+    if (IsPrevNull()) {
+      Source->Prev=_TStringChainNew;
+    } else {
+      Source=Source->Prev;
+      Source->Next->Prev=_TStringChainNew;
+      _TStringChainNew->cf->_GoTop();
+      _TStringChainNew->Prev=Source;
+      Source->Next=_TStringChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert before current nod
+char TStringChainFuncs::InsertBehind(TStringChain *_TStringChainNew){
+  TStringChain *_OriPoint=Source;
+  if (!_TStringChainNew->cf->_GoTop()) return 0;
+  if (Source==NULL) Source=_TStringChainNew;
+  else {
+    _TStringChainNew->Prev=Source;
+    if (IsNextNull()) {
+      Source->Next=_TStringChainNew;
+    } else {
+      Source=Source->Next;
+      Source->Prev->Next=_TStringChainNew;
+      _TStringChainNew->cf->_GoBottom();
+      _TStringChainNew->Next=Source;
+      Source->Prev=_TStringChainNew;
+    } Source=_OriPoint;
+  }
+  return 1;
+}// Insert behind current nod
+
+char TStringChainFuncs::PushBlank(void){
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return Push(_BlankTStringChain);
+}
+char TStringChainFuncs::AppendBlank(void){
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return Append(_BlankTStringChain);
+}
+char TStringChainFuncs::InsertBeforeBlank(void){
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return InsertBefore(_BlankTStringChain);
+}
+char TStringChainFuncs::InsertBehindBlank(void){
+  TStringChain *_BlankTStringChain;
+  if (!(_BlankTStringChain=new TStringChain)) return 0;
+  return InsertBehind(_BlankTStringChain);
+}
+
+char TStringChainFuncs::Distil(void){
+  TStringChain *_OriPoint=Source;
+  if (IsPrevNull()) _OriPoint=Source->Next;
+  if (!_GoTop()) return 0;
+  if (Source->Next==NULL){
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Next;
+    delete Source->Prev;
+    Source->Prev=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::Pull(void){
+  TStringChain *_OriPoint=Source;
+  if (IsNextNull()) _OriPoint=Source->Prev;
+  if (!_GoBottom()) return 0;
+  if (Source->Prev==NULL){
+    delete Source;
+    Source=NULL;
+  } else {
+    Source=Source->Prev;
+    delete Source->Next;
+    Source->Next=NULL;
+    Source=_OriPoint;
+  }
+  return 1;
+}
+char TStringChainFuncs::Delete(void){
+  TStringChain *_OriPoint=Source;
+  if (Source==NULL) return 0;
+  if (!IsPrevNull()){
+    Source->Prev->Next=Source->Next;
+  }
+  if (!IsNextNull()){
+    Source->Next->Prev=Source->Prev;
+  }
+  if (!IsNextNull()){
+    Source=Source->Next;
+    delete _OriPoint;
+  } else if (!IsPrevNull()){
+    Source=Source->Prev;
+    delete _OriPoint;
+  } else {
+    delete Source;
+    Source=NULL;
+  }
+  return 1;
+}
+char TStringChainFuncs::DeletePrev(void){
+  if (!IsPrevNull()) return 0;
+  TStringChain *_OriPointPrev=Source->Prev;
+  if (_OriPointPrev->cf->IsPrevNull()) {
+    delete _OriPointPrev;
+    Source->Prev=NULL;
+  } else {
+    _OriPointPrev->Prev->Next=Source;
+    Source->Prev=_OriPointPrev->Prev;
+    delete _OriPointPrev;
+  }
+  return 1;
+}// Delete the nod before current nod
+char TStringChainFuncs::DeleteNext(void){
+  if (!IsNextNull()) return 0;
+  TStringChain *_OriPointNext=Source->Next;
+  if (_OriPointNext->cf->IsNextNull()) {
+    delete _OriPointNext;
+    Source->Next=NULL;
+  } else {
+    _OriPointNext->Next->Prev=Source;
+    Source->Next=_OriPointNext->Next;
+    delete _OriPointNext;
+  }
+  return 1;
+}// Delete the nod behind current nod
+char TStringChainFuncs::DeleteSomePrev(Word Num){
+  if (IsPrevNull()) return 0;
+  TStringChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TStringChain *_LastTStringChain=Source;
+    Source=Source->Prev;
+    delete _LastTStringChain;
+  }
+  if (Source==NULL) _OriPoint->Prev=NULL;
+  else {
+    Source->Next=_OriPoint;
+    _OriPoint->Prev=Source;
+  }
+  return 1;
+}
+char TStringChainFuncs::DeleteSomeNext(Word Num){
+  if (IsNextNull()) return 0;
+  TStringChain *_OriPoint=Source;
+  while ((Num--)&&(Source!=NULL)) {
+    TStringChain *_LastTStringChain=Source;
+    Source=Source->Next;
+    delete _LastTStringChain;
+  }
+  if (Source==NULL) _OriPoint->Next=NULL;
+  else {
+    Source->Prev=_OriPoint;
+    _OriPoint->Next=Source;
+  }
+  return 1;
+}
+char TStringChainFuncs::DeleteAll(void){
+  if (!_GoTop()) return 0;
+  while (!IsNextNull()){
+    Source=Source->Next;
+    delete Source->Prev;
+  } delete Source;
+  Source=NULL;
+  return 1;
+}
+char TStringChainFuncs::Replace(TStringChain *_TStringChainAnother){
+  TStringChain *_OriPoint=Source;
+  if (!Delete()) return 0;
+  InsertBefore(_TStringChainAnother);
+  Source=_OriPoint;
+  return 1;
+}
+
+char TStringChainFuncs::SwapWithNext(void){
+  if (IsNextNull()) return 0;
+  TStringChain *_OriPointNext=Source->Next;
+  Source->Prev->Next=_OriPointNext;
+  Source->Next=_OriPointNext->Next;
+  _OriPointNext->Next=_OriPointNext->Prev;
+  _OriPointNext->Prev=Source->Prev;
+  Source->Prev=_OriPointNext;
+  Source->Next->Prev=Source;
+  return 1;
+}// swap current nod with next nod !!! Note the nods behind current decreased!!!
+char TStringChainFuncs::SwapWithPrev(void){
+  if (IsPrevNull()) return 0;
+  TStringChain *_OriPointPrev=Source->Prev;
+  Source->Next->Prev=_OriPointPrev;
+  Source->Prev=_OriPointPrev->Prev;
+  _OriPointPrev->Prev=_OriPointPrev->Next;
+  _OriPointPrev->Next=Source->Next;
+  Source->Next=_OriPointPrev;
+  Source->Prev->Next=Source;
+  return 1;
+}// swap current nod with prev nod !!! Note the nods before current decreased !!!
+char TStringChainFuncs::SwapPrevWithNext(void){
+  if (IsNextNull()||IsPrevNull()) return 0;
+  TStringChain *_Before=Source->Prev, *_Behind=Source->Next;
+  _Before->Prev->Next=_Behind;
+  _Before->Next=_Behind->Next;
+  _Behind->Next->Prev=_Before;
+  _Behind->Prev=_Before->Prev;
+  Source->Next=_Before;
+  _Behind->Next=Source;
+  Source->Prev=_Behind;
+  _Before->Prev=Source;
+  return 1;
+}// swap the two nod beside current nod
+char CommonSwapTStringChain(TStringChain **SourceA, TStringChain **SourceB){
+  if ((SourceA==NULL)||(SourceB==NULL)) return 0;
+  TStringChain *SourceANext=(*SourceA)->Next;
+  TStringChain *SourceBNext=(*SourceB)->Next;
+  TStringChain *SourceC;
+  SourceC=(*SourceA)->Prev->Next;
+  (*SourceA)->Prev->Next=(*SourceB)->Prev->Next;
+  (*SourceB)->Prev->Next=SourceC;
+  SourceC=(*SourceA)->Next;
+  (*SourceA)->Next=(*SourceB)->Next;
+  (*SourceB)->Next=SourceC;
+  SourceC=SourceANext->Prev;
+  SourceANext->Prev=SourceBNext->Prev;
+  SourceBNext->Prev=SourceC;
+  SourceC=(*SourceA)->Prev;
+  (*SourceA)->Prev=(*SourceB)->Prev;
+  (*SourceB)->Prev=SourceC;
+  SourceC=*SourceA;
+  *SourceA=*SourceB;
+  *SourceB=SourceC;
+  return 1;
+}
+
+TStringClass::TStringClass(){
+  ChainDesc=NULL;
+  StringBlocks=NULL;
+  BlockNum=CurBlock=0;
+  UnitLen=1;
+  StatusFuncs.Clear(&Status);
+}
+TStringClass::TStringClass(DWord _InitSize){
+  TStringClass();
+  if (_InitSize<1L) return;
+  ChainDesc=new TStringChain*[(Word)((_InitSize-1)/StringBlocks->MaxLength+1)];
+  for (; ; _InitSize-=StringBlocks->MaxLength){
+    BlockNum++;
+    if (_InitSize<=StringBlocks->MaxLength){
+      StringBlocks->cf->Append(new TStringChain((Word)_InitSize));
+      break;
+    } else {
+      StringBlocks->cf->Append(new TStringChain(StringBlocks->MaxLength));
+    } ChainDesc[BlockNum-1]=StringBlocks;
+  }
+}
+TStringClass::~TStringClass(){
+  if (StringBlocks!=NULL) StringBlocks->cf->DeleteAll();
+  if (ChainDesc!=NULL) { // Actually, if stringblocks not NULL, the ChainDesc of course not NULL.
+    delete ChainDesc;
+  }
+}
+
+// Problem:  strchg tests all of str, it takes a LONG time.
+/*
+// Debug VVVVV
+#include <alloc.h>
+#include <stdio.h>
+#include <errno.h>
+// Debug ^^^^^
+
+void main(){
+  char *a;
+  long LC1=coreleft(), LC=coreleft();
+  if (!strinit(&a, "This is DanSei, dansei DanSei dansei!").s)
+    {perror("Is memory error? see follow."); return; }
+  LC=coreleft();
+  FILE *f;
+  f=fopen("con", "wb");
+  printf("-->%s, %d\n", a,  strstrn(a, "dansei", 2).r);
+  printf("-->%s, %d\n", a, strrstrn(a, "dansei", 1).r);
+  fclose(f);
+  delete a;
+  LC=coreleft();
+}
+*/

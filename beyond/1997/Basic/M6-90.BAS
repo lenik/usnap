@@ -1,0 +1,3 @@
+10 FOR A=1 TO 3
+20 PLAY  "o3c8c8c8o2b8o3aed8e8d8o2b8o3d3o2b8b8b8a8g8e8g8b8a8b8a8e8a3o3c8d8e8g8g8d8dc8o2g8o3c8e8e3o2b8b8b8o3c9dfe9d9c9d9e3d8e8a8e8e8d8dd8d8g8f8e3d8c8o2b8o3c8d8c8d8f8e8e8g8f8e3"
+30 NEXT

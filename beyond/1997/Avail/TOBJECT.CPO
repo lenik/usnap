@@ -1,0 +1,385 @@
+#include <_Null.h>
+#include "TopType.h"
+
+class ObjectChain{
+public:
+  ObjectChain *Prev;
+  ObjectChain *Next;
+  ObjectChain *SubPrev; //Reserved
+  ObjectChain *SubNext;	//Reserved
+  char *Name;
+  char *Data;
+  ObjectChain();
+};
+
+ObjectChain::ObjectChain(void){
+  Prev=Next=SubPrev=SubNext=NULL;
+  Name=Data=NULL;
+}
+
+char GetObjectType(ObjectChain *_Object);
+// _GetPrevObjectNumberInObjectChain, Next.
+char _GoTop(ObjectChain **_ObjectChain);
+char _GoBottom(ObjectChain **_ObjectChain);
+char _GoPrev(ObjectChain **_ObjectChain);
+char _GoNext(ObjectChain **_ObjectChain);
+char _GoNPrev(ObjectChain **_ObjectChain, Word Num);
+char _GoNNext(ObjectChain **_ObjectChain, Word Num);
+
+char IsPrevInObjectChainNull(ObjectChain *_ObjectChain);
+char IsNextInObjectChainNull(ObjectChain *_ObjectChain);
+char IsSomePrevInObjectChainNull(ObjectChain *_ObjectChain, Word Num);
+char IsSomeNextInObjectChainNull(ObjectChain *_ObjectChain, Word Num);
+
+char PushToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink);
+char AppendToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink);
+char InsertToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink);
+char PushNewToObjectChain(ObjectChain *_ObjectChain);
+char AppendNewToObjectChain(ObjectChain *_ObjectChain);
+char InsertNewToObjectChain(ObjectChain *_ObjectChain);
+
+char DistilInObjectChain(ObjectChain *_ObjectChain);
+char PullInObjectChain(ObjectChain *_ObjectChain);
+char DeletePrevInObjectChain(ObjectChain *_ObjectChain);
+char DeleteNextInObjectChain(ObjectChain *_ObjectChain);
+char DeleteCurrentInObjectChain(ObjectChain **_ObjectChain);
+char DeleteSomePrevInObjectChain(ObjectChain *_ObjectChain, Word Num);
+char DeleteSomeNextInObjectChain(ObjectChain *_ObjectChain, Word Num);
+char DeleteObjectChain(ObjectChain **_ObjectChain);
+char ReplaceObjectChain(ObjectChain **_ObjectChainA, ObjectChain *_ObjectChainB);
+
+char BringNextObjectBeforeInObjectChain(ObjectChain *_ObjectChain);
+char BringPrevObjectBehindInObjectChain(ObjectChain *_ObjectChain);
+char SwapPrevObjectWithNextObjectInObjectChain(ObjectChain *_ObjectChain);
+char CommonSwapObjectBetweenObjectChain(ObjectChain **_ObjectChainA, ObjectChain **_ObjectChainB);
+
+void MakeInstanceOfObjectInObjectChain(ObjectChain *_MakeInstance, ObjectChain *_ObjectChain);
+
+char GetObjectType(ObjectChain *_Object){
+  return (_Object->Data[0]>>5);
+}
+
+char _GoTop(ObjectChain **_ObjectChain){
+  if ((*_ObjectChain)==NULL) return 0;
+  while ((*_ObjectChain)->Prev!=NULL) (*_ObjectChain)=(*_ObjectChain)->Prev;
+  return 1;
+}
+char _GoBottom(ObjectChain **_ObjectChain){
+  if ((*_ObjectChain)==NULL) return 0;
+  while ((*_ObjectChain)->Next!=NULL) (*_ObjectChain)=(*_ObjectChain)->Next;
+  return 1;
+}
+char _GoPrev(ObjectChain **_ObjectChain){
+  if (IsPrevInObjectChainNull(*_ObjectChain)) return 0;
+  (*_ObjectChain)=(*_ObjectChain)->Prev;
+  return 1;
+}
+char _GoNext(ObjectChain **_ObjectChain){
+  if (IsNextInObjectChainNull(*_ObjectChain)) return 0;
+  (*_ObjectChain)=(*_ObjectChain)->Next;
+  return 1;
+}
+char _GoNPrev(ObjectChain **_ObjectChain, Word Num){
+  if ((*_ObjectChain)==NULL) return 0;
+  while ((Num--)&&((*_ObjectChain)->Prev!=NULL)) (*_ObjectChain)=(*_ObjectChain)->Prev;
+  return 1;
+}
+char _GoNNext(ObjectChain **_ObjectChain, Word Num){
+  if ((*_ObjectChain)==NULL) return 0;
+  while ((Num--)&&((*_ObjectChain)->Next!=NULL)) (*_ObjectChain)=(*_ObjectChain)->Next;
+  return 1;
+}
+
+char IsPrevInObjectChainNull(ObjectChain *_ObjectChain){
+  return ((_ObjectChain==NULL)||(_ObjectChain->Prev==NULL))?1:0;
+}
+char IsNextInObjectChainNull(ObjectChain *_ObjectChain){
+  return ((_ObjectChain==NULL)||(_ObjectChain->Next==NULL))?1:0;
+}
+char IsSomePrevInObjectChainNull(ObjectChain *_ObjectChain, Word Num){
+  if (_ObjectChain==NULL) return 1;
+  char IsNull=0;
+  while (Num--){
+    if (_ObjectChain->Prev==NULL){
+      IsNull=1;
+      break;
+    }_ObjectChain=_ObjectChain->Prev;
+  }
+  return IsNull;
+}
+char IsSomeNextInObjectChainNull(ObjectChain *_ObjectChain, Word Num){
+  if (_ObjectChain==NULL) return 1;
+  char IsNull=0;
+  while (Num--){
+    if (_ObjectChain->Next==NULL){
+      IsNull=1;
+      break;
+    }_ObjectChain=_ObjectChain->Next;
+  }
+  return IsNull;
+}
+
+char PushToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink){
+  if (!_GoBottom(&_ObjectChainLink)) return 0;
+  if (!_GoTop(&_ObjectChain)) {
+    MakeInstanceOfObjectInObjectChain(_ObjectChain, _ObjectChainLink);
+    return 1;
+  }// _ObjectChain NULL
+  _ObjectChain->Prev=_ObjectChainLink;
+  _ObjectChainLink->Next=_ObjectChain;
+  return 1;
+}
+char AppendToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink){
+  if (!_GoTop(&_ObjectChainLink)) return 0;
+  if (!_GoBottom(&_ObjectChain)) {
+    MakeInstanceOfObjectInObjectChain(_ObjectChain, _ObjectChainLink);
+    return 1;
+  }// _ObjectChain NULL
+  _ObjectChain->Next=_ObjectChainLink;
+  _ObjectChainLink->Prev=_ObjectChain;
+  return 1;
+}
+char InsertToObjectChain(ObjectChain *_ObjectChain, ObjectChain *_ObjectChainLink){
+  if (!_GoTop(&_ObjectChainLink)) return 0;
+  if (_ObjectChain==NULL) {
+    MakeInstanceOfObjectInObjectChain(_ObjectChain, _ObjectChainLink);
+    return 1;
+  }// _ObjectChain NULL
+  _ObjectChainLink->Prev=_ObjectChain;
+  if (IsNextInObjectChainNull(_ObjectChain)) return 1;
+  _ObjectChain=_ObjectChain->Next;
+  _ObjectChain->Prev->Next=_ObjectChainLink;
+  _GoBottom(&_ObjectChainLink);
+  _ObjectChainLink->Next=_ObjectChain;
+  _ObjectChain->Prev=_ObjectChainLink;
+  return 1;
+}// Insert follow current nod
+char PushNewToObjectChain(ObjectChain *_ObjectChain){
+  ObjectChain *_BlankObjectChain;
+  if (!(_BlankObjectChain=new ObjectChain)) return 0;
+  return PushToObjectChain(_ObjectChain, _BlankObjectChain);
+}
+char AppendNewToObjectChain(ObjectChain *_ObjectChain){
+  ObjectChain *_BlankObjectChain;
+  if (!(_BlankObjectChain=new ObjectChain)) return 0;
+  return AppendToObjectChain(_ObjectChain, _BlankObjectChain);
+}
+char InsertNewToObjectChain(ObjectChain *_ObjectChain){
+  ObjectChain *_BlankObjectChain;
+  if (!(_BlankObjectChain=new ObjectChain)) return 0;
+  return InsertToObjectChain(_ObjectChain, _BlankObjectChain);
+}// Insert blank object follow current nod
+
+char DistilInObjectChain(ObjectChain *_ObjectChain){
+  if (!_GoTop(&_ObjectChain)) return 0;
+  _ObjectChain=_ObjectChain->Next;
+  delete _ObjectChain->Prev;
+  _ObjectChain->Prev=NULL;
+  return 1;
+}// Delete the Top Object !!! Be sure _ObjectChain wasn't in TOP !!!
+char PullInObjectChain(ObjectChain *_ObjectChain){
+  if (!_GoBottom(&_ObjectChain)) return 0;
+  _ObjectChain=_ObjectChain->Prev;
+  delete _ObjectChain->Next;
+  _ObjectChain->Next=NULL;
+  return 1;
+}// Delete the Bottom Object !!! Be sure _ObjectChain wasn't in BOTTOM !!!
+char DeletePrevInObjectChain(ObjectChain *_ObjectChain){
+  if (!IsSomePrevInObjectChainNull(_ObjectChain, 1)) return 0;
+  ObjectChain *LastObjectChain=_ObjectChain->Prev;
+  if (LastObjectChain->Prev==NULL) {
+    delete LastObjectChain;
+    _ObjectChain->Prev=NULL;
+    return 1;
+  }
+  _ObjectChain->Prev->Prev->Next=_ObjectChain;
+  _ObjectChain->Prev=_ObjectChain->Prev->Prev;
+  delete LastObjectChain;
+  return 1;
+}// Delete the nod before current nod
+char DeleteNextInObjectChain(ObjectChain *_ObjectChain){
+  if (!IsSomeNextInObjectChainNull(_ObjectChain, 1)) return 0;
+  ObjectChain *LastObjectChain=_ObjectChain->Next;
+  if (LastObjectChain->Next==NULL) {
+    delete LastObjectChain;
+    _ObjectChain->Next=NULL;
+    return 1;
+  }
+  _ObjectChain->Next->Next->Prev=_ObjectChain;
+  _ObjectChain->Next=_ObjectChain->Next->Next;
+  delete LastObjectChain;
+  return 1;
+}// Delete the nod behind current nod
+char DeleteCurrentInObjectChain(ObjectChain **_ObjectChain){
+  if ((IsPrevInObjectChainNull(*_ObjectChain))||(IsNextInObjectChainNull(*_ObjectChain))) return 0;
+  ObjectChain *LastObjectChain=(*_ObjectChain);
+  (*_ObjectChain)=(*_ObjectChain)->Next;
+  (*_ObjectChain)->Prev=(*_ObjectChain)->Prev->Prev;
+  (*_ObjectChain)->Prev->Next=(*_ObjectChain);
+  delete LastObjectChain;
+  return 1;
+}
+char DeleteSomePrevInObjectChain(ObjectChain *_ObjectChain, Word Num){
+  if (IsPrevInObjectChainNull(_ObjectChain)) return 0;
+  ObjectChain *_pOriginObjectChain=_ObjectChain;
+  while ((Num--)&&(_ObjectChain->Prev!=NULL)) {
+    ObjectChain *_LastObjectChain=_ObjectChain;
+    _ObjectChain=_ObjectChain->Prev;
+    delete _LastObjectChain;
+  }
+  if (_ObjectChain==NULL) _pOriginObjectChain->Prev=NULL;
+  else {
+    _ObjectChain->Next=_pOriginObjectChain;
+    _pOriginObjectChain->Prev=_ObjectChain;
+  }
+  return 1;
+}
+char DeleteSomeNextInObjectChain(ObjectChain *_ObjectChain, Word Num){
+  if (IsNextInObjectChainNull(_ObjectChain)) return 0;
+  ObjectChain *_pOriginObjectChain=_ObjectChain;
+  while ((Num--)&&(_ObjectChain->Next!=NULL)) {
+    ObjectChain *_LastObjectChain=_ObjectChain;
+    _ObjectChain=_ObjectChain->Next;
+    delete _LastObjectChain;
+  }
+  if (_ObjectChain==NULL) _pOriginObjectChain->Next=NULL;
+  else {
+    _ObjectChain->Prev=_pOriginObjectChain;
+    _pOriginObjectChain->Next=_ObjectChain;
+  }
+  return 1;
+}
+char DeleteObjectChain(ObjectChain **_ObjectChain){
+  if (!_GoTop(_ObjectChain)) return 0;	// Already NULL
+  while (!IsNextInObjectChainNull(*_ObjectChain)){
+    (*_ObjectChain)=(*_ObjectChain)->Next;
+    delete (*_ObjectChain)->Prev;
+  } delete (*_ObjectChain);
+  (*_ObjectChain)=NULL;
+  return 1;
+}
+char ReplaceObjectChain(ObjectChain **_ObjectChainA, ObjectChain *_ObjectChainB){
+  if (!DeleteObjectChain(_ObjectChainA)) return 0;
+  MakeInstanceOfObjectInObjectChain((*_ObjectChainA), _ObjectChainB);
+  return 1;
+}
+
+char BringNextObjectBeforeInObjectChain(ObjectChain *_ObjectChain){
+  if (IsNextInObjectChainNull(_ObjectChain)) return 0;
+  ObjectChain *LastObjectChain=_ObjectChain->Next;
+  _ObjectChain->Prev->Next=LastObjectChain;
+  _ObjectChain->Next=LastObjectChain->Next;
+  LastObjectChain->Next=LastObjectChain->Prev;
+  LastObjectChain->Prev=_ObjectChain->Prev;
+  _ObjectChain->Prev=LastObjectChain;
+  _ObjectChain->Next->Prev=_ObjectChain;
+  return 1;
+}// swap current nod with next nod !!! Note the nods behind current decreased!!!
+char BringPrevObjectBehindInObjectChain(ObjectChain *_ObjectChain){
+  if (IsPrevInObjectChainNull(_ObjectChain)) return 0;
+  ObjectChain *LastObjectChain=_ObjectChain->Prev;
+  _ObjectChain->Next->Prev=LastObjectChain;
+  _ObjectChain->Prev=LastObjectChain->Prev;
+  LastObjectChain->Prev=LastObjectChain->Next;
+  LastObjectChain->Next=_ObjectChain->Next;
+  _ObjectChain->Next=LastObjectChain;
+  _ObjectChain->Prev->Next=_ObjectChain;
+  return 1;
+}// swap current nod with prev nod !!! Note the nods before current decreased !!!
+char SwapPrevObjectWithNextObjectInObjectChain(ObjectChain *_ObjectChain){
+  if ((IsNextInObjectChainNull(_ObjectChain))||(IsPrevInObjectChainNull(_ObjectChain))) return 0;
+  ObjectChain *_Before=_ObjectChain->Prev, *_Behind=_ObjectChain->Next;
+  _Before->Prev->Next=_Behind;
+  _Before->Next=_Behind->Next;
+  _Behind->Next->Prev=_Before;
+  _Behind->Prev=_Before->Prev;
+  _ObjectChain->Next=_Before;
+  _Behind->Next=_ObjectChain;
+  _ObjectChain->Prev=_Behind;
+  _Before->Prev=_ObjectChain;
+  return 1;
+}// swap the two nod beside current nod
+char CommonSwapObjectBetweenObjectChain(ObjectChain **_ObjectChainA, ObjectChain **_ObjectChainB){
+  if ((_ObjectChainA==NULL)||(_ObjectChainB==NULL)) return 0;
+  ObjectChain *_ObjectChainANext=(*_ObjectChainA)->Next;
+  ObjectChain *_ObjectChainBNext=(*_ObjectChainB)->Next;
+  ObjectChain *_ObjectChainC;
+  _ObjectChainC=(*_ObjectChainA)->Prev->Next;
+  (*_ObjectChainA)->Prev->Next=(*_ObjectChainB)->Prev->Next;
+  (*_ObjectChainB)->Prev->Next=_ObjectChainC;
+  _ObjectChainC=(*_ObjectChainA)->Next;
+  (*_ObjectChainA)->Next=(*_ObjectChainB)->Next;
+  (*_ObjectChainB)->Next=_ObjectChainC;
+  _ObjectChainC=_ObjectChainANext->Prev;
+  _ObjectChainANext->Prev=_ObjectChainBNext->Prev;
+  _ObjectChainBNext->Prev=_ObjectChainC;
+  _ObjectChainC=(*_ObjectChainA)->Prev;
+  (*_ObjectChainA)->Prev=(*_ObjectChainB)->Prev;
+  (*_ObjectChainB)->Prev=_ObjectChainC;
+  _ObjectChainC=*_ObjectChainA;
+  *_ObjectChainA=*_ObjectChainB;
+  *_ObjectChainB=_ObjectChainC;
+  return 1;
+} // !!! Do not use the format as PassObject->Prev, it is forbidden.
+
+void MakeInstanceOfObjectInObjectChain(ObjectChain *_MakeInstance, ObjectChain *_ObjectChain){
+  _MakeInstance->Prev=_ObjectChain->Prev;
+  _MakeInstance->Next=_ObjectChain->Next;
+  _MakeInstance->SubPrev=_ObjectChain->SubPrev;
+  _MakeInstance->SubNext=_ObjectChain->SubNext;
+  _MakeInstance->Name=_ObjectChain->Name;
+  _MakeInstance->Data=_ObjectChain->Data;
+}// Only Copy the Pointers in _ObjectChain To _MakeInstance
+
+/*
+// Debug
+#include <stdio.h>
+#include "TString.h"
+
+void DumpObjectChain(ObjectChain *_ObjectChain, char *Title="This ObjectChain"){
+  _GoTop(&_ObjectChain);
+  printf("%s", Title);
+  while (_ObjectChain!=NULL){
+    printf("-: this=%p <-%p %p-> Name=%s\n", _ObjectChain, _ObjectChain->Prev, _ObjectChain->Next, _ObjectChain->Name);
+    _ObjectChain=_ObjectChain->Next;
+  }
+}
+void DumpThis(ObjectChain *_ObjectChain, char *Title=""){
+  printf("%s", Title);
+  printf("-: this=%p <-%p %p-> Name=%s\n", _ObjectChain, _ObjectChain->Prev, _ObjectChain->Next, _ObjectChain->Name);
+}
+// Debug
+
+void main(){
+  ObjectChain *test1, *test2;
+  ObjectChain *temp;
+  test1=new ObjectChain;
+  strinit(&test1->Name, "Class A---1");
+  temp=new ObjectChain;
+  strinit(&temp->Name, "Class A---2");
+  AppendToObjectChain(test1, temp);
+  temp=new ObjectChain;
+  strinit(&temp->Name, "Class A---3");
+  AppendToObjectChain(test1, temp);
+  temp=new ObjectChain;
+  strinit(&temp->Name, "Class A---4");
+  AppendToObjectChain(test1, temp);
+
+  test2=new ObjectChain;
+  strinit(&test2->Name, "Class B+++1");
+  temp=new ObjectChain;
+  strinit(&temp->Name, "Class B+++2");
+  AppendToObjectChain(test2, temp);
+  temp=new ObjectChain;
+  strinit(&temp->Name, "Class B+++3");
+  AppendToObjectChain(test2, temp);
+
+  _GoNext(&test1); _GoNext(&test2);
+  ObjectChain *testx=test1->Next;
+
+  CommonSwapObjectBetweenObjectChain(&test1, &testx);
+
+  DumpObjectChain(test1, "\nNo.2 -----\n");
+  DumpThis(test1, "Current 1-");
+}
+*/

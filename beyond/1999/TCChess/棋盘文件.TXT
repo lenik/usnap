@@ -1,0 +1,37 @@
+Attribute VB_Name = "Module1"
+
+棋盘数据文件格式约定
+
+
+1. 基本设置
+
+[GAME]
+  Name = 游戏名称
+  BOARDIMAGE = 棋盘图像文件 (可以是 .jpg, .bmp)
+
+2. 主棋盘参数
+
+[CHESS]
+  AREASNUM = 区域数
+  TURNINGWASTE = 转弯耗费
+
+3. 区域参数
+
+[AREA n]        ; n: 0 .. CHESSBOARD.AREASNUM
+  Name = 缺省名称
+
+  SORTABLE = 排序方式: 0 固定, 1 随机, 2 自定义
+  PLAYABLE = 0 玩家可参加, 1 不可参加
+
+  BUTTONSNUM = 缺省棋子数
+
+  BUTTON<n> = <棋子名称>, <棋子图像文件>, <棋子风格>, <棋权>,
+        ' 棋子风格: 核心子&1 同归于尽&2 侦探&8
+
+  NODESNUM = 结点数
+
+  NODE<n> = x1, y1, x2, y2, <结点风格>, <通道数>, <默认驻留棋子>
+        ; x1, y1, x2, y2: 结点占地
+        ; 结点风格:
+  NODE<n>LINK<m> = <N1>, <N2>, <通道风格> ; n棋子第m通道数据
+        ; <N1>, <N2>: 结点表示法

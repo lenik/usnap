@@ -1,0 +1,346 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\TCalc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\TCalc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 TCalc"
+FONT 9, "宋体"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "TCalc 1.0 版",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "版权所有 (C) 2000",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_TCALC_DIALOG DIALOGEX 0, 0, 328, 161
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "桃壳软件 TC-Soft\t微型计算器 Turbo/Tiny Calculator"
+MENU IDR_MENU_TCALC
+FONT 9, "宋体"
+BEGIN
+    EDITTEXT        IDC_EDIT_SCREEN,125,7,196,13,ES_RIGHT | ES_AUTOHSCROLL
+    GROUPBOX        "",IDC_STATIC,7,26,190,21
+    CONTROL         "十六进制",IDC_RADIO_16,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE | WS_GROUP,13,33,48,10
+    CONTROL         "十进制",IDC_RADIO_10,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE,63,33,40,10
+    CONTROL         "八进制",IDC_RADIO_8,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE,105,33,40,10
+    CONTROL         "二进制",IDC_RADIO_2,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE,148,33,40,10
+    GROUPBOX        "",IDC_STATIC,200,26,113,21
+    CONTROL         "度数",IDC_RADIO_DEGREE,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE | WS_GROUP,205,33,32,10
+    CONTROL         "弧度",IDC_RADIO_ARC,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE,241,33,32,10
+    CONTROL         "梯度",IDC_RADIO_TI,"Button",BS_AUTORADIOBUTTON |
+                    BS_PUSHLIKE,275,33,32,10
+    GROUPBOX        "",IDC_STATIC,7,45,70,21
+    CONTROL         "Inv",IDC_CHECK_INV,"Button",BS_AUTOCHECKBOX |
+                    BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,13,53,28,10
+    CONTROL         "Hyp",IDC_CHECK_HYP,"Button",BS_AUTOCHECKBOX |
+                    BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,44,53,28,10
+    LTEXT           "( )",IDC_STATIC_PARENTHESE,80,49,13,8
+    RTEXT           "0",IDC_STATIC_PNEST,95,49,15,17,SS_CENTERIMAGE,
+                    WS_EX_CLIENTEDGE
+    CONTROL         "MemoryA",IDC_CHECK_MEMORYA,"Button",BS_AUTOCHECKBOX |
+                    BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,114,49,50,10
+    CONTROL         "MemoryB",IDC_CHECK_MEMORYB,"Button",BS_AUTOCHECKBOX |
+                    BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,114,59,50,10
+    PUSHBUTTON      "+",IDC_BUTTON_ADDA,166,49,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "-",IDC_BUTTON_SUBA,174,49,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      ">",IDC_BUTTON_RECALLA,184,49,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "+",IDC_BUTTON_ADDB,166,59,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "-",IDC_BUTTON_SUBB,174,59,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      ">",IDC_BUTTON_RECALLB,184,59,8,9,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "退格",IDC_BUTTON_BACKSPACE,203,50,37,17
+    PUSHBUTTON      "CE",IDC_BUTTON_CE,244,50,21,17
+    PUSHBUTTON      "C",IDC_BUTTON_C,269,50,14,17
+    PUSHBUTTON      "Sta",IDC_BUTTON_STA,7,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Ave",IDC_BUTTON_AVE,7,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Sum",IDC_BUTTON_SUM,7,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "s",IDC_BUTTON_S,7,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Dat",IDC_BUTTON_DAT,7,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "F-E",IDC_BUTTON_F_E,29,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "dms",IDC_BUTTON_DMS,29,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "sin",IDC_BUTTON_SIN,29,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "cos",IDC_BUTTON_COS,29,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "tan",IDC_BUTTON_TAN,29,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "(",IDC_BUTTON_PLEFT,49,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Exp",IDC_BUTTON_EXP,49,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "x^y",IDC_BUTTON_X_Y,49,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "x^3",IDC_BUTTON_X_3,49,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "x^2",IDC_BUTTON_X_2,49,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      ")",IDC_BUTTON_PRIGHT,69,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "ln",IDC_BUTTON_LN,69,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "log",IDC_BUTTON_LOG,69,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "n!",IDC_BUTTON_N_1,69,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "1/x",IDC_BUTTON_1_X,69,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "C1",IDC_BUTTON_C1,93,73,17,14,BS_CENTER | BS_VCENTER |
+                    WS_DISABLED
+    PUSHBUTTON      "C2",IDC_BUTTON_C2,93,88,17,14,BS_CENTER | BS_VCENTER |
+                    WS_DISABLED
+    PUSHBUTTON      "C3",IDC_BUTTON_C3,93,103,17,14,BS_CENTER | BS_VCENTER |
+                    WS_DISABLED
+    PUSHBUTTON      "C4",IDC_BUTTON_C4,93,118,17,14,BS_CENTER | BS_VCENTER |
+                    WS_DISABLED
+    PUSHBUTTON      "pi",IDC_BUTTON_PI,93,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "7",IDC_BUTTON_7,114,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "4",IDC_BUTTON_4,114,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "1",IDC_BUTTON_1,114,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "0",IDC_BUTTON_0,114,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "A",IDC_BUTTON_HA,114,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "8",IDC_BUTTON_8,134,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "5",IDC_BUTTON_5,134,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "2",IDC_BUTTON_2,134,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "+/-",IDC_BUTTON_SIGN,134,118,17,14,BS_CENTER |
+                    BS_VCENTER
+    PUSHBUTTON      "B",IDC_BUTTON_HB,134,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "9",IDC_BUTTON_9,154,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "6",IDC_BUTTON_6,154,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "3",IDC_BUTTON_3,154,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      ".",IDC_BUTTON_POINT,154,118,17,14,BS_CENTER |
+                    BS_VCENTER
+    PUSHBUTTON      "C",IDC_BUTTON_HC,154,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "/",IDC_BUTTON_DIV,174,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "*",IDC_BUTTON_MUL,174,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "-",IDC_BUTTON_SUB,174,103,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "+",IDC_BUTTON_ADD,174,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "D",IDC_BUTTON_HD,174,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Mod",IDC_BUTTON_MOD,194,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Or",IDC_BUTTON_OR,194,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Lsh",IDC_BUTTON_LSH,194,103,17,14,BS_CENTER |
+                    BS_VCENTER
+    PUSHBUTTON      "=",IDC_BUTTON_CALC,194,118,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "E",IDC_BUTTON_HE,194,133,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "And",IDC_BUTTON_AND,214,73,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Xor",IDC_BUTTON_XOR,214,88,17,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Not",IDC_BUTTON_NOT,214,103,17,14,BS_CENTER |
+                    BS_VCENTER
+    PUSHBUTTON      "Int",IDC_BUTTON_INT,214,118,17,14,BS_CENTER |
+                    BS_VCENTER
+    PUSHBUTTON      "F",IDC_BUTTON_HF,214,133,17,14,BS_CENTER | BS_VCENTER
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "TCalc Microsoft 基础类应用程序\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "TCalc\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2000\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "TCalc.EXE\0"
+            VALUE "ProductName", "TCalc 应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_TCALC_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 321
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 154
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_TCALC MENU DISCARDABLE
+BEGIN
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy\tCtrl-C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl-V",              ID_EDIT_PASTE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Standard\tCtrl-N",           ID_VIEW_STANDARD
+        MENUITEM "S&cience\tCtrl-E",            ID_VIEW_SCIENCE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Turbo Calc",           ID_HELP_ABOUT
+        MENUITEM SEPARATOR
+        MENUITEM "&Content\tF1",                ID_HELP_CONTENT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR_TCALC ACCELERATORS DISCARDABLE
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_VIEW_SCIENCE,        VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_VIEW_STANDARD,       VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_F1,          ID_HELP_CONTENT,        VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_ABOUTBOX            "关于 TCalc(&A)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\TCalc.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

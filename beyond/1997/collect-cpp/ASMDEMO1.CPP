@@ -1,0 +1,8 @@
+
+void main() {
+	asm {
+		mov	ax, 0x0013
+		int	0x10
+
+		mov	ax, 0x0003
+		int	0x10

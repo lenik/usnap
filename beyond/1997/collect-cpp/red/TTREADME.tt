@@ -1,0 +1,93 @@
+/Txe
+mz
+m0
+  TTYPE is a tool useful!
+z
+m0
+	   Topcroak ¯ Text Yare Publishing Exhibition ® version x
+
+		      R e a d m e   -   A b o u t   T T Y P E
+
+	   TTYPE is a useful tool helping display a textfile or TT
+	   file, it is easy to use and interesting.
+	     I write it just for display program sources and inter-
+	   pute lists at first, at last I think it may a good idea
+	   developed it as a text tool for you, so I rewrite all
+	   sources and delivered it.
+	     Thank you for using this software, if you like it send
+	   me a postcard, I'll very happy. Also I want you tell me
+	   what's went wrong so I can update it.
+	     That's all.
+
+	   Press any key return to main menu, or press '1' see Usage.
+
+	   Topcroak Software
+	   Author - DanSei - 98 - CHINA
+P
+MP
+	   e.g.
+	   TTYPE TTReadme.Doc /pm
+	   TTYPE ABC.TXT /z
+	   TTYPE Dog.com /b /t
+
+	   Press any key return to main menu.
+
+	   Topcroak Software
+	   Author - DanSei - 98 - CHINA
+P
+m1
+	   Topcroak ¯ Text Yare Publishing Exhibition ® version x
+
+		      R e a d m e   -   U s a g e
+
+	   TTYPE <Filename> [/pmznbst]
+	   p: Paging	Pause when displayed one page
+	   m: Mone	Display in mono mode
+	   z: end on ^Z	Treat EOF char as the end sign
+	   n: Normal	Display TT file as text file
+	   b: dump Bin	Display in dump mode
+	   s: Silent	Don't make noise
+	   t: no Title	Don't Display title
+
+	   Press down key to see examples.
+
+	   Topcroak Software
+	   Author - DanSei - 98 - CHINA
+P
+m?
+	   Topcroak ¯ Text Yare Publishing Exhibition ® version x
+
+		      R e a d m e   -   M e n u
+
+	     Press:  0 - About TTYPE         E-mail:  dansei@126.net
+		     1 - Usage               Tel: (+86) 0576-7444659
+		     2 - About TT File       Add: 11# Chengdong Rd.,
+		     3 - Write TT File            Chumen of Yuhuan,
+		     4 - TT File Format           Zhejiang, China.
+		 <Esc> - Return to command line       [Post: 317605]
+
+	   Topcroak Software
+	   Author - DanSei - 98 - CHINA
+P
+E
+
+       T O P C R O A K	 S O F T W A R E
+
+
+       T E X T	 Y A R E   P U B L I S H I N G	 E X H I B I T I O N
+
+			   V E R S I O N   X
+
+
+
+
+			    R E A D M E
+
+
+
+       P r e s s   a n y   k e y   t o	 c o n t i n u e . . .
+
+
+       T o p c r o a k	 S o f t w a r e
+       A u t h o r   -	 D a n S e i   -   9 8	 -   C H I N A
+P

@@ -1,0 +1,126 @@
+<VisualStudioProject>
+    <VisualBasic
+        ProjectType = "Local"
+        ProductVersion = "7.0.9414"
+        SchemaVersion = "1.0"
+        ProjectGuid = "{38753FF5-D625-4675-A20E-754DF7BF075D}"
+    >
+        <Build>
+            <Settings
+                AssemblyName = "LeftTime"
+                OutputType = "WinExe"
+                StartupObject = "LeftTime.frmSelectProject"
+                AssemblyMajorVersion = "3"
+                AssemblyMinorVersion = "1"
+                AssemblyRevisionNumber = "23"
+                GenerateRevisionNumber = "True"
+                AssemblyCompanyName = "TopCroak HiTech Development Ltd."
+                StartWithIE = "False"
+                RootNamespace = "LeftTime"
+            >
+                <Config
+                    Name = "Debug"
+                    DebugSymbols = "True"
+                    DefineDebug = "True"
+                    DefineTrace = "True"
+                    OutputPath = ".\bin\"
+                    DefineConstants = "Win32 = True"
+                    StartArguments = ""
+                />
+                <Config
+                    Name = "Release"
+                    DebugSymbols = "False"
+                    DefineDebug = "False"
+                    DefineTrace = "True"
+                    OutputPath = ".\bin\"
+                    DefineConstants = "Win32 = True"
+                    StartArguments = ""
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.XML"
+                />
+                <Reference
+                    Name = "Microsoft.VisualBasic.Compatibility"
+                    AssemblyName = "Microsoft.VisualBasic.Compatibility"
+                />
+            </References>
+            <Imports>
+                <Import Namespace = "Microsoft.VisualBasic" />
+                <Import Namespace = "Microsoft.VisualBasic.Compatibility" />
+                <Import Namespace = "System" />
+                <Import Namespace = "System.Collections" />
+                <Import Namespace = "System.Data" />
+                <Import Namespace = "System.Drawing" />
+                <Import Namespace = "System.Diagnostics" />
+                <Import Namespace = "System.Windows.Forms" />
+            </Imports>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "frmSelectProject.vb"
+                    BuildAction = "Compile"
+                    SubType = "Form"
+                />
+                <File
+                    RelPath = "modTopMost.vb"
+                    BuildAction = "Compile"
+                    SubType = "Code"
+                />
+                <File
+                    RelPath = "frmSet.vb"
+                    BuildAction = "Compile"
+                    SubType = "Form"
+                />
+                <File
+                    RelPath = "frmMain.vb"
+                    BuildAction = "Compile"
+                    SubType = "Form"
+                />
+                <File
+                    RelPath = "frmSelectProject.resX"
+                    DependentUpon = "frmSelectProject.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "frmSet.resX"
+                    DependentUpon = "frmSet.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "frmMain.resX"
+                    DependentUpon = "frmMain.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "AssemblyInfo.vb"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "_UpgradeReport.htm"
+                    BuildAction = "None"
+                    SubType = "Preview"
+                />
+            </Include>
+        </Files>
+    </VisualBasic>
+</VisualStudioProject>

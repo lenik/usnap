@@ -1,0 +1,20 @@
+SCREEN 9
+CLS
+DIM c AS STRING * 1
+OPEN "list" FOR INPUT AS #2
+DO WHILE NOT EOF(2)
+INPUT #2, fi$
+OPEN fi$ FOR BINARY AS #1 'LEN = 1
+SEEK #1, 127
+'FIELD #1, 1 AS integer
+FOR y = 32 TO 1 STEP -1
+  FOR x = 1 TO 32 STEP 2
+    GET #1, , c
+    PSET (x + 100, y + 100), ASC(c) MOD 16
+    PSET (x + 99, y + 100), ASC(c) \ 16
+
+NEXT: NEXT
+d$ = INPUT$(1)
+CLOSE #1
+LOOP
+CLOSE #2

@@ -1,0 +1,633 @@
+
+                  ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+                          SOURCER DEFINITION FILE
+                  ‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+ ±±±±±±±±±±±±±±±±±± Section 1: CONTROL INFORMATION   ±±±±±±±±±±±±±±±±±±
+
+Analysis Options = a b c d e f g h i j k l m n o p q r s t u v w x y z
+uP               = 8088
+File format      = asm
+Word style UPPER
+Label type       = Decimal
+Remarks          = All
+Segment display  = OFF
+Target Assembler = TASM-3.2, byte match
+Input filename   = aiscan.exe
+Code style       = Exe
+Header           = Press any key to continue...
+Drive (output)   = V
+Output filename  = aiscan.asm
+Passes           = 5
+Xref             = OFF
+
+
+
+ ±±±±±±±±±±±±±±±±±± Section 2: RANGE DEFINITION      ±±±±±±±±±±±±±±±±±±
+
+ ÕÕÕÕ Segments ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+
+  begin      end      default	   seg	 seg          seg
+ seg:off     off     ds     es	   type	 size         value
+ -------     ----    ----   ----   ----- -----        -----
+SEG_A:0000   1A4F    SEG_B  SEG_B  AUTO	 USE16       ; 8FCB
+SEG_B:0000   096F    SEG_B  SEG_B  AUTO	 USE16       ; 9170
+SEG_C:0000   03FF    0000   0000   STACK USE16       ; 9207
+
+ ±±±±±±±±±±±±±±±±±± Section 3: REFERENCE DEFINITIONS ±±±±±±±±±±±±±±±±±±
+
+ ÕÕÕÕ Subroutines ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+  seg:off    type & options	labels & comments
+  -------    --------------	----------------------------------------------
+SEG_A:001F   SUB			       ; SUB_1
+SEG_A:0097   SUB			       ; SUB_2
+SEG_A:00CA   SUB			       ; SUB_3
+SEG_A:00DE   SUB			       ; SUB_4
+SEG_A:01B4   SUB			       ; SUB_5
+SEG_A:03D9   SUB			       ; SUB_6
+SEG_A:0487   SUB			       ; SUB_7
+SEG_A:04E3   SUB			       ; SUB_8
+SEG_A:05AC   SUB			       ; SUB_9
+SEG_A:05FF   SUB			       ; SUB_10
+SEG_A:07B8   SUB			       ; SUB_11
+SEG_A:080F   SUB			       ; SUB_12
+SEG_A:0871   SUB			       ; SUB_13
+SEG_A:0918   SUB			       ; SUB_14
+SEG_A:091F   SUB			       ; SUB_15
+SEG_A:09C6   SUB			       ; SUB_16
+SEG_A:0A1F   SUB			       ; SUB_17
+SEG_A:0A9D   SUB			       ; SUB_18
+SEG_A:0BA7   SUB			       ; SUB_19
+SEG_A:0BDF   SUB			       ; SUB_20
+SEG_A:0C9C   SUB			       ; SUB_21
+SEG_A:0CD4   SUB			       ; SUB_22
+SEG_A:0D3A   SUB			       ; SUB_23
+SEG_A:0E85   SUB			       ; SUB_24
+SEG_A:0EBB   SUB			       ; SUB_25
+SEG_A:0F21   SUB			       ; SUB_26
+SEG_A:0F63   SUB			       ; SUB_27
+SEG_A:0FD5   SUB			       ; SUB_28
+SEG_A:107C   SUB			       ; SUB_29
+SEG_A:1472   SUB			       ; SUB_30
+
+ ÕÕÕÕ Locations ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+  seg:off    type & options	labels & comments
+  -------    --------------	----------------------------------------------
+SEG_A:0024   LOC			       ; LOC_1
+SEG_A:002D   LOC			       ; LOC_2
+SEG_A:0060   FORCED, OD SEG_A
+SEG_A:0079   LOC			       ; LOC_3
+SEG_A:0083   LOC			       ; LOC_4
+SEG_A:008D   LOC			       ; LOC_5
+SEG_A:00CC   FORCED, OD SEG_A
+SEG_A:00F8   LOC			       ; LOC_6
+SEG_A:0100   LOC			       ; LOC_7
+SEG_A:0120   LOC			       ; LOC_8
+SEG_A:0128   LOC			       ; LOC_9
+SEG_A:0148   LOC			       ; LOC_10
+SEG_A:0150   LOC			       ; LOC_11
+SEG_A:0170   LOC			       ; LOC_12
+SEG_A:0172   LOC			       ; LOC_13
+SEG_A:0197   LOC			       ; LOC_14
+SEG_A:01AB   LOC			       ; LOC_15
+SEG_A:03E3   FORCED, OD SEG_A
+SEG_A:03E6   LOC			       ; LOC_16
+SEG_A:03F5   LOC			       ; LOC_17
+SEG_A:0412   LOC			       ; LOC_18
+SEG_A:042E   LOC			       ; LOC_19
+SEG_A:0436   LOC			       ; LOC_20
+SEG_A:043A   LOC			       ; LOC_21
+SEG_A:043C   LOC			       ; LOC_22
+SEG_A:0440   LOC			       ; LOC_23
+SEG_A:0442   LOC			       ; LOC_24
+SEG_A:0460   LOC			       ; LOC_25
+SEG_A:0464   LOC			       ; LOC_26
+SEG_A:0468   LOC			       ; LOC_27
+SEG_A:046F   LOC			       ; LOC_28
+SEG_A:0473   LOC			       ; LOC_29
+SEG_A:0475   LOC			       ; LOC_30
+SEG_A:047E   LOC			       ; LOC_31
+SEG_A:048F   FORCED, OD 5E19
+SEG_A:04A0   LOC			       ; LOC_32
+SEG_A:04A7   LOC			       ; LOC_33
+SEG_A:04B8   LOC			       ; LOC_34
+SEG_A:04BD   LOC			       ; LOC_35
+SEG_A:04C8   LOC			       ; LOC_36
+SEG_A:04D9   LOC			       ; LOC_37
+SEG_A:04E0   LOC			       ; LOC_38
+SEG_A:04F9   LOC			       ; LOC_39
+SEG_A:0501   LOC			       ; LOC_40
+SEG_A:051B   LOC			       ; LOC_41
+SEG_A:0523   LOC			       ; LOC_42
+SEG_A:053D   LOC			       ; LOC_43
+SEG_A:0545   LOC			       ; LOC_44
+SEG_A:055F   LOC			       ; LOC_45
+SEG_A:0561   LOC			       ; LOC_46
+SEG_A:05D7   LOC			       ; LOC_47
+SEG_A:05DD   FORCED, OD SEG_A
+SEG_A:05E8   LOC			       ; LOC_48
+SEG_A:05EA   FORCED, OD SEG_A
+SEG_A:0601   FORCED, OD SEG_B
+SEG_A:0604   LOC			       ; LOC_49
+SEG_A:0622   LOC			       ; LOC_50
+SEG_A:0627   LOC			       ; LOC_51
+SEG_A:062C   LOC			       ; LOC_52
+SEG_A:062D   LOC			       ; LOC_53
+SEG_A:0642   LOC			       ; LOC_54
+SEG_A:0646   LOC			       ; LOC_55
+SEG_A:066A   LOC			       ; LOC_56
+SEG_A:0672   LOC			       ; LOC_57
+SEG_A:0684   LOC			       ; LOC_58
+SEG_A:068C   LOC			       ; LOC_59
+SEG_A:0694   LOC			       ; LOC_60
+SEG_A:069C   LOC			       ; LOC_61
+SEG_A:06A8   LOC			       ; LOC_62
+SEG_A:06C0   LOC			       ; LOC_63
+SEG_A:06D0   LOC			       ; LOC_64
+SEG_A:06D3   LOC			       ; LOC_65
+SEG_A:06E0   LOC			       ; LOC_66
+SEG_A:06ED   LOC			       ; LOC_67
+SEG_A:0725   LOC		?
+SEG_A:0739   LOC, FAR		INT_23H_ENTRY
+SEG_A:074F   FORCED, OD SEG_A
+SEG_A:0764   FORCED, OD SEG_A
+SEG_A:0778   LOC			       ; LOC_68
+SEG_A:0789   LOC		?
+SEG_A:078B   LOC, FAR		INT_24H_ENTry
+SEG_A:0793   LOC			       ; LOC_69
+SEG_A:07B8   FORCED, OD SEG_B
+SEG_A:07CE   LOC			       ; LOC_70
+SEG_A:07E3   LOC			       ; LOC_71
+SEG_A:07E7   LOC			       ; LOC_72
+SEG_A:07F0   FORCED, OD SEG_B
+SEG_A:07FE   FORCED, OD SEG_B
+SEG_A:07FE   LOC			       ; LOC_73
+SEG_A:0801   FORCED, OD SEG_B
+SEG_A:0804   LOC			       ; LOC_74
+SEG_A:080C   LOC			       ; LOC_75
+SEG_A:0812   LOC			       ; LOC_76
+SEG_A:081E   FORCED, OD SEG_B
+SEG_A:0821   LOC			       ; LOC_77
+SEG_A:0832   FORCED, OD SEG_B
+SEG_A:0832   LOC			       ; LOC_78
+SEG_A:0835   LOC			       ; LOC_79
+SEG_A:0843   FORCED, OD SEG_PSP
+SEG_A:0855   LOC			       ; LOC_80
+SEG_A:085D   LOC			       ; LOC_81
+SEG_A:0867   LOC			       ; LOC_82
+SEG_A:0871   FORCED, OD SEG_B
+SEG_A:0916   LOC		?
+SEG_A:09C8   FORCED, OD SEG_B
+SEG_A:09D0   FORCED, OD SEG_B
+SEG_A:09D6   LOC			       ; LOC_83
+SEG_A:09F4   LOC			       ; LOC_84
+SEG_A:09FE   LOC			       ; LOC_85
+SEG_A:0A00   FORCED, OD SEG_B
+SEG_A:0A09   LOC			       ; LOC_86
+SEG_A:0A0B   FORCED, OD 0000
+SEG_A:0A16   FORCED, OD 0000
+SEG_A:0A1F   FORCED, OD SEG_B
+SEG_A:0A29   FORCED, OD SEG_B
+SEG_A:0A3B   FORCED, OD SEG_B
+SEG_A:0A45   FORCED, OD SEG_B
+SEG_A:0A4F   FORCED, OD SEG_B
+SEG_A:0A61   FORCED, OD SEG_B
+SEG_A:0A6B   FORCED, OD SEG_B
+SEG_A:0A75   FORCED, OD SEG_B
+SEG_A:0A87   FORCED, OD SEG_B
+SEG_A:0A9B   LOC		?
+SEG_A:0AB3   LOC			       ; LOC_87
+SEG_A:0ACC   LOC			       ; LOC_88
+SEG_A:0ADC   LOC			       ; LOC_89
+SEG_A:0AFA   LOC			       ; LOC_90
+SEG_A:0B04   LOC			       ; LOC_91
+SEG_A:0B0A   LOC			       ; LOC_92
+SEG_A:0B18   LOC			       ; LOC_93
+SEG_A:0B34   LOC			       ; LOC_94
+SEG_A:0B62   LOC			       ; LOC_95
+SEG_A:0B67   LOC			       ; LOC_96
+SEG_A:0B6F   LOC			       ; LOC_97
+SEG_A:0B77   LOC			       ; LOC_98
+SEG_A:0B7F   LOC			       ; LOC_99
+SEG_A:0B97   LOC			       ; LOC_100
+SEG_A:0BC0   LOC			       ; LOC_101
+SEG_A:0BD1   FORCED, OD SEG_PSP
+SEG_A:0BD1   LOC			       ; LOC_102
+SEG_A:0BD9   LOC			       ; LOC_103
+SEG_A:0BDE   LOC			       ; LOC_RET_104
+SEG_A:0BF7   FORCED, OD SEG_PSP
+SEG_A:0BFC   FORCED, OD SEG_PSP
+SEG_A:0C01   FORCED, OD SEG_PSP
+SEG_A:0C06   FORCED, OD SEG_PSP
+SEG_A:0C0B   FORCED, OD SEG_PSP
+SEG_A:0C13   LOC			       ; LOC_105
+SEG_A:0C20   LOC			       ; LOC_106
+SEG_A:0C59   LOC			       ; LOC_107
+SEG_A:0C5A   FORCED, OD SEG_PSP
+SEG_A:0C65   FORCED, OD SEG_PSP
+SEG_A:0C6F   LOC			       ; LOC_108
+SEG_A:0C70   FORCED, OD 0000
+SEG_A:0C89   LOC			       ; LOC_109
+SEG_A:0C9A   LOC			       ; LOC_110
+SEG_A:0C9C   FORCED, OD 0000
+SEG_A:0CA4   FORCED, OD 0000
+SEG_A:0CC9   FORCED, OD 0000
+SEG_A:0CD3   LOC			       ; LOC_RET_111
+SEG_A:0CD5   FORCED, OD 0000
+SEG_A:0CE8   FORCED, OD SEG_B
+SEG_A:0D02   LOC			       ; LOC_112
+SEG_A:0D11   LOC			       ; LOC_113
+SEG_A:0D12   FORCED, OD 0000
+SEG_A:0D1A   FORCED, OD 0000
+SEG_A:0D24   LOC			       ; LOC_114
+SEG_A:0D25   FORCED, OD 0000
+SEG_A:0D2F   LOC			       ; LOC_115
+SEG_A:0D30   FORCED, OD 0000
+SEG_A:0D4D   LOC			       ; LOC_116
+SEG_A:0D62   FORCED, OD SEG_PSP
+SEG_A:0D67   FORCED, OD SEG_PSP
+SEG_A:0D6C   FORCED, OD SEG_PSP
+SEG_A:0D71   FORCED, OD SEG_PSP
+SEG_A:0D76   FORCED, OD SEG_PSP
+SEG_A:0D7B   FORCED, OD SEG_PSP
+SEG_A:0D80   FORCED, OD SEG_PSP
+SEG_A:0D85   FORCED, OD SEG_PSP
+SEG_A:0D8A   FORCED, OD SEG_PSP
+SEG_A:0DAB   LOC			       ; LOC_117
+SEG_A:0DB4   FORCED, OD SEG_PSP
+SEG_A:0DBF   FORCED, OD SEG_PSP
+SEG_A:0DC9   FORCED, OD SEG_PSP
+SEG_A:0DC9   LOC			       ; LOC_118
+SEG_A:0DD1   LOC			       ; LOC_119
+SEG_A:0DE4   LOC			       ; LOC_120
+SEG_A:0DF7   FORCED, OD SEG_PSP
+SEG_A:0DF7   LOC			       ; LOC_121
+SEG_A:0E04   FORCED, OD SEG_B
+SEG_A:0E0B   LOC			       ; LOCLOOP_122
+SEG_A:0E1F   LOC			       ; LOC_123
+SEG_A:0E3B   LOC			       ; LOC_124
+SEG_A:0E44   FORCED, OD SEG_PSP
+SEG_A:0E4F   FORCED, OD SEG_PSP
+SEG_A:0E59   FORCED, OD SEG_PSP
+SEG_A:0E59   LOC			       ; LOC_125
+SEG_A:0E61   LOC			       ; LOC_126
+SEG_A:0E72   LOC			       ; LOC_127
+SEG_A:0E83   LOC			       ; LOC_128
+SEG_A:0E85   FORCED, OD SEG_PSP
+SEG_A:0E8D   FORCED, OD SEG_PSP
+SEG_A:0EB2   FORCED, OD SEG_PSP
+SEG_A:0EBA   LOC			       ; LOC_RET_129
+SEG_A:0EBC   FORCED, OD SEG_PSP
+SEG_A:0ECF   FORCED, OD SEG_B
+SEG_A:0EE9   LOC			       ; LOC_130
+SEG_A:0EF8   LOC			       ; LOC_131
+SEG_A:0EF9   FORCED, OD SEG_PSP
+SEG_A:0F01   FORCED, OD SEG_PSP
+SEG_A:0F0B   LOC			       ; LOC_132
+SEG_A:0F0C   FORCED, OD 0000
+SEG_A:0F16   LOC			       ; LOC_133
+SEG_A:0F17   FORCED, OD 0000
+SEG_A:0F21   FORCED, OD SEG_PSP
+SEG_A:0F29   FORCED, OD SEG_PSP
+SEG_A:0F59   FORCED, OD SEG_PSP
+SEG_A:0F62   LOC			       ; LOC_RET_134
+SEG_A:0F64   FORCED, OD SEG_PSP
+SEG_A:0F83   FORCED, OD SEG_B
+SEG_A:0F9D   LOC			       ; LOC_135
+SEG_A:0FAC   LOC			       ; LOC_136
+SEG_A:0FAD   FORCED, OD SEG_PSP
+SEG_A:0FB5   FORCED, OD SEG_PSP
+SEG_A:0FBF   LOC			       ; LOC_137
+SEG_A:0FC0   FORCED, OD 0000
+SEG_A:0FCA   LOC			       ; LOC_138
+SEG_A:0FCB   FORCED, OD 0000
+SEG_A:0FDC   FORCED, OD SEG_B
+SEG_A:0FDF   LOC			       ; LOC_139
+SEG_A:0FEC   FORCED, OD SEG_B
+SEG_A:0FEF   LOC			       ; LOC_140
+SEG_A:1003   FORCED, OD SEG_B
+SEG_A:100A   FORCED, OD SEG_B
+SEG_A:1016   FORCED, OD SEG_B
+SEG_A:1016   LOC			       ; LOC_141
+SEG_A:1020   FORCED, OD SEG_B
+SEG_A:1025   LOC			       ; LOC_142
+SEG_A:1044   LOC			       ; LOC_143
+SEG_A:1055   LOC			       ; LOC_144
+SEG_A:1064   LOC			       ; LOC_145
+SEG_A:1067   LOC			       ; LOC_146
+SEG_A:106D   LOC			       ; LOC_147
+SEG_A:10AF   FORCED, OD SEG_B
+SEG_A:111C   LOC			       ; LOC_148
+SEG_A:111F   LOC			       ; LOC_149
+SEG_A:1122   LOC			       ; LOC_150
+SEG_A:116C   LOC			       ; LOC_151
+SEG_A:117B   FORCED, OD 0000
+SEG_A:11A8   FORCED, OD 0000
+SEG_A:11B4   FORCED, OD 0000
+SEG_A:11BD   LOC			       ; LOCLOOP_152
+SEG_A:11E8   LOC			       ; LOC_153
+SEG_A:11F1   LOC			       ; LOC_154
+SEG_A:1209   FORCED, OD 0000
+SEG_A:1223   FORCED, OD 0000
+SEG_A:123A   LOC			       ; LOCLOOP_155
+SEG_A:1249   LOC			       ; LOC_156
+SEG_A:1251   LOC			       ; LOC_157
+SEG_A:125C   FORCED, OD 0000
+SEG_A:1263   LOC			       ; LOC_158
+SEG_A:1265   LOC			       ; LOC_159
+SEG_A:127B   LOC			       ; LOC_160
+SEG_A:1294   LOC			       ; LOC_161
+SEG_A:1297   LOC			       ; LOC_162
+SEG_A:129A   LOC			       ; LOC_163
+SEG_A:12CA   LOC			       ; LOC_164
+SEG_A:12FF   LOC			       ; LOC_165
+SEG_A:133F   LOC			       ; LOC_166
+SEG_A:1363   FORCED, OD SEG_B
+SEG_A:1375   FORCED, OD 0000
+SEG_A:1375   LOC			       ; LOC_167
+SEG_A:137B   LOC			       ; LOC_168
+SEG_A:13A7   LOC			       ; LOC_169
+SEG_A:13B8   LOC			       ; LOC_170
+SEG_A:13D2   LOC			       ; LOC_171
+SEG_A:13EE   LOC			       ; LOC_172
+SEG_A:141C   LOC			       ; LOC_173
+SEG_A:1426   LOC			       ; LOC_174
+SEG_A:1433   LOC			       ; LOC_175
+SEG_A:1440   FORCED, OD 0000
+SEG_A:1440   LOC			       ; LOC_176
+SEG_A:146E   LOC			       ; LOC_177
+SEG_A:1474   LOC			       ; LOC_178
+SEG_A:147B   FORCED, OD SEG_B
+SEG_A:1488   FORCED, OD SEG_B
+SEG_A:148D   FORCED, OD SEG_B
+SEG_A:1497   LOC			       ; LOCLOOP_179
+SEG_A:14C3   LOC			       ; LOC_180
+SEG_A:14C6   LOC			       ; LOC_181
+SEG_A:14F7   LOC			       ; LOC_182
+SEG_A:14FB   FORCED, OD SEG_B
+SEG_A:1506   FORCED, OD SEG_B
+SEG_A:1518   FORCED, OD SEG_B
+SEG_A:151B   LOC			       ; LOC_183
+SEG_A:1522   FORCED, OD SEG_B
+SEG_A:152E   FORCED, OD SEG_B
+SEG_A:153F   LOC			       ; LOC_184
+SEG_A:154D   FORCED, OD SEG_B
+SEG_A:1557   LOC			       ; LOC_185
+SEG_A:1567   FORCED, OD SEG_B
+SEG_A:1571   FORCED, OD SEG_B
+SEG_A:1571   LOC			       ; LOC_186
+SEG_A:157B   FORCED, OD SEG_B
+SEG_A:1582   FORCED, OD SEG_B
+SEG_A:158E   LOC			       ; LOC_187
+SEG_A:1596   FORCED, OD SEG_B
+SEG_A:15A5   LOC			       ; LOC_188
+SEG_A:15C3   LOC		?
+SEG_A:15CB   LOC		?
+SEG_A:15CB   LOC		?
+SEG_A:15CB   LOC		?
+SEG_A:15CF   LOC, FAR		START
+SEG_A:15D5   FORCED, OD SEG_B
+SEG_A:15E2   FORCED, OD 0000
+SEG_A:15E9   LOC			       ; LOC_189
+SEG_A:15FE   FORCED, OD SEG_B
+SEG_A:1601   LOC			       ; LOC_190
+SEG_A:1621   LOC			       ; LOC_191
+SEG_A:1627   FORCED, OD SEG_B
+SEG_A:162F   FORCED, OD SEG_B
+SEG_A:163C   FORCED, OD SEG_B
+SEG_A:163C   LOC			       ; LOC_192
+SEG_A:1669   FORCED, OL SEG_A
+SEG_A:1671   FORCED, OL SEG_A
+SEG_A:16AE   FORCED, OD SEG_B
+SEG_A:16B3   LOC			       ; LOC_193
+SEG_A:16D0   FORCED, OD SEG_B
+SEG_A:16DB   LOC			       ; LOC_194
+SEG_A:16E2   FORCED, OD 0000
+SEG_A:16EF   FORCED, OD 0000
+SEG_A:16F2   LOC			       ; LOCLOOP_195
+SEG_A:16F8   FORCED, OD 0000
+SEG_A:1780   FORCED, OD SEG_B
+SEG_A:1794   FORCED, OD 0000
+SEG_A:179F   FORCED, OD 0000
+SEG_A:17AA   FORCED, OD 0000
+SEG_A:17B5   FORCED, OD SEG_B
+SEG_A:17C0   FORCED, OD 0000
+SEG_A:17C9   FORCED, OD SEG_B
+SEG_A:17D1   FORCED, OD SEG_B
+SEG_A:17D7   FORCED, OD 0000
+SEG_A:17E2   FORCED, OD SEG_B
+SEG_A:17E8   FORCED, OD 0000
+SEG_A:17F3   FORCED, OD SEG_B
+SEG_A:17F9   FORCED, OD 0000
+SEG_A:1804   FORCED, OD SEG_B
+SEG_A:180F   FORCED, OD SEG_B
+SEG_A:1815   FORCED, OD 0000
+SEG_A:1820   FORCED, OD SEG_B
+SEG_A:1826   FORCED, OD 0000
+SEG_A:1831   FORCED, OD SEG_B
+SEG_A:1851   FORCED, OD SEG_B
+SEG_A:1866   LOC			       ; LOC_196
+SEG_A:187D   LOC			       ; LOC_197
+SEG_A:1880   LOC			       ; LOC_198
+SEG_A:1898   LOC			       ; LOC_199
+SEG_A:18A5   FORCED, OD SEG_B
+SEG_A:18B1   FORCED, OD SEG_B
+SEG_A:18C2   FORCED, OD SEG_B
+SEG_A:18DE   FORCED, OD SEG_B
+SEG_A:18E8   LOC			       ; LOC_200
+SEG_A:18F9   FORCED, OD SEG_B
+SEG_A:1901   LOC			       ; LOC_201
+SEG_A:1912   FORCED, OD SEG_B
+SEG_A:191F   LOC			       ; LOC_202
+SEG_A:1942   FORCED, OD SEG_B
+SEG_A:194D   FORCED, OD SEG_B
+SEG_A:194D   LOC			       ; LOC_203
+SEG_A:1958   LOC			       ; LOC_204
+SEG_A:1960   FORCED, OD 0000
+SEG_A:1968   FORCED, OD 0000
+SEG_A:196B   LOC			       ; LOC_205
+SEG_A:196C   LOC			       ; LOC_206
+SEG_A:1978   LOC			       ; LOC_207
+SEG_A:197A   LOC			       ; LOC_208
+SEG_A:1984   FORCED, OD 0000
+SEG_A:1987   LOC			       ; LOC_209
+SEG_A:19A7   LOC			       ; LOC_210
+SEG_A:19AA   LOC			       ; LOC_211
+SEG_A:19AE   FORCED, OD 0000
+SEG_A:19BD   FORCED, OD 0000
+SEG_A:19C9   FORCED, OD 0000
+SEG_A:19DE   LOC			       ; LOC_212
+SEG_A:19E4   LOC			       ; LOC_213
+SEG_A:19F4   FORCED, OD SEG_B
+SEG_A:1A00   FORCED, OD SEG_B
+SEG_A:1A0C   FORCED, OD SEG_B
+SEG_A:1A32   LOC			       ; LOC_214
+8FCB:1A53    LOC			       ; LOC_215
+SEG_B:018C   LOC		?
+FFFF:0000    LOC			       ; LOC_216
+
+ ÕÕÕÕ Data Items ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ
+  seg:off    type & options	labels & comments
+  -------    --------------	----------------------------------------------
+0000:0008    DB, EQU			       ; DATA_1E
+0000:001C    DB, EQU			       ; DATA_2E
+0000:002C    DB, EQU			       ; DATA_3E
+0000:0032    DB, EQU			       ; DATA_4E
+0000:0048    DW, EQU			       ; DATA_5E
+0000:0055    DW, EQU			       ; DATA_6E
+0000:005A    DB, EQU			       ; DATA_7E
+0000:005B    DB, EQU			       ; DATA_8E
+0000:0080    DB, EQU			       ; DATA_9E
+0000:00C6    DB, EQU			       ; DATA_10E
+0000:00C7    DB, EQU			       ; DATA_11E
+0000:00C8    DB, EQU			       ; DATA_12E
+0000:00C9    DB, EQU			       ; DATA_13E
+0000:0100    DB, EQU			       ; DATA_14E
+0000:0300    DB, EQU			       ; DATA_15E
+0000:0302    DB, EQU			       ; DATA_16E
+0000:0304    DB, EQU			       ; DATA_17E
+0000:0306    DB, EQU			       ; DATA_18E
+0000:030A    DB, EQU			       ; DATA_19E
+0000:030C    DB, EQU			       ; DATA_20E
+0000:030E    DB, EQU			       ; DATA_21E
+0000:0312    DB, EQU			       ; DATA_22E
+0000:0320    DB, EQU			       ; DATA_23E
+0000:0322    DB, EQU			       ; DATA_24E
+0000:0326    DB, EQU			       ; DATA_25E
+0000:0335    DB, EQU			       ; DATA_26E
+0000:0346    DB, EQU			       ; DATA_27E
+0000:0355    DB, EQU			       ; DATA_28E
+0000:0359    DB, EQU			       ; DATA_29E
+0000:035D    DB, EQU			       ; DATA_30E
+0000:035F    DB, EQU			       ; DATA_31E
+0000:0363    DB, EQU			       ; DATA_32E
+0000:0365    DB, EQU			       ; DATA_33E
+0000:0375    DB, EQU			       ; DATA_34E
+0000:03EC    DB, EQU			       ; DATA_35E
+0000:040F    DB, EQU			       ; DATA_36E
+0000:0451    DB, EQU			       ; DATA_37E
+0000:046D    DB, EQU			       ; DATA_38E
+0000:048D    DB, EQU			       ; DATA_39E
+0000:0498    DB, EQU			       ; DATA_40E
+5E19:0100    DB, EQU			       ; DATA_41E
+SEG_PSP:0008  DB, EQU			       ; DATA_42E
+SEG_PSP:005B  DB, EQU			       ; DATA_43E
+SEG_PSP:0302  DB, EQU			       ; DATA_44E
+SEG_PSP:030E  DB, EQU			       ; DATA_45E
+SEG_PSP:0331  DB, EQU			       ; DATA_46E
+SEG_PSP:0344  DB, EQU			       ; DATA_47E
+SEG_PSP:035B  DB, EQU			       ; DATA_48E
+SEG_PSP:0373  DB, EQU			       ; DATA_49E
+SEG_PSP:0383  DB, EQU			       ; DATA_50E
+SEG_PSP:0391  DB, EQU			       ; DATA_51E
+SEG_PSP:03AF  DB, EQU			       ; DATA_52E
+SEG_PSP:03B1  DB, EQU			       ; DATA_53E
+SEG_PSP:03C8  DB, EQU			       ; DATA_54E
+SEG_PSP:03CA  DB, EQU			       ; DATA_55E
+SEG_PSP:03EA  DB, EQU			       ; DATA_56E
+SEG_PSP:03EC  DB, EQU			       ; DATA_57E
+SEG_PSP:040D  DB, EQU			       ; DATA_58E
+SEG_PSP:0428  DB, EQU			       ; DATA_59E
+SEG_PSP:0436  DB, EQU			       ; DATA_60E
+SEG_PSP:044F  DB, EQU			       ; DATA_61E
+SEG_PSP:0451  DB, EQU			       ; DATA_62E
+SEG_PSP:046B  DB, EQU			       ; DATA_63E
+SEG_PSP:047F  DB, EQU			       ; DATA_64E
+SEG_PSP:048D  DB, EQU			       ; DATA_65E
+SEG_PSP:0498  DB, EQU			       ; DATA_66E
+SEG_A:0000   DB				       ; DATA_67
+SEG_A:0001   DA, R 1E			       ; DATA_68
+SEG_A:00A7   DA, R 23			       ; DATA_69
+SEG_A:00DD   DB				       ; DATA_70
+SEG_A:01D9   DB				       ; DATA_71
+SEG_A:04E2   DB				       ; DATA_72
+SEG_A:056C   DB				       ; DATA_73
+SEG_A:0593   DB				       ; DATA_75
+SEG_A:05F5   DW				       ; DATA_76
+SEG_A:05F6   DB				       ; DATA_77
+SEG_A:05F7   DB				       ; DATA_78
+SEG_A:05F8   DB				       ; DATA_79
+SEG_A:05F9   DB				       ; DATA_80
+SEG_A:05FA   DB				       ; DATA_81
+SEG_A:05FB   DB				       ; DATA_82
+SEG_A:05FC   DB				       ; DATA_83
+SEG_A:05FD   DB				       ; DATA_84
+SEG_A:05FE   DB				       ; DATA_85
+SEG_A:06F0   DW				       ; DATA_86
+SEG_A:0701   DW				       ; DATA_87
+SEG_A:0712   DW				       ; DATA_88
+SEG_A:0723   DD				       ; DATA_89
+SEG_A:0727   DB				       ; DATA_91
+SEG_A:0728   DA, R 11			       ; DATA_92
+SEG_A:0787   DD				       ; DATA_93
+SEG_A:0914   DW, R 2			       ; DATA_95
+SEG_A:0A92   DB				       ; DATA_97
+SEG_A:0A93   DW				       ; DATA_98
+SEG_A:0A95   DW				       ; DATA_99
+SEG_A:0A97   DW				       ; DATA_100
+SEG_A:0A99   DW				       ; DATA_101
+SEG_A:0A9B   DW				       ; DATA_102
+SEG_A:15B3   DB, R 2			       ; DATA_103
+SEG_A:15B5   DW				       ; DATA_104
+SEG_A:15B7   DW				       ; DATA_105
+SEG_A:15B9   DW				       ; DATA_106
+SEG_A:15BB   DW				       ; DATA_107
+SEG_A:15BD   DW				       ; DATA_108
+SEG_A:15BF   DW				       ; DATA_109
+SEG_A:15C1   DW				       ; DATA_110
+SEG_A:15C3   DW				       ; DATA_111
+SEG_A:15C5   DW				       ; DATA_112
+SEG_A:15C7   DB				       ; DATA_113
+SEG_A:15C8   DB				       ; DATA_114
+SEG_A:15C9   DW, R 2			       ; DATA_115
+8FCB:1AA9    DW, EQU			       ; DATA_117E
+8FCB:1BF0    DW, EQU			       ; DATA_118E
+SEG_B:0008   DB				       ; DATA_120
+SEG_B:0048   DW				       ; DATA_121
+SEG_B:004A   DB				       ; DATA_122
+SEG_B:0055   DW				       ; DATA_123
+SEG_B:0057   DW				       ; DATA_124
+SEG_B:0059   DW				       ; DATA_125
+SEG_B:005B   DB				       ; DATA_126
+SEG_B:0080   DB				       ; DATA_127
+SEG_B:009B   DB				       ; DATA_128
+SEG_B:00A8   DA, R 1F			       ; DATA_129
+SEG_B:00C7   DB				       ; DATA_130
+SEG_B:00CA   DW, DUP, R 20		       ; DATA_131
+SEG_B:010A   DB				       ; DATA_132
+SEG_B:011F   DB				       ; DATA_133
+SEG_B:0128   DB				       ; DATA_134
+SEG_B:018A   DW				       ; DATA_135
+SEG_B:018C   DW				       ; DATA_136
+SEG_B:018E   DW				       ; DATA_137
+SEG_B:0190   DW				       ; DATA_138
+SEG_B:0192   DW				       ; DATA_139
+SEG_B:0194   DW				       ; DATA_140
+SEG_B:0196   DW				       ; DATA_141
+SEG_B:0198   DW				       ; DATA_142
+SEG_B:019A   DW				       ; DATA_143
+SEG_B:019C   DW				       ; DATA_144
+SEG_B:019E   DW				       ; DATA_145
+SEG_B:01A2   DW				       ; DATA_146
+SEG_B:01A4   DW				       ; DATA_147
+SEG_B:01A6   DW				       ; DATA_148
+SEG_B:01A8   DW				       ; DATA_149
+SEG_B:01AA   DW				       ; DATA_150
+SEG_B:01AC   DA, R 4F			       ; DATA_151
+SEG_B:01FB   DB				       ; DATA_155
+SEG_B:01FC   DA, R 88			       ; DATA_156
+SEG_B:0284   DB				       ; DATA_162
+SEG_B:02EC   DB				       ; DATA_163
+SEG_B:0302   DB				       ; DATA_164
+SEG_B:0308   DB				       ; DATA_165
+SEG_B:030B   DA, R 64			       ; DATA_166
+SEG_B:048A   DA, R 33			       ; DATA_173
+SEG_B:04BD   DB				       ; DATA_178
+SEG_B:04BF   DA, R 0D			       ; DATA_179
+SEG_B:04CD   DA, R 9			       ; DATA_180
+SEG_B:04D6   DB				       ; DATA_181
+SEG_B:04D7   DA, R 0B			       ; DATA_182
+SEG_B:04E3   DA, R 0F			       ; DATA_183
+SEG_B:04F2   DB				       ; DATA_184
+SEG_B:04F3   DB				       ; DATA_185
+SEG_B:04F4   DA, R 3AE			       ; DATA_186
