@@ -1,0 +1,17 @@
+
+LIBRARY		"MouseHook"
+DESCRIPTION	"Mouse hooking DLL"
+
+EXPORTS
+
+	InstallMouseHook	@2
+	UninstallMouseHook	@3
+	EnableMouseHook		@4
+	DisableMouseHook	@5
+
+	SetIMouseProc		@6
+	MouseProc		@7
+	GetCallbackCount	@8
+
+SECTIONS
+	GlobalData READ WRITE SHARED

@@ -1,0 +1,23 @@
+HKCR
+{
+	DogCat.CaBomb.1 = s 'CaBomb Class'
+	{
+		CLSID = s '{A2264F9F-35E7-4D88-B662-E349D439225D}'
+	}
+	DogCat.CaBomb = s 'CaBomb Class'
+	{
+		CLSID = s '{A2264F9F-35E7-4D88-B662-E349D439225D}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A2264F9F-35E7-4D88-B662-E349D439225D} = s 'CaBomb Class'
+		{
+			ProgID = s 'DogCat.CaBomb.1'
+			VersionIndependentProgID = s 'DogCat.CaBomb'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

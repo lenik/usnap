@@ -1,0 +1,57 @@
+// addin1.odl : type library source for addin1.dll
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (addin1.tlb).
+
+[	uuid(B5E5DE7E-347E-4BC7-B40E-A69C7524783B), version(1.0),
+	helpstring ("ADDIN1 Developer Studio Add-in") ]
+library Addin1
+{
+	importlib("stdole32.tlb");
+	importlib("devshl.dll");
+	importlib("ide\devdbg.pkg");
+
+
+	//  Dual interface for CCommands
+	//
+	//  All commands that your add-in adds to DevStudio
+	//   must appear in this interface.  You may use the
+	//   ClassView to add methods to this interface, which
+	//   will cause stub implementations of those methods to
+	//   appear in your CCommands class.
+
+	[	uuid(3CC445E6-2C07-4672-88B2-F0F757090B43),
+		oleautomation,
+		dual
+	]
+
+	interface ICommands : IDispatch
+	{
+		// methods
+		[id(1)]
+		HRESULT Addin1CommandMethod();
+	};
+
+	//  Class information for CCommands
+
+	[ uuid(B094205A-8602-46F2-94A8-43E015F60FB3) ]
+	coclass Commands
+	{
+		[default] interface ICommands;
+	};
+
+	[ hidden, uuid(817972B9-9CF5-49D2-89F0-3DBF4DC82F56) ]
+	coclass ApplicationEvents
+	{
+		[default] interface IApplicationEvents;
+	}
+
+	[ hidden, uuid(6AF688A3-DAE0-47BB-997A-54DBC791E2A2) ]
+	coclass DebuggerEvents
+	{
+		[default] interface IDebuggerEvents;
+	}
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

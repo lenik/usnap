@@ -1,0 +1,5 @@
+
+EXPORTS
+
+	WNet_enum
+	WNet_status

@@ -1,0 +1,40 @@
+// ClassUsage.idl : IDL source for ClassUsage.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ClassUsage.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	[
+		object,
+		uuid(2F8F423F-5966-43EF-89EB-49E1F5F75D12),
+		dual,
+		helpstring("IA Interface"),
+		pointer_default(unique)
+	]
+	interface IA : IDispatch
+	{
+	};
+
+[
+	uuid(DFEA8E82-55DE-445D-B70D-D0F9A4856BC0),
+	version(1.0),
+	helpstring("ClassUsage 1.0 Type Library")
+]
+library CLASSUSAGELib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	[
+		uuid(5C1CC9F7-C55E-4563-86E6-E3B91506C75D),
+		helpstring("A Class")
+	]
+	coclass A
+	{
+		[default] interface IA;
+	};
+};

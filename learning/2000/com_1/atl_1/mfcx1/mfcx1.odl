@@ -1,0 +1,122 @@
+// mfcx1.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (mfcx1.tlb) that will become a resource in
+// mfcx1.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(FD2FEFCE-5806-44E1-8E43-634707DF9B48), version(1.0),
+  helpfile("mfcx1.hlp"),
+  helpstring("mfcx1 ActiveX Control module"),
+  control ]
+library MFCX1Lib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CHelloCtrl
+
+	[ uuid(5ED225E1-3E21-44CE-B0A5-17BB324199B8),
+	  helpstring("Dispatch interface for Hello Control"), hidden ]
+	dispinterface _DHello
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CHelloCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CHelloCtrl)
+			[id(1), helpstring("hello function")] boolean hello(BSTR* caller);
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CHelloCtrl
+
+	[ uuid(7E1EDDAB-FAAE-4B04-ACFA-CCD3C3704B51),
+	  helpstring("Event interface for Hello Control") ]
+	dispinterface _DHelloEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CHelloCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CHelloCtrl
+
+	[ uuid(F8B5F1BB-189D-40E3-AA36-1D42E22EB46F),
+	  control,
+	  helpstring("Hello Control")
+	   ]
+	coclass Hello
+	{
+		[default] dispinterface _DHello;
+		[default, source] dispinterface _DHelloEvents;
+	};
+
+	//  Primary dispatch interface for CAdvancedTimerCtrl
+
+	[ uuid(F3053AC1-C491-4749-92F7-89B9BC4279E4),
+	  helpstring("Dispatch interface for AdvancedTimer Control"), hidden ]
+	dispinterface _DAdvancedTimer
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CAdvancedTimerCtrl)
+			[id(1), helpstring("interval value")] long Interval;
+			[id(2)] long TimerEnabled;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CAdvancedTimerCtrl)
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CAdvancedTimerCtrl
+
+	[ uuid(EEB1E2E7-ABAC-4A30-9589-3F292F23A40A),
+	  helpstring("Event interface for AdvancedTimer Control") ]
+	dispinterface _DAdvancedTimerEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CAdvancedTimerCtrl)
+			[id(1)] void OnTimer(short _Timer);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CAdvancedTimerCtrl
+
+	[ uuid(E7AA7BB6-8DBE-4D97-AC7D-F113EE121043),
+	  helpstring("AdvancedTimer Control"), control ]
+	coclass AdvancedTimer
+	{
+		[default] dispinterface _DAdvancedTimer;
+		[default, source] dispinterface _DAdvancedTimerEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

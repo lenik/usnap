@@ -1,0 +1,7 @@
+
+EXPORTS
+
+	C__cdecl
+	C__stdcall
+	NC__cdecl
+	NC__stdcall

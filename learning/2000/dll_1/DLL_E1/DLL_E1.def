@@ -1,0 +1,10 @@
+
+EXPORTS
+	dllFunc1
+	dllFunc2
+
+	DLL_geneIA_1
+	DLL_geneIA_2
+	DLL_geneIA_NULL
+
+	DLL_prob

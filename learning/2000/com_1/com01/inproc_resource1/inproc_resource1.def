@@ -1,0 +1,10 @@
+
+;NAME	inproc_resource_demonstrate1
+
+EXPORTS
+	queryallsrc
+
+	QueryThreadAvailable
+	QueryProcessAvailable
+	QueryStaticThreadAvailable
+	QueryStaticProcessAvailable

@@ -1,0 +1,20 @@
+
+EXPORTS
+	AcquireDDThreadLock
+	D3DParseUnknownCommand
+	DDGetAttachedSurfaceLcl
+	DDInternalLock
+	DDInternalUnlock
+	DSoundHelp
+	DirectDrawCreate
+	DirectDrawCreateClipper
+	DirectDrawCreateEx
+	DirectDrawEnumerateA
+	DirectDrawEnumerateExA
+	DirectDrawEnumerateExW
+	DirectDrawEnumerateW
+	GetDDSurfaceLocal
+	GetOLEThunkData
+	GetSurfaceFromDC
+	RegisterSpecialCase
+	ReleaseDDThreadLock

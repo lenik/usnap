@@ -1,0 +1,26 @@
+HKCR
+{
+	Atl01.Product.1 = s 'Product Class'
+	{
+		CLSID = s '{184F3873-070E-4948-8157-60648101B813}'
+	}
+	Atl01.Product = s 'Product Class'
+	{
+		CLSID = s '{184F3873-070E-4948-8157-60648101B813}'
+		CurVer = s 'Atl01.Product.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {184F3873-070E-4948-8157-60648101B813} = s 'Product Class'
+		{
+			ProgID = s 'Atl01.Product.1'
+			VersionIndependentProgID = s 'Atl01.Product'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{7D668C33-B3A7-4EAF-A13C-CC2DBBA83155}'
+		}
+	}
+}

@@ -1,0 +1,74 @@
+// atl01.idl : IDL source for atl01.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (atl01.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(BDAA9C34-2C32-4B53-B62F-D07CAC40C4B1),
+		dual,
+		helpstring("IProduct Interface"),
+		pointer_default(unique)
+	]
+	interface IProduct : IDispatch
+	{
+	};
+	[
+		object,
+		uuid(B0C2C393-DCF2-4EE3-A669-843EA4FDB4F1),
+		dual,
+		helpstring("IProduct2 Interface"),
+		pointer_default(unique)
+	]
+	interface IProduct2 : IDispatch
+	{
+	};
+	[
+		object,
+		uuid(D7AC3227-7B11-4E48-B5A6-F0D107F7ACD4),
+		dual,
+		helpstring("IProduct3 Interface"),
+		pointer_default(unique)
+	]
+	interface IProduct3 : IDispatch
+	{
+	};
+
+[
+	uuid(7D668C33-B3A7-4EAF-A13C-CC2DBBA83155),
+	version(1.0),
+	helpstring("atl01 1.0 Type Library")
+]
+library ATL01Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(184F3873-070E-4948-8157-60648101B813),
+		helpstring("Product Class")
+	]
+	coclass Product
+	{
+		[default] interface IProduct;
+	};
+	[
+		uuid(04BA3403-3230-440F-B0B3-F2623EE28ED7),
+		helpstring("Product2 Class")
+	]
+	coclass Product2
+	{
+		[default] interface IProduct2;
+	};
+	[
+		uuid(62D5DBB2-CA7D-48FD-9C93-5F2984A47EC7),
+		helpstring("Product3 Class")
+	]
+	coclass Product3
+	{
+		[default] interface IProduct3;
+	};
+};

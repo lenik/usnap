@@ -1,0 +1,92 @@
+// ocx1.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (ocx1.tlb) that will become a resource in
+// ocx1.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+import "oaidl.idl";
+import "ocidl.idl";
+#include "olectl.h"
+
+[ uuid(BAA75D00-2035-4FEE-BA07-7D6E78A541C9), version(1.0),
+  helpfile("ocx1.hlp"),
+  helpstring("ocx1 ActiveX Control module"),
+  control ]
+library OCX1Lib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for COcx1Ctrl
+
+	[ uuid(8E36F09E-BC6A-4A8E-8B7F-7895349F5DB3),
+	  helpstring("Dispatch interface for Ocx1 Control"), hidden ]
+	dispinterface _DOcx1
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(COcx1Ctrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(COcx1Ctrl)
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for COcx1Ctrl
+
+	[ uuid(19548CCB-D942-42A6-B10A-A986E01E5865),
+	  helpstring("Event interface for Ocx1 Control") ]
+	dispinterface _DOcx1Events
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(COcx1Ctrl)
+			//}}AFX_ODL_EVENT
+	};
+
+
+	[
+		object,
+		uuid(6F723297-7201-4B7A-BD51-A87148698788),
+		dual,
+		helpstring("IHelloControl Interface"),
+		pointer_default(unique)
+	]
+	interface IHelloControl : IDispatch
+	{
+	};
+
+	//  Class information for COcx1Ctrl
+
+	[ uuid(B06B99C6-E6A2-4C0A-97F4-6EA9D2756BDF),
+	  helpstring("Ocx1 Control"), control ]
+	coclass Ocx1
+	{
+		[default] dispinterface _DOcx1;
+		[default, source] dispinterface _DOcx1Events;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+	[
+		uuid(E2CD5265-B80F-4A18-9AA2-71FEB22C6DF2),
+		helpstring("HelloControl Class")
+	]
+	coclass HelloControl
+	{
+		[default] interface IHelloControl;
+	};
+};

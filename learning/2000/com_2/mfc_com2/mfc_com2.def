@@ -1,0 +1,9 @@
+; mfc_com2.def : Declares the module parameters.
+
+LIBRARY      "MFC_COM2.OCX"
+
+EXPORTS
+	DllCanUnloadNow     @1 PRIVATE
+	DllGetClassObject   @2 PRIVATE
+	DllRegisterServer   @3 PRIVATE
+	DllUnregisterServer @4 PRIVATE

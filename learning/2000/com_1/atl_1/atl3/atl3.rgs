@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		{A1F67DA5-BCB1-4D8B-AA9B-D032F5CF121B} = s 'atl3'
+		'atl3.EXE'
+		{
+			val AppID = s {A1F67DA5-BCB1-4D8B-AA9B-D032F5CF121B}
+		}
+	}
+}

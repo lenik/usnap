@@ -1,0 +1,4 @@
+
+class IMyDropTarget : public {
+public:
+};

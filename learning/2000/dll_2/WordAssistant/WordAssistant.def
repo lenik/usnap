@@ -1,0 +1,13 @@
+
+DESCRIPTION	"Microsoft Word Assistant 1.0 by DanSei"
+
+EXPORTS
+			setld
+			getld
+			getarraynum
+
+			waInitialize
+			waUninitialize
+
+			waRegister
+			waCreate

@@ -1,0 +1,41 @@
+// como.idl : IDL source for como.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (como.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	[
+		object,
+		uuid(15543F16-8B52-4D45-8942-5A47F8E62656),
+		dual,
+		helpstring("IComo1 Interface"),
+		pointer_default(unique)
+	]
+	interface IComo1 : IDispatch
+	{
+	};
+
+[
+	uuid(FB196AC8-4E59-4562-BD7B-C02A4AE020AF),
+	version(1.0),
+	helpstring("como 1.0 Type Library")
+]
+library COMOLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	[
+		uuid(E426ABDA-158A-42BE-924B-2A407A37FF36),
+		helpstring("Como1 Class")
+	]
+	coclass Como1
+	{
+		[default] interface IComo1;
+	};
+
+};

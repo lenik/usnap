@@ -1,0 +1,39 @@
+// MultiLib.idl : IDL source for MultiLib.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (MultiLib.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[ uuid(00000000-4341-FFF0-0001-486954656368) ]
+interface ICaMultiInt1_1 : IUnknown {
+	HRESULT AboutBox();
+};
+
+[ uuid(00000000-4341-FFF1-0001-486954656368) ]
+interface ICaMultiInt2_1 : IUnknown {
+	HRESULT AboutBox();
+};
+
+[
+	uuid(00000000-4341-FFF0-0004-486954656368),
+	version(1.0),
+	helpstring("CaMultiIntLib 1")
+]
+library CaMultiIntLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[ uuid(00000000-4341-FFF0-0002-486954656368) ]
+	coclass CaMultiInt1 {
+		[default]interface ICaMultiInt1_1;
+	};
+
+	[ uuid(00000000-4341-FFF1-0002-486954656368) ]
+	coclass CaMultiInt2 {
+		[default]interface ICaMultiInt2_1;
+	};
+};

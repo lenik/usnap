@@ -1,0 +1,4 @@
+
+EXPORTS
+	f1=f1new
+	f1old=f1

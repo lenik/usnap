@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'{AE3ED9B4-6A61-48CB-AEF0-35B12D58EC59}' = s 'Plane'
+		'Plane.DLL'
+		{
+			val AppID = s '{AE3ED9B4-6A61-48CB-AEF0-35B12D58EC59}'
+		}
+	}
+}

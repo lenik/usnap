@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		{2B1D8B6E-C910-4D68-BB98-D04B1D80C229} = s 'Ocx1'
+		'Ocx1.EXE'
+		{
+			val AppID = s {2B1D8B6E-C910-4D68-BB98-D04B1D80C229}
+		}
+	}
+}

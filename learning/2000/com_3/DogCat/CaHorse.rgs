@@ -1,0 +1,21 @@
+HKCR {
+	CampoAccelerate.CaHorse.1 = s 'CaHorse class ' {
+		CLSID = s '{00000000-4341-FFE5-0002-486954656368}'
+	}
+	CampoAccelerate.CaHorse = s 'CaHorse class ' {
+		CLSID = s '{00000000-4341-FFE5-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaHorse.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-FFE5-0002-486954656368} = s 'CaHorse' {
+			ProgID = s 'CampoAccelerate.CaHorse.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaHorse'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-FFE5-0001-486954656368} = s 'ICaHorse_1'
+	}
+}

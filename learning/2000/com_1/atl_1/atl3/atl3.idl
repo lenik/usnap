@@ -1,0 +1,20 @@
+// atl3.idl : IDL source for atl3.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (atl3.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(5AACD472-5C2B-4DF1-A545-EFD203646D94),
+	version(1.0),
+	helpstring("atl3 1.0 Type Library")
+]
+library ATL3Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

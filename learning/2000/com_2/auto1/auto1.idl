@@ -1,0 +1,20 @@
+// auto1.idl : IDL source for auto1.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (auto1.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(AD38933B-6FA2-44D8-A19B-6BCB0B10AC2B),
+	version(1.0),
+	helpstring("auto1 1.0 Type Library")
+]
+library AUTO1Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

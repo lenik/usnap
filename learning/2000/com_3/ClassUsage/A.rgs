@@ -1,0 +1,23 @@
+HKCR
+{
+	ClassUsage.A.1 = s 'A Class'
+	{
+		CLSID = s '{5C1CC9F7-C55E-4563-86E6-E3B91506C75D}'
+	}
+	ClassUsage.A = s 'A Class'
+	{
+		CLSID = s '{5C1CC9F7-C55E-4563-86E6-E3B91506C75D}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5C1CC9F7-C55E-4563-86E6-E3B91506C75D} = s 'A Class'
+		{
+			ProgID = s 'ClassUsage.A.1'
+			VersionIndependentProgID = s 'ClassUsage.A'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

@@ -1,0 +1,51 @@
+// EventByref.idl : IDL source for EventByref.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (EventByref.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4341-FFB0-0004-486954656368),
+	version(1.0),
+	helpstring("EventByref 1.0 Type Library")
+]
+library EventByrefLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4341-FFB0-0001-486954656368),
+		dual,
+		oleautomation
+	] interface ICaEventByref : IDispatch {
+		[id(0), propget]HRESULT prop1([out, retval]long *ret);
+		[id(0), propput]HRESULT prop1([in]long newlong);
+
+		HRESULT makeEventTest();
+		HRESULT makeEvent1();
+		HRESULT makeEvent2();
+	};
+
+	[
+		uuid(00000000-4341-FFB0-0017-486954656368),
+	] dispinterface ICaEventByrefEvents {
+		properties:
+		methods:
+			[id(1)]void onEventTest();
+			[id(2)]void onEvent1();
+			[id(3)]void onEvent2();
+	};
+
+	[
+		uuid(00000000-4341-FFB0-0002-486954656368),
+		helpstring("CaEventByref事件中传递数据的示例")
+	] coclass CaEventByref {
+		[default]interface ICaEventByref;
+		[default, source]dispinterface ICaEventByrefEvents;
+	};
+
+};

@@ -1,0 +1,98 @@
+
+
+DLL代理的步骤
+
+	0、将需要代理的DLL改名为DLLold，并作为原DLL。新建DLL工程，以
+		需要代理的DLL名字为工程名字。
+
+	1、生成原DLL的DEF文件，通过LIB /DEF:DEF文件名生成DLL的LIB文件
+		不管原DLL中是用什么调用协议，生成的LIB文件统统使用cdecl协议。
+		因此调用LIB中的函数有可能导致错误。
+
+	2、在代理DLL中加入该LIB，写一个关于原DLL的头文件。但是所有函数
+		的调用协议全部改为cdecl协议与LIB文件保持一致。
+		仅写出某些需要代理的函数，用不同的名字，并使用与原DLL对应函数
+		相同的调用协议。
+
+	3、写代理DLL的DEF文件。没有代理的函数直接写出名字。代理的函数写上
+		"原函数名字=新函数名字"格式。如果需要导出原函数可以写
+		"原函数名字old=原函数名字"。
+
+	4、编译连接。
+
+
+调用协议分析：
+
+	1、_stdcall与_cdecl产生的DLL符号名同函数名。
+	2、连接程序产生的LIB，其符号名有变化。
+
+	3、EXTERN "C" 产生的符号有简单参数描述后缀。
+
+
+下面对_stdcall函数有启示
+
+Stubbing Out Functions
+For exported functions that use calling conventions other than C, the situation is a little more complex. This is especially true when you consider C++ functions and the more complex name decoration schemes involved. To use this method, you must at least have the header file that describes the .DLL's interface.
+
+To create stubbed functions from prototypes in a header file:
+When "__declspec(dllimport)" is used in a prototype or declaration, change it to "__declspec(dllexport)."
+
+
+For functions that do not return a value, for C functions in C source, and for C functions in C++ source code (used with the 'extern "C"' construct), replace the semicolon that terminates the function prototype with a matched pair of curly braces ("{}").
+
+
+For C++ functions (global or member) that return a value, you must create a dummy body for the function, and return a dummy value of the proper type. (Not having a return statement in the function is illegal.) This goes for class member functions, as well. Keep in mind that the purpose of this procedure is to trick the LIB utility into generating the correct import library, so these dummy bodies have no effect.
+
+
+For C++ classes, you can stub out the member functions by using the prototypes in the class declaration, as long as you disable function inlining when you compile.
+
+
+Function arguments are usually just specified by type in a header file. For example, Geta(int). A dummy argument identifier must be specified when adding the dummy function body Geta(int x). Otherwise the error C2055 is generated.
+
+
+Example
+If the header file that describes MYDLL.DLL looks like:
+
+// mydll.H
+
+extern "C" __declspec(dllimport) void _stdcall Function(void);
+
+class __declspec(dllimport) CMyClass {
+     int a;
+     long b;
+public:
+     int Geta(int);
+     long Getb();
+     CMyClass();
+};
+The dummy source file you use to build the import library should look like:
+
+ // mydll.CPP
+
+ extern "C" __declspec(dllexport) void _stdcall Function(void) {}
+
+ class __declspec(dllexport) CMyClass {
+      int a;
+      long b;
+ public:
+      int Geta(int x) {return 111;}
+      long Getb() {return 111;}
+      CMyClass() {}
+ };
+Once the functions are stubbed out, all you need to do is compile the source file into an .OBJ file:
+CL /c /Ob0 mydll.CPP
+NOTE: Disabling function inlining is required to force generation of symbols for the functions defined in CMyClass. If function inlining were enabled, the compiler would notice that there are no references to the member functions in the translation unit, so it would discard the function bodies. See the discussion on inline function expansion under Optimizations in the Visual C++ CL Command line reference.
+
+Once you have .OBJ files, you can use LIB /DEF: to create the import library (.LIB) and exports file (.EXP):
+LIB /DEF: mydll.OBJ
+For more information on the LIB command, consult the "LIB Reference" in the Visual C++ Books Online.
+
+Also, see the following article in the Microsoft Knowledge Base:
+Q140485 Exporting PASCAL-Like Symbols in 32-bit DLLs
+
+Additional query words: 2.50 2.55 LINK /LIB
+
+Keywords : kb3rdparty kbcode kbVC200 kbVC210 kbVC400 kbVC500 kbVC600 LinkIss LibIss
+Version : 2.0 2.1 4.0 5.0
+Platform : WINDOWS
+Issue type : kbhowto

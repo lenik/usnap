@@ -1,0 +1,20 @@
+// ceVersion.idl : IDL source for ceVersion.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ceVersion.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(28F3C984-E69D-4348-BC7D-BED3AB2D8A8C),
+	version(1.0),
+	helpstring("ceVersion 1.0 Type Library")
+]
+library CEVERSIONLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

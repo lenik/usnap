@@ -1,0 +1,20 @@
+// com01.idl : IDL source for com01.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (com01.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(1FB4F623-C3E4-11D4-82F4-484C0001DF60),
+	version(1.0),
+	helpstring("com01 1.0 Type Library")
+]
+library COM01Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};
