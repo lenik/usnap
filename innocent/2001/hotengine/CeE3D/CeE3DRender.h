@@ -28,3 +28,4 @@ protected:
 };
 
 typedef CeE3DRender	*PCEE3DRENDER, *LPCEE3DRENDER;
+
