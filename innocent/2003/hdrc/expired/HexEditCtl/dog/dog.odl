@@ -1,0 +1,71 @@
+// dog.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (dog.tlb) that will become a resource in
+// dog.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(737D351E-EC4F-4BBF-A50C-B58E0D9AF77D), version(1.0),
+  helpfile("dog.hlp"),
+  helpstring("dog ActiveX Control module"),
+  control ]
+library DOGLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CDogCtrl
+
+	[ uuid(5E562824-7785-4D23-9394-502978F7E736),
+	  helpstring("Dispatch interface for Dog Control"), hidden ]
+	dispinterface _DDog
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CDogCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CDogCtrl)
+			[id(1)] void ShowName();
+			[id(2)] long GetRawObject();
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CDogCtrl
+
+	[ uuid(A8D7D3F5-94BC-4358-B0AC-3ACD9042E03B),
+	  helpstring("Event interface for Dog Control") ]
+	dispinterface _DDogEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CDogCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CDogCtrl
+
+	[ uuid(F4A61A17-CC0D-482F-A1B2-D6D746FD7249),
+	  helpstring("Dog Control"), control ]
+	coclass Dog
+	{
+		[default] dispinterface _DDog;
+		[default, source] dispinterface _DDogEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

@@ -1,0 +1,51 @@
+// cat.idl : IDL source for cat.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (cat.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+#include "olectl.h"
+
+
+	[
+		object,
+		uuid(406C16E3-F287-410C-B8F9-B3C9E091D254),
+		dual,
+		helpstring("ICat002 Interface"),
+		pointer_default(unique)
+	]
+	interface ICat002 : IDispatch
+	{
+		[id(1), helpstring("method GetRawObject")] HRESULT GetRawObject(long *pRawAddr);
+	};
+
+[
+	uuid(0F986A37-84AB-4B4E-BE26-D18CBEF1304B),
+	version(1.0),
+	helpstring("cat 1.0 Type Library")
+]
+library CATLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(2D21A1FB-35CD-4AC2-81CC-4C2C0DA60B16),
+		helpstring("Cat002 Class")
+	]
+	coclass Cat002
+	{
+		[default] interface ICat002;
+	};
+
+	[
+		uuid(3F4FA292-0594-4EF6-819A-12B167C7FE8D),
+		helpstring("CatPropPage Class")
+	]
+	coclass CatPropPage
+	{
+		interface IUnknown;
+	};
+};

@@ -1,0 +1,18 @@
+
+
+
+
+HDR_Controls:
+	SmallHexEdit
+
+
+HDR_Kernels:
+	Enumerator
+
+
+FATx_Driver:
+	FAT-12,16,32 Service
+
+
+HDR_Std:
+	Standard plugins include a set of file extension checker.

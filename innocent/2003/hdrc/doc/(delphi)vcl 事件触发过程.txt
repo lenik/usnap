@@ -1,0 +1,40 @@
+
+
+!!
+	- 最关键的问题是，OnCreate 的到来要比 InitializeControl 早。
+	  为什么？
+
+
+
+1. OnXXX 怎么被触发的？
+	OnXXX 是定义好的一组事件处理函数，一般来说不能增加新的OnXXX.
+
+	TWinControl::WndProc() 并不负责处理各种分支.
+
+	KeyDown, WM_...:
+		在Pascal实现中，TObject::Dispatch将调用delphiclass中
+		通过 procedure WMXxx message(WM_XXX) 声明的各种消息处理过程。
+	  -> WMKeyDown(msg)
+	  -> DoKeyDown(msg,btn,shift)
+	  -> KeyDown(btn,shift,x,y)
+	  -> OnKeyDown(...)
+	Create:
+	  "OldCreateOrder" new TCustomForm
+	    -> (constructor) Create(owner)
+	    -> DoCreate
+	    -> OnCreate
+	  "NewCreateOrder" ::_AfterConstruction
+	    -> AfterConstruction
+	    -> DoCreate
+	    -> OnCreate
+
+2. m_VclCtl->OnXXX 重定义后, 和 WndProc 的关系？
+	在TVclComControl::Initialize中，m_VclCtl图形界面中的处理函数
+	被压在后面，而TVclComControl的WindowProc则先执行:
+		m_CtlWndProc = m_VclCtl->WindowProc
+		m_VclCtl->WindowProc = TVclComControl::WndProc
+	然后再
+		(virtual) InitializeControl()
+	同时注意到两个处理函数所属：
+		m_VclCtl->WindowProc : TControl::WndProc
+				(TControl/TWinControl/TCustomForm/...)

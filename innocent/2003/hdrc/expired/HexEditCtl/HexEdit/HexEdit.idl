@@ -1,0 +1,52 @@
+// HexEdit.idl : IDL source for HexEdit.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (HexEdit.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+#include "olectl.h"
+
+
+	[
+		object,
+		uuid(7D05FFFF-4764-4EAC-9380-C557054F5442),
+		dual,
+		helpstring("IHexEditCtl Interface"),
+		pointer_default(unique)
+	]
+	interface IHexEditCtl : IDispatch
+	{
+	};
+
+[
+	uuid(5BF38F30-AFF3-48BF-9B2E-8C1882729ADC),
+	version(1.0),
+	helpstring("HexEdit 1.0 Type Library")
+]
+library HEXEDITLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(30A34A3A-BB27-4E67-B99E-237AE43F09E0),
+		helpstring("_IHexEditCtlEvents Interface")
+	]
+	dispinterface _IHexEditCtlEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		uuid(C9971570-4D04-48F5-A3E4-5C2AD6E85584),
+		helpstring("HexEditCtl Class")
+	]
+	coclass HexEditCtl
+	{
+		[default] interface IHexEditCtl;
+		[default, source] dispinterface _IHexEditCtlEvents;
+	};
+};

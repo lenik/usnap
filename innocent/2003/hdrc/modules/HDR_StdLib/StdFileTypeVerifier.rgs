@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_StdLib.StdFileTypeVerifier.1 = s 'StdFileTypeVerifier Class'
+	{
+		CLSID = s '{32C84E18-9406-4AE2-A8ED-BB55DBF2A9B9}'
+	}
+	HDR_StdLib.StdFileTypeVerifier = s 'StdFileTypeVerifier Class'
+	{
+		CLSID = s '{32C84E18-9406-4AE2-A8ED-BB55DBF2A9B9}'
+		CurVer = s 'HDR_StdLib.StdFileTypeVerifier.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {32C84E18-9406-4AE2-A8ED-BB55DBF2A9B9} = s 'StdFileTypeVerifier Class'
+		{
+			ProgID = s 'HDR_StdLib.StdFileTypeVerifier.1'
+			VersionIndependentProgID = s 'HDR_StdLib.StdFileTypeVerifier'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{82455322-674D-4C99-ABA8-467646CAB83F}'
+		}
+	}
+}

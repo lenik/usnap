@@ -1,0 +1,79 @@
+;; The Win2K DDK documentation contains an excellent INF reference.
+
+;--------- Version Section ---------------------------------------------------
+
+[Version]
+Signature="$Windows NT$"
+Provider=%CVI%
+ClassGUID={4d36e97d-e325-11ce-bfc1-08002be10318}
+Class=Unknown
+DriverVer=07/12/2003,1.0.0.8
+
+;--------- SourceDiskNames and SourceDiskFiles Section -----------------------
+
+; These sections identify source disks and files for installation. They are
+; shown here as an example, but commented out.
+
+[SourceDisksNames]
+1 = HelloWDM,Disk1,,""
+
+[SourceDisksFiles]
+PrivUtil.sys = 1,objchk\i386,
+
+
+;--------- DestinationDirs Section -------------------------------------------
+
+[DestinationDirs]
+PrivUtil_Files_Driver = 10,System32\Drivers
+
+;--------- Manufacturer and Models Sections ----------------------------------
+
+[Manufacturer]
+%CVI%   = CVI.Mfg
+
+[CVI.Mfg]
+%CVI.DeviceDesc0% = PrivUtil_DDI, CVI\PrivUtil
+
+
+[PrivUtil_DDI.NT]
+CopyFiles=PrivUtil_Files_Driver
+AddReg=PrivUtil_NT_AddReg
+
+[PrivUtil_DDI.NT.Services]
+Addservice = HelloWDM, 0x00000002, PrivUtil_AddService
+;AddService = PrivUtil, 0x00000002 , PrivUtil_AddService, PrivUtil_EventLog_Inst
+
+[PrivUtil_AddService]
+DisplayName    = %PrivUtil.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 0                  ; SERVICE_ERROR_IGNORE
+;LoadOrderGroup = Pointer Port
+ServiceBinary  = %10%\System32\Drivers\PrivUtill.sys
+
+
+[PrivUtil_EventLog_Inst]
+AddReg = PrivUtil_EventLog_AddReg
+
+[PrivUtil_EventLog_AddReg]
+HKR,,EventMessageFile,0x00020000,"%SystemRoot%\System32\IoLogMsg.dll;%SystemRoot%\System32\drivers\PrivUtil.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+[PrivUtil_NT_AddReg]
+HKLM, "System\CurrentControlSet\Services\PrivUtil\Parameters",\
+"BreakOnEntry", 0x00010001, 0
+
+
+; --------- Files (common) -------------
+
+[PrivUtil_Files_Driver]
+PrivUtil.sys
+
+;--------- Strings Section ---------------------------------------------------
+
+[Strings]
+CVI = "TopCroak"
+PrivUtil.SvcDesc="Priviledge Utility"
+CVI.DeviceDesc0 = "Privledge Utility Version 1"
+DiskId1 = "PrivUtil Setup Disk"

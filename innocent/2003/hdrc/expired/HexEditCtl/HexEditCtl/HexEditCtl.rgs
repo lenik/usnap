@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		{B3EC4CA4-F397-4E08-8E61-785B894DF9D4} = s 'HexEditCtl'
+		'HexEditCtl.EXE'
+		{
+			val AppID = s {B3EC4CA4-F397-4E08-8E61-785B894DF9D4}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_Services.FATx.1 = s 'FATx Class'
+	{
+		CLSID = s '{E267B01A-6FAA-42E3-A55B-FFB18D359F27}'
+	}
+	HDR_Services.FATx = s 'FATx Class'
+	{
+		CLSID = s '{E267B01A-6FAA-42E3-A55B-FFB18D359F27}'
+		CurVer = s 'HDR_Services.FATx.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E267B01A-6FAA-42E3-A55B-FFB18D359F27} = s 'FATx Class'
+		{
+			ProgID = s 'HDR_Services.FATx.1'
+			VersionIndependentProgID = s 'HDR_Services.FATx'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{6D5C43ED-8197-4AB5-8A75-539B5DA08FB3}'
+		}
+	}
+}

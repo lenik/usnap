@@ -1,0 +1,72 @@
+// HexEditCtl.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (HexEditCtl.tlb) that will become a resource in
+// HexEditCtl.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+import "oaidl.idl";
+
+[ uuid(25EF98CA-3581-4BD3-B3B9-27A7C2A82F11), version(1.0),
+  helpfile("HexEditCtl.hlp"),
+  helpstring("HexEditCtl ActiveX Control module"),
+  control ]
+library HEXEDITCTLLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+
+	//  Primary dispatch interface for CHexEditCtlCtrl
+
+	[ uuid(194FFE66-E6EC-47FE-8A71-7B274C0C3A7F),
+	  helpstring("Dispatch interface for HexEditCtl Control"), hidden ]
+	dispinterface _DHexEditCtl
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CHexEditCtlCtrl)
+			[id(DISPID_FONT), bindable] IFontDisp* Font;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CHexEditCtlCtrl)
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CHexEditCtlCtrl
+
+	[ uuid(F2BFA29B-D63D-471E-A3C2-4A3C98AF57FF),
+	  helpstring("Event interface for HexEditCtl Control") ]
+	dispinterface _DHexEditCtlEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CHexEditCtlCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CHexEditCtlCtrl
+
+	[ uuid(B9208ED7-2CCF-479A-ACE7-12071F12A9BB),
+	  helpstring("HexEditCtl Control"), control ]
+	coclass HexEditCtl
+	{
+		[default] dispinterface _DHexEditCtl;
+		[default, source] dispinterface _DHexEditCtlEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

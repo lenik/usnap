@@ -1,0 +1,11 @@
+
+
+EXPORTS
+	DestroyPartInfo
+	DestroyDiskInfo
+	DestroyGetSectorParam
+	OpenDisk
+	CloseDisk
+	GetDiskInfo
+	GetSector
+	CalcAddr

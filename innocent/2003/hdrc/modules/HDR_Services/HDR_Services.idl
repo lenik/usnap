@@ -1,0 +1,106 @@
+// HDR_Services.idl : IDL source for HDR_Services.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (HDR_Services.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	interface IFSPMapper;
+	interface IFSPReconstruct;
+	interface IFSPRecstrMonitor;
+	interface IFSPAddInsMgr;
+	interface IFSPFATxParser;
+
+
+	[
+		object,
+		uuid(AC48B470-0211-4616-AA96-0F14ECB94E3B),
+		dual,
+		helpstring("IFSPMapper Interface"),
+		pointer_default(unique)
+	]
+	interface IFSPMapper : IDispatch
+	{
+	};
+
+	[
+		object,
+		uuid(AC48B471-0211-4616-AA96-0F14ECB94E3B),
+		dual,
+		helpstring("IFSPReconstruct Interface"),
+		pointer_default(unique)
+	]
+	interface IFSPReconstruct : IDispatch
+	{
+	};
+
+	[
+		object,
+		uuid(AC48B472-0211-4616-AA96-0F14ECB94E3B),
+		dual,
+		helpstring("IFSPRecstrMonitor Interface"),
+		pointer_default(unique)
+	]
+	interface IFSPRecstrMonitor : IDispatch
+	{
+	};
+
+	[
+		object,
+		uuid(AC48B473-0211-4616-AA96-0F14ECB94E3B),
+		dual,
+		helpstring("IFSPAddInsMgr Interface"),
+		pointer_default(unique)
+	]
+	interface IFSPAddInsMgr : IDispatch
+	{
+		[propget, id(1), helpstring("property FiltersCount")] HRESULT FiltersCount([out, retval] long *pVal);
+	};
+
+	[
+		object,
+		uuid(AC48B480-0211-4616-AA96-0F14ECB94E3B),
+		dual,
+		helpstring("IFSPFATxParser Interface"),
+		pointer_default(unique)
+	]
+	interface IFSPFATxParser : IDispatch
+	{
+	};
+
+[
+	uuid(6D5C43ED-8197-4AB5-8A75-539B5DA08FB3),
+	version(1.0),
+	helpstring("HDR Service Objects Library")
+]
+library HDR_ServicesLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(BAB0F8C5-6F3E-4A47-83A4-9C0A71C8272E),
+		helpstring("_IFSPMapperEvents Interface")
+	]
+	dispinterface _IFSPMapperEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		uuid(E267B01A-6FAA-42E3-A55B-FFB18D359F27),
+		helpstring("FATx Class")
+	]
+	coclass FATx
+	{
+		[default] interface IFSPMapper;
+		[default, source] dispinterface _IFSPMapperEvents;
+		interface IFSPReconstruct;
+		interface IFSPRecstrMonitor;
+		interface IFSPAddInsMgr;
+		interface IFSPFATxParser;
+	};
+};

@@ -1,0 +1,26 @@
+HKCR
+{
+	UtFiles.Ut1.1 = s 'Ut1 Class'
+	{
+		CLSID = s '{FDB75471-8CFF-40F0-A943-6B3502E83A70}'
+	}
+	UtFiles.Ut1 = s 'Ut1 Class'
+	{
+		CLSID = s '{FDB75471-8CFF-40F0-A943-6B3502E83A70}'
+		CurVer = s 'UtFiles.Ut1.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FDB75471-8CFF-40F0-A943-6B3502E83A70} = s 'Ut1 Class'
+		{
+			ProgID = s 'UtFiles.Ut1.1'
+			VersionIndependentProgID = s 'UtFiles.Ut1'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C48F5E69-0159-4B83-AAB9-9B8DA07B8D0A}'
+		}
+	}
+}

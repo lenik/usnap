@@ -1,0 +1,26 @@
+HKCR
+{
+	DiskDriveKernel.SysDriveEnum.1 = s 'SysDriveEnum Class'
+	{
+		CLSID = s '{1C0EA6C8-A4AB-4987-BEE8-57FDFF6051F4}'
+	}
+	DiskDriveKernel.SysDriveEnum = s 'SysDriveEnum Class'
+	{
+		CLSID = s '{1C0EA6C8-A4AB-4987-BEE8-57FDFF6051F4}'
+		CurVer = s 'DiskDriveKernel.SysDriveEnum.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1C0EA6C8-A4AB-4987-BEE8-57FDFF6051F4} = s 'SysDriveEnum Class'
+		{
+			ProgID = s 'DiskDriveKernel.SysDriveEnum.1'
+			VersionIndependentProgID = s 'DiskDriveKernel.SysDriveEnum'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{E6EB98ED-8D27-4BA9-B0CF-CE76B5D88640}'
+		}
+	}
+}

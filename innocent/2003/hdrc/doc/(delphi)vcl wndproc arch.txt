@@ -1,0 +1,204 @@
+
+Subject:	(Delphi) VCL WndProc Arch
+Motion:		Learn how to delegate ActiveX control's WM_CREATE event.
+See also:	Small Hex Editor (for HDR: Hard-disk Data Rescuer)
+Author:		Zauj.g.DanSei
+Time:		2003-7-30, 20:00
+
+
+TxxxImpl : TVclControlImpl<TVCL = xxx> : TVclComControl<TVCL> {
+	CreateEvent()
+
+	InitializeControl() {
+		// "void __fastcall (__closure *PROC)(...);
+		m_VclCtl->OnCreate = CreateEvent;
+	}
+}
+
+
+TVclComControl<TVCL> : CComControlBase, CMessageMap {
+	Accessor<TVCL> *m_VclCtl; 	// ?? When m_VclCtl been created ??
+	( ==> xxx *m_VclCtl )
+}
+
+TVclComControl::Initialize {
+	m_VclCtl = xxx::CreateParentedControl(...,Axctrls::ParkingWindow())
+	m_CtlWndProc = m_VclCtl->WindowProc
+	m_VclCtl->WindowProc = this->WndProc
+	InitializeControl()		// virtual.
+}
+
+TVclComControl::WndProc {
+					"filter messages..."
+	pT = (TxxxImpl *)this
+					"filter messages..."
+	==>ControlWndProc(...)
+					"filter messages..."
+}
+TVclComControl::ControlWndProc(...) {
+	if not ProcessWindowMessage(hWnd,...) then
+		// so TxxxImpl can override some handlers.
+		m_CtlWndProc(...)
+}
+
+
+xxx: TActiveForm : TCustomActiveForm {
+	m_labels, buttons, ...
+}
+
+TCustomActivForm : TCustomForm {
+  --- "__published: __property"
+	Color,
+	Font, ...
+	OnMouseDown,
+	On....
+
+
+TCustomForm::Create(owner) {
+	CreateNew(owner)
+	  InitInheritedComponent(Self,TForm)
+	OldCreateOrder? -> DoCreate	// DoCreate -> OnCreate
+}
+TCustomForm::AfterConstruction {
+	not OldCreateOrder? -> DoCreate
+	WS_ACTIVATED -> Activate
+}
+
+
+TCustomForm::CreateWnd {
+  (1) SendMsg WM_SETICON -> "Handle"
+  (2) ComponentState != csDesigning ==>
+	如果fsMDI则建立一个默认MDI Child窗体：
+		menu = FWindowMenu.Handle
+		FClientHandle = createwindow "MDICLIENT", WS_CHILD | ...
+			.GWL_WNDPROC  -> FDefClientProc
+			ClientWndProc -> .GWL_WNDPROC
+}
+
+// create always imm after cstr.
+TWinControl.Create {
+	FObjectInstance = MainWndProc
+	FBrush = new brush, ...
+	( not create the window.)
+}
+
+
+TWinControl.CreateWnd {
+	FDefWndProc = WindowClass.lpfnWndProc
+	if registered(class) => unregister(class)
+	register class with &::InitWndProc
+	CreationControl = this.
+	(HWND) FHandle = CreatewindowEx  ...
+}
+
+::InitWndProc(hWnd, ...) {
+	CreationControl.FHandle = hWnd,
+	hWnd.GWL_WNDPROC = CreationControl.FObjectInstance
+	hWnd.GWL_ID = hWnd
+	(*CreationControl.FObjectInstance)(...)
+}
+
+TWinControl::MainWndProc {
+	WindowProc(...)
+}
+
+TWinControl ::CreationControl;
+
+TWinControl::CreateParentedControl(hwndParent) {
+	ret = new TWinControl()
+	ret->FParentWindow = hwndParent;
+	ret->Create()
+	return ret
+}
+
+
+TControl::WndProc {
+	if "Design" exit.
+	if "Key message" -> to parent if exists.
+	if "Mouse message" && not CS_DBLCLICK, double -> single
+		"MouseMove" -> show some hint if available.
+		"LBtnDown" -> start drag?
+		"Wheel"...
+	Dispatch(msg)
+}
+
+
+
+
+
+procedure TObject.Dispatch(var Message);
+asm
+    PUSH    ESI
+    MOV     SI,[EDX]
+    OR      SI,SI
+    JE      @@default
+    CMP     SI,0C000H
+    JAE     @@default
+    PUSH    EAX
+    MOV     EAX,[EAX]
+    CALL    GetDynaMethod
+    POP     EAX
+    JE      @@default
+    MOV     ECX,ESI
+    POP     ESI
+    JMP     ECX
+
+@@default:
+    POP     ESI
+    MOV     ECX,[EAX]
+    JMP     dword ptr [ECX].vmtDefaultHandler
+end;
+
+
+
+
+/*
+	class1:
+		vtbl *	_vtbl_1 "VMT" -> class2
+		vtbl *	_vtbl_2
+		member_vars...
+*/
+
+GetDynaMethod(vmt,selector) {
+	vtbl *vmt
+
+	(repeat) if (dyntbl = vmt->vmtDynamicTable == 0) {
+		vmt = ((class *) vmt->vmtParent)->_vtbl_1
+		if vmt == 0 exit.
+	}
+		dyntbl:
+			word count
+			word method_id[]
+			word
+	search dyntbl.methods[j=count-i] == selector
+		// count=5
+		//   10 12 14 16 18 - 4 ==>  6 8 10 12 14
+		//
+	off=(count*2- j) * 2 - 4
+	return dw ptr [dyntbl + off]
+}
+
+  vmtSelfPtr           = -76;
+  vmtIntfTable         = -72;
+  vmtAutoTable         = -68;
+  vmtInitTable         = -64;
+  vmtTypeInfo          = -60;
+  vmtFieldTable        = -56;
+  vmtMethodTable       = -52;
+  vmtDynamicTable      = -48;
+  vmtClassName         = -44;
+  vmtInstanceSize      = -40;
+  vmtParent            = -36;
+  vmtSafeCallException = -32;
+  vmtAfterConstruction = -28;
+  vmtBeforeDestruction = -24;
+  vmtDispatch          = -20;
+  vmtDefaultHandler    = -16;
+  vmtNewInstance       = -12;
+  vmtFreeInstance      = -8;
+  vmtDestroy           = -4;
+
+  vmtQueryInterface    = 0;
+  vmtAddRef            = 4;
+  vmtRelease           = 8;
+  vmtCreateObject      = 12;

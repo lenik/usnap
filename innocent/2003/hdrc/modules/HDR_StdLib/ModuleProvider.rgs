@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_StdLib.ModuleProvider.1 = s 'ModuleProvider Class'
+	{
+		CLSID = s '{A90F2663-2290-430A-9B48-28A09DF9C379}'
+	}
+	HDR_StdLib.ModuleProvider = s 'ModuleProvider Class'
+	{
+		CLSID = s '{A90F2663-2290-430A-9B48-28A09DF9C379}'
+		CurVer = s 'HDR_StdLib.ModuleProvider.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A90F2663-2290-430A-9B48-28A09DF9C379} = s 'ModuleProvider Class'
+		{
+			ProgID = s 'HDR_StdLib.ModuleProvider.1'
+			VersionIndependentProgID = s 'HDR_StdLib.ModuleProvider'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{82455322-674D-4C99-ABA8-467646CAB83F}'
+		}
+	}
+}

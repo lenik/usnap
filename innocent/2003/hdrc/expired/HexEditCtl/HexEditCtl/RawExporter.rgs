@@ -1,0 +1,26 @@
+HKCR
+{
+	HexEditCtl.RawExporter.1 = s 'RawExporter Class'
+	{
+		CLSID = s '{D29FE8E9-3B6F-4F16-B36A-DFC0BF6C7225}'
+	}
+	HexEditCtl.RawExporter = s 'RawExporter Class'
+	{
+		CLSID = s '{D29FE8E9-3B6F-4F16-B36A-DFC0BF6C7225}'
+		CurVer = s 'HexEditCtl.RawExporter.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {D29FE8E9-3B6F-4F16-B36A-DFC0BF6C7225} = s 'RawExporter Class'
+		{
+			ProgID = s 'HexEditCtl.RawExporter.1'
+			VersionIndependentProgID = s 'HexEditCtl.RawExporter'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{25EF98CA-3581-4BD3-B3B9-27A7C2A82F11}'
+		}
+	}
+}

@@ -1,0 +1,65 @@
+// HDR_StdLib.idl : IDL source for HDR_StdLib.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (HDR_StdLib.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+interface IBytesBlock {
+    HRESULT GetSize([out, retval]long *retval);
+    HRESULT Read([in]long Offset, [in]long Size, [out, size_is(Size)]BYTE *Buffer);
+    HRESULT Write([in]long Offset, [in]long Size, [in, size_is(Size)]BYTE *Buffer);
+};
+
+	[
+		object,
+		uuid(3B945220-0A12-4739-BF4D-B178B9A27567),
+		dual,
+		helpstring("IModuleProvider Interface"),
+		pointer_default(unique)
+	]
+	interface IModuleProvider : IDispatch
+	{
+	};
+	[
+		object,
+		uuid(A0C7541D-A322-4552-ABA5-1C83704BBC8C),
+		dual,
+		helpstring("IFileTypeVerifier Interface"),
+		pointer_default(unique)
+	]
+	interface IFileTypeVerifier: IDispatch
+	{
+		[propget, id(1), helpstring("property ExtensionsCount")] HRESULT ExtensionsCount([out, retval] long *pVal);
+		[propget, id(2), helpstring("property Extension")] HRESULT Extension([in]long Index, [out, retval] BSTR *pVal);
+	};
+
+[
+	uuid(82455322-674D-4C99-ABA8-467646CAB83F),
+	version(1.0),
+	helpstring("HDR Standard Objects Library")
+]
+library HDR_StdLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(A90F2663-2290-430A-9B48-28A09DF9C379),
+		helpstring("ModuleProvider Class")
+	]
+	coclass ModuleProvider
+	{
+		[default] interface IModuleProvider;
+	};
+	[
+		uuid(32C84E18-9406-4AE2-A8ED-BB55DBF2A9B9),
+		helpstring("StdFileTypeVerifier Class")
+	]
+	coclass StdFileTypeVerifier
+	{
+		[default] interface IFileTypeVerifier;
+	};
+};

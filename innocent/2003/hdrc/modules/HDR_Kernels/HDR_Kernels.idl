@@ -1,0 +1,139 @@
+// HDR_Kernels.idl : IDL source for HDR_Kernels.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (HDR_Kernels.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	interface IDriverLoader;
+	interface IDriverEnum;
+	interface ILDAccess;
+	interface ILDCache;
+	interface ILDLargeIO;
+	interface IWin32DiskLD;
+
+	[
+		object,
+		uuid(2DD54D33-AC77-4189-AB52-8CA278A02D8D),
+		dual,
+		helpstring("IDriverLoader Interface"),
+		pointer_default(unique)
+	]
+	interface IDriverLoader : IDispatch
+	{
+		[id(1), helpstring("method LoadDriver")] HRESULT LoadDriver([in]BSTR Name, [out, retval]ILDAccess **LinearDevice);
+	};
+
+	[
+		object,
+		uuid(2DD54D34-AC77-4189-AB52-8CA278A02D8D),
+		dual,
+		helpstring("IDriverEnum Interface"),
+		pointer_default(unique)
+	]
+	interface IDriverEnum : IDispatch
+	{
+		[id(1), helpstring("method GetDriversCount")] HRESULT GetDriversCount([out, retval]int *Count);
+		[id(2), helpstring("method GetDriverName")] HRESULT GetDriverName([in]int Index, [out, retval]BSTR *Name);
+	};
+
+	[
+		object,
+		uuid(BA6E48AA-25CC-45A4-BB80-56779F68D475),
+		dual,
+		helpstring("ILDAccess Interface"),
+		pointer_default(unique)
+	]
+	interface ILDAccess : IDispatch
+	{
+		[id(1), helpstring("method ReadSector")] HRESULT ReadSector([in]long nSectors, [out,size_is(nSectors*512)]BYTE *pBuffer, [out, retval]long *nRead);
+		[id(2), helpstring("method WriteSector")] HRESULT WriteSector([in]long nSectors, [in,size_is(nSectors*512)]BYTE *pBuffer, [out, retval]long *nWritten);
+		[id(3), helpstring("method Seek")] HRESULT Seek([in]long Unit, [in]long Offset, [in]int Direction);
+		[id(4), helpstring("method GetPosition")] HRESULT GetPosition([out]long *LBA, [out]long *BytesOffset);
+	};
+
+	[
+		object,
+		uuid(BA6E48AB-25CC-45A4-BB80-56779F68D475),
+		dual,
+		helpstring("ILDAccess Interface"),
+		pointer_default(unique)
+	]
+	interface ILDCache : IDispatch
+	{
+		[id(1), helpstring("method SetCacheSize")] HRESULT SetCacheSize([in]long nSectors);
+		[id(2), helpstring("method InvalidateCache")] HRESULT InvalidateCache();
+	};
+
+	[
+		object,
+		uuid(BA6E48AC-25CC-45A4-BB80-56779F68D475),
+		dual,
+		helpstring("ILDAccess Interface"),
+		pointer_default(unique)
+	]
+	interface ILDLargeIO: IDispatch
+	{
+	};
+
+	[
+		object,
+		uuid(BA6E48FF-25CC-45A4-BB80-56779F68D475),
+		dual,
+		helpstring("ILDAccess Interface"),
+		pointer_default(unique)
+	]
+	interface IWin32DiskLD: IDispatch
+	{
+		[id(1), helpstring("method BindToWin32Path")] HRESULT BindToWin32Path([in]LPCTSTR szDevicePath, [out, retval]VARIANT_BOOL *ret);
+	};
+
+
+[
+	uuid(AF4C573C-9057-456F-902F-5650CCE6708D),
+	version(1.0),
+	helpstring("HDR Kernel Objects Lib")
+]
+library HDR_KernelsLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	[
+		uuid(288A49DD-01DA-4D2E-B53F-A430270ACEA1),
+		helpstring("_IDriverEnumEvents Interface")
+	]
+	dispinterface _IDriverEnumEvents
+	{
+		properties:
+		methods:
+		[id(1), helpstring("method ScanDriver")] HRESULT ScanDriver([in]BSTR DriverName, [out,retval]VARIANT_BOOL *Ignore);
+	};
+
+	[
+		uuid(1059127F-B46F-4B73-BE8D-15B7DC8C39FC),
+		helpstring("DriversManager Class")
+	]
+	coclass DriversManager
+	{
+		[default] interface IDriverLoader;
+		[default, source] dispinterface _IDriverEnumEvents;
+		interface IDriverEnum;
+	};
+
+	[
+		uuid(8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF),
+		helpstring("Win32DiskLD Class")
+	]
+	coclass Win32DiskLD
+	{
+		[default] interface ILDAccess;
+		interface ILDCache;
+		interface ILDLargeIO;
+		interface IWin32DiskLD;
+	};
+
+};

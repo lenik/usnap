@@ -1,0 +1,23 @@
+HKCR
+{
+	Cat.CatPropPage.1 = s 'CatPropPage Class'
+	{
+		CLSID = s '{3F4FA292-0594-4EF6-819A-12B167C7FE8D}'
+	}
+	Cat.CatPropPage = s 'CatPropPage Class'
+	{
+		CLSID = s '{3F4FA292-0594-4EF6-819A-12B167C7FE8D}'
+		CurVer = s 'Cat.CatPropPage.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3F4FA292-0594-4EF6-819A-12B167C7FE8D} = s 'CatPropPage Class'
+		{
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_Kernels.Win32DiskLD.1 = s 'Win32DiskLD Class'
+	{
+		CLSID = s '{8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF}'
+	}
+	HDR_Kernels.Win32DiskLD = s 'Win32DiskLD Class'
+	{
+		CLSID = s '{8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF}'
+		CurVer = s 'HDR_Kernels.Win32DiskLD.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF} = s 'Win32DiskLD Class'
+		{
+			ProgID = s 'HDR_Kernels.Win32DiskLD.1'
+			VersionIndependentProgID = s 'HDR_Kernels.Win32DiskLD'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{AF4C573C-9057-456F-902F-5650CCE6708D}'
+		}
+	}
+}

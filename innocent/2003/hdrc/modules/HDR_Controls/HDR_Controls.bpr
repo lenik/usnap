@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="HDR_Controls.ocx"/>
+    <OBJFILES value="HDR_Controls.obj HDR_Controls_TLB.obj HDR_Controls_ATL.obj
+      SmallHexEditImpl1.obj SHE_About1.obj HDPositionImpl1.obj"/>
+    <RESFILES value="HDR_Controls.res HDR_Controls.tlb"/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) SmallHexEditImpl1.dfm SHE_About1.dfm HDPositionImpl1.dfm"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value="vclnp.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi
+      vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi
+      teedb.bpi tee.bpi dss.bpi teeqr.bpi visualclx.bpi visualdbclx.bpi
+      dsnapcrba.bpi dsnapcon.bpi bcbsmp.bpi vclie.bpi xmlrtl.bpi inet.bpi
+      inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi webdsnap.bpi
+      bcbie.bpi websnap.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi
+      indy.bpi bcb2kaxserver.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_ATL_APARTMENT_THREADED;USING_ATLVCL;_ATL_NO_SECURITY;INC_ATL_HEADERS;_RTLDLL;_BCB_ATL_DEBUG;USEPACKAGES"/>
+    <MAINSOURCE value="HDR_Controls.cpp"/>
+    <INCLUDEPATH value="C:\s\t\i\inc_comp;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;&quot;C:\s_prjs\Data Rescuer\modules\HDR_Controls&quot;;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\include\atl;C:\s\t\i;C:\s\t\posw\pos;&quot;C:\Avail\Lib\Platform SDK\include&quot;"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;&quot;C:\s_prjs\Data Rescuer\modules\HDR_Controls&quot;;$(BCB)\lib\obj;$(BCB)\lib;&quot;C:\Avail\Lib\Platform SDK\Lib&quot;"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-IC:\s\t\i\inc_comp -I&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;
+      -I&quot;C:\s_prjs\Data Rescuer\modules\HDR_Controls&quot; -I$(BCB)\include
+      -I$(BCB)\include\vcl -I$(BCB)\include\atl -IC:\s\t\i -IC:\s\t\posw\pos
+      -I&quot;C:\Avail\Lib\Platform SDK\include&quot; -src_suffix cpp -D_DEBUG -boa"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -xp -X- -r- -a8 -b- -k -y -v
+      -vi- -c -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="HDR_Controls.res" FORMNAME="" UNITNAME="HDR_Controls.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="HDR_Controls.cpp" FORMNAME="" UNITNAME="HDR_Controls" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="HDR_Controls.tlb" FORMNAME="" UNITNAME="HDR_Controls.tlb" CONTAINERID="TypeLibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="HDR_Controls_TLB.cpp" FORMNAME="" UNITNAME="HDR_Controls_TLB" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="HDR_Controls_ATL.cpp" FORMNAME="" UNITNAME="HDR_Controls_ATL" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SmallHexEditImpl1.cpp" FORMNAME="SmallHexEdit" UNITNAME="SmallHexEditImpl1" COCLASSES="SmallHexEdit" CONTAINERID="CCompiler" DESIGNCLASS="TActiveForm" LOCALCOMMAND=""/>
+      <FILE FILENAME="SHE_About1.cpp" FORMNAME="SmallHexEditAbout" UNITNAME="SHE_About1" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="HDPositionImpl1.cpp" FORMNAME="HDPosition" UNITNAME="HDPositionImpl1" COCLASSES="HDPosition" CONTAINERID="CCompiler" DESIGNCLASS="TActiveForm" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=1
+MajorVer=1
+MinorVer=0
+Release=0
+Build=12
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=Labja Software
+FileDescription=Hard-disk Data Rescuer Controls
+FileVersion=1.0.0.12
+InternalName=HDR_Controls
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=HDR_Controls.ocx
+ProductName=Hard-disk Data Rescuer Controls
+ProductVersion=1.0.0.0
+Comments=Hard-disk Data Rescuer Controls
+
+[Deployment]
+DeployDir=
+DeployURL=
+HTMLDir=
+CABCompress=0
+CodeSign=0
+IncludeVerInfo=1
+AutoIncRelease=0
+DeployPackages=1
+DeployFiles=0
+CompanyURL=
+Description=
+CredFile=
+PrivKey=
+CryptoType=0
+Timestamping=0
+TimestampServer=
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=C:\s\t\i\inc_comp;C:\Program Files\Borland\CBuilder6\Projects;C:\s_prjs\Data Rescuer\modules\HDR_Controls;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\include\atl;C:\s\t\i;C:\s\t\posw\pos;C:\Avail\Lib\Platform SDK\include
+Item1=C:\Program Files\Borland\CBuilder6\Projects;C:\s_prjs\Data Rescuer\modules\HDR_Controls;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\include\atl
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=C:\Program Files\Borland\CBuilder6\Projects;C:\s_prjs\Data Rescuer\modules\HDR_Controls;$(BCB)\lib\obj;$(BCB)\lib;C:\Avail\Lib\Platform SDK\Lib
+Item1=C:\Program Files\Borland\CBuilder6\Projects;C:\s_prjs\Data Rescuer\modules\HDR_Controls;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=Z:\t\w\tstcon32.exe
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

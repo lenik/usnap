@@ -1,0 +1,49 @@
+// DiskDriveKernel.idl : IDL source for DiskDriveKernel.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DiskDriveKernel.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(8E152B2A-C5DB-4B5E-91A5-44D16D229B9D),
+		dual,
+		helpstring("ISysDriveEnum Interface"),
+		pointer_default(unique)
+	]
+	interface ISysDriveEnum : IDispatch
+	{
+	};
+
+[
+	uuid(E6EB98ED-8D27-4BA9-B0CF-CE76B5D88640),
+	version(1.0),
+	helpstring("DiskDriveKernel 1.0 Type Library")
+]
+library DiskDriveKernel
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(8CD361E9-1B05-4798-87EE-C51DEDD87999),
+		helpstring("_ISysDriveEnumEvents Interface")
+	]
+	dispinterface _ISysDriveEnumEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		uuid(1C0EA6C8-A4AB-4987-BEE8-57FDFF6051F4),
+		helpstring("SysDriveEnum Class")
+	]
+	coclass SysDriveEnum
+	{
+		[default] interface ISysDriveEnum;
+		[default, source] dispinterface _ISysDriveEnumEvents;
+	};
+};

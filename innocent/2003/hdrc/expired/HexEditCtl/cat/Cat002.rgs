@@ -1,0 +1,34 @@
+HKCR
+{
+	Cat.Cat002.1 = s 'Cat002 Class'
+	{
+		CLSID = s '{2D21A1FB-35CD-4AC2-81CC-4C2C0DA60B16}'
+	}
+	Cat.Cat002 = s 'Cat002 Class'
+	{
+		CLSID = s '{2D21A1FB-35CD-4AC2-81CC-4C2C0DA60B16}'
+		CurVer = s 'Cat.Cat002.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2D21A1FB-35CD-4AC2-81CC-4C2C0DA60B16} = s 'Cat002 Class'
+		{
+			ProgID = s 'Cat.Cat002.1'
+			VersionIndependentProgID = s 'Cat.Cat002'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove 'Control'
+			ForceRemove 'Insertable'
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 101'
+			'MiscStatus' = s '0'
+			{
+			    '1' = s '131473'
+			}
+			'TypeLib' = s '{0F986A37-84AB-4B4E-BE26-D18CBEF1304B}'
+			'Version' = s '1.0'
+		}
+	}
+}

@@ -1,0 +1,34 @@
+HKCR
+{
+	HexEdit.HexEditCtl.1 = s 'HexEditCtl Class'
+	{
+		CLSID = s '{C9971570-4D04-48F5-A3E4-5C2AD6E85584}'
+	}
+	HexEdit.HexEditCtl = s 'HexEditCtl Class'
+	{
+		CLSID = s '{C9971570-4D04-48F5-A3E4-5C2AD6E85584}'
+		CurVer = s 'HexEdit.HexEditCtl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {C9971570-4D04-48F5-A3E4-5C2AD6E85584} = s 'HexEditCtl Class'
+		{
+			ProgID = s 'HexEdit.HexEditCtl.1'
+			VersionIndependentProgID = s 'HexEdit.HexEditCtl'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove 'Control'
+			ForceRemove 'Insertable'
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 101'
+			'MiscStatus' = s '0'
+			{
+			    '1' = s '131473'
+			}
+			'TypeLib' = s '{5BF38F30-AFF3-48BF-9B2E-8C1882729ADC}'
+			'Version' = s '1.0'
+		}
+	}
+}

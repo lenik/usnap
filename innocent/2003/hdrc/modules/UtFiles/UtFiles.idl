@@ -1,0 +1,40 @@
+// UtFiles.idl : IDL source for UtFiles.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (UtFiles.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(39C5D144-D3B0-488C-B462-44A1156E0714),
+		dual,
+		helpstring("IUt1 Interface"),
+		pointer_default(unique)
+	]
+	interface IUt1 : IDispatch
+	{
+		[id(1), helpstring("method GetDragFileNames")] HRESULT GetDragFileNames([in]IDataObject *pData, [in]int Index, [out,retval]BSTR *pName);
+		[id(2), helpstring("method GetDragFileNamesCount")] HRESULT GetDragFileNamesCount([in]IDataObject *pData, [out,retval]int *pVal);
+	};
+
+[
+	uuid(C48F5E69-0159-4B83-AAB9-9B8DA07B8D0A),
+	version(1.0),
+	helpstring("Utilities - Files")
+]
+library UtLib_Files
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(FDB75471-8CFF-40F0-A943-6B3502E83A70),
+		helpstring("Ut1 Class")
+	]
+	coclass Ut1
+	{
+		[default] interface IUt1;
+	};
+};
