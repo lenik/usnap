@@ -1,11 +1,11 @@
 
 #pragma once
 
-#ifndef _STARTINC_H
-#define _STARTINC_H
+#ifndef _CPF_START
+#define _CPF_START
 
 /*
-	_STARTINC_
+	_CPF_START_
 		NODISABLE_WARNINGS
 		NOCOMUTIL			comutil.h comsupp.lib
 		NOSTD
@@ -17,10 +17,9 @@
 */
 
 
-#ifndef _STARTINC_NODISABLE_WARNINGS
+#ifndef _CPF_START_NODISABLE_WARNINGS
 #	pragma warning(disable: 4100)		// unreferenced formal parameter
 #	pragma warning(disable: 4127)		// condition is constant
-#	pragma warning(disable: 4245)		// signed/unsigned mismatch
 #	pragma warning(disable: 4786)		// symbol long in debug info
 #	pragma warning(disable: 4530)		// exception with /GX
 #endif
@@ -34,13 +33,13 @@
 #include <commdlg.h>
 #include <tlhelp32.h>
 
-#ifndef _STARTINC_NOCOMUTIL
+#ifndef _CPF_START_NOCOMUTIL
 #	pragma comment(lib, "comsupp.lib")
 #	include <comutil.h>
 #endif
 
 
-#ifndef _STARTINC_NOSTD
+#ifndef _CPF_START_NOSTD
 #	include <iostream>
 #	include <strstream>
 #	include <vector>
@@ -62,11 +61,11 @@
 		}
 		return &*it;
 	}
-#endif // _STARTINC_NOSTD
+#endif // _CPF_START_NOSTD
 
-#ifndef _STARTINC_NOMACROS
+#ifndef _CPF_START_NOMACROS
 
-#	ifndef _STARTINC_NOASSERT
+#	ifndef _CPF_START_NOASSERT
 #		ifdef _DEBUG
 #			ifndef ASSERT
 #				include <assert.h>
@@ -90,7 +89,7 @@
 #				define DBGPOP(s)
 #			endif
 #		endif //_DEBUG
-#	endif // _STARTINC_NOASSERT
+#	endif // _CPF_START_NOASSERT
 
 	/*
 		define local function (1)
@@ -164,11 +163,11 @@
 
 		class _local_base {
 		public:
-			_VTBL_NOTIMPL_1000x(_Vtbl)
+			_VTBL_NOTIMPL_100x(_Vtbl)
 		};
 
 #		define _LOCAL(fn)				class _my_local : public _local_base {	\
-											virtual void _Vtbl0000()
+											virtual void _Vtbl000()
 #		define _LOCAL_AS(name)			} name
 
 #	endif // _LOCAL
@@ -194,14 +193,14 @@
 
 #	define __REF(p)						((p)->AddRef() - 1, (p)->Release())
 
-#	ifndef _STARTINC_NOCOMUTIL
+#	ifndef _CPF_START_NOCOMUTIL
 		inline int __reference(IUnknown *p) {
 			p->AddRef();
 			return p->Release();
 		}
 #	endif
 
-#	ifndef _STARTINC_NONAMESPACE
+#	ifndef _CPF_START_NONAMESPACE
 #		define FEIY_BEGIN					namespace feiy {
 #		define FEIY_END						}
 #		define FEIY(x)						feiy::x
@@ -216,7 +215,7 @@
 #	define DEFINE_OBJ(i)				CComPtr<I##i> p##i;
 
 
-#	ifndef _STARTINC_NOSAFE
+#	ifndef _CPF_START_NOSAFE
 #		ifndef SAFE_ADDREF
 #		define SAFE_ADDREF(p)			if (p) { (p)->AddRef(); }
 #		endif
@@ -229,9 +228,9 @@
 #		ifndef SAFE_DELETE_ARRAY
 #		define SAFE_DELETE_ARRAY(p)		if(p) { delete[] (p); (p) = NULL; }
 #		endif
-#	endif // _STARTINC_NOSAFE
+#	endif // _CPF_START_NOSAFE
 
-#if !defined(SAFE_PROCEDURE) && !defined(_STARTINC_NOSP)
+#if !defined(SAFE_PROCEDURE) && !defined(_CPF_START_NOSP)
 #	define SAFE_PROCEDURE
 		/*
 			Usage of SAFE PROCEDURE
@@ -378,7 +377,7 @@
 #	define SP_GROUP						break;
 #	define SP_RETVAL					__sp_hr
 #	define SP_RETVAL_(t)				((t)__sp_hr)
-#	endif // _STARTINC_NOSP
+#	endif // _CPF_START_NOSP
 
 
 #ifdef _DEBUG
@@ -406,7 +405,7 @@
 
 #	define __zero(v)					memset(&(v), 0, sizeof(v))
 
-#	ifndef _STARTINC_NOINLINES
+#	ifndef _CPF_START_NOINLINES
 		template<class RetT, class ParamT>
 		inline RetT __cast(ParamT x) { return (RetT)x; }
 #	endif
@@ -418,7 +417,7 @@
 #	define SYSERR(errno)				{ feiy::popup_errmsg(errno, true); }
 #	define SYSVERIFY(v)					if (!(v)) SYSERR(GetLastError())
 
-#	ifndef _STARTINC_NOINLINES
+#	ifndef _CPF_START_NOINLINES
 	FEIY_BEGIN
 		inline void __stdcall popup_message(LPCTSTR title, bool fatal = false) {
 			TCHAR	buffer[1024];
@@ -430,12 +429,12 @@
 				lstrcpy(buffer, title);
 			}
 
-			_stprintf(sentence, TEXT("程序发生错误：\n\n%s\n\n请咨询系统管理员或技术人员。"),
+			_stprintf(sentence, TEXT("Runtime Error: \n\n%s\n\nPlease restart the program or contact the system administrator. "),
 				buffer);
 
 			if (!fatal) {
 			#ifndef __silence_message
-				MessageBox(NULL, sentence, TEXT("START.INC FRAMEWORK"), MB_OK | MB_ICONINFORMATION);
+				MessageBox(NULL, sentence, TEXT("CPF STARTER"), MB_OK | MB_ICONINFORMATION);
 			#endif
 			} else {
 				MSG msg;
@@ -482,7 +481,7 @@
 		}
 
 
-#		ifndef _STARTINC_NOMODREF
+#		ifndef _CPF_START_NOMODREF
 #			ifdef _DEBUG
 #				define _MOD_OBJECTS_	_g_mod_objects
 #				define MLOCK			++FEIY(_MOD_OBJECTS_)
@@ -512,12 +511,12 @@
 #				define DEFINE_MODREF
 				static long _MOD_OBJECTS_ = 0;
 #			endif
-#		endif // _STARTINC_NOMODREF
+#		endif // _CPF_START_NOMODREF
 
 	FEIY_END
 
-#	endif // _STARTINC_NOINLINES
+#	endif // _CPF_START_NOINLINES
 
-#endif // _STARTINC_NOMACROS
+#endif // _CPF_START_NOMACROS
 
-#endif // _STARTINC_H
+#endif // _CPF_START
