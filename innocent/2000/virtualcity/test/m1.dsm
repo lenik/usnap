@@ -1,0 +1,10 @@
+'------------------------------------------------------------------------------
+'FILE DESCRIPTION: A description was not provided.
+'------------------------------------------------------------------------------
+
+dim app
+
+sub abc
+set app = CreateObject("MSDev.Application")
+app.visible = true
+end sub
