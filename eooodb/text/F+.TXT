@@ -1,0 +1,59 @@
+
+
+数据类型
+
+	- 提供比较操作以支持索引
+	-
+
+
+
+- 字段名称
+- 字段类型,字段子类型
+- 说明			[description(...)]
+- 格式 (显示格式)	[display($9999.99)]
+- 小数位数 (0-15)
+- 输入掩码		[mask(9999.99)]需要一种标准的掩码表示格式
+- 标题			[caption(...)]另一种字段说明性名称
+- 默认值		构造函数
+- 有效性规则		[noempty]V Validate()
+- 有效性文本		[validate(...)]		V Validate(bstr& retval)
+- 必填字段		[validate(...,"error")]	V Validate()
+- 索引			[indexed]
+
+//
+// F+ 1
+//
+
+F+ Person {
+public:
+	[primary, index, unique]
+	int	ID;
+
+	[index, noempty]
+	string	Name;
+
+	[index]
+	int	Age;
+
+	enum SEX {
+		Male,
+		Female
+	};
+	SEX	Sex(Male);
+
+protected:
+	string	Address;
+	string	UserData;
+
+	BOOL	IsBoy();
+	BOOL	IsGirl();
+};
+
+BOOL Person::IsBoy() {
+	if (Age == Male && Age < 25) return TRUE;
+	else return FALSE;
+}
+
+BOOL Person::IsGirl() {
+	return !IsBoy();
+}

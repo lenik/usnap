@@ -1,0 +1,49 @@
+
+
+
+// classic recordset (2-D table)
+R+ Classic {
+	int RecordNo;
+};
+
+
+// date-categorized recordset
+R+ DateCategorized {
+
+	[ group(F+.year) ]
+	int Year[] (
+		[ group(F+.month) ]
+		int Month[] (
+			[ group(F+.day) ]
+			int Day[];
+		);
+	);
+};
+
+
+// 100-record per page recordset
+R+ Hundreds {
+	int RecordNo;
+
+	virtual AddRecord();
+	virtual RemoveRecord();
+};
+
+
+// 访问频率硬排序记录集
+R+ FreqSorted {
+	int RecordNo;
+
+	virtual AddRecord();
+	virtual RemoveRecord();
+
+	// access-anchor
+	virtual ReadRecord();
+	virtual WriteRecord();
+};
+
+
+// recordset-filesystem
+R+ FileSystemRecordset {
+	tree<string> Directory;
+};

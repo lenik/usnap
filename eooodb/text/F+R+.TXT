@@ -1,0 +1,13 @@
+
+
+F+ Person;
+F+ FamilyShip;
+F+ Resident;
+
+Resident.ID 1:n Person.ID;
+
+
+R+ Classic;
+R+ SimpleGroup;
+
+Object& person_group_by_ID = SimpleGroup<Person, Person.ID>;

@@ -1,0 +1,24 @@
+
+
+
+
+结点操作
+
+	create
+	delete
+
+
+
+空间操作
+
+	allocate
+	reallocate
+	free
+
+
+FAT|Fixed
+	first_available_cluster(i64 minimal_requirement = -1)
+
+	node * CreateNode(node *parent)
+
+	node *

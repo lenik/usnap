@@ -1,0 +1,22 @@
+
+Introduction:
+	- System has a simple, easy architecture,
+	- It is convienient for users who using the system.
+
+Open:
+	- Source level open, see GPL;
+	- Binary level open, open system, plugin and scripts will be supported.
+
+Object-Oriented:
+	- Object-oriented data types,
+	- Object-oriented 'table' architecture,
+	- Object-oriented SQL (EQL, not the same thing as OSQL)
+
+Booting procedure:
+	- Analyas MySQL, Postgres; Generate reference documentations;
+	- Set up EoooDB experts group, and a group specific to the EQL standard; set up EoooDB Journal;
+	- Define the OPEN system of EoooDB system;
+	- Start system design of EoooDB.
+
+THE FREEDOM ISN'T FOR PRICE,
+THE EASY DOESN'T STAND FOR WEAK!
