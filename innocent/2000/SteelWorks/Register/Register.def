@@ -1,0 +1,5 @@
+DESCRIPTION	"FINGER REGISTER LIB"
+
+EXPORTS
+		Register
+		RegisterVal

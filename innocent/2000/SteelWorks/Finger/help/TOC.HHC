@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="打字之家">
+		<param name="Local" value="STARTPAGE.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="简介">
+		<param name="Local" value="about.htm">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="程序简介">
+			<param name="Local" value="about_program.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="开发环境">
+			<param name="Local" value="development_enviroment.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="作者简介">
+			<param name="Local" value="about_author.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="一般问题">
+		<param name="Local" value="general_problem.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="接口编程">
+		<param name="Local" value="api.htm">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="程序结构">
+			<param name="Local" value="software_link.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="网络接口">
+			<param name="Local" value="net_interface.htm">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="网络连接结构">
+				<param name="Local" value="net_link.htm">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="网络数据流参考">
+				<param name="Local" value="net_data_stream.htm">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="ARE YOU MANAGER">
+					<param name="Local" value="ARE_YOU_MANAGER.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="CANCEL APPLY">
+					<param name="Local" value="CANCEL_APPLY.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="DISPATCH MESSAGE">
+					<param name="Local" value="DISPATCH_MESSAGE.htm">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="DISPATCH SCRIPT">
+					<param name="Local" value="DISPATCH_SCRIPT.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="DISPLAY MESSAGE">
+					<param name="Local" value="DISPLAY_MESSAGE.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="EARLY HANDUP">
+					<param name="Local" value="EARLY_HANDUP.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="GET CLIENT INFO">
+					<param name="Local" value="GET_CLIENT_INFO.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="GET SERVER INFO">
+					<param name="Local" value="GET_SERVER_INFO.htm">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="HANDUP">
+					<param name="Local" value="HANDUP.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="JOIN APPLY">
+					<param name="Local" value="JOIN_APPLY.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="JOINER CANCELED">
+					<param name="Local" value="JOINER_CANCELED.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="PAPER ACCEPTED">
+					<param name="Local" value="PAPER_ACCEPTED.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="QUERY COMPRESULT">
+					<param name="Local" value="QUERY_COMPRESULT.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="SERVER MESSAGE">
+					<param name="Local" value="SERVER_MESSAGE.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="START">
+					<param name="Local" value="START.HTM">
+					</OBJECT>
+			</UL>
+		</UL>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="插件编程">
+		<param name="Local" value="plugin.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="联系方法">
+		<param name="Local" value="about_contact.htm">
+		</OBJECT>
+</UL>
+</BODY></HTML>

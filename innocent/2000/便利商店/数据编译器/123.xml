@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<table><tr><td>name</td><td>parent</td></tr><tr><td>Product    </td><td>
+		</td></tr><tr><td>Interactive</td><td>
+		</td></tr><tr><td>Enviroment </td><td>
+		</td></tr><tr><td>Food       </td><td>Product    </td></tr><tr><td>Cloth      </td><td>Product    </td></tr><tr><td>Map        </td><td>Enviroment </td></tr><tr><td>Building   </td><td>Enviroment </td></tr><tr><td>Building   </td><td>Product    </td></tr><tr><td>Other      </td><td>Product    </td></tr><tr><td>Other      </td><td>Enviroment </td></tr><tr><td>Player     </td><td>Interactive</td></tr><tr><td>Fruit      </td><td>Food       </td></tr><tr><td>Cake       </td><td>Food       </td></tr><tr><td>Meat       </td><td>Food       </td></tr><tr><td>Apple      </td><td>Fruit      </td></tr><tr><td>Pear       </td><td>Fruit      </td></tr><tr><td>Shoe       </td><td>Cloth      </td></tr><tr><td>Coat       </td><td>Cloth      </td></tr></table>

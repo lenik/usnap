@@ -1,0 +1,5 @@
+
+EXPORTS
+	score_for_stream_units_compare
+	about_for_plugin
+	syntax_for_plugin

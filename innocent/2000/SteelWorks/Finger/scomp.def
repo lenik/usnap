@@ -1,0 +1,17 @@
+
+EXPORTS
+
+	SCM_GE		= stream_comp_mbcs_get_element
+
+	SCB		= stream_comp_byte
+	SCW		= stream_comp_word
+	SCD		= stream_comp_dword
+	SCM		= stream_comp_mbcs
+	SCM_F		= stream_comp_mbcs_fast
+
+	SCV		= stream_comp_validate
+
+	SCPRA		= stream_comp_pretty_result_a
+	SCPRW		= stream_comp_pretty_result_w
+
+	RNIL		= reset_num_info_lost

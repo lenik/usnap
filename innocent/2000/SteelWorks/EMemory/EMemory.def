@@ -1,0 +1,22 @@
+
+EXPORTS
+
+	EMemory_funcswitch
+	EMemory_setflags
+	EMemory_resetvar
+
+	AllocMemory
+	ReallocMemory
+	FreeMemory
+
+	EBuffer_setsize			@1
+	EBuffer_clear			@2
+	EBuffer_compress		@3
+
+	EBuffer_setelement		@4
+	EBuffer_getelement		@5
+	EBuffer_moveelement
+
+	EBuffer_appendelement		@6
+	EBuffer_insertelement		@7
+	EBuffer_deleteelement		@8

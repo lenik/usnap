@@ -1,0 +1,411 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\scomp2_client2.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\bsn.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 scomp2_client2"
+FONT 9, "宋体"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    DEFPUSHBUTTON   "确定",IDOK,176,15,50,14,WS_GROUP
+    LTEXT           "模糊流比较 (build 161)",IDC_STATIC,52,15,89,8,
+                    SS_NOPREFIX
+    LTEXT           "谢继雷/桃壳软件(C) 2001",IDC_STATIC,52,31,93,8
+END
+
+IDD_SCOMP2_CLIENT2_DIALOG DIALOGEX 0, 0, 338, 245
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "模糊流比较"
+FONT 9, "宋体"
+BEGIN
+    LTEXT           "流处理 | 一维粒度流(严格单元) | 模糊流比较 | 功能界面 | Beta",
+                    -1,6,7,241,8
+    LTEXT           "&T模版文件",-1,8,25,37,8
+    EDITTEXT        IDC_EDIT_FILETEMP,64,25,196,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "&B浏览",IDC_BUTTON_BROWSE_TEMP,272,25,47,15
+    LTEXT           "&C比较文件",-1,8,40,37,8
+    LISTBOX         IDC_LIST_FILECOMP,8,50,252,165,LBS_NOINTEGRALHEIGHT |
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&I添加",IDC_BUTTON_INSERT,272,50,47,15
+    PUSHBUTTON      "&R删除",IDC_BUTTON_REMOVE,272,75,47,15
+    PUSHBUTTON      "&D比较",IDC_BUTTON_COMP,272,100,47,15
+    PUSHBUTTON      "&A分析",IDC_BUTTON_PRETTY_RESULT,272,125,47,15
+    PUSHBUTTON      "&J批量比较",IDC_BUTTON_BATCH,272,150,48,15
+    PUSHBUTTON      "&S参数设置",IDC_BUTTON_SETTING,272,175,48,15
+    PUSHBUTTON      "&?关于",IDC_BUTTON_ABOUT,272,200,48,15
+    PUSHBUTTON      "&X退出",IDC_BUTTON_EXIT,272,225,47,15
+    LTEXT           "比较结果:",-1,12,225,37,8
+    LTEXT           "-",IDC_STATIC_COMP_RESULT,56,225,204,10
+END
+
+IDD_DETAIL DIALOGEX 0, 0, 367, 250
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "资料窗口"
+FONT 9, "宋体"
+BEGIN
+    LTEXT           "正在装入组件中, 请稍后...",IDC_INFO,4,0,101,8
+    DEFPUSHBUTTON   "确定",IDOK,4,20,48,15
+    PUSHBUTTON      "&S保存",IDC_BUTTON_SAVE,4,44,48,16
+    LTEXT           "",IDC_DHTML_LEFTBORDER,52,12,8,228,WS_BORDER,
+                    WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    CONTROL         "",IDC_DHTML,"{2D360200-FFF5-11D1-8D03-00A0C959BC0A}",
+                    WS_TABSTOP,60,12,296,228
+END
+
+IDD_SETTING DIALOGEX 0, 0, 296, 183
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "模糊流比较"
+FONT 9, "宋体"
+BEGIN
+    LTEXT           "PREFERENCES 参数设置",IDC_STATIC,8,8,81,8
+    LTEXT           "&1 配置文件",IDC_STATIC,8,24,41,8
+    CONTROL         "&1 配置文件",IDC_RADIO_1,"Button",BS_AUTORADIOBUTTON |
+                    NOT WS_VISIBLE,68,24,56,10
+    EDITTEXT        IDC_EDIT_CONFIGFILE,24,36,208,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "&B浏览",IDC_BUTTON_BROWSE,240,36,44,16
+    LTEXT           "&2 使用预设",IDC_STATIC,8,60,41,8
+    CONTROL         "&2 使用预设",IDC_RADIO_2,"Button",BS_AUTORADIOBUTTON |
+                    NOT WS_VISIBLE,68,60,56,10
+    LTEXT           "&A使用算法",IDC_STATIC,24,72,37,8
+    COMBOBOX        IDC_COMBO_ALGOR,108,72,178,60,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&F修饰符",IDC_STATIC,24,90,29,8
+    COMBOBOX        IDC_COMBO_DECORATE,108,90,178,66,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&D比较深度(严格度)",IDC_STATIC,24,109,69,8
+    EDITTEXT        IDC_EDIT_COMP_DEPTH,108,109,178,14,ES_AUTOHSCROLL
+    LTEXT           "&W比较广度(查找范围)",IDC_STATIC,24,127,77,8
+    EDITTEXT        IDC_EDIT_COMP_WIDTH,108,127,178,14,ES_AUTOHSCROLL
+    CONTROL         "&S保存设置",IDC_CHECK_SAVE,"Button",BS_AUTOCHECKBOX |
+                    NOT WS_VISIBLE | WS_TABSTOP,8,152,52,10
+    PUSHBUTTON      "&A高级设置",IDC_BUTTON_ADVANCE,112,156,68,16
+    PUSHBUTTON      "确定",IDOK,188,156,44,16
+    PUSHBUTTON      "取消",IDCANCEL,240,156,44,16
+END
+
+IDD_SETTING_ADVANCED DIALOG DISCARDABLE  0, 0, 272, 159
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "模糊流比较 - 高级设置"
+FONT 9, "宋体"
+BEGIN
+    PUSHBUTTON      "确定",IDOK,172,136,38,16
+    PUSHBUTTON      "取消",IDCANCEL,216,136,38,16
+    LTEXT           "Advanced setting 高级设置",IDC_STATIC,8,8,101,8
+    RTEXT           "&F 模糊度",IDC_STATIC,36,24,33,8
+    EDITTEXT        IDC_EDIT_FUZZY_SAME,72,20,184,16,ES_AUTOHSCROLL
+    RTEXT           "&P 精确度",IDC_STATIC,36,48,33,8
+    COMBOBOX        IDC_COMBO_COMPARE_MODE,72,44,184,52,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&C 合并错误",IDC_CHECK_COMBINE_ERROR,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_LEFT | WS_TABSTOP,28,
+                    68,56,10
+    RTEXT           "&S 计分方法插件",IDC_STATIC,12,92,57,8
+    EDITTEXT        IDC_EDIT_PLUGIN,72,88,184,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "&B 浏览",IDC_BUTTON_BROWSE,72,108,40,16
+    PUSHBUTTON      "&H 帮助",IDC_BUTTON_PLUGIN_HELP,120,108,40,16
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 5,1,0,1
+ PRODUCTVERSION 5,1,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "TopCroak Software\0"
+            VALUE "FileDescription", "流处理 | 一维粒度流(严格单元) | 模糊流比较 | 功能界面\0"
+            VALUE "FileVersion", "5, 1, 0, 1\0"
+            VALUE "InternalName", "scomp2_client2\0"
+            VALUE "LegalCopyright", "版权所有 (C)桃壳软件 1997-2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "scomp2_client2.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "流处理 | 一维粒度流(严格单元) | 模糊流比较 | 功能界面\0"
+            VALUE "ProductVersion", "5, 1, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_SCOMP2_CLIENT2_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 330
+        VERTGUIDE, 64
+        VERTGUIDE, 84
+        VERTGUIDE, 262
+        VERTGUIDE, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 237
+        HORZGUIDE, 25
+        HORZGUIDE, 38
+        HORZGUIDE, 48
+        HORZGUIDE, 60
+        HORZGUIDE, 67
+        HORZGUIDE, 80
+        HORZGUIDE, 88
+        HORZGUIDE, 103
+        HORZGUIDE, 110
+        HORZGUIDE, 124
+        HORZGUIDE, 128
+        HORZGUIDE, 142
+        HORZGUIDE, 147
+        HORZGUIDE, 161
+        HORZGUIDE, 165
+        HORZGUIDE, 179
+        HORZGUIDE, 184
+        HORZGUIDE, 201
+        HORZGUIDE, 208
+    END
+
+    IDD_DETAIL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 360
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 243
+    END
+
+    IDD_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 289
+        VERTGUIDE, 64
+        VERTGUIDE, 84
+        VERTGUIDE, 262
+        VERTGUIDE, 274
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+        HORZGUIDE, 25
+        HORZGUIDE, 38
+        HORZGUIDE, 48
+        HORZGUIDE, 60
+        HORZGUIDE, 67
+        HORZGUIDE, 80
+        HORZGUIDE, 88
+        HORZGUIDE, 103
+        HORZGUIDE, 110
+        HORZGUIDE, 124
+        HORZGUIDE, 128
+        HORZGUIDE, 142
+        HORZGUIDE, 147
+        HORZGUIDE, 161
+        HORZGUIDE, 165
+    END
+
+    IDD_SETTING_ADVANCED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 265
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_SETTING DLGINIT
+BEGIN
+    IDC_COMBO_ALGOR, 0x403, 11, 0
+0x4e41, 0x4953, 0xd6d7, 0xfbb7, 0xaeb4, "\000"
+    IDC_COMBO_ALGOR, 0x403, 14, 0
+0x6e55, 0x6369, 0x646f, 0xd765, 0xb7d6, 0xb4fb, 0x00ae,
+    IDC_COMBO_ALGOR, 0x403, 10, 0
+0x4c4f, 0xd745, 0xb7d6, 0xb4fb, 0x00ae,
+    IDC_COMBO_ALGOR, 0x403, 20, 0
+0x754d, 0x746c, 0x6269, 0x7479, 0xb165, 0xbfe4, 0xd7ed, 0xb7d6, 0xb4fb,
+0x00ae,
+    IDC_COMBO_ALGOR, 0x403, 13, 0
+0xa4b3, 0xaeb4, 0x4c28, 0x6e6f, 0x2067, 0x292a, "\000"
+    IDC_COMBO_ALGOR, 0x403, 5, 0
+0xbbce, 0xaeb4, "\000"
+    IDC_COMBO_DECORATE, 0x403, 9, 0
+0xa3b3, 0xe6b9, 0xa3c4, 0xbdca, "\000"
+    IDC_COMBO_DECORATE, 0x403, 17, 0
+0xf6ba, 0xd4c2, 0xa3c4, 0xe6b0, 0xc4ce, 0xfebc, 0xe1bd, 0xb2ce, "\000"
+    IDC_COMBO_DECORATE, 0x403, 17, 0
+0xf6ba, 0xd4c2, 0xc8b1, 0xcfbd, 0xc4ce, 0xfebc, 0xe1bd, 0xb2ce, "\000"
+    IDC_COMBO_DECORATE, 0x403, 9, 0
+0xeed7, 0xa1d0, 0xa3c4, 0xbdca, "\000"
+    0
+END
+
+IDD_DETAIL DLGINIT
+BEGIN
+    IDC_DHTML, 0x376, 84, 0
+0x0000, 0x0000, 0x0202, 0x0000, 0x2de4, 0x0000, 0x2359, 0x0000, 0x000b,
+0x0000, 0x000b, 0x0000, 0x000b, 0xffff, 0x000b, 0x0000, 0x000b, 0x0000,
+0x0003, 0x0001, 0x0000, 0x000b, 0xffff, 0x0003, 0x0001, 0x0000, 0x000b,
+0xffff, 0x000b, 0x0000, 0x000b, 0x0000, 0x0003, 0x0032, 0x0000, 0x0003,
+0x0032, 0x0000, 0x000b, 0xffff, 0x000b, 0x0000,
+    0
+END
+
+IDD_SETTING_ADVANCED DLGINIT
+BEGIN
+    IDC_COMBO_COMPARE_MODE, 0x403, 15, 0
+0xd6b4, 0xd4c2, 0xa3c4, 0xbdca, 0xbf28, 0xcbec, 0x29d9, "\000"
+    IDC_COMBO_COMPARE_MODE, 0x403, 9, 0
+0xabbe, 0xb7c8, 0xa3c4, 0xbdca, "\000"
+    IDC_COMBO_COMPARE_MODE, 0x403, 13, 0
+0xecd2, 0xa3b3, 0xabbe, 0xb7c8, 0xa3c4, 0xbdca, "\000"
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_ABOUTBOX            "关于 scomp2_client2(&A)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\scomp2_client2.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><font face="Arial, Helvetica, sans-serif"><b><font size="5">DISPLAY MESSAGE</font></b></font></p>
+<p>[服务端]通知客户需要立即显示一条消息。</p>
+<p>格式：</p>
+<blockquote>
+  <p> DATA TEXT FING #DISPLAY MESSAGE#<font color="#3333FF">消息...</font></p>
+</blockquote>
+<p>功能：</p>
+<blockquote>
+  <p>当服务器需要向客户发送一条消息并要求客户响应时使用。<br>
+    除了使用DISPLAY MESSAGE外还可以使用<a href="DATA_TEXT_SCRP.HTM">DATA TEXT SCRP</a>向客户发送显示脚本。</p>
+  </blockquote>
+<p>返回：</p>
+<blockquote>
+  <p>成功：OK</p>
+  <p>失败：NOT A CLIENT</p>
+</blockquote>
+<p>注：</p>
+<blockquote>
+  <p>不同于SERVER MESSAGE，虽然这两个都是服务端的消息，但SERVER MESSAGE用于传送消息，而DISPLAY MESSAGE仅用于需要客户响应的场合。</p>
+</blockquote>
+<p>参见：</p>
+<blockquote>
+  <p> <a href="SERVER_MESSAGE.HTM">SERVER MESSAGE</a><br>
+    <a href="DATA_TEXT_SCRP.HTM">DATA TEXT SCRP</a></p>
+</blockquote>
+</body>
+</html>

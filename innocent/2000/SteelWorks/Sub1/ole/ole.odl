@@ -1,0 +1,42 @@
+// ole.odl : type library source for ole.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (ole.tlb).
+
+[ uuid(76E3C9E7-D5F6-499E-8450-E72AC4AF1761), version(1.0) ]
+library Ole
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	//  Primary dispatch interface for COleDoc
+
+	[ uuid(BA7DA016-D2E8-4C48-8FF5-380CC0FD2A6F) ]
+	dispinterface IOle
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(COleDlgAutoProxy)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(COleDlgAutoProxy)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for COleDoc
+
+	[ uuid(D792264A-68A2-46F4-85EB-1D8EC5440146) ]
+	coclass Ole
+	{
+		[default] dispinterface IOle;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

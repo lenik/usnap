@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<root>
+	Root
+
+	<part no="1">
+		Part 1
+		<part2 no="1">
+			This is 1st of part2 of part 1
+		</part2>
+		<part2 no="2">
+			This is 2nd of part2 of part 1
+		</part2>
+	</part>
+	<part no="2">
+		Part 2
+		<part2 no="1">
+			This is 1st of part2 of part 2
+		</part2>
+		<part2 no="2">
+			This is 2nd of part2 of part 2
+		</part2>
+	</part>
+</root>

@@ -17,3 +17,4 @@ protected:
 };
 
 typedef ComFortuneTeller	*PComFortuneTeller, *LPComFortuneTeller;
+

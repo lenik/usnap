@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><font face="Arial, Helvetica, sans-serif"><b><font size="5">信息分发服务</font></b></font></p>
+<p>通过信息分发服务，客户可以将信息传递给同频道的其他客户。</p>
+<p>如下图：</p>
+<p><img src="image/dispatch1.gif" width="363" height="246"></p>
+<p>1. 客户向分发服务器(频道服务器)发送：</p>
+<blockquote>
+  <blockquote>
+    <p><a href="DISPATCH_MESSAGE.HTM">DATA TEXT FING #DISPATCH MESSAGE</a>#大家好！</p>
+  </blockquote>
+  <p>服务器接收到该消息后将消息转换成：</p>
+  <blockquote>
+    <p><a href="SERVER_MESSAGE.HTM">DATA TEXT FING #SERVER MESSAGE</a>#大家好！</p>
+  </blockquote>
+  <p>并把它存储到迟后分发缓冲区(dispatchLater)，当分发监测器监测到服务器空闲时便把最前面一条迟后分发命令发布出去，如图中蓝色箭头所示。</p>
+</blockquote>
+<p>2. 客户如果请求分发脚本，如：</p>
+<blockquote>
+  <blockquote>
+    <p><a href="DISPATCH_SCRIPT.HTM">DATA TEXT FING #DISPATCH SCRIPT</a>#MSGBOX
+      123</p>
+  </blockquote>
+  <p>服务器将把它转换成：</p>
+  <blockquote>
+    <p><a href="DATA_TEXT_SCRP.HTM">DATA TEXT SCRP</a> MSGBOX 123</p>
+  </blockquote>
+  <p>这是因为SCRP在传递到客户时客户并不会马上执行该命令，而是等到网络连接结束后才执行。这样就避免了网络堵塞。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>参见：</p>
+<blockquote>
+  <p><a href="DISPATCH_MESSAGE.HTM">DISPATCH MESSAGE</a><br>
+    <a href="DISPATCH_SCRIPT.HTM">DISPATCH SCRIPT</a><br>
+    <a href="SERVER_MESSAGE.HTM">SERVER MESSAGE</a></p>
+  <p>&nbsp; </p>
+  </blockquote>
+</body>
+</html>

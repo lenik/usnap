@@ -1,0 +1,69 @@
+Set book = CreateObject("Excel.Sheet")
+Set xapp = book.Application
+Set s = book.Worksheets(1)
+s.Activate
+Set vbc = book.VBProject.VBComponents.Add(vbext_ct_StdModule)
+vbc.CodeModule.AddFromString _
+        "Public Sub hideThisObject()" & vbNewLine & _
+        "       Selection.ShapeRange.Visible = False" & vbNewLine & _
+        "End Sub" & vbNewLine & vbNewLine & _
+        "Public Sub hideObjects()" & vbNewLine & _
+        "       " & vbNewLine & _
+        "End Sub"
+
+xapp.OnKey "^%{H}", "hideThisObject"
+
+s.Name = "首页"
+
+        Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 80, 15, 400, 33)
+                sh.Name = "首页_提示"
+                sh.TextFrame.Characters.Text = _
+                        "本文由[流处理|一维粒度流(严格单元)|模糊流比较|功能界面|Beta|批量比较]程序生成" & vbNewLine & _
+                        "隐藏本提示条请按Ctrl-Alt-H"
+                sh.TextFrame.Characters.Font.Size = 10
+                sh.TextFrame.Characters.Font.Color = &H8000&
+                sh.TextFrame.Characters(46).Font.Color = &H808080
+                sh.TextFrame.HorizontalAlignment = xlHAlignCenter
+                sh.Line.Visible = msoFalse
+                sh.Fill.Visible = msoFalse
+
+        Set sh = s.Shapes.AddTextEffect(msoTextEffect9, "批 量 比 较", "黑体", 40#, msoFalse, msoFalse, 160, 141#)
+                sh.Name = "首页_标题"
+        Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 160, 190, 220, 20)
+                sh.Name = "首页_标题2"
+                sh.TextFrame.Characters.Text = "结 果 报 告 单"
+                sh.TextFrame.Characters.Font.Size = 10
+                sh.TextFrame.HorizontalAlignment = xlHAlignRight
+                sh.Line.Visible = msoFalse
+                sh.Fill.Visible = msoFalse
+
+        Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 75, 250, 200, 30)
+                sh.Name = "首页_版权"
+                sh.TextFrame.Characters.Text = _
+                        "版权保留 (C)桃壳软件 1997-2001" & vbNewLine & _
+                        "Contact: dansei@126.com"
+                sh.TextFrame.Characters.Font.Size = 10
+                sh.TextFrame.Characters.Font.Color = &H606060
+                sh.Line.Visible = msoFalse
+                sh.Fill.Visible = msoFalse
+
+Set s = book.Worksheets.Add(, s)
+s.Name = "工程"
+
+Set s = book.Worksheets.Add(, s)
+s.Name = "详细报告"
+
+Set s = book.Worksheets.Add(, s)
+s.Name = "序"
+
+Set s = book.Worksheets.Add(, s)
+s.Name = "末页"
+        Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 160, 141, 220, 40)
+        sh.TextFrame.Characters.Text = "谢 谢 使 用 !"
+        sh.TextFrame.Characters.Font.Size = 10
+        sh.TextFrame.HorizontalAlignment = xlHAlignCenter
+        sh.Line.Visible = msoFalse
+        sh.Fill.Visible = msoFalse
+
+book.Close True
+'book.SaveAs "C:\xx"

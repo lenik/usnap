@@ -1,0 +1,35 @@
+
+<?xml version="1.0" encoding="GB2312"?>
+
+<soml>
+
+	<i n="动物">
+		<m n="咬">
+			<p n="力度" c="实数" v="1.0"/>
+			<p n="要哪只动物" c="动物"/>
+		</m>
+		<e n="被咬">
+			<p n="被咬力度" c="实数"/>
+			<p n="被哪只动物咬" c="动物"/>
+		</e>
+		<i n="狗">
+			<m n="叫">
+				<p n="分贝" c="实数" v="1.0"/>
+			</m>
+		</i>
+	</i>
+
+	<c n="阿拉斯加狗" mapto="activex:CampoAccelerate.DogCat">
+		<ao n="拥有者姓名" c="字串" mapto="Owner"/>
+		<i n="动物 - 狗" mapto="IDog">
+			<m n="咬" mapto="Bite"/>
+			<e n="被咬" mapto="Bitten"/>
+		</i>
+		<c n="长尾巴阿拉斯加狗" mapto="activex:CampoAccelerate.DogCatWithLongTail">
+			<ao n="尾巴长度" c="实数"/>
+			<e n="尾巴打结">
+				<p n="打结拓扑结构" c="复杂结构" />
+			</e>
+		</c>
+	</c>
+</soml>

@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><font face="Arial, Helvetica, sans-serif"><b><font size="5">DISPATCH MESSAGE</font></b></font></p>
+<p>[客户端]消息分发</p>
+<p>格式：</p>
+<blockquote>
+  <p> DATA TEXT FING #DISPATCH MESSAGE#<font color="#3333FF">消息...</font></p>
+</blockquote>
+<p>功能：</p>
+<blockquote>
+  <p>分发服务器将存储<font color="#3333FF">消息</font>至迟后分发池，等到空闲时再将<font color="#3333FF">消息</font>逐个分发给lstJoinerView中的客户,
+    按照如下格式分发: </p>
+  <blockquote>
+    <p>DATA TEXT <font color="#3333FF">消息...</font></p>
+  </blockquote>
+</blockquote>
+<p>返回：</p>
+<blockquote>
+  <p>成功：OK#PLEASE WAIT</p>
+  <p>失败：ERROR#NOT A SERVER</p>
+</blockquote>
+<p>参见：</p>
+<blockquote>
+  <p><a href="DISPATCH_SERVICES.HTM">信息分发服务</a><br>
+    <a href="DISPATCH_SCRIPT.HTM">DISPATCH SCRIPT</a></p>
+</blockquote>
+</body>
+</html>

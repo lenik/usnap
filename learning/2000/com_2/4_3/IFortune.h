@@ -10,3 +10,4 @@ DECLARE_INTERFACE_(IFortuneTeller, IUnknown) {
 };
 
 typedef IFortuneTeller	*PFortuneTeller, *LPFortuneTeller;
+

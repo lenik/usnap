@@ -1,0 +1,23 @@
+
+<?xml version="1.0" encoding="GB2312"?>
+
+<soml>
+<c n="Class" alias="便利商店对象类">
+	<ao n="Pos" alias="位置"/>
+	<ao n="Image" alias="图片"/>
+	<c n="Product" alias="产品类">
+		<ac n="Price" alias="价格" c="int"/>
+		<c n="Food" alias="食物类">
+			<o n="苹果" price="20.3" image="apple1.jpg"/>
+		</c>
+	</c>
+	<c n="Enviroment" alias="环境类">
+		<c n="Map" alias="地图类"/>
+	</c>
+	<c n="Interactive" alias="交互类">
+		<c n="Player" alias="玩家">
+			<ao n="Products" c="Class/Product[]"/>
+		</c>
+	</c>
+</c>
+</soml>

@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><font face="Arial, Helvetica, sans-serif"><b><font size="5">JOIN APPLY</font></b></font></p>
+<p>[客户端]请求加入频道</p>
+<p>格式：</p>
+<blockquote>
+  <p> DATA TEXT FING #JOIN APPLY#客户名#客户主机<font color="#3333FF"></font></p>
+</blockquote>
+<p>功能：</p>
+<blockquote>
+  <p>请求频道服务器将自己加入。假如频道服务器的客户之间共享消息分发流。</p>
+</blockquote>
+<p>返回：</p>
+<blockquote>
+  <p>成功：OK#服务描述包</p>
+  <p>失败：</p>
+  <blockquote>
+    <p>已经存在：ERROR#JOIN EXISTED<br>
+      不是服务器：ERROR#NOT A SERVER</p>
+    </blockquote>
+</blockquote>
+<p>参见：</p>
+<blockquote>
+  <p><a href="JOINER_CANCELED.HTM">JOINER CANCELED</a><br>
+    <a href="CANCEL_APPLY.HTM">CANCEL APPLY</a></p>
+</blockquote>
+</body>
+</html>

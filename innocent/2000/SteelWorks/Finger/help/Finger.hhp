@@ -1,0 +1,9 @@
+[OPTIONS]
+Compatibility=1.1
+Compiled file=Finger.chm
+Contents file=TOC.HHC
+Default topic=startpage.htm
+Display compile progress=No
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=打字之家
