@@ -1,0 +1,18 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0610-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOObject")
+] interface IOeSOObject : IDispatch {
+	[id(0), propget, helpstring("返回对象属性集合(对象属性包括类属性, 但类属性不包括对象属性)")]
+	HRESULT attributes([out, retval]IOeSOAttributesCollection **ret);
+
+	[helpstring("只返回对象特有的属性集合, 不包括类属性")]
+	HRESULT attributesApplyToObject([out, retval]IOeSOAttributesCollection **ret);
+
+	[helpstring("返回方法列表")]
+	HRESULT methods_([out, retval]IOeSOMethodsCollection **ret);
+
+};

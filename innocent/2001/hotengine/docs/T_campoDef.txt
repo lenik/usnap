@@ -1,0 +1,14 @@
+
+[理想类型功能文档]
+
+campoDef 基本类型
+
+_tag_cColor, cColor	颜色类
+	各种颜色之间的转换,
+		通过setColorType(cColor::_ecColor newColorType)
+
+
+dcPtrList 指针列表类
+	能够通过回调枚举指针列表
+		int (*PTRENUMFUNC)(LPVOID, LPVOID)
+		EnumElements(PTRENUMFUNC, LPVOID)

@@ -1,0 +1,150 @@
+HKCR {
+	OceanEngine.OeTVariant.1 = s 'OeTVariant class ' {
+		CLSID = s '{00000000-4F45-0100-0002-486954656368}'
+	}
+	OceanEngine.OeTVariant = s 'OeTVariant class ' {
+		CLSID = s '{00000000-4F45-0100-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTVariant.1'
+	}
+
+	OceanEngine.OeTString.1 = s 'OeTString class ' {
+		CLSID = s '{00000000-4F45-0101-0002-486954656368}'
+	}
+	OceanEngine.OeTString = s 'OeTString class ' {
+		CLSID = s '{00000000-4F45-0101-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTString.1'
+	}
+
+	OceanEngine.OeTArray.1 = s 'OeTArray class ' {
+		CLSID = s '{00000000-4F45-0102-0002-486954656368}'
+	}
+	OceanEngine.OeTArray = s 'OeTArray class ' {
+		CLSID = s '{00000000-4F45-0102-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTArray.1'
+	}
+
+	OceanEngine.OeTChain.1 = s 'OeTChain class ' {
+		CLSID = s '{00000000-4F45-0103-0002-486954656368}'
+	}
+	OceanEngine.OeTChain = s 'OeTChain class ' {
+		CLSID = s '{00000000-4F45-0103-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTChain.1'
+	}
+
+	OceanEngine.OeTQueue.1 = s 'OeTQueue class ' {
+		CLSID = s '{00000000-4F45-0104-0002-486954656368}'
+	}
+	OceanEngine.OeTQueue = s 'OeTQueue class ' {
+		CLSID = s '{00000000-4F45-0104-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTQueue.1'
+	}
+
+	OceanEngine.OeTStack.1 = s 'OeTStack class ' {
+		CLSID = s '{00000000-4F45-0105-0002-486954656368}'
+	}
+	OceanEngine.OeTStack = s 'OeTStack class ' {
+		CLSID = s '{00000000-4F45-0105-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTStack.1'
+	}
+
+	OceanEngine.OeTSet.1 = s 'OeTSet class ' {
+		CLSID = s '{00000000-4F45-0106-0002-486954656368}'
+	}
+	OceanEngine.OeTSet = s 'OeTSet class ' {
+		CLSID = s '{00000000-4F45-0106-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTSet.1'
+	}
+
+	OceanEngine.OeTTable.1 = s 'OeTTable class ' {
+		CLSID = s '{00000000-4F45-0107-0002-486954656368}'
+	}
+	OceanEngine.OeTTable = s 'OeTTable class ' {
+		CLSID = s '{00000000-4F45-0107-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTTable.1'
+	}
+
+	OceanEngine.OeTHash.1 = s 'OeTHash class ' {
+		CLSID = s '{00000000-4F45-0108-0002-486954656368}'
+	}
+	OceanEngine.OeTHash = s 'OeTHash class ' {
+		CLSID = s '{00000000-4F45-0108-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTHash.1'
+	}
+
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0100-0002-486954656368} = s 'OeTVariant' {
+			ProgID = s 'OceanEngine.OeTVariant.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTVariant'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0101-0002-486954656368} = s 'OeTString' {
+			ProgID = s 'OceanEngine.OeTString.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTString'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0102-0002-486954656368} = s 'OeTArray' {
+			ProgID = s 'OceanEngine.OeTArray.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTArray'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0103-0002-486954656368} = s 'OeTChain' {
+			ProgID = s 'OceanEngine.OeTChain.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTChain'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0104-0002-486954656368} = s 'OeTQueue' {
+			ProgID = s 'OceanEngine.OeTQueue.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTQueue'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0105-0002-486954656368} = s 'OeTStack' {
+			ProgID = s 'OceanEngine.OeTStack.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTStack'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0106-0002-486954656368} = s 'OeTSet' {
+			ProgID = s 'OceanEngine.OeTSet.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTSet'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0107-0002-486954656368} = s 'OeTTable' {
+			ProgID = s 'OceanEngine.OeTTable.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTTable'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0108-0002-486954656368} = s 'OeTHash' {
+			ProgID = s 'OceanEngine.OeTHash.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTHash'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0100-0001-486954656368} = s 'IOeTVariant'
+		ForceRemove {00000000-4F45-0101-0001-486954656368} = s 'IOeTString'
+		ForceRemove {00000000-4F45-0102-0001-486954656368} = s 'IOeTArray'
+		ForceRemove {00000000-4F45-0103-0001-486954656368} = s 'IOeTChain'
+		ForceRemove {00000000-4F45-0104-0001-486954656368} = s 'IOeTQueue'
+		ForceRemove {00000000-4F45-0105-0001-486954656368} = s 'IOeTStack'
+		ForceRemove {00000000-4F45-0106-0001-486954656368} = s 'IOeTSet'
+		ForceRemove {00000000-4F45-0107-0001-486954656368} = s 'IOeTTable'
+		ForceRemove {00000000-4F45-0108-0001-486954656368} = s 'IOeTHash'
+	}
+}

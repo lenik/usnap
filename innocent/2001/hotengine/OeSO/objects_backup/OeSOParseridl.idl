@@ -1,0 +1,31 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0600-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOParser")
+] interface IOeSOParser : IDispatch {
+	[helpstring("[不可用]直接从参数中装载描述, 参数源可以是二维数据表、二进制解析结果等。")]
+	HRESULT load([in]VARIANT somlSource, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("从soml描述中装入描述")]
+	HRESULT loadSOML([in]BSTR soml, [out, retval]VARIANT_BOOL *ret);
+
+//	[helpstring("从已解析的XML对象中装入描述")]
+//	HRESULT loadSOML2([in]IXMLDOMDocument *pxml, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("建立应用体")]
+	HRESULT createApplication([out, retval]IOeSOApplication **ret);
+
+};
+
+[
+	uuid(00000000-4F45-0600-0017-486954656368),
+	helpstring("IOeSOParserEvents")
+] dispinterface IOeSOParserEvents {
+	properties:
+	methods:
+		[id(1), helpstring("装载完成时触发")]
+		void onLoaded();
+};

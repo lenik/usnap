@@ -1,0 +1,6 @@
+
+cpp_quote("/*")
+cpp_quote(" * windows GL functions ")
+cpp_quote(" */")
+
+import "CeE3DTypes.idl";

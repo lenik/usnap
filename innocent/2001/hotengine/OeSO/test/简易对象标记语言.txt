@@ -1,0 +1,19 @@
+
+简易对象标记语言
+SOML - Simple Object Marking Language
+	(--> Standard Object Marking Language)
+
+	本文档旨在描述便利商店数据的XML语法格式
+
+	本文档保留内部使用, 本文档的一切改变均不做声明
+
+-
+
+.
+
+.
+
+-
+
+. 附件
+	. 示例1

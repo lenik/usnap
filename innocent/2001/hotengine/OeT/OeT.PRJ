@@ -1,0 +1,34 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Files]
+0=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.cpp
+1=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.def
+2=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.h
+3=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.idl
+4=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.plg
+5=S:\lib\oceanEngine\Working\OeXp\OeT\OeT.PRJ
+6=S:\lib\oceanEngine\Working\OeXp\OeT\OeT_types.h
+7=S:\lib\oceanEngine\Working\OeXp\OeT\OeTArray.cpp
+8=S:\lib\oceanEngine\Working\OeXp\OeT\OeTArray.h
+9=S:\lib\oceanEngine\Working\OeXp\OeT\OeTChain.cpp
+10=S:\lib\oceanEngine\Working\OeXp\OeT\OeTChain.h
+11=S:\lib\oceanEngine\Working\OeXp\OeT\OeTCodedStream.cpp
+12=S:\lib\oceanEngine\Working\OeXp\OeT\OeTCodedStream.h
+13=S:\lib\oceanEngine\Working\OeXp\OeT\OeTGraph.cpp
+14=S:\lib\oceanEngine\Working\OeXp\OeT\OeTGraph.h
+15=S:\lib\oceanEngine\Working\OeXp\OeT\OeTHash.cpp
+16=S:\lib\oceanEngine\Working\OeXp\OeT\OeTHash.h
+17=S:\lib\oceanEngine\Working\OeXp\OeT\OeTQueue.cpp
+18=S:\lib\oceanEngine\Working\OeXp\OeT\OeTQueue.h
+19=S:\lib\oceanEngine\Working\OeXp\OeT\OeTSet.cpp
+20=S:\lib\oceanEngine\Working\OeXp\OeT\OeTSet.h
+21=S:\lib\oceanEngine\Working\OeXp\OeT\OeTStack.cpp
+22=S:\lib\oceanEngine\Working\OeXp\OeT\OeTStack.h
+23=S:\lib\oceanEngine\Working\OeXp\OeT\OeTTree2.cpp
+24=S:\lib\oceanEngine\Working\OeXp\OeT\OeTTree2.h
+25=S:\lib\oceanEngine\Working\OeXp\OeT\OeTVariant.cpp
+26=S:\lib\oceanEngine\Working\OeXp\OeT\OeTVariant.h
+27=S:\lib\oceanEngine\Working\OeXp\OeT\StdAfx.h
+[Open Files]
+Open File0=
+Active File Display Mode=-1

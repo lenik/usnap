@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOEventsCollection.1 = s 'OeSOEventsCollection class ' {
+		CLSID = s '{00000000-4F45-0642-0002-486954656368}'
+		Description = s 'OeSOEventsCollection事件集合类'
+	}
+	OceanEngine.OeSOEventsCollection = s 'OeSOEventsCollection class ' {
+		CLSID = s '{00000000-4F45-0642-0002-486954656368}'
+		Description = s 'OeSOEventsCollection事件集合类'
+		CurVer = s 'OceanEngine.OeSOEventsCollection.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0642-0002-486954656368} = s 'OeSOEventsCollection' {
+			ProgID = s 'OceanEngine.OeSOEventsCollection.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOEventsCollection'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOEventsCollection事件集合类'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0642-0001-486954656368} = s 'IOeSOEventsCollection'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOEventsCollection = s '{00000000-4F45-0642-0002-486954656368}' {
+				val ClassName = s 'OeSOEventsCollection'
+				val Description = s '事件集合类'
+				val InterfaceImpl = s 'IOeSOEventsCollection'
+			}
+		}
+	}
+}

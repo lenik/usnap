@@ -1,0 +1,11 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0642-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOEventsCollection")
+] interface IOeSOEventsCollection : IDispatch {
+	[id(0), propget, helpstring("获取一个指定事件")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOEvent **ret);
+};

@@ -1,0 +1,52 @@
+// CeFI.idl : IDL source for CeFI.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CeFI.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+interface ICeFIControl;
+interface ICeFIBlur : ICeLIBits;
+interface ICeFIB
+
+[
+] interface ICeFIControl : IDispatch {
+	[id(ID_ICeFIControl_isRunning)]
+	[id(ID_ICeFIControl_alpha1)]
+	[id(ID_ICeFIControl_alpha2)]
+	[id(ID_ICeFIControl_x)]
+	[id(ID_ICeFIControl_y)]
+	[id(ID_ICeFIControl_width)]
+	[id(ID_ICeFIControl_height)]
+	[id(ID_ICeFIControl_p)]
+	[id(ID_ICeFIControl_alphaT)]
+	[id(ID_ICeFIControl_alphaC)]
+	[id(ID_ICeFIControl_bitsDest)]
+	[id(ID_ICeFIControl_bitsSrc)]
+	[id(ID_ICeFIControl_sizeDest)]
+	[id(ID_ICeFIControl_sizeSrc)]
+	[id(ID_ICeFIControl_timeout)]
+	[id(ID_ICeFIControl_maxWidth)]
+	[id(ID_ICeFIControl_maxHeight)]
+};
+
+[
+] interface ICeFIBit : IDispatch {
+	[id(ID_ICeFIBit_c1
+[
+	uuid(00000000-4345-1100-0001-486954656368),
+
+[
+	uuid(00000000-4345-1100-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.FastImage 类型库 草原图像引擎.高速位图处理引擎 1.0")
+]
+library CeFILib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("..\CeLI.tlb");
+
+};

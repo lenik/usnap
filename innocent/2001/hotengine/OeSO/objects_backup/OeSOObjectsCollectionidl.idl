@@ -1,0 +1,11 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0630-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOObjectsCollection")
+] interface IOeSOObjectsCollection : IDispatch {
+	[id(0), propget, helpstring("获取一个指定对象")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOObject **ret);
+};

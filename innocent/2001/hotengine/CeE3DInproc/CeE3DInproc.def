@@ -1,0 +1,67 @@
+
+LIBRARY		CeE3DInproc
+
+EXPORTS
+	CeE3DInitDisplayMode
+	CeE3DInitPosition
+
+	CeE3DInitWindowA
+	CeE3DInitWindowW
+
+	CeE3DCloseWindow
+	CeE3DQuit
+	CeE3DSwapBuffers
+
+	CeE3DMainLoop
+	CeE3DExposeFunc
+	CeE3DReshapeFunc
+	CeE3DIdleFunc
+	CeE3DKeyFunc
+	CeE3DMouseFunc
+
+	CeE3DGetColorMapSize
+	CeE3DGetMouseLoc
+	CeE3DSetOneColor
+	CeE3DSetFogRamp
+	CeE3DSetGreyRamp
+	CeE3DSetRGBMap
+
+	CeE3DRGBImageLoadA
+	CeE3DRGBImageLoadW
+	CeE3DDIBImageLoadA
+	CeE3DDIBImageLoadW
+
+	CeE3DCreateFont
+	CeE3DDrawStrA
+	CeE3DDrawStrW
+
+	CeE3DWireSphere
+	CeE3DSolidSphere
+	CeE3DWireCube
+	CeE3DSolidCube
+	CeE3DWireBox
+	CeE3DSolidBox
+	CeE3DWireTorus
+	CeE3DSolidTorus
+	CeE3DWireCylinder
+	CeE3DSolidCylinder
+	CeE3DWireIcosahedron
+	CeE3DSolidIcosahedron
+	CeE3DWireOctahedron
+	CeE3DSolidOctahedron
+	CeE3DWireTetrahedron
+	CeE3DSolidTetrahedron
+	CeE3DWireDodecahedron
+	CeE3DSolidDodecahedron
+	CeE3DWireCone
+	CeE3DSolidCone
+	CeE3DWireTeapot
+	CeE3DSolidTeapot
+	CeE3DGetHWND
+	CeE3DGetHDC
+	CeE3DGetHGLRC
+	CeE3DInitDisplayModePolicy
+	CeE3DInitDisplayModeID
+	CeE3DGetDisplayModePolicy
+	CeE3DGetDisplayModeID
+	CeE3DGetDisplayMode

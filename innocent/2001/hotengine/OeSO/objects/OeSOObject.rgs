@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOObject.1 = s 'OeSOObject class ' {
+		CLSID = s '{00000000-4F45-0610-0002-486954656368}'
+		Description = s 'OeSOObject对象类存放一个具体的对象。'
+	}
+	OceanEngine.OeSOObject = s 'OeSOObject class ' {
+		CLSID = s '{00000000-4F45-0610-0002-486954656368}'
+		Description = s 'OeSOObject对象类存放一个具体的对象。'
+		CurVer = s 'OceanEngine.OeSOObject.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0610-0002-486954656368} = s 'OeSOObject' {
+			ProgID = s 'OceanEngine.OeSOObject.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOObject'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOObject对象类存放一个具体的对象。'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0610-0001-486954656368} = s 'IOeSOObject'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOObject = s '{00000000-4F45-0610-0002-486954656368}' {
+				val ClassName = s 'OeSOObject'
+				val Description = s '对象类存放一个具体的对象。'
+				val InterfaceImpl = s 'IOeSOObject'
+			}
+		}
+	}
+}

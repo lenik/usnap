@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOInterface.1 = s 'OeSOInterface class ' {
+		CLSID = s '{00000000-4F45-0611-0002-486954656368}'
+		Description = s 'OeSOInterface接口类描述一个接口。接口的实现在类类中。'
+	}
+	OceanEngine.OeSOInterface = s 'OeSOInterface class ' {
+		CLSID = s '{00000000-4F45-0611-0002-486954656368}'
+		Description = s 'OeSOInterface接口类描述一个接口。接口的实现在类类中。'
+		CurVer = s 'OceanEngine.OeSOInterface.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0611-0002-486954656368} = s 'OeSOInterface' {
+			ProgID = s 'OceanEngine.OeSOInterface.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOInterface'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOInterface接口类描述一个接口。接口的实现在类类中。'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0611-0001-486954656368} = s 'IOeSOInterface'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOInterface = s '{00000000-4F45-0611-0002-486954656368}' {
+				val ClassName = s 'OeSOInterface'
+				val Description = s '接口类描述一个接口。接口的实现在类类中。'
+				val InterfaceImpl = s 'IOeSOInterface'
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0602-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOEvaluator")
+] interface IOeSOEvaluator : IDispatch {
+	[id(0), propget, helpstring("获取/设置解析器对象")]
+	HRESULT parser([out, retval]IOeSOParser **ret);
+	[id(0), propput, helpstring("获取/设置解析器对象")]
+	HRESULT parser([in]IOeSOParser *parser);
+
+	[helpstring("评估SOML脚本")]
+	HRESULT evaluator([in]BSTR script, [out, retval]VARIANT *ret);
+};

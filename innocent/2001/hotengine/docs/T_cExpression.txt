@@ -1,0 +1,8 @@
+
+cText		campo Text
+
+
+
+cExpression	campo Expression 表达式的处理
+
+	这个计划基于simpleCalc计划之上

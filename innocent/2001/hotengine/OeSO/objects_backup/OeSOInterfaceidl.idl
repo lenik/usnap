@@ -1,0 +1,9 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0611-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOInterface ")
+] interface IOeSOInterface : IDispatch {
+};

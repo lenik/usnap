@@ -1,0 +1,644 @@
+
+cpp_quote("/**************************************************************")
+cpp_quote(" * ICeE3DControl接口 提供三维控制功能                         *")
+cpp_quote(" **************************************************************")
+cpp_quote(" * 热带信息世界-草原软件-图形图像引擎                         *")
+cpp_quote(" **************************************************************/")
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4345-3007-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DControl接口 提供三维控制功能")
+]
+interface ICeE3DControl : IDispatch {
+	[id(1), propget, helpstring("当前索引色, 默认值为0. ")]
+	HRESULT CurrentColorIndexi([out, retval]LONG *retLONG);
+	[id(1), propput, helpstring("当前索引色, 默认值为0. ")]
+	HRESULT CurrentColorIndexi([in]LONG newLONG);
+
+	[id(2), propget, helpstring("当前索引色, 默认值为0. ")]
+	HRESULT CurrentColorIndexf([out, retval]float *retfloat);
+	[id(2), propput, helpstring("当前索引色, 默认值为0. ")]
+	HRESULT CurrentColorIndexf([in]float newfloat);
+
+	[id(3), propget, helpstring("当前纹理坐标, 默认值为0,0,1. ")]
+	HRESULT CurrentTextureCoords([out, retval]float *retfloat);
+	[id(3), propput, helpstring("当前纹理坐标, 默认值为0,0,1. ")]
+	HRESULT CurrentTextureCoords([in]float newfloat);
+
+	[id(4), propget, helpstring("当前法线, 默认值为0,1. ")]
+	HRESULT CurrentNormal([out, retval]float *retfloat);
+	[id(4), propput, helpstring("当前法线, 默认值为0,1. ")]
+	HRESULT CurrentNormal([in]float newfloat);
+
+	[id(5), propget, helpstring("当前光栅坐标, 默认值为0,0,1. ")]
+	HRESULT CurrentRasterPosition([out, retval]float *retfloat);
+	[id(5), propput, helpstring("当前光栅坐标, 默认值为0,0,1. ")]
+	HRESULT CurrentRasterPosition([in]float newfloat);
+
+	[id(6), propget, helpstring("当前光栅坐标距离, 默认值为0. ")]
+	HRESULT CurrentRasterDistance([out, retval]float *retfloat);
+
+	[id(7), propget, helpstring("当前光栅坐标RGBA值, 默认值为1,1,1,1. ")]
+	HRESULT CurrentRasterColori([out, retval]LONG *retLONG);
+
+	[id(8), propget, helpstring("当前光栅坐标RGBA值, 默认值为1,1,1,2. ")]
+	HRESULT CurrentRasterColorf([out, retval]float *retfloat);
+
+	[id(9), propget, helpstring("当前光栅坐标索引色, 默认值为1. ")]
+	HRESULT CurrentRasterIndexi([out, retval]LONG *retLONG);
+
+	[id(10), propget, helpstring("当前光栅坐标索引色, 默认值为2. ")]
+	HRESULT CurrentRasterIndexf([out, retval]float *retfloat);
+
+	[id(11), propget, helpstring("当前光栅坐标纹理坐标, 默认值为0,0,0. ")]
+	HRESULT CurrentRasterTexture([out, retval]float *retfloat);
+	[id(11), propput, helpstring("当前光栅坐标纹理坐标, 默认值为0,0,0. ")]
+	HRESULT CurrentRasterTexture([in]float newfloat);
+
+	[id(12), propget, helpstring("当前光栅坐标是否有效, 默认值为CEE3D_TRUE. ")]
+	HRESULT CurrentRasterPositionValid([out, retval]BOOL *retBOOL);
+
+	[id(13), propget, helpstring("当前边缘标志, 默认值为CEE3D_TRUE. ")]
+	HRESULT CurrentEdgeFlag([out, retval]BOOL *retBOOL);
+	[id(13), propput, helpstring("当前边缘标志, 默认值为CEE3D_TRUE. ")]
+	HRESULT CurrentEdgeFlag([in]BOOL newBOOL);
+
+	[id(14), propget, helpstring("模型取景矩阵堆栈, 默认值为单位矩阵. ")]
+	HRESULT MatrixModelView([out, retval]float *retfloat);
+
+	[id(15), propget, helpstring("投影矩阵堆栈, 默认值为单位矩阵. ")]
+	HRESULT MatrixProjection([out, retval]float *retfloat);
+
+	[id(16), propget, helpstring("纹理矩阵堆栈, 默认值为单位矩阵. ")]
+	HRESULT MatrixTexutre([out, retval]float *retfloat);
+
+	[id(17), propget, helpstring("视窗坐标, 默认值为无. ")]
+	HRESULT Viewport([out, retval]LONG *retLONG);
+
+	[helpstring("深度缓冲区范围, 默认值为1. ")]
+	HRESULT GetDepthRange([out]float *r1, [out]float *r2);
+	[helpstring("深度缓冲区范围, 默认值为1. ")]
+	HRESULT SetDepthRange([in]float r1, [in]float r2);
+
+	[id(19), propget, helpstring("模型取影矩阵堆栈指针, 默认值为1. ")]
+	HRESULT ModelViewStackDepth([out, retval]LONG *retLONG);
+
+	[id(20), propget, helpstring("投影矩阵堆栈指针, 默认值为1. ")]
+	HRESULT ProjectionStackDepth([out, retval]LONG *retLONG);
+
+	[id(21), propget, helpstring("当前矩阵类型, 默认值为CEE3D_MODELVIEW. ")]
+	HRESULT CurrentMatrixMode([out, retval]LONG *retLONG);
+	[id(21), propput, helpstring("当前矩阵类型, 默认值为CEE3D_MODELVIEW. ")]
+	HRESULT CurrentMatrixMode([in]LONG newLONG);
+
+	[id(22), propget, helpstring("当前法线规格化, 默认值为CEE3D_FALSE. ")]
+	HRESULT Normalize([out, retval]BOOL *retBOOL);
+	[id(22), propput, helpstring("当前法线规格化, 默认值为CEE3D_FALSE. ")]
+	HRESULT Normalize([in]BOOL newBOOL);
+
+	[id(23), propget, helpstring("使用激活的裁减平面, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseClipPlane([in]LONG index, [out, retval]BOOL *retBOOL);
+	[id(23), propput, helpstring("使用激活的裁减平面, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseClipPlane([in]LONG index, [in]BOOL newBOOL);
+
+	[id(24), propget, helpstring("雾颜色, 默认值为0,0,0. ")]
+	HRESULT FogColor([out, retval]float *retfloat);
+	[id(24), propput, helpstring("雾颜色, 默认值为0,0,0. ")]
+	HRESULT FogColor([in]float newfloat);
+
+	[id(25), propget, helpstring("雾的索引色, 默认值为0. ")]
+	HRESULT FogColorIndex([out, retval]float *retfloat);
+	[id(25), propput, helpstring("雾的索引色, 默认值为0. ")]
+	HRESULT FogColorIndex([in]float newfloat);
+
+	[id(26), propget, helpstring("雾浓度指数, 默认值为1. ")]
+	HRESULT FogDensity([out, retval]float *retfloat);
+	[id(26), propput, helpstring("雾浓度指数, 默认值为1. ")]
+	HRESULT FogDensity([in]float newfloat);
+
+	[id(27), propget, helpstring("雾线型方程的开始, 默认值为0. ")]
+	HRESULT FogStart([out, retval]float *retfloat);
+	[id(27), propput, helpstring("雾线型方程的开始, 默认值为0. ")]
+	HRESULT FogStart([in]float newfloat);
+
+	[id(28), propget, helpstring("雾线型方程的结束, 默认值为1. ")]
+	HRESULT FogEnd([out, retval]float *retfloat);
+	[id(28), propput, helpstring("雾线型方程的结束, 默认值为1. ")]
+	HRESULT FogEnd([in]float newfloat);
+
+	[id(29), propget, helpstring("雾模式, 默认值为CEE3D_EXP. ")]
+	HRESULT CurrentFogMode([out, retval]LONG *retLONG);
+	[id(29), propput, helpstring("雾模式, 默认值为CEE3D_EXP. ")]
+	HRESULT CurrentFogMode([in]LONG newLONG);
+
+	[id(30), propget, helpstring("是否进行雾效果计算, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseFog([out, retval]BOOL *retBOOL);
+	[id(30), propput, helpstring("是否进行雾效果计算, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseFog([in]BOOL newBOOL);
+
+	[id(31), propget, helpstring("阴影处理模式, 默认值为CEE3D_SMOOTH. ")]
+	HRESULT ShadeModel([out, retval]LONG *retLONG);
+	[id(31), propput, helpstring("阴影处理模式, 默认值为CEE3D_SMOOTH. ")]
+	HRESULT ShadeModel([in]LONG newLONG);
+
+	[id(32), propget, helpstring("允许使用光照, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLighting([out, retval]BOOL *retBOOL);
+	[id(32), propput, helpstring("允许使用光照, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLighting([in]BOOL newBOOL);
+
+	[id(33), propget, helpstring("材质系数, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseColorMaterial([out, retval]BOOL *retBOOL);
+	[id(33), propput, helpstring("材质系数, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseColorMaterial([in]BOOL newBOOL);
+
+	[id(34), propget, helpstring("跟踪当前颜色的材质系数, 默认值为CEE3D_AMBIENT_AND_DIFFUSE. ")]
+	HRESULT ColorMaterialParameter([in]LONG face, [out, retval]LONG *retLONG);
+
+//	[id(35), propget, helpstring("受颜色跟踪影响的外观, 默认值为CEE3D_FRONT_AND_BACK. ")]
+//	HRESULT ColorMaterialFace([out, retval]LONG *retLONG);
+//	[id(35), propput, helpstring("受颜色跟踪影响的外观, 默认值为CEE3D_FRONT_AND_BACK. ")]
+//	HRESULT ColorMaterialFace([in]LONG newLONG);
+
+	[id(36), propget, helpstring("场景泛光强度, 默认值为.2,.2,.2,1. ")]
+	HRESULT LightModelAmbient([out, retval]float *retfloat);
+	[id(36), propput, helpstring("场景泛光强度, 默认值为.2,.2,.2,1. ")]
+	HRESULT LightModelAmbient([in]float newfloat);
+
+	[id(37), propget, helpstring("观察点是否在场内, 默认值为CEE3D_FALSE. ")]
+	HRESULT LightModelUseLocalViewer([out, retval]BOOL *retBOOL);
+	[id(37), propput, helpstring("观察点是否在场内, 默认值为CEE3D_FALSE. ")]
+	HRESULT LightModelUseLocalViewer([in]BOOL newBOOL);
+
+	[id(38), propget, helpstring("采用双面光照, 默认值为CEE3D_FALSE. ")]
+	HRESULT LightModeUseTwoSide([out, retval]BOOL *retBOOL);
+	[id(38), propput, helpstring("采用双面光照, 默认值为CEE3D_FALSE. ")]
+	HRESULT LightModeUseTwoSide([in]BOOL newBOOL);
+
+	[id(39), propget, helpstring("使用制定光源, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLight([in]LONG whichlight, [out, retval]BOOL *retBOOL);
+	[id(39), propput, helpstring("使用制定光源, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLight([in]LONG whichlight, [in]BOOL newBOOL);
+
+	[id(40), propget, helpstring("光源索引色, 默认值为1,1. ")]
+	HRESULT LightColorIndexes([out, retval]float *retfloat);
+	[id(40), propput, helpstring("光源索引色, 默认值为1,1. ")]
+	HRESULT LightColorIndexes([in]float newfloat);
+
+	[id(41), propget, helpstring("点尺寸, 默认值为1. ")]
+	HRESULT PointSize([out, retval]float *retfloat);
+	[id(41), propput, helpstring("点尺寸, 默认值为1. ")]
+	HRESULT PointSize([in]float newfloat);
+
+	[id(42), propget, helpstring("点反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothPoint([out, retval]BOOL *retBOOL);
+	[id(42), propput, helpstring("点反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothPoint([in]BOOL newBOOL);
+
+	[id(43), propget, helpstring("线宽, 默认值为1. ")]
+	HRESULT LineWidth([out, retval]float *retfloat);
+	[id(43), propput, helpstring("线宽, 默认值为1. ")]
+	HRESULT LineWidth([in]float newfloat);
+
+	[id(44), propget, helpstring("线反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothLine([out, retval]BOOL *retBOOL);
+	[id(44), propput, helpstring("线反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothLine([in]BOOL newBOOL);
+
+	[id(45), propget, helpstring("线填充图案, 默认值为1S. ")]
+	HRESULT StippleLinePattern([out, retval]LONG *retLONG);
+	[helpstring("线填充图案, 默认值为1S. ")]
+	HRESULT SetStippleLinePattern([in]LONG factor, [in]LONG newLONG);
+
+	[id(46), propget, helpstring("重复线填充图案, 默认值为1. ")]
+	HRESULT StippleLineRepeat([out, retval]LONG *retLONG);
+
+	[id(47), propget, helpstring("是否线填充, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStippleLine([out, retval]BOOL *retBOOL);
+	[id(47), propput, helpstring("是否线填充, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStippleLine([in]BOOL newBOOL);
+
+	[id(48), propget, helpstring("是否剔除多边形, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseCullFace([out, retval]BOOL *retBOOL);
+	[id(48), propput, helpstring("是否剔除多边形, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseCullFace([in]BOOL newBOOL);
+
+	[id(49), propget, helpstring("剔除多边形的面, 默认值为CEE3D_BACK. ")]
+	HRESULT CullFaceMode([out, retval]LONG *retLONG);
+	[id(49), propput, helpstring("剔除多边形的面, 默认值为CEE3D_BACK. ")]
+	HRESULT CullFaceMode([in]LONG newLONG);
+
+	[id(50), propget, helpstring("多边形朝前的面的顺逆时针, 默认值为CEE3D_CCW. ")]
+	HRESULT FrontFaceDirection([out, retval]LONG *retLONG);
+	[id(50), propput, helpstring("多边形朝前的面的顺逆时针, 默认值为CEE3D_CCW. ")]
+	HRESULT FrontFaceDirection([in]LONG newLONG);
+
+	[id(51), propget, helpstring("多边形反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothPolygon([out, retval]BOOL *retBOOL);
+	[id(51), propput, helpstring("多边形反走样, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseSmoothPolygon([in]BOOL newBOOL);
+
+	[id(52), propget, helpstring("多边形光栅化模式, 默认值为CEE3D_FILL. ")]
+	HRESULT PolygonMode([out, retval]LONG *retLONG);
+	[helpstring("多边形光栅化模式, 默认值为CEE3D_FILL. ")]
+	HRESULT SetPolygonMode([in]LONG face, [in]LONG newLONG);
+
+	[id(53), propget, helpstring("多边形填充图案, 默认值为CEE3D_FALSE. ")]
+	HRESULT StipplePolygonPattern([out, retval]BOOL *retBOOL);
+	[id(53), propput, helpstring("多边形填充图案, 默认值为CEE3D_FALSE. ")]
+	HRESULT StipplePolygonPattern([in]BOOL newBOOL);
+
+	[id(54), propget, helpstring("裁减检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseScissor([out, retval]BOOL *retBOOL);
+	[id(54), propput, helpstring("裁减检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseScissor([in]BOOL newBOOL);
+
+	[id(55), propget, helpstring("裁减框, 默认值为无. ")]
+	HRESULT ScissorBox([out, retval]LONG *retLONG);
+	[helpstring("裁减框, 默认值为无. ")]
+	HRESULT SetScissorBox([in]LONG x, [in]LONG y, [in]LONG width, [in]LONG height);
+
+	[id(56), propget, helpstring("模版检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStencil([out, retval]BOOL *retBOOL);
+	[id(56), propput, helpstring("模版检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStencil([in]BOOL newBOOL);
+
+	[id(57), propget, helpstring("模版功能, 默认值为CEE3D_ALWAYS. ")]
+	HRESULT StencilFunc([out, retval]LONG *retLONG);
+	[id(57), propput, helpstring("模版功能, 默认值为CEE3D_ALWAYS. ")]
+	HRESULT StencilFunc([in]LONG newLONG);
+
+	[id(58), propget, helpstring("模版标识, 默认值为1..... ")]
+	HRESULT StencilValueMask([out, retval]LONG *retLONG);
+	[id(58), propput, helpstring("模版标识, 默认值为1..... ")]
+	HRESULT StencilValueMask([in]LONG newLONG);
+
+	[id(59), propget, helpstring("模版检验参考值, 默认值为0. ")]
+	HRESULT StencilReference([out, retval]LONG *retLONG);
+	[id(59), propput, helpstring("模版检验参考值, 默认值为0. ")]
+	HRESULT StencilReference([in]LONG newLONG);
+
+	[id(60), propget, helpstring("模版检验失败, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilFailure([out, retval]LONG *retLONG);
+	[id(60), propput, helpstring("模版检验失败, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilFailure([in]LONG newLONG);
+
+	[id(61), propget, helpstring("模版检验通过,深度检验失败, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilPassFailDepth([out, retval]LONG *retLONG);
+	[id(61), propput, helpstring("模版检验通过,深度检验失败, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilPassFailDepth([in]LONG newLONG);
+
+	[id(62), propget, helpstring("模版,深度检验通过, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilPassPassDepth([out, retval]LONG *retLONG);
+	[id(62), propput, helpstring("模版,深度检验通过, 默认值为CEE3D_KEEP. ")]
+	HRESULT StencilPassPassDepth([in]LONG newLONG);
+
+	[id(63), propget, helpstring("允许α检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseAlpha([out, retval]BOOL *retBOOL);
+	[id(63), propput, helpstring("允许α检验, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseAlpha([in]BOOL newBOOL);
+
+	[id(64), propget, helpstring("α检验函数, 默认值为CEE3D_ALWAYS. ")]
+	HRESULT AlphaTestFunc([out, retval]LONG *retLONG);
+	[id(64), propput, helpstring("α检验函数, 默认值为CEE3D_ALWAYS. ")]
+	HRESULT AlphaTestFunc([in]LONG newLONG);
+
+	[id(65), propget, helpstring("α检验参考值, 默认值为0. ")]
+	HRESULT AlphaTestReference([out, retval]float *retfloat);
+	[id(65), propput, helpstring("α检验参考值, 默认值为0. ")]
+	HRESULT AlphaTestReference([in]float newfloat);
+
+	[id(66), propget, helpstring("深度检验函数, 默认值为CEE3D_LESS. ")]
+	HRESULT DepthFunc([out, retval]LONG *retLONG);
+	[id(66), propput, helpstring("深度检验函数, 默认值为CEE3D_LESS. ")]
+	HRESULT DepthFunc([in]LONG newLONG);
+
+	[id(67), propget, helpstring("融合运算, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseBlend([out, retval]BOOL *retBOOL);
+	[id(67), propput, helpstring("融合运算, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseBlend([in]BOOL newBOOL);
+
+	[id(68), propget, helpstring("源融合运算, 默认值为CEE3D_ONE. ")]
+	HRESULT BlendSourceSfactor([out, retval]LONG *retLONG);
+	[id(69), propget, helpstring("目标融合函数, 默认值为CEE3D_ZERO. ")]
+	HRESULT BlendSourceDfactor([out, retval]LONG *retLONG);
+//	[helpstring("融合运算, 默认值为CEE3D_ONE, CEE3DZERO. ")]
+//	HRESULT BlendSource([in]LONG sfactor, [in]LONG dfactor);
+
+	[id(70), propget, helpstring("逻辑操作, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLogicOperation([out, retval]BOOL *retBOOL);
+	[id(70), propput, helpstring("逻辑操作, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseLogicOperation([in]BOOL newBOOL);
+
+	[id(71), propget, helpstring("逻辑操作模式, 默认值为CEE3D_COPY. ")]
+	HRESULT LogicOperationMode([out, retval]LONG *retLONG);
+	[id(71), propput, helpstring("逻辑操作模式, 默认值为CEE3D_COPY. ")]
+	HRESULT LogicOperationMode([in]LONG newLONG);
+
+	[id(72), propget, helpstring("抖动操作, 默认值为CEE3D_TRUE. ")]
+	HRESULT UseDither([out, retval]BOOL *retBOOL);
+	[id(72), propput, helpstring("抖动操作, 默认值为CEE3D_TRUE. ")]
+	HRESULT UseDither([in]BOOL newBOOL);
+
+	[id(73), propget, helpstring("要写入的缓冲区, 默认值为无. ")]
+	HRESULT DrawBuffer([out, retval]LONG *retLONG);
+	[id(73), propput, helpstring("要写入的缓冲区, 默认值为无. ")]
+	HRESULT DrawBuffer([in]LONG newLONG);
+
+	[id(74), propget, helpstring("索引色缓存区位平面的写屏蔽, 默认值为1..... ")]
+	HRESULT ColorIndexWriteMask([out, retval]LONG *retLONG);
+	[id(74), propput, helpstring("索引色缓存区位平面的写屏蔽, 默认值为1..... ")]
+	HRESULT ColorIndexWriteMask([in]LONG newLONG);
+
+	[id(75), propget, helpstring("写入深度缓存, 默认值为CEE3D_TRUE. ")]
+	HRESULT DepthWriteMask([out, retval]BOOL *retBOOL);
+	[id(75), propput, helpstring("写入深度缓存, 默认值为CEE3D_TRUE. ")]
+	HRESULT DepthWriteMask([in]BOOL newBOOL);
+
+	[id(76), propget, helpstring("写入模版缓存, 默认值为1..... ")]
+	HRESULT StencilWriteMask([out, retval]LONG *retLONG);
+	[id(76), propput, helpstring("写入模版缓存, 默认值为1..... ")]
+	HRESULT StencilWriteMask([in]LONG newLONG);
+
+	[id(77), propget, helpstring("清除颜色缓存RGBA值, 默认值为0,0,0. ")]
+	HRESULT ColorClearValue([in]LONG RGBA_select, [out, retval]float *retfloat);
+	[helpstring("清除颜色缓存RGBA值, 默认值为0,0,0. ")]
+	HRESULT SetColorClearValue([in]float r, [in]float g, [in]float b, [in]float a);
+
+	[id(78), propget, helpstring("清除颜色指数值, 默认值为0. ")]
+	HRESULT ColorIndexClearValue([out, retval]float *retfloat);
+	[id(78), propput, helpstring("清除颜色指数值, 默认值为0. ")]
+	HRESULT ColorIndexClearValue([in]float newfloat);
+
+	[id(79), propget, helpstring("清除深度缓存值, 默认值为1. ")]
+	HRESULT DepthClearValue([out, retval]LONG *retLONG);
+	[id(79), propput, helpstring("清除深度缓存值, 默认值为1. ")]
+	HRESULT DepthClearValue([in]LONG newLONG);
+
+	[id(80), propget, helpstring("清除模版缓存值, 默认值为0. ")]
+	HRESULT StencilClearValue([out, retval]LONG *retLONG);
+	[id(80), propput, helpstring("清除模版缓存值, 默认值为0. ")]
+	HRESULT StencilClearValue([in]LONG newLONG);
+
+	[id(81), propget, helpstring("清除累加缓存值, 默认值为0. ")]
+	HRESULT AccumClearValue([out, retval]float *retfloat);
+	[id(81), propput, helpstring("清除累加缓存值, 默认值为0. ")]
+	HRESULT AccumClearValue([in]float newfloat);
+
+	[id(82), propget, helpstring("未打包交换比特, 默认值为CEE3D_FALSE. ")]
+	HRESULT UnpackSwapBytes([out, retval]BOOL *retBOOL);
+	[id(82), propput, helpstring("未打包交换比特, 默认值为CEE3D_FALSE. ")]
+	HRESULT UnpackSwapBytes([in]BOOL newBOOL);
+
+	[id(83), propget, helpstring("未打包行长度, 默认值为0. ")]
+	HRESULT UnpackRowLength([out, retval]LONG *retLONG);
+	[id(83), propput, helpstring("未打包行长度, 默认值为0. ")]
+	HRESULT UnpackRowLength([in]LONG newLONG);
+
+	[id(84), propget, helpstring("未打包忽略行, 默认值为0. ")]
+	HRESULT UnpackSkipRows([out, retval]LONG *retLONG);
+	[id(84), propput, helpstring("未打包忽略行, 默认值为0. ")]
+	HRESULT UnpackSkipRows([in]LONG newLONG);
+
+	[id(85), propget, helpstring("未打包忽略像素, 默认值为0. ")]
+	HRESULT UnpackSkipPixels([out, retval]LONG *retLONG);
+	[id(85), propput, helpstring("未打包忽略像素, 默认值为0. ")]
+	HRESULT UnpackSkipPixels([in]LONG newLONG);
+
+	[id(86), propget, helpstring("未打包对齐, 默认值为4. ")]
+	HRESULT UnpackAlignment([out, retval]LONG *retLONG);
+	[id(86), propput, helpstring("未打包对齐, 默认值为4. ")]
+	HRESULT UnpackAlignment([in]LONG newLONG);
+
+	[id(87), propget, helpstring("打包交换比特, 默认值为CEE3D_FALSE. ")]
+	HRESULT PackSwapBytes([out, retval]BOOL *retBOOL);
+	[id(87), propput, helpstring("打包交换比特, 默认值为CEE3D_FALSE. ")]
+	HRESULT PackSwapBytes([in]BOOL newBOOL);
+
+	[id(88), propget, helpstring("打包第一个LSB, 默认值为CEE3D_FALSE. ")]
+	HRESULT PackLSBFirst([out, retval]BOOL *retBOOL);
+	[id(88), propput, helpstring("打包第一个LSB, 默认值为CEE3D_FALSE. ")]
+	HRESULT PackLSBFirst([in]BOOL newBOOL);
+
+	[id(89), propget, helpstring("打包行长度, 默认值为0. ")]
+	HRESULT PackRowLength([out, retval]LONG *retLONG);
+	[id(89), propput, helpstring("打包行长度, 默认值为0. ")]
+	HRESULT PackRowLength([in]LONG newLONG);
+
+	[id(90), propget, helpstring("打包忽略行, 默认值为0. ")]
+	HRESULT PackSkipRows([out, retval]LONG *retLONG);
+	[id(90), propput, helpstring("打包忽略行, 默认值为0. ")]
+	HRESULT PackSkipRows([in]LONG newLONG);
+
+	[id(91), propget, helpstring("打包忽略像素, 默认值为0. ")]
+	HRESULT PackSkipPixels([out, retval]LONG *retLONG);
+	[id(91), propput, helpstring("打包忽略像素, 默认值为0. ")]
+	HRESULT PackSkipPixels([in]LONG newLONG);
+
+	[id(92), propget, helpstring("打包对齐, 默认值为4. ")]
+	HRESULT PackAlignment([out, retval]LONG *retLONG);
+	[id(92), propput, helpstring("打包对齐, 默认值为4. ")]
+	HRESULT PackAlignment([in]LONG newLONG);
+
+	[id(93), propget, helpstring("是否用查对表代替颜色或索引色, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseColorMap([out, retval]BOOL *retBOOL);
+	[id(93), propput, helpstring("是否用查对表代替颜色或索引色, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseColorMap([in]BOOL newBOOL);
+
+	[id(94), propget, helpstring("是否用查对表代替模版, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStencilMap([out, retval]BOOL *retBOOL);
+	[id(94), propput, helpstring("是否用查对表代替模版, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseStencilMap([in]BOOL newBOOL);
+
+	[id(95), propget, helpstring("索引移位, 默认值为0. ")]
+	HRESULT IndexShift([out, retval]LONG *retLONG);
+	[id(95), propput, helpstring("索引移位, 默认值为0. ")]
+	HRESULT IndexShift([in]LONG newLONG);
+
+	[id(96), propget, helpstring("索引偏移, 默认值为0. ")]
+	HRESULT IndexOffset([out, retval]LONG *retLONG);
+	[id(96), propput, helpstring("索引偏移, 默认值为0. ")]
+	HRESULT IndexOffset([in]LONG newLONG);
+
+	[id(97), propget, helpstring("X像素的缩放因子, 默认值为F. ")]
+	HRESULT ZoomX([out, retval]float *retfloat);
+	[id(97), propput, helpstring("X像素的缩放因子, 默认值为F. ")]
+	HRESULT ZoomX([in]float newfloat);
+
+	[id(98), propget, helpstring("Y像素的缩放因子, 默认值为F. ")]
+	HRESULT ZoomY([out, retval]float *retfloat);
+	[id(98), propput, helpstring("Y像素的缩放因子, 默认值为F. ")]
+	HRESULT ZoomY([in]float newfloat);
+
+	[id(99), propget, helpstring("读取缓存区资源, 默认值为无. ")]
+	HRESULT ReadBuffer([out, retval]LONG *retLONG);
+	[id(99), propput, helpstring("读取缓存区资源, 默认值为无. ")]
+	HRESULT ReadBuffer([in]LONG newLONG);
+
+	[id(100), propget, helpstring("允许一维映射, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseMap1([out, retval]BOOL *retBOOL);
+	[id(100), propput, helpstring("允许一维映射, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseMap1([in]BOOL newBOOL);
+
+	[id(101), propget, helpstring("允许二维映射, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseMap2([out, retval]BOOL *retBOOL);
+	[id(101), propput, helpstring("允许二维映射, 默认值为CEE3D_FALSE. ")]
+	HRESULT UseMap2([in]BOOL newBOOL);
+
+	[id(102), propget, helpstring("二维映射的网格与节点, 默认值为1;0,1. ")]
+	HRESULT Map2GridDomain([out, retval]float *retfloat);
+//	[id(102), propput, helpstring("二维映射的网格与节点, 默认值为1;0,1. ")]
+//	HRESULT Map2GridDomain([in]float newfloat);
+
+	[id(103), propget, helpstring("一维映射的网格域的间隔数目, 默认值为1. ")]
+	HRESULT Map1GridSegments([out, retval]float *retfloat);
+
+	[id(104), propget, helpstring("二维映射的网格域的间隔数目, 默认值为1,1. ")]
+	HRESULT Map2GridSegments([out, retval]float *retfloat);
+
+	[id(105), propget, helpstring("是否允许自动求解法向量, 默认值为CEE3D_FALSE. ")]
+	HRESULT AutoNormalize([out, retval]BOOL *retBOOL);
+	[id(105), propput, helpstring("是否允许自动求解法向量, 默认值为CEE3D_FALSE. ")]
+	HRESULT AutoNormalize([in]BOOL newBOOL);
+
+	[id(106), propget, helpstring("透视校正的隐含模式, 默认值为CEE3D_DONT_CARE. ")]
+	HRESULT PerspectiveCorrectionHint([out, retval]LONG *retLONG);
+
+	[id(107), propget, helpstring("反走样点的隐含模式, 默认值为CEE3D_DONT_CARE. ")]
+	HRESULT PointSmoothHint([out, retval]LONG *retLONG);
+
+	[id(108), propget, helpstring("反走样线的隐含模式, 默认值为CEE3D_DONT_CARE. ")]
+	HRESULT LineSmoothHint([out, retval]LONG *ret1);
+
+	[id(109), propget, helpstring("反走样多边形的隐含模式, 默认值为CEE3D_DONT_CARE. ")]
+	HRESULT PolygonSmoothHint([out, retval]LONG *retLONG);
+
+	[id(110), propget, helpstring("雾的隐含模式, 默认值为CEE3D_DONT_CARE. ")]
+	HRESULT FogHint([out, retval]LONG *retLONG);
+
+	[id(111), propget, helpstring("光源数目的最大值, 默认值为8. ")]
+	HRESULT MaxLights([out, retval]LONG *retLONG);
+
+	[id(112), propget, helpstring("剪裁平面的最大值, 默认值为6. ")]
+	HRESULT MaxClipPlanes([out, retval]LONG *retLONG);
+
+	[id(113), propget, helpstring("模型取景矩阵堆栈的最大深度, 默认值为32. ")]
+	HRESULT MaxModelViewStackDepth([out, retval]LONG *retLONG);
+
+	[id(114), propget, helpstring("投影矩阵堆栈的最大深度, 默认值为2. ")]
+	HRESULT MaxProjectionStackDepth([out, retval]LONG *retLONG);
+
+	[id(115), propget, helpstring("纹理矩阵堆栈的最大深度, 默认值为2. ")]
+	HRESULT MaxTextureStackDepth([out, retval]LONG *retLONG);
+
+	[id(116), propget, helpstring("亚像素的字位数, 默认值为4. ")]
+	HRESULT SubPixelBits([out, retval]LONG *retLONG);
+
+	[id(117), propget, helpstring("纹理图像的最大尺寸, 默认值为64. ")]
+	HRESULT MaxTextureSize([out, retval]LONG *retLONG);
+
+	[id(118), propget, helpstring("显示列表嵌套的最大深度, 默认值为64. ")]
+	HRESULT MaxListNesting([out, retval]LONG *retLONG);
+
+	[id(119), propget, helpstring("求值其支持的最大方程阶数, 默认值为8. ")]
+	HRESULT MaxEvalOrder([out, retval]LONG *retLONG);
+
+	[id(120), propget, helpstring("视窗支持的最大尺寸, 默认值为无. ")]
+	HRESULT MaxViewportDims([out, retval]LONG *retLONG);
+
+	[id(121), propget, helpstring("属性堆栈最大深度, 默认值为16. ")]
+	HRESULT MaxAttribStackDepth([out, retval]LONG *retLONG);
+
+	[id(122), propget, helpstring("颜色状态, 默认值为无. ")]
+	HRESULT InRGBAMode([out, retval]BOOL *retBOOL);
+	[id(122), propput, helpstring("颜色状态, 默认值为无. ")]
+	HRESULT InRGBAMode([in]BOOL newBOOL);
+
+	[id(123), propget, helpstring("索引色状态, 默认值为无. ")]
+	HRESULT InColorIndexMode([out, retval]BOOL *retBOOL);
+	[id(123), propput, helpstring("索引色状态, 默认值为无. ")]
+	HRESULT InColorIndexMode([in]BOOL newBOOL);
+
+	[id(124), propget, helpstring("是否支持双缓存区, 默认值为无. ")]
+	HRESULT SupportDoubleBuffer([out, retval]BOOL *retBOOL);
+	[id(124), propput, helpstring("是否支持双缓存区, 默认值为无. ")]
+	HRESULT SupportDoubleBuffer([in]BOOL newBOOL);
+
+	[id(125), propget, helpstring("是否支持左右缓存区, 默认值为无. ")]
+	HRESULT SupportStereo([out, retval]BOOL *retBOOL);
+//	[id(125), propput, helpstring("是否支持左右缓存区, 默认值为无. ")]
+//	HRESULT SupportStereo([in]BOOL newBOOL);
+
+	[id(126), propget, helpstring("反走样点的尺寸范围, 默认值为1,1. ")]
+	HRESULT PointSizeRange([out, retval]float *retfloat);
+//	[id(126), propput, helpstring("反走样点的尺寸范围, 默认值为1,1. ")]
+//	HRESULT PointSizeRange([in]float newfloat);
+
+
+	[id(127), propget, helpstring("反走样点相邻尺寸的差别, 默认值为无. ")]
+	HRESULT PointSizeGranularity([out, retval]float *retfloat);
+
+	[id(128), propget, helpstring("反走样线的尺寸范围, 默认值为1,1. ")]
+	HRESULT LineWidthRange([out, retval]float *retfloat);
+
+	[id(129), propget, helpstring("反走样线相邻尺寸的差别, 默认值为无. ")]
+	HRESULT LineWidthGranularity([out, retval]float *retfloat);
+
+	[id(130), propget, helpstring("颜色缓冲区的红色位平面数目, 默认值为无. ")]
+	HRESULT RedBits([out, retval]LONG *retLONG);
+
+	[id(131), propget, helpstring("颜色缓冲区的绿色位平面数目, 默认值为无. ")]
+	HRESULT GreenBits([out, retval]LONG *retLONG);
+
+	[id(132), propget, helpstring("颜色缓冲区的蓝色位平面数目, 默认值为无. ")]
+	HRESULT BlueBits([out, retval]LONG *retLONG);
+
+	[id(133), propget, helpstring("颜色缓冲区的α位平面数目, 默认值为无. ")]
+	HRESULT AlphaBits([out, retval]LONG *retLONG);
+
+	[id(134), propget, helpstring("索引色缓冲区的位平面数目, 默认值为无. ")]
+	HRESULT IndexBits([out, retval]LONG *retLONG);
+
+	[id(135), propget, helpstring("深度缓冲区的位平面数目, 默认值为无. ")]
+	HRESULT DepthBits([out, retval]LONG *retLONG);
+
+	[id(136), propget, helpstring("模版缓冲区的位平面数目, 默认值为无. ")]
+	HRESULT StencilBits([out, retval]LONG *retLONG);
+
+	[id(137), propget, helpstring("累加缓冲区的红色位平面数目, 默认值为无. ")]
+	HRESULT AccumRedBits([out, retval]LONG *retLONG);
+
+	[id(138), propget, helpstring("累加缓冲区的绿色位平面数目, 默认值为无. ")]
+	HRESULT AccumGreenBits([out, retval]LONG *retLONG);
+
+	[id(139), propget, helpstring("累加缓冲区的蓝色位平面数目, 默认值为无. ")]
+	HRESULT AccumBlueBits([out, retval]LONG *retLONG);
+
+	[id(140), propget, helpstring("累加缓冲区的α位平面数目, 默认值为无. ")]
+	HRESULT AccumAlphaBits([out, retval]LONG *retLONG);
+
+	[id(141), propget, helpstring("显示列表矩阵基, 默认值为0. ")]
+	HRESULT CallListBase([out, retval]LONG *retLONG);
+
+	[id(142), propget, helpstring("当前显示列表索引, 默认值为0. ")]
+	HRESULT CallListIndex([out, retval]LONG *retLONG);
+	[id(142), propput, helpstring("当前显示列表索引, 默认值为0. ")]
+	HRESULT CallListIndex([in]LONG newLONG);
+
+	[id(143), propget, helpstring("构造的显示列表模式, 默认值为0. ")]
+	HRESULT CallListMode([out, retval]LONG *retLONG);
+	[id(143), propput, helpstring("构造的显示列表模式, 默认值为0. ")]
+	HRESULT CallListMode([in]LONG newLONG);
+
+	[id(144), propget, helpstring("属性堆栈深度指针, 默认值为0. ")]
+	HRESULT CurrentAttribStackDepth([out, retval]LONG *retLONG);
+
+	[id(145), propget, helpstring("名称堆栈深度, 默认值为0. ")]
+	HRESULT CurrentNameStackDepth([out, retval]LONG *retLONG);
+	[id(145), propput, helpstring("名称堆栈深度, 默认值为0. ")]
+	HRESULT CurrentNameStackDepth([in]LONG newLONG);
+};

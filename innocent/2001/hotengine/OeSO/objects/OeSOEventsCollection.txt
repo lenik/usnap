@@ -1,0 +1,12 @@
+关于类OeSOEventsCollection：
+类描述：
+	事件集合类：
+结构：
+	父类：
+
+	派生类：
+
+	实现接口：
+		IOeSOEventsCollection
+	CLSID：
+		00000000-4F45-0642-0002-486954656368

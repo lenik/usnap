@@ -1,0 +1,21 @@
+HKCR {
+	CampoEngine.CeE3DRender.1 = s 'CeE3DRender class ' {
+		CLSID = s '{00000000-4345-3006-0002-486954656368}'
+	}
+	CampoEngine.CeE3DRender = s 'CeE3DRender class ' {
+		CLSID = s '{00000000-4345-3006-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE3DRender.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4345-3006-0002-486954656368} = s 'CeE3DRender' {
+			ProgID = s 'CampoEngine.CeE3DRender.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE3DRender'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingRender = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4345-3006-0001-486954656368} = s 'ICeE3DRender'
+	}
+}

@@ -1,0 +1,667 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+//import "OeSOConstants.idl";
+
+typedef enum OeSOUnitTypeConstants {
+	OeSOUnitObject,
+	OeSOUnitInterface,
+	OeSOUnitClass,
+	OeSOUnitStatus,
+	OeSOUnitAttribute,
+	OeSOUnitMethod,
+	OeSOUnitEvent,
+	OeSOUnitObjectsCollection,
+	OeSOUnitInterfacesCollection,
+	OeSOUnitClassesCollection,
+	OeSOUnitStatusesCollection,
+	OeSOUnitAttributesCollection,
+	OeSOUnitMethodsCollection,
+	OeSOUnitEventsCollection,
+	OeSOUnitApplication,
+	OeSOUnitInvalid
+} OeSOUnitTypeConstantsEnum;
+
+
+// 外观(Facade)
+	interface IOeSOParser;			// 0600 解析器，解析数据并生成应用程序
+	interface IOeSOCompiler;		// 0601 编译器，编译解析结果导出其它语言代码
+	interface IOeSOEvaluator;		// 0602 求值器，动态脚本
+
+// 基本对象
+	interface IOeSOObject;			// 0610 对象类
+	interface IOeSOInterface;		// 0611 接口类
+	interface IOeSOClass;			// 0612 类类
+	interface IOeSOStatus;			// 0613 状态类
+
+	interface IOeSOAttribute;		// 0620 属性类
+	interface IOeSOMethod;			// 0621 方法类
+	interface IOeSOEvent;			// 0622 事件类
+
+// 集合对象
+	interface IOeSOCollection;
+
+	interface IOeSOObjectsCollection;	// 0630 对象集合
+	interface IOeSOInterfacesCollection;	// 0631 接口集合
+	interface IOeSOClassesCollection;	// 0632 类集合
+	interface IOeSOStatusesCollection;	// 0633 状态集合类
+
+	interface IOeSOAttributesCollection;	// 0640 属性集合
+	interface IOeSOMethodsCollection;	// 0641 方法集合
+	interface IOeSOEventsCollection;	// 0642 事件集合
+// 应用体
+	interface IOeSOApplication;		// 0660 应用体
+
+#include "OeSODispids.h"
+cpp_quote("#include \"OeSODispids.h\"")
+
+[
+	uuid(00000000-4F45-0600-0004-486954656368),
+	version(1.0),
+	helpstring("OceanEngine.SimpleObject 类型库 海洋工程引擎.海洋简明对象引擎")
+]
+library OeSOLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("..\OeT\OeT.tlb");
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOParser
+[
+	uuid(00000000-4F45-0600-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOParser")
+] interface IOeSOParser : IDispatch {
+	[helpstring("[不可用]直接从参数中装载描述, 参数源可以是二维数据表、二进制解析结果等。根据变体中对象接口IID区分。")]
+	HRESULT load([in]VARIANT somlSource, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("从soml描述中装入描述")]
+	HRESULT loadSOML([in]BSTR soml, [out, retval]VARIANT_BOOL *ret);
+
+//	[helpstring("从已解析的XML对象中装入描述")]
+//	HRESULT loadSOML2([in]IXMLDOMDocument *pxml, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("建立应用体")]
+	HRESULT createApplication([out, retval]IOeSOApplication **ret);
+};
+[
+	uuid(00000000-4F45-0600-0017-486954656368),
+	helpstring("IOeSOParserEvents")
+] dispinterface IOeSOParserEvents {
+	properties:
+	methods:
+		[id(DISPID_IOeSOParser_onLoaded), helpstring("装载完成时触发")]
+		void onLoaded();
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOCompiler
+[
+	uuid(00000000-4F45-0601-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOCompiler")
+] interface IOeSOCompiler : IDispatch {
+	[id(0), propget, helpstring("获取/设置解析器对象")]
+	HRESULT parser([out, retval]IOeSOParser **ret);
+	[id(0), propput, helpstring("获取/设置解析器对象")]
+	HRESULT parser([in]IOeSOParser *parser);
+
+	[helpstring("编译成SOML源文件")]
+	HRESULT compileSOML([out, retval]BSTR *ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOEvaluator
+[
+	uuid(00000000-4F45-0602-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOEvaluator")
+] interface IOeSOEvaluator : IDispatch {
+	[id(0), propget, helpstring("获取/设置解析器对象")]
+	HRESULT parser([out, retval]IOeSOParser **ret);
+	[id(0), propput, helpstring("获取/设置解析器对象")]
+	HRESULT parser([in]IOeSOParser *parser);
+
+	[helpstring("评估SOML脚本")]
+	HRESULT evaluator([in]BSTR script, [out, retval]VARIANT *ret);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOObject
+[
+	uuid(00000000-4F45-0610-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOObject")
+] interface IOeSOObject : IDispatch {
+	[id(ID_IOeSOObject_name), propget, helpstring("返回/设置对象名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOObject_name), propput, helpstring("返回/设置对象名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(ID_IOeSOObject_attributes), propget, helpstring("返回对象属性集合(对象属性包括类属性, 但类属性不包括对象属性)")]
+	HRESULT attributes([out, retval]IOeSOAttributesCollection **ret);
+
+	[id(ID_IOeSOObject_attributesObject), propget, helpstring("返回对象特有的属性集合, 不包括类属性")]
+	HRESULT attributesObject([out, retval]IOeSOAttributesCollection **ret);
+//	[id(ID_IOeSOObject_attributesObject), propput, helpstring("返回/设置对象特有的属性集合, 不包括类属性")]
+//	HRESULT attributesObject([in]IOeSOAttributesCollection *newattrs);
+
+	[id(ID_IOeSOObject_methods_), propget, helpstring("返回方法列表")]
+	HRESULT methods_([out, retval]IOeSOMethodsCollection **ret);
+//	[id(ID_IOeSOObject_methods_), propput, helpstring("返回/设置方法列表")]
+//	HRESULT methods_([in]IOeSOMethodsCollection *newmethods);
+
+	[id(ID_IOeSOObject_events_), propget, helpstring("返回事件列表")]
+	HRESULT events_([out, retval]IOeSOEventsCollection **ret);
+//	[id(ID_IOeSOObject_events_), propput, helpstring("返回/设置事件列表")]
+//	HRESULT events_([in]IOeSOEventsCollection *newevents);
+
+	[id(ID_IOeSOObject_ofclass), propget, helpstring("返回/设置对象属类")]
+	HRESULT ofclass([out, retval]IOeSOClass **ret);
+	[id(ID_IOeSOObject_ofclass), propput, helpstring("返回/设置对象属类")]
+	HRESULT ofclass([in]IOeSOClass *newclass);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOInterface
+[
+	uuid(00000000-4F45-0611-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOInterface ")
+] interface IOeSOInterface : IDispatch {
+	[id(ID_IOeSOInterface_name), propget, helpstring("返回/设置接口名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOInterface_name), propput, helpstring("返回/设置接口名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(ID_IOeSOInterface_methods_), propget, helpstring("返回方法列表")]
+	HRESULT methods_([out, retval]IOeSOMethodsCollection **ret);
+//	[id(ID_IOeSOInterface_methods_), propput, helpstring("返回/设置方法列表")]
+//	HRESULT methods_([in]IOeSOMethodsCollection *newmethods);
+
+	[id(ID_IOeSOInterface_events_), propget, helpstring("返回事件列表")]
+	HRESULT events_([out, retval]IOeSOEventsCollection **ret);
+//	[id(ID_IOeSOInterface_events_), propput, helpstring("返回/设置事件列表")]
+//	HRESULT events_([in]IOeSOEventsCollection *newevents);
+
+	[id(ID_IOeSOInterface_inherits), propget, helpstring("返回形式继承接口")]
+	HRESULT inherits([out, retval]IOeSOInterface **ret);
+	[id(ID_IOeSOInterface_inherits), propput, helpstring("返回/设置形式继承接口")]
+	HRESULT inherits([in]IOeSOInterface *newinherits);
+
+	[id(ID_IOeSOInterface_derives), propget, helpstring("返回派生接口列表")]
+	HRESULT derives([out, retval]IOeSOInterfacesCollection **ret);
+
+	[id(ID_IOeSOInterface_interfaces), propget, helpstring("返回语义继承接口集")]
+	HRESULT interfaces([out, retval]IOeSOInterfacesCollection **ret);
+//	[id(ID_IOeSOInterface_interfaces), propput, helpstring("返回/设置语义继承接口集")]
+//	HRESULT interfaces([in]IOeSOInterfacesCollection *newinterfaces);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOClass
+[
+	uuid(00000000-4F45-0612-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOClass")
+] interface IOeSOClass : IDispatch {
+	[id(ID_IOeSOClass_instances), propget, helpstring("获取类的实例化对象集合")]
+	HRESULT instances([out, retval]IOeSOObjectsCollection **ret);
+
+	[id(ID_IOeSOClass_name), propget, helpstring("返回/设置类的名字")]
+	HRESULT name([out, retval]BSTR *name);
+	[id(ID_IOeSOClass_name), propput, helpstring("返回/设置类的名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(ID_IOeSOClass_attributes), propget, helpstring("返回类属性集(对象属性包括类属性, 但类属性不包括对象属性)")]
+	HRESULT attributes([out, retval]IOeSOAttributesCollection **ret);
+//	[id(ID_IOeSOClass_attributes), propput, helpstring("返回/设置类属性集(对象属性包括类属性, 但类属性不包括对象属性)")]
+//	HRESULT attributes([in]IOeSOAttributesCollection *newattributes);
+
+	[id(ID_IOeSOClass_attributesObject), propget, helpstring("返回对象属性模版集. 对象属性模版集用于生成对象属性. ")]
+	HRESULT attributesObject([out, retval]IOeSOAttributesCollection **ret);
+//	[id(ID_IOeSOClass_attributesObject), propput, helpstring("返回/设置对象属性模版集. 对象属性模版集用于生成对象属性. ")]
+//	HRESULT attributesObject([in]IOeSOAttributesCollection *newattributes);
+
+	[id(ID_IOeSOClass_methods_), propget, helpstring("返回方法列表")]
+	HRESULT methods_([out, retval]IOeSOMethodsCollection **ret);
+//	[id(ID_IOeSOClass_methods_), propput, helpstring("返回/设置方法列表")]
+//	HRESULT methods_([in]IOeSOMethodsCollection *newmethods);
+
+	[id(ID_IOeSOClass_events_), propget, helpstring("返回事件列表")]
+	HRESULT events_([out, retval]IOeSOEventsCollection **ret);
+//	[id(ID_IOeSOClass_events_), propput, helpstring("返回/设置事件列表")]
+//	HRESULT events_([in]IOeSOEventsCollection *newevents);
+
+	[id(ID_IOeSOClass_inherits), propget, helpstring("返回/设置父类")]
+	HRESULT inherits([out, retval]IOeSOClass **ret);
+	[id(ID_IOeSOClass_inherits), propput, helpstring("返回/设置父类")]
+	HRESULT inherits([in]IOeSOClass *newinherits);
+
+	[id(ID_IOeSOClass_derives), propget, helpstring("返回派生类列表")]
+	HRESULT derives([out, retval]IOeSOClassesCollection **ret);
+
+	[id(ID_IOeSOClass_interfaces), propget, helpstring("返回实现接口集合")]
+	HRESULT interfaces([out, retval]IOeSOInterfacesCollection **ret);
+//	[id(ID_IOeSOClass_interfaces), propput, helpstring("返回/设置实现接口集合")]
+//	HRESULT interfaces([in]IOeSOInterfacesCollection *newinterfaces);
+
+	[helpstring("创建新对象")]
+	HRESULT createObject([in]BSTR objectname, [out, retval]IOeSOObject **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOStatus
+[
+	uuid(00000000-4F45-0613-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOStatus ")
+] interface IOeSOStatus : IDispatch {
+	[id(ID_IOeSOStatus_name), propget, helpstring("返回/设置状态名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOStatus_name), propput, helpstring("返回/设置状态名字")]
+	HRESULT name([in]BSTR newname);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOAttribute
+[
+	uuid(00000000-4F45-0620-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOAttribute")
+] interface IOeSOAttribute : IDispatch {
+	[id(ID_IOeSOAttribute_name), propget, helpstring("返回/设置属性名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOAttribute_name), propput, helpstring("返回/设置属性名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(ID_IOeSOAttribute_value), propget, helpstring("返回/设置属性值")]
+	HRESULT value([out, retval]VARIANT *ret);
+	[id(ID_IOeSOAttribute_value), propput, helpstring("返回/设置属性值")]
+	HRESULT value([in]VARIANT newvalue);
+};
+[
+	uuid(00000000-4F45-0620-0017-486954656368),
+	helpstring("IOeSOAttributeEvents")
+] dispinterface IOeSOAttributeEvents {
+	properties:
+	methods:
+		[id(DISPID_IOeSOAttribute_onChanged), helpstring("属性改变时触发")]
+		void onChanged();
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOMethod
+[
+	uuid(00000000-4F45-0621-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOMethod")
+] interface IOeSOMethod : IDispatch {
+	//DISPPARAMS params
+	//cNamedArgs na
+	//...
+	//[helpstring("调用函数")]
+	//HRESULT call();
+
+	[id(ID_IOeSOMethod_name), propget, helpstring("返回/设置方法名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOMethod_name), propput, helpstring("返回/设置方法名字")]
+	HRESULT name([in]BSTR newname);
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOEvent
+[
+	uuid(00000000-4F45-0622-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOEvent")
+] interface IOeSOEvent : IDispatch {
+	[id(ID_IOeSOEvent_name), propget, helpstring("返回/设置事件名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSOEvent_name), propput, helpstring("返回/设置事件名字")]
+	HRESULT name([in]BSTR newname);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOCollection
+[
+	uuid(00000000-4F45-0630-0081-486954656368),
+	dual,
+	oleautomation,
+	hidden,
+	helpstring("IOeSOCollection")
+] interface IOeSOCollection : IDispatch {
+	[id(ID_IOeSO_count), propget, helpstring("获取集合中对象数目")]
+	HRESULT count([out, retval]int *ret);
+
+	[id(ID_IOeSO_member), propget, helpstring("返回/设置对象")]
+	HRESULT member([in]int index, [out, retval]IDispatch **ret);
+	[id(ID_IOeSO_member), propput, helpstring("返回/设置对象")]
+	HRESULT member([in]int index, [in]IDispatch *newmember);
+
+	[helpstring("清除集合内容")]
+	HRESULT clear();
+
+	[helpstring("加入对象, 当insertindex>=0时将插在指定位置. 默认将对象加在结尾. ")]
+	HRESULT add([in]IDispatch *addobject, [in, defaultvalue(-1)]int insertindex);
+
+	[helpstring("删除对象, removecount指定删除数目, 默认为1. ")]
+	HRESULT remove([in]int removeindex, [in, defaultvalue(1)]int removecount);
+
+	[helpstring("合并另一个集合到本集合")]
+	HRESULT combine([in]IOeSOCollection *anothercollection);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOObjectsCollection
+[
+	uuid(00000000-4F45-0630-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOObjectsCollection")
+] interface IOeSOObjectsCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置对象集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置对象集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取一个指定对象")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOObject **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOInterfacesCollection
+[
+	uuid(00000000-4F45-0631-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOInterfacesCollection")
+] interface IOeSOInterfacesCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置接口集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置接口集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取一个指定接口")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOInterface **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOClassesCollection
+[
+	uuid(00000000-4F45-0632-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOClassesCollection")
+] interface IOeSOClassesCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置类集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置类集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取一个指定类")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOClass **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOStatusesCollection
+[
+	uuid(00000000-4F45-0633-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOStatusesCollection ")
+] interface IOeSOStatusesCollection : IOeSOCollection {
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOAttributesCollection
+[
+	uuid(00000000-4F45-0640-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOAttributesCollection")
+] interface IOeSOAttributesCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置属性集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置属性集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取/设置一个指定属性")]
+	HRESULT member([in]VARIANT whichmember, [out,retval]IOeSOAttribute **ret);
+	[id(0), propput, helpstring("获取/设置一个指定属性")]
+	HRESULT member([in]VARIANT whichmember, [in]IOeSOAttribute *newattr);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOMethodsCollection
+[
+	uuid(00000000-4F45-0641-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOMethodsCollection")
+] interface IOeSOMethodsCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置方法集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置方法集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取一个指定方法")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOMethod **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOEventsCollection
+[
+	uuid(00000000-4F45-0642-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOEventsCollection")
+] interface IOeSOEventsCollection : IOeSOCollection {
+	[id(ID_IOeSO_name), propget, helpstring("返回/设置事件集合的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(ID_IOeSO_name), propput, helpstring("返回/设置事件集合名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(0), propget, helpstring("获取一个指定事件")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOEvent **ret);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IOeSOApplication
+[
+	uuid(00000000-4F45-0660-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOApplication")
+] interface IOeSOApplication : IDispatch {
+	[id(0), propget, helpstring("返回/设置应用体的名字")]
+	HRESULT name([out, retval]BSTR *ret);
+	[id(0), propput, helpstring("返回/设置应用体的名字")]
+	HRESULT name([in]BSTR newname);
+
+	[id(1000), propget, helpstring("获取应用体中的某个类的对象集")]
+	HRESULT objects([in]VARIANT whichclass, [out, retval]IOeSOObjectsCollection **ret);
+
+	[id(1001), propget, helpstring("获取应用体中的所有接口集合")]
+	HRESULT interfaces([out, retval]IOeSOInterfacesCollection **ret);
+
+	[id(1002), propget, helpstring("获取应用体中的所有类集合")]
+	HRESULT classes([out, retval]IOeSOClassesCollection **ret);
+
+	[id(1003), propget, helpstring("获取应用体中的所有状态集合")]
+	HRESULT statuses([out, retval]IOeSOStatusesCollection **ret);
+};
+
+// coclasses
+
+[
+	uuid(00000000-4F45-0600-0002-486954656368),
+	helpstring("OeSOParser分析器用于分析SOML文档、从数据库中导入SOML、保存SOML等, 并创建应用体对象。")
+] coclass OeSOParser {
+	[default]interface IOeSOParser;
+	[default, source]dispinterface IOeSOParserEvents;
+};
+
+
+[
+	uuid(00000000-4F45-0601-0002-486954656368),
+	helpstring("OeSOCompiler编译器将SOML编译成其它语言。")
+] coclass OeSOCompiler {
+	[default]interface IOeSOCompiler;
+};
+
+
+[
+	uuid(00000000-4F45-0602-0002-486954656368),
+	helpstring("OeSOEvaluator求值器求解SOML中的属性值、执行SOML中的方法等。")
+] coclass OeSOEvaluator {
+	[default]interface IOeSOEvaluator;
+};
+
+
+[
+	uuid(00000000-4F45-0610-0002-486954656368),
+	helpstring("OeSOObject对象类存放一个具体的对象。")
+] coclass OeSOObject {
+	[default]interface IOeSOObject;
+};
+
+
+[
+	uuid(00000000-4F45-0611-0002-486954656368),
+	helpstring("OeSOInterface接口类描述一个接口。接口的实现在类类中。")
+] coclass OeSOInterface {
+	[default]interface IOeSOInterface;
+};
+
+
+[
+	uuid(00000000-4F45-0612-0002-486954656368),
+	helpstring("OeSOClass类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。")
+] coclass OeSOClass {
+	[default]interface IOeSOClass;
+};
+
+
+[
+	uuid(00000000-4F45-0613-0002-486954656368),
+	helpstring("OeSOStatus状态类描述一个状态。一个状态有多个状态值，状态值将对应于一个状态表示类。")
+] coclass OeSOStatus {
+	[default]interface IOeSOStatus;
+};
+
+
+[
+	uuid(00000000-4F45-0620-0002-486954656368),
+	helpstring("OeSOAttribute属性类保存一个属性.")
+] coclass OeSOAttribute {
+	[default]interface IOeSOAttribute;
+	[default, source]dispinterface IOeSOAttributeEvents;
+};
+
+
+[
+	uuid(00000000-4F45-0621-0002-486954656368),
+	helpstring("OeSOMethod方法类用于描述一个方法。描述方法可以通过编写简单代码、引用脚本类或者映射到其它类上。")
+] coclass OeSOMethod {
+	[default]interface IOeSOMethod;
+};
+
+
+[
+	uuid(00000000-4F45-0622-0002-486954656368),
+	helpstring("OeSOEvent事件类用于建立事件映射。")
+] coclass OeSOEvent {
+	[default]interface IOeSOEvent;
+};
+
+
+[
+	uuid(00000000-4F45-0630-8002-486954656368),
+	helpstring("OeSOCollection集合类")
+] coclass OeSOCollection {
+	[default]interface IOeSOCollection;
+};
+
+[
+	uuid(00000000-4F45-0630-0002-486954656368),
+	helpstring("OeSOObjectsCollection对象集合类")
+] coclass OeSOObjectsCollection {
+	[default]interface IOeSOObjectsCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0631-0002-486954656368),
+	helpstring("OeSOInterfacesCollection接口集合类")
+] coclass OeSOInterfacesCollection {
+	[default]interface IOeSOInterfacesCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0632-0002-486954656368),
+	helpstring("OeSOClassesCollection类集合类")
+] coclass OeSOClassesCollection {
+	[default]interface IOeSOClassesCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0640-0002-486954656368),
+	helpstring("OeSOAttributesCollection属性集合类")
+] coclass OeSOAttributesCollection {
+	[default]interface IOeSOAttributesCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0633-0002-486954656368),
+	helpstring("OeSOStatusesCollection状态集合类")
+] coclass OeSOStatusesCollection {
+	[default]interface IOeSOStatusesCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0641-0002-486954656368),
+	helpstring("OeSOMethodsCollection方法集合类")
+] coclass OeSOMethodsCollection {
+	[default]interface IOeSOMethodsCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0642-0002-486954656368),
+	helpstring("OeSOEventsCollection事件集合类")
+] coclass OeSOEventsCollection {
+	[default]interface IOeSOEventsCollection;
+};
+
+
+[
+	uuid(00000000-4F45-0660-0002-486954656368),
+	helpstring("OeSOApplication应用体类, 管理类和接口集合")
+] coclass OeSOApplication {
+	[default]interface IOeSOApplication;
+};
+
+
+};

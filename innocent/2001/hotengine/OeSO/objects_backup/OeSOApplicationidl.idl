@@ -1,0 +1,17 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0660-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOApplication")
+] interface IOeSOApplication : IDispatch {
+	[id(1000), propget, helpstring("获取应用体中的某个类的对象集")]
+	HRESULT objects([in]VARIANT whichclass, [out, retval]IOeSOObjectsCollection **ret);
+
+	[id(1001), propget, helpstring("获取应用体中的所有接口集合")]
+	HRESULT interfaces([out, retval]IOeSOInterfacesCollection **ret);
+
+	[id(1002), propget, helpstring("获取应用体中的所有类集合")]
+	HRESULT classes([out, retval]IOeSOClassesCollection **ret);
+};

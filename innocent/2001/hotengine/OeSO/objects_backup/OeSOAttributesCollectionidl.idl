@@ -1,0 +1,13 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0640-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOAttributesCollection")
+] interface IOeSOAttributesCollection : IDispatch {
+	[id(0), propget, helpstring("获取/设置一个指定属性")]
+	HRESULT member([in]VARIANT whichmember, [out,retval]IOeSOAttribute **ret);
+	[id(0), propput, helpstring("获取/设置一个指定属性")]
+	HRESULT member([in]VARIANT whichmember, [in]IOeSOAttribute *newattr);
+};

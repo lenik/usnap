@@ -1,0 +1,21 @@
+HKCR {
+	CampoEngine.CeVersion.1 = s 'CeVersionSimple' {
+		CLSID = s '{00000000-4345-0001-0002-486954656368}'
+	}
+	CampoEngine.CeVersion = s 'CeVersionSimple' {
+		CLSID = s '{00000000-4345-0001-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeVersion.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4345-0001-0002-486954656368} = s 'CeVersionSimple' {
+			ProgID = s 'CampoEngine.CeVersion.1'
+			VersionIndependentProgID = s 'CampoEngine.CeVersion'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Apartment'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4345-0001-0001-486954656368} = s 'ICeVersion'
+	}
+}

@@ -1,0 +1,31 @@
+// CeE3D_Client1.odl : type library source for CeE3D_Client1.exe
+
+[ uuid(BE74089E-82EB-4139-B99D-7AAC5C92BFCF), version(1.0) ]
+library CeE3D_Client1
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	[ uuid(7D34FD6A-A651-4005-81B0-613FE8A2869A) ]
+	dispinterface ICeE3D_Client1
+	{
+		properties:
+			//{{AFX_ODL_PROP(CCeE3D_Client1Doc)
+			//}}AFX_ODL_PROP
+
+		methods:
+			//{{AFX_ODL_METHOD(CCeE3D_Client1Doc)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	[ uuid(DCDD6AA6-9B6A-40E8-9018-B3CC500C5A75) ]
+	coclass Document
+	{
+		[default] dispinterface ICeE3D_Client1;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

@@ -1,0 +1,37 @@
+// ceVersion.idl : IDL source for ceVersion.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ceVersion.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4345-0001-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.Version 类型库 草原引擎.版本信息")
+]
+library CeVersionLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4345-0001-0001-486954656368),
+		helpstring("get detail versions")
+	]
+	interface ICeVersion : IUnknown {
+		HRESULT		AboutBox();
+		HRESULT		GetCurrentVersion([out, retval]LONG *pVer);
+	};
+
+	[
+		uuid(00000000-4345-0001-0002-486954656368),
+		helpstring("simple version object")
+	]
+	coclass CeVersionSimple {
+		[default] interface ICeVersion;
+	};
+
+};

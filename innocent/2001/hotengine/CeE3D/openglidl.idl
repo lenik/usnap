@@ -1,0 +1,1344 @@
+
+cpp_quote("/**********************************************************************")
+cpp_quote(" *  opengl interface declares                                         *")
+cpp_quote(" *                                                                    *")
+cpp_quote(" *                            hot-info technoligies                   *")
+cpp_quote(" *                                                                    *")
+cpp_quote(" *  dansei. apr04, 2001. all rights reserved.                         *")
+cpp_quote(" **********************************************************************/")
+
+import "wtypes.idl";
+
+cpp_quote("#ifdef __USE_IDL_TYPES")
+	typedef LONG	CEE3DMAINPROC;
+	typedef LONG	CEE3DIDLEPROC;
+	typedef LONG	CEE3DEXPOSEPROC;
+	typedef LONG	CEE3DKEYPROC;
+	typedef LONG	CEE3DMOUSEPROC;
+	typedef LONG	CEE3DRESHAPEPROC;
+
+//	typedef int GLenum;
+	typedef BYTE GLboolean;
+	typedef int GLbitfield;
+	typedef BYTE GLbyte;
+	typedef signed short GLshort;
+	typedef signed int GLint;
+	typedef int GLsizei;
+	typedef BYTE GLubyte;
+	typedef short GLushort;
+	typedef int GLuint;
+	typedef float GLfloat;
+	typedef float GLclampf;
+	typedef double GLdouble;
+	typedef double GLclampd;
+	//typedef void GLvoid;
+/*
+	typedef unsigned int GLenum;
+	typedef unsigned char GLboolean;
+	typedef unsigned int GLbitfield;
+	typedef signed char GLbyte;
+	typedef short GLshort;
+	typedef int GLint;
+	typedef int GLsizei;
+	typedef unsigned char GLubyte;
+	typedef unsigned short GLushort;
+	typedef unsigned int GLuint;
+	typedef float GLfloat;
+	typedef float GLclampf;
+	typedef double GLdouble;
+	typedef double GLclampd;
+	typedef void GLvoid;
+*/
+
+cpp_quote("#endif")
+
+	[public]
+	typedef enum __tag_CeE3Denum {
+		/* Boolean */
+		[ helpstring("TRUE for opengl") ]
+		CEE3D_TRUE                           = 1,
+		[ helpstring("FALSE for opengl") ]
+		CEE3D_FALSE                          = 0,
+
+		/* AttribMask */
+		CEE3D_CURRENT_BIT                    = 0x00000001,
+		CEE3D_POINT_BIT                      = 0x00000002,
+		CEE3D_LINE_BIT                       = 0x00000004,
+		CEE3D_POLYGON_BIT                    = 0x00000008,
+		CEE3D_POLYGON_STIPPLE_BIT            = 0x00000010,
+		CEE3D_PIXEL_MODE_BIT                 = 0x00000020,
+		CEE3D_LIGHTING_BIT                   = 0x00000040,
+		CEE3D_FOG_BIT                        = 0x00000080,
+		CEE3D_DEPTH_BUFFER_BIT               = 0x00000100,
+		CEE3D_ACCUM_BUFFER_BIT               = 0x00000200,
+		CEE3D_STENCIL_BUFFER_BIT             = 0x00000400,
+		CEE3D_VIEWPORT_BIT                   = 0x00000800,
+		CEE3D_TRANSFORM_BIT                  = 0x00001000,
+		CEE3D_ENABLE_BIT                     = 0x00002000,
+		CEE3D_COLOR_BUFFER_BIT               = 0x00004000,
+		CEE3D_HINT_BIT                       = 0x00008000,
+		CEE3D_EVAL_BIT                       = 0x00010000,
+		CEE3D_LIST_BIT                       = 0x00020000,
+		CEE3D_TEXTURE_BIT                    = 0x00040000,
+		CEE3D_SCISSOR_BIT                    = 0x00080000,
+		CEE3D_ALL_ATTRIB_BITS                = 0x000fffff,
+
+		CEE3D_ACCUM                          = 0x0100,
+		CEE3D_LOAD                           = 0x0101,
+		CEE3D_RETURN                         = 0x0102,
+		CEE3D_MULT                           = 0x0103,
+		CEE3D_ADD                            = 0x0104,
+
+		/* AlphaFunction */
+		CEE3D_NEVER                          = 0x0200,
+		CEE3D_LESS                           = 0x0201,
+		CEE3D_EQUAL                          = 0x0202,
+		CEE3D_LEQUAL                         = 0x0203,
+		CEE3D_GREATER                        = 0x0204,
+		CEE3D_NOTEQUAL                       = 0x0205,
+		CEE3D_GEQUAL                         = 0x0206,
+		CEE3D_ALWAYS                         = 0x0207,
+
+
+		/* BeginMode */
+		CEE3D_POINTS                         = 0x0000,
+		CEE3D_LINES                          = 0x0001,
+		CEE3D_LINE_LOOP                      = 0x0002,
+		CEE3D_LINE_STRIP                     = 0x0003,
+		CEE3D_TRIANGLES                      = 0x0004,
+		CEE3D_TRIANGLE_STRIP                 = 0x0005,
+		CEE3D_TRIANGLE_FAN                   = 0x0006,
+		CEE3D_QUADS                          = 0x0007,
+		CEE3D_QUAD_STRIP                     = 0x0008,
+		CEE3D_POLYGON                        = 0x0009,
+
+		/* BlendingFactorDest */
+		CEE3D_ZERO                           = 0,
+		CEE3D_ONE                            = 1,
+		CEE3D_SRC_COLOR                      = 0x0300,
+		CEE3D_ONE_MINUS_SRC_COLOR            = 0x0301,
+		CEE3D_SRC_ALPHA                      = 0x0302,
+		CEE3D_ONE_MINUS_SRC_ALPHA            = 0x0303,
+		CEE3D_DST_ALPHA                      = 0x0304,
+		CEE3D_ONE_MINUS_DST_ALPHA            = 0x0305,
+
+		/* BlendingFactorSrc */
+		/*      CEE3D_ZERO */
+		/*      CEE3D_ONE */
+		CEE3D_DST_COLOR                      = 0x0306,
+		CEE3D_ONE_MINUS_DST_COLOR            = 0x0307,
+		CEE3D_SRC_ALPHA_SATURATE             = 0x0308,
+		/*      CEE3D_SRC_ALPHA */
+		/*      CEE3D_ONE_MINUS_SRC_ALPHA */
+		/*      CEE3D_DST_ALPHA */
+		/*      CEE3D_ONE_MINUS_DST_ALPHA */
+
+		/* ClearBufferMask */
+		/*      CEE3D_COLOR_BUFFER_BIT */
+		/*      CEE3D_ACCUM_BUFFER_BIT */
+		/*      CEE3D_STENCIL_BUFFER_BIT */
+		/*      CEE3D_DEPTH_BUFFER_BIT */
+
+		/* ClientArrayType */
+		/*      CEE3D_VERTEX_ARRAY */
+		/*      CEE3D_NORMAL_ARRAY */
+		/*      CEE3D_COLOR_ARRAY */
+		/*      CEE3D_INDEX_ARRAY */
+		/*      CEE3D_TEXTURE_COORD_ARRAY */
+		/*      CEE3D_EDGE_FLAG_ARRAY */
+
+		/* ClipPlaneName */
+		CEE3D_CLIP_PLANE0                    = 0x3000,
+		CEE3D_CLIP_PLANE1                    = 0x3001,
+		CEE3D_CLIP_PLANE2                    = 0x3002,
+		CEE3D_CLIP_PLANE3                    = 0x3003,
+		CEE3D_CLIP_PLANE4                    = 0x3004,
+		CEE3D_CLIP_PLANE5                    = 0x3005,
+
+		/* ColorMaterialFace */
+		/*      CEE3D_FRONT */
+		/*      CEE3D_BACK */
+		/*      CEE3D_FRONT_AND_BACK */
+
+		/* ColorMaterialParameter */
+		/*      CEE3D_AMBIENT */
+		/*      CEE3D_DIFFUSE */
+		/*      CEE3D_SPECULAR */
+		/*      CEE3D_EMISSION */
+		/*      CEE3D_AMBIENT_AND_DIFFUSE */
+
+		/* ColorPointerType */
+		/*      CEE3D_BYTE */
+		/*      CEE3D_UNSIGNED_BYTE */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_UNSIGNED_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_UNSIGNED_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_DOUBLE */
+
+		/* CullFaceMode */
+		/*      CEE3D_FRONT */
+		/*      CEE3D_BACK */
+		/*      CEE3D_FRONT_AND_BACK */
+
+		/* DataType */
+		CEE3D_BYTE                           = 0x1400,
+		CEE3D_UNSIGNED_BYTE                  = 0x1401,
+		CEE3D_SHORT                          = 0x1402,
+		CEE3D_UNSIGNED_SHORT                 = 0x1403,
+		CEE3D_INT                            = 0x1404,
+		CEE3D_UNSIGNED_INT                   = 0x1405,
+		CEE3D_FLOAT                          = 0x1406,
+		CEE3D_2_BYTES                        = 0x1407,
+		CEE3D_3_BYTES                        = 0x1408,
+		CEE3D_4_BYTES                        = 0x1409,
+		CEE3D_DOUBLE                         = 0x140A,
+
+		/* DepthFunction */
+		/*      CEE3D_NEVER */
+		/*      CEE3D_LESS */
+		/*      CEE3D_EQUAL */
+		/*      CEE3D_LEQUAL */
+		/*      CEE3D_GREATER */
+		/*      CEE3D_NOTEQUAL */
+		/*      CEE3D_GEQUAL */
+		/*      CEE3D_ALWAYS */
+
+		/* DrawBufferMode */
+		CEE3D_NONE                           = 0,
+		CEE3D_FRONT_LEFT                     = 0x0400,
+		CEE3D_FRONT_RIGHT                    = 0x0401,
+		CEE3D_BACK_LEFT                      = 0x0402,
+		CEE3D_BACK_RIGHT                     = 0x0403,
+		CEE3D_FRONT                          = 0x0404,
+		CEE3D_BACK                           = 0x0405,
+		CEE3D_LEFT                           = 0x0406,
+		CEE3D_RIGHT                          = 0x0407,
+		CEE3D_FRONT_AND_BACK                 = 0x0408,
+		CEE3D_AUX0                           = 0x0409,
+		CEE3D_AUX1                           = 0x040A,
+		CEE3D_AUX2                           = 0x040B,
+		CEE3D_AUX3                           = 0x040C,
+
+		/* Enable */
+		/*      CEE3D_FOG */
+		/*      CEE3D_LIGHTING */
+		/*      CEE3D_TEXTURE_1D */
+		/*      CEE3D_TEXTURE_2D */
+		/*      CEE3D_LINE_STIPPLE */
+		/*      CEE3D_POLYGON_STIPPLE */
+		/*      CEE3D_CULL_FACE */
+		/*      CEE3D_ALPHA_TEST */
+		/*      CEE3D_BLEND */
+		/*      CEE3D_INDEX_LOGIC_OP */
+		/*      CEE3D_COLOR_LOGIC_OP */
+		/*      CEE3D_DITHER */
+		/*      CEE3D_STENCIL_TEST */
+		/*      CEE3D_DEPTH_TEST */
+		/*      CEE3D_CLIP_PLANE0 */
+		/*      CEE3D_CLIP_PLANE1 */
+		/*      CEE3D_CLIP_PLANE2 */
+		/*      CEE3D_CLIP_PLANE3 */
+		/*      CEE3D_CLIP_PLANE4 */
+		/*      CEE3D_CLIP_PLANE5 */
+		/*      CEE3D_LIGHT0 */
+		/*      CEE3D_LIGHT1 */
+		/*      CEE3D_LIGHT2 */
+		/*      CEE3D_LIGHT3 */
+		/*      CEE3D_LIGHT4 */
+		/*      CEE3D_LIGHT5 */
+		/*      CEE3D_LIGHT6 */
+		/*      CEE3D_LIGHT7 */
+		/*      CEE3D_TEXTURE_GEN_S */
+		/*      CEE3D_TEXTURE_GEN_T */
+		/*      CEE3D_TEXTURE_GEN_R */
+		/*      CEE3D_TEXTURE_GEN_Q */
+		/*      CEE3D_MAP1_VERTEX_3 */
+		/*      CEE3D_MAP1_VERTEX_4 */
+		/*      CEE3D_MAP1_COLOR_4 */
+		/*      CEE3D_MAP1_INDEX */
+		/*      CEE3D_MAP1_NORMAL */
+		/*      CEE3D_MAP1_TEXTURE_COORD_1 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_2 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_3 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_4 */
+		/*      CEE3D_MAP2_VERTEX_3 */
+		/*      CEE3D_MAP2_VERTEX_4 */
+		/*      CEE3D_MAP2_COLOR_4 */
+		/*      CEE3D_MAP2_INDEX */
+		/*      CEE3D_MAP2_NORMAL */
+		/*      CEE3D_MAP2_TEXTURE_COORD_1 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_2 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_3 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_4 */
+		/*      CEE3D_POINT_SMOOTH */
+		/*      CEE3D_LINE_SMOOTH */
+		/*      CEE3D_POLYGON_SMOOTH */
+		/*      CEE3D_SCISSOR_TEST */
+		/*      CEE3D_COLOR_MATERIAL */
+		/*      CEE3D_NORMALIZE */
+		/*      CEE3D_AUTO_NORMAL */
+		/*      CEE3D_VERTEX_ARRAY */
+		/*      CEE3D_NORMAL_ARRAY */
+		/*      CEE3D_COLOR_ARRAY */
+		/*      CEE3D_INDEX_ARRAY */
+		/*      CEE3D_TEXTURE_COORD_ARRAY */
+		/*      CEE3D_EDGE_FLAG_ARRAY */
+		/*      CEE3D_POLYGON_OFFSET_POINT */
+		/*      CEE3D_POLYGON_OFFSET_LINE */
+		/*      CEE3D_POLYGON_OFFSET_FILL */
+
+		/* ErrorCode */
+		CEE3D_NO_ERROR                       = 0,
+		CEE3D_INVALID_ENUM                   = 0x0500,
+		CEE3D_INVALID_VALUE                  = 0x0501,
+		CEE3D_INVALID_OPERATION              = 0x0502,
+		CEE3D_STACK_OVERFLOW                 = 0x0503,
+		CEE3D_STACK_UNDERFLOW                = 0x0504,
+		CEE3D_OUT_OF_MEMORY                  = 0x0505,
+
+		/* FeedBackMode */
+		CEE3D_2D                             = 0x0600,
+		CEE3D_3D                             = 0x0601,
+		CEE3D_3D_COLOR                       = 0x0602,
+		CEE3D_3D_COLOR_TEXTURE               = 0x0603,
+		CEE3D_4D_COLOR_TEXTURE               = 0x0604,
+
+		/* FeedBackToken */
+		CEE3D_PASS_THROUGH_TOKEN             = 0x0700,
+		CEE3D_POINT_TOKEN                    = 0x0701,
+		CEE3D_LINE_TOKEN                     = 0x0702,
+		CEE3D_POLYGON_TOKEN                  = 0x0703,
+		CEE3D_BITMAP_TOKEN                   = 0x0704,
+		CEE3D_DRAW_PIXEL_TOKEN               = 0x0705,
+		CEE3D_COPY_PIXEL_TOKEN               = 0x0706,
+		CEE3D_LINE_RESET_TOKEN               = 0x0707,
+
+		/* FogMode */
+		/*      CEE3D_LINEAR */
+		CEE3D_EXP                            = 0x0800,
+		CEE3D_EXP2                           = 0x0801,
+
+
+		/* FogParameter */
+		/*      CEE3D_FOG_COLOR */
+		/*      CEE3D_FOG_DENSITY */
+		/*      CEE3D_FOG_END */
+		/*      CEE3D_FOG_INDEX */
+		/*      CEE3D_FOG_MODE */
+		/*      CEE3D_FOG_START */
+
+		/* FrontFaceDirection */
+		CEE3D_CW                             = 0x0900,
+		CEE3D_CCW                            = 0x0901,
+
+		/* GetMapTarget */
+		CEE3D_COEFF                          = 0x0A00,
+		CEE3D_ORDER                          = 0x0A01,
+		CEE3D_DOMAIN                         = 0x0A02,
+
+		/* GetPixelMap */
+		/*      CEE3D_PIXEL_MAP_I_TO_I */
+		/*      CEE3D_PIXEL_MAP_S_TO_S */
+		/*      CEE3D_PIXEL_MAP_I_TO_R */
+		/*      CEE3D_PIXEL_MAP_I_TO_G */
+		/*      CEE3D_PIXEL_MAP_I_TO_B */
+		/*      CEE3D_PIXEL_MAP_I_TO_A */
+		/*      CEE3D_PIXEL_MAP_R_TO_R */
+		/*      CEE3D_PIXEL_MAP_G_TO_G */
+		/*      CEE3D_PIXEL_MAP_B_TO_B */
+		/*      CEE3D_PIXEL_MAP_A_TO_A */
+
+		/* GetPointerTarget */
+		/*      CEE3D_VERTEX_ARRAY_POINTER */
+		/*      CEE3D_NORMAL_ARRAY_POINTER */
+		/*      CEE3D_COLOR_ARRAY_POINTER */
+		/*      CEE3D_INDEX_ARRAY_POINTER */
+		/*      CEE3D_TEXTURE_COORD_ARRAY_POINTER */
+		/*      CEE3D_EDGE_FLAG_ARRAY_POINTER */
+
+		/* GetTarget */
+		CEE3D_CURRENT_COLOR                  = 0x0B00,
+		CEE3D_CURRENT_INDEX                  = 0x0B01,
+		CEE3D_CURRENT_NORMAL                 = 0x0B02,
+		CEE3D_CURRENT_TEXTURE_COORDS         = 0x0B03,
+		CEE3D_CURRENT_RASTER_COLOR           = 0x0B04,
+		CEE3D_CURRENT_RASTER_INDEX           = 0x0B05,
+		CEE3D_CURRENT_RASTER_TEXTURE_COORDS  = 0x0B06,
+		CEE3D_CURRENT_RASTER_POSITION        = 0x0B07,
+		CEE3D_CURRENT_RASTER_POSITION_VALID  = 0x0B08,
+		CEE3D_CURRENT_RASTER_DISTANCE        = 0x0B09,
+		CEE3D_POINT_SMOOTH                   = 0x0B10,
+		CEE3D_POINT_SIZE                     = 0x0B11,
+		CEE3D_POINT_SIZE_RANGE               = 0x0B12,
+		CEE3D_POINT_SIZE_GRANULARITY         = 0x0B13,
+		CEE3D_LINE_SMOOTH                    = 0x0B20,
+		CEE3D_LINE_WIDTH                     = 0x0B21,
+		CEE3D_LINE_WIDTH_RANGE               = 0x0B22,
+		CEE3D_LINE_WIDTH_GRANULARITY         = 0x0B23,
+		CEE3D_LINE_STIPPLE                   = 0x0B24,
+		CEE3D_LINE_STIPPLE_PATTERN           = 0x0B25,
+		CEE3D_LINE_STIPPLE_REPEAT            = 0x0B26,
+		CEE3D_LIST_MODE                      = 0x0B30,
+		CEE3D_MAX_LIST_NESTING               = 0x0B31,
+		CEE3D_LIST_BASE                      = 0x0B32,
+		CEE3D_LIST_INDEX                     = 0x0B33,
+		CEE3D_POLYGON_MODE                   = 0x0B40,
+		CEE3D_POLYGON_SMOOTH                 = 0x0B41,
+		CEE3D_POLYGON_STIPPLE                = 0x0B42,
+		CEE3D_EDGE_FLAG                      = 0x0B43,
+		CEE3D_CULL_FACE                      = 0x0B44,
+		CEE3D_CULL_FACE_MODE                 = 0x0B45,
+		CEE3D_FRONT_FACE                     = 0x0B46,
+		CEE3D_LIGHTING                       = 0x0B50,
+		CEE3D_LIGHT_MODEL_LOCAL_VIEWER       = 0x0B51,
+		CEE3D_LIGHT_MODEL_TWO_SIDE           = 0x0B52,
+		CEE3D_LIGHT_MODEL_AMBIENT            = 0x0B53,
+		CEE3D_SHADE_MODEL                    = 0x0B54,
+		CEE3D_COLOR_MATERIAL_FACE            = 0x0B55,
+		CEE3D_COLOR_MATERIAL_PARAMETER       = 0x0B56,
+		CEE3D_COLOR_MATERIAL                 = 0x0B57,
+		CEE3D_FOG                            = 0x0B60,
+		CEE3D_FOG_INDEX                      = 0x0B61,
+		CEE3D_FOG_DENSITY                    = 0x0B62,
+		CEE3D_FOG_START                      = 0x0B63,
+		CEE3D_FOG_END                        = 0x0B64,
+		CEE3D_FOG_MODE                       = 0x0B65,
+		CEE3D_FOG_COLOR                      = 0x0B66,
+		CEE3D_DEPTH_RANGE                    = 0x0B70,
+		CEE3D_DEPTH_TEST                     = 0x0B71,
+		CEE3D_DEPTH_WRITEMASK                = 0x0B72,
+		CEE3D_DEPTH_CLEAR_VALUE              = 0x0B73,
+		CEE3D_DEPTH_FUNC                     = 0x0B74,
+		CEE3D_ACCUM_CLEAR_VALUE              = 0x0B80,
+		CEE3D_STENCIL_TEST                   = 0x0B90,
+		CEE3D_STENCIL_CLEAR_VALUE            = 0x0B91,
+		CEE3D_STENCIL_FUNC                   = 0x0B92,
+		CEE3D_STENCIL_VALUE_MASK             = 0x0B93,
+		CEE3D_STENCIL_FAIL                   = 0x0B94,
+		CEE3D_STENCIL_PASS_DEPTH_FAIL        = 0x0B95,
+		CEE3D_STENCIL_PASS_DEPTH_PASS        = 0x0B96,
+		CEE3D_STENCIL_REF                    = 0x0B97,
+		CEE3D_STENCIL_WRITEMASK              = 0x0B98,
+		CEE3D_MATRIX_MODE                    = 0x0BA0,
+		CEE3D_NORMALIZE                      = 0x0BA1,
+		CEE3D_VIEWPORT                       = 0x0BA2,
+		CEE3D_MODELVIEW_STACK_DEPTH          = 0x0BA3,
+		CEE3D_PROJECTION_STACK_DEPTH         = 0x0BA4,
+		CEE3D_TEXTURE_STACK_DEPTH            = 0x0BA5,
+		CEE3D_MODELVIEW_MATRIX               = 0x0BA6,
+		CEE3D_PROJECTION_MATRIX              = 0x0BA7,
+		CEE3D_TEXTURE_MATRIX                 = 0x0BA8,
+		CEE3D_ATTRIB_STACK_DEPTH             = 0x0BB0,
+		CEE3D_CLIENT_ATTRIB_STACK_DEPTH      = 0x0BB1,
+		CEE3D_ALPHA_TEST                     = 0x0BC0,
+		CEE3D_ALPHA_TEST_FUNC                = 0x0BC1,
+		CEE3D_ALPHA_TEST_REF                 = 0x0BC2,
+		CEE3D_DITHER                         = 0x0BD0,
+		CEE3D_BLEND_DST                      = 0x0BE0,
+		CEE3D_BLEND_SRC                      = 0x0BE1,
+		CEE3D_BLEND                          = 0x0BE2,
+		CEE3D_LOGIC_OP_MODE                  = 0x0BF0,
+		CEE3D_INDEX_LOGIC_OP                 = 0x0BF1,
+		CEE3D_COLOR_LOGIC_OP                 = 0x0BF2,
+		CEE3D_AUX_BUFFERS                    = 0x0C00,
+		CEE3D_DRAW_BUFFER                    = 0x0C01,
+		CEE3D_READ_BUFFER                    = 0x0C02,
+		CEE3D_SCISSOR_BOX                    = 0x0C10,
+		CEE3D_SCISSOR_TEST                   = 0x0C11,
+		CEE3D_INDEX_CLEAR_VALUE              = 0x0C20,
+		CEE3D_INDEX_WRITEMASK                = 0x0C21,
+		CEE3D_COLOR_CLEAR_VALUE              = 0x0C22,
+		CEE3D_COLOR_WRITEMASK                = 0x0C23,
+		CEE3D_INDEX_MODE                     = 0x0C30,
+		CEE3D_RGBA_MODE                      = 0x0C31,
+		CEE3D_DOUBLEBUFFER                   = 0x0C32,
+		CEE3D_STEREO                         = 0x0C33,
+		CEE3D_RENDER_MODE                    = 0x0C40,
+		CEE3D_PERSPECTIVE_CORRECTION_HINT    = 0x0C50,
+		CEE3D_POINT_SMOOTH_HINT              = 0x0C51,
+		CEE3D_LINE_SMOOTH_HINT               = 0x0C52,
+		CEE3D_POLYGON_SMOOTH_HINT            = 0x0C53,
+		CEE3D_FOG_HINT                       = 0x0C54,
+		CEE3D_TEXTURE_GEN_S                  = 0x0C60,
+		CEE3D_TEXTURE_GEN_T                  = 0x0C61,
+		CEE3D_TEXTURE_GEN_R                  = 0x0C62,
+		CEE3D_TEXTURE_GEN_Q                  = 0x0C63,
+		CEE3D_PIXEL_MAP_I_TO_I               = 0x0C70,
+		CEE3D_PIXEL_MAP_S_TO_S               = 0x0C71,
+		CEE3D_PIXEL_MAP_I_TO_R               = 0x0C72,
+		CEE3D_PIXEL_MAP_I_TO_G               = 0x0C73,
+		CEE3D_PIXEL_MAP_I_TO_B               = 0x0C74,
+		CEE3D_PIXEL_MAP_I_TO_A               = 0x0C75,
+		CEE3D_PIXEL_MAP_R_TO_R               = 0x0C76,
+		CEE3D_PIXEL_MAP_G_TO_G               = 0x0C77,
+		CEE3D_PIXEL_MAP_B_TO_B               = 0x0C78,
+		CEE3D_PIXEL_MAP_A_TO_A               = 0x0C79,
+		CEE3D_PIXEL_MAP_I_TO_I_SIZE          = 0x0CB0,
+		CEE3D_PIXEL_MAP_S_TO_S_SIZE          = 0x0CB1,
+		CEE3D_PIXEL_MAP_I_TO_R_SIZE          = 0x0CB2,
+		CEE3D_PIXEL_MAP_I_TO_G_SIZE          = 0x0CB3,
+		CEE3D_PIXEL_MAP_I_TO_B_SIZE          = 0x0CB4,
+		CEE3D_PIXEL_MAP_I_TO_A_SIZE          = 0x0CB5,
+		CEE3D_PIXEL_MAP_R_TO_R_SIZE          = 0x0CB6,
+		CEE3D_PIXEL_MAP_G_TO_G_SIZE          = 0x0CB7,
+		CEE3D_PIXEL_MAP_B_TO_B_SIZE          = 0x0CB8,
+		CEE3D_PIXEL_MAP_A_TO_A_SIZE          = 0x0CB9,
+		CEE3D_UNPACK_SWAP_BYTES              = 0x0CF0,
+		CEE3D_UNPACK_LSB_FIRST               = 0x0CF1,
+		CEE3D_UNPACK_ROW_LENGTH              = 0x0CF2,
+		CEE3D_UNPACK_SKIP_ROWS               = 0x0CF3,
+		CEE3D_UNPACK_SKIP_PIXELS             = 0x0CF4,
+		CEE3D_UNPACK_ALIGNMENT               = 0x0CF5,
+		CEE3D_PACK_SWAP_BYTES                = 0x0D00,
+		CEE3D_PACK_LSB_FIRST                 = 0x0D01,
+		CEE3D_PACK_ROW_LENGTH                = 0x0D02,
+		CEE3D_PACK_SKIP_ROWS                 = 0x0D03,
+		CEE3D_PACK_SKIP_PIXELS               = 0x0D04,
+		CEE3D_PACK_ALIGNMENT                 = 0x0D05,
+		CEE3D_MAP_COLOR                      = 0x0D10,
+		CEE3D_MAP_STENCIL                    = 0x0D11,
+		CEE3D_INDEX_SHIFT                    = 0x0D12,
+		CEE3D_INDEX_OFFSET                   = 0x0D13,
+		CEE3D_RED_SCALE                      = 0x0D14,
+		CEE3D_RED_BIAS                       = 0x0D15,
+		CEE3D_ZOOM_X                         = 0x0D16,
+		CEE3D_ZOOM_Y                         = 0x0D17,
+		CEE3D_GREEN_SCALE                    = 0x0D18,
+		CEE3D_GREEN_BIAS                     = 0x0D19,
+		CEE3D_BLUE_SCALE                     = 0x0D1A,
+		CEE3D_BLUE_BIAS                      = 0x0D1B,
+		CEE3D_ALPHA_SCALE                    = 0x0D1C,
+		CEE3D_ALPHA_BIAS                     = 0x0D1D,
+		CEE3D_DEPTH_SCALE                    = 0x0D1E,
+		CEE3D_DEPTH_BIAS                     = 0x0D1F,
+		CEE3D_MAX_EVAL_ORDER                 = 0x0D30,
+		CEE3D_MAX_LIGHTS                     = 0x0D31,
+		CEE3D_MAX_CLIP_PLANES                = 0x0D32,
+		CEE3D_MAX_TEXTURE_SIZE               = 0x0D33,
+		CEE3D_MAX_PIXEL_MAP_TABLE            = 0x0D34,
+		CEE3D_MAX_ATTRIB_STACK_DEPTH         = 0x0D35,
+		CEE3D_MAX_MODELVIEW_STACK_DEPTH      = 0x0D36,
+		CEE3D_MAX_NAME_STACK_DEPTH           = 0x0D37,
+		CEE3D_MAX_PROJECTION_STACK_DEPTH     = 0x0D38,
+		CEE3D_MAX_TEXTURE_STACK_DEPTH        = 0x0D39,
+		CEE3D_MAX_VIEWPORT_DIMS              = 0x0D3A,
+		CEE3D_MAX_CLIENT_ATTRIB_STACK_DEPTH  = 0x0D3B,
+		CEE3D_SUBPIXEL_BITS                  = 0x0D50,
+		CEE3D_INDEX_BITS                     = 0x0D51,
+		CEE3D_RED_BITS                       = 0x0D52,
+		CEE3D_GREEN_BITS                     = 0x0D53,
+		CEE3D_BLUE_BITS                      = 0x0D54,
+		CEE3D_ALPHA_BITS                     = 0x0D55,
+		CEE3D_DEPTH_BITS                     = 0x0D56,
+		CEE3D_STENCIL_BITS                   = 0x0D57,
+		CEE3D_ACCUM_RED_BITS                 = 0x0D58,
+		CEE3D_ACCUM_GREEN_BITS               = 0x0D59,
+		CEE3D_ACCUM_BLUE_BITS                = 0x0D5A,
+		CEE3D_ACCUM_ALPHA_BITS               = 0x0D5B,
+		CEE3D_NAME_STACK_DEPTH               = 0x0D70,
+		CEE3D_AUTO_NORMAL                    = 0x0D80,
+		CEE3D_MAP1_COLOR_4                   = 0x0D90,
+		CEE3D_MAP1_INDEX                     = 0x0D91,
+		CEE3D_MAP1_NORMAL                    = 0x0D92,
+		CEE3D_MAP1_TEXTURE_COORD_1           = 0x0D93,
+		CEE3D_MAP1_TEXTURE_COORD_2           = 0x0D94,
+		CEE3D_MAP1_TEXTURE_COORD_3           = 0x0D95,
+		CEE3D_MAP1_TEXTURE_COORD_4           = 0x0D96,
+		CEE3D_MAP1_VERTEX_3                  = 0x0D97,
+		CEE3D_MAP1_VERTEX_4                  = 0x0D98,
+		CEE3D_MAP2_COLOR_4                   = 0x0DB0,
+		CEE3D_MAP2_INDEX                     = 0x0DB1,
+		CEE3D_MAP2_NORMAL                    = 0x0DB2,
+		CEE3D_MAP2_TEXTURE_COORD_1           = 0x0DB3,
+		CEE3D_MAP2_TEXTURE_COORD_2           = 0x0DB4,
+		CEE3D_MAP2_TEXTURE_COORD_3           = 0x0DB5,
+		CEE3D_MAP2_TEXTURE_COORD_4           = 0x0DB6,
+		CEE3D_MAP2_VERTEX_3                  = 0x0DB7,
+		CEE3D_MAP2_VERTEX_4                  = 0x0DB8,
+		CEE3D_MAP1_GRID_DOMAIN               = 0x0DD0,
+		CEE3D_MAP1_GRID_SEGMENTS             = 0x0DD1,
+		CEE3D_MAP2_GRID_DOMAIN               = 0x0DD2,
+		CEE3D_MAP2_GRID_SEGMENTS             = 0x0DD3,
+		CEE3D_TEXTURE_1D                     = 0x0DE0,
+		CEE3D_TEXTURE_2D                     = 0x0DE1,
+		CEE3D_FEEDBACK_BUFFER_POINTER        = 0x0DF0,
+		CEE3D_FEEDBACK_BUFFER_SIZE           = 0x0DF1,
+		CEE3D_FEEDBACK_BUFFER_TYPE           = 0x0DF2,
+		CEE3D_SELECTION_BUFFER_POINTER       = 0x0DF3,
+		CEE3D_SELECTION_BUFFER_SIZE          = 0x0DF4,
+		/*      CEE3D_TEXTURE_BINDING_1D */
+		/*      CEE3D_TEXTURE_BINDING_2D */
+		/*      CEE3D_VERTEX_ARRAY */
+		/*      CEE3D_NORMAL_ARRAY */
+		/*      CEE3D_COLOR_ARRAY */
+		/*      CEE3D_INDEX_ARRAY */
+		/*      CEE3D_TEXTURE_COORD_ARRAY */
+		/*      CEE3D_EDGE_FLAG_ARRAY */
+		/*      CEE3D_VERTEX_ARRAY_SIZE */
+		/*      CEE3D_VERTEX_ARRAY_TYPE */
+		/*      CEE3D_VERTEX_ARRAY_STRIDE */
+		/*      CEE3D_NORMAL_ARRAY_TYPE */
+		/*      CEE3D_NORMAL_ARRAY_STRIDE */
+		/*      CEE3D_COLOR_ARRAY_SIZE */
+		/*      CEE3D_COLOR_ARRAY_TYPE */
+		/*      CEE3D_COLOR_ARRAY_STRIDE */
+		/*      CEE3D_INDEX_ARRAY_TYPE */
+		/*      CEE3D_INDEX_ARRAY_STRIDE */
+		/*      CEE3D_TEXTURE_COORD_ARRAY_SIZE */
+		/*      CEE3D_TEXTURE_COORD_ARRAY_TYPE */
+		/*      CEE3D_TEXTURE_COORD_ARRAY_STRIDE */
+		/*      CEE3D_EDGE_FLAG_ARRAY_STRIDE */
+		/*      CEE3D_POLYGON_OFFSET_FACTOR */
+		/*      CEE3D_POLYGON_OFFSET_UNITS */
+
+		/* GetTextureParameter */
+		/*      CEE3D_TEXTURE_MAG_FILTER */
+		/*      CEE3D_TEXTURE_MIN_FILTER */
+		/*      CEE3D_TEXTURE_WRAP_S */
+		/*      CEE3D_TEXTURE_WRAP_T */
+		CEE3D_TEXTURE_WIDTH                  = 0x1000,
+		CEE3D_TEXTURE_HEIGHT                 = 0x1001,
+		CEE3D_TEXTURE_INTERNAL_FORMAT        = 0x1003,
+		CEE3D_TEXTURE_BORDER_COLOR           = 0x1004,
+		CEE3D_TEXTURE_BORDER                 = 0x1005,
+		/*      CEE3D_TEXTURE_RED_SIZE */
+		/*      CEE3D_TEXTURE_GREEN_SIZE */
+		/*      CEE3D_TEXTURE_BLUE_SIZE */
+		/*      CEE3D_TEXTURE_ALPHA_SIZE */
+		/*      CEE3D_TEXTURE_LUMINANCE_SIZE */
+		/*      CEE3D_TEXTURE_INTENSITY_SIZE */
+		/*      CEE3D_TEXTURE_PRIORITY */
+		/*      CEE3D_TEXTURE_RESIDENT */
+
+		/* HintMode */
+		CEE3D_DONT_CARE                      = 0x1100,
+		CEE3D_FASTEST                        = 0x1101,
+		CEE3D_NICEST                         = 0x1102,
+
+		/* HintTarget */
+		/*      CEE3D_PERSPECTIVE_CORRECTION_HINT */
+		/*      CEE3D_POINT_SMOOTH_HINT */
+		/*      CEE3D_LINE_SMOOTH_HINT */
+		/*      CEE3D_POLYGON_SMOOTH_HINT */
+		/*      CEE3D_FOG_HINT */
+		/*      CEE3D_PHONG_HINT */
+
+		/* IndexPointerType */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_DOUBLE */
+
+		/* LightModelParameter */
+		/*      CEE3D_LIGHT_MODEL_AMBIENT */
+		/*      CEE3D_LIGHT_MODEL_LOCAL_VIEWER */
+		/*      CEE3D_LIGHT_MODEL_TWO_SIDE */
+
+		/* LightName */
+		CEE3D_LIGHT0                         = 0x4000,
+		CEE3D_LIGHT1                         = 0x4001,
+		CEE3D_LIGHT2                         = 0x4002,
+		CEE3D_LIGHT3                         = 0x4003,
+		CEE3D_LIGHT4                         = 0x4004,
+		CEE3D_LIGHT5                         = 0x4005,
+		CEE3D_LIGHT6                         = 0x4006,
+		CEE3D_LIGHT7                         = 0x4007,
+
+		/* LightParameter */
+		CEE3D_AMBIENT                        = 0x1200,
+		CEE3D_DIFFUSE                        = 0x1201,
+		CEE3D_SPECULAR                       = 0x1202,
+		CEE3D_POSITION                       = 0x1203,
+		CEE3D_SPOT_DIRECTION                 = 0x1204,
+		CEE3D_SPOT_EXPONENT                  = 0x1205,
+		CEE3D_SPOT_CUTOFF                    = 0x1206,
+		CEE3D_CONSTANT_ATTENUATION           = 0x1207,
+		CEE3D_LINEAR_ATTENUATION             = 0x1208,
+		CEE3D_QUADRATIC_ATTENUATION          = 0x1209,
+
+		/* InterleavedArrays */
+		/*      CEE3D_V2F */
+		/*      CEE3D_V3F */
+		/*      CEE3D_C4UB_V2F */
+		/*      CEE3D_C4UB_V3F */
+		/*      CEE3D_C3F_V3F */
+		/*      CEE3D_N3F_V3F */
+		/*      CEE3D_C4F_N3F_V3F */
+		/*      CEE3D_T2F_V3F */
+		/*      CEE3D_T4F_V4F */
+		/*      CEE3D_T2F_C4UB_V3F */
+		/*      CEE3D_T2F_C3F_V3F */
+		/*      CEE3D_T2F_N3F_V3F */
+		/*      CEE3D_T2F_C4F_N3F_V3F */
+		/*      CEE3D_T4F_C4F_N3F_V4F */
+
+		/* ListMode */
+		CEE3D_COMPILE                        = 0x1300,
+		CEE3D_COMPILE_AND_EXECUTE            = 0x1301,
+
+		/* ListNameType */
+		/*      CEE3D_BYTE */
+		/*      CEE3D_UNSIGNED_BYTE */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_UNSIGNED_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_UNSIGNED_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_2_BYTES */
+		/*      CEE3D_3_BYTES */
+		/*      CEE3D_4_BYTES */
+
+		/* LogicOp */
+		CEE3D_CLEAR                          = 0x1500,
+		CEE3D_AND                            = 0x1501,
+		CEE3D_AND_REVERSE                    = 0x1502,
+		CEE3D_COPY                           = 0x1503,
+		CEE3D_AND_INVERTED                   = 0x1504,
+		CEE3D_NOOP                           = 0x1505,
+		CEE3D_XOR                            = 0x1506,
+		CEE3D_OR                             = 0x1507,
+		CEE3D_NOR                            = 0x1508,
+		CEE3D_EQUIV                          = 0x1509,
+		CEE3D_INVERT                         = 0x150A,
+		CEE3D_OR_REVERSE                     = 0x150B,
+		CEE3D_COPY_INVERTED                  = 0x150C,
+		CEE3D_OR_INVERTED                    = 0x150D,
+		CEE3D_NAND                           = 0x150E,
+		CEE3D_SET                            = 0x150F,
+
+		/* MapTarget */
+		/*      CEE3D_MAP1_COLOR_4 */
+		/*      CEE3D_MAP1_INDEX */
+		/*      CEE3D_MAP1_NORMAL */
+		/*      CEE3D_MAP1_TEXTURE_COORD_1 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_2 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_3 */
+		/*      CEE3D_MAP1_TEXTURE_COORD_4 */
+		/*      CEE3D_MAP1_VERTEX_3 */
+		/*      CEE3D_MAP1_VERTEX_4 */
+		/*      CEE3D_MAP2_COLOR_4 */
+		/*      CEE3D_MAP2_INDEX */
+		/*      CEE3D_MAP2_NORMAL */
+		/*      CEE3D_MAP2_TEXTURE_COORD_1 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_2 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_3 */
+		/*      CEE3D_MAP2_TEXTURE_COORD_4 */
+		/*      CEE3D_MAP2_VERTEX_3 */
+		/*      CEE3D_MAP2_VERTEX_4 */
+
+		/* MaterialFace */
+		/*      CEE3D_FRONT */
+		/*      CEE3D_BACK */
+		/*      CEE3D_FRONT_AND_BACK */
+
+		/* MaterialParameter */
+		CEE3D_EMISSION                       = 0x1600,
+		CEE3D_SHININESS                      = 0x1601,
+		CEE3D_AMBIENT_AND_DIFFUSE            = 0x1602,
+		CEE3D_COLOR_INDEXES                  = 0x1603,
+		/*      CEE3D_AMBIENT */
+		/*      CEE3D_DIFFUSE */
+		/*      CEE3D_SPECULAR */
+
+		/* MatrixMode */
+		CEE3D_MODELVIEW                      = 0x1700,
+		CEE3D_PROJECTION                     = 0x1701,
+		CEE3D_TEXTURE                        = 0x1702,
+
+		/* MeshMode1 */
+		/*      CEE3D_POINT */
+		/*      CEE3D_LINE */
+
+		/* MeshMode2 */
+		/*      CEE3D_POINT */
+		/*      CEE3D_LINE */
+		/*      CEE3D_FILL */
+
+		/* NormalPointerType */
+		/*      CEE3D_BYTE */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_DOUBLE */
+
+		/* PixelCopyType */
+		CEE3D_COLOR                          = 0x1800,
+		CEE3D_DEPTH                          = 0x1801,
+		CEE3D_STENCIL                        = 0x1802,
+
+		/* PixelFormat */
+		CEE3D_COLOR_INDEX                    = 0x1900,
+		CEE3D_STENCIL_INDEX                  = 0x1901,
+		CEE3D_DEPTH_COMPONENT                = 0x1902,
+		CEE3D_RED                            = 0x1903,
+		CEE3D_GREEN                          = 0x1904,
+		CEE3D_BLUE                           = 0x1905,
+		CEE3D_ALPHA                          = 0x1906,
+		CEE3D_RGB                            = 0x1907,
+		CEE3D_RGBA                           = 0x1908,
+		CEE3D_LUMINANCE                      = 0x1909,
+		CEE3D_LUMINANCE_ALPHA                = 0x190A,
+
+		/* PixelMap */
+		/*      CEE3D_PIXEL_MAP_I_TO_I */
+		/*      CEE3D_PIXEL_MAP_S_TO_S */
+		/*      CEE3D_PIXEL_MAP_I_TO_R */
+		/*      CEE3D_PIXEL_MAP_I_TO_G */
+		/*      CEE3D_PIXEL_MAP_I_TO_B */
+		/*      CEE3D_PIXEL_MAP_I_TO_A */
+		/*      CEE3D_PIXEL_MAP_R_TO_R */
+		/*      CEE3D_PIXEL_MAP_G_TO_G */
+		/*      CEE3D_PIXEL_MAP_B_TO_B */
+		/*      CEE3D_PIXEL_MAP_A_TO_A */
+
+		/* PixelStore */
+		/*      CEE3D_UNPACK_SWAP_BYTES */
+		/*      CEE3D_UNPACK_LSB_FIRST */
+		/*      CEE3D_UNPACK_ROW_LENGTH */
+		/*      CEE3D_UNPACK_SKIP_ROWS */
+		/*      CEE3D_UNPACK_SKIP_PIXELS */
+		/*      CEE3D_UNPACK_ALIGNMENT */
+		/*      CEE3D_PACK_SWAP_BYTES */
+		/*      CEE3D_PACK_LSB_FIRST */
+		/*      CEE3D_PACK_ROW_LENGTH */
+		/*      CEE3D_PACK_SKIP_ROWS */
+		/*      CEE3D_PACK_SKIP_PIXELS */
+		/*      CEE3D_PACK_ALIGNMENT */
+
+		/* PixelTransfer */
+		/*      CEE3D_MAP_COLOR */
+		/*      CEE3D_MAP_STENCIL */
+		/*      CEE3D_INDEX_SHIFT */
+		/*      CEE3D_INDEX_OFFSET */
+		/*      CEE3D_RED_SCALE */
+		/*      CEE3D_RED_BIAS */
+		/*      CEE3D_GREEN_SCALE */
+		/*      CEE3D_GREEN_BIAS */
+		/*      CEE3D_BLUE_SCALE */
+		/*      CEE3D_BLUE_BIAS */
+		/*      CEE3D_ALPHA_SCALE */
+		/*      CEE3D_ALPHA_BIAS */
+		/*      CEE3D_DEPTH_SCALE */
+		/*      CEE3D_DEPTH_BIAS */
+
+		/* PixelType */
+		CEE3D_BITMAP                         = 0x1A00,
+		/*      CEE3D_BYTE */
+		/*      CEE3D_UNSIGNED_BYTE */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_UNSIGNED_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_UNSIGNED_INT */
+		/*      CEE3D_FLOAT */
+
+		/* PolygonMode */
+		CEE3D_POINT                          = 0x1B00,
+		CEE3D_LINE                           = 0x1B01,
+		CEE3D_FILL                           = 0x1B02,
+
+		/* ReadBufferMode */
+		/*      CEE3D_FRONT_LEFT */
+		/*      CEE3D_FRONT_RIGHT */
+		/*      CEE3D_BACK_LEFT */
+		/*      CEE3D_BACK_RIGHT */
+		/*      CEE3D_FRONT */
+		/*      CEE3D_BACK */
+		/*      CEE3D_LEFT */
+		/*      CEE3D_RIGHT */
+		/*      CEE3D_AUX0 */
+		/*      CEE3D_AUX1 */
+		/*      CEE3D_AUX2 */
+		/*      CEE3D_AUX3 */
+
+		/* RenderingMode */
+		CEE3D_RENDER                         = 0x1C00,
+		CEE3D_FEEDBACK                       = 0x1C01,
+		CEE3D_SELECT                         = 0x1C02,
+
+		/* ShadingModel */
+		CEE3D_FLAT                           = 0x1D00,
+		CEE3D_SMOOTH                         = 0x1D01,
+
+
+		/* StencilFunction */
+		/*      CEE3D_NEVER */
+		/*      CEE3D_LESS */
+		/*      CEE3D_EQUAL */
+		/*      CEE3D_LEQUAL */
+		/*      CEE3D_GREATER */
+		/*      CEE3D_NOTEQUAL */
+		/*      CEE3D_GEQUAL */
+		/*      CEE3D_ALWAYS */
+
+		/* StencilOp */
+		/*      CEE3D_ZERO */
+		CEE3D_KEEP                           = 0x1E00,
+		CEE3D_REPLACE                        = 0x1E01,
+		CEE3D_INCR                           = 0x1E02,
+		CEE3D_DECR                           = 0x1E03,
+		/*      CEE3D_INVERT */
+
+		/* StringName */
+		CEE3D_VENDOR                         = 0x1F00,
+		CEE3D_RENDERER                       = 0x1F01,
+		CEE3D_VERSION                        = 0x1F02,
+		CEE3D_EXTENSIONS                     = 0x1F03,
+
+		/* TextureCoordName */
+		CEE3D_S                              = 0x2000,
+		CEE3D_T                              = 0x2001,
+		CEE3D_R                              = 0x2002,
+		CEE3D_Q                              = 0x2003,
+
+		/* TexCoordPointerType */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_DOUBLE */
+
+		/* TextureEnvMode */
+		CEE3D_MODULATE                       = 0x2100,
+		CEE3D_DECAL                          = 0x2101,
+		/*      CEE3D_BLEND */
+		/*      CEE3D_REPLACE */
+
+		/* TextureEnvParameter */
+		CEE3D_TEXTURE_ENV_MODE               = 0x2200,
+		CEE3D_TEXTURE_ENV_COLOR              = 0x2201,
+
+		/* TextureEnvTarget */
+		CEE3D_TEXTURE_ENV                    = 0x2300,
+
+		/* TextureGenMode */
+		CEE3D_EYE_LINEAR                     = 0x2400,
+		CEE3D_OBJECT_LINEAR                  = 0x2401,
+		CEE3D_SPHERE_MAP                     = 0x2402,
+
+		/* TextureGenParameter */
+		CEE3D_TEXTURE_GEN_MODE               = 0x2500,
+		CEE3D_OBJECT_PLANE                   = 0x2501,
+		CEE3D_EYE_PLANE                      = 0x2502,
+
+		/* TextureMagFilter */
+		CEE3D_NEAREST                        = 0x2600,
+		CEE3D_LINEAR                         = 0x2601,
+
+		/* TextureMinFilter */
+		/*      CEE3D_NEAREST */
+		/*      CEE3D_LINEAR */
+		CEE3D_NEAREST_MIPMAP_NEAREST         = 0x2700,
+		CEE3D_LINEAR_MIPMAP_NEAREST          = 0x2701,
+		CEE3D_NEAREST_MIPMAP_LINEAR          = 0x2702,
+		CEE3D_LINEAR_MIPMAP_LINEAR           = 0x2703,
+
+		/* TextureParameterName */
+		CEE3D_TEXTURE_MAG_FILTER             = 0x2800,
+		CEE3D_TEXTURE_MIN_FILTER             = 0x2801,
+		CEE3D_TEXTURE_WRAP_S                 = 0x2802,
+		CEE3D_TEXTURE_WRAP_T                 = 0x2803,
+		/*      CEE3D_TEXTURE_BORDER_COLOR */
+		/*      CEE3D_TEXTURE_PRIORITY */
+
+		/* TextureTarget */
+		/*      CEE3D_TEXTURE_1D */
+		/*      CEE3D_TEXTURE_2D */
+		/*      CEE3D_PROXY_TEXTURE_1D */
+		/*      CEE3D_PROXY_TEXTURE_2D */
+
+		/* TextureWrapMode */
+		CEE3D_CLAMP                          = 0x2900,
+		CEE3D_REPEAT                         = 0x2901,
+
+		/* VertexPointerType */
+		/*      CEE3D_SHORT */
+		/*      CEE3D_INT */
+		/*      CEE3D_FLOAT */
+		/*      CEE3D_DOUBLE */
+
+		/* ClientAttribMask */
+		CEE3D_CLIENT_PIXEL_STORE_BIT         = 0x00000001,
+		CEE3D_CLIENT_VERTEX_ARRAY_BIT        = 0x00000002,
+		CEE3D_CLIENT_ALL_ATTRIB_BITS         = 0xffffffff,
+
+		/* polygon_offset */
+		CEE3D_POLYGON_OFFSET_FACTOR          = 0x8038,
+		CEE3D_POLYGON_OFFSET_UNITS           = 0x2A00,
+		CEE3D_POLYGON_OFFSET_POINT           = 0x2A01,
+		CEE3D_POLYGON_OFFSET_LINE            = 0x2A02,
+		CEE3D_POLYGON_OFFSET_FILL            = 0x8037,
+
+		/* texture */
+		CEE3D_ALPHA4                         = 0x803B,
+		CEE3D_ALPHA8                         = 0x803C,
+		CEE3D_ALPHA12                        = 0x803D,
+		CEE3D_ALPHA16                        = 0x803E,
+		CEE3D_LUMINANCE4                     = 0x803F,
+		CEE3D_LUMINANCE8                     = 0x8040,
+		CEE3D_LUMINANCE12                    = 0x8041,
+		CEE3D_LUMINANCE16                    = 0x8042,
+		CEE3D_LUMINANCE4_ALPHA4              = 0x8043,
+		CEE3D_LUMINANCE6_ALPHA2              = 0x8044,
+		CEE3D_LUMINANCE8_ALPHA8              = 0x8045,
+		CEE3D_LUMINANCE12_ALPHA4             = 0x8046,
+		CEE3D_LUMINANCE12_ALPHA12            = 0x8047,
+		CEE3D_LUMINANCE16_ALPHA16            = 0x8048,
+		CEE3D_INTENSITY                      = 0x8049,
+		CEE3D_INTENSITY4                     = 0x804A,
+		CEE3D_INTENSITY8                     = 0x804B,
+		CEE3D_INTENSITY12                    = 0x804C,
+		CEE3D_INTENSITY16                    = 0x804D,
+		CEE3D_R3_G3_B2                       = 0x2A10,
+		CEE3D_RGB4                           = 0x804F,
+		CEE3D_RGB5                           = 0x8050,
+		CEE3D_RGB8                           = 0x8051,
+		CEE3D_RGB10                          = 0x8052,
+		CEE3D_RGB12                          = 0x8053,
+		CEE3D_RGB16                          = 0x8054,
+		CEE3D_RGBA2                          = 0x8055,
+		CEE3D_RGBA4                          = 0x8056,
+		CEE3D_RGB5_A1                        = 0x8057,
+		CEE3D_RGBA8                          = 0x8058,
+		CEE3D_RGB10_A2                       = 0x8059,
+		CEE3D_RGBA12                         = 0x805A,
+		CEE3D_RGBA16                         = 0x805B,
+		CEE3D_TEXTURE_RED_SIZE               = 0x805C,
+		CEE3D_TEXTURE_GREEN_SIZE             = 0x805D,
+		CEE3D_TEXTURE_BLUE_SIZE              = 0x805E,
+		CEE3D_TEXTURE_ALPHA_SIZE             = 0x805F,
+		CEE3D_TEXTURE_LUMINANCE_SIZE         = 0x8060,
+		CEE3D_TEXTURE_INTENSITY_SIZE         = 0x8061,
+		CEE3D_PROXY_TEXTURE_1D               = 0x8063,
+		CEE3D_PROXY_TEXTURE_2D               = 0x8064,
+
+		/* texture_object */
+		CEE3D_TEXTURE_PRIORITY               = 0x8066,
+		CEE3D_TEXTURE_RESIDENT               = 0x8067,
+		CEE3D_TEXTURE_BINDING_1D             = 0x8068,
+		CEE3D_TEXTURE_BINDING_2D             = 0x8069,
+
+		/* vertex_array */
+		CEE3D_VERTEX_ARRAY                   = 0x8074,
+		CEE3D_NORMAL_ARRAY                   = 0x8075,
+		CEE3D_COLOR_ARRAY                    = 0x8076,
+		CEE3D_INDEX_ARRAY                    = 0x8077,
+		CEE3D_TEXTURE_COORD_ARRAY            = 0x8078,
+		CEE3D_EDGE_FLAG_ARRAY                = 0x8079,
+		CEE3D_VERTEX_ARRAY_SIZE              = 0x807A,
+		CEE3D_VERTEX_ARRAY_TYPE              = 0x807B,
+		CEE3D_VERTEX_ARRAY_STRIDE            = 0x807C,
+		CEE3D_NORMAL_ARRAY_TYPE              = 0x807E,
+		CEE3D_NORMAL_ARRAY_STRIDE            = 0x807F,
+		CEE3D_COLOR_ARRAY_SIZE               = 0x8081,
+		CEE3D_COLOR_ARRAY_TYPE               = 0x8082,
+		CEE3D_COLOR_ARRAY_STRIDE             = 0x8083,
+		CEE3D_INDEX_ARRAY_TYPE               = 0x8085,
+		CEE3D_INDEX_ARRAY_STRIDE             = 0x8086,
+		CEE3D_TEXTURE_COORD_ARRAY_SIZE       = 0x8088,
+		CEE3D_TEXTURE_COORD_ARRAY_TYPE       = 0x8089,
+		CEE3D_TEXTURE_COORD_ARRAY_STRIDE     = 0x808A,
+		CEE3D_EDGE_FLAG_ARRAY_STRIDE         = 0x808C,
+		CEE3D_VERTEX_ARRAY_POINTER           = 0x808E,
+		CEE3D_NORMAL_ARRAY_POINTER           = 0x808F,
+		CEE3D_COLOR_ARRAY_POINTER            = 0x8090,
+		CEE3D_INDEX_ARRAY_POINTER            = 0x8091,
+		CEE3D_TEXTURE_COORD_ARRAY_POINTER    = 0x8092,
+		CEE3D_EDGE_FLAG_ARRAY_POINTER        = 0x8093,
+		CEE3D_V2F                            = 0x2A20,
+		CEE3D_V3F                            = 0x2A21,
+		CEE3D_C4UB_V2F                       = 0x2A22,
+		CEE3D_C4UB_V3F                       = 0x2A23,
+		CEE3D_C3F_V3F                        = 0x2A24,
+		CEE3D_N3F_V3F                        = 0x2A25,
+		CEE3D_C4F_N3F_V3F                    = 0x2A26,
+		CEE3D_T2F_V3F                        = 0x2A27,
+		CEE3D_T4F_V4F                        = 0x2A28,
+		CEE3D_T2F_C4UB_V3F                   = 0x2A29,
+		CEE3D_T2F_C3F_V3F                    = 0x2A2A,
+		CEE3D_T2F_N3F_V3F                    = 0x2A2B,
+		CEE3D_T2F_C4F_N3F_V3F                = 0x2A2C,
+		CEE3D_T4F_C4F_N3F_V4F                = 0x2A2D,
+
+		/* Extensions */
+		CEE3D_EXT_vertex_array               = 1,
+		CEE3D_EXT_bgra                       = 1,
+		CEE3D_EXT_paletted_texture           = 1,
+		CEE3D_WIN_swap_hint                  = 1,
+		CEE3D_WIN_draw_range_elements        = 1,
+		// CEE3D_WIN_phong_shading              = 1,
+		// CEE3D_WIN_specular_fog               = 1,
+
+		/* EXT_vertex_array */
+		CEE3D_VERTEX_ARRAY_EXT               = 0x8074,
+		CEE3D_NORMAL_ARRAY_EXT               = 0x8075,
+		CEE3D_COLOR_ARRAY_EXT                = 0x8076,
+		CEE3D_INDEX_ARRAY_EXT                = 0x8077,
+		CEE3D_TEXTURE_COORD_ARRAY_EXT        = 0x8078,
+		CEE3D_EDGE_FLAG_ARRAY_EXT            = 0x8079,
+		CEE3D_VERTEX_ARRAY_SIZE_EXT          = 0x807A,
+		CEE3D_VERTEX_ARRAY_TYPE_EXT          = 0x807B,
+		CEE3D_VERTEX_ARRAY_STRIDE_EXT        = 0x807C,
+		CEE3D_VERTEX_ARRAY_COUNT_EXT         = 0x807D,
+		CEE3D_NORMAL_ARRAY_TYPE_EXT          = 0x807E,
+		CEE3D_NORMAL_ARRAY_STRIDE_EXT        = 0x807F,
+		CEE3D_NORMAL_ARRAY_COUNT_EXT         = 0x8080,
+		CEE3D_COLOR_ARRAY_SIZE_EXT           = 0x8081,
+		CEE3D_COLOR_ARRAY_TYPE_EXT           = 0x8082,
+		CEE3D_COLOR_ARRAY_STRIDE_EXT         = 0x8083,
+		CEE3D_COLOR_ARRAY_COUNT_EXT          = 0x8084,
+		CEE3D_INDEX_ARRAY_TYPE_EXT           = 0x8085,
+		CEE3D_INDEX_ARRAY_STRIDE_EXT         = 0x8086,
+		CEE3D_INDEX_ARRAY_COUNT_EXT          = 0x8087,
+		CEE3D_TEXTURE_COORD_ARRAY_SIZE_EXT   = 0x8088,
+		CEE3D_TEXTURE_COORD_ARRAY_TYPE_EXT   = 0x8089,
+		CEE3D_TEXTURE_COORD_ARRAY_STRIDE_EXT = 0x808A,
+		CEE3D_TEXTURE_COORD_ARRAY_COUNT_EXT  = 0x808B,
+		CEE3D_EDGE_FLAG_ARRAY_STRIDE_EXT     = 0x808C,
+		CEE3D_EDGE_FLAG_ARRAY_COUNT_EXT      = 0x808D,
+		CEE3D_VERTEX_ARRAY_POINTER_EXT       = 0x808E,
+		CEE3D_NORMAL_ARRAY_POINTER_EXT       = 0x808F,
+		CEE3D_COLOR_ARRAY_POINTER_EXT        = 0x8090,
+		CEE3D_INDEX_ARRAY_POINTER_EXT        = 0x8091,
+		CEE3D_TEXTURE_COORD_ARRAY_POINTER_EXT= 0x8092,
+		CEE3D_EDGE_FLAG_ARRAY_POINTER_EXT    = 0x8093,
+		CEE3D_DOUBLE_EXT                     = CEE3D_DOUBLE,
+
+		/* EXT_bgra */
+		CEE3D_BGR_EXT                        = 0x80E0,
+		CEE3D_BGRA_EXT                       = 0x80E1,
+
+		/* EXT_paletted_texture */
+
+		/* These must match the CEE3D_COLOR_TABLE_*_SGI enumerants */
+		CEE3D_COLOR_TABLE_FORMAT_EXT         = 0x80D8,
+		CEE3D_COLOR_TABLE_WIDTH_EXT          = 0x80D9,
+		CEE3D_COLOR_TABLE_RED_SIZE_EXT       = 0x80DA,
+		CEE3D_COLOR_TABLE_GREEN_SIZE_EXT     = 0x80DB,
+		CEE3D_COLOR_TABLE_BLUE_SIZE_EXT      = 0x80DC,
+		CEE3D_COLOR_TABLE_ALPHA_SIZE_EXT     = 0x80DD,
+		CEE3D_COLOR_TABLE_LUMINANCE_SIZE_EXT = 0x80DE,
+		CEE3D_COLOR_TABLE_INTENSITY_SIZE_EXT = 0x80DF,
+
+		CEE3D_COLOR_INDEX1_EXT               = 0x80E2,
+		CEE3D_COLOR_INDEX2_EXT               = 0x80E3,
+		CEE3D_COLOR_INDEX4_EXT               = 0x80E4,
+		CEE3D_COLOR_INDEX8_EXT               = 0x80E5,
+		CEE3D_COLOR_INDEX12_EXT              = 0x80E6,
+		CEE3D_COLOR_INDEX16_EXT              = 0x80E7,
+
+		/* WIN_draw_range_elements */
+		CEE3D_MAX_ELEMENTS_VERTICES_WIN      = 0x80E8,
+		CEE3D_MAX_ELEMENTS_INDICES_WIN       = 0x80E9,
+
+		/* WIN_phong_shading */
+		CEE3D_PHONG_WIN                      = 0x80EA,
+		CEE3D_PHONG_HINT_WIN                 = 0x80EB,
+
+		/* WIN_specular_fog */
+		CEE3D_FOG_SPECULAR_TEXTURE_WIN       = 0x80EC,
+
+	// from here is constants from GLU.h
+		CEE3DU_INVALID_ENUM        = 100900,
+		CEE3DU_INVALID_VALUE       = 100901,
+		CEE3DU_OUT_OF_MEMORY       = 100902,
+		CEE3DU_INCOMPATIBLE_CEE3D_VERSION     = 100903,
+
+		/* StringName */
+		CEE3DU_VERSION             = 100800,
+		CEE3DU_EXTENSIONS          = 100801,
+
+		/* Boolean */
+		CEE3DU_TRUE                = CEE3D_TRUE,
+		CEE3DU_FALSE               = CEE3D_FALSE,
+
+
+		/****           Quadric constants               ****/
+
+		/* QuadricNormal */
+		CEE3DU_SMOOTH              = 100000,
+		CEE3DU_FLAT                = 100001,
+		CEE3DU_NONE                = 100002,
+
+		/* QuadricDrawStyle */
+		CEE3DU_POINT               = 100010,
+		CEE3DU_LINE                = 100011,
+		CEE3DU_FILL                = 100012,
+		CEE3DU_SILHOUETTE          = 100013,
+
+		/* QuadricOrientation */
+		CEE3DU_OUTSIDE             = 100020,
+		CEE3DU_INSIDE              = 100021,
+
+		/* Callback types: */
+		/*      CEE3DU_ERROR               = 100103, */
+
+		/****           Tesselation constants           ****/
+		CEE3DU_TESS_MAX_COORD              = 0x7FFFFFFF,
+
+		/* TessProperty */
+		CEE3DU_TESS_WINDING_RULE           = 100140,
+		CEE3DU_TESS_BOUNDARY_ONLY          = 100141,
+		CEE3DU_TESS_TOLERANCE              = 100142,
+
+		/* TessWinding */
+		CEE3DU_TESS_WINDING_ODD            = 100130,
+		CEE3DU_TESS_WINDING_NONZERO        = 100131,
+		CEE3DU_TESS_WINDING_POSITIVE       = 100132,
+		CEE3DU_TESS_WINDING_NEGATIVE       = 100133,
+		CEE3DU_TESS_WINDING_ABS_GEQ_TWO    = 100134,
+
+		/* TessCallback */
+		CEE3DU_TESS_BEGIN          = 100100,  /* void (CALLBACK*)(GLenum    type)  */
+		CEE3DU_TESS_VERTEX         = 100101,  /* void (CALLBACK*)(void      *data) */
+		CEE3DU_TESS_END            = 100102,  /* void (CALLBACK*)(void)            */
+		CEE3DU_TESS_ERROR          = 100103,  /* void (CALLBACK*)(GLenum    errno) */
+		CEE3DU_TESS_EDGE_FLAG      = 100104,  /* void (CALLBACK*)(GLboolean boundaryEdge)  */
+		CEE3DU_TESS_COMBINE        = 100105,  /* void (CALLBACK*)(GLdouble  coords[3],
+																	void      *data[4],
+																	GLfloat   weight[4],
+																	void      **dataOut)     */
+		CEE3DU_TESS_BEGIN_DATA     = 100106,  /* void (CALLBACK*)(GLenum    type,
+																	void      *polygon_data) */
+		CEE3DU_TESS_VERTEX_DATA    = 100107,  /* void (CALLBACK*)(void      *data,
+																	void      *polygon_data) */
+		CEE3DU_TESS_END_DATA       = 100108,  /* void (CALLBACK*)(void      *polygon_data) */
+		CEE3DU_TESS_ERROR_DATA     = 100109,  /* void (CALLBACK*)(GLenum    errno,
+																	void      *polygon_data) */
+		CEE3DU_TESS_EDGE_FLAG_DATA = 100110,  /* void (CALLBACK*)(GLboolean boundaryEdge,
+																	void      *polygon_data) */
+		CEE3DU_TESS_COMBINE_DATA   = 100111,  /* void (CALLBACK*)(GLdouble  coords[3],
+																	void      *data[4],
+																	GLfloat   weight[4],
+																	void      **dataOut,
+																	void      *polygon_data) */
+
+		/* TessError */
+		CEE3DU_TESS_ERROR1     = 100151,
+		CEE3DU_TESS_ERROR2     = 100152,
+		CEE3DU_TESS_ERROR3     = 100153,
+		CEE3DU_TESS_ERROR4     = 100154,
+		CEE3DU_TESS_ERROR5     = 100155,
+		CEE3DU_TESS_ERROR6     = 100156,
+		CEE3DU_TESS_ERROR7     = 100157,
+		CEE3DU_TESS_ERROR8     = 100158,
+
+		CEE3DU_TESS_MISSING_BEGIN_POLYGON  = CEE3DU_TESS_ERROR1,
+		CEE3DU_TESS_MISSING_BEGIN_CONTOUR  = CEE3DU_TESS_ERROR2,
+		CEE3DU_TESS_MISSING_END_POLYGON    = CEE3DU_TESS_ERROR3,
+		CEE3DU_TESS_MISSING_END_CONTOUR    = CEE3DU_TESS_ERROR4,
+		CEE3DU_TESS_COORD_TOO_LARGE        = CEE3DU_TESS_ERROR5,
+		CEE3DU_TESS_NEED_COMBINE_CALLBACK  = CEE3DU_TESS_ERROR6,
+
+		/****           NURBS constants                 ****/
+
+		/* NurbsProperty */
+		CEE3DU_AUTO_LOAD_MATRIX    = 100200,
+		CEE3DU_CULLING             = 100201,
+		CEE3DU_SAMPLING_TOLERANCE  = 100203,
+		CEE3DU_DISPLAY_MODE        = 100204,
+		CEE3DU_PARAMETRIC_TOLERANCE        = 100202,
+		CEE3DU_SAMPLING_METHOD             = 100205,
+		CEE3DU_U_STEP                      = 100206,
+		CEE3DU_V_STEP                      = 100207,
+
+		/* NurbsSampling */
+		CEE3DU_PATH_LENGTH                 = 100215,
+		CEE3DU_PARAMETRIC_ERROR            = 100216,
+		CEE3DU_DOMAIN_DISTANCE             = 100217,
+
+
+		/* NurbsTrim */
+		CEE3DU_MAP1_TRIM_2         = 100210,
+		CEE3DU_MAP1_TRIM_3         = 100211,
+
+		/* NurbsDisplay */
+		/*      CEE3DU_FILL                = 100012, */
+		CEE3DU_OUTLINE_POLYGON     = 100240,
+		CEE3DU_OUTLINE_PATCH       = 100241,
+
+		/* NurbsCallback */
+		/*      CEE3DU_ERROR               = 100103, */
+
+		/* NurbsErrors */
+		CEE3DU_NURBS_ERROR1        = 100251,
+		CEE3DU_NURBS_ERROR2        = 100252,
+		CEE3DU_NURBS_ERROR3        = 100253,
+		CEE3DU_NURBS_ERROR4        = 100254,
+		CEE3DU_NURBS_ERROR5        = 100255,
+		CEE3DU_NURBS_ERROR6        = 100256,
+		CEE3DU_NURBS_ERROR7        = 100257,
+		CEE3DU_NURBS_ERROR8        = 100258,
+		CEE3DU_NURBS_ERROR9        = 100259,
+		CEE3DU_NURBS_ERROR10       = 100260,
+		CEE3DU_NURBS_ERROR11       = 100261,
+		CEE3DU_NURBS_ERROR12       = 100262,
+		CEE3DU_NURBS_ERROR13       = 100263,
+		CEE3DU_NURBS_ERROR14       = 100264,
+		CEE3DU_NURBS_ERROR15       = 100265,
+		CEE3DU_NURBS_ERROR16       = 100266,
+		CEE3DU_NURBS_ERROR17       = 100267,
+		CEE3DU_NURBS_ERROR18       = 100268,
+		CEE3DU_NURBS_ERROR19       = 100269,
+		CEE3DU_NURBS_ERROR20       = 100270,
+		CEE3DU_NURBS_ERROR21       = 100271,
+		CEE3DU_NURBS_ERROR22       = 100272,
+		CEE3DU_NURBS_ERROR23       = 100273,
+		CEE3DU_NURBS_ERROR24       = 100274,
+		CEE3DU_NURBS_ERROR25       = 100275,
+		CEE3DU_NURBS_ERROR26       = 100276,
+		CEE3DU_NURBS_ERROR27       = 100277,
+		CEE3DU_NURBS_ERROR28       = 100278,
+		CEE3DU_NURBS_ERROR29       = 100279,
+		CEE3DU_NURBS_ERROR30       = 100280,
+		CEE3DU_NURBS_ERROR31       = 100281,
+		CEE3DU_NURBS_ERROR32       = 100282,
+		CEE3DU_NURBS_ERROR33       = 100283,
+		CEE3DU_NURBS_ERROR34       = 100284,
+		CEE3DU_NURBS_ERROR35       = 100285,
+		CEE3DU_NURBS_ERROR36       = 100286,
+		CEE3DU_NURBS_ERROR37       = 100287,
+
+		/* Contours types -- obsolete! */
+		CEE3DU_CW          = 100120,
+		CEE3DU_CCW         = 100121,
+		CEE3DU_INTERIOR    = 100122,
+		CEE3DU_EXTERIOR    = 100123,
+		CEE3DU_UNKNOWN     = 100124,
+
+		/* Names without "TESS_" prefix */
+		CEE3DU_BEGIN       = CEE3DU_TESS_BEGIN,
+		CEE3DU_VERTEX      = CEE3DU_TESS_VERTEX,
+		CEE3DU_END         = CEE3DU_TESS_END,
+		CEE3DU_ERROR       = CEE3DU_TESS_ERROR,
+		CEE3DU_EDGE_FLAG   = CEE3DU_TESS_EDGE_FLAG
+
+	} CeE3Denum;
+
+cpp_quote("#ifdef __USE_IDL_TYPES")
+	typedef CeE3Denum	GLenum;
+cpp_quote("#endif")
+
+typedef LPSTR	GLubytes;
+
+typedef LONG	CeE3Dnurbs;
+typedef LONG	CeE3Dquadric;
+typedef LONG	CeE3Dtesselator;
+
+/* backwards compatibility: */
+typedef CeE3Dnurbs		CeE3DnurbsObj;
+typedef CeE3Dquadric	CeE3DquadricObj;
+typedef CeE3Dtesselator	CeE3DtesselatorObj;
+typedef CeE3Dtesselator	CeE3DtriangulatorObj;
+
+[helpstring("深度函数用于比较Z缓冲区中的不同深度点, 确定从中筛选出的点")]
+typedef enum __tag_DEPTHFUNCENUM {
+	DEPTHFUNC_NEVER		= CEE3D_NEVER,
+	DEPTHFUNC_LESS		= CEE3D_LESS,
+	DEPTHFUNC_LEQUAL	= CEE3D_LEQUAL,
+	DEPTHFUNC_EQUAL		= CEE3D_EQUAL,
+	DEPTHFUNC_GREATER	= CEE3D_GREATER,
+	DEPTHFUNC_NOTEQUAL	= CEE3D_NOTEQUAL,
+	DEPTHFUNC_GEQUAL	= CEE3D_GEQUAL,
+	DEPTHFUNC_ALWAYS	= CEE3D_ALWAYS
+} DEPTHFUNCENUM;

@@ -1,0 +1,57 @@
+HKCR {
+	OceanEngine.OeTTree2.1 = s 'OeTTree2 class ' {
+		CLSID = s '{00000000-4F45-0110-0002-486954656368}'
+	}
+	OceanEngine.OeTTree2 = s 'OeTTree2 class ' {
+		CLSID = s '{00000000-4F45-0110-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTTree2.1'
+	}
+
+	OceanEngine.OeTTree.1 = s 'OeTTree class ' {
+		CLSID = s '{00000000-4F45-0111-0002-486954656368}'
+	}
+	OceanEngine.OeTTree = s 'OeTTree class ' {
+		CLSID = s '{00000000-4F45-0111-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTTree.1'
+	}
+
+	OceanEngine.OeTGraph.1 = s 'OeTGraph class ' {
+		CLSID = s '{00000000-4F45-0112-0002-486954656368}'
+	}
+	OceanEngine.OeTGraph = s 'OeTGraph class ' {
+		CLSID = s '{00000000-4F45-0112-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTGraph.1'
+	}
+
+
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0110-0002-486954656368} = s 'OeTTree2' {
+			ProgID = s 'OceanEngine.OeTTree2.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTTree2'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0111-0002-486954656368} = s 'OeTTree' {
+			ProgID = s 'OceanEngine.OeTTree.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTTree'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4F45-0112-0002-486954656368} = s 'OeTGraph' {
+			ProgID = s 'OceanEngine.OeTGraph.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTGraph'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+
+
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0110-0001-486954656368} = s 'IOeTTree2'
+		ForceRemove {00000000-4F45-0111-0001-486954656368} = s 'IOeTTree'
+		ForceRemove {00000000-4F45-0112-0001-486954656368} = s 'IOeTGraph'
+	}
+}

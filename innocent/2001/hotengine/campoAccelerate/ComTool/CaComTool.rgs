@@ -1,0 +1,82 @@
+HKCR {
+	CampoAccelerate.CaCTools.1 = s 'CaCTools class ' {
+		CLSID = s '{00000000-4341-0100-0002-486954656368}'
+	}
+	CampoAccelerate.CaCTools = s 'CaCTools class ' {
+		CLSID = s '{00000000-4341-0100-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaCTools.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-0100-0002-486954656368} = s 'CaCTools' {
+			ProgID = s 'CampoAccelerate.CaCTools.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaCTools'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-0100-0001-486954656368} = s 'ICaCTools'
+	}
+
+	CampoAccelerate.CaCSimulator.1 = s 'CaCSimulator class ' {
+		CLSID = s '{00000000-4341-0101-0002-486954656368}'
+	}
+	CampoAccelerate.CaCSimulator = s 'CaCSimulator class ' {
+		CLSID = s '{00000000-4341-0101-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaCSimulator.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-0101-0002-486954656368} = s 'CaCSimulator' {
+			ProgID = s 'CampoAccelerate.CaCSimulator.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaCSimulator'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-0101-0001-486954656368} = s 'ICaCSimulator'
+	}
+
+	CampoAccelerate.CaCProxyUnknown.1 = s 'CaCProxyUnknown class ' {
+		CLSID = s '{00000000-4341-0110-0002-486954656368}'
+	}
+	CampoAccelerate.CaCProxyUnknown = s 'CaCProxyUnknown class ' {
+		CLSID = s '{00000000-4341-0110-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaCProxyUnknown.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-0110-0002-486954656368} = s 'CaCProxyUnknown' {
+			ProgID = s 'CampoAccelerate.CaCProxyUnknown.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaCProxyUnknown'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-0110-0001-486954656368} = s 'ICaCProxyUnknown'
+	}
+
+	CampoAccelerate.CaCProxyDispatch.1 = s 'CaCProxyDispatch class ' {
+		CLSID = s '{00000000-4341-0111-0002-486954656368}'
+	}
+	CampoAccelerate.CaCProxyDispatch = s 'CaCProxyDispatch class ' {
+		CLSID = s '{00000000-4341-0111-0002-486954656368}'
+		CurVer = s 'CampoAccelerate.CaCProxyDispatch.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4341-0111-0002-486954656368} = s 'CaCProxyDispatch' {
+			ProgID = s 'CampoAccelerate.CaCProxyDispatch.1'
+			VersionIndependentProgID = s 'CampoAccelerate.CaCProxyDispatch'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4341-0111-0001-486954656368} = s 'ICaCProxyDispatch'
+	}
+
+}

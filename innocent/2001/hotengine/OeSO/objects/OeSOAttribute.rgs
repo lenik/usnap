@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOAttribute.1 = s 'OeSOAttribute class ' {
+		CLSID = s '{00000000-4F45-0620-0002-486954656368}'
+		Description = s 'OeSOAttribute属性类保存一个属性.'
+	}
+	OceanEngine.OeSOAttribute = s 'OeSOAttribute class ' {
+		CLSID = s '{00000000-4F45-0620-0002-486954656368}'
+		Description = s 'OeSOAttribute属性类保存一个属性.'
+		CurVer = s 'OceanEngine.OeSOAttribute.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0620-0002-486954656368} = s 'OeSOAttribute' {
+			ProgID = s 'OceanEngine.OeSOAttribute.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOAttribute'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOAttribute属性类保存一个属性.'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0620-0001-486954656368} = s 'IOeSOAttribute'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOAttribute = s '{00000000-4F45-0620-0002-486954656368}' {
+				val ClassName = s 'OeSOAttribute'
+				val Description = s '属性类保存一个属性.'
+				val InterfaceImpl = s 'IOeSOAttribute'
+			}
+		}
+	}
+}

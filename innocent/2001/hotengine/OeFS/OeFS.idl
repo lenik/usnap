@@ -1,0 +1,209 @@
+// OeFS.idl : IDL source for OeFS.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (OeFS.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+//
+	interface IOeFSDriver;		// 0F00 文件系统驱动程序
+	interface IOeFSObject;		// 0F01 文件系统对象
+	interface IOeFSProxy;		// 0F02 文件系统代理对象
+//
+	interface IOeFSDirectory;	// 0F10 文件系统目录
+	interface IOeFSFile;		// 0F11 文件系统文件
+	interface IOeFSLink;		// 0F12 文件系统链接
+//
+	interface IOeFSTools;		// 0F20 文件系统工具
+
+
+[
+	uuid(00000000-4F45-0F00-0004-486954656368),
+	version(1.0),
+	helpstring("OceanEngine.FileSystem 类型库 海洋工程引擎.海洋文件系统 1.0")
+]
+library OeFSLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("S:\lib\oceanEngine\Working\OeXp\OeT\OeT.tlb");
+
+
+[
+	uuid(00000000-4F45-0F00-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSDriver 文件系统驱动程序接口")
+] interface IOeFSDriver : IDispatch {
+
+};
+
+[
+	uuid(00000000-4F45-0F01-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSObject")
+] interface IOeFSObject : IDispatch {
+	[id(0), propget, helpstring("返回/设置文件系统驱动对象")]
+	HRESULT driver([out, retval]IOeFSDriver **ret);
+	[id(0), propput, helpstring("返回/设置文件系统驱动对象")]
+	HRESULT driver([in]IOeFSDriver *newdriver);
+
+	[id(1000), propget, helpstring("返回/设置当前位置")]
+	HRESULT currentPath([out, retval]IOeFSDirectory *ret);
+	[id(1000), propput, helpstring("返回/设置当前位置")]
+	HRESULT currentPath([in]IOeFSDirectory *newpath);
+
+	[id(1001), propget, helpstring("获取根目录")]
+	HRESULT root([out, retval]IOeFSDirectory **ret);
+
+	[helpstring("格式化文件系统")]
+	HRESULT format();
+};
+
+[
+	uuid(00000000-4F45-0F02-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSProxy")
+] interface IOeFSProxy : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0F10-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSDirectory")
+] interface IOeFSDirectory : IDispatch {
+	[id(1), propget, helpstring("返回/设置文件系统对象")]
+	HRESULT fso([out, retval]IOeFSObject **ret);
+	[id(1), propput, helpstring("返回/设置文件系统对象")]
+	HRESULT fso([in]IOeFSObject *newfso);
+
+	[id(0), propget, helpstring("返回/设置子目录, which指定子目录. 当设置一个新的子目录时必须保证旧子目录为空. ")]
+	HRESULT directories([in]VARIANT which, [out, retval]IOeFSDirectory **ret);
+	[id(0), propput, helpstring("返回/设置子目录, which指定子目录. 当设置一个新的子目录时必须保证旧子目录为空. ")]
+	HRESULT directories([in]VARIANT which, [in]IOeFSDirectory *newdirectory);
+
+	[id(2), propget, helpstring("返回/设置文件, which指定文件. 当设置一个新的文件时将替换旧的文件")]
+	HRESULT files([in]VARIANT which, [out, retval]IOeFSFile **ret);
+	[id(2), propput, helpstring("返回/设置文件, which指定文件. 当设置一个新的文件时将替换旧的文件")]
+	HRESULT files([in]VARIANT which, [in]IOeFSFile *newfile);
+
+	HRESULT createDirectory([in]BSTR name, [out, retval]IOeFSDirectory **ret);
+	HRESULT createFile([in]BSTR name, [out, retval]IOeFSFile **ret);
+};
+
+[
+	uuid(00000000-4F45-0F11-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSFile")
+] interface IOeFSFile : IDispatch {
+	[id(1), propget, helpstring("返回/设置文件系统对象")]
+	HRESULT fso([out, retval]IOeFSObject **ret);
+	[id(1), propput, helpstring("返回/设置文件系统对象")]
+	HRESULT fso([in]IOeFSObject *newfso);
+
+	[id(0), propget, helpstring("返回/设置文件字节")]
+	HRESULT bytes([in]LONG pos, [out, retval]BYTE *ret);
+	[id(0), propput, helpstring("返回/设置文件字节")]
+	HRESULT bytes([in]LONG pos, [in]BYTE newbyte);
+
+	[id(2), propget, helpstring("返回/设置文件长度")]
+	HRESULT length([out, retval]LONG *ret);
+	[id(2), propput, helpstring("返回/设置文件长度")]
+	HRESULT length([in]LONG newlength);
+
+	[helpstring("从文件中读入数据")]
+	HRESULT read([in]LONG pos, [in]LONG count, [out, retval]VARIANT *ret);
+
+	[helpstring("向文件写入数据")]
+	HRESULT write([in]LONG pos, [in]LONG count, [in]VARIANT data);
+};
+
+[
+	uuid(00000000-4F45-0F12-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSLink")
+] interface IOeFSLink : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0F20-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeFSTools")
+] interface IOeFSTools : IDispatch {
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+[
+	uuid(00000000-4F45-0F00-0002-486954656368),
+	helpstring("OeFSDriver单元文件系统(嵌入数据流式)")
+] coclass OeFSDriver {
+	[default]interface IOeFSDriver;
+};
+
+[
+	uuid(00000000-4F45-0F00-0102-486954656368),
+	helpstring("OeFSLocalDriver本地文件系统")
+] coclass OeFSLocalDriver {
+	[default]interface IOeFSDriver;
+};
+
+[
+	uuid(00000000-4F45-0F00-0202-486954656368),
+	helpstring("OeFSNullDriver空文件系统")
+] coclass OeFSNullDriver {
+	[default]interface IOeFSDriver;
+};
+
+[
+	uuid(00000000-4F45-0F01-0002-486954656368),
+	helpstring("OeFSObject")
+] coclass OeFSObject {
+	[default]interface IOeFSObject;
+};
+
+[
+	uuid(00000000-4F45-0F02-0002-486954656368),
+	helpstring("OeFSProxy")
+] coclass OeFSProxy {
+	[default]interface IOeFSProxy;
+};
+
+[
+	uuid(00000000-4F45-0F10-0002-486954656368),
+	helpstring("OeFSDirectory")
+] coclass OeFSDirectory {
+	[default]interface IOeFSDirectory;
+};
+
+[
+	uuid(00000000-4F45-0F11-0002-486954656368),
+	helpstring("OeFSFile")
+] coclass OeFSFile {
+	[default]interface IOeFSFile;
+};
+
+[
+	uuid(00000000-4F45-0F12-0002-486954656368),
+	helpstring("OeFSLink")
+] coclass OeFSLink {
+	[default]interface IOeFSLink;
+};
+
+[
+	uuid(00000000-4F45-0F20-0002-486954656368),
+	helpstring("OeFSTools")
+] coclass OeFSTools {
+	[default]interface IOeFSTools;
+};
+
+
+};

@@ -1,0 +1,805 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+/* 本计划是由于 OeXp & OeSO 所需要的 树
+ *	以及
+ *		OeXp 所需要的 数组
+ * 而提起的。
+ */
+
+/*
+ * 单元数据类型
+ *	0100 OeTVariant
+ *		在指定（强制地址）空间单元上实现的VARIANT
+ *
+ * 通用数据类型：
+ *	0101 OeTString
+ *		字串
+ *	0102 OeTArray
+ *		数组
+ *	0103 OeTChain
+ *		链表
+ *	0104 OeTQueue
+ *		队列
+ *	0105 OeTStack
+ *		栈
+ *	0106 OeTSet
+ *		集合
+ *	0107 OeTTable
+ *		二维表
+ *	0108 OeTHash
+ *		哈希表
+ *	0110 OeTTree2
+ *		二叉树
+ *	0111 OeTTree
+ *		树
+ *	0112 OeTGraph
+ *		无向图 有向图
+ *	0120 OeTCodedStream
+ *		复合流
+ */
+
+#include "OeTIds.h"
+cpp_quote("#include \"OeTIds.h\"")
+cpp_quote("#if 0")
+	typedef enum VariantTypeConstants {
+		VARTYPE_EMPTY		= 0,
+		VARTYPE_NULL		= 1,
+		VARTYPE_I2		= 2,
+		VARTYPE_I4		= 3,
+		VARTYPE_R4		= 4,
+		VARTYPE_R8		= 5,
+		VARTYPE_CY		= 6,
+		VARTYPE_DATE		= 7,
+		VARTYPE_BSTR		= 8,
+		VARTYPE_DISPATCH	= 9,
+		VARTYPE_ERROR		= 10,
+		VARTYPE_BOOL		= 11,
+		VARTYPE_VARIANT		= 12,
+		VARTYPE_UNKNOWN		= 13,
+		VARTYPE_DECIMAL		= 14,
+		VARTYPE_I1		= 16,
+		VARTYPE_UI1		= 17,
+		VARTYPE_UI2		= 18,
+		VARTYPE_UI4		= 19,
+		VARTYPE_I8		= 20,
+		VARTYPE_UI8		= 21,
+		VARTYPE_INT		= 22,
+		VARTYPE_UINT		= 23,
+		VARTYPE_VOID		= 24,
+		VARTYPE_HRESULT		= 25,
+		VARTYPE_PTR		= 26,
+		VARTYPE_SAFEARRAY	= 27,
+		VARTYPE_CARRAY		= 28,
+		VARTYPE_USERDEFINED	= 29,
+		VARTYPE_LPSTR		= 30,
+		VARTYPE_LPWSTR		= 31,
+		VARTYPE_RECORD		= 36,
+		VARTYPE_FILETIME	= 64,
+		VARTYPE_BLOB		= 65,
+		VARTYPE_STREAM		= 66,
+		VARTYPE_STORAGE		= 67,
+		VARTYPE_STREAMED_OBJECT	= 68,
+		VARTYPE_STORED_OBJECT	= 69,
+		VARTYPE_BLOB_OBJECT	= 70,
+		VARTYPE_CF		= 71,
+		VARTYPE_CLSID		= 72,
+		VARTYPE_BSTR_BLOB	= 0xfff,
+		VARTYPE_VECTOR		= 0x1000,
+		VARTYPE_ARRAY		= 0x2000,
+		VARTYPE_BYREF		= 0x4000,
+		VARTYPE_RESERVED	= 0x8000,
+		VARTYPE_ILLEGAL		= 0xffff,
+		VARTYPE_ILLEGALMASKED	= 0xfff,
+		VARTYPE_TYPEMASK	= 0xfff
+	} VARENUM;
+cpp_quote("#endif")
+
+[
+	uuid(00000000-4F45-0100-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeTVariant接口 定制变体接口")
+] interface IOeTVariant : IDispatch {
+	[id(0), propget, helpstring("返回/设置变体")]
+	HRESULT variant([out, retval]VARIANT *ret);
+	[id(0), propput, helpstring("返回/设置变体")]
+	HRESULT variant([in]VARIANT var);
+
+	[id(1), propget, helpstring("返回/设置自动类型转换. 当设置某一内容时不修改变体类型, 而尽量将内容转换成原始的变体类型. ")]
+	HRESULT autoTypeConversion([out, retval]VARIANT_BOOL *ret);
+	[id(1), propput, helpstring("返回/设置自动类型转换. 当设置某一内容时不修改变体类型, 而尽量将内容转换成原始的变体类型. ")]
+	HRESULT autoTypeConversion([in, defaultvalue(-1)]VARIANT_BOOL bEnabled);
+
+	[id(2), propget, helpstring("返回/设置变体类型. 当设置自动类型转换时将转换变体内容使其适用于新的类型. ")]
+	HRESULT varType([out, retval]VARENUM *ret);
+	[id(2), propput, helpstring("返回/设置变体类型. 当设置自动类型转换时将转换变体内容使其适用于新的类型. ")]
+	HRESULT varType([in]VARENUM vt);
+
+	[id(3), propget, helpstring("返回/设置变体的字节分量")]
+	HRESULT byteVal([out, retval]BYTE *ret);
+	[id(3), propput, helpstring("返回/设置变体的字节分量")]
+	HRESULT byteVal([in]BYTE newbyte);
+
+	[id(4), propget, helpstring("返回/设置变体的16位整数分量")]
+	HRESULT shortVal([out, retval]SHORT *ret);
+	[id(4), propput, helpstring("返回/设置变体的16位整数分量")]
+	HRESULT shortVal([in]SHORT newshort);
+
+	[id(5), propget, helpstring("返回/设置变体的32位整数分量")]
+	HRESULT longVal([out, retval]LONG *ret);
+	[id(5), propput, helpstring("返回/设置变体的32位整数分量")]
+	HRESULT longVal([in]LONG newlong);
+
+	[id(6), propget, helpstring("返回/设置变体的32位浮点数(单精度)分量")]
+	HRESULT floatVal([out, retval]float *ret);
+	[id(6), propput, helpstring("返回/设置变体的32位浮点数(单精度)分量")]
+	HRESULT floatVal([in]float newfloat);
+
+	[id(7), propget, helpstring("返回/设置变体的64位浮点数(双精度)分量")]
+	HRESULT doubleVal([out, retval]double *ret);
+	[id(7), propput, helpstring("返回/设置变体的64位浮点数(双精度)分量")]
+	HRESULT doubleVal([in]double newdouble);
+
+	[id(8), propget, helpstring("返回/设置变体的布尔分量")]
+	HRESULT boolVal([out, retval]VARIANT_BOOL *ret);
+	[id(8), propput, helpstring("返回/设置变体的布尔分量")]
+	HRESULT boolVal([in]VARIANT_BOOL newbool);
+
+	[id(9), propget, helpstring("返回/设置变体的错误代码分量")]
+	HRESULT scodeVal([out, retval]SCODE *ret);
+	[id(9), propput, helpstring("返回/设置变体的错误代码分量")]
+	HRESULT scodeVal([in]SCODE newscode);
+
+	[id(11), propget, helpstring("返回/设置变体的日期分量")]
+	HRESULT dateVal([out, retval]DATE *ret);
+	[id(11), propput, helpstring("返回/设置变体的日期分量")]
+	HRESULT dateVal([in]DATE newdate);
+
+	[id(12), propget, helpstring("返回/设置变体的BSTR字串分量")]
+	HRESULT bstrVal([out, retval]BSTR *ret);
+	[id(12), propput, helpstring("返回/设置变体的BSTR字串分量")]
+	HRESULT bstrVal([in]BSTR newbstr);
+
+	[id(13), propget, helpstring("返回/设置变体的小数分量")]
+	HRESULT pdecimalVal([out, retval]VARIANT *ret);
+	[id(13), propput, helpstring("返回/设置变体的小数分量")]
+	HRESULT pdecimalVal([in]VARIANT newdecimal);
+
+	[id(14), propget, helpstring("返回/设置变体的虚表接口分量")]
+	HRESULT punknownVal([out, retval]IUnknown **ret);
+	[id(14), propput, helpstring("返回/设置变体的虚表接口分量")]
+	HRESULT punknownVal([in]IUnknown *newunknown);
+
+	[id(15), propget, helpstring("返回/设置变体的调度接口分量")]
+	HRESULT pdispatchVal([out, retval]IDispatch **ret);
+	[id(15), propput, helpstring("返回/设置变体的调度接口分量")]
+	HRESULT pdispatchVal([in]IDispatch *newdispatch);
+/*
+	[id(17), propget, helpstring("返回/设置变体的字节指针分量")]
+	HRESULT pbyteVal([out, retval]BYTE **ret);
+	[id(17), propput, helpstring("返回/设置变体的字节指针分量")]
+	HRESULT pbyteVal([in]BYTE **newpbyte);
+	[id(18), propget, helpstring("返回/设置变体的16位整数指针分量")]
+	HRESULT pshortVal([out, retval]short **ret);
+	[id(18), propput, helpstring("返回/设置变体的16位整数指针分量")]
+	HRESULT pshortVal([in]short **newpshort);
+	[id(19), propget, helpstring("返回/设置变体的32位整数指针分量")]
+	HRESULT plongVal([out, retval]long **ret);
+	[id(19), propput, helpstring("返回/设置变体的32位整数指针分量")]
+	HRESULT plongVal([in]long **newplong);
+	[id(20), propget, helpstring("返回/设置变体的32位浮点数(单精度)指针分量")]
+	HRESULT pfloatVal([out, retval]float **ret);
+	[id(20), propput, helpstring("返回/设置变体的32位浮点数(单精度)指针分量")]
+	HRESULT pfloatVal([in]float **newpfloat);
+	[id(21), propget, helpstring("返回/设置变体的64位浮点数(双精度)指针分量")]
+	HRESULT pdoubleVal([out, retval]double **ret);
+	[id(21), propput, helpstring("返回/设置变体的64位浮点数(双精度)指针分量")]
+	HRESULT pdoubleVal([in]double **newpdouble);
+	[id(22), propget, helpstring("返回/设置变体的布尔指针分量")]
+	HRESULT pboolVal([out, retval]VARIANT_BOOL **ret);
+	[id(22), propput, helpstring("返回/设置变体的布尔指针分量")]
+	HRESULT pboolVal([in]VARIANT_BOOL **newpbool);
+	[id(23), propget, helpstring("返回/设置变体的错误代码指针分量")]
+	HRESULT pscodeVal([out, retval]SCODE **ret);
+	[id(23), propput, helpstring("返回/设置变体的错误代码指针分量")]
+	HRESULT pscodeVal([in]SCODE **newpscode);
+	[id(25), propget, helpstring("返回/设置变体的日期指针分量")]
+	HRESULT pdateVal([out, retval]DATE **ret);
+	[id(25), propput, helpstring("返回/设置变体的日期指针分量")]
+	HRESULT pdateVal([in]DATE **newpdate);
+	[id(26), propget, helpstring("返回/设置变体的BSTR字串指针分量")]
+	HRESULT pbstrVal([out, retval]BSTR **ret);
+	[id(26), propput, helpstring("返回/设置变体的BSTR字串指针分量")]
+	HRESULT pbstrVal([in]BSTR **newpbstr);
+	[id(27), propget, helpstring("返回/设置变体的虚表接口指针分量")]
+	HRESULT ppunknownVal([out, retval]IUnknown ***ret);
+	[id(27), propput, helpstring("返回/设置变体的虚表接口指针分量")]
+	HRESULT ppunknownVal([in]IUnknown ***newppunknown);
+	[id(28), propget, helpstring("返回/设置变体的调度接口指针分量")]
+	HRESULT ppdispatchVal([out, retval]IDispatch ***ret);
+	[id(28), propput, helpstring("返回/设置变体的调度接口指针分量")]
+	HRESULT ppdispatchVal([in]IDispatch ***newppdispatch);
+	[id(30), propget, helpstring("返回/设置变体的变体指针分量")]
+	HRESULT pvariantVal([out, retval]VARIANT **ret);
+	[id(30), propput, helpstring("返回/设置变体的变体指针分量")]
+	HRESULT pvariantVal([in]VARIANT **newpvariant);
+*/
+	[id(31), propget, helpstring("返回/设置变体的指针分量")]
+	HRESULT byrefVal([out, retval]LONG *ret);
+	[id(31), propput, helpstring("返回/设置变体的指针分量")]
+	HRESULT byrefVal([in]LONG newbyref_addr);
+
+	[id(32), propget, helpstring("返回/设置变体的字符分量")]
+	HRESULT charVal([out, retval]BYTE *ret);
+	[id(32), propput, helpstring("返回/设置变体的字符分量")]
+	HRESULT charVal([in]BYTE newchar);
+	[id(33), propget, helpstring("返回/设置变体的无符号16位整数分量")]
+	HRESULT ushortVal([out, retval]short *ret);
+	[id(33), propput, helpstring("返回/设置变体的无符号16位整数分量")]
+	HRESULT ushortVal([in]short newushort);
+	[id(34), propget, helpstring("返回/设置变体的无符号32位整数分量")]
+	HRESULT ulongVal([out, retval]long *ret);
+	[id(34), propput, helpstring("返回/设置变体的无符号32位整数分量")]
+	HRESULT ulongVal([in]long newulong);
+	[id(35), propget, helpstring("返回/设置变体的整型分量")]
+	HRESULT intVal([out, retval]int *ret);
+	[id(35), propput, helpstring("返回/设置变体的整型分量")]
+	HRESULT intVal([in]int newint);
+	[id(36), propget, helpstring("返回/设置变体的无符号整型分量")]
+	HRESULT uintVal([out, retval]int *ret);
+	[id(36), propput, helpstring("返回/设置变体的无符号整型分量")]
+	HRESULT uintVal([in]int newuint);
+/*
+	[id(37), propget, helpstring("返回/设置变体的字符指针分量")]
+	HRESULT pcharVal([out, retval]BYTE **ret);
+	[id(37), propput, helpstring("返回/设置变体的字符指针分量")]
+	HRESULT pcharVal([in]BYTE *newpchar);
+	[id(38), propget, helpstring("返回/设置变体的无符号16位整数指针分量")]
+	HRESULT pushortVal([out, retval]short **ret);
+	[id(38), propput, helpstring("返回/设置变体的无符号16位整数指针分量")]
+	HRESULT pushortVal([in]short *newpushort);
+	[id(39), propget, helpstring("返回/设置变体的无符号32位整数指针分量")]
+	HRESULT pulongVal([out, retval]long **ret);
+	[id(39), propput, helpstring("返回/设置变体的无符号32位整数指针分量")]
+	HRESULT pulongVal([in]long *newpulong);
+	[id(40), propget, helpstring("返回/设置变体的整型指针分量")]
+	HRESULT pintVal([out, retval]int **ret);
+	[id(40), propput, helpstring("返回/设置变体的整型指针分量")]
+	HRESULT pintVal([in]int *newpint);
+	[id(41), propget, helpstring("返回/设置变体的无符号整型指针分量")]
+	HRESULT puintVal([out, retval]int **ret);
+	[id(41), propput, helpstring("返回/设置变体的无符号整型指针分量")]
+	HRESULT puintVal([in]int *newpuint);
+*/
+/*
+	[id(16), propget, helpstring("返回/设置变体的数组分量")]
+	HRESULT parrayVal([out, retval]SAFEARRAY *ret);
+	[id(16), propput, helpstring("返回/设置变体的数组分量")]
+	HRESULT parrayVal([in]SAFEARRAY newarray);
+	[id(29), propget, helpstring("返回/设置变体的数组指针分量")]
+	HRESULT pparrayVal([out, retval]SAFEARRAY **ret);
+	[id(29), propput, helpstring("返回/设置变体的数组指针分量")]
+	HRESULT pparrayVal([in]SAFEARRAY *newpparray);
+*/
+/*
+	[id(10), propget, helpstring("返回/设置变体的货币分量")]
+	HRESULT cyVal([out, retval]CY *ret);
+	[id(10), propput, helpstring("返回/设置变体的货币分量")]
+	HRESULT cyVal([in]CY newcy);
+	[id(24), propget, helpstring("返回/设置变体的货币指针分量")]
+	HRESULT pcyVal([out, retval]CY *ret);
+	[id(24), propput, helpstring("返回/设置变体的货币指针分量")]
+	HRESULT pcyVal([in]CY *newpcy);
+*/
+};
+
+[
+	uuid(00000000-4F45-0101-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTString 字串接口")
+] interface IOeTString : IDispatch {
+	[id(ID_IOeTString_contents), propget, helpstring("返回/设置字串内容")]
+	HRESULT contents([out, retval]BSTR *ret);
+	[id(ID_IOeTString_contents), propput, helpstring("返回/设置字串内容")]
+	HRESULT contents([in]BSTR newcontents);
+
+	[id(ID_IOeTString_c), propget, helpstring("返回/设置字串中某一字符")]
+	HRESULT c([in]int index, [out, retval]LONG *ret);
+	[id(ID_IOeTString_c), propput, helpstring("返回/设置字串中某一字符")]
+	HRESULT c([in]int index, [in]LONG newc);
+
+//	[id(ID_IOeTString_
+};
+
+[
+	uuid(00000000-4F45-0102-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTArray 数组接口")
+] interface IOeTArray : IDispatch {
+	[id(ID_IOeTArray_member), propget, helpstring("返回/设置单元")]
+	HRESULT member([in]int index, [out, retval]VARIANT *ret);
+	[id(ID_IOeTArray_member), propput, helpstring("返回/设置单元")]
+	HRESULT member([in]int index, [in]VARIANT newVARIANT);
+
+	[id(ID_IOeTArray_count), propget, helpstring("返回单元数目")]
+	HRESULT count([out, retval]int *ret);
+
+	[id(ID_IOeT_scm), propget, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_scm), propput, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([in]VARIANT_BOOL newscm);
+
+	[id(ID_IOeT_useFixedType), propget, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_useFixedType), propput, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([in]VARIANT_BOOL newBOOL);
+
+	[id(ID_IOeT_fixedType), propget, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([out, retval]VARENUM *ret);
+	[id(ID_IOeT_fixedType), propput, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([in]VARENUM newType);
+
+	[helpstring("添加单元, (可选)insertindex指定插入点, 默认插入在尾部; (可选)insertduplicates指定重复次数, 默认为1. ")]
+	HRESULT add([in]VARIANT newVARIANT, [in, defaultvalue(-1)]int insertindex, [in, defaultvalue(1)]int insertduplicates);
+
+	[helpstring("删除单元, removeindex指定删除项, removecount指定连续删除记录数, 返回实际删除记录数. ")]
+	HRESULT remove([in]int removeindex, [in, defaultvalue(1)]int removecount, [out, retval]int *ret);
+
+	[helpstring("清除数组, 清除所有单元. ")]
+	HRESULT clear();
+};
+[
+	uuid(00000000-4F45-0102-0017-486954656368),
+	helpstring("OeTArrayEvents 数组事件接口")
+] dispinterface IOeTArrayEvents {
+	properties:
+	methods:
+		[id(DISPID_IOeTArray_onChanged), helpstring("数组改变时触发")]
+		void onChanged();
+};
+
+[
+	uuid(00000000-4F45-0103-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTChain 链表接口")
+] interface IOeTChain : IDispatch {
+	[id(ID_IOeTChain_contents), propget, helpstring("返回/设置本结点(当前结点)内容")]
+	HRESULT contents([out, retval]VARIANT *ret);
+	[id(ID_IOeTChain_contents), propput, helpstring("返回/设置本结点(当前结点)内容")]
+	HRESULT contents([in]VARIANT newcontents);
+
+	[id(ID_IOeTChain_lengthP), propget, helpstring("返回链表前半部分长度(不包括本结点)")]
+	HRESULT lengthP([out, retval]int *ret);
+
+	[id(ID_IOeTChain_lengthN), propget, helpstring("返回链表后半部分长度(包括本结点)")]
+	HRESULT lengthN([out, retval]int *ret);
+
+	[id(ID_IOeT_scm), propget, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_scm), propput, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([in]VARIANT_BOOL newscm);
+
+	[id(ID_IOeT_useFixedType), propget, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_useFixedType), propput, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([in]VARIANT_BOOL newBOOL);
+
+	[id(ID_IOeT_fixedType), propget, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([out, retval]VARENUM *ret);
+	[id(ID_IOeT_fixedType), propput, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([in]VARENUM newType);
+
+	[id(ID_IOeTChain_p), propget, helpstring("返回/设置链表的前一个位置")]
+	HRESULT p([out, retval]IOeTChain **ret);
+	[id(ID_IOeTChain_p), propput, helpstring("返回/设置链表的前一个位置")]
+	HRESULT p([in]IOeTChain *newprev);
+
+	[id(ID_IOeTChain_n), propget, helpstring("返回/设置链表的后一个位置")]
+	HRESULT n([out, retval]IOeTChain **ret);
+	[id(ID_IOeTChain_n), propput, helpstring("返回/设置链表的后一个位置")]
+	HRESULT n([in]IOeTChain *newnext);
+
+	[id(ID_IOeTChain_begin), propget, helpstring("返回链表的第一个位置")]
+	HRESULT begin([out, retval]IOeTChain **ret);
+	[id(ID_IOeTChain_end), propget, helpstring("返回链表的最后一个位置")]
+	HRESULT end([out, retval]IOeTChain **ret);
+
+	[helpstring("查找结点, 初始化查找记录")]
+	HRESULT find([in]VARIANT node, [out, retval]IOeTChain **ret);
+	[helpstring("继续查找, 如果返回NULL表示结束")]
+	HRESULT next([out, retval]IOeTChain **ret);
+
+	[helpstring("和链表的前一个结点交换位置")]
+	HRESULT swapBefore();
+	[helpstring("和链表的后一个结点交换位置")]
+	HRESULT swapAfter();
+
+	[helpstring("将本结点从链表中移出. (这将减少引用计数, 但并不从内存中删除)")]
+	HRESULT remove();
+	[helpstring("插入一个新结点到本结点前. ")]
+	HRESULT insert([in]VARIANT newnode);
+	[helpstring("插入一个新结点到本结点后. ")]
+	HRESULT append([in]VARIANT newnode);
+
+	[helpstring("将链表中一部分从链表中移出. (每个结点都将调用减少引用计数)")]
+	HRESULT removeChain([in]IOeTChain *first, [in]IOeTChain *last);
+	[helpstring("插入一个链表到本结点前, 新链表的结尾next指向本结点")]
+	HRESULT insertChain([in]IOeTChain *chain);
+	[helpstring("插入一个链表到本结点后, 新链表的开头prev指向本结点")]
+	HRESULT appendChain([in]IOeTChain *chain);
+
+	[helpstring("析构整个链表, 这相当于调用\".removeChain(.begin, .end)\". ")]
+	HRESULT destroy();
+};
+
+[
+	uuid(00000000-4F45-0104-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTQueue 队列接口")
+] interface IOeTQueue : IDispatch {
+	[id(ID_IOeTQueue_outputF), propput, helpstring("向队列前端输出")]
+	HRESULT outputF([in]VARIANT newnode);
+
+	[id(ID_IOeTQueue_outputB), propput, helpstring("向队列后端输出")]
+	HRESULT outputB([in]VARIANT newnode);
+
+	[id(ID_IOeTQueue_inputF), propget, helpstring("从队列前端输入")]
+	HRESULT inputF([out, retval]VARIANT *ret);
+
+	[id(ID_IOeTQueue_inputB), propget, helpstring("从队列后端输入")]
+	HRESULT inputB([out, retval]VARIANT *ret);
+
+	[id(ID_IOeTQueue_length), propget, helpstring("返回队列长度")]
+	HRESULT length([out, retval]int *ret);
+
+	[id(ID_IOeT_scm), propget, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_scm), propput, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([in]VARIANT_BOOL newscm);
+
+	[id(ID_IOeT_useFixedType), propget, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_useFixedType), propput, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([in]VARIANT_BOOL newBOOL);
+
+	[id(ID_IOeT_fixedType), propget, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([out, retval]VARENUM *ret);
+	[id(ID_IOeT_fixedType), propput, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([in]VARENUM newType);
+
+	[id(ID_IOeTQueue_lockInput), propget, helpstring("返回/设置输入锁定. 锁定输入后从队列读取输入端时不会将数据移出队列. ")]
+	HRESULT lockInput([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeTQueue_lockInput), propput, helpstring("返回/设置输入锁定. 锁定输入后从队列读取输入端时不会将数据移出队列. ")]
+	HRESULT lockInput([in]VARIANT_BOOL newlock);
+
+	[helpstring("析构整个队列")]
+	HRESULT destroy();
+};
+
+[
+	uuid(00000000-4F45-0105-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTStack 栈接口")
+] interface IOeTStack : IDispatch {
+	[helpstring("压入数据")]
+	HRESULT push([in]VARIANT data);
+
+	[helpstring("弹出数据")]
+	HRESULT pop([out, retval]VARIANT *ret);
+
+	[id(ID_IOeTStack_length), propget, helpstring("返回堆栈中元素个数")]
+	HRESULT length([out, retval]int *ret);
+
+	[id(ID_IOeT_scm), propget, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_scm), propput, helpstring("返回/设置严格控制模式选项")]
+	HRESULT scm([in]VARIANT_BOOL newscm);
+
+	[id(ID_IOeT_useFixedType), propget, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeT_useFixedType), propput, helpstring("返回/设置固定类型选项")]
+	HRESULT useFixedType([in]VARIANT_BOOL newBOOL);
+
+	[id(ID_IOeT_fixedType), propget, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([out, retval]VARENUM *ret);
+	[id(ID_IOeT_fixedType), propput, helpstring("返回/设置固定类型")]
+	HRESULT fixedType([in]VARENUM newType);
+
+	[helpstring("析构堆栈")]
+	HRESULT destroy();
+};
+
+[
+	uuid(00000000-4F45-0106-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTSet 集合接口")
+] interface IOeTSet : IDispatch {
+	[id(ID_IOeTSet_elements), propget, helpstring("返回/设置集合数组")]
+	HRESULT elements([out, retval]IOeTArray **ret);
+	[id(ID_IOeTSet_elements), propput, helpstring("返回/设置集合数组")]
+	HRESULT elements([in]IOeTArray *newelements);
+
+	[id(ID_IOeTSet_unis), propget, helpstring("返回/设置全集")]
+	HRESULT unis([out, retval]IOeTArray **ret);
+	[id(ID_IOeTSet_unis), propput, helpstring("返回/设置全集")]
+	HRESULT unis([in]IOeTArray *newunis);
+
+	[id(ID_IOeTSet_contain), propget, helpstring("返回一个元素是否存在")]
+	HRESULT contain([in]VARIANT element, [out, retval]VARIANT_BOOL *ret);
+	[id(ID_IOeTSet_contains), propget, helpstring("返回一个集合是否子集")]
+	HRESULT contains([in]IOeTSet *another, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("补集")]
+	HRESULT comps([out, retval]IOeTSet **ret);
+
+	[helpstring("交集")]
+	HRESULT ints([in]IOeTSet *another, [out, retval]IOeTSet **ret);
+	[helpstring("并集")]
+	HRESULT unions([in]IOeTSet *another, [out, retval]IOeTSet **ret);
+	[helpstring("异或集")]
+	HRESULT xors([in]IOeTSet *another, [out, retval]IOeTSet **ret);
+	[helpstring("减集")]
+	HRESULT subs([in]IOeTSet *another, [out, retval]IOeTSet **ret);
+
+	[helpstring("减去元素")]
+	HRESULT remove([in]VARIANT element, [out, retval]VARIANT_BOOL *ret);
+	[helpstring("并上元素")]
+	HRESULT add([in]VARIANT element, [out, retval]VARIANT_BOOL *ret);
+};
+
+[
+	uuid(00000000-4F45-0107-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTTable 二维表接口")
+] interface IOeTTable : IDispatch {
+	[id(ID_IOeTTable_cell), propget, helpstring("返回/设置单元格")]
+	HRESULT cell([in]VARIANT col, [in]VARIANT row, [out, retval]VARIANT *ret);
+	[id(ID_IOeTTable_cell), propput, helpstring("返回/设置单元格")]
+	HRESULT cell([in]VARIANT col, [in]VARIANT row, [in]VARIANT newcell);
+
+	[id(ID_IOeTTable_colname), propget, helpstring("返回/设置列名(字段名)")]
+	HRESULT colname([in]VARIANT col, [out, retval]BSTR *ret);
+	[id(ID_IOeTTable_colname), propput, helpstring("返回/设置列名(字段名)")]
+	HRESULT colname([in]VARIANT col, [in]BSTR newcolname);
+
+	[id(ID_IOeTTable_rowname), propget, helpstring("返回/设置行名(行标记)")]
+	HRESULT rowname([in]VARIANT row, [out, retval]BSTR *ret);
+	[id(ID_IOeTTable_rowname), propput, helpstring("返回/设置行名(行标记)")]
+	HRESULT rowname([in]VARIANT row, [in]BSTR newrowname);
+
+	[id(ID_IOeTTable_cols), propget, helpstring("返回/设置列数")]
+	HRESULT cols([out, retval]int *ret);
+	[id(ID_IOeTTable_cols), propput, helpstring("返回/设置列数")]
+	HRESULT cols([in]int newcols);
+
+	[id(ID_IOeTTable_rows), propget, helpstring("返回/设置行数")]
+	HRESULT rows([out, retval]int *ret);
+	[id(ID_IOeTTable_rows), propput, helpstring("返回/设置行数")]
+	HRESULT rows([in]int newrows);
+
+	[helpstring("查找表")]
+	HRESULT search([in]BSTR exp, [out, retval]IOeTTable **ret);
+
+	[helpstring("排序表")]
+	HRESULT sort([in]BSTR exp);
+
+	[helpstring("合并表")]
+	HRESULT combine([in]IOeTTable *another);
+
+};
+
+[
+	uuid(00000000-4F45-0108-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTHash 哈希表接口")
+] interface IOeTHash : IDispatch {
+	[id(ID_IOeTHash_value), propget, helpstring("返回/设置哈希值")]
+	HRESULT value([in]VARIANT key, [out, retval]BSTR *ret);
+	[id(ID_IOeTHash_value), propput, helpstring("返回/设置哈希值")]
+	HRESULT value([in]VARIANT key, [in]BSTR value);
+
+	[id(ID_IOeTHash_key), propget, helpstring("返回/设置键名")]
+	HRESULT key([in]VARIANT key, [out, retval]BSTR *ret);
+	[id(ID_IOeTHash_key), propput, helpstring("返回/设置键名")]
+	HRESULT key([in]VARIANT key, [in]BSTR newkey);
+
+	[id(ID_IOeTHash_count), propget, helpstring("返回哈希单元数目")]
+	HRESULT count([out, retval]int *ret);
+
+	[id(ID_IOeTHash_coded), propget, helpstring("生成编码流")]
+	HRESULT coded([in]VARIANT key, [out, retval]BSTR *ret);
+
+	[id(ID_IOeTHash_def), propget, helpstring("返回/设置默认值")]
+	HRESULT def([out, retval]BSTR *ret);
+	[id(ID_IOeTHash_def), propput, helpstring("返回/设置默认值")]
+	HRESULT def([in]BSTR newdef);
+
+	[helpstring("清空哈希表")]
+	HRESULT clear();
+
+	[helpstring("查找键")]
+	HRESULT search([in]BSTR value, [out, retval]BSTR *ret);
+
+	[helpstring("设置键, 格式为key=value;key=value;..., 其中sep表示键与键之间的分割符, 默认为';'")]
+	HRESULT set([in]BSTR setstring, [in, defaultvalue(";")]BSTR sep);
+
+	[helpstring("解释目标文本, 将键值代入目标文本中相关变量. 其中prefix为变量前缀, 默认为'$'")]
+	HRESULT interprete([in]BSTR text, [in, defaultvalue("$")]BSTR prefix, [out, retval]BSTR *ret);
+
+};
+
+[
+	uuid(00000000-4F45-0110-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTTree2 二叉树接口")
+] interface IOeTTree2 : IDispatch {
+
+};
+
+[
+	uuid(00000000-4F45-0111-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTTree 树接口")
+] interface IOeTTree : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0112-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTGraph 无向图 有向图接口")
+] interface IOeTGraph : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0120-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("OeTCodedStream 复合流接口")
+] interface IOeTCodedStream : IDispatch {
+	[id(ID_IOeTCodedStream_contents), propget, helpstring("返回/设置字串内容")]
+	HRESULT contents([out, retval]BSTR *ret);
+	[id(ID_IOeTCodedStream_contents), propput, helpstring("返回/设置字串内容")]
+	HRESULT contents([in]BSTR newcontents);
+
+	[id(ID_IOeTCodedStream_part), propget, helpstring("返回/设置编码串部分内容")]
+	HRESULT part([in]VARIANT whichpart, [out, retval]BSTR *ret);
+	[id(ID_IOeTCodedStream_part), propput, helpstring("返回/设置编码串部分内容")]
+	HRESULT part([in]VARIANT whichpart, [in]BSTR newpart);
+
+	[id(ID_IOeTCodedStream_part_), propget, helpstring("返回/设置编码串部分")]
+	HRESULT part_([in]VARIANT whichpart, [out, retval]BSTR *ret);
+	[id(ID_IOeTCodedStream_part_), propput, helpstring("返回/设置编码串部分")]
+	HRESULT part_([in]VARIANT whichpart, [in]BSTR newpart_);
+
+	[id(ID_IOeTCodedStream_parthcode), propget, helpstring("返回/设置 H 编码符号, 默认#")]
+	HRESULT parthcode([out, retval]BSTR *ret);
+	[id(ID_IOeTCodedStream_parthcode), propput, helpstring("返回/设置 H 编码符号, 默认#")]
+	HRESULT parthcode([in]BSTR newpartcode);
+
+	[id(ID_IOeTCodedStream_partlcode), propget, helpstring("返回/设置 L 编码符号, 默认#1,(#1,)")]
+	HRESULT partlcode([out, retval]BSTR *ret);
+	[id(ID_IOeTCodedStream_partlcode), propput, helpstring("返回/设置 L 编码符号, 默认#1,(#1,)")]
+	HRESULT partlcode([in]BSTR ret);
+};
+
+//
+[
+	uuid(00000000-4F45-0000-0004-486954656368),
+	version(1.0),
+	helpstring("OceanEngine.Types 类型库 海洋逻辑引擎.数据类型引擎 1.0")
+]
+library OeTLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4F45-0100-0002-486954656368),
+		helpstring("OeTVariant　定制变体类")
+	] coclass OeTVariant {
+		[default]interface IOeTVariant;
+	};
+
+	[
+		uuid(00000000-4F45-0101-0002-486954656368),
+		helpstring("OeTString 字串类")
+	] coclass OeTString {
+		[default]interface IOeTString;
+	};
+
+	[
+		uuid(00000000-4F45-0102-0002-486954656368),
+		helpstring("OeTArray 数组类")
+	] coclass OeTArray {
+		[default]interface IOeTArray;
+		[default, source]dispinterface IOeTArrayEvents;
+		//interface IOeTChain;
+	};
+
+	[
+		uuid(00000000-4F45-0103-0002-486954656368),
+		helpstring("OeTChain 链表类")
+	] coclass OeTChain {
+		[default]interface IOeTChain;
+	};
+
+	[
+		uuid(00000000-4F45-0104-0002-486954656368),
+		helpstring("OeTQueue 队列类, 输出链表. ")
+	] coclass OeTQueue {
+		[default]interface IOeTQueue;
+		interface IOeTChain;
+	};
+
+	[
+		uuid(00000000-4F45-0105-0002-486954656368),
+		helpstring("OeTStack 栈类, 输出队列及链表. ")
+	] coclass OeTStack {
+		[default]interface IOeTStack;
+		interface IOeTQueue;
+		interface IOeTChain;
+	};
+
+	[
+		uuid(00000000-4F45-0106-0002-486954656368),
+		helpstring("OeTSet 集合类, 输出数组. ")
+	] coclass OeTSet {
+		[default]interface IOeTSet;
+	};
+
+	[
+		uuid(00000000-4F45-0107-0002-486954656368),
+		helpstring("OeTTable 二维表类")
+	] coclass OeTTable {
+		[default]interface IOeTTable;
+	};
+
+	[
+		uuid(00000000-4F45-0108-0002-486954656368),
+		helpstring("OeTHash 哈希表类")
+	] coclass OeTHash {
+		[default]interface IOeTHash;
+	};
+
+	[
+		uuid(00000000-4F45-0110-0002-486954656368),
+		helpstring("OeTTree2 二叉树类")
+	] coclass OeTTree2 {
+		[default]interface IOeTTree2;
+	};
+
+	[
+		uuid(00000000-4F45-0111-0002-486954656368),
+		helpstring("OeTTree 树类")
+	] coclass OeTTree {
+		[default]interface IOeTTree;
+	};
+
+	[
+		uuid(00000000-4F45-0112-0002-486954656368),
+		helpstring("OeTGraph 无向图 有向图类")
+	] coclass OeTGraph {
+		[default]interface IOeTGraph;
+	};
+
+	[
+		uuid(00000000-4F45-0120-0002-486954656368),
+		helpstring("OeTCodedStream 复合流类")
+	] coclass OeTCodedStream {
+		[default]interface IOeTCodedStream;
+	};
+
+};

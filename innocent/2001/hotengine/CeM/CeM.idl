@@ -1,0 +1,48 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+interface ICeMBeat;
+interface ICeMAlas;
+
+[
+	uuid(00000000-4345-6200-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.Music 类型库 草原多媒体引擎.草原音乐引擎 1.0")
+]
+library CeMLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("..\CeS\CeS.tlb");
+
+
+[
+	uuid(00000000-4345-6200-0001-486954656368),
+	helpstring("ICeMBeat, 节拍发送接口")
+] interface ICeMBeat : IDispatch {
+
+};
+
+[
+	uuid(00000000-4345-6201-0001-486954656368),
+	helpstring("ICeMAlas, 节拍接受接口")
+] interface ICeMAlas : IDispatch {
+
+};
+
+
+
+[] coclass CeMBeat {
+	[default]interface ICeMBeat;
+	[default, source]dispinterface ICeMBeatEvents;
+	interface ICeSDevice;
+};
+
+[] coclass CeMAlas {
+	[default]interface ICeMAlas;
+	[default, source]dispinterface ICeMAlasEvents;
+};
+
+
+};

@@ -1,0 +1,11 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0612-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOClass")
+] interface IOeSOClass : IDispatch {
+	[id(0), propget, helpstring("获取类的一个指定实例化对象")]
+	HRESULT instance([in]VARIANT whichinstance, [out, retval]IOeSOObject **ret);
+};

@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOParser.1 = s 'OeSOParser class ' {
+		CLSID = s '{00000000-4F45-0600-0002-486954656368}'
+		Description = s 'OeSOParser分析器用于分析SOML文档、从数据库中导入SOML、保存SOML等, 并创建应用体对象。'
+	}
+	OceanEngine.OeSOParser = s 'OeSOParser class ' {
+		CLSID = s '{00000000-4F45-0600-0002-486954656368}'
+		Description = s 'OeSOParser分析器用于分析SOML文档、从数据库中导入SOML、保存SOML等, 并创建应用体对象。'
+		CurVer = s 'OceanEngine.OeSOParser.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0600-0002-486954656368} = s 'OeSOParser' {
+			ProgID = s 'OceanEngine.OeSOParser.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOParser'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOParser分析器用于分析SOML文档、从数据库中导入SOML、保存SOML等, 并创建应用体对象。'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0600-0001-486954656368} = s 'IOeSOParser'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOParser = s '{00000000-4F45-0600-0002-486954656368}' {
+				val ClassName = s 'OeSOParser'
+				val Description = s '分析器用于分析SOML文档、从数据库中导入SOML、保存SOML等, 并创建应用体对象。'
+				val InterfaceImpl = s 'IOeSOParser'
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+关于类OeSOObjectsCollection：
+类描述：
+	对象集合类：
+结构：
+	父类：
+
+	派生类：
+
+	实现接口：
+		IOeSOObjectsCollection
+	CLSID：
+		00000000-4F45-0630-0002-486954656368

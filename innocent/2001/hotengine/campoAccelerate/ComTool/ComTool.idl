@@ -1,0 +1,200 @@
+// CTools.idl : IDL source for CTools.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CTools.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+//
+	interface ICaCTools;			// 0100
+	interface ICaCSimulator;		// 0101
+	interface ICaCPacker;			// 0102
+//
+	interface ICaCProxyUnknown;		// 0110
+	interface ICaCProxyDispatch;		// 0111
+
+[
+	uuid(00000000-4341-0100-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICaCTools: COM, ActiveX, OLE, etc. tools for programming")
+]
+interface ICaCTools : IDispatch {
+	[id(0), propget, helpstring("获取类名称")]
+	HRESULT progid([out, retval]BSTR *ret);
+	[id(0), propput, helpstring("获取类名称")]
+	HRESULT progid([in]BSTR progid);
+	[id(1), propget, helpstring("获取CLSID")]
+	HRESULT clsid([out, retval]BSTR *ret);
+	[id(1), propput, helpstring("获取CLSID")]
+	HRESULT clsid([in]BSTR clsid);
+	[id(2), propget, helpstring("获取IID")]
+	HRESULT iid([out, retval]BSTR *ret);
+	[id(2), propput, helpstring("获取IID")]
+	HRESULT iid([in]BSTR iid);
+
+	[helpstring("由内部参数创建调度对象")]
+	HRESULT createObject(
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+	[helpstring("有内部参数创建指定接口对象")]
+	HRESULT createObject2(
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+
+	[helpstring("由progid创建调度对象")]
+	HRESULT createObjectByProgid(
+		[in]BSTR progid,
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+	[helpstring("由progid创建指定接口对象")]
+	HRESULT createObjectByProgid2(
+		[in]BSTR progid,
+		[in]BSTR iface,
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+
+	[helpstring("由clsid创建调度对象")]
+	HRESULT createObjectByClsid(
+		[in]BSTR clsid,
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+	[helpstring("由clsid创建指定接口对象")]
+	HRESULT createObjectByClsid2(
+		[in]BSTR clsid,
+		[in]BSTR iid,
+		[in, defaultvalue(FALSE)]BOOL forceCreate,
+		[out, retval]IDispatch **obj
+	);
+
+	[id(1001), propget, helpstring("获取对象引用计数")]
+	HRESULT reference([in, ref]IUnknown *obj, [out, retval]LONG *ret);
+
+	[helpstring("调用对象增加引用计数方法")]
+	HRESULT forceAddRef([in]IUnknown *obj, [out, retval]LONG *ret);
+	[helpstring("调用对象释放引用计数方法")]
+	HRESULT forceRelease([in]IUnknown *obj, [out, retval]LONG *ret);
+	[helpstring("调用对象询问接口方法")]
+	HRESULT forceQueryInterface([in]IUnknown *obj, [in]BSTR iid, [out]IUnknown **ppv, [out, retval]HRESULT *ret);
+
+	[helpstring("调用调度对象获取类型信息计数方法")]
+	HRESULT forceGetTypeInfoCount([in]IDispatch *obj, [out, retval]LONG *ret);
+	[helpstring("调用调度对象获取类型信息方法, 返回ITypeInfo实例. ")]
+	HRESULT forceGetTypeInfo([in]IDispatch *obj, [in]LONG iTInfo, [in]LONG Lcid, [out,retval]IDispatch **ret);
+	[helpstring("调用调度对象获取名字对应调度ID方法")]
+	HRESULT forceGetIDsOfNames([in]IDispatch *obj, [in]BSTR riid, [in]BSTR *rgszNames, [in]LONG cNames, [in]LONG Lcid, [out, retval]LONG *rgDispId);
+	[helpstring("调用调度对象获取一个名字对应调度ID的方法")]
+	HRESULT forceGetIDOfName([in]IDispatch *obj, [in]BSTR riid, [in]BSTR rgszNames, [in]LONG Lcid, [out, retval]LONG *rgDispId);
+
+};
+
+[
+	uuid(00000000-4341-0101-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICaCSimulator")
+] interface ICaCSimulator : IDispatch {
+	HRESULT simulate([in]IDispatch *simulate_object);
+};
+
+[
+	uuid(00000000-4341-0102-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICaCPacker")
+] interface ICaCPacker : IDispatch {
+	[id(0), propget, helpstring("返回/设置包中成员调度对象")]
+	HRESULT members([in]int index, [out, retval]IDispatch **ret);
+	[id(0), propput, helpstring("返回/设置包中成员调度对象")]
+	HRESULT members([in]int index, [in]IDispatch *replace_pack_object);
+
+	[id(1), propget, helpstring("返回包中成员调度对象个数")]
+	HRESULT count([out, retval]int *ret);
+
+	[helpstring("包入调度对象")]
+	HRESULT pack([in]IDispatch *pack_object);
+
+	[helpstring("拆卸调度对象")]
+	HRESULT unpack([in]IDispatch *unpack_object, [out, retval]IDispatch **ret);
+};
+
+[
+	uuid(00000000-4341-0110-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICaCProxyUnknown")
+] interface ICaCProxyUnknown : IDispatch {
+	//HRESULT QueryInterface(
+
+	//能够自定义附加unknown处理的
+
+};
+
+[
+	uuid(00000000-4341-0111-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICaCProxyDispatch")
+] interface ICaCProxyDispatch : IDispatch {
+	/*
+	get_proxyDispatch
+	put_proxyDispatch
+
+	1. 一个包装了另一个对象的能够自定义代理回调的, 对它对象增加处理的
+	2. 一个能够对自身代理回调的, 实现对自身动态增加处理的
+	*/
+
+};
+
+[
+	uuid(00000000-4341-0100-0004-486954656368),
+	version(1.0),
+	helpstring("CampoAccelerate.ComTool 类型库 草原加速/低级COM工具 草原加速-加速您的设计与调试")
+]
+library CaComToolLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4341-0100-0002-486954656368),
+		helpstring("CaCTools草原加速低级COM工具库, 有关Com, ActiveX, OLE等")
+	] coclass CaCTools {
+		[default]interface ICaCTools;
+	};
+
+	[
+		uuid(00000000-4341-0101-0002-486954656368),
+		helpstring("CaCSimulator替身对象类, 用于替身另一个对象. ")
+	] coclass CaCSimulator {
+		[default]interface ICaCSimulator;
+	};
+
+	[
+		uuid(00000000-4341-0102-0002-486954656368),
+		helpstring("CaCPacker打包对象类, 用于打包功能相似的一组对象. ")
+	] coclass CaCPacker {
+		[default]interface ICaCPacker;
+	};
+
+	[
+		uuid(00000000-4341-0110-0002-486954656368),
+		helpstring("CaCProxyUnknown根替身")
+	] coclass CaCProxyUnknown {
+		[default]interface ICaCProxyUnknown;
+	};
+
+	[
+		uuid(00000000-4341-0111-0002-486954656368),
+		helpstring("CaCProxyDispatch调度替身")
+	] coclass CaCProxyDispatch {
+		[default]interface ICaCProxyDispatch;
+	};
+};

@@ -1,0 +1,35 @@
+Type=Exe
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\winnt\System32\stdole2.tlb#OLE Automation
+Reference=*\G{00000000-4341-0100-0004-486954656368}#1.0#0#..\Debug\ComTool.dll#CampoAccelerate.ComTool 类型库 草原加速/低级COM工具 草原加速-加速您的设计与调试
+Reference=*\G{00000000-4341-FFE0-0004-486954656368}#1.0#0#..\..\..\Lab\TestCom\DogCat\Debug\DogCat.dll#CampoAccelerate.DogCat testor for COM clients
+Form=Main.frm
+Startup="frmMain"
+ExeName32="CaComTool_Client2.exe"
+Command32=""
+Name="CaComTool_Client2"
+HelpContextID="0"
+CompatibleMode="0"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=0
+ServerSupportFiles=0
+VersionCompanyName="热带信息世界"
+CompilationType=0
+OptimizationType=0
+FavorPentiumPro(tm)=0
+CodeViewDebugInfo=0
+NoAliasing=0
+BoundsCheck=0
+OverflowCheck=0
+FlPointCheck=0
+FDIVCheck=0
+UnroundedFP=0
+StartMode=0
+Unattended=0
+Retained=0
+ThreadPerObject=0
+MaxNumberOfThreads=1
+
+[MS Transaction Server]
+AutoRefresh=1

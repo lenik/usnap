@@ -1,0 +1,23 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0620-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOAttribute")
+] interface IOeSOAttribute : IDispatch {
+	[id(0), propget, helpstring("返回/设置属性值")]
+	HRESULT value([out, retval]VARIANT *ret);
+	[id(0), propput, helpstring("返回/设置属性值")]
+	HRESULT value([in]VARIANT newvalue);
+};
+
+[
+	uuid(00000000-4F45-0620-0017-486954656368),
+	helpstring("IOeSOAttributeEvents")
+] dispinterface IOeSOAttributeEvents {
+	properties:
+	methods:
+		[id(1), helpstring("属性改变时触发")]
+		void onChanged();
+};

@@ -1,0 +1,16 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0601-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOCompiler")
+] interface IOeSOCompiler : IDispatch {
+	[id(0), propget, helpstring("获取/设置解析器对象")]
+	HRESULT parser([out, retval]IOeSOParser **ret);
+	[id(0), propput, helpstring("获取/设置解析器对象")]
+	HRESULT parser([in]IOeSOParser *parser);
+
+	[helpstring("编译成SOML源文件")]
+	HRESULT compileSOML([out, retval]BSTR *ret);
+};

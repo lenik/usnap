@@ -1,0 +1,6 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+cpp_quote("#ifdef __USE_IDL_TYPES")
+cpp_quote("#endif")

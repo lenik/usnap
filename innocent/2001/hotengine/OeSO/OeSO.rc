@@ -1,0 +1,160 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "1 TYPELIB ""OeSO.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "OeSO Module\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "OeSO\0"
+            VALUE "LegalCopyright", "Copyright 2001\0"
+            VALUE "OriginalFilename", "OeSO.DLL\0"
+            VALUE "ProductName", "OeSO Module\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "OLESelfRegister", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_OeSOParser          REGISTRY DISCARDABLE    "objects/OeSOParser.rgs"
+IDR_OeSOAttribute       REGISTRY DISCARDABLE    "objects/OeSOAttribute.rgs"
+IDR_OeSOAttributesCollection REGISTRY DISCARDABLE    "objects/OeSOAttributesCollection.rgs"
+IDR_OeSOClass           REGISTRY DISCARDABLE    "objects/OeSOClass.rgs"
+IDR_OeSOClassesCollection REGISTRY DISCARDABLE    "objects/OeSOClassesCollection.rgs"
+IDR_OeSOCompiler        REGISTRY DISCARDABLE    "objects/OeSOCompiler.rgs"
+IDR_OeSOEvaluator       REGISTRY DISCARDABLE    "objects/OeSOEvaluator.rgs"
+IDR_OeSOEvent           REGISTRY DISCARDABLE    "objects/OeSOEvent.rgs"
+IDR_OeSOEventsCollection REGISTRY DISCARDABLE    "objects/OeSOEventsCollection.rgs"
+IDR_OeSOInterface       REGISTRY DISCARDABLE    "objects/OeSOInterface.rgs"
+IDR_OeSOInterfacesCollection REGISTRY DISCARDABLE    "objects/OeSOInterfacesCollection.rgs"
+IDR_OeSOObjectsCollection REGISTRY DISCARDABLE    "objects\\OeSOObjectsCollection.rgs"
+IDR_OeSOMethod          REGISTRY DISCARDABLE    "objects\\OeSOMethod.rgs"
+IDR_OeSOMethodsCollection REGISTRY DISCARDABLE    "objects\\OeSOMethodsCollection.rgs"
+IDR_OeSOObject          REGISTRY DISCARDABLE    "objects\\OeSOObject.rgs"
+IDR_OeSOApplication     REGISTRY DISCARDABLE    "objects\\OeSOApplication.rgs"
+IDR_OeSOStatus          REGISTRY DISCARDABLE    "objects\\OeSOStatus.rgs"
+IDR_OeSOStatusesCollection REGISTRY DISCARDABLE    "objects\\OeSOStatusesCollection.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COMPILER            ICON    DISCARDABLE     "compiler.ico"
+IDI_EVALUATOR           ICON    DISCARDABLE     "evaluato.ico"
+IDI_PARSER              ICON    DISCARDABLE     "parser.ico"
+IDI_ATTRIBUTE           ICON    DISCARDABLE     "attribut.ico"
+IDI_CLASS               ICON    DISCARDABLE     "class.ico"
+IDI_INTERFACE           ICON    DISCARDABLE     "interfac.ico"
+IDI_EVENT1              ICON    DISCARDABLE     "event1.ico"
+IDI_EVENT               ICON    DISCARDABLE     "event.ico"
+IDI_STATUS              ICON    DISCARDABLE     "icon1.ico"
+IDI_OBJECT              ICON    DISCARDABLE     "object.ico"
+IDI_METHOD              ICON    DISCARDABLE     "ico00001.ico"
+IDI_APP                 ICON    DISCARDABLE     "ico00002.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_PROJNAME            "OeSO"
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "OeSO.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

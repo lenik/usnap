@@ -1,0 +1,29 @@
+
+<?xml version="1.0" encoding="GB2312"?>
+
+<soml>
+
+	<c name="Glyph">
+		Glyph类表示一个图形元。
+		<ac name="HasChildren" type="bool" default="false"/>
+		<ao name="Children" type="arrayof(Glyph)"/>
+		<ao name="Parent" type="Glyph"/>
+
+		<ao name="Size" type="{w:int h:int}"/>
+		<ao name="Pos" type="{x:int y:int}"/>
+
+		<c name="TextElement" HasChildren="false">
+			<ao name="Text" type="string"/>
+		</c>
+
+		<c name="PicElement" HasChildren="false">
+			<ao name="PicURL" type="string"/>
+		</c>
+
+		<c name="Column" HasChildren="true">
+			<ao name="ColumnBorder" type="int" default="1"/>
+		</c>
+	</c>
+	COM中, [out]忘记标了会不会导致无法收到返回信息?
+
+</soml>

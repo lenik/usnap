@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOClass.1 = s 'OeSOClass class ' {
+		CLSID = s '{00000000-4F45-0612-0002-486954656368}'
+		Description = s 'OeSOClass类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。'
+	}
+	OceanEngine.OeSOClass = s 'OeSOClass class ' {
+		CLSID = s '{00000000-4F45-0612-0002-486954656368}'
+		Description = s 'OeSOClass类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。'
+		CurVer = s 'OceanEngine.OeSOClass.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0612-0002-486954656368} = s 'OeSOClass' {
+			ProgID = s 'OceanEngine.OeSOClass.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOClass'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOClass类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0612-0001-486954656368} = s 'IOeSOClass'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOClass = s '{00000000-4F45-0612-0002-486954656368}' {
+				val ClassName = s 'OeSOClass'
+				val Description = s '类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。'
+				val InterfaceImpl = s 'IOeSOClass'
+			}
+		}
+	}
+}

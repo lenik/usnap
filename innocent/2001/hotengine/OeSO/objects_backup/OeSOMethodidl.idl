@@ -1,0 +1,14 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0621-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOMethod")
+] interface IOeSOMethod : IDispatch {
+	//DISPPARAMS params
+	//cNamedArgs na
+	//...
+	[helpstring("µ÷ÓÃº¯Êý")]
+	HRESULT call();
+};

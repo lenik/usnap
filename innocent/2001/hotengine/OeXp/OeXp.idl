@@ -1,0 +1,36 @@
+// OeXp.idl : IDL source for OeXp.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (OeXp.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(00000000-4F45-0200-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeXpLex")
+] interface IOeXpLex : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0201-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeXpYacc")
+] interface IOeXpYacc : IDispatch {
+};
+
+[
+	uuid(00000000-4F45-0200-0004-486954656368),
+	version(1.0),
+	helpstring("OceanEngine.eXpression 类型库 海洋逻辑引擎.海洋自动表达式引擎")
+]
+library OeXpLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

@@ -1,0 +1,86 @@
+HKCR {
+	CampoEngine.CeLIDevice.1 = s 'CeLIDevice class ' {
+		CLSID = s '{00000000-4345-1200-0002-486954656368}'
+	}
+	CampoEngine.CeLIDevice = s 'CeLIDevice class ' {
+		CLSID = s '{00000000-4345-1200-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeLIDevice.1'
+	}
+
+	CampoEngine.CeLIBits.1 = s 'CeLIBits class ' {
+		CLSID = s '{00000000-4345-1201-0002-486954656368}'
+	}
+	CampoEngine.CeLIBits = s 'CeLIBits class ' {
+		CLSID = s '{00000000-4345-1201-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeLIBits.1'
+	}
+
+	CampoEngine.CeLIBits2.1 = s 'CeLIBits2 class ' {
+		CLSID = s '{00000000-4345-1202-0002-486954656368}'
+	}
+	CampoEngine.CeLIBits2 = s 'CeLIBits2 class ' {
+		CLSID = s '{00000000-4345-1202-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeLIBits2.1'
+	}
+
+	CampoEngine.CeLIBitsX.1 = s 'CeLIBitsX class ' {
+		CLSID = s '{00000000-4345-1203-0002-486954656368}'
+	}
+	CampoEngine.CeLIBitsX = s 'CeLIBitsX class ' {
+		CLSID = s '{00000000-4345-1203-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeLIBitsX.1'
+	}
+
+	CampoEngine.CeLIBlocks.1 = s 'CeLIBlocks class ' {
+		CLSID = s '{00000000-4345-1204-0002-486954656368}'
+	}
+	CampoEngine.CeLIBlocks = s 'CeLIBlocks class ' {
+		CLSID = s '{00000000-4345-1204-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeLIBlocks.1'
+	}
+
+	NoRemove CLSID {
+		ForceRemove {00000000-4345-1200-0002-486954656368} = s 'CeLIDevice' {
+			ProgID = s 'CampoEngine.CeLIDevice.1'
+			VersionIndependentProgID = s 'CampoEngine.CeLIDevice'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-1201-0002-486954656368} = s 'CeLIBits' {
+			ProgID = s 'CampoEngine.CeLIBits.1'
+			VersionIndependentProgID = s 'CampoEngine.CeLIBits'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-1202-0002-486954656368} = s 'CeLIBits2' {
+			ProgID = s 'CampoEngine.CeLIBits2.1'
+			VersionIndependentProgID = s 'CampoEngine.CeLIBits2'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-1203-0002-486954656368} = s 'CeLIBitsX' {
+			ProgID = s 'CampoEngine.CeLIBitsX.1'
+			VersionIndependentProgID = s 'CampoEngine.CeLIBitsX'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-1204-0002-486954656368} = s 'CeLIBlocks' {
+			ProgID = s 'CampoEngine.CeLIBlocks.1'
+			VersionIndependentProgID = s 'CampoEngine.CeLIBlocks'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4345-1200-0001-486954656368} = s 'ICeLIDevice'
+		ForceRemove {00000000-4345-1201-0001-486954656368} = s 'ICeLIBits'
+		ForceRemove {00000000-4345-1202-0001-486954656368} = s 'ICeLIBits2'
+		ForceRemove {00000000-4345-1203-0001-486954656368} = s 'ICeLIBitsX'
+		ForceRemove {00000000-4345-1204-0001-486954656368} = s 'ICeLIBlocks'
+	}
+}

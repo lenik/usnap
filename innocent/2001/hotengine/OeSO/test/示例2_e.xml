@@ -1,0 +1,34 @@
+
+<?xml version="1.0" encoding="GB2312"?>
+
+<soml>
+	<i n="Animal">
+		<m n="Bite">
+			<p n="power" c="real" v="1.0"/>
+			<p n="target" c="Animal"/>
+		</m>
+		<e n="Bitten">
+			<p n="power" c="real" v="1.0"/>
+			<p n="source" c="Animal"/>
+		</e>
+		<i n="Dog">
+			<m n="Scream">
+				<p n="dB" c="real" v="1.0"/>
+			</m>
+		</i>
+	</i>
+
+	<c n="Alaskya" mapto="sox:CaDogCat">
+		<ao n="owner" c="string" mapto="Owner"/>
+		<i n="Animal - Dog" mapto="IDog">
+			<m n="Bite" mapto="Bite"/>
+			<e n="Bitten" mapto="Bitten"/>
+		</i>
+		<c n="AlaskyaL" mapto="sox:CaDogCatWithLongTail">
+			<ao n="length" c="real"/>
+			<e n="jie">
+				<p n="jie's topologic" c="complex"/>
+			</e>
+		</c>
+	</c>
+</soml>

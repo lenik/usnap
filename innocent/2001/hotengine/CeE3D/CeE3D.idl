@@ -1,0 +1,867 @@
+// CeE3D.idl : IDL source for CeE3D.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library(CeE3D.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+import "CeE3DTypes.idl";
+import "openglidl.idl";
+
+cpp_quote("#ifdef __USE_IDL_TYPES")
+	typedef LONG	HWND;
+	typedef LONG	HDC;
+	typedef LONG	HGLRC;
+
+	typedef LONG	COLORREF;
+
+	[public]
+	typedef struct __tag_POINTFLOAT {
+		float	x;
+		float	y;
+	} POINTFLOAT;
+	typedef POINTFLOAT *PPOINTFLOAT;
+
+	[public]
+	typedef struct __tag_GLYPHMETRICSFLOAT {
+		float	gmfBlackBoxX;
+		float	gmfBlackBoxY;
+		POINTFLOAT gmfptGlyphOrigin;
+		float gmfCellIncX;
+		float gmfCellIncY;
+	} GLYPHMETRICSFLOAT;
+	typedef GLYPHMETRICSFLOAT *PGLYPHMETRICSFLOAT, *LPGLYPHMETRICSFLOAT;
+
+	[public]
+	typedef struct __tag_LAYERPLANEDESCRIPTOR {
+		SHORT  nSize;
+		SHORT  nVersion;
+		LONG dwFlags;
+		BYTE  iPixelType;
+		BYTE  cColorBits;
+		BYTE  cRedBits;
+		BYTE  cRedShift;
+		BYTE  cGreenBits;
+		BYTE  cGreenShift;
+		BYTE  cBlueBits;
+		BYTE  cBlueShift;
+		BYTE  cAlphaBits;
+		BYTE  cAlphaShift;
+		BYTE  cAccumBits;
+		BYTE  cAccumRedBits;
+		BYTE  cAccumGreenBits;
+		BYTE  cAccumBlueBits;
+		BYTE  cAccumAlphaBits;
+		BYTE  cDepthBits;
+		BYTE  cStencilBits;
+		BYTE  cAuxBuffers;
+		BYTE  iLayerPlane;
+		BYTE  bReserved;
+		COLORREF crTransparent;
+	} LAYERPLANEDESCRIPTOR;
+	typedef LAYERPLANEDESCRIPTOR *PLAYERPLANEDESCRIPTOR, *LPLAYERPLANEDESCRIPTOR;
+
+	[public]
+	typedef struct __tag_PIXELFORMATDESCRIPTOR {
+		SHORT	nSize;
+		SHORT	nVersion;
+		LONG	dwFlags;
+		BYTE	iPixelType;
+		BYTE	cColorBits;
+		BYTE	cRedBits;
+		BYTE	cRedShift;
+		BYTE	cGreenBits;
+		BYTE	cGreenShift;
+		BYTE	cBlueBits;
+		BYTE	cBlueShift;
+		BYTE	cAlphaBits;
+		BYTE	cAlphaShift;
+		BYTE	cAccumBits;
+		BYTE	cAccumRedBits;
+		BYTE	cAccumGreenBits;
+		BYTE	cAccumBlueBits;
+		BYTE	cAccumAlphaBits;
+		BYTE	cDepthBits;
+		BYTE	cStencilBits;
+		BYTE	cAuxBuffers;
+		BYTE	iLayerType;
+		BYTE	bReserved;
+		LONG	wLayerMask;
+		LONG	wVisibleMask;
+		LONG	wDamageMask;
+	} PIXELFORMATDESCRIPTOR;
+	typedef PIXELFORMATDESCRIPTOR *PPIXELFORMATDESCRIPTOR, *LPPIXELFORMATDESCRIPTOR;
+
+cpp_quote("#endif")
+
+[
+	uuid(00000000-4345-3001-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DAux接口 用于辅助三维绘制. ")
+]
+interface ICeE3DAux : IDispatch {
+	[id(0), propget]HRESULT PFlags([out, retval]LONG *pFlags);
+	[id(0), propput]HRESULT PFlags([in]LONG flags);
+	[id(1), propget]HRESULT hE3D([out, retval]HGLRC *hE3D);
+//	[id(2), propget]HRESULT PixelFormatDescriptor([out, retval]PIXELFORMATDESCRIPTOR *ppfd);
+//	[id(2), propput]HRESULT PixelFormatDescriptor([in]PIXELFORMATDESCRIPTOR *ppfd);
+
+	HRESULT InitDC([in]HDC hDC, [out, retval]BOOL *ret);
+	HRESULT Endup();
+
+//	HRESULT SetPixelFormat([in]HDC hDC, [in]LPPIXELFORMATDESCRIPTOR ppfd, [out, retval]BOOL *ret);
+	HRESULT GetPixelFormat([in]HDC hDC, [in]LONG index, [out, retval]BOOL *ret);
+	HRESULT ApplyPixelFormatTo([in]HDC hDC, [out, retval]BOOL *ret);
+
+	HRESULT DrawBegin([in]HDC hDC, [out, retval]BOOL *ret);
+	HRESULT DrawEnd([in]HDC hDC, [out, retval]BOOL *ret);
+
+	HRESULT ClearAll();
+
+	HRESULT InitDisplayMode([in]GLenum mode);
+	HRESULT InitPosition([in]LONG x, [in]LONG y, [in]LONG width, [in]LONG height);
+	HRESULT InitWindow([in]BSTR caption, [out, retval]GLenum *ret);
+
+	HRESULT CloseWindow();
+	HRESULT Quit();
+	HRESULT SwapBuffers();
+
+	HRESULT GetColorMapSize([out,retval]LONG *);
+	HRESULT GetMouseLoc([out]LONG *mouseX, [out]LONG *mouseY);
+	HRESULT SetOneColor([in]LONG index, [in]float red, [in]float green, [in]float blue);
+	HRESULT SetFogRamp([in]LONG a, [in]LONG b);
+	HRESULT SetGreyRamp();
+	HRESULT SetRGBMap([in]LONG index, [in]float *rgbmap);
+
+	HRESULT MainLoop(CEE3DMAINPROC proc);
+	HRESULT ExposeFunc(CEE3DEXPOSEPROC proc);
+	HRESULT ReshapeFunc(CEE3DRESHAPEPROC proc);
+	HRESULT IdleFunc(CEE3DIDLEPROC proc);
+	HRESULT KeyFunc(int k, CEE3DKEYPROC proc);
+	HRESULT MouseFunc(int ma, int mb, CEE3DMOUSEPROC proc);
+
+	HRESULT CreateFont();
+
+	HRESULT DrawStr([in]BSTR text);
+	HRESULT DrawWireSphere([in]GLdouble radius);
+	HRESULT DrawSolidSphere([in]GLdouble radius);
+	HRESULT DrawWireCube([in]GLdouble size);
+	HRESULT DrawSolidCube([in]GLdouble size);
+	HRESULT DrawWireBox([in]GLdouble a, [in]GLdouble b, [in]GLdouble c);
+	HRESULT DrawSolidBox([in]GLdouble a, [in]GLdouble b, [in]GLdouble c);
+	HRESULT DrawWireTorus([in]GLdouble radiusCut, [in]GLdouble radiusFace);
+	HRESULT DrawSolidTorus([in]GLdouble radiusCut, [in]GLdouble radiusFace);
+	HRESULT DrawWireCylinder([in]GLdouble radius, [in]GLdouble height);
+	HRESULT DrawSolidCylinder([in]GLdouble radius, [in]GLdouble height);
+	HRESULT DrawWireIcosahedron([in]GLdouble size);
+	HRESULT DrawSolidIcosahedron([in]GLdouble size);
+	HRESULT DrawWireOctahedron([in]GLdouble size);
+	HRESULT DrawSolidOctahedron([in]GLdouble size);
+	HRESULT DrawWireTetrahedron([in]GLdouble size);
+	HRESULT DrawSolidTetrahedron([in]GLdouble size);
+	HRESULT DrawWireDodecahedron([in]GLdouble size);
+	HRESULT DrawSolidDodecahedron([in]GLdouble size);
+	HRESULT DrawWireCone([in]GLdouble radius, [in]GLdouble height);
+	HRESULT DrawSolidCone([in]GLdouble radius, [in]GLdouble height);
+	HRESULT DrawWireTeapot([in]GLdouble size);
+	HRESULT DrawSolidTeapot([in]GLdouble size);
+
+	HRESULT GetHWND([out,retval]HWND *);
+	HRESULT GetHDC([out,retval]HDC *);
+	HRESULT GetHGLRC([out,retval]HGLRC *);
+
+	HRESULT InitDisplayModePolicy([in]GLenum mode);
+	HRESULT InitDisplayModeID([in]GLint i, [out,retval]GLenum *);
+	HRESULT GetDisplayModePolicy([out,retval]GLenum *);
+	HRESULT GetDisplayModeID([out,retval]GLint *);
+	HRESULT GetDisplayMode([out,retval]GLenum *);
+};
+
+[
+	uuid(00000000-4345-3002-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DBase接口 用于三维基本操作及三维建模")
+]
+interface ICeE3DBase : IDispatch {
+	HRESULT Accum([in]GLenum op, [in]GLfloat value);
+	HRESULT AlphaFunc([in]GLenum func, [in]GLclampf ref);
+	HRESULT ArrayElement([in]GLint i);
+	HRESULT Begin([in]GLenum mode);
+	HRESULT BindTexture([in]GLenum target, [in]GLuint texture);
+	HRESULT Bitmap([in]GLsizei width, [in]GLsizei height, [in]GLfloat xorig, [in]GLfloat yorig, [in]GLfloat xmove, [in]GLfloat ymove, [in]GLubyte *bitmap);
+	HRESULT BlendFunc([in]GLenum sfactor, [in]GLenum dfactor);
+	HRESULT CallList([in]GLuint list);
+	HRESULT CallLists([in]GLsizei n, [in]GLenum type, [in, size_is(n)]BYTE *lists);
+	HRESULT Clear([in]GLbitfield mask);
+	HRESULT ClearAccum([in]GLfloat red, [in]GLfloat green, [in]GLfloat blue, [in]GLfloat alpha);
+	HRESULT ClearColor([in]GLclampf red, [in]GLclampf green, [in]GLclampf blue, [in]GLclampf alpha);
+	HRESULT ClearDepth([in]GLclampd depth);
+	HRESULT ClearIndex([in]GLfloat c);
+	HRESULT ClearStencil([in]GLint s);
+	HRESULT ClipPlane([in]GLenum plane, [in]GLdouble *equation);
+	HRESULT Color3b([in]GLbyte red, [in]GLbyte green, [in]GLbyte blue);
+	HRESULT Color3bv([in]GLbyte *v);
+	HRESULT Color3d([in]GLdouble red, [in]GLdouble green, [in]GLdouble blue);
+	HRESULT Color3dv([in]GLdouble *v);
+	HRESULT Color3f([in]GLfloat red, [in]GLfloat green, [in]GLfloat blue);
+	HRESULT Color3fv([in]GLfloat *v);
+	HRESULT Color3i([in]GLint red, [in]GLint green, [in]GLint blue);
+	HRESULT Color3iv([in]GLint *v);
+	HRESULT Color3s([in]GLshort red, [in]GLshort green, [in]GLshort blue);
+	HRESULT Color3sv([in]GLshort *v);
+	HRESULT Color3ub([in]GLubyte red, [in]GLubyte green, [in]GLubyte blue);
+	HRESULT Color3ubv([in]GLubyte *v);
+	HRESULT Color3ui([in]GLuint red, [in]GLuint green, [in]GLuint blue);
+	HRESULT Color3uiv([in]GLuint *v);
+	HRESULT Color3us([in]GLushort red, [in]GLushort green, [in]GLushort blue);
+	HRESULT Color3usv([in]GLushort *v);
+	HRESULT Color4b([in]GLbyte red, [in]GLbyte green, [in]GLbyte blue, [in]GLbyte alpha);
+	HRESULT Color4bv([in]GLbyte *v);
+	HRESULT Color4d([in]GLdouble red, [in]GLdouble green, [in]GLdouble blue, [in]GLdouble alpha);
+	HRESULT Color4dv([in]GLdouble *v);
+	HRESULT Color4f([in]GLfloat red, [in]GLfloat green, [in]GLfloat blue, [in]GLfloat alpha);
+	HRESULT Color4fv([in]GLfloat *v);
+	HRESULT Color4i([in]GLint red, [in]GLint green, [in]GLint blue, [in]GLint alpha);
+	HRESULT Color4iv([in]GLint *v);
+	HRESULT Color4s([in]GLshort red, [in]GLshort green, [in]GLshort blue, [in]GLshort alpha);
+	HRESULT Color4sv([in]GLshort *v);
+	HRESULT Color4ub([in]GLubyte red, [in]GLubyte green, [in]GLubyte blue, [in]GLubyte alpha);
+	HRESULT Color4ubv([in]GLubyte *v);
+	HRESULT Color4ui([in]GLuint red, [in]GLuint green, [in]GLuint blue, [in]GLuint alpha);
+	HRESULT Color4uiv([in]GLuint *v);
+	HRESULT Color4us([in]GLushort red, [in]GLushort green, [in]GLushort blue, [in]GLushort alpha);
+	HRESULT Color4usv([in]GLushort *v);
+	HRESULT ColorMask([in]GLboolean red, [in]GLboolean green, [in]GLboolean blue, [in]GLboolean alpha);
+	HRESULT ColorMaterial([in]GLenum face, [in]GLenum mode);
+	HRESULT ColorPointer([in]GLint size, [in]GLenum type, [in]GLsizei stride, [in,size_is(size)]BYTE *pointer);
+	HRESULT CopyPixels([in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height, [in]GLenum type);
+	HRESULT CopyTexImage1D([in]GLenum target, [in]GLint level, [in]GLenum internalFormat, [in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLint border);
+	HRESULT CopyTexImage2D([in]GLenum target, [in]GLint level, [in]GLenum internalFormat, [in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height, [in]GLint border);
+	HRESULT CopyTexSubImage1D([in]GLenum target, [in]GLint level, [in]GLint xoffset, [in]GLint x, [in]GLint y, [in]GLsizei width);
+	HRESULT CopyTexSubImage2D([in]GLenum target, [in]GLint level, [in]GLint xoffset, [in]GLint yoffset, [in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height);
+	HRESULT CullFace([in]GLenum mode);
+	HRESULT DeleteLists([in]GLuint list, [in]GLsizei range);
+	HRESULT DeleteTextures([in]GLsizei n, [in]GLuint *textures);
+	HRESULT DepthFunc([in]GLenum func);
+	HRESULT DepthMask([in]GLboolean flag);
+	HRESULT DepthRange([in]GLclampd zNear, [in]GLclampd zFar);
+	HRESULT Disable([in]GLenum cap);
+	HRESULT DisableClientState([in]GLenum array);
+	HRESULT DrawArrays([in]GLenum mode, [in]GLint first, [in]GLsizei count);
+	HRESULT DrawBuffer([in]GLenum mode);
+	HRESULT DrawElements([in]GLenum mode, [in]GLsizei count, [in]GLenum type, [in,size_is(count)]BYTE *indices);
+	HRESULT DrawPixels([in]GLsizei width, [in]GLsizei height, [in]GLenum format, [in]GLenum type, [in,size_is(width*height)]BYTE *pixels);
+	HRESULT EdgeFlag([in]GLboolean flag);
+	HRESULT EdgeFlagPointer([in]GLsizei stride, [in,size_is(stride)]BYTE *pointer);
+	HRESULT EdgeFlagv([in]GLboolean *flag);
+	HRESULT Enable([in]GLenum cap);
+	HRESULT EnableClientState([in]GLenum array);
+	HRESULT End();
+	HRESULT EndList();
+	HRESULT EvalCoord1d([in]GLdouble u);
+	HRESULT EvalCoord1dv([in]GLdouble *u);
+	HRESULT EvalCoord1f([in]GLfloat u);
+	HRESULT EvalCoord1fv([in]GLfloat *u);
+	HRESULT EvalCoord2d([in]GLdouble u, [in]GLdouble v);
+	HRESULT EvalCoord2dv([in]GLdouble *u);
+	HRESULT EvalCoord2f([in]GLfloat u, [in]GLfloat v);
+	HRESULT EvalCoord2fv([in]GLfloat *u);
+	HRESULT EvalMesh1([in]GLenum mode, [in]GLint i1, [in]GLint i2);
+	HRESULT EvalMesh2([in]GLenum mode, [in]GLint i1, [in]GLint i2, [in]GLint j1, [in]GLint j2);
+	HRESULT EvalPoint1([in]GLint i);
+	HRESULT EvalPoint2([in]GLint i, [in]GLint j);
+	HRESULT FeedbackBuffer([in]GLsizei size, [in]GLenum type, [in]GLfloat *buffer);
+	HRESULT Finish();
+	HRESULT Flush();
+	HRESULT FrontFace([in]GLenum mode);
+	HRESULT Frustum([in]GLdouble left, [in]GLdouble right, [in]GLdouble bottom, [in]GLdouble top, [in]GLdouble zNear, [in]GLdouble zFar);
+	HRESULT GenTextures([in]GLsizei n, [in]GLuint *textures);
+	HRESULT GetBooleanv([in]GLenum pname, [out, retval]GLboolean *params);
+	HRESULT GetClipPlane([in]GLenum plane, [out, retval]GLdouble *equation);
+	HRESULT GetDoublev([in]GLenum pname, [out, retval]GLdouble *params);
+	HRESULT GetFloatv([in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetIntegerv([in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetLightfv([in]GLenum light, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetLightiv([in]GLenum light, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetMapdv([in]GLenum target, [in]GLenum query, [out, retval]GLdouble *v);
+	HRESULT GetMapfv([in]GLenum target, [in]GLenum query, [out, retval]GLfloat *v);
+	HRESULT GetMapiv([in]GLenum target, [in]GLenum query, [out, retval]GLint *v);
+	HRESULT GetMaterialfv([in]GLenum face, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetMaterialiv([in]GLenum face, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetPixelMapfv([in]GLenum map, [out, retval]GLfloat *values);
+	HRESULT GetPixelMapuiv([in]GLenum map, [out, retval]GLuint *values);
+	HRESULT GetPixelMapusv([in]GLenum map, [out, retval]GLushort *values);
+	HRESULT GetPointerv([in]GLenum pname, [out, retval]LONG *ret);
+	HRESULT GetPolygonStipple([in]GLubyte *mask);
+	HRESULT GetTexEnvfv([in]GLenum target, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetTexEnviv([in]GLenum target, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetTexGendv([in]GLenum coord, [in]GLenum pname, [out, retval]GLdouble *params);
+	HRESULT GetTexGenfv([in]GLenum coord, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetTexGeniv([in]GLenum coord, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetTexImage([in]GLenum target, [in]GLint level, [in]GLenum format, [in]GLenum type, [out, retval]BYTE *pixels);
+	HRESULT GetTexLevelParameterfv([in]GLenum target, [in]GLint level, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetTexLevelParameteriv([in]GLenum target, [in]GLint level, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT GetTexParameterfv([in]GLenum target, [in]GLenum pname, [out, retval]GLfloat *params);
+	HRESULT GetTexParameteriv([in]GLenum target, [in]GLenum pname, [out, retval]GLint *params);
+	HRESULT Hint([in]GLenum target, [in]GLenum mode);
+	HRESULT IndexMask([in]GLuint mask);
+	HRESULT IndexPointer([in]GLenum type, [in]GLsizei stride, [out,size_is(stride)]BYTE *pointer);
+	HRESULT Indexd([in]GLdouble c);
+	HRESULT Indexdv([in]GLdouble *c);
+	HRESULT Indexf([in]GLfloat c);
+	HRESULT Indexfv([in]GLfloat *c);
+	HRESULT Indexi([in]GLint c);
+	HRESULT Indexiv([in]GLint *c);
+	HRESULT Indexs([in]GLshort c);
+	HRESULT Indexsv([in]GLshort *c);
+	HRESULT Indexub([in]GLubyte c);
+	HRESULT Indexubv([in]GLubyte *c);
+	HRESULT InitNames();
+	HRESULT InterleavedArrays([in]GLenum format, [in]GLsizei stride, [out,size_is(stride)]BYTE *pointer);
+	HRESULT LightModelf([in]GLenum pname, [in]GLfloat param);
+	HRESULT LightModelfv([in]GLenum pname, [in]GLfloat *params);
+	HRESULT LightModeli([in]GLenum pname, [in]GLint param);
+	HRESULT LightModeliv([in]GLenum pname, [in]GLint *params);
+	HRESULT LineStipple([in]GLint factor, [in]GLushort pattern);
+	HRESULT LineWidth([in]GLfloat width);
+	HRESULT ListBase([in]GLuint base);
+	HRESULT LoadIdentity();
+	HRESULT LoadMatrixd([in]GLdouble *m);
+	HRESULT LoadMatrixf([in]GLfloat *m);
+	HRESULT LoadName([in]GLuint name);
+	HRESULT LogicOp([in]GLenum opcode);
+	HRESULT Map1d([in]GLenum target, [in]GLdouble u1, [in]GLdouble u2, [in]GLint stride, [in]GLint order, [in]GLdouble *points);
+	HRESULT Map1f([in]GLenum target, [in]GLfloat u1, [in]GLfloat u2, [in]GLint stride, [in]GLint order, [in]GLfloat *points);
+	HRESULT Map2d([in]GLenum target, [in]GLdouble u1, [in]GLdouble u2, [in]GLint ustride, [in]GLint uorder, [in]GLdouble v1, [in]GLdouble v2, [in]GLint vstride, [in]GLint vorder, [in]GLdouble *points);
+	HRESULT Map2f([in]GLenum target, [in]GLfloat u1, [in]GLfloat u2, [in]GLint ustride, [in]GLint uorder, [in]GLfloat v1, [in]GLfloat v2, [in]GLint vstride, [in]GLint vorder, [in]GLfloat *points);
+	HRESULT MapGrid1d([in]GLint un, [in]GLdouble u1, [in]GLdouble u2);
+	HRESULT MapGrid1f([in]GLint un, [in]GLfloat u1, [in]GLfloat u2);
+	HRESULT MapGrid2d([in]GLint un, [in]GLdouble u1, [in]GLdouble u2, [in]GLint vn, [in]GLdouble v1, [in]GLdouble v2);
+	HRESULT MapGrid2f([in]GLint un, [in]GLfloat u1, [in]GLfloat u2, [in]GLint vn, [in]GLfloat v1, [in]GLfloat v2);
+	HRESULT Materialf([in]GLenum face, [in]GLenum pname, [in]GLfloat param);
+	HRESULT Materialfv([in]GLenum face, [in]GLenum pname, [in]GLfloat *params);
+	HRESULT Materiali([in]GLenum face, [in]GLenum pname, [in]GLint param);
+	HRESULT Materialiv([in]GLenum face, [in]GLenum pname, [in]GLint *params);
+	HRESULT MatrixMode([in]GLenum mode);
+	HRESULT MultMatrixd([in]GLdouble *m);
+	HRESULT MultMatrixf([in]GLfloat *m);
+	HRESULT NewList([in]GLuint list, [in]GLenum mode);
+	HRESULT Ortho([in]GLdouble left, [in]GLdouble right, [in]GLdouble bottom, [in]GLdouble top, [in]GLdouble zNear, [in]GLdouble zFar);
+	HRESULT PassThrough([in]GLfloat token);
+	HRESULT PixelMapfv([in]GLenum map, [in]GLsizei mapsize, [in]GLfloat *values);
+	HRESULT PixelMapuiv([in]GLenum map, [in]GLsizei mapsize, [in]GLuint *values);
+	HRESULT PixelMapusv([in]GLenum map, [in]GLsizei mapsize, [in]GLushort *values);
+	HRESULT PixelStoref([in]GLenum pname, [in]GLfloat param);
+	HRESULT PixelStorei([in]GLenum pname, [in]GLint param);
+	HRESULT PixelTransferf([in]GLenum pname, [in]GLfloat param);
+	HRESULT PixelTransferi([in]GLenum pname, [in]GLint param);
+	HRESULT PixelZoom([in]GLfloat xfactor, [in]GLfloat yfactor);
+	HRESULT PointSize([in]GLfloat size);
+	HRESULT PolygonMode([in]GLenum face, [in]GLenum mode);
+	HRESULT PolygonOffset([in]GLfloat factor, [in]GLfloat units);
+	HRESULT PolygonStipple([in]GLubyte *mask);
+	HRESULT PopAttrib();
+	HRESULT PopClientAttrib();
+	HRESULT PopMatrix();
+	HRESULT PopName();
+	HRESULT PrioritizeTextures([in]GLsizei n, [in]GLuint *textures, [in]GLclampf *priorities);
+	HRESULT PushAttrib([in]GLbitfield mask);
+	HRESULT PushClientAttrib([in]GLbitfield mask);
+	HRESULT PushMatrix();
+	HRESULT PushName([in]GLuint name);
+	HRESULT ReadBuffer([in]GLenum mode);
+	HRESULT ReadPixels([in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height, [in]GLenum format, [in]GLenum type, [out,size_is(width*height)]BYTE *pixels);
+	HRESULT Rotated([in]GLdouble angle, [in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT Rotatef([in]GLfloat angle, [in]GLfloat x, [in]GLfloat y, [in]GLfloat z);
+	HRESULT Scaled([in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT Scalef([in]GLfloat x, [in]GLfloat y, [in]GLfloat z);
+	HRESULT Scissor([in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height);
+	HRESULT SelectBuffer([in]GLsizei size, [in]GLuint *buffer);
+	HRESULT ShadeModel([in]GLenum mode);
+	HRESULT StencilFunc([in]GLenum func, [in]GLint ref, [in]GLuint mask);
+	HRESULT StencilMask([in]GLuint mask);
+	HRESULT StencilOp([in]GLenum fail, [in]GLenum zfail, [in]GLenum zpass);
+	HRESULT TexEnvf([in]GLenum target, [in]GLenum pname, [in]GLfloat param);
+	HRESULT TexEnvfv([in]GLenum target, [in]GLenum pname, [in]GLfloat *params);
+	HRESULT TexEnvi([in]GLenum target, [in]GLenum pname, [in]GLint param);
+	HRESULT TexEnviv([in]GLenum target, [in]GLenum pname, [in]GLint *params);
+	HRESULT TexGend([in]GLenum coord, [in]GLenum pname, [in]GLdouble param);
+	HRESULT TexGendv([in]GLenum coord, [in]GLenum pname, [in]GLdouble *params);
+	HRESULT TexGenf([in]GLenum coord, [in]GLenum pname, [in]GLfloat param);
+	HRESULT TexGenfv([in]GLenum coord, [in]GLenum pname, [in]GLfloat *params);
+	HRESULT TexGeni([in]GLenum coord, [in]GLenum pname, [in]GLint param);
+	HRESULT TexGeniv([in]GLenum coord, [in]GLenum pname, [in]GLint *params);
+	HRESULT TexImage1D([in]GLenum target, [in]GLint level, [in]GLint internalformat, [in]GLsizei width, [in]GLint border, [in]GLenum format, [in]GLenum type, [out,size_is(width)]BYTE *pixels);
+	HRESULT TexImage2D([in]GLenum target, [in]GLint level, [in]GLint internalformat, [in]GLsizei width, [in]GLsizei height, [in]GLint border, [in]GLenum format, [in]GLenum type, [out,size_is(width*height)]BYTE *pixels);
+	HRESULT TexParameterf([in]GLenum target, [in]GLenum pname, [in]GLfloat param);
+	HRESULT TexParameterfv([in]GLenum target, [in]GLenum pname, [in]GLfloat *params);
+	HRESULT TexParameteri([in]GLenum target, [in]GLenum pname, [in]GLint param);
+	HRESULT TexParameteriv([in]GLenum target, [in]GLenum pname, [in]GLint *params);
+	HRESULT TexSubImage1D([in]GLenum target, [in]GLint level, [in]GLint xoffset, [in]GLsizei width, [in]GLenum format, [in]GLenum type, [out,size_is(width)]BYTE *pixels);
+	HRESULT TexSubImage2D([in]GLenum target, [in]GLint level, [in]GLint xoffset, [in]GLint yoffset, [in]GLsizei width, [in]GLsizei height, [in]GLenum format, [in]GLenum type, [out,size_is(width*height)]BYTE *pixels);
+	HRESULT Translated([in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT Translatef([in]GLfloat x, [in]GLfloat y, [in]GLfloat z);
+	HRESULT Viewport([in]GLint x, [in]GLint y, [in]GLsizei width, [in]GLsizei height);
+
+	HRESULT AreTexturesResident([in]GLsizei n, [in]GLuint *textures, [in]GLboolean *residences, [out, retval]GLboolean *ret);
+	HRESULT GenLists([in]GLsizei range, [out, retval]GLuint *ret);
+	HRESULT GetError([out, retval]GLenum *ret);
+	HRESULT GetString([in]GLenum name, [out, retval]BSTR *ret);
+	HRESULT IsEnabled([in]GLenum cap, [out, retval]GLboolean *ret);
+	HRESULT IsList([in]GLuint list, [out, retval]GLboolean *ret);
+	HRESULT IsTexture([in]GLuint texture, [out, retval]GLboolean *ret);
+	HRESULT RenderMode([in]GLenum mode, [out, retval]GLint *ret);
+};
+
+[
+	uuid(00000000-4345-3003-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DModel接口 用于基本三维建模")
+]
+interface ICeE3DModel : IDispatch {
+	HRESULT Fogf([in]GLenum pname ,[in]GLfloat param );
+	HRESULT Fogfv([in]GLenum pname , [in]GLfloat *params );
+	HRESULT Fogi([in]GLenum pname , [in]GLint param );
+	HRESULT Fogiv([in]GLenum pname, [in]GLint *params);
+
+	HRESULT Lightf([in]GLenum light, [in]GLenum pname, [in]GLfloat param);
+	HRESULT Lightfv([in]GLenum light, [in]GLenum pname, [in]GLfloat *params);
+	HRESULT Lighti([in]GLenum light, [in]GLenum pname, [in]GLint param);
+	HRESULT Lightiv([in]GLenum light, [in]GLenum pname, [in]GLint *params);
+
+	HRESULT Normal3b([in]GLbyte nx, [in]GLbyte ny, [in]GLbyte nz);
+	HRESULT Normal3bv([in]GLbyte *v);
+	HRESULT Normal3d([in]GLdouble nx, [in]GLdouble ny, [in]GLdouble nz);
+	HRESULT Normal3dv([in]GLdouble *v);
+	HRESULT Normal3f([in]GLfloat nx, [in]GLfloat ny, [in]GLfloat nz);
+	HRESULT Normal3fv([in]GLfloat *v);
+	HRESULT Normal3i([in]GLint nx, [in]GLint ny, [in]GLint nz);
+	HRESULT Normal3iv([in]GLint *v);
+	HRESULT Normal3s([in]GLshort nx, [in]GLshort ny, [in]GLshort nz);
+	HRESULT Normal3sv([in]GLshort *v);
+	HRESULT NormalPointer([in]GLenum type, [in]GLsizei stride, [out,size_is(stride)]BYTE *pointer);
+
+	HRESULT RasterPos2d([in]GLdouble x, [in]GLdouble y);
+	HRESULT RasterPos2dv([in]GLdouble *v);
+	HRESULT RasterPos2f([in]GLfloat x, [in]GLfloat y);
+	HRESULT RasterPos2fv([in]GLfloat *v);
+	HRESULT RasterPos2i([in]GLint x, [in]GLint y);
+	HRESULT RasterPos2iv([in]GLint *v);
+	HRESULT RasterPos2s([in]GLshort x, [in]GLshort y);
+	HRESULT RasterPos2sv([in]GLshort *v);
+	HRESULT RasterPos3d([in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT RasterPos3dv([in]GLdouble *v);
+	HRESULT RasterPos3f([in]GLfloat x, [in]GLfloat y, [in]GLfloat z);
+	HRESULT RasterPos3fv([in]GLfloat *v);
+	HRESULT RasterPos3i([in]GLint x, [in]GLint y, [in]GLint z);
+	HRESULT RasterPos3iv([in]GLint *v);
+	HRESULT RasterPos3s([in]GLshort x, [in]GLshort y, [in]GLshort z);
+	HRESULT RasterPos3sv([in]GLshort *v);
+	HRESULT RasterPos4d([in]GLdouble x, [in]GLdouble y, [in]GLdouble z, [in]GLdouble w);
+	HRESULT RasterPos4dv([in]GLdouble *v);
+	HRESULT RasterPos4f([in]GLfloat x, [in]GLfloat y, [in]GLfloat z, [in]GLfloat w);
+	HRESULT RasterPos4fv([in]GLfloat *v);
+	HRESULT RasterPos4i([in]GLint x, [in]GLint y, [in]GLint z, [in]GLint w);
+	HRESULT RasterPos4iv([in]GLint *v);
+	HRESULT RasterPos4s([in]GLshort x, [in]GLshort y, [in]GLshort z, [in]GLshort w);
+	HRESULT RasterPos4sv([in]GLshort *v);
+
+	HRESULT Rectd([in]GLdouble x1, [in]GLdouble y1, [in]GLdouble x2, [in]GLdouble y2);
+	HRESULT Rectdv([in]GLdouble *v1, [in]GLdouble *v2);
+	HRESULT Rectf([in]GLfloat x1, [in]GLfloat y1, [in]GLfloat x2, [in]GLfloat y2);
+	HRESULT Rectfv([in]GLfloat *v1, [in]GLfloat *v2);
+	HRESULT Recti([in]GLint x1, [in]GLint y1, [in]GLint x2, [in]GLint y2);
+	HRESULT Rectiv([in]GLint *v1, [in]GLint *v2);
+	HRESULT Rects([in]GLshort x1, [in]GLshort y1, [in]GLshort x2, [in]GLshort y2);
+	HRESULT Rectsv([in]GLshort *v1, [in]GLshort *v2);
+
+	HRESULT TexCoord1d([in]GLdouble s);
+	HRESULT TexCoord1dv([in]GLdouble *v);
+	HRESULT TexCoord1f([in]GLfloat s);
+	HRESULT TexCoord1fv([in]GLfloat *v);
+	HRESULT TexCoord1i([in]GLint s);
+	HRESULT TexCoord1iv([in]GLint *v);
+	HRESULT TexCoord1s([in]GLshort s);
+	HRESULT TexCoord1sv([in]GLshort *v);
+	HRESULT TexCoord2d([in]GLdouble s, [in]GLdouble t);
+	HRESULT TexCoord2dv([in]GLdouble *v);
+	HRESULT TexCoord2f([in]GLfloat s, [in]GLfloat t);
+	HRESULT TexCoord2fv([in]GLfloat *v);
+	HRESULT TexCoord2i([in]GLint s, [in]GLint t);
+	HRESULT TexCoord2iv([in]GLint *v);
+	HRESULT TexCoord2s([in]GLshort s, [in]GLshort t);
+	HRESULT TexCoord2sv([in]GLshort *v);
+	HRESULT TexCoord3d([in]GLdouble s, [in]GLdouble t, [in]GLdouble r);
+	HRESULT TexCoord3dv([in]GLdouble *v);
+	HRESULT TexCoord3f([in]GLfloat s, [in]GLfloat t, [in]GLfloat r);
+	HRESULT TexCoord3fv([in]GLfloat *v);
+	HRESULT TexCoord3i([in]GLint s, [in]GLint t, [in]GLint r);
+	HRESULT TexCoord3iv([in]GLint *v);
+	HRESULT TexCoord3s([in]GLshort s, [in]GLshort t, [in]GLshort r);
+	HRESULT TexCoord3sv([in]GLshort *v);
+	HRESULT TexCoord4d([in]GLdouble s, [in]GLdouble t, [in]GLdouble r, [in]GLdouble q);
+	HRESULT TexCoord4dv([in]GLdouble *v);
+	HRESULT TexCoord4f([in]GLfloat s, [in]GLfloat t, [in]GLfloat r, [in]GLfloat q);
+	HRESULT TexCoord4fv([in]GLfloat *v);
+	HRESULT TexCoord4i([in]GLint s, [in]GLint t, [in]GLint r, [in]GLint q);
+	HRESULT TexCoord4iv([in]GLint *v);
+	HRESULT TexCoord4s([in]GLshort s, [in]GLshort t, [in]GLshort r, [in]GLshort q);
+	HRESULT TexCoord4sv([in]GLshort *v);
+	HRESULT TexCoordPointer([in]GLint size, [in]GLenum type, [in]GLsizei stride, [out,size_is(size)]BYTE *pointer);
+
+	HRESULT Vertex2d([in]GLdouble x, [in]GLdouble y);
+	HRESULT Vertex2dv([in]GLdouble *v);
+	HRESULT Vertex2f([in]GLfloat x, [in]GLfloat y);
+	HRESULT Vertex2fv([in]GLfloat *v);
+	HRESULT Vertex2i([in]GLint x, [in]GLint y);
+	HRESULT Vertex2iv([in]GLint *v);
+	HRESULT Vertex2s([in]GLshort x, [in]GLshort y);
+	HRESULT Vertex2sv([in]GLshort *v);
+	HRESULT Vertex3d([in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT Vertex3dv([in]GLdouble *v);
+	HRESULT Vertex3f([in]GLfloat x, [in]GLfloat y, [in]GLfloat z);
+	HRESULT Vertex3fv([in]GLfloat *v);
+	HRESULT Vertex3i([in]GLint x, [in]GLint y, [in]GLint z);
+	HRESULT Vertex3iv([in]GLint *v);
+	HRESULT Vertex3s([in]GLshort x, [in]GLshort y, [in]GLshort z);
+	HRESULT Vertex3sv([in]GLshort *v);
+	HRESULT Vertex4d([in]GLdouble x, [in]GLdouble y, [in]GLdouble z, [in]GLdouble w);
+	HRESULT Vertex4dv([in]GLdouble *v);
+	HRESULT Vertex4f([in]GLfloat x, [in]GLfloat y, [in]GLfloat z, [in]GLfloat w);
+	HRESULT Vertex4fv([in]GLfloat *v);
+	HRESULT Vertex4i([in]GLint x, [in]GLint y, [in]GLint z, [in]GLint w);
+	HRESULT Vertex4iv([in]GLint *v);
+	HRESULT Vertex4s([in]GLshort x, [in]GLshort y, [in]GLshort z, [in]GLshort w);
+	HRESULT Vertex4sv([in]GLshort *v);
+	HRESULT VertexPointer([in]GLint size, [in]GLenum type, [in]GLsizei stride, [out,size_is(size)]BYTE *pointer);
+};
+
+[
+	uuid(00000000-4345-3004-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DUtil接口 提供三维建模, 三维操作等工具")
+]
+interface ICeE3DUtil : IDispatch {
+	HRESULT Ortho2D([in]GLdouble left, [in]GLdouble right, [in]GLdouble bottom, [in]GLdouble top);
+	HRESULT Perspective([in]GLdouble fovy, [in]GLdouble aspect, [in]GLdouble zNear, [in]GLdouble zFar);
+	HRESULT PickMatrix([in]GLdouble x, [in]GLdouble y, [in]GLdouble width, [in]GLdouble height, [in]GLint *viewport);
+	HRESULT LookAt([in]GLdouble eyex, [in]GLdouble eyey, [in]GLdouble eyez, [in]GLdouble centerx, [in]GLdouble centery, [in]GLdouble centerz, [in]GLdouble upx, [in]GLdouble upy, [in]GLdouble upz);
+	HRESULT DeleteQuadric([in]CeE3Dquadric state);
+	HRESULT QuadricNormals([in]CeE3Dquadric quadObject, [in]GLenum normals);
+	HRESULT QuadricTexture([in]CeE3Dquadric quadObject, [in]GLboolean textureCoords);
+	HRESULT QuadricOrientation([in]CeE3Dquadric quadObject, [in]GLenum orientation);
+	HRESULT QuadricDrawStyle([in]CeE3Dquadric quadObject, [in]GLenum drawStyle);
+	HRESULT Cylinder([in]CeE3Dquadric qobj, [in]GLdouble baseRadius, [in]GLdouble topRadius, [in]GLdouble height, [in]GLint slices, [in]GLint stacks);
+	HRESULT Disk([in]CeE3Dquadric qobj, [in]GLdouble innerRadius, [in]GLdouble outerRadius, [in]GLint slices, [in]GLint loops);
+	HRESULT PartialDisk([in]CeE3Dquadric qobj, [in]GLdouble innerRadius, [in]GLdouble outerRadius, [in]GLint slices, [in]GLint loops, [in]GLdouble startAngle, [in]GLdouble sweepAngle);
+	HRESULT Sphere([in]CeE3Dquadric qobj, [in]GLdouble radius, [in]GLint slices, [in]GLint stacks);
+	HRESULT QuadricCallback([in]CeE3Dquadric qobj, [in]GLenum which, [in]LONG callbackaddr);
+	HRESULT DeleteTess([in]CeE3Dtesselator tess);
+	HRESULT TessBeginPolygon([in]CeE3Dtesselator tess, [in, size_is(10)]BYTE *polygon_data);
+	HRESULT TessBeginContour([in]CeE3Dtesselator tess);
+	HRESULT TessVertex([in]CeE3Dtesselator tess,[in]GLdouble *coords, [in, size_is(10)]BYTE *data);
+	HRESULT TessEndContour([in]CeE3Dtesselator tess);
+	HRESULT TessEndPolygon([in]CeE3Dtesselator tess);
+	HRESULT TessProperty([in]CeE3Dtesselator tess,[in]GLenum which, [in]GLdouble value);
+	HRESULT TessNormal([in]CeE3Dtesselator tess, [in]GLdouble x, [in]GLdouble y, [in]GLdouble z);
+	HRESULT TessCallback([in]CeE3Dtesselator tess,[in]GLenum which, [in]LONG callbackaddr);
+	HRESULT GetTessProperty([in]CeE3Dtesselator tess,[in]GLenum which, [in]GLdouble *value);
+	HRESULT DeleteNurbsRenderer([in]CeE3Dnurbs nobj);
+	HRESULT BeginSurface([in]CeE3Dnurbs nobj);
+	HRESULT BeginCurve([in]CeE3Dnurbs nobj);
+	HRESULT EndCurve([in]CeE3Dnurbs nobj);
+	HRESULT EndSurface([in]CeE3Dnurbs nobj);
+	HRESULT BeginTrim([in]CeE3Dnurbs nobj);
+	HRESULT EndTrim([in]CeE3Dnurbs nobj);
+	HRESULT PwlCurve([in]CeE3Dnurbs nobj, [in]GLint count, [in]GLfloat *array, [in]GLint stride, [in]GLenum type);
+	HRESULT NurbsCurve([in]CeE3Dnurbs nobj, [in]GLint nknots, [in]GLfloat *knot, [in]GLint stride, [in]GLfloat *ctlarray, [in]GLint order, [in]GLenum type);
+	HRESULT NurbsSurface([in]CeE3Dnurbs nobj, [in]GLint sknot_count, [in]float *sknot, [in]GLint tknot_count, [in]GLfloat *tknot, [in]GLint s_stride, [in]GLint t_stride, [in]GLfloat *ctlarray, [in]GLint sorder, [in]GLint torder, [in]GLenum type);
+	HRESULT LoadSamplingMatrices([in]CeE3Dnurbs nobj, [in]GLfloat *modelMatrix, [in]GLfloat *projMatrix, [in]GLint *viewport);
+	HRESULT NurbsProperty([in]CeE3Dnurbs nobj, [in]GLenum property, [in]GLfloat value);
+	HRESULT GetNurbsProperty([in]CeE3Dnurbs nobj, [in]GLenum property, [in]GLfloat *value);
+	HRESULT NurbsCallback([in]CeE3Dnurbs nobj, [in]GLenum which, [in]LONG callbackaddr);
+
+	HRESULT BeginPolygon([in]CeE3Dtesselator tess);
+	HRESULT NextContour([in]CeE3Dtesselator tess,  [in]GLenum type);
+	HRESULT EndPolygon([in]CeE3Dtesselator tess);
+
+//	HRESULT ErrorString([in]GLenum errCode, [out, retval]GLubytes *ret);
+	HRESULT ErrorUnicodeString([in]GLenum errCode, [out, retval]BSTR *ret);
+	HRESULT GetString([in]GLenum name, [out, retval]BSTR *ret);
+	HRESULT NewQuadric([out, retval]CeE3Dquadric *ret);
+	HRESULT NewTess([out, retval]CeE3Dtesselator *ret);
+	HRESULT NewNurbsRenderer([out, retval]CeE3Dnurbs *ret);
+	HRESULT Project([in]GLdouble objx, [in]GLdouble objy, [in]GLdouble objz, [in]GLdouble *modelMatrix, [in]GLdouble *projMatrix, [in]GLint *viewport, [in]GLdouble *winx, [in]GLdouble *winy, [in]GLdouble *winz, [out, retval]int *ret);
+	HRESULT UnProject([in]GLdouble winx, [in]GLdouble winy, [in]GLdouble winz, [in]GLdouble *modelMatrix, [in]GLdouble *projMatrix, [in]GLint *viewport, [in]GLdouble *objx, [in]GLdouble *objy, [in]GLdouble *objz, [out, retval]int *ret);
+	HRESULT ScaleImage([in]GLenum format, [in]GLint widthin, [in]GLint heightin, [in]GLenum typein, [in, size_is(10)]BYTE *datain, [in]GLint widthout, [in]GLint heightout, [in]GLenum typeout, [in, size_is(10)]BYTE *dataout, [out, retval]int *ret);
+	HRESULT Build1DMipmaps([in]GLenum target, [in]GLint components, [in]GLint width, [in]GLenum format, [in]GLenum type, [in, size_is(10)]BYTE *data, [out, retval]int *ret);
+	HRESULT Build2DMipmaps([in]GLenum target, [in]GLint components, [in]GLint width, [in]GLint height, [in]GLenum format, [in]GLenum type, [in, size_is(10)]BYTE *data, [out, retval]int *ret);
+};
+
+[
+	uuid(00000000-4345-3005-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DEnv接口 提供环境诸如灯光、材质等设置")
+]
+interface ICeE3DEnv : IDispatch {
+	[helpstring("开启光照功能")]
+	HRESULT	StartLighting([out, retval]BOOL *ret);
+	[helpstring("关闭光照功能")]
+	HRESULT EndLighting([out, retval]BOOL *ret);
+	[helpstring("启动一盏灯, whichlight指定灯号0-7")]
+	HRESULT	EnableLight([in]GLint whichlight, [out, retval]BOOL *ret);
+	[helpstring("关闭一盏灯, whichlight指定灯号0-7")]
+	HRESULT DisableLight([in]GLint whichLight, [out, retval]BOOL *ret);
+	[helpstring("设置光照模型中的全场环境光, ambient指向色彩向量")]
+	HRESULT SetAmbientModelfv([in, size_is(4)]GLfloat *params, [out, retval]BOOL *ret);
+	[helpstring("设置光照模型中的本地视点模式, bEnable=TRUE将设置为本地视点模式, 否则设置为无穷远点模式")]
+	HRESULT SetLocalViewerModel([in]BOOL bEnable, [out, retval]BOOL *ret);
+	[helpstring("设置光照模型中的双面光照模式, bEnable=TRUE将设置为双面光照, 否则设置为单面光照")]
+	HRESULT SetTwoSideModel([in]BOOL bEnable, [out, retval]BOOL *ret);
+	[helpstring("设置指定灯光的环境光属性. 环境光有时又称泛光, 它经过环境的多次散射, 已经不可能确定其方向, 而是好像来自各个方向. 环境光作用于物体表面时, 将沿各个方向均匀反射. 例如房间中的逆光. ")]
+	HRESULT SetLightAmbientf([in]GLint whichlight, [in]GLfloat red, [in]GLfloat green, [in]GLfloat blue, [in]GLfloat alpha, [out, retval]BOOL *ret);
+	[helpstring("设置指定灯光的漫反射光属性. 漫反射光来自一个方向, 但作用于物体表面上后将沿各个方向均匀散射, 来自任一确定位置或方向的光线中都可能含有漫反射光成分. ")]
+	HRESULT SetLightDiffusef([in]GLint whichlight, [in]GLfloat red, [in]GLfloat green, [in]GLfloat blue, [in]GLfloat alpha, [out, retval]BOOL *ret);
+	[helpstring("设置指定灯光的镜面反射光属性. 镜面反射光来自一特定方向, 并沿一特定方向离开. 光亮的金属和塑料表面的反射光中含有许多镜面反射成分")]
+	HRESULT SetLightSpecularf([in]GLint whichlight, [in]GLfloat red, [in]GLfloat green, [in]GLfloat blue, [in]GLfloat alpha, [out, retval]BOOL *ret);
+	//[helpstring("设置指定灯光的辐射光属性. 辐射光是最简单的一种成分, 它源自发光体, 并且不受其它光源的影响. 例如太阳光和灯光")]
+	[helpstring("设置指定灯光的位置. 当w=0时灯光为无穷远有向光")]
+	HRESULT SetLightPositionf([in]GLint whichlight, [in]GLfloat x, [in]GLfloat y, [in]GLfloat z, [in]GLfloat w, [out, retval]BOOL *ret);
+	[helpstring("设置聚光灯投射方向")]
+	HRESULT SetLightSpotDirectionf([in]GLint whichlight, [in]GLfloat x, [in]GLfloat y, [in]GLfloat z, [out, retval]BOOL *ret);
+	[helpstring("设置聚光灯指数. 指数值确定锥形光柱内光线的会聚程度. 锥形光柱内与聚光灯投射方向夹角为a的方向上的光强, 由投射方向上的光强与修正因子(cosa)^exponent的乘积所决定")]
+	HRESULT SetLightSpotExponentf([in]GLint whichlight, [in]GLfloat exponent, [out, retval]BOOL *ret);
+	[helpstring("设置聚光灯截止角度. 也就是锥形光柱的张角. 张角的大小由锥形母线与圆锥轴线夹角的两倍所确定. ")]
+	HRESULT SetLightSpotCutofff([in]GLint whichlight, [in]GLfloat cutoff, [out, retval]BOOL *ret);
+	[helpstring("设置衰减因子, 衰减因子=1/(Kc+Kld+Kqd), 其中Kc,Kl,Kd分别为定常衰减因子, 线性衰减因子, 二次衰减因子; d为光源和顶点间的距离")]
+	HRESULT SetLightAttenuationf([in]GLint whichlight, [in]GLfloat quadratic, [in]GLfloat linear, [in]GLfloat constant, [out, retval]BOOL *ret);
+	[helpstring("设置定常衰减因子, 默认1.0")]
+	HRESULT SetLightConstantAttenuationf([in]GLint whichlight, [in]GLfloat attenuation, [out, retval]BOOL *ret);
+	[helpstring("设置线性衰减因子, 默认0.0")]
+	HRESULT SetLightLinearAttenuationf([in]GLint whichlight, [in]GLfloat attenuation, [out, retval]BOOL *ret);
+	[helpstring("设置二次衰减因子, 默认0.0")]
+	HRESULT SetLightQuadraticAttenuationf([in]GLint whichlight, [in]GLfloat attenuation, [out, retval]BOOL *ret);
+
+};
+
+[
+	uuid(00000000-4345-3006-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE3DRender接口 提供着色相关设置")
+]
+interface ICeE3DRender : IDispatch {
+	[helpstring("设置光照模式为平面模式")]
+	HRESULT ShadeFlat();
+	[helpstring("设置光照模式为平滑模式")]
+	HRESULT ShadeSmooth();
+	[helpstring("设置深度函数")]
+	HRESULT SetDepthFunc([in]DEPTHFUNCENUM func);
+};
+
+import "CeE3DControlIdl.idl";
+
+[
+	uuid(00000000-4345-3000-0004-486954656368),
+	version(1.1),
+	helpstring("CampoEngine.Easy3D 类型库 草原图像引擎/草原随意三维引擎 1.1")
+]
+library CeE3DLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4345-3001-0002-486954656368),
+		helpstring("草原随意三维辅助库")
+	]
+	coclass CeE3DAux {
+		[default]interface ICeE3DAux;
+	};
+
+	[
+		uuid(00000000-4345-3002-0002-486954656368),
+		helpstring("草原随意三维基本库")
+	]
+	coclass CeE3DBase {
+		[default]interface ICeE3DBase;
+	};
+
+	[
+		uuid(00000000-4345-3003-0002-486954656368),
+		helpstring("草原随意三维基本建模库")
+	]
+	coclass CeE3DModel {
+		[default]interface ICeE3DModel;
+	};
+
+	[
+		uuid(00000000-4345-3004-0002-486954656368),
+		helpstring("草原随意三维工具库")
+	]
+	coclass CeE3DUtil {
+		[default]interface ICeE3DUtil;
+	};
+
+	[
+		uuid(00000000-4345-3005-0002-486954656368),
+		helpstring("草原随意三维环境库")
+	]
+	coclass CeE3DEnv {
+		[default]interface ICeE3DEnv;
+	};
+
+	[
+		uuid(00000000-4345-3006-0002-486954656368),
+		helpstring("草原随意三维着色库")
+	]
+	coclass CeE3DRender {
+		[default]interface ICeE3DRender;
+	};
+
+	[
+		uuid(00000000-4345-3007-0002-486954656368),
+		helpstring("草原随意三维控制库")
+	]
+	coclass CeE3DControl {
+		[default]interface ICeE3DControl;
+	};
+
+	import "CeE3DWglIdl.idl";
+
+
+	[
+		uuid(00000000-4345-3000-0007-486954656368),
+		dllname("OpenGL32.dll"),
+		helpstring("Windows支持库")
+	]
+	module CeE3DWindowsModule {
+		long const CEE3DW_SWAP_MAIN_PLANE		= 0x00000001;
+		long const CEE3DW_SWAP_OVERLAY1			= 0x00000002;
+		long const CEE3DW_SWAP_OVERLAY2			= 0x00000004;
+		long const CEE3DW_SWAP_OVERLAY3			= 0x00000008;
+		long const CEE3DW_SWAP_OVERLAY4			= 0x00000010;
+		long const CEE3DW_SWAP_OVERLAY5			= 0x00000020;
+		long const CEE3DW_SWAP_OVERLAY6			= 0x00000040;
+		long const CEE3DW_SWAP_OVERLAY7			= 0x00000080;
+		long const CEE3DW_SWAP_OVERLAY8			= 0x00000100;
+		long const CEE3DW_SWAP_OVERLAY9			= 0x00000200;
+		long const CEE3DW_SWAP_OVERLAY10		= 0x00000400;
+		long const CEE3DW_SWAP_OVERLAY11		= 0x00000800;
+		long const CEE3DW_SWAP_OVERLAY12		= 0x00001000;
+		long const CEE3DW_SWAP_OVERLAY13		= 0x00002000;
+		long const CEE3DW_SWAP_OVERLAY14		= 0x00004000;
+		long const CEE3DW_SWAP_OVERLAY15		= 0x00008000;
+		long const CEE3DW_SWAP_UNDERLAY1		= 0x00010000;
+		long const CEE3DW_SWAP_UNDERLAY2		= 0x00020000;
+		long const CEE3DW_SWAP_UNDERLAY3		= 0x00040000;
+		long const CEE3DW_SWAP_UNDERLAY4		= 0x00080000;
+		long const CEE3DW_SWAP_UNDERLAY5		= 0x00100000;
+		long const CEE3DW_SWAP_UNDERLAY6		= 0x00200000;
+		long const CEE3DW_SWAP_UNDERLAY7		= 0x00400000;
+		long const CEE3DW_SWAP_UNDERLAY8		= 0x00800000;
+		long const CEE3DW_SWAP_UNDERLAY9		= 0x01000000;
+		long const CEE3DW_SWAP_UNDERLAY10		= 0x02000000;
+		long const CEE3DW_SWAP_UNDERLAY11		= 0x04000000;
+		long const CEE3DW_SWAP_UNDERLAY12		= 0x08000000;
+		long const CEE3DW_SWAP_UNDERLAY13		= 0x10000000;
+		long const CEE3DW_SWAP_UNDERLAY14		= 0x20000000;
+		long const CEE3DW_SWAP_UNDERLAY15		= 0x40000000;
+
+		long const CEE3DW_SWAPMULTIPLE_MAX		= 16;
+
+		long const CEE3DW_FONT_LINES			= 0;
+		long const CEE3DW_FONT_POLYGONS		= 1;
+
+		long const CELPD_DOUBLEBUFFER			= 0x00000001;
+		long const CELPD_STEREO			= 0x00000002;
+		long const CELPD_SUPPORT_GDI			= 0x00000010;
+		long const CELPD_SUPPORT_OPENGL		= 0x00000020;
+		long const CELPD_SHARE_DEPTH			= 0x00000040;
+		long const CELPD_SHARE_STENCIL			= 0x00000080;
+		long const CELPD_SHARE_ACCUM			= 0x00000100;
+		long const CELPD_SWAP_EXCHANGE			= 0x00000200;
+		long const CELPD_SWAP_COPY			= 0x00000400;
+		long const CELPD_TRANSPARENT			= 0x00001000;
+
+		long const CELPD_TYPE_RGBA			= 0;
+		long const CELPD_TYPE_COLORINDEX		= 1;
+
+		long const CEPFD_TYPE_RGBA			= 0;
+		long const CEPFD_TYPE_COLORINDEX		= 1;
+
+		long const CEPFD_MAIN_PLANE			= 0;
+		long const CEPFD_OVERLAY_PLANE			= 1;
+		long const CEPFD_UNDERLAY_PLANE		= (-1);
+
+		long const CEPFD_DOUBLEBUFFER			= 0x00000001;
+		long const CEPFD_STEREO			= 0x00000002;
+		long const CEPFD_DRAW_TO_WINDOW		= 0x00000004;
+		long const CEPFD_DRAW_TO_BITMAP		= 0x00000008;
+		long const CEPFD_SUPPORT_GDI			= 0x00000010;
+		long const CEPFD_SUPPORT_OPENGL		= 0x00000020;
+		long const CEPFD_GENERIC_FORMAT		= 0x00000040;
+		long const CEPFD_NEED_PALETTE			= 0x00000080;
+		long const CEPFD_NEED_SYSTEM_PALETTE		= 0x00000100;
+		long const CEPFD_SWAP_EXCHANGE			= 0x00000200;
+		long const CEPFD_SWAP_COPY			= 0x00000400;
+		long const CEPFD_SWAP_LAYER_BUFFERS		= 0x00000800;
+		long const CEPFD_GENERIC_ACCELERATED		= 0x00001000;
+		long const CEPFD_SUPPORT_DIRECTDRAW		= 0x00002000;
+
+		long const CEPFD_DEPTH_DONTCARE		= 0x20000000;
+		long const CEPFD_DOUBLEBUFFER_DONTCARE		= 0x40000000;
+		long const CEPFD_STEREO_DONTCARE		= 0x80000000;
+
+		[entry("wglCopyContext")]
+		BOOL	_stdcall CeE3DWCopyContext(HGLRC hglrcsrc, HGLRC hglrcdest, UINT mask);
+		[entry("wglCreateContext")]
+		HGLRC	_stdcall CeE3DWCreateContext(HDC hdc);
+		[entry("wglCreateLayerContext")]
+		HGLRC	_stdcall CeE3DWCreateLayerContext(HDC hdc, int iLayerPlane);
+		[entry("wglDeleteContext")]
+		BOOL	_stdcall CeE3DWDeleteContext(HGLRC hglrc);
+		[entry("wglGetCurrentContext")]
+		HGLRC	_stdcall CeE3DWGetCurrentContext();
+		[entry("wglGetCurrentDC")]
+		HDC	_stdcall CeE3DWGetCurrentDC();
+		[entry("wglGetProcAddress")]
+		LONG	_stdcall CeE3DWGetProcAddress(LPCSTR lpszProc);
+		[entry("wglMakeCurrent")]
+		BOOL	_stdcall CeE3DWMakeCurrent(HDC hdc, HGLRC hglrc);
+		[entry("wglShareLists")]
+		BOOL	_stdcall CeE3DWShareLists(HGLRC hglrc1, HGLRC hglrc2);
+		[entry("wglUseFontBitmapsA")]
+		BOOL	_stdcall CeE3DWUseFontBitmapsA(HDC hdc, LONG first, LONG count, LONG listbase);
+		[entry("wglUseFontBitmapsW")]
+		BOOL	_stdcall CeE3DWUseFontBitmapsW(HDC hdc, LONG first, LONG count, LONG listbase);
+		[entry("wglUseFontOutlinesA")]
+		BOOL	_stdcall CeE3DWUseFontOutlinesA(HDC hdc, LONG first, LONG count, LONG listbase, float deviation, float extrusion, int format, LPGLYPHMETRICSFLOAT lpgmf);
+		[entry("wglUseFontOutlinesW")]
+		BOOL	_stdcall CeE3DWUseFontOutlinesW(HDC hdc, LONG first, LONG count, LONG listbase, float deviation, float extrusion, int format, LPGLYPHMETRICSFLOAT lpgmf);
+		[entry("wglDescribeLayerPlane")]
+		BOOL	_stdcall CeE3DWDescribeLayerPlane(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nBytes, LPLAYERPLANEDESCRIPTOR plpd);
+		[entry("wglSetLayerPaletteEntries")]
+		int	_stdcall CeE3DWSetLayerPaletteEntries(HDC hdc, int iLayerPlane, int iStart, int cEntries, COLORREF *pcr);
+		[entry("wglGetLayerPaletteEntries")]
+		int	_stdcall CeE3DWGetLayerPaletteEntries(HDC hdc, int iLayerPlane, int iStart, int cEntries, COLORREF *pcr);
+		[entry("wglRealizeLayerPalette")]
+		BOOL	_stdcall CeE3DWRealizeLayerPalette(HDC hdc, int iLayerPlane, BOOL bRealize);
+		[entry("wglSwapLayerBuffers")]
+		BOOL	_stdcall CeE3DWSwapLayerBuffers(HDC hdc, UINT fuPlanes);
+		[entry("wglSwapMultipleBuffers")]
+		LONG	_stdcall CeE3DWSwapMultipleBuffers(UINT hdc, LONG unknown_);
+
+		[entry("SwapBuffers")]
+		BOOL  _stdcall CeE3DWSwapBuffers(HDC hdc);
+
+	};
+
+};

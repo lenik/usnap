@@ -1,0 +1,21 @@
+HKCR {
+	CampoEngine.CeE3DControl.1 = s 'CeE3DControl class ' {
+		CLSID = s '{00000000-4345-3007-0002-486954656368}'
+	}
+	CampoEngine.CeE3DControl = s 'CeE3DControl class ' {
+		CLSID = s '{00000000-4345-3007-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE3DControl.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4345-3007-0002-486954656368} = s 'CeE3DControl' {
+			ProgID = s 'CampoEngine.CeE3DControl.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE3DControl'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4345-3007-0001-486954656368} = s 'ICeE3DControl'
+	}
+}

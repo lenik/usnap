@@ -1,0 +1,23 @@
+HKCR {
+	OceanEngine.OeTCodedStream.1 = s 'OeTCodedStream class ' {
+		CLSID = s '{00000000-4F45-0120-0002-486954656368}'
+	}
+	OceanEngine.OeTCodedStream = s 'OeTCodedStream class ' {
+		CLSID = s '{00000000-4F45-0120-0002-486954656368}'
+		CurVer = s 'OceanEngine.OeTCodedStream.1'
+	}
+
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0120-0002-486954656368} = s 'OeTCodedStream' {
+			ProgID = s 'OceanEngine.OeTCodedStream.1'
+			VersionIndependentProgID = s 'OceanEngine.OeTCodedStream'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0120-0001-486954656368} = s 'IOeTCodedStream'
+	}
+}

@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOApplication.1 = s 'OeSOApplication class ' {
+		CLSID = s '{00000000-4F45-0660-0002-486954656368}'
+		Description = s 'OeSOApplication应用体类, 管理类和接口集合'
+	}
+	OceanEngine.OeSOApplication = s 'OeSOApplication class ' {
+		CLSID = s '{00000000-4F45-0660-0002-486954656368}'
+		Description = s 'OeSOApplication应用体类, 管理类和接口集合'
+		CurVer = s 'OceanEngine.OeSOApplication.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0660-0002-486954656368} = s 'OeSOApplication' {
+			ProgID = s 'OceanEngine.OeSOApplication.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOApplication'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOApplication应用体类, 管理类和接口集合'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0660-0001-486954656368} = s 'IOeSOApplication'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOApplication = s '{00000000-4F45-0660-0002-486954656368}' {
+				val ClassName = s 'OeSOApplication'
+				val Description = s '应用体类, 管理类和接口集合'
+				val InterfaceImpl = s 'IOeSOApplication'
+			}
+		}
+	}
+}

@@ -1,0 +1,70 @@
+HKCR {
+	CampoEngine.CeE2DBase.1 = s 'CeE2DBase class ' {
+		CLSID = s '{00000000-4345-2000-0002-486954656368}'
+	}
+	CampoEngine.CeE2DBase = s 'CeE2DBase class ' {
+		CLSID = s '{00000000-4345-2000-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE2DBase.1'
+	}
+
+	CampoEngine.CeE2DDevice.1 = s 'CeE2DDevice class ' {
+		CLSID = s '{00000000-4345-2001-0002-486954656368}'
+	}
+	CampoEngine.CeE2DDevice = s 'CeE2DDevice class ' {
+		CLSID = s '{00000000-4345-2001-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE2DDevice.1'
+	}
+
+	CampoEngine.CeE2DPage.1 = s 'CeE2DPage class ' {
+		CLSID = s '{00000000-4345-2002-0002-486954656368}'
+	}
+	CampoEngine.CeE2DPage = s 'CeE2DPage class ' {
+		CLSID = s '{00000000-4345-2002-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE2DPage.1'
+	}
+
+	CampoEngine.CeE2DAux.1 = s 'CeE2DAux class ' {
+		CLSID = s '{00000000-4345-2003-0002-486954656368}'
+	}
+	CampoEngine.CeE2DAux = s 'CeE2DAux class ' {
+		CLSID = s '{00000000-4345-2003-0002-486954656368}'
+		CurVer = s 'CampoEngine.CeE2DAux.1'
+	}
+
+	NoRemove CLSID {
+		ForceRemove {00000000-4345-2000-0002-486954656368} = s 'CeE2DBase' {
+			ProgID = s 'CampoEngine.CeE2DBase.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE2DBase'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-2001-0002-486954656368} = s 'CeE2DDevice' {
+			ProgID = s 'CampoEngine.CeE2DDevice.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE2DDevice'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-2002-0002-486954656368} = s 'CeE2DPage' {
+			ProgID = s 'CampoEngine.CeE2DPage.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE2DPage'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+		ForceRemove {00000000-4345-2003-0002-486954656368} = s 'CeE2DAux' {
+			ProgID = s 'CampoEngine.CeE2DAux.1'
+			VersionIndependentProgID = s 'CampoEngine.CeE2DAux'
+			InprocServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4345-2000-0001-486954656368} = s 'ICeE2DBase'
+		ForceRemove {00000000-4345-2001-0001-486954656368} = s 'ICeE2DDevice'
+		ForceRemove {00000000-4345-2002-0001-486954656368} = s 'ICeE2DPage'
+		ForceRemove {00000000-4345-2003-0001-486954656368} = s 'ICeE2DAux'
+	}
+}

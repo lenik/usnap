@@ -1,0 +1,197 @@
+// CeLiImages.idl : IDL source for CeLiImages.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CeLiImages.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	interface ICeLIDevice;		// 1200 设备
+
+	interface ICeLIBits;		// 1201 一元位操作
+	interface ICeLIBits2;		// 1202 二元位操作
+	interface ICeLIBitsX;		// 1203 多元位操作
+
+	interface ICeLIBlocks;		// 1204 BSD 块操作
+	interface ICeLILine;		//	BSD 分割线
+
+[
+	uuid(00000000-4345-1200-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLIDevice")
+] interface ICeLIDevice : IDispatch {
+	[id(0), propget]HRESULT bitsVal([in]LONG x, [in]LONG y, [out, retval]LONG *ret);
+	[id(0), propput]HRESULT bitsVal([in]LONG x, [in]LONG y, [in]LONG newBits);
+
+	[id(1), propget]HRESULT bindHandle([out, retval]LONG *ret);
+	[id(1), propput]HRESULT bindHandle([in]LONG bindHandle);
+
+	[id(2), propget]HRESULT bitsWidth([out, retval]LONG *ret);
+	[id(2), propput]HRESULT bitsWidth([in]LONG width);
+	[id(3), propget]HRESULT bitsHeight([out, retval]LONG *ret);
+	[id(3), propput]HRESULT bitsHeight([in]LONG height);
+	[id(4), propget]HRESULT bitsPitch([out, retval]LONG *ret);
+	[id(4), propput]HRESULT bitsPitch([in]LONG pitch);
+	[id(5), propget]HRESULT bitsDepth([out, retval]LONG *ret);
+	[id(5), propput]HRESULT bitsDepth([in]LONG pitch);
+
+	[id(16), propget]HRESULT outLeft([out, retval]LONG *ret);
+	[id(16), propput]HRESULT outLeft([in]LONG l);
+	[id(17), propget]HRESULT outTop([out, retval]LONG *ret);
+	[id(17), propput]HRESULT outTop([in]LONG l);
+	[id(18), propget]HRESULT outWidth([out, retval]LONG *ret);
+	[id(18), propput]HRESULT outWidth([in]LONG l);
+	[id(19), propget]HRESULT outHeight([out, retval]LONG *ret);
+	[id(19), propput]HRESULT outHeight([in]LONG l);
+
+	[id(20), propget]HRESULT currentX([out, retval]LONG *ret);
+	[id(20), propput]HRESULT currentX([in]LONG cx);
+	[id(21), propget]HRESULT currentY([out, retval]LONG *ret);
+	[id(21), propput]HRESULT currentY([in]LONG cx);
+
+	[id(128), propget]HRESULT bitsPointer([out, retval]LONG *ret);
+	[id(128), propput]HRESULT bitsPointer([in]LONG newPointer);
+
+	HRESULT outX([in]LONG inX, [out, retval]LONG *ret);
+	HRESULT outY([in]LONG inY, [out, retval]LONG *ret);
+	HRESULT inX([in]LONG outX, [out, retval]LONG *ret);
+	HRESULT inY([in]LONG outY, [out, retval]LONG *ret);
+
+	HRESULT getPixel([in]LONG x, [in]LONG y, [out, retval]LONG *ret);
+	HRESULT setPixel([in]LONG x, [in]LONG y, [in]LONG color);
+	HRESULT setLine([in]LONG x0, [in]LONG y0, [in]LONG x1, [in]LONG y1, [in]LONG color);
+	HRESULT setRect([in]LONG x0, [in]LONG y0, [in]LONG x1, [in]LONG y1, [in]LONG color);
+	HRESULT moveTo([in]LONG x, [in]LONG y);
+	HRESULT lineTo([in]LONG x, [in]LONG y);
+	HRESULT lineStepTo([in]LONG dx, [in]LONG dy);
+};
+
+[
+	uuid(00000000-4345-1201-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLIBits")
+] interface ICeLIBits : IDispatch {
+	HRESULT Mosaic();
+};
+
+[
+	uuid(00000000-4345-1202-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLIBits2")
+] interface ICeLIBits2 : IDispatch {
+	HRESULT Blit(
+		[in]ICeLIDevice *cldDest,
+		[in]LONG destx, [in]LONG desty, [in]LONG width, [in]LONG height,
+		[in]LONG Rop);
+};
+
+[
+	uuid(00000000-4345-1203-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLIBitsX")
+] interface ICeLIBitsX : IDispatch {
+};
+
+[
+	uuid(00000000-4345-1204-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLIBlocks")
+] interface ICeLIBlocks : IDispatch {
+	[id(0), propget, helpstring("根据bsd描述获取块或线对象")]
+	HRESULT contents([in]VARIANT bsd, [out, retval]IDispatch **ret);
+
+	[id(1), propget, helpstring("根据自由块描述获取块对象")]
+	HRESULT freeBlocks([in]VARIANT freeblockdesc, [out, retval]ICeLIBlocks **ret);
+
+	[id(2), propget, helpstring("根据定格块描述获取块对象")]
+	HRESULT fixBlocks([in]VARIANT fixblockdesc, [out, retval]ICeLIBlocks **ret);
+
+	[id(3), propget, helpstring("根据分割线描述获取线对象")]
+	HRESULT cutLines([in]VARIANT cutlinedesc, [out, retval]??);
+
+	[helpstring("加入自由块. 自由块是一种自定义块, 可以动态生成定格块以及导出分割线. ")]
+	HRESULT addFreeBlock([in]BSTR blockname, [in]double left, [in]double top, [in]double right, [in]double bottom, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("加入定格块(实际上是加入定格描述, 定格块不占用存储空间), w_seps和h_seps指定水平和垂直的分割数, x0_offset和y0_offset指定第一单元的偏移. ")]
+	HRESULT addFixBlock([in]BSTR blockname, [in]double w_seps, [in]double h_seps, [in]double x0_offset, [in]double y0_offset, [out, retval]VARIANT_BOOL *ret);
+
+	[helpstring("加入分割线. 分割线可以到出块(包括围块和切块). ")]
+	HRESULT addCutLine([in]BSTR linename, [in]double x0, [in]double y0, [in]double x1, [in]double y1, [out, retval]VARIANT_BOOL *ret);
+
+};
+
+[
+	uuid(00000000-4345-1205-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeLILine")
+] interface ICeLILine : IDispatch {
+};
+
+[
+	uuid(00000000-4345-1200-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.CeLiImages 类型库 草原图像引擎/草原轻型二维图像引擎 1.0")
+]
+library CeLiImagesLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(00000000-4345-1200-0002-486954656368),
+		helpstring("CeLIDevice")
+	] coclass CeLIDevice {
+		[default]interface ICeLIDevice;
+	};
+
+	[
+		uuid(00000000-4345-1201-0002-486954656368),
+		helpstring("CeLIBits")
+	] coclass CeLIBits {
+		[default]interface ICeLIBits;
+	};
+
+	[
+		uuid(00000000-4345-1202-0002-486954656368),
+		helpstring("CeLIBits2")
+	] coclass CeLIBits2 {
+		[default]interface ICeLIBits2;
+	};
+
+	[
+		uuid(00000000-4345-1203-0002-486954656368),
+		helpstring("CeLIBitsX")
+	] coclass CeLIBitsX {
+		[default]interface ICeLIBitsX;
+	};
+
+	[
+		uuid(00000000-4345-1204-0002-486954656368),
+		helpstring("CeLIBlocks BSD(块分割)1.0 与设备无关基于块图像处理库")
+	] coclass CeLIBlocks {
+		[default]interface ICeLIBlocks;
+	};
+
+	[
+		uuid(00000000-4345-1204-0002????-486954656368),
+		helpstring("CeliLine BSD(块分割)1.0 分割线")
+	] coclass CeLILine {
+		[default]interface ICeLILine;
+	};
+
+	[
+		uuid(00000000-4345-1200-0007-486954656368),
+		dllname("CeLiImg.dll"),
+		helpstring("CeLIColor Module")
+	] module CeLIColor {
+		[entry("rgb24Plus")]
+		HRESULT _stdcall CeLIColorRgb24Plus([in]LONG c1, [in]LONG c2, [out, retval]LONG *ret);
+	};
+};

@@ -1,0 +1,44 @@
+
+EXPORTS
+
+	FIBBF		= FI_BitBlt_Fn
+	FIBBSF		= FI_BitBlt_Simple_Fn
+	FIBBSA		= FI_BitBlt_Simple_Add
+	FIBBSS		= FI_BitBlt_Simple_Sub
+	FIBBSM		= FI_BitBlt_Simple_Mul
+	FIBBSD		= FI_BitBlt_Simple_Div
+	FIBBM		= FI_BitBlt_Merge
+	FIBBAF		= FI_BitBlt_Alpha_Fn
+	FIBBAS		= FI_BitBlt_Alpha_Simple
+	FIBBAM		= FI_BitBlt_Alpha_Merge
+	FIBBLAH		= FI_BitBlt_LinearAlpha_H
+	FIBBLAV		= FI_BitBlt_LinearAlpha_V
+	FIBBLAEx	= FI_BitBlt_LinearAlpha_Ex
+	FIBBEF		= FI_BitBlt_Extend_Fn
+
+	FIBBC_C		= FI_BitBlt_Call_Copy
+	FIBBC_O		= FI_BitBlt_Call_Order
+
+	FIBBC_A		= FI_BitBlt_Call_Add
+	FIBBC_S		= FI_BitBlt_Call_Sub
+	FIBBC_M		= FI_BitBlt_Call_Mul
+	FIBBC_D		= FI_BitBlt_Call_Div
+	FIBBCL		= FI_BitBlt_Call_Light
+	FIBBCD		= FI_BitBlt_Call_Dark
+
+	FIBBCM		= FI_BitBlt_Call_Merge
+	FIBBCA		= FI_BitBlt_Call_Alpha
+	FIBBCAM		= FI_BitBlt_Call_Alpha_Merge
+
+	FIIA		= FI_Init_Alpha
+	FIBB_GetAlpha	= FI_BitBlt_GetAlpha
+	FIBB_Var	= FI_BitBlt_Vars
+
+	FIBBEB		= FI_BitBlt_E_Blur
+	FIBBECB		= FI_BitBlt_E_Call_Blur
+	FIBBES		= FI_BitBlt_E_Scan
+	FIBBECS		= FI_BitBlt_E_Call_Scan
+	FIBBEG		= FI_BitBlt_E_Gradient
+	FIBBECG		= FI_BitBlt_E_Call_Gradient
+
+	FIBBEBr		= FI_BitBlt_E_Brick

@@ -1,0 +1,35 @@
+// CeS.idl : IDL source for CeS.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CeS.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+interface ICeSDevice;
+
+interface ICeSBits;
+interface ICeSBits2;
+interface ICeSBitsX;
+
+
+[
+	uuid(00000000-4345-6100-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.Soundwave 类型库 草原多媒体引擎.草原声波引擎 1.0")
+]
+library CeSLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	interface ICeSDevice;
+	dispinterface ICeSDeviceEvents;
+
+	interface ICeSBits;
+	interface ICeSBits2;
+	interface ICeSBitsX;
+
+};

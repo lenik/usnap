@@ -1,0 +1,107 @@
+// CeE2D.idl : IDL source for CeE2D.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CeE2D.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+cpp_quote("#if 0")
+	typedef LONG	HWND;
+	typedef LONG	HDC;
+cpp_quote("#endif")
+
+interface ICeE2DPage;
+
+[
+	uuid(00000000-4345-2000-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE2DDevice")
+] interface ICeE2DBase : IDispatch {
+	[helpstring("设置分辨率, 若width或height==0将设置为窗口模式. depth指定颜色位数, 将影响到表面的创建. ")]
+	HRESULT Resolution([in]LONG width, [in]LONG height, [in]LONG depth, [out, retval]BOOL *ret);
+	[helpstring("创建页面, nAdditionPages指定附加缓存页面数, 用于页面切换. ")]
+	HRESULT CreatePage([in]LONG width, [in]LONG height, [in]LONG nAdditionPages, [in]BOOL bOffScreen, [out, retval]ICeE2DPage **ret);
+};
+
+// coclass CeE2DDevice --o ICeLiDevice
+
+[
+	uuid(00000000-4345-2002-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE2DPage")
+] interface ICeE2DPage : IDispatch {
+	HRESULT NextPage([out, retval]ICeE2DPage **ret);
+	HRESULT SwapPage();
+	HRESULT DrawBegin([out, retval]HDC *ret);
+	HRESULT DrawEnd();
+	HRESULT ProcessBegin([out, retval]LONG *ret);
+	HRESULT ProcessEnd();
+	HRESULT BitBlt(
+		[in]ICeE2DPage *pdest,
+		[in]LONG destx, [in]LONG desty, [in]LONG width, [in]LONG height,
+		[in]LONG srcx, [in]LONG srcy,
+		[in]LONG rop);
+};
+
+[
+	uuid(00000000-4345-2003-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("ICeE2DAux"),
+] interface ICeE2DAux : IDispatch {
+};
+
+
+[
+	uuid(00000000-4345-2000-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.Easy2D 类型库 草原图像引擎/草原随意二维引擎 1.0")
+] library CeE2DLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	importlib("CeLiImg.dll");
+
+	[
+		uuid(00000000-4345-2000-0002-486954656368),
+		helpstring("草原随意二维基本库")
+	] coclass CeE2DBase {
+		[default]interface ICeE2DBase;
+	};
+
+	[
+		uuid(00000000-4345-2001-0002-486954656368),
+		helpstring("草原随意二维设备库-o ICeLIDevice 连接到CeLiImages引擎")
+	] coclass CeE2DDevice {
+		[default]interface ICeLIDevice;
+	};
+
+	[
+		uuid(00000000-4345-2002-0002-486954656368),
+		helpstring("草原随意二维页面库")
+	] coclass CeE2DPage {
+		[default]interface ICeE2DPage;
+	};
+
+	[
+		uuid(00000000-4345-2003-0002-486954656368),
+		helpstring("草原随意二维辅助库")
+	] coclass CeE2DAux {
+		[default]interface ICeE2DAux;
+	};
+
+	[
+		uuid(00000000-4345-2000-0007-486954656368),
+		dllname("CeE2D.dll"),
+		helpstring("草原随意二维引擎")
+	] module CeE2DModule {
+		[
+			entry("CreateCeE2D"),
+			helpstring("建立草原随意二维基本库对象, 这是进行所有其它操作的基础. hMainWnd是主窗口句柄, 必须提供一个主窗口句柄。")
+		] HRESULT _stdcall CreateCeE2D([in]HWND hMainWnd, [out, retval]ICeE2DBase **ret);
+	};
+};

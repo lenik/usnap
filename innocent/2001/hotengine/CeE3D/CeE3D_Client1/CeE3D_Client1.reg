@@ -1,0 +1,13 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+
+HKEY_CLASSES_ROOT\CeE3DClient1.Document = CeE3D_ Document
+HKEY_CLASSES_ROOT\CeE3DClient1.Document\CLSID = {DCDD6AA6-9B6A-40E8-9018-B3CC500C5A75}
+
+HKEY_CLASSES_ROOT\CLSID\{DCDD6AA6-9B6A-40E8-9018-B3CC500C5A75} = CeE3D_ Document
+HKEY_CLASSES_ROOT\CLSID\{DCDD6AA6-9B6A-40E8-9018-B3CC500C5A75}\ProgId = CeE3DClient1.Document
+HKEY_CLASSES_ROOT\CLSID\{DCDD6AA6-9B6A-40E8-9018-B3CC500C5A75}\LocalServer32 = CEE3D_CLIENT1.EXE

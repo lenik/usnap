@@ -1,0 +1,12 @@
+import "OeSO.idl";
+
+[
+	uuid(00000000-4F45-0641-0001-486954656368),
+	dual,
+	oleautomation,
+	helpstring("IOeSOMethodsCollection")
+] interface IOeSOMethodsCollection : IDispatch {
+	[id(0), propget, helpstring("获取一个指定方法")]
+	HRESULT member([in]VARIANT whichmember, [out, retval]IOeSOMethod **ret);
+
+};

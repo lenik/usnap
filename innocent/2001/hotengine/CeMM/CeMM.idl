@@ -1,0 +1,40 @@
+// CeMM.idl : IDL source for CeMM.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (CeMM.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(00000000-4345-6000-0004-486954656368),
+	version(1.0),
+	helpstring("CampoEngine.MultiMedia 类型库 草原多媒体引擎 1.0")
+]
+library CeMMLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	importlib("..\CeS\CeS.tlb");
+	importlib("..\CeM\CeM.tlb");
+
+
+[
+	uuid(00000000-4345-6000-0001-486954656368),
+	helpstring("I")
+] interface I : IDispatch {
+};
+
+
+// 下面的简直乱七八糟，仅供小小参考，什么时候我惹火了三两下把它全删掉
+[] coclass Ce___ {
+	[default]interface I;
+	[default, source]interface IEvents;
+	interface ICeSDevice;
+	interface ICeM..;
+};
+
+};

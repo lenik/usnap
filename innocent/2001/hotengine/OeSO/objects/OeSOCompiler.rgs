@@ -1,0 +1,34 @@
+HKCR {
+	OceanEngine.OeSOCompiler.1 = s 'OeSOCompiler class ' {
+		CLSID = s '{00000000-4F45-0601-0002-486954656368}'
+		Description = s 'OeSOCompiler编译器将SOML编译成其它语言。'
+	}
+	OceanEngine.OeSOCompiler = s 'OeSOCompiler class ' {
+		CLSID = s '{00000000-4F45-0601-0002-486954656368}'
+		Description = s 'OeSOCompiler编译器将SOML编译成其它语言。'
+		CurVer = s 'OceanEngine.OeSOCompiler.1'
+	}
+	NoRemove CLSID {
+		ForceRemove {00000000-4F45-0601-0002-486954656368} = s 'OeSOCompiler' {
+			ProgID = s 'OceanEngine.OeSOCompiler.1'
+			VersionIndependentProgID = s 'OceanEngine.OeSOCompiler'
+			InProcServer32 = s '%MODULE%' {
+				val ThreadingModel = s 'Both'
+			}
+			Description = s 'OeSOCompiler编译器将SOML编译成其它语言。'
+		}
+	}
+	NoRemove Interface {
+		ForceRemove {00000000-4F45-0601-0001-486954656368} = s 'IOeSOCompiler'
+	}
+
+	NoRemove 486954656368 {
+		NoRemove OceanEngine {
+			OeSOCompiler = s '{00000000-4F45-0601-0002-486954656368}' {
+				val ClassName = s 'OeSOCompiler'
+				val Description = s '编译器将SOML编译成其它语言。'
+				val InterfaceImpl = s 'IOeSOCompiler'
+			}
+		}
+	}
+}
