@@ -1,0 +1,22 @@
+
+(== structural text ==)
+
+-- 词汇
+	Q: P2P中表示发起方
+	A: P2P中表示应答方
+	P: P2P中表示一个Peer
+	?, *的含义与正则表达式?, *相当
+
+- 待定模块与标准参考
+	- Echo-EDIT
+		P*共享一个视图，文字与作图功能可扩展。
+		- Chat-room
+		- White-board
+		- Net-education
+	- Echo-SHOW
+		- Video-chat
+		- Remote-TV
+		- Remote-Desktop
+	- Echo-ACT
+		- Remote-MIDI
+			远程交响乐，Q*弹奏，A聆听
