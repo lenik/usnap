@@ -1,0 +1,20 @@
+﻿
+<xml version="1.0">
+
+
+<tips>
+	<tip for="tension" tension_level="10">
+		你觉得压力很大，无数的人在和你竞争，你一次又一次被抛在后面，是吗？
+		其实你错了，世界上有60亿人口，你是世界的一个分子，你要参与，要学会团体合作。
+		想开点，集中你的注意力，专注----只有专注，你才能胜出。
+	</tip>
+	<tip for="relax" relax_level="5" type="qa">
+		你知道世界上最高的山是什么吗？
+		<sel val="A">喜马拉雅山</sel>
+		<sel val="B">泰山</sel>
+		<sel val="C">长白山</sel>
+		<answer>A</answer>
+	</tip>
+</tips>
+
+</xml>
