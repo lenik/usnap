@@ -5,3 +5,4 @@ function out = equal(x)
 %       return out = x.
 
 out = x;
+
