@@ -1,0 +1,39 @@
+
+statements:
+	statement
+	| statements statement
+	;
+
+statement:
+
+
+
+[RG] # [Regenerate]
+
+statements:
+	statement
+	| statements statement
+	;
+
+statement:
+	statement do c {
+		(strlen($1) < 80 && printf($1, "\n"))
+		|| {
+			for (@split($1, 80 chars)) {
+				# C, Perl, Pascal
+				cout << $_ << endl;
+
+				# Basic
+				cout << $_ << "_" << endl;
+
+				# Matlab
+				cout << $_ << "..." << endl;
+
+				# Yacc
+				throw CException
+
+				# C/C++ Macro
+				cout << $_ << "\\" << endl;
+			}
+		}
+	}

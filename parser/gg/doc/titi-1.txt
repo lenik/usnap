@@ -1,0 +1,76 @@
+
+
+hfvc (读作 /`hevik/ ), HDR/FIX/VAR/CACHE 模式
+
+Δ-结构模式
+	d4E (Δ-4 entries), [16-bit small header]/Entries 模式, 4-bit maxΔ=+24 bytes
+	d8E (Δ-8 entries), [32-bit small header]/Entries 模式, 4-bit maxΔ=+56 bytes
+	d16E (Δ-16 entries), [64-bit small header]/Entries 模式, 4-bit maxΔ=+112 bytes
+	d5E (Δ-5 entries), [15-bit small header]/Entries 模式, 3-bit maxΔ=+12 bytes
+	struct d8EHeader {
+		int entry[8]: 4;
+	};
+	struct d5EHeader {
+		int entry[5]: 3;
+		int reserved: 1;
+	};
+	struct d4EHeader {
+		int entry[4]: 4;
+	};
+	struct d16EHeader {
+		int entry[16]: 4;
+	};
+
+Δ1
+	- 每个位都表示存在与否的标志，连续存储。
+
+Δ3
+	- 每个3位表示离前面字段的字节偏移量，因此对于非重叠结构体，
+	  最大字段长度为 8 字节。
+
+Δ4
+	- 每个4位分为两组表示偏移量，0-15 含义如下
+		0	不存在，相对指针不动
+		0001	相对 +0 字节
+		0010	相对 +1 字节
+		0011	相对 +2 字节
+		0100	相对 +3 字节
+		0101	相对 +4 字节
+		0110	相对 +6 字节
+		0111	相对 +8 字节
+		1000	相对 +10 字节
+		1001	相对 +12 字节
+		1010	相对 +16 字节
+		1011	相对 +20 字节
+		1100	相对 +24 字节
+		1101	相对 +28 字节
+		1110	相对 +36 字节
+		1111	相对 +44 字节
+
+Δ4T (加速 Δ4 )
+	- 每个4位表示相对于Δ4T的绝对偏移，偏移单位不定(一般为DWORD)
+	- Δ4T 后面紧跟一个存储属性，连同 Δ4 为一个整体。
+	  因此对于 32-bit 的 Δ4T，共有 8 单元，允许有 8+4=12 单元，
+	  而对于 64-bit 的 Δ4T，共有 16+8 = 24 单元。
+
+Δ8
+	- 每个8位表示相对于Δ8的绝对偏移，偏移单位不定(一般为DWORD)
+
+
+d4T {
+	void *pVtbls;
+	size_t sizeData
+	size_t total
+};
+
+d8E {
+};
+
+BOOL
+d4T hfvc_hdrattribute {
+	b_pHeader
+	b_pVariable
+	b_pCache
+
+	b_pVTtbl
+	b_nVTtbl

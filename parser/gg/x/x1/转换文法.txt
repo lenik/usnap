@@ -1,0 +1,26 @@
+
+
+GG. Translate and Represenetation
+--------------------------------------------------------------------
+
+- terms:
+	gd: g definition
+	gi: g instance
+	gs: g internal structure
+	gt: g transforming definition
+	gr: g representation by transforming definition
+
+	   (gd)    (gt)       (gd)    (gt)
+	gi ---> gs ---> gr  ( ---> gs ---> gr )
+
+
+- gi->gs 发生的事项
+
+
+- 转换文法完成的功能
+
+
+- 转换文法的 G 描述
+
+
+- 用于 POS 结构体描述的 (归于EPD可嵌入圆形描述) 文法及转换文法

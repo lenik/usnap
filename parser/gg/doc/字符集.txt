@@ -1,0 +1,358 @@
+--- &#00; --- Unused
+--- &#01; --- Unused
+--- &#02; --- Unused
+--- &#03; --- Unused
+--- &#04; --- Unused
+--- &#05; --- Unused
+--- &#06; --- Unused
+--- &#07; --- Unused
+--- &#08; --- Unused
+--- &#09; --- Horizontal tab
+--- &#10; --- Line feed
+--- &#11; --- Unused
+--- &#12; --- Unused
+--- &#13; --- Carriage Return
+--- &#14; --- Unused
+--- &#15; --- Unused
+--- &#16; --- Unused
+--- &#17; --- Unused
+--- &#18; --- Unused
+--- &#19; --- Unused
+--- &#20; --- Unused
+--- &#21; --- Unused
+--- &#22; --- Unused
+--- &#23; --- Unused
+--- &#24; --- Unused
+--- &#25; --- Unused
+--- &#26; --- Unused
+--- &#27; --- Unused
+--- &#28; --- Unused
+--- &#29; --- Unused
+--- &#30; --- Unused
+--- &#31; --- Unused
+ &#32; --- Space
+! &#33; --- Exclamation mark
+" &#34; &quot; Quotation mark
+# &#35; --- Number sign
+$ &#36; --- Dollar sign
+% &#37; --- Percent sign
+& &#38; &amp; Ampersand
+' &#39; --- Apostrophe
+( &#40; --- Left parenthesis
+) &#41; --- Right parenthesis
+* &#42; --- Asterisk
++ &#43; --- Plus sign
+, &#44; --- Comma
+- &#45; --- Hyphen
+. &#46; --- Period (fullstop)
+/ &#47; --- Solidus (slash)
+0 &#48; --- Digit 0
+1 &#49; --- Digit 1
+2 &#50; --- Digit 2
+3 &#51; --- Digit 3
+4 &#52; --- Digit 4
+5 &#53; --- Digit 5
+6 &#54; --- Digit 6
+7 &#55; --- Digit 7
+8 &#56; --- Digit 8
+9 &#57; --- Digit 9
+: &#58; --- Colon
+; &#59; --- Semicolon
+< &#60; &lt; Less than
+= &#61; --- Equals sign
+> &#62; &gt; Greater than
+? &#63; --- Question mark
+@ &#64; --- Commercial at
+A &#65; --- Capital A
+B &#66; --- Capital B
+C &#67; --- Capital C
+D &#68; --- Capital D
+E &#69; --- Capital E
+F &#70; --- Capital F
+G &#71; --- Capital G
+H &#72; --- Capital H
+I &#73; --- Capital I
+J &#74; --- Capital J
+K &#75; --- Capital K
+L &#76; --- Capital L
+M &#77; --- Capital M
+N &#78; --- Capital N
+O &#79; --- Capital O
+P &#80; --- Capital P
+Q &#81; --- Capital Q
+R &#82; --- Capital R
+S &#83; --- Capital S
+T &#84; --- Capital T
+U &#85; --- Capital U
+V &#86; --- Capital V
+W &#87; --- Capital W
+X &#88; --- Capital X
+Y &#89; --- Capital Y
+Z &#90; --- Capital Z
+[ &#91; --- Left square bracket
+\ &#92; --- Reverse solidus (backslash)
+] &#93; --- Right square bracket
+^ &#94; --- Caret
+_ &#95; --- Horizontal bar (underscore)
+` &#96; --- Acute accent
+a &#97; --- Small a
+b &#98; --- Small b
+c &#99; --- Small c
+d &#100; --- Small d
+e &#101; --- Small e
+f &#102; --- Small f
+g &#103; --- Small g
+h &#104; --- Small h
+i &#105; --- Small i
+j &#106; --- Small j
+k &#107; --- Small k
+l &#108; --- Small l
+m &#109; --- Small m
+n &#110; --- Small n
+o &#111; --- Small o
+p &#112; --- Small p
+q &#113; --- Small q
+r &#114; --- Small r
+s &#115; --- Small s
+t &#116; --- Small t
+u &#117; --- Small u
+v &#118; --- Small v
+w &#119; --- Small w
+x &#120; --- Small x
+y &#121; --- Small y
+z &#122; --- Small z
+{ &#123; --- Left curly brace
+| &#124; --- Vertical bar
+} &#125; --- Right curly brace
+~ &#126; --- Tilde
+--- &#127; --- Unused
+  &#160; &nbsp; Nonbreaking space
+? &#161; &iexcl; Inverted exclamation
+¡é &#162; &cent; Cent sign
+¡ê &#163; &pound; Pound sterling
+¡è &#164; &curren; General currency sign
+£¤ &#165; &yen; Yen sign
+| &#166; &brvbar; or &brkbar; Broken vertical bar
+¡ì &#167; &sect; Section sign
+¡§ &#168; &uml; or &die; Di?resis / Umlaut
+? &#169; &copy; Copyright
+a &#170; &ordf; Feminine ordinal
+? &#171; &laquo; Left angle quote, guillemet left
+? &#172; &not Not sign
+- &#173; &shy; Soft hyphen
+? &#174; &reg; Registered trademark
+¡¥ &#175; &macr; or &hibar; Macron accent
+¡ã &#176; &deg; Degree sign
+¡À &#177; &plusmn; Plus or minus
+2 &#178; &sup2; Superscript two
+3 &#179; &sup3; Superscript three
+¡ä &#180; &acute; Acute accent
+¦Ì &#181; &micro; Micro sign
+? &#182; &para; Paragraph sign
+¡¤ &#183; &middot; Middle dot
+? &#184; &cedil; Cedilla
+1 &#185; &sup1; Superscript one
+o &#186; &ordm; Masculine ordinal
+? &#187; &raquo; Right angle quote, guillemet right
+? &#188; &frac14; Fraction one-fourth
+? &#189; &frac12; Fraction one-half
+? &#190; &frac34; Fraction three-fourths
+? &#191; &iquest; Inverted question mark
+¨¤ &#192; &Agrave; Capital A, grave accent
+¨¢ &#193; &Aacute; Capital A, acute accent
+? &#194; &Acirc; Capital A, circumflex
+? &#195; &Atilde; Capital A, tilde
+? &#196; &Auml; Capital A, di?resis / umlaut
+? &#197; &Aring; Capital A, ring
+? &#198; &AElig; Capital AE ligature
+? &#199; &Ccedil; Capital C, cedilla
+¨¨ &#200; &Egrave; Capital E, grave accent
+¨¦ &#201; &Eacute; Capital E, acute accent
+¨º &#202; &Ecirc; Capital E, circumflex
+? &#203; &Euml; Capital E, di?resis / umlaut
+¨¬ &#204; &Igrave; Capital I, grave accent
+¨ª &#205; &Iacute; Capital I, acute accent
+? &#206; &Icirc; Capital I, circumflex
+? &#207; &Iuml; Capital I, di?resis / umlaut
+D &#208; &ETH; Capital Eth, Icelandic
+? &#209; &Ntilde; Capital N, tilde
+¨° &#210; &Ograve; Capital O, grave accent
+¨® &#211; &Oacute; Capital O, acute accent
+? &#212; &Ocirc; Capital O, circumflex
+? &#213; &Otilde; Capital O, tilde
+? &#214; &Ouml; Capital O, di?resis / umlaut
+¡Á &#215; &times; Multiply sign
+? &#216; &Oslash; Capital O, slash
+¨´ &#217; &Ugrave; Capital U, grave accent
+¨² &#218; &Uacute; Capital U, acute accent
+? &#219; &Ucirc; Capital U, circumflex
+¨¹ &#220; &Uuml; Capital U, di?resis / umlaut
+Y &#221; &Yacute; Capital Y, acute accent
+T &#222; &THORN; Capital Thorn, Icelandic
+? &#223; &szlig; Small sharp s, German sz
+¨¤ &#224; &agrave; Small a, grave accent
+¨¢ &#225; &aacute; Small a, acute accent
+a &#226; &acirc; Small a, circumflex
+? &#227; &atilde; Small a, tilde
+? &#228; &auml; Small a, di?resis / umlaut
+? &#229; &aring; Small a, ring
+? &#230; &aelig; Small ae ligature
+? &#231; &ccedil; Small c, cedilla
+¨¨ &#232; &egrave; Small e, grave accent
+¨¦ &#233; &eacute; Small e, acute accent
+¨º &#234; &ecirc; Small e, circumflex
+? &#235; &euml; Small e, di?resis / umlaut
+¨¬ &#236; &igrave; Small i, grave accent
+¨ª &#237; &iacute; Small i, acute accent
+? &#238; &icirc; Small i, circumflex
+? &#239; &iuml; Small i, di?resis / umlaut
+e &#240; &eth; Small eth, Icelandic
+? &#241; &ntilde; Small n, tilde
+¨° &#242; &ograve; Small o, grave accent
+¨® &#243; &oacute; Small o, acute accent
+? &#244; &ocirc; Small o, circumflex
+? &#245; &otilde; Small o, tilde
+? &#246; &ouml; Small o, di?resis / umlaut
+¡Â &#247; &divide; Division sign
+? &#248; &oslash; Small o, slash
+¨´ &#249; &ugrave; Small u, grave accent
+¨² &#250; &uacute; Small u, acute accent
+? &#251; &ucirc; Small u, circumflex
+¨¹ &#252; &uuml; Small u, di?resis / umlaut
+y &#253; &yacute; Small y, acute accent
+t &#254; &thorn; Small thorn, Icelandic
+? &#255; &yuml; Small y, di?resis / umlaut
+
+Latin Extended-B
+? &fnof; &#402; Latin small f with hook, =function, =florin, U0192 ISOtech
+Greek
+¦¡ &Alpha; &#913; Greek capital letter alpha, U0391
+¦¢ &Beta; &#914; Greek capital letter beta, U0392
+¦£ &Gamma; &#915; Greek capital letter gamma, U0393 ISOgrk3
+¦¤ &Delta; &#916; Greek capital letter delta, U0394 ISOgrk3
+¦¥ &Epsilon; &#917; Greek capital letter epsilon, U0395
+¦¦ &Zeta; &#918; Greek capital letter zeta, U0396
+¦§ &Eta; &#919; Greek capital letter eta, U0397
+¦¨ &Theta; &#920; Greek capital letter theta, U0398 ISOgrk3
+¦© &Iota; &#921; Greek capital letter iota, U0399
+¦ª &Kappa; &#922; Greek capital letter kappa, U039A
+¦« &Lambda; &#923; Greek capital letter lambda, U039B ISOgrk3
+¦¬ &Mu; &#924; Greek capital letter mu, U039C
+¦­ &Nu; &#925; Greek capital letter nu, U039D
+¦® &Xi; &#926; Greek capital letter xi, U039E ISOgrk3
+¦¯ &Omicron; &#927; Greek capital letter omicron, U039F
+¦° &Pi; &#928; Greek capital letter pi, U03A0 ISOgrk3
+¦± &Rho; &#929; Greek capital letter rho, U03A1
+¦² &Sigma; &#931; Greek capital letter sigma, U03A3 ISOgrk3
+¦³ &Tau; &#932; Greek capital letter tau, U03A4
+¦´ &Upsilon; &#933; Greek capital letter upsilon, U03A5 ISOgrk3
+¦µ &Phi; &#934; Greek capital letter phi, U03A6 ISOgrk3
+¦¶ &Chi; &#935; Greek capital letter chi, U03A7
+¦· &Psi; &#936; Greek capital letter psi, U03A8 ISOgrk3
+¦¸ &Omega; &#937; Greek capital letter omega, U03A9 ISOgrk3
+¦Á &alpha; &#945; Greek small letter alpha, U03B1 ISOgrk3
+¦Â &beta; &#946; Greek small letter beta, U03B2 ISOgrk3
+¦Ã &gamma; &#947; Greek small letter gamma, U03B3 ISOgrk3
+¦Ä &delta; &#948; Greek small letter delta, U03B4 ISOgrk3
+¦Å &epsilon; &#949; Greek small letter epsilon, U03B5 ISOgrk3
+¦Æ &zeta; &#950; Greek small letter zeta, U03B6 ISOgrk3
+¦Ç &eta; &#951; Greek small letter eta, U03B7 ISOgrk3
+¦È &theta; &#952; Greek small letter theta, U03B8 ISOgrk3
+¦É &iota; &#953; Greek small letter iota, U03B9 ISOgrk3
+¦Ê &kappa; &#954; Greek small letter kappa, U03BA ISOgrk3
+¦Ë &lambda; &#955; Greek small letter lambda, U03BB ISOgrk3
+¦Ì &mu; &#956; Greek small letter mu, U03BC ISOgrk3
+¦Í &nu; &#957; Greek small letter nu, U03BD ISOgrk3
+¦Î &xi; &#958; Greek small letter xi, U03BE ISOgrk3
+¦Ï &omicron; &#959; Greek small letter omicron, U03BF NEW
+¦Ð &pi; &#960; Greek small letter pi, U03C0 ISOgrk3
+¦Ñ &rho; &#961; Greek small letter rho, U03C1 ISOgrk3
+? &sigmaf; &#962; Greek small letter final sigma, U03C2 ISOgrk3
+¦Ò &sigma; &#963; Greek small letter sigma, U03C3 ISOgrk3
+¦Ó &tau; &#964; Greek small letter tau, U03C4 ISOgrk3
+¦Ô &upsilon; &#965; Greek small letter upsilon, U03C5 ISOgrk3
+¦Õ &phi; &#966; Greek small letter phi, U03C6 ISOgrk3
+¦Ö &chi; &#967; Greek small letter chi, U03C7 ISOgrk3
+¦× &psi; &#968; Greek small letter psi, U03C8 ISOgrk3
+¦Ø &omega; &#969; Greek small letter omega, U03C9 ISOgrk3
+? &thetasym; &#977; Greek small letter theta symbol, U03D1 NEW
+? &upsih; &#978; Greek upsilon with hook symbol, U03D2 NEW
+? &piv; &#982; Greek pi symbol, U03D6 ISOgrk3
+General Punctuation
+? &bull; &#8226; bullet, =black small circle, U2022 ISOpub
+¡­ &hellip; &#8230; horizontal ellipsis, =three dot leader, U2026 ISOpub
+¡ä &prime; &#8242; prime, =minutes, =feet, U2032 ISOtech
+¡å &Prime; &#8243; double prime, =seconds, =inches, U2033 ISOtech
+£þ &oline; &#8254; overline, =spacing overscore, U203E NEW
+? &frasl; &#8260; fraction slash, U2044 NEW
+Letterlike Symbols
+? &weierp; &#8472; script capital P, =power set, =Weierstrass p, U2118 ISOamso
+? &image; &#8465; blackletter capital I, =imaginary part, U2111 ISOamso
+? &real; &#8476; blackletter capital R, =real part symbol, U211C ISOamso
+? &trade; &#8482; trade mark sign, U2122 ISOnum
+? &alefsym; &#8501; alef symbol, =first transfinite cardinal, U2135 NEW
+Arrows
+¡û &larr; &#8592; leftward arrow, U2190 ISOnum
+¡ü &uarr; &#8593; upward arrow, U2191 ISOnum
+¡ú &rarr; &#8594; rightward arrow, U2192 ISOnum
+¡ý &darr; &#8595; downward arrow, U2193 ISOnum
+? &harr; &#8596; left right arrow, U2194 ISOamsa
+? &crarr; &#8629; downward arrow with corner leftward, =carriage return, U21B5 NEW
+? &lArr; &#8656; leftward double arrow, U21D0 ISOtech
+? &uArr; &#8657; upward double arrow, U21D1 ISOamsa
+? &rArr; &#8658; rightward double arrow, U21D2 ISOtech
+? &dArr; &#8659; downward double arrow, U21D3 ISOamsa
+? &hArr; &#8660; left right double arrow, U21D4 ISOamsa
+Mathematical Operators
+? &forall; &#8704; for all, U2200 ISOtech
+? &part; &#8706; partial differential, U2202 ISOtech
+? &exist; &#8707; there exists, U2203 ISOtech
+? &empty; &#8709; empty set, =null set, =diameter, U2205 ISOamso
+? &nabla; &#8711; nabla, =backward difference, U2207 ISOtech
+¡Ê &isin; &#8712; element of, U2208 ISOtech
+? &notin; &#8713; not an element of, U2209 ISOtech
+? &ni; &#8715; contains as member, U220B ISOtech
+¡Ç &prod; &#8719; n-ary product, =product sign, U220F ISOamsb
+? &sum; &#8722; n-ary sumation, U2211 ISOamsb
+? &minus; &#8722; minus sign, U2212 ISOtech
+? &lowast; &#8727; asterisk operator, U2217 ISOtech
+¡Ì &radic; &#8730; square root, =radical sign, U221A ISOtech
+¡Ø &prop; &#8733; proportional to, U221D ISOtech
+¡Þ &infin; &#8734; infinity, U221E ISOtech
+¡Ï &ang; &#8736; angle, U2220 ISOamso
+¡Í &and; &#8869; logical and, =wedge, U2227 ISOtech
+? &or; &#8870; logical or, =vee, U2228 ISOtech
+¡É &cap; &#8745; intersection, =cap, U2229 ISOtech
+¡È &cup; &#8746; union, =cup, U222A ISOtech
+¡Ò &int; &#8747; integral, U222B ISOtech
+¡à &there4; &#8756; therefore, U2234 ISOtech
+¡« &sim; &#8764; tilde operator, =varies with, =similar to, U223C ISOtech
+? &cong; &#8773; approximately equal to, U2245 ISOtech
+? &asymp; &#8773; almost equal to, =asymptotic to, U2248 ISOamsr
+¡Ù &ne; &#8800; not equal to, U2260 ISOtech
+¡Ô &equiv; &#8801; identical to, U2261 ISOtech
+¡Ü &le; &#8804; less-than or equal to, U2264 ISOtech
+¡Ý &ge; &#8805; greater-than or equal to, U2265 ISOtech
+? &sub; &#8834; subset of, U2282 ISOtech
+? &sup; &#8835; superset of, U2283 ISOtech
+? &nsub; &#8836; not a subset of, U2284 ISOamsn
+? &sube; &#8838; subset of or equal to, U2286 ISOtech
+? &supe; &#8839; superset of or equal to, U2287 ISOtech
+¨’ &oplus; &#8853; circled plus, =direct sum, U2295 ISOamsb
+? &otimes; &#8855; circled times, =vector product, U2297 ISOamsb
+¡Í &perp; &#8869; up tack, =orthogonal to, =perpendicular, U22A5 ISOtech
+? &sdot; &#8901; dot operator, U22C5 ISOamsb
+Miscellaneous Technical
+? &lceil; &#8968; left ceiling, =apl upstile, U2308, ISOamsc
+? &rceil; &#8969; right ceiling, U2309, ISOamsc
+? &lfloor; &#8970; left floor, =apl downstile, U230A, ISOamsc
+? &rfloor; &#8971; right floor, U230B, ISOamsc
+? &lang; &#9001; left-pointing angle bracket, =bra, U2329 ISOtech
+? &rang; &#9002; right-pointing angle bracket, =ket, U232A ISOtech
+Geometric Shapes
+? &loz; &#9674; lozenge, U25CA ISOpub
+Miscellaneous Symbols
+? &spades; &#9824; black spade suit, U2660 ISOpub
+? &clubs; &#9827; black club suit, =shamrock, U2663 ISOpub
+? &hearts; &#9829; black heart suit, =valentine, U2665 ISOpub
+? &diams; &#9830; black diamond suit, U2666 ISOpub

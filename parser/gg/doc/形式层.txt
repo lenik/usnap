@@ -1,0 +1,12 @@
+
+
+# –Œ Ω≤„
+#
+#
+#
+
+# X86 binary G
+
+
+	<Layer asm> mov
+	<Layer code> bit:1100

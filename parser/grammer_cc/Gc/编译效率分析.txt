@@ -1,0 +1,76 @@
+
+
+	由于 Gc 中使用了大量 STL 技术，使得对象元粒度大大加粗，
+	因此有必要对此进行速度和效率的分析。
+
+〉符号表的处理速度
+	基本结构：
+		有缓存：map sym->syminfo*
+		1.syminfo*:
+			sym syminfo_len [syminfo_len]
+		2.syminfo*:
+			sis' -o syminfo
+			syminfo --> syminfolist
+			  |- thissym
+			  |- prods
+			  \- ..
+	s1、查找单元符号信息结构
+		不考虑内存处理的错误处理，如果采用纯指针的方式建立： B x
+			有缓存：
+				syminfo* <- map[sym]			1
+			无缓存：
+				sis查找sym			(符号数)Ns
+		用 STL'： F x
+			有缓存：
+				syminfo* <- map'[sym]			1
+			无缓存：
+				sis'[]查找sym				Ns
+	s2、规约速度
+		基本步骤：
+			对栈顶区间 [0,0] -> [0,栈长Ls] 进行如下操作
+				得出区间内容 Cr
+				Cr是否在某个sym的某个产生式中
+				如果是则规约栈顶 Cr 内容为对应 sym
+		纯指针：B x sum(i=0,Ls)
+			a)得出区间内容
+				i)Cr = conj(stack[i]..)			i x
+				ii)*pCr = pStack + i，只要给出首地址	1 x
+			-b)pCurrentSym循环每个sym及产生式：
+				产生式Pi =
+				i)pCurrentSym + ELEMENT_PROD_START + ..	Np总数 =. Ns x
+				ii)pCurrentSym[各产生式区间]		产生式总长 =. Ns x 产生式均长 x
+			--c)比较
+				i)嵌入上式
+					-bi)				0 +
+					-bii)				1 +
+				  且 --ci-bi与-bi不兼容。
+				ii)再比较				产生式均长 +
+			--d)规约
+				i)直接将pStack[i] <- new_sym		1 +
+
+			即如果采用优化
+				s2 = Ls x Ns x (产生式均长 + 1)
+				   =. o(Ls x 产生式总长)
+				   =. o(Ls x Ns) x B
+			否则
+				s2 = o( Ls^2/2 x Ns x 产生式均长^2/2 )
+				   =. 均长/4 x o( Ls^2 x Ns ) x B
+		STL'：F x sum(i=0,Ls)
+			a)得出区间内容
+				i)Cr = conj(stack[i]..),		i x Si长度 x
+			-b)循环每个sym及产生式				Ns + 产生式总长
+				i)					=. (1 + Ns) x 均长
+			--c)比较
+				i)采用优化对-b获取的产生式放入缓存	产生式均长 x B
+				ii)重新循环比较				产生式均长 x 2 x F
+			--d)规约
+				i)弹出栈顶i元素压入newsym		Ls顶端平均部分长度+1
+
+			s2' = o(Ls^2/2 x (1 + Ns) x 均长 x X x Y)
+			    =. X x Y x 均长 / 4 x o(Ls^2 x Ns)
+			如果使用优化 X =. 1, 否则 X = 均长 x 2
+			Y 一般为小整数，与/4抵消后
+
+			s2' =. o(Ls^2 x Ns) x F
+
+	因此 使用纯指针和使用STL的速度差别基本为线性。

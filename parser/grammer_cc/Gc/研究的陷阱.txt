@@ -1,0 +1,18 @@
+
+
+
+	研究的陷阱
+
+	背景
+		破解OICQ的控制文本
+
+
+	陷阱
+		HIS (HiTech Information Server)
+
+			command analyse, CAT, CDT
+				grammer
+					lexical
+						automation, A-language
+					LALR, bison
+						bison->win32 porting
