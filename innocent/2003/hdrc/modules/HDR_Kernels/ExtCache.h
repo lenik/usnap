@@ -123,3 +123,4 @@ public:
     BOOL        SetCacheSize(DWORD cbSize);
     BOOL        InvalidateCache();
 };
+
