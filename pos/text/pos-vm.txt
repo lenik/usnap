@@ -1,0 +1,18 @@
+
+
+
+/*
+	Smart Info, VM.
+
+	VM:
+		V86
+		JavaVM
+
+	VM:
+		VM.Text		For text processing
+		VM.Graph	For graph processing
+				Pixel Shader
+				Vertex Shader
+		VM.TypeInfo	For define data-type
+
+*/

@@ -1,0 +1,13 @@
+
+
+// POS.Stat
+//	(Statistics Model for POS-Based Application)
+// Version 1
+//
+
+
+/*
+
+	(Pseudo) Random Number Generator
+	   + Featured PRNG
+	Matrix -->

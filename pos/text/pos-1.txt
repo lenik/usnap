@@ -1,0 +1,97 @@
+
+
+// POS-3D
+//	How POS-3D interact with POS-Image? and POS-Volume
+
+// POS-AAA
+//
+
+// POS-Q/q
+//
+
+
+
+// POS-Session
+
+struct Session {
+	enum {
+		CS, 	// Joiner/Host, Client/Server
+		PP, 	// Peer-to-Peer
+	};
+};
+
+
+// POS-Net
+// 	VONE - Virtual Optimized Network Environment
+// VONE-Point (Vpt):
+//	VONE.Provider:
+//		Storage Space
+//		CPU
+//		Network Band-width,
+//		Application Server [CiA, ...]
+//		Database
+//	VONE.Consumer:
+//
+
+namespace bios:
+	SysInfo;
+	CPU_Arch;
+	Net_Arch;
+	...
+
+namespace VONE;
+
+struct Point {
+	bios::SysInfo *_info;
+
+};
+
+struct ProviderFeatures {
+	int	bSpace;
+	int	bCPU;
+	int	bBand;
+	int	bRoute;
+	int	bRiprapCollector;
+	int	b;
+};
+
+enum VONEP_ServicesType {
+	VONEPST_
+	Space,
+	CPU,
+	Bandwidth,
+	Database,
+	UDDI?
+	ciA_Map,
+	CiA_Law,
+	CiA_Characters,
+	CiA_Admin,
+};
+
+
+/** VONE now based on EchoNet only.
+    So only ENIA is supported.
+
+        enum VONEP_BaseNet {
+		IPv4,
+		IPv6,
+		NetBIOS,
+		Novell,
+		IPX,
+		IPv6_QoS,
+        };
+*/
+
+struct VONEP_Provider {
+	ProviderFeatures features;
+	WMI *pSysInfo;
+
+};
+
+struct VONEP_Consumer {
+};
+
+
+struct VONE_Link {
+
+};
