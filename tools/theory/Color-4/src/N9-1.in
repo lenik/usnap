@@ -1,0 +1,36 @@
+
+
+# Global 构成 最大平面图
+#
+
+
+# Directional
+G1: {
+
+	A->B,H,G
+	B->A,H,C
+	C->B,H,I,D
+	D->C,I,E
+	E->D,I,F
+	F->H,I,E,G
+	G->A,H,F
+	H->A,B,C,I,F,G
+	I->H,C,D,E,F
+
+	Global--A,B,C,D,E,F,G,H,I
+}
+
+
+/*
+# Nondirectional
+G1_n: {
+	A--B,G
+	C--B,D
+	E--D,F
+	G--F
+
+	H--A,B,C,I,F,G
+	I--C,D,E,F
+	Global--A,B,C,D,E,F,G,H,I
+}
+*/

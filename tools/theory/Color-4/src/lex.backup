@@ -1,0 +1,37 @@
+State #39 is non-accepting -
+ associated rule line numbers:
+	177
+ out-transitions: [ \000-\377 ]
+ jam-transitions: EOF []
+
+State #47 is non-accepting -
+ associated rule line numbers:
+	197
+ out-transitions: [ 0-9  A-F  a-f ]
+ jam-transitions: EOF [ \000-/  :-@  G-`  g-\377 ]
+
+State #50 is non-accepting -
+ associated rule line numbers:
+	208
+ out-transitions: [ d ]
+ jam-transitions: EOF [ \000-c  e-\377 ]
+
+State #56 is non-accepting -
+ associated rule line numbers:
+	208
+ out-transitions: [ ( ]
+ jam-transitions: EOF [ \000-'  )-\377 ]
+
+State #57 is non-accepting -
+ associated rule line numbers:
+	208
+ out-transitions: [ \000-\t  \v-\377 ]
+ jam-transitions: EOF [ \n ]
+
+State #58 is non-accepting -
+ associated rule line numbers:
+	208
+ out-transitions: [ \000-\t  \v-\377 ]
+ jam-transitions: EOF [ \n ]
+
+Compressed tables always back up.

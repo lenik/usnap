@@ -1,0 +1,268 @@
+
+
+Terminals which are not used:
+
+   NUMBER
+   STRING
+
+
+
+Grammar
+rule 1    Graph -> GraphName ':' '{' GraphDefs '}'
+rule 2    GraphDefs -> GraphDef
+rule 3    GraphDefs -> GraphDefs GraphDef
+rule 4    GraphDef -> Node D_LINK Nodes
+rule 5    GraphDef -> Node G_LINK Nodes
+rule 6    Nodes -> Node
+rule 7    Nodes -> Nodes ',' Node
+rule 8    Node -> NodeName
+rule 9    GraphName -> _ID
+rule 10   NodeName -> _ID
+rule 11   _ID -> ID
+
+Terminals, with rules where they appear
+
+$ (-1)
+',' (44) 7
+':' (58) 1
+'{' (123) 1
+'}' (125) 1
+error (256)
+NUMBER (258)
+STRING (259)
+ID (260) 11
+D_LINK (261) 4
+G_LINK (262) 5
+
+Nonterminals, with rules where they appear
+
+Graph (12)
+    on left: 1
+GraphDefs (13)
+    on left: 2 3, on right: 1 3
+GraphDef (14)
+    on left: 4 5, on right: 2 3
+Nodes (15)
+    on left: 6 7, on right: 4 5 7
+Node (16)
+    on left: 8, on right: 4 5 6 7
+GraphName (17)
+    on left: 9, on right: 1
+NodeName (18)
+    on left: 10, on right: 8
+_ID (19)
+    on left: 11, on right: 9 10
+
+
+state 0
+
+    ID  	shift, and go to state 1
+
+    Graph	go to state 20
+    GraphName	go to state 2
+    _ID 	go to state 3
+
+
+
+state 1
+
+    _ID  ->  ID .   (rule 11)
+
+    $default	reduce using rule 11 (_ID)
+
+
+
+state 2
+
+    Graph  ->  GraphName . ':' '{' GraphDefs '}'   (rule 1)
+
+    ':' 	shift, and go to state 4
+
+
+
+state 3
+
+    GraphName  ->  _ID .   (rule 9)
+
+    $default	reduce using rule 9 (GraphName)
+
+
+
+state 4
+
+    Graph  ->  GraphName ':' . '{' GraphDefs '}'   (rule 1)
+
+    '{' 	shift, and go to state 5
+
+
+
+state 5
+
+    Graph  ->  GraphName ':' '{' . GraphDefs '}'   (rule 1)
+
+    ID  	shift, and go to state 1
+
+    GraphDefs	go to state 6
+    GraphDef	go to state 7
+    Node	go to state 8
+    NodeName	go to state 9
+    _ID 	go to state 10
+
+
+
+state 6
+
+    Graph  ->  GraphName ':' '{' GraphDefs . '}'   (rule 1)
+    GraphDefs  ->  GraphDefs . GraphDef   (rule 3)
+
+    ID  	shift, and go to state 1
+    '}' 	shift, and go to state 11
+
+    GraphDef	go to state 12
+    Node	go to state 8
+    NodeName	go to state 9
+    _ID 	go to state 10
+
+
+
+state 7
+
+    GraphDefs  ->  GraphDef .   (rule 2)
+
+    $default	reduce using rule 2 (GraphDefs)
+
+
+
+state 8
+
+    GraphDef  ->  Node . D_LINK Nodes   (rule 4)
+    GraphDef  ->  Node . G_LINK Nodes   (rule 5)
+
+    D_LINK	shift, and go to state 13
+    G_LINK	shift, and go to state 14
+
+
+
+state 9
+
+    Node  ->  NodeName .   (rule 8)
+
+    $default	reduce using rule 8 (Node)
+
+
+
+state 10
+
+    NodeName  ->  _ID .   (rule 10)
+
+    $default	reduce using rule 10 (NodeName)
+
+
+
+state 11
+
+    Graph  ->  GraphName ':' '{' GraphDefs '}' .   (rule 1)
+
+    $default	reduce using rule 1 (Graph)
+
+
+
+state 12
+
+    GraphDefs  ->  GraphDefs GraphDef .   (rule 3)
+
+    $default	reduce using rule 3 (GraphDefs)
+
+
+
+state 13
+
+    GraphDef  ->  Node D_LINK . Nodes   (rule 4)
+
+    ID  	shift, and go to state 1
+
+    Nodes	go to state 15
+    Node	go to state 16
+    NodeName	go to state 9
+    _ID 	go to state 10
+
+
+
+state 14
+
+    GraphDef  ->  Node G_LINK . Nodes   (rule 5)
+
+    ID  	shift, and go to state 1
+
+    Nodes	go to state 17
+    Node	go to state 16
+    NodeName	go to state 9
+    _ID 	go to state 10
+
+
+
+state 15
+
+    GraphDef  ->  Node D_LINK Nodes .   (rule 4)
+    Nodes  ->  Nodes . ',' Node   (rule 7)
+
+    ',' 	shift, and go to state 18
+
+    $default	reduce using rule 4 (GraphDef)
+
+
+
+state 16
+
+    Nodes  ->  Node .   (rule 6)
+
+    $default	reduce using rule 6 (Nodes)
+
+
+
+state 17
+
+    GraphDef  ->  Node G_LINK Nodes .   (rule 5)
+    Nodes  ->  Nodes . ',' Node   (rule 7)
+
+    ',' 	shift, and go to state 18
+
+    $default	reduce using rule 5 (GraphDef)
+
+
+
+state 18
+
+    Nodes  ->  Nodes ',' . Node   (rule 7)
+
+    ID  	shift, and go to state 1
+
+    Node	go to state 19
+    NodeName	go to state 9
+    _ID 	go to state 10
+
+
+
+state 19
+
+    Nodes  ->  Nodes ',' Node .   (rule 7)
+
+    $default	reduce using rule 7 (Nodes)
+
+
+
+state 20
+
+    $   	go to state 21
+
+
+
+state 21
+
+    $   	go to state 22
+
+
+
+state 22
+
+    $default	accept

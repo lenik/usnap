@@ -1,0 +1,342 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\Valider.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Valider.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 Valider"
+FONT 9, "宋体"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Valider 1.0 版 build 1",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "版权所有 (C)TopCroak Software 2001",IDC_STATIC,40,25,
+                    171,8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_VALIDER_DIALOG DIALOGEX 0, 0, 320, 215
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Discrete Valider"
+FONT 9, "宋体"
+BEGIN
+    RTEXT           "&Source Directory",IDC_STATIC,7,7,49,18
+    EDITTEXT        IDC_EDIT_SOURCE,61,7,177,18,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse",IDC_BROWSE_SOURCE,248,7,48,18
+    RTEXT           "&Dest Directory",IDC_STATIC,7,30,49,16
+    EDITTEXT        IDC_EDIT_DEST,61,30,177,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "B&rowse",IDC_BROWSE_DEST,248,30,48,16
+    RTEXT           "Sear&ch",IDC_STATIC,7,52,49,16
+    COMBOBOX        IDC_COMBO_SEARCH,61,52,177,58,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "S&tart",IDC_BUTTON_START,248,52,48,16
+    RTEXT           "&Algorithm",IDC_STATIC,7,75,49,16
+    COMBOBOX        IDC_COMBO_ALGORITHM,61,75,177,64,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Sto&p",IDC_BUTTON_STOP,248,75,48,16
+    RTEXT           "&Test Block",IDC_STATIC,7,96,49,16
+    COMBOBOX        IDC_COMBO_BLOCKSIZE,61,96,177,58,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "E&xit",IDC_BUTTON_EXIT,248,96,48,16
+    CONTROL         "&Include subdirectory",IDC_CHECK_NEST,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,61,116,93,16
+    CONTROL         "&Log",IDC_CHECK_LOG,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,176,116,62,16
+    PUSHBUTTON      "Ab&out",IDC_BUTTON_ABOUT,248,116,48,16
+    RTEXT           "Directories",IDC_STATIC,7,139,49,15
+    CONTROL         "Progress1",IDC_PROGRESS_TOTAL,"msctls_progress32",
+                    PBS_SMOOTH,61,139,235,15
+    RTEXT           "Current Directory",IDC_STATIC,7,160,49,15
+    CONTROL         "Progress2",IDC_PROGRESS_DIRECTORY,"msctls_progress32",
+                    PBS_SMOOTH,61,160,60,15
+    LTEXT           "-",IDC_STATIC_CURRENT_DIRECTORY,127,160,186,15
+    RTEXT           "Current File",IDC_STATIC,7,180,49,16
+    CONTROL         "Progress3",IDC_PROGRESS_FILE,"msctls_progress32",
+                    PBS_SMOOTH,61,180,60,16
+    LTEXT           "-",IDC_STATIC_CURRENT_FILE,127,180,186,16
+END
+
+IDD_DIALOG_LOG DIALOG DISCARDABLE  0, 0, 231, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Log"
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,174,136,50,14
+    EDITTEXT        IDC_EDIT_LOG,7,7,217,124,ES_MULTILINE | ES_AUTOVSCROLL |
+                    ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "Valider Microsoft 基础类应用程序\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "Valider\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "Valider.EXE\0"
+            VALUE "ProductName", "Valider 应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_VALIDER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        VERTGUIDE, 56
+        VERTGUIDE, 61
+        VERTGUIDE, 121
+        VERTGUIDE, 127
+        VERTGUIDE, 176
+        VERTGUIDE, 182
+        VERTGUIDE, 233
+        VERTGUIDE, 238
+        VERTGUIDE, 248
+        VERTGUIDE, 296
+        VERTGUIDE, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+        HORZGUIDE, 10
+        HORZGUIDE, 25
+        HORZGUIDE, 30
+        HORZGUIDE, 46
+        HORZGUIDE, 52
+        HORZGUIDE, 68
+        HORZGUIDE, 75
+        HORZGUIDE, 91
+        HORZGUIDE, 96
+        HORZGUIDE, 112
+        HORZGUIDE, 116
+        HORZGUIDE, 132
+        HORZGUIDE, 139
+        HORZGUIDE, 154
+        HORZGUIDE, 160
+        HORZGUIDE, 175
+        HORZGUIDE, 180
+        HORZGUIDE, 196
+    END
+
+    IDD_DIALOG_LOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 224
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 150
+        HORZGUIDE, 131
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_VALIDER_DIALOG DLGINIT
+BEGIN
+    IDC_COMBO_SEARCH, 0x403, 23, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x4620, 0x6c75, 0x206c, 0x6573,
+0x7261, 0x6863, "\000"
+    IDC_COMBO_SEARCH, 0x403, 38, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x3120, 0x7066, 0x2064, 0x6628,
+0x6c69, 0x7365, 0x7020, 0x7265, 0x6420, 0x7269, 0x6365, 0x6f74, 0x7972,
+0x0029,
+    IDC_COMBO_SEARCH, 0x403, 17, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x3220, 0x6635, 0x6470, "\000"
+    IDC_COMBO_SEARCH, 0x403, 17, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3520, 0x7025, 0x6466, "\000"
+    IDC_COMBO_SEARCH, 0x403, 18, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3220, 0x2535, 0x6670, 0x0064,
+
+    IDC_COMBO_SEARCH, 0x403, 18, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3520, 0x2530, 0x6670, 0x0064,
+
+    IDC_COMBO_ALGORITHM, 0x403, 21, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x4620, 0x6c75, 0x206c, 0x6574,
+0x7473, "\000"
+    IDC_COMBO_ALGORITHM, 0x403, 25, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x4820, 0x6165, 0x2064, 0x3532,
+0x2025, 0x6574, 0x7473, "\000"
+    IDC_COMBO_ALGORITHM, 0x403, 25, 0
+0x6553, 0x7571, 0x6e65, 0x6563, 0x2d20, 0x5420, 0x6961, 0x206c, 0x3532,
+0x2025, 0x6574, 0x7473, "\000"
+    IDC_COMBO_ALGORITHM, 0x403, 19, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3520, 0x2025, 0x6574, 0x7473,
+"\000"
+    IDC_COMBO_ALGORITHM, 0x403, 20, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3220, 0x2535, 0x7420, 0x7365,
+0x0074,
+    IDC_COMBO_ALGORITHM, 0x403, 20, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2d20, 0x3520, 0x2530, 0x7420, 0x7365,
+0x0074,
+    IDC_COMBO_BLOCKSIZE, 0x403, 4, 0
+0x6b31, 0x0062,
+    IDC_COMBO_BLOCKSIZE, 0x403, 4, 0
+0x6b34, 0x0062,
+    IDC_COMBO_BLOCKSIZE, 0x403, 5, 0
+0x3233, 0x626b, "\000"
+    IDC_COMBO_BLOCKSIZE, 0x403, 4, 0
+0x4d31, 0x0062,
+    IDC_COMBO_BLOCKSIZE, 0x403, 19, 0
+0x6944, 0x6373, 0x6572, 0x6574, 0x2820, 0x4d31, 0x2062, 0x616d, 0x2978,
+"\000"
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_ABOUTBOX            "关于 Valider(&A)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\Valider.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

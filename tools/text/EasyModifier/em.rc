@@ -1,0 +1,266 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\em.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\em.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于轻松修改大师"
+FONT 9, "宋体"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "轻松修改大师 1.50  提速版",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "版权所有 谢继雷.草原软件 (C) 2000",IDC_STATIC,40,25,188,
+                    8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_EM_DIALOG DIALOGEX 0, 0, 267, 131
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "轻松修改大师 -之- 修改游戏版 1.50 提速版"
+FONT 9, "宋体"
+BEGIN
+    LTEXT           "&Q文件一",IDC_STATIC,7,7,31,13
+    EDITTEXT        IDC_EDIT_FILENAME1,38,7,110,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "&W浏览",IDC_BUTTON_FILEBROWSE1,148,7,32,13
+    CONTROL         "&E修改本文件",IDC_CHECK_MODIFY1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,184,7,76,13
+    LTEXT           "&A文件二",IDC_STATIC,7,28,31,13
+    EDITTEXT        IDC_EDIT_FILENAME2,38,28,110,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "&S浏览",IDC_BUTTON_FILEBROWSE2,148,28,32,13
+    CONTROL         "&D修改本文件",IDC_CHECK_MODIFY2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,184,28,76,13
+    LTEXT           "源数据",IDC_STATIC,38,47,46,12
+    LTEXT           "目的数据",IDC_STATIC,148,47,36,12
+    LTEXT           "&R数据一",IDC_STATIC,7,59,31,11
+    EDITTEXT        IDC_EDIT_DATASRC1,38,59,96,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DATADEST1,148,59,112,12,ES_AUTOHSCROLL
+    LTEXT           "&F数据二",IDC_STATIC,7,70,31,12
+    EDITTEXT        IDC_EDIT_DATASRC2,38,70,96,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DATADEST2,148,70,112,12,ES_AUTOHSCROLL
+    CONTROL         "&N保存状态",IDC_CHECK_SAVESTATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,88,127,12
+    CONTROL         "",IDC_CHECK_NOUSED,"Button",BS_AUTOCHECKBOX |
+                    WS_DISABLED | WS_TABSTOP,148,88,112,12
+    LTEXT           "",IDC_STATIC_STATUS,7,100,253,8
+    DEFPUSHBUTTON   "&G开始",IDC_BUTTON_BEGIN,7,109,58,15
+    PUSHBUTTON      "&H帮助",IDC_BUTTON_HELP,72,109,58,15
+    PUSHBUTTON      "&Y版权",IDC_BUTTON_ABOUT,137,109,58,15
+    PUSHBUTTON      "&X退出",IDOK,202,109,58,15
+END
+
+IDD_HELP DIALOG DISCARDABLE  0, 0, 187, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "帮助"
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
+    LTEXT           "数据可以是字符串(\\开头), 数字(自动确定位数), 可以是十进制, 十六进制(-H), 二进制(-B), 八进制(-O), 可以多组, 用空格隔开. ",
+                    IDC_STATIC,7,28,173,37
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "草原软件\0"
+            VALUE "FileDescription", "Easy Modifier\0"
+            VALUE "FileVersion", "1, 2, 0, 1\0"
+            VALUE "InternalName", "EasyModifier\0"
+            VALUE "LegalCopyright", "版权所有 草原软件 (C) 2000\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "em.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "轻松修改大师\0"
+            VALUE "ProductVersion", "1, 2, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_EM_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 260
+        VERTGUIDE, 38
+        VERTGUIDE, 85
+        VERTGUIDE, 134
+        VERTGUIDE, 148
+        VERTGUIDE, 180
+        VERTGUIDE, 184
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 124
+        HORZGUIDE, 20
+        HORZGUIDE, 28
+        HORZGUIDE, 41
+        HORZGUIDE, 59
+        HORZGUIDE, 70
+        HORZGUIDE, 82
+        HORZGUIDE, 88
+        HORZGUIDE, 100
+        HORZGUIDE, 109
+    END
+
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_ABOUTBOX            "关于轻松修改大师(&Y)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\em.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
