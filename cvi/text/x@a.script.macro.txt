@@ -1,0 +1,88 @@
+
+
+x@a.m*
+
+once:
+	reader = _sys.inputstream
+	if included(thisfile) reader.abort
+
+	included(name) ::= name==included
+		#include file
+		- #include file
+		- #define __F_file_ext included
+
+	defined(name) ::= name exist
+
+define
+undef
+
+#if cond {
+#} else if {
+#} else {
+#}
+
+<cond>:
+	(standalone)
+	&& || ! < <= > >= == !=
+	+ - * /
+
+	/* x@a.inline basic/c ... */
+
+
+#switch {
+#case :
+#	break
+#case :
+#}
+
+#for each <name> in (val,val,val...) {
+	...
+#}
+
+#eval("<string>")
+<string>:
+	- g: [BNF] { ... }
+	- g: Symbol: Token1 Token2 ... c { c_stmt... }
+	- g: Symbol: Token3 ... basic { basic_stmt... }
+
+	string:
+	- 1
+		# x@a.m* language(basic)
+		  basic_stmt...
+		# x@a.m* language(c)
+		  c_stmt
+	- 2
+		# x@a.m* compile_as( embed $PATH/basic.g/ref_basic_segment )
+		  basic_stmt ...
+	- 3
+
+
+- object architecture
+
+	#ref <name> as {
+		#embed<...>
+		#ref <sub> as {..
+		...
+	}
+	#embed <name>
+	#embed <name>.<sub>
+
+
+	- 1
+		# x@a.m* #define name val
+		# x@a.layout ./abc {
+		# x@a.m* #define name val2
+		# x@a.layout }
+	- 2
+		# x@a.m* #define name1 val
+		# x@a.m* .... codes ....
+		# x@a.m* #define name2 val {
+		# x@a.m*   .... codes ....
+		# x@a.m*   #define name2 val_2 {
+		# x@a.m*     .... codes ....
+		# x@a.m*   }
+		# x@a.m* }
+	- 3
+		# x@a.layout ./abc {
+		# x@a.m* enter layout
+		# x@a.layout }

@@ -1,0 +1,23 @@
+
+# LaS - Layered Smartware
+	. LaS 读作 'Laysware'
+	. 一般 LaSis 代表整个 LaS 系统、技术模型，
+	  而用 LaSware(LaSar) 则代表单个 LaS 活件.
+
+# LaS 核心服务器
+# 	支持 COM 服务
+
+
+- X@A 设计
+- POS 支持
+
+
+
+
+
+--- 好处：使回到基于接口的系统设计上来。
+	经典COM则是一种思想还行，实现则看起来比较糟糕。
+
+
+
+LaSis

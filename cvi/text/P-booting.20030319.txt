@@ -1,0 +1,28 @@
+
+
+P-booting 执行报告
+2003.3.19
+
+
+
+	- P $h.* [Practice-optimized]
+
+	- N (CiAI.NL) Life.*
+
+	- P CVI.MLT.AE
+		M-CVI, M-MLT, M-VLS
+
+	- P POS LaSar cE.G
+		M-POS, M-LaS, M-Flow
+
+
+
+
+---------------
+报告用语
+
+	A	Archieved
+	P	Progress
+	C	Canceled
+	R	Retried
+	N	New

@@ -1,0 +1,16 @@
+
+
+
+
+信息组成结构
+信息处理
+信息体系结构
+
+
+
+
+UFOSL - Gelyx	继雷克斯计划
+	Unified Foundation Open Science Library
+
+UCOOL -	Kunnta	昆塔计划
+	Unified Classified Open Object Library
