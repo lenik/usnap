@@ -1,0 +1,10 @@
+
+
+- Ci, ufosl, URL
+
+	URL: UFOSL Resource Location. 以后称旧的URL为 "ISO's URL"。
+	BIOS: Basic Information Operating System. 以后称硬件 BIOS 为 "IHV's BIOS".
+		bios 也是 HIS 的另一个代号。
+
+	Ci使用与URL兼容的URL，位于 URL:/Ci/下。
+		由于 Ci 运行于 bios 下，因此她的 URL 解释同样可以使用 bios 的缩写机制。
