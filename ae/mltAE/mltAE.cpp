@@ -7,6 +7,7 @@
 #include "resource.h"
 
 
+AEEnvironment g_Env;
 AESettings g_Settings;
 AEConfig g_Config;
 
@@ -35,16 +36,25 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		return -1;
 	}
 
-	ShowWindow(g_Config.hMainWindow, nCmdShow);
-	UpdateWindow(g_Config.hMainWindow);
+	ShowWindow(g_Env.hMainWindow, nCmdShow);
+	UpdateWindow(g_Env.hMainWindow);
 
 	MSG msg;
-	while (GetMessage(&msg, g_Config.hMainWindow, 0, 0)) {
+	while (GetMessage(&msg, NULL, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
 	return 0;
+}
+
+
+void InitializeModules() {
+	//
+}
+
+void Play() {
+	InitializeModules();
 }
 
 
@@ -85,7 +95,7 @@ BOOL InitApp() {
 	// register wnd class
 		WNDCLASS wc;
 		wc.hInstance = g_Config.hApp;
-		wc.lpszClassName = g_Config.pClassName = _T("MLT.AE Main");
+		wc.lpszClassName = g_Env.pClassName = _T("MLT.AE Main");
 		wc.lpszMenuName = NULL;
 		wc.hbrBackground = NULL;
 		wc.hCursor = NULL;
@@ -100,26 +110,68 @@ BOOL InitApp() {
 
 	// create main window
 		HWND hWnd;
+		g_Env.dwMainStyle = WS_OVERLAPPEDWINDOW;
 		hWnd = CreateWindow(
-			g_Config.pClassName, g_Config.pAppName,
-			WS_OVERLAPPEDWINDOW,
+			g_Env.pClassName, g_Config.pAppName,
+			g_Env.dwMainStyle,
 			CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
 			NULL, NULL, g_Config.hApp, NULL);
 		long l = GetLastError();
 		if (hWnd == NULL) return FALSE;
-		g_Config.hMainWindow = hWnd;
+		g_Env.hMainWindow = hWnd;
+
+	// init procs
+		_sp_init();
 
 	return TRUE;
 }
 
 LRESULT _stdcall MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	BOOL bProcessed = TRUE;
+	int ID = wParam & 0xFFFFul;
+	int Event = wParam >> 16;
+	HWND hCtl = (HWND)lParam;
+	int Button = wParam;
+	int x = lParam & 0xFFFFul;
+	int y = lParam >> 16;
+
+
 	switch (message) {
 	case WM_CREATE:
-		::ShowCursor(FALSE);
+		{
+			::ShowCursor(FALSE);
+			RECT r;
+			::GetClientRect(hWnd, &r);
+		}
 		break;
 	case WM_CLOSE:
 		::ShowCursor(TRUE);
+		bProcessed = FALSE;
 		break;
+	case WM_PAINT:
+		break;
+	case WM_MOUSEMOVE:
+		{
+			HDC hDC = GetDC(hWnd);
+			SetROP2(hDC, R2_XORPEN);
+			static int lx,ly;
+			Ellipse(hDC, lx - 10, ly - 10, lx + 10, ly + 10);
+			Ellipse(hDC, x - 10, y - 10, x + 10, y + 10);
+			lx = x;
+			ly = y;
+			ReleaseDC(hWnd, hDC);
+		}
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		bProcessed = FALSE;
 	}
-	return DefWindowProc(hWnd, message, wParam, lParam);
+
+	if (!bProcessed) {
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	return 0;
 }

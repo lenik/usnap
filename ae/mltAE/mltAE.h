@@ -6,7 +6,8 @@
 #include "AEtype.h"
 
 
-struct AEGlobalConfig;
+struct AEEnvironment;
+struct AESettings;
 
 struct List;
 struct InstalledPluginHeader;
@@ -21,7 +22,20 @@ LPCTSTR DEFAULT_GP_ENTRY = _T("GetGraphPluginHeader");
 LPCTSTR DEFAULT_FP_ENTRY = _T("GetFontPluginHeader");
 LPCTSTR DEFAULT_OP_ENTRY = _T("GetOutputPluginHeader");
 LPCTSTR DEFAULT_KP_ENTRY = _T("GetKernelPluginHeader");
+typedef HRESULT (_stdcall *GetPluginHeaderProc)(AEConfig *pSvrCfg, PluginHeader **ppHdr);
 
+
+// global functions
+void _sp_init();
+
+
+//
+
+struct AEEnvironment {
+	HWND hMainWindow;
+	LPCTSTR pClassName;
+	DWORD dwMainStyle;
+};
 
 struct AESettings {
 	// dll-entry name for each plugin dll.
@@ -31,6 +45,7 @@ struct AESettings {
 	LPCTSTR pszKPEntry;
 };
 
+extern AEEnvironment g_Env;
 extern AESettings g_Settings;
 extern AEConfig g_Config;
 
