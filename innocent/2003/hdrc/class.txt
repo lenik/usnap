@@ -12,14 +12,11 @@ modules
 inc
 		头文件、类型库等
 
-outgrowth
-		副产品
-
 spec
 		规范、设计文档、参考资料等
 
-history
-		历史备份
+support
+		支持程序
 
 gui
 		用户界面、小工具等

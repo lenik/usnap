@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Tue Aug 05 20:00:02 2003
+/* at Wed Aug 13 10:32:42 2003
  */
 /* Compiler settings for C:\s_prjs\Data Rescuer\modules\HDR_Kernels\HDR_Kernels.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -73,22 +73,28 @@ typedef interface IWin32DiskLD IWin32DiskLD;
 #endif 	/* __IWin32DiskLD_FWD_DEFINED__ */
 
 
+#ifndef __IDiskAddress_FWD_DEFINED__
+#define __IDiskAddress_FWD_DEFINED__
+typedef interface IDiskAddress IDiskAddress;
+#endif 	/* __IDiskAddress_FWD_DEFINED__ */
+
+
 #ifndef ___IDriverEnumEvents_FWD_DEFINED__
 #define ___IDriverEnumEvents_FWD_DEFINED__
 typedef interface _IDriverEnumEvents _IDriverEnumEvents;
 #endif 	/* ___IDriverEnumEvents_FWD_DEFINED__ */
 
 
-#ifndef __DriversManager_FWD_DEFINED__
-#define __DriversManager_FWD_DEFINED__
+#ifndef ___ILDLargeIOEvents_FWD_DEFINED__
+#define ___ILDLargeIOEvents_FWD_DEFINED__
+typedef interface _ILDLargeIOEvents _ILDLargeIOEvents;
+#endif 	/* ___ILDLargeIOEvents_FWD_DEFINED__ */
 
-#ifdef __cplusplus
-typedef class DriversManager DriversManager;
-#else
-typedef struct DriversManager DriversManager;
-#endif /* __cplusplus */
 
-#endif 	/* __DriversManager_FWD_DEFINED__ */
+#ifndef ___IDiskAddressEvents_FWD_DEFINED__
+#define ___IDiskAddressEvents_FWD_DEFINED__
+typedef interface _IDiskAddressEvents _IDiskAddressEvents;
+#endif 	/* ___IDiskAddressEvents_FWD_DEFINED__ */
 
 
 #ifndef __Win32DiskLD_FWD_DEFINED__
@@ -101,6 +107,42 @@ typedef struct Win32DiskLD Win32DiskLD;
 #endif /* __cplusplus */
 
 #endif 	/* __Win32DiskLD_FWD_DEFINED__ */
+
+
+#ifndef __NetworkDiskLD_FWD_DEFINED__
+#define __NetworkDiskLD_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class NetworkDiskLD NetworkDiskLD;
+#else
+typedef struct NetworkDiskLD NetworkDiskLD;
+#endif /* __cplusplus */
+
+#endif 	/* __NetworkDiskLD_FWD_DEFINED__ */
+
+
+#ifndef __DriverManager_FWD_DEFINED__
+#define __DriverManager_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class DriverManager DriverManager;
+#else
+typedef struct DriverManager DriverManager;
+#endif /* __cplusplus */
+
+#endif 	/* __DriverManager_FWD_DEFINED__ */
+
+
+#ifndef __DiskAddress_FWD_DEFINED__
+#define __DiskAddress_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class DiskAddress DiskAddress;
+#else
+typedef struct DiskAddress DiskAddress;
+#endif /* __cplusplus */
+
+#endif 	/* __DiskAddress_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -119,6 +161,19 @@ void __RPC_USER MIDL_user_free( void __RPC_FAR * );
 
 
 
+
+
+enum SeekRelationConstants
+    {	srBegin	= 0,
+	srEnd	= srBegin + 1,
+	srCurrent	= srEnd + 1
+    };
+
+enum AddressModeConstants
+    {	amLBA	= 0,
+	amCHS	= amLBA + 1,
+	amByte	= amCHS + 1
+    };
 
 
 extern RPC_IF_HANDLE __MIDL_itf_HDR_Kernels_0000_v0_0_c_ifspec;
@@ -432,19 +487,31 @@ EXTERN_C const IID IID_ILDAccess;
     {
     public:
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ReadSector(
+            /* [in] */ long LBA,
             /* [in] */ long nSectors,
-            /* [size_is][out] */ BYTE __RPC_FAR *pBuffer,
+            /* [size_is][out] */ BYTE __RPC_FAR *Buffer,
             /* [retval][out] */ long __RPC_FAR *nRead) = 0;
 
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE WriteSector(
+            /* [in] */ long LBA,
             /* [in] */ long nSectors,
-            /* [size_is][in] */ BYTE __RPC_FAR *pBuffer,
+            /* [size_is][in] */ BYTE __RPC_FAR *Buffer,
             /* [retval][out] */ long __RPC_FAR *nWritten) = 0;
 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Read(
+            /* [in] */ long cbSize,
+            /* [size_is][out] */ BYTE __RPC_FAR *pbBuffer,
+            /* [retval][out] */ long __RPC_FAR *pcbRead) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Write(
+            /* [in] */ long cbSize,
+            /* [size_is][in] */ BYTE __RPC_FAR *pbBuffer,
+            /* [retval][out] */ long __RPC_FAR *pcbWritten) = 0;
+
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Seek(
-            /* [in] */ long Unit,
-            /* [in] */ long Offset,
-            /* [in] */ int Direction) = 0;
+            /* [in] */ long Low,
+            /* [in] */ long High,
+            /* [in] */ enum SeekRelationConstants Rel) = 0;
 
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE GetPosition(
             /* [out] */ long __RPC_FAR *LBA,
@@ -500,21 +567,35 @@ EXTERN_C const IID IID_ILDAccess;
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *ReadSector )(
             ILDAccess __RPC_FAR * This,
+            /* [in] */ long LBA,
             /* [in] */ long nSectors,
-            /* [size_is][out] */ BYTE __RPC_FAR *pBuffer,
+            /* [size_is][out] */ BYTE __RPC_FAR *Buffer,
             /* [retval][out] */ long __RPC_FAR *nRead);
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *WriteSector )(
             ILDAccess __RPC_FAR * This,
+            /* [in] */ long LBA,
             /* [in] */ long nSectors,
-            /* [size_is][in] */ BYTE __RPC_FAR *pBuffer,
+            /* [size_is][in] */ BYTE __RPC_FAR *Buffer,
             /* [retval][out] */ long __RPC_FAR *nWritten);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Read )(
+            ILDAccess __RPC_FAR * This,
+            /* [in] */ long cbSize,
+            /* [size_is][out] */ BYTE __RPC_FAR *pbBuffer,
+            /* [retval][out] */ long __RPC_FAR *pcbRead);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Write )(
+            ILDAccess __RPC_FAR * This,
+            /* [in] */ long cbSize,
+            /* [size_is][in] */ BYTE __RPC_FAR *pbBuffer,
+            /* [retval][out] */ long __RPC_FAR *pcbWritten);
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Seek )(
             ILDAccess __RPC_FAR * This,
-            /* [in] */ long Unit,
-            /* [in] */ long Offset,
-            /* [in] */ int Direction);
+            /* [in] */ long Low,
+            /* [in] */ long High,
+            /* [in] */ enum SeekRelationConstants Rel);
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetPosition )(
             ILDAccess __RPC_FAR * This,
@@ -557,14 +638,20 @@ EXTERN_C const IID IID_ILDAccess;
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
-#define ILDAccess_ReadSector(This,nSectors,pBuffer,nRead)	\
-    (This)->lpVtbl -> ReadSector(This,nSectors,pBuffer,nRead)
+#define ILDAccess_ReadSector(This,LBA,nSectors,Buffer,nRead)	\
+    (This)->lpVtbl -> ReadSector(This,LBA,nSectors,Buffer,nRead)
 
-#define ILDAccess_WriteSector(This,nSectors,pBuffer,nWritten)	\
-    (This)->lpVtbl -> WriteSector(This,nSectors,pBuffer,nWritten)
+#define ILDAccess_WriteSector(This,LBA,nSectors,Buffer,nWritten)	\
+    (This)->lpVtbl -> WriteSector(This,LBA,nSectors,Buffer,nWritten)
 
-#define ILDAccess_Seek(This,Unit,Offset,Direction)	\
-    (This)->lpVtbl -> Seek(This,Unit,Offset,Direction)
+#define ILDAccess_Read(This,cbSize,pbBuffer,pcbRead)	\
+    (This)->lpVtbl -> Read(This,cbSize,pbBuffer,pcbRead)
+
+#define ILDAccess_Write(This,cbSize,pbBuffer,pcbWritten)	\
+    (This)->lpVtbl -> Write(This,cbSize,pbBuffer,pcbWritten)
+
+#define ILDAccess_Seek(This,Low,High,Rel)	\
+    (This)->lpVtbl -> Seek(This,Low,High,Rel)
 
 #define ILDAccess_GetPosition(This,LBA,BytesOffset)	\
     (This)->lpVtbl -> GetPosition(This,LBA,BytesOffset)
@@ -578,8 +665,9 @@ EXTERN_C const IID IID_ILDAccess;
 
 /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDAccess_ReadSector_Proxy(
     ILDAccess __RPC_FAR * This,
+    /* [in] */ long LBA,
     /* [in] */ long nSectors,
-    /* [size_is][out] */ BYTE __RPC_FAR *pBuffer,
+    /* [size_is][out] */ BYTE __RPC_FAR *Buffer,
     /* [retval][out] */ long __RPC_FAR *nRead);
 
 
@@ -592,8 +680,9 @@ void __RPC_STUB ILDAccess_ReadSector_Stub(
 
 /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDAccess_WriteSector_Proxy(
     ILDAccess __RPC_FAR * This,
+    /* [in] */ long LBA,
     /* [in] */ long nSectors,
-    /* [size_is][in] */ BYTE __RPC_FAR *pBuffer,
+    /* [size_is][in] */ BYTE __RPC_FAR *Buffer,
     /* [retval][out] */ long __RPC_FAR *nWritten);
 
 
@@ -604,11 +693,39 @@ void __RPC_STUB ILDAccess_WriteSector_Stub(
     DWORD *_pdwStubPhase);
 
 
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDAccess_Read_Proxy(
+    ILDAccess __RPC_FAR * This,
+    /* [in] */ long cbSize,
+    /* [size_is][out] */ BYTE __RPC_FAR *pbBuffer,
+    /* [retval][out] */ long __RPC_FAR *pcbRead);
+
+
+void __RPC_STUB ILDAccess_Read_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDAccess_Write_Proxy(
+    ILDAccess __RPC_FAR * This,
+    /* [in] */ long cbSize,
+    /* [size_is][in] */ BYTE __RPC_FAR *pbBuffer,
+    /* [retval][out] */ long __RPC_FAR *pcbWritten);
+
+
+void __RPC_STUB ILDAccess_Write_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
 /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDAccess_Seek_Proxy(
     ILDAccess __RPC_FAR * This,
-    /* [in] */ long Unit,
-    /* [in] */ long Offset,
-    /* [in] */ int Direction);
+    /* [in] */ long Low,
+    /* [in] */ long High,
+    /* [in] */ enum SeekRelationConstants Rel);
 
 
 void __RPC_STUB ILDAccess_Seek_Stub(
@@ -801,6 +918,17 @@ EXTERN_C const IID IID_ILDLargeIO;
     ILDLargeIO : public IDispatch
     {
     public:
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ExportToFile(
+            /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+            /* [in] */ IDiskAddress __RPC_FAR *EndAddr,
+            /* [in] */ BSTR BinaryFile,
+            /* [in] */ BSTR LogFile) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ImportFromFile(
+            /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+            /* [in] */ BSTR BinaryFile,
+            /* [in] */ BSTR LogFile) = 0;
+
     };
 
 #else 	/* C style interface */
@@ -849,6 +977,19 @@ EXTERN_C const IID IID_ILDLargeIO;
             /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
             /* [out] */ UINT __RPC_FAR *puArgErr);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *ExportToFile )(
+            ILDLargeIO __RPC_FAR * This,
+            /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+            /* [in] */ IDiskAddress __RPC_FAR *EndAddr,
+            /* [in] */ BSTR BinaryFile,
+            /* [in] */ BSTR LogFile);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *ImportFromFile )(
+            ILDLargeIO __RPC_FAR * This,
+            /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+            /* [in] */ BSTR BinaryFile,
+            /* [in] */ BSTR LogFile);
+
         END_INTERFACE
     } ILDLargeIOVtbl;
 
@@ -885,11 +1026,46 @@ EXTERN_C const IID IID_ILDLargeIO;
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
+#define ILDLargeIO_ExportToFile(This,StartAddr,EndAddr,BinaryFile,LogFile)	\
+    (This)->lpVtbl -> ExportToFile(This,StartAddr,EndAddr,BinaryFile,LogFile)
+
+#define ILDLargeIO_ImportFromFile(This,StartAddr,BinaryFile,LogFile)	\
+    (This)->lpVtbl -> ImportFromFile(This,StartAddr,BinaryFile,LogFile)
+
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDLargeIO_ExportToFile_Proxy(
+    ILDLargeIO __RPC_FAR * This,
+    /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+    /* [in] */ IDiskAddress __RPC_FAR *EndAddr,
+    /* [in] */ BSTR BinaryFile,
+    /* [in] */ BSTR LogFile);
+
+
+void __RPC_STUB ILDLargeIO_ExportToFile_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ILDLargeIO_ImportFromFile_Proxy(
+    ILDLargeIO __RPC_FAR * This,
+    /* [in] */ IDiskAddress __RPC_FAR *StartAddr,
+    /* [in] */ BSTR BinaryFile,
+    /* [in] */ BSTR LogFile);
+
+
+void __RPC_STUB ILDLargeIO_ImportFromFile_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -914,6 +1090,8 @@ EXTERN_C const IID IID_IWin32DiskLD;
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE BindToWin32Path(
             /* [in] */ LPCTSTR szDevicePath,
             /* [retval][out] */ VARIANT_BOOL __RPC_FAR *ret) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Unbind( void) = 0;
 
     };
 
@@ -968,6 +1146,9 @@ EXTERN_C const IID IID_IWin32DiskLD;
             /* [in] */ LPCTSTR szDevicePath,
             /* [retval][out] */ VARIANT_BOOL __RPC_FAR *ret);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Unbind )(
+            IWin32DiskLD __RPC_FAR * This);
+
         END_INTERFACE
     } IWin32DiskLDVtbl;
 
@@ -1007,6 +1188,9 @@ EXTERN_C const IID IID_IWin32DiskLD;
 #define IWin32DiskLD_BindToWin32Path(This,szDevicePath,ret)	\
     (This)->lpVtbl -> BindToWin32Path(This,szDevicePath,ret)
 
+#define IWin32DiskLD_Unbind(This)	\
+    (This)->lpVtbl -> Unbind(This)
+
 #endif /* COBJMACROS */
 
 
@@ -1027,8 +1211,581 @@ void __RPC_STUB IWin32DiskLD_BindToWin32Path_Stub(
     DWORD *_pdwStubPhase);
 
 
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IWin32DiskLD_Unbind_Proxy(
+    IWin32DiskLD __RPC_FAR * This);
+
+
+void __RPC_STUB IWin32DiskLD_Unbind_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
 
 #endif 	/* __IWin32DiskLD_INTERFACE_DEFINED__ */
+
+
+#ifndef __IDiskAddress_INTERFACE_DEFINED__
+#define __IDiskAddress_INTERFACE_DEFINED__
+
+/* interface IDiskAddress */
+/* [unique][helpstring][dual][uuid][object] */
+
+
+EXTERN_C const IID IID_IDiskAddress;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("178F4DEB-63A8-4AA3-B1F5-6F31EE741BAE")
+    IDiskAddress : public IDispatch
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_LBA(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Cylinder(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Head(
+            /* [retval][out] */ short __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Sector(
+            /* [retval][out] */ short __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetWithinSector(
+            /* [retval][out] */ short __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_LinearLow(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_LinearHigh(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Mode(
+            /* [retval][out] */ enum AddressModeConstants __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Mode(
+            /* [in] */ enum AddressModeConstants newVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Cylinders(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Cylinders(
+            /* [in] */ long newVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Heads(
+            /* [retval][out] */ short __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Heads(
+            /* [in] */ short newVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Sectors(
+            /* [retval][out] */ short __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Sectors(
+            /* [in] */ short newVal) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Update( void) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetLBA(
+            /* [in] */ long LBA,
+            /* [in] */ short Offset) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetCHS(
+            /* [in] */ long Cylinder,
+            /* [in] */ short Head,
+            /* [in] */ short Sector,
+            /* [in] */ short Offset) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetLinear(
+            /* [in] */ long Low,
+            /* [in] */ long High) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IsValid(
+            /* [retval][out] */ VARIANT_BOOL __RPC_FAR *retVal) = 0;
+
+    };
+
+#else 	/* C style interface */
+
+    typedef struct IDiskAddressVtbl
+    {
+        BEGIN_INTERFACE
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *QueryInterface )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *AddRef )(
+            IDiskAddress __RPC_FAR * This);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *Release )(
+            IDiskAddress __RPC_FAR * This);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfoCount )(
+            IDiskAddress __RPC_FAR * This,
+            /* [out] */ UINT __RPC_FAR *pctinfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfo )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetIDsOfNames )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR __RPC_FAR *rgszNames,
+            /* [in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID __RPC_FAR *rgDispId);
+
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Invoke )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS __RPC_FAR *pDispParams,
+            /* [out] */ VARIANT __RPC_FAR *pVarResult,
+            /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
+            /* [out] */ UINT __RPC_FAR *puArgErr);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_LBA )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Cylinder )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Head )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ short __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Sector )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ short __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_OffsetWithinSector )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ short __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_LinearLow )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_LinearHigh )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Mode )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ enum AddressModeConstants __RPC_FAR *pVal);
+
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *put_Mode )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ enum AddressModeConstants newVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Cylinders )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *put_Cylinders )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ long newVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Heads )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ short __RPC_FAR *pVal);
+
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *put_Heads )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ short newVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Sectors )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ short __RPC_FAR *pVal);
+
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *put_Sectors )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ short newVal);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Update )(
+            IDiskAddress __RPC_FAR * This);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SetLBA )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ long LBA,
+            /* [in] */ short Offset);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SetCHS )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ long Cylinder,
+            /* [in] */ short Head,
+            /* [in] */ short Sector,
+            /* [in] */ short Offset);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SetLinear )(
+            IDiskAddress __RPC_FAR * This,
+            /* [in] */ long Low,
+            /* [in] */ long High);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *IsValid )(
+            IDiskAddress __RPC_FAR * This,
+            /* [retval][out] */ VARIANT_BOOL __RPC_FAR *retVal);
+
+        END_INTERFACE
+    } IDiskAddressVtbl;
+
+    interface IDiskAddress
+    {
+        CONST_VTBL struct IDiskAddressVtbl __RPC_FAR *lpVtbl;
+    };
+
+
+
+#ifdef COBJMACROS
+
+
+#define IDiskAddress_QueryInterface(This,riid,ppvObject)	\
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+
+#define IDiskAddress_AddRef(This)	\
+    (This)->lpVtbl -> AddRef(This)
+
+#define IDiskAddress_Release(This)	\
+    (This)->lpVtbl -> Release(This)
+
+
+#define IDiskAddress_GetTypeInfoCount(This,pctinfo)	\
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+
+#define IDiskAddress_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+
+#define IDiskAddress_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+
+#define IDiskAddress_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+
+
+#define IDiskAddress_get_LBA(This,pVal)	\
+    (This)->lpVtbl -> get_LBA(This,pVal)
+
+#define IDiskAddress_get_Cylinder(This,pVal)	\
+    (This)->lpVtbl -> get_Cylinder(This,pVal)
+
+#define IDiskAddress_get_Head(This,pVal)	\
+    (This)->lpVtbl -> get_Head(This,pVal)
+
+#define IDiskAddress_get_Sector(This,pVal)	\
+    (This)->lpVtbl -> get_Sector(This,pVal)
+
+#define IDiskAddress_get_OffsetWithinSector(This,pVal)	\
+    (This)->lpVtbl -> get_OffsetWithinSector(This,pVal)
+
+#define IDiskAddress_get_LinearLow(This,pVal)	\
+    (This)->lpVtbl -> get_LinearLow(This,pVal)
+
+#define IDiskAddress_get_LinearHigh(This,pVal)	\
+    (This)->lpVtbl -> get_LinearHigh(This,pVal)
+
+#define IDiskAddress_get_Mode(This,pVal)	\
+    (This)->lpVtbl -> get_Mode(This,pVal)
+
+#define IDiskAddress_put_Mode(This,newVal)	\
+    (This)->lpVtbl -> put_Mode(This,newVal)
+
+#define IDiskAddress_get_Cylinders(This,pVal)	\
+    (This)->lpVtbl -> get_Cylinders(This,pVal)
+
+#define IDiskAddress_put_Cylinders(This,newVal)	\
+    (This)->lpVtbl -> put_Cylinders(This,newVal)
+
+#define IDiskAddress_get_Heads(This,pVal)	\
+    (This)->lpVtbl -> get_Heads(This,pVal)
+
+#define IDiskAddress_put_Heads(This,newVal)	\
+    (This)->lpVtbl -> put_Heads(This,newVal)
+
+#define IDiskAddress_get_Sectors(This,pVal)	\
+    (This)->lpVtbl -> get_Sectors(This,pVal)
+
+#define IDiskAddress_put_Sectors(This,newVal)	\
+    (This)->lpVtbl -> put_Sectors(This,newVal)
+
+#define IDiskAddress_Update(This)	\
+    (This)->lpVtbl -> Update(This)
+
+#define IDiskAddress_SetLBA(This,LBA,Offset)	\
+    (This)->lpVtbl -> SetLBA(This,LBA,Offset)
+
+#define IDiskAddress_SetCHS(This,Cylinder,Head,Sector,Offset)	\
+    (This)->lpVtbl -> SetCHS(This,Cylinder,Head,Sector,Offset)
+
+#define IDiskAddress_SetLinear(This,Low,High)	\
+    (This)->lpVtbl -> SetLinear(This,Low,High)
+
+#define IDiskAddress_IsValid(This,retVal)	\
+    (This)->lpVtbl -> IsValid(This,retVal)
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_LBA_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_LBA_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Cylinder_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Cylinder_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Head_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ short __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Head_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Sector_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ short __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Sector_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_OffsetWithinSector_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ short __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_OffsetWithinSector_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_LinearLow_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_LinearLow_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_LinearHigh_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_LinearHigh_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Mode_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ enum AddressModeConstants __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Mode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IDiskAddress_put_Mode_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ enum AddressModeConstants newVal);
+
+
+void __RPC_STUB IDiskAddress_put_Mode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Cylinders_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Cylinders_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IDiskAddress_put_Cylinders_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ long newVal);
+
+
+void __RPC_STUB IDiskAddress_put_Cylinders_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Heads_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ short __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Heads_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IDiskAddress_put_Heads_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ short newVal);
+
+
+void __RPC_STUB IDiskAddress_put_Heads_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDiskAddress_get_Sectors_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ short __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDiskAddress_get_Sectors_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IDiskAddress_put_Sectors_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ short newVal);
+
+
+void __RPC_STUB IDiskAddress_put_Sectors_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDiskAddress_Update_Proxy(
+    IDiskAddress __RPC_FAR * This);
+
+
+void __RPC_STUB IDiskAddress_Update_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDiskAddress_SetLBA_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ long LBA,
+    /* [in] */ short Offset);
+
+
+void __RPC_STUB IDiskAddress_SetLBA_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDiskAddress_SetCHS_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ long Cylinder,
+    /* [in] */ short Head,
+    /* [in] */ short Sector,
+    /* [in] */ short Offset);
+
+
+void __RPC_STUB IDiskAddress_SetCHS_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDiskAddress_SetLinear_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [in] */ long Low,
+    /* [in] */ long High);
+
+
+void __RPC_STUB IDiskAddress_SetLinear_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDiskAddress_IsValid_Proxy(
+    IDiskAddress __RPC_FAR * This,
+    /* [retval][out] */ VARIANT_BOOL __RPC_FAR *retVal);
+
+
+void __RPC_STUB IDiskAddress_IsValid_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+
+#endif 	/* __IDiskAddress_INTERFACE_DEFINED__ */
 
 
 
@@ -1147,13 +1904,217 @@ EXTERN_C const IID DIID__IDriverEnumEvents;
 #endif 	/* ___IDriverEnumEvents_DISPINTERFACE_DEFINED__ */
 
 
-EXTERN_C const CLSID CLSID_DriversManager;
+#ifndef ___ILDLargeIOEvents_DISPINTERFACE_DEFINED__
+#define ___ILDLargeIOEvents_DISPINTERFACE_DEFINED__
 
-#ifdef __cplusplus
+/* dispinterface _ILDLargeIOEvents */
+/* [helpstring][uuid] */
 
-class DECLSPEC_UUID("1059127F-B46F-4B73-BE8D-15B7DC8C39FC")
-DriversManager;
-#endif
+
+EXTERN_C const IID DIID__ILDLargeIOEvents;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("D6914D50-247D-411B-A7A4-FFF9A6119CA6")
+    _ILDLargeIOEvents : public IDispatch
+    {
+    };
+
+#else 	/* C style interface */
+
+    typedef struct _ILDLargeIOEventsVtbl
+    {
+        BEGIN_INTERFACE
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *QueryInterface )(
+            _ILDLargeIOEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *AddRef )(
+            _ILDLargeIOEvents __RPC_FAR * This);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *Release )(
+            _ILDLargeIOEvents __RPC_FAR * This);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfoCount )(
+            _ILDLargeIOEvents __RPC_FAR * This,
+            /* [out] */ UINT __RPC_FAR *pctinfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfo )(
+            _ILDLargeIOEvents __RPC_FAR * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetIDsOfNames )(
+            _ILDLargeIOEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR __RPC_FAR *rgszNames,
+            /* [in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID __RPC_FAR *rgDispId);
+
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Invoke )(
+            _ILDLargeIOEvents __RPC_FAR * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS __RPC_FAR *pDispParams,
+            /* [out] */ VARIANT __RPC_FAR *pVarResult,
+            /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
+            /* [out] */ UINT __RPC_FAR *puArgErr);
+
+        END_INTERFACE
+    } _ILDLargeIOEventsVtbl;
+
+    interface _ILDLargeIOEvents
+    {
+        CONST_VTBL struct _ILDLargeIOEventsVtbl __RPC_FAR *lpVtbl;
+    };
+
+
+
+#ifdef COBJMACROS
+
+
+#define _ILDLargeIOEvents_QueryInterface(This,riid,ppvObject)	\
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+
+#define _ILDLargeIOEvents_AddRef(This)	\
+    (This)->lpVtbl -> AddRef(This)
+
+#define _ILDLargeIOEvents_Release(This)	\
+    (This)->lpVtbl -> Release(This)
+
+
+#define _ILDLargeIOEvents_GetTypeInfoCount(This,pctinfo)	\
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+
+#define _ILDLargeIOEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+
+#define _ILDLargeIOEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+
+#define _ILDLargeIOEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___ILDLargeIOEvents_DISPINTERFACE_DEFINED__ */
+
+
+#ifndef ___IDiskAddressEvents_DISPINTERFACE_DEFINED__
+#define ___IDiskAddressEvents_DISPINTERFACE_DEFINED__
+
+/* dispinterface _IDiskAddressEvents */
+/* [helpstring][uuid] */
+
+
+EXTERN_C const IID DIID__IDiskAddressEvents;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("D6914D4F-247D-411B-A7A4-FFF9A6119CA6")
+    _IDiskAddressEvents : public IDispatch
+    {
+    };
+
+#else 	/* C style interface */
+
+    typedef struct _IDiskAddressEventsVtbl
+    {
+        BEGIN_INTERFACE
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *QueryInterface )(
+            _IDiskAddressEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *AddRef )(
+            _IDiskAddressEvents __RPC_FAR * This);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *Release )(
+            _IDiskAddressEvents __RPC_FAR * This);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfoCount )(
+            _IDiskAddressEvents __RPC_FAR * This,
+            /* [out] */ UINT __RPC_FAR *pctinfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfo )(
+            _IDiskAddressEvents __RPC_FAR * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetIDsOfNames )(
+            _IDiskAddressEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR __RPC_FAR *rgszNames,
+            /* [in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID __RPC_FAR *rgDispId);
+
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Invoke )(
+            _IDiskAddressEvents __RPC_FAR * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS __RPC_FAR *pDispParams,
+            /* [out] */ VARIANT __RPC_FAR *pVarResult,
+            /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
+            /* [out] */ UINT __RPC_FAR *puArgErr);
+
+        END_INTERFACE
+    } _IDiskAddressEventsVtbl;
+
+    interface _IDiskAddressEvents
+    {
+        CONST_VTBL struct _IDiskAddressEventsVtbl __RPC_FAR *lpVtbl;
+    };
+
+
+
+#ifdef COBJMACROS
+
+
+#define _IDiskAddressEvents_QueryInterface(This,riid,ppvObject)	\
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+
+#define _IDiskAddressEvents_AddRef(This)	\
+    (This)->lpVtbl -> AddRef(This)
+
+#define _IDiskAddressEvents_Release(This)	\
+    (This)->lpVtbl -> Release(This)
+
+
+#define _IDiskAddressEvents_GetTypeInfoCount(This,pctinfo)	\
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+
+#define _IDiskAddressEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+
+#define _IDiskAddressEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+
+#define _IDiskAddressEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___IDiskAddressEvents_DISPINTERFACE_DEFINED__ */
+
 
 EXTERN_C const CLSID CLSID_Win32DiskLD;
 
@@ -1161,6 +2122,30 @@ EXTERN_C const CLSID CLSID_Win32DiskLD;
 
 class DECLSPEC_UUID("8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF")
 Win32DiskLD;
+#endif
+
+EXTERN_C const CLSID CLSID_NetworkDiskLD;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("1BBB6AC8-B281-433C-A8B3-E2C5C45BB249")
+NetworkDiskLD;
+#endif
+
+EXTERN_C const CLSID CLSID_DriverManager;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("CAE5C5EC-AC3F-4227-AC83-68A9B6E91C4E")
+DriverManager;
+#endif
+
+EXTERN_C const CLSID CLSID_DiskAddress;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("35F10299-B9B2-4787-842D-F116376F7603")
+DiskAddress;
 #endif
 #endif /* __HDR_KernelsLib_LIBRARY_DEFINED__ */
 

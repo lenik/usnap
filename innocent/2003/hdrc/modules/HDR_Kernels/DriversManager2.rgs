@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_Kernels.DriversManager.1 = s 'DriversManager Class'
+	{
+		CLSID = s '{1059127F-B46F-4B73-BE8D-15B7DC8C39FC}'
+	}
+	HDR_Kernels.DriversManager = s 'DriversManager Class'
+	{
+		CLSID = s '{1059127F-B46F-4B73-BE8D-15B7DC8C39FC}'
+		CurVer = s 'HDR_Kernels.DriversManager.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1059127F-B46F-4B73-BE8D-15B7DC8C39FC} = s 'DriversManager Class'
+		{
+			ProgID = s 'HDR_Kernels.DriversManager.1'
+			VersionIndependentProgID = s 'HDR_Kernels.DriversManager'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{AF4C573C-9057-456F-902F-5650CCE6708D}'
+		}
+	}
+}

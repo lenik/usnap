@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_Kernels.NetworkDiskLD.1 = s 'NetworkDiskLD Class'
+	{
+		CLSID = s '{1BBB6AC8-B281-433C-A8B3-E2C5C45BB249}'
+	}
+	HDR_Kernels.NetworkDiskLD = s 'NetworkDiskLD Class'
+	{
+		CLSID = s '{1BBB6AC8-B281-433C-A8B3-E2C5C45BB249}'
+		CurVer = s 'HDR_Kernels.NetworkDiskLD.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1BBB6AC8-B281-433C-A8B3-E2C5C45BB249} = s 'NetworkDiskLD Class'
+		{
+			ProgID = s 'HDR_Kernels.NetworkDiskLD.1'
+			VersionIndependentProgID = s 'HDR_Kernels.NetworkDiskLD'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{AF4C573C-9057-456F-902F-5650CCE6708D}'
+		}
+	}
+}

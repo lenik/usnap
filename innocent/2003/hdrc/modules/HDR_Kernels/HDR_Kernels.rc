@@ -95,8 +95,10 @@ END
 // REGISTRY
 //
 
-IDR_DRIVERSMANAGER      REGISTRY DISCARDABLE    "DriversManager.rgs"
 IDR_WIN32DISKLD         REGISTRY DISCARDABLE    "Win32DiskLD.rgs"
+IDR_DRIVERMANAGER       REGISTRY DISCARDABLE    "DriverManager.rgs"
+IDR_DISKADDRESS         REGISTRY DISCARDABLE    "DiskAddress.rgs"
+IDR_NETWORKDISKLD       REGISTRY DISCARDABLE    "NetworkDiskLD.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //

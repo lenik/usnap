@@ -13,6 +13,20 @@ import "ocidl.idl";
 	interface ILDCache;
 	interface ILDLargeIO;
 	interface IWin32DiskLD;
+	interface IDiskAddress;
+
+
+	enum SeekRelationConstants {
+		srBegin = 0,
+		srEnd,
+		srCurrent
+	};
+
+	enum AddressModeConstants {
+		amLBA = 0,
+		amCHS,
+		amByte
+	};
 
 	[
 		object,
@@ -39,6 +53,7 @@ import "ocidl.idl";
 		[id(2), helpstring("method GetDriverName")] HRESULT GetDriverName([in]int Index, [out, retval]BSTR *Name);
 	};
 
+
 	[
 		object,
 		uuid(BA6E48AA-25CC-45A4-BB80-56779F68D475),
@@ -48,10 +63,12 @@ import "ocidl.idl";
 	]
 	interface ILDAccess : IDispatch
 	{
-		[id(1), helpstring("method ReadSector")] HRESULT ReadSector([in]long nSectors, [out,size_is(nSectors*512)]BYTE *pBuffer, [out, retval]long *nRead);
-		[id(2), helpstring("method WriteSector")] HRESULT WriteSector([in]long nSectors, [in,size_is(nSectors*512)]BYTE *pBuffer, [out, retval]long *nWritten);
-		[id(3), helpstring("method Seek")] HRESULT Seek([in]long Unit, [in]long Offset, [in]int Direction);
-		[id(4), helpstring("method GetPosition")] HRESULT GetPosition([out]long *LBA, [out]long *BytesOffset);
+		[id(1), helpstring("method ReadSector")] HRESULT ReadSector([in]long LBA, [in]long nSectors, [out,size_is(nSectors*512)]BYTE *Buffer, [out, retval]long *nRead);
+		[id(2), helpstring("method WriteSector")] HRESULT WriteSector([in]long LBA, [in]long nSectors, [in,size_is(nSectors*512)]BYTE *Buffer, [out, retval]long *nWritten);
+		[id(3), helpstring("method Read")] HRESULT Read([in]long cbSize, [out,size_is(cbSize)]BYTE *pbBuffer, [out,retval]long *pcbRead);
+		[id(4), helpstring("method Write")] HRESULT Write([in]long cbSize, [in,size_is(cbSize)]BYTE *pbBuffer, [out,retval]long *pcbWritten);
+		[id(5), helpstring("method Seek")] HRESULT Seek([in]long Low, [in]long High, [in]enum SeekRelationConstants Rel);
+		[id(6), helpstring("method GetPosition")] HRESULT GetPosition([out]long *LBA, [out]long *BytesOffset);
 	};
 
 	[
@@ -76,6 +93,8 @@ import "ocidl.idl";
 	]
 	interface ILDLargeIO: IDispatch
 	{
+		[id(1), helpstring("method ExportToFile")] HRESULT ExportToFile([in]IDiskAddress *StartAddr, [in]IDiskAddress *EndAddr, [in]BSTR BinaryFile, [in]BSTR LogFile);
+		[id(2), helpstring("method ImportFromFile")] HRESULT ImportFromFile([in]IDiskAddress *StartAddr, [in]BSTR BinaryFile, [in]BSTR LogFile);
 	};
 
 	[
@@ -88,8 +107,39 @@ import "ocidl.idl";
 	interface IWin32DiskLD: IDispatch
 	{
 		[id(1), helpstring("method BindToWin32Path")] HRESULT BindToWin32Path([in]LPCTSTR szDevicePath, [out, retval]VARIANT_BOOL *ret);
+		[id(2), helpstring("method Unbind")] HRESULT Unbind();
 	};
 
+	[
+		object,
+		uuid(178F4DEB-63A8-4AA3-B1F5-6F31EE741BAE),
+		dual,
+		helpstring("IDiskAddress Interface"),
+		pointer_default(unique)
+	]
+	interface IDiskAddress : IDispatch
+	{
+		[propget, id(1), helpstring("Linear Block Address")] HRESULT LBA([out, retval] long *pVal);
+		[propget, id(2), helpstring("property Cylinder")] HRESULT Cylinder([out, retval] long *pVal);
+		[propget, id(3), helpstring("property Head")] HRESULT Head([out, retval] short *pVal);
+		[propget, id(4), helpstring("property Sector")] HRESULT Sector([out, retval] short *pVal);
+		[propget, id(5), helpstring("property OffsetWithinSector")] HRESULT OffsetWithinSector([out, retval] short *pVal);
+		[propget, id(6), helpstring("property LinearLow")] HRESULT LinearLow([out, retval] long *pVal);
+		[propget, id(7), helpstring("property LinearHigh")] HRESULT LinearHigh([out, retval] long *pVal);
+		[propget, id(8), helpstring("property Mode")] HRESULT Mode([out, retval] enum AddressModeConstants *pVal);
+		[propput, id(8), helpstring("property Mode")] HRESULT Mode([in] enum AddressModeConstants newVal);
+		[propget, id(9), helpstring("property Cylinders")] HRESULT Cylinders([out, retval] long *pVal);
+		[propput, id(9), helpstring("property Cylinders")] HRESULT Cylinders([in] long newVal);
+		[propget, id(10), helpstring("property Heads")] HRESULT Heads([out, retval] short *pVal);
+		[propput, id(10), helpstring("property Heads")] HRESULT Heads([in] short newVal);
+		[propget, id(11), helpstring("property Sectors")] HRESULT Sectors([out, retval] short *pVal);
+		[propput, id(11), helpstring("property Sectors")] HRESULT Sectors([in] short newVal);
+		[id(12), helpstring("method Update")] HRESULT Update();
+		[id(13), helpstring("method SetLBA")] HRESULT SetLBA([in]long LBA, [in]short Offset);
+		[id(14), helpstring("method SetCHS")] HRESULT SetCHS([in]long Cylinder, [in]short Head, [in]short Sector, [in]short Offset);
+		[id(15), helpstring("method SetLinear")] HRESULT SetLinear([in]long Low, [in]long High);
+		[id(16), helpstring("method IsValid")] HRESULT IsValid([out,retval]VARIANT_BOOL *retVal);
+	};
 
 [
 	uuid(AF4C573C-9057-456F-902F-5650CCE6708D),
@@ -110,19 +160,30 @@ library HDR_KernelsLib
 	{
 		properties:
 		methods:
-		[id(1), helpstring("method ScanDriver")] HRESULT ScanDriver([in]BSTR DriverName, [out,retval]VARIANT_BOOL *Ignore);
+		[id(1), helpstring("method ScanDriver")] HRESULT ScanDriver([in]BSTR DriverName, [in,out]VARIANT_BOOL *Ignore);
 	};
 
 	[
-		uuid(1059127F-B46F-4B73-BE8D-15B7DC8C39FC),
-		helpstring("DriversManager Class")
+		uuid(D6914D50-247D-411B-A7A4-FFF9A6119CA6),
+		helpstring("_ILDLargeIOEvents Interface")
 	]
-	coclass DriversManager
+	dispinterface _ILDLargeIOEvents
 	{
-		[default] interface IDriverLoader;
-		[default, source] dispinterface _IDriverEnumEvents;
-		interface IDriverEnum;
+		properties:
+		methods:
+		[id(1), helpstring("Large I/O Progress")] HRESULT Progress([in]IDiskAddress *CurrentAddress, [in,out]VARIANT_BOOL *Cancel);
 	};
+
+	[
+		uuid(D6914D4F-247D-411B-A7A4-FFF9A6119CA6),
+		helpstring("_IDiskAddressEvents Interface")
+	]
+	dispinterface _IDiskAddressEvents
+	{
+		properties:
+		methods:
+	};
+
 
 	[
 		uuid(8270F7BD-1D9D-48D6-B20F-3823E0CE2AFF),
@@ -131,9 +192,44 @@ library HDR_KernelsLib
 	coclass Win32DiskLD
 	{
 		[default] interface ILDAccess;
+		[default, source] dispinterface _ILDLargeIOEvents;
 		interface ILDCache;
 		interface ILDLargeIO;
 		interface IWin32DiskLD;
+	};
+
+	[
+		uuid(1BBB6AC8-B281-433C-A8B3-E2C5C45BB249),
+		helpstring("NetworkDiskLD Class")
+	]
+	coclass NetworkDiskLD
+	{
+		[default] interface ILDAccess;
+		[default, source] dispinterface _ILDLargeIOEvents;
+		interface ILDCache;
+		interface ILDLargeIO;
+		interface IWin32DiskLD;
+	};
+
+	[
+		uuid(CAE5C5EC-AC3F-4227-AC83-68A9B6E91C4E),
+		helpstring("DriverManager Class")
+	]
+	coclass DriverManager
+	{
+		[default] interface IDriverLoader;
+		[default, source] dispinterface _IDriverEnumEvents;
+		interface IDriverEnum;
+	};
+
+	[
+		uuid(35F10299-B9B2-4787-842D-F116376F7603),
+		helpstring("DiskAddress Class")
+	]
+	coclass DiskAddress
+	{
+		[default] interface IDiskAddress;
+		[default, source] dispinterface _IDiskAddressEvents;
 	};
 
 };

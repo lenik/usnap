@@ -10,15 +10,19 @@
 #include <initguid.h>
 #include "HDR_Kernels.h"
 #include "HDR_Kernels_i.c"
-#include "DriversManager.h"
 #include "Win32DiskLD.h"
+#include "DriverManager.h"
+#include "DiskAddress.h"
+#include "NetworkDiskLD.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
-OBJECT_ENTRY(CLSID_DriversManager, CDriversManager)
+OBJECT_ENTRY(CLSID_DriverManager, CDriverManager)
 OBJECT_ENTRY(CLSID_Win32DiskLD, CWin32DiskLD)
+OBJECT_ENTRY(CLSID_DiskAddress, CDiskAddress)
+OBJECT_ENTRY(CLSID_NetworkDiskLD, CNetworkDiskLD)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

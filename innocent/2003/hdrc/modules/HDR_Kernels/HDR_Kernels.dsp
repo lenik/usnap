@@ -304,7 +304,15 @@ SOURCE=.\StdAfx.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\DriversManager.rgs
+SOURCE=.\DiskAddress.rgs
+# End Source File
+# Begin Source File
+
+SOURCE=.\DriverManager.rgs
+# End Source File
+# Begin Source File
+
+SOURCE=.\NetworkDiskLD.rgs
 # End Source File
 # Begin Source File
 
@@ -316,15 +324,31 @@ SOURCE=.\Win32DiskLD.rgs
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\DriversManager.cpp
+SOURCE=.\DiskAddress.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\DriversManager.h
+SOURCE=.\DiskAddress.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DriverManager.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DriverManager.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\HDR_KernelsCP.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NetworkDiskLD.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\NetworkDiskLD.h
 # End Source File
 # Begin Source File
 
@@ -343,5 +367,25 @@ SOURCE=.\Win32DiskLD.h
 SOURCE="..\..\..\..\Program Files\vs98\VB98\新建文件夹\Form1.frm"
 # End Source File
 # End Group
+# Begin Group "cachemgr"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\ExtCache.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ExtCache.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\devtype.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\todo.txt
+# End Source File
 # End Target
 # End Project

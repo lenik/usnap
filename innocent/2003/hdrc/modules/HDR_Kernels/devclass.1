@@ -1,0 +1,106 @@
+
+
+
+
+NUMBERING enumDevice {
+    Unknown
+    System
+    Processor
+        CPU
+        FPU
+        BMP
+
+    Monitor
+        CRT
+        LCD
+        3D Ray
+    Power
+        Advanced Power
+        UPS
+    Display
+        Mono
+        CGA
+        VGA
+        SVGA
+    Memory
+        ROM
+        EPROM
+        EEPROM
+        SDRAM
+        DDR
+        L2 Cache
+
+    Storage
+        Hard disk
+        Floppy disk
+        Movable disk
+
+    Interface
+        ISA
+        PCI
+        I2C
+        AGP
+        Bridge
+
+    Controller
+        Hard disk controller
+        Floppy disk controller
+
+    Port
+        COM
+        LPT
+        USB
+        PS/2
+        1394
+
+    Input
+        Mouse
+        Keyboard
+        Tablet
+        Joystick
+
+    Output
+        Force-feedback
+        Printer
+
+    Multimedia
+        Sound card
+
+    Network
+        Eth 10M
+        Eth 100M
+        Eth 1000M
+        Token-ring
+
+    Media
+
+}
+
+enum enumDevice {
+    Unknown
+    System                          // (主要是软件驱动)
+    Processor                       // 处理器:  CPU, FPU, BMP, ...
+    Monitor                         // 显示器:  CRT, LCD, ...
+    Power                           // 电源:    高级电源, UPS, ...
+    Display                         // 显示卡:  CGA, VGA, SVGA, ...
+    Memory                          // 内存:    SDRAM, DDR, L2 Cache, ROM, ...
+    Storage                         // 存储器:  硬驱, 软驱, 移动存储, ...
+    Interface                       // 接口:    ISA, PCI, I2C, AGP, 桥, ...
+    Controller                      // 控制器:
+    Port                            // 端口:    COM, LPT, USB, PS/2, 1394, ...
+    Input                           // 输入:    键盘, 鼠标, 手写板, 摇杆, ...
+    Output                          // 输出:    力反馈,
+    Multimedia                      // 多媒体:  声卡,
+    Network                         // 网卡
+    Media                           // 介质:
+};
+
+enum enumDevProcessor {
+    procCPU,
+    procFPU,
+    procGPU,
+};
+enum enumDevMonitor {
+    monCRT,
+    monLCD,
+};

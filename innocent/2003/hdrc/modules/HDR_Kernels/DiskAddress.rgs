@@ -1,0 +1,26 @@
+HKCR
+{
+	HDR_Kernels.DiskAddress.1 = s 'DiskAddress Class'
+	{
+		CLSID = s '{35F10299-B9B2-4787-842D-F116376F7603}'
+	}
+	HDR_Kernels.DiskAddress = s 'DiskAddress Class'
+	{
+		CLSID = s '{35F10299-B9B2-4787-842D-F116376F7603}'
+		CurVer = s 'HDR_Kernels.DiskAddress.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {35F10299-B9B2-4787-842D-F116376F7603} = s 'DiskAddress Class'
+		{
+			ProgID = s 'HDR_Kernels.DiskAddress.1'
+			VersionIndependentProgID = s 'HDR_Kernels.DiskAddress'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{AF4C573C-9057-456F-902F-5650CCE6708D}'
+		}
+	}
+}
