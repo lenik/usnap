@@ -1,0 +1,122 @@
+
+typedef struct SEGWORD;
+typedef addressword	WORD;
+
+insertseg(seg_start, seg_end) {	// theseg == seg_start..seg_end
+	// SEGWORD segtable[];
+
+	i = 0;
+
+	if (theseg NOT IN segtable[i]) return OUT_OF_RANGE;
+
+
+	while (){
+
+		leftseg = segtable[i]
+		rightseg = segtable[i+1]
+
+		if (theseg IN leftseg) {
+			if leftseg.term {
+				break;
+			else {
+				i = 2*i+1;
+			}
+		} elseif IN rightseg {
+			if rightseg.term {
+				break;
+			else {
+				i = 2*i+2;
+			}
+		} else {
+			if theseg全部在leftseg左边 ||
+				theseg全部在rightseg右边 ||
+				theseg.left在leftseg右边&&theseg.right在rightseg左边 {
+				return NO_SPACE_AVAIL
+			elseif theseg.left属于(leftseg union rightseg) ||
+				theseg.right属于(leftseg union rightseg) {
+				if leftseg.right>rightseg.left+1 {
+					// 表示leftseg和rightseg之间有空隙
+		----------------->	return CROSS_SEG
+		|		} elseif theseg.left属于leftseg && theseg.right属于rightseg {
+		|
+		|			break;
+		|		} else {
+		------------------------goto;
+			}
+		}
+	}
+
+	// 在segtable[i]或(segtable[i .. i+1]跨区间内)分配theseg
+	if (不垮区间) {
+		segi=segtable[i]
+		segip=segi的父段
+		if theseg.left==segi.left {
+			if theseg.right==segi.right {
+				//完全覆盖
+				需删除结点
+			else {
+				//盖在左边
+				*psegi=segi
+				while () {
+					psegi->term=0
+					psegi->left=theseg.right+1
+					if psegi是左子支 {
+						psegip->left=psegi->left
+						psegi=psegip
+						continue
+					}
+					break
+				}
+			}
+		} else if theseg.right==segi.right {
+			// 盖在右边
+			...
+		} else {
+			// 盖在中间
+			需增加结点
+			newleft.left=segi.left
+			newleft.right=theseg.left-1
+			newright.left=theseg.right+1
+			newright.right=segi.right
+		}
+	} else {
+		// 跨区间
+		segi1=segi		//left range
+		segi2=segtable[i+1]	//right range
+		if theseg.left==segi1.left {
+			//左边淹没
+			if theseg.right==segi2.right {
+				//全淹没
+				segi1,segi2,segip删除
+				goto x
+			} else {
+				segi1删除
+			}
+		} else {
+			segi1.right=theseg.left-1
+		}
+		if theseg.right==segi2.right {
+			//右边淹没
+			segi2删除
+		} else {
+			segi2.left=theseg.right+1
+		}
+		x:
+	}
+}
+
+deleteseg(seg_start, seg_end) {
+}
+
+defrag() {
+}
+
+packspace() {	// convert to read-only
+	// main purpose: remove FAT
+	// combine any space if could
+}
+
+constructfat() {	// convert to read/write
+	// make 2-tree by space length not nodes
+
+}

@@ -1,0 +1,48 @@
+
+
+
+# driver configuration graph
+
+
+# // {
+	|-o [__driver]
+	| |-o [__config]
+	| | +-o driver-arch
+	| |
+	| |-o hard-disk
+	| +-o iso-9660-fat
+	|
+	+-o [__filter]
+	  |-o [__config]
+	  | +-o filter-arch
+	  |
+	  |-o iso-9660-filter
+	  |-o sec-support
+	  |-o log-support
+	  +-o alias-support
+
+# }
+
+# driver-arch:
+
+	hard-disk hdc;
+	hdc.bind_to(c:);
+	iso-9660-fat cdromsys;
+	cdromsys.build_upon(hdc);
+
+	return cdromsys;
+
+# filter-arch:
+
+	iso-9660-filter cdromdir;
+	alias-support cdromalias;
+	sec-support sec;
+	log-support log;
+	alias-support alias;
+
+	cdromdir.output(cdromalias);
+	cdromalias.output(sec);
+	sec.output(log);
+	log.output(alias);
+
+	return alias;

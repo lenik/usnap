@@ -1,0 +1,21 @@
+
+# 如果没有这张表，在EPFS中，目录中只能出现如 "[39485943]"，
+# 而不会出现 "[__driver]"
+
+[__code_mapping]
+__code_mapping
+
+[__driver]
+__driver
+
+[__filter]
+__filter
+
+[applications]
+applications
+
+[ufosl]
+ufosl
+
+[ufoil]
+ufoil

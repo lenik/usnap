@@ -1,0 +1,17 @@
+
+
+EPFS - Easy Professional File System
+	bios|	designed for bios project
+		- Basic Information Operating-System
+	gelyx|	designed for general gelyx storage system
+		- United Foundation Open Science Library
+	Eos|	designed for Eos project
+		- Easy objectized system
+
+	Inspiration:
+		- reduced file-system for structural diary book
+
+
+	- ZAUJ.DanSei, 1999 @ TopCroak HiTech Development Ltd.
+	- All rights reserved.
+__________________________________________________________________________________________________
