@@ -1,0 +1,29 @@
+
+
+
+- color support
+
+	when the image contains color element, or the color is to be considered important,
+	then you can use the color-support feature in AE.
+	the plugin should be designed with color-support also. (especially kernel plugins.)
+
+	source graphics plugin may translate an RGB image to double quantified image, if
+	'color' is in grayscale mode.
+
+
+- advance module configuration
+
+	可以在一般的图像输入后端加上简单的去噪等处理,以及在输出之前进行大小写转换等,
+	对于核心调节, 因为核心调节是一组过程, 则可以对各个细分过程进行过程配置.
+
+	这些配置可以从过程级上向用户到处配置控制.
+
+
+- kernel adjustment
+	- 使用算法
+		. 模糊数学 匹配精度
+		. 遗传算法 收敛速度
+		. 神经网络 自适应调节
+	- 模块化方法
+
+	-
