@@ -1,0 +1,18 @@
+
+----------------------------
+
+	data flow for HIS component.
+
+----------------------------
+
+	another FTP for Ci:
+
+		CiFTP
+
+----------------------------
+
+	transfer Ci components between network.
+	maintain Ci components in Ci components tree (CiCT)
+	CiCT is architecture of Ci in local departmant.
+	and Ci Network Model (CiNM) is architecture over Ci network.
+

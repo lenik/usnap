@@ -1,0 +1,7 @@
+; basicInput.def : Declares the module parameters for the DLL.
+
+LIBRARY      "basicInput"
+DESCRIPTION  'basicInput Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
