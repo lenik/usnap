@@ -1,0 +1,46 @@
+        typedef matrix::vector_t        V;
+        typedef matrix::rect_t          R;
+        typedef matrix::quadx_t         Qx;
+        typedef matrix::rectx_t         Rx;
+        typedef matrix::mat_quad_t      M;
+        typedef matrix::mat_quadx_t     Mx;
+
+        typedef graph::rel_matrix_t     Rel;    // Rel is 2-D
+        typedef graph::chain_t          C;
+        typedef graph::tree_t           T;
+        typedef graph::iolinks_t        D;  // common, and always directional.
+        typedef graph::geometry_t       G;
+        typedef graph::stateflow_t      S;  // always directional
+
+        typedef graph::chain_node_dt    Cd; // single-direction
+        typedef graph::chain_node_t     Cn; // double-direction
+        typedef graph::tree_node_dt     Td;
+        typedef graph::tree_node_t      Tn;
+        typedef graph::iolinks_node_t   Dd;
+        typedef graph::geo_node_t       Gd;
+        typedef graph::state_node_t     Sd;
+
+        typedef pointer_t               PV;
+        typedef pointer::thick_t        PT;
+        typedef pointer::remote_t       PR;
+        typedef pointer::file_t         PF;
+        typedef pointer::device_t       PD;
+        //typedef pointer::callback_t   PX;
+
+        typedef error_t                     Err;
+        typedef err16_t                     ErrV;
+        typedef err32_t                     ErrX;
+        typedef error::algorithm_t          ErA;
+        typedef error::structure_t          ErSt;
+        typedef error::resource_t           ErR;
+        typedef error::device_t             ErD;
+        typedef error::index_t              ErI;
+        typedef error::security_t           ErSec;
+        typedef error::multiprocess_t       ErMP;
+        typedef error::version_t            ErV;
+        typedef error::system_t             ErSys;
+        typedef error::procedure_t          ErP;
+        typedef error::conception_t         ErC;
+        typedef error::nature_t             ErN;
+        typedef error::philosophy_t         ErPh;
+        typedef error::specified_t          ErX;

@@ -46,3 +46,4 @@
 	log.output(alias);
 
 	return alias;
+
