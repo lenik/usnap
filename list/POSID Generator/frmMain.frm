@@ -1,91 +1,99 @@
 VERSION 5.00
 Begin VB.Form frmMain
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "POSID Generator"
-   ClientHeight    =   3420
+   Caption         =   "S'FIA|TC - POSID Generator"
+   ClientHeight    =   3060
    ClientLeft      =   45
    ClientTop       =   390
-   ClientWidth     =   8685
+   ClientWidth     =   8310
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   3420
-   ScaleWidth      =   8685
+   ScaleHeight     =   3060
+   ScaleWidth      =   8310
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdAbout
+      Caption         =   "&About"
+      Height          =   555
+      Left            =   4980
+      TabIndex        =   12
+      Top             =   2280
+      Width           =   1515
+   End
    Begin VB.OptionButton optArray
       Caption         =   "Array initializer"
       Height          =   255
-      Left            =   6660
+      Left            =   6540
       TabIndex        =   8
-      Top             =   1920
+      Top             =   1800
       Value           =   -1  'True
       Width           =   1515
    End
    Begin VB.OptionButton optDefines
       Caption         =   "DEFINES"
       Height          =   255
-      Left            =   6660
+      Left            =   6540
       TabIndex        =   7
-      Top             =   1560
+      Top             =   1440
       Width           =   1515
    End
    Begin VB.OptionButton optHex
       Caption         =   "Hex"
       Height          =   255
-      Left            =   6660
+      Left            =   6540
       TabIndex        =   6
-      Top             =   1200
+      Top             =   1080
       Width           =   1515
    End
    Begin VB.CommandButton cmdExit
       Cancel          =   -1  'True
       Caption         =   "E&xit"
-      Height          =   615
-      Left            =   6480
-      TabIndex        =   12
-      Top             =   2400
-      Width           =   1755
+      Height          =   555
+      Left            =   6540
+      TabIndex        =   13
+      Top             =   2280
+      Width           =   1515
    End
    Begin VB.CommandButton cmdCopy
       Caption         =   "&Copy to clipbooard"
-      Height          =   615
-      Left            =   4460
+      Height          =   555
+      Left            =   3420
       TabIndex        =   11
-      Top             =   2400
-      Width           =   1755
+      Top             =   2280
+      Width           =   1515
    End
    Begin VB.CommandButton cmdByTime
       Caption         =   "Generate by &Timestamp"
-      Height          =   615
-      Left            =   2440
+      Height          =   555
+      Left            =   1860
       TabIndex        =   10
-      Top             =   2400
-      Width           =   1755
+      Top             =   2280
+      Width           =   1515
    End
    Begin VB.CommandButton cmdByMAC
       Caption         =   "Generate by &MAC"
-      Height          =   615
-      Left            =   420
+      Height          =   555
+      Left            =   300
       TabIndex        =   9
-      Top             =   2400
-      Width           =   1755
+      Top             =   2280
+      Width           =   1515
    End
    Begin VB.CommandButton cmdDecode
       Caption         =   "&Hex to POSID"
       Height          =   375
-      Left            =   6480
+      Left            =   6360
       TabIndex        =   2
-      Top             =   360
+      Top             =   240
       Width           =   1695
    End
    Begin VB.CommandButton cmdConvert
       Caption         =   "Con&vert To Code"
       Height          =   375
-      Left            =   6480
+      Left            =   6360
       TabIndex        =   5
-      Top             =   780
+      Top             =   660
       Width           =   1695
    End
    Begin VB.TextBox txtCode
@@ -100,10 +108,10 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1515
-      Left            =   1680
+      Left            =   1560
       MultiLine       =   -1  'True
       TabIndex        =   4
-      Top             =   720
+      Top             =   600
       Width           =   4695
    End
    Begin VB.TextBox txtPosid
@@ -117,26 +125,26 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   315
-      Left            =   1680
+      Left            =   1560
       TabIndex        =   1
       Text            =   "utim-___3.-.7V-F2q-LbF-VoU"
-      Top             =   360
+      Top             =   240
       Width           =   4695
    End
    Begin VB.Label Label2
       Caption         =   "Co&de"
       Height          =   315
-      Left            =   420
+      Left            =   300
       TabIndex        =   3
-      Top             =   780
+      Top             =   660
       Width           =   1155
    End
    Begin VB.Label Label1
       Caption         =   "&POSID"
       Height          =   315
-      Left            =   420
+      Left            =   300
       TabIndex        =   0
-      Top             =   360
+      Top             =   240
       Width           =   1155
    End
 End
@@ -146,6 +154,10 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+Private Sub cmdAbout_Click()
+    frmAbout.Show 1
+End Sub
 
 Private Sub cmdByMAC_Click()
     Dim id, mac, tail
@@ -165,8 +177,13 @@ Private Sub cmdByTime_Click()
 End Sub
 
 Private Sub cmdConvert_Click()
+    Dim posid As String
     Dim bytes() As Byte
-    bytes = CCS6ToBytes(Replace(Replace(txtPosid, " ", ""), "-", ""))
+
+    posid = Replace(Replace(txtPosid, " ", ""), "-", "")
+    If posid = "" Then Exit Sub
+
+    bytes = CCS6ToBytes(posid)
 
     If optHex Then
         txtCode = BytesToHex(bytes, " ")
@@ -177,6 +194,7 @@ Private Sub cmdConvert_Click()
         txtCode = "/* " & txtPosid & " */" & vbCrLf & _
                     "char POSID_NAME[] = { " & BytesToHex(bytes, ", ") & " }; "
     End If
+
 End Sub
 
 Private Sub cmdCopy_Click()
@@ -219,6 +237,7 @@ End Sub
 Private Sub Form_Load()
     Randomize Timer
     cmdByTime_Click
+    txtPosid_GotFocus
 End Sub
 
 Private Sub txtCode_GotFocus()
@@ -226,7 +245,15 @@ Private Sub txtCode_GotFocus()
     txtCode.SelLength = Len(txtCode)
 End Sub
 
+Private Sub txtPosid_Change()
+    cmdConvert_Click
+End Sub
+
 Private Sub txtPosid_GotFocus()
-    txtPosid.SelStart = 0
-    txtPosid.SelLength = Len(txtPosid)
+    If Len(txtPosid) > 15 Then
+        txtPosid.SelStart = 15
+    Else
+        txtPosid.SelStart = 0
+    End If
+    txtPosid.SelLength = Len(txtPosid) - txtPosid.SelStart
 End Sub
