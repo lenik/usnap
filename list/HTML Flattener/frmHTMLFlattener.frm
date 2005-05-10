@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{683364A1-B37D-11D1-ADC5-006008A5848C}#1.0#0"; "DHTMLED.OCX"
+Object = "{683364A1-B37D-11D1-ADC5-006008A5848C}#1.0#0"; "dhtmled.ocx"
 Begin VB.Form frmHTMLFlattener
    Caption         =   "<<S'FIA|TC>> - HTML Flattener"
    ClientHeight    =   5625
@@ -123,6 +123,9 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
+Public Options As New Options
+
+
 Private Sub cmdAbout_Click()
     frmAbout.Show 1
 End Sub
@@ -143,8 +146,14 @@ Private Sub cmdAddDirectory_Click()
 End Sub
 
 Private Sub cmdAddFiles_Click()
-    Dim f
+    Dim ofn As OPENFILENAME
+    ofn.hInstance = App.hInstance
+    ofn.hwndOwner = Me.hWnd
+    ofn.lStructSize = Len(ofn)
 
+    If GetOpenFileName(ofn) = IDOK Then
+
+    End If
 End Sub
 
 Private Sub cmdExit_Click()
@@ -152,5 +161,42 @@ Private Sub cmdExit_Click()
 End Sub
 
 Private Sub cmdOptions_Click()
-    frmOptions.Show 1
+    frmOptions.SetOptions Options
+End Sub
+
+
+Private Sub cmdRemove_Click()
+    If lstFiles.ListIndex >= 0 Then
+        Dim last
+        last = lstFiles.ListIndex
+        lstFiles.RemoveItem last
+        If last < lstFiles.ListCount Then
+            lstFiles.ListIndex = last
+        Else
+            If lstFiles.ListCount > 0 Then
+                lstFiles.ListIndex = lstFiles.ListCount - 1
+            End If
+        End If
+    End If
+End Sub
+
+Private Sub cmdRemoveAll_Click()
+    lstFiles.Clear
+End Sub
+
+Private Sub Form_Load()
+    Options.Variables.Add _
+        "<<S'FIA | TC>> - HTML Flattener " & _
+        App.Major & "." & App.Minor & "." & App.Revision, _
+        "PROGRAM"
+    Options.Variables.Add "", "TITLE"
+    Options.Variables.Add "", "SOURCE"
+    Options.Variables.Add "", "DEST"
+
+    Load frmOptions
+    frmOptions.SaveOptions Options
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    End
 End Sub

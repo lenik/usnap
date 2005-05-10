@@ -102,7 +102,7 @@ Begin VB.Form frmOptions
          TabIndex        =   1
          Top             =   240
          Width           =   5475
-         Begin VB.TextBox txtOptDir
+         Begin VB.TextBox txtOutDir
             Enabled         =   0   'False
             Height          =   285
             Left            =   300
@@ -119,7 +119,7 @@ Begin VB.Form frmOptions
             Value           =   -1  'True
             Width           =   5175
          End
-         Begin VB.OptionButton optOptSpec
+         Begin VB.OptionButton optOutSpec
             Caption         =   "Specify the output directory: "
             Height          =   300
             Left            =   0
@@ -127,7 +127,7 @@ Begin VB.Form frmOptions
             Top             =   360
             Width           =   5175
          End
-         Begin VB.CommandButton cmdOptBrowse
+         Begin VB.CommandButton cmdOutBrowse
             Caption         =   "&Browse"
             Enabled         =   0   'False
             Height          =   315
@@ -140,7 +140,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.CheckBox chkIncludeTitle
       Caption         =   "Include HTML &Title in text files"
-      Enabled         =   0   'False
       Height          =   300
       Left            =   360
       TabIndex        =   15
@@ -175,7 +174,6 @@ Begin VB.Form frmOptions
       Width           =   1155
    End
    Begin VB.TextBox txtTitleFormat
-      Enabled         =   0   'False
       Height          =   795
       Left            =   1020
       MultiLine       =   -1  'True
@@ -186,7 +184,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.OptionButton optAlignRight
       Caption         =   "&Right"
-      Enabled         =   0   'False
       Height          =   315
       Left            =   3420
       TabIndex        =   20
@@ -195,7 +192,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.OptionButton optAlignCenter
       Caption         =   "&Center"
-      Enabled         =   0   'False
       Height          =   315
       Left            =   2220
       TabIndex        =   19
@@ -203,7 +199,6 @@ Begin VB.Form frmOptions
       Width           =   855
    End
    Begin VB.TextBox txtScreenWidth
-      Enabled         =   0   'False
       Height          =   315
       Left            =   3060
       TabIndex        =   17
@@ -213,7 +208,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.OptionButton optAlignLeft
       Caption         =   "&Left"
-      Enabled         =   0   'False
       Height          =   315
       Left            =   1020
       TabIndex        =   18
@@ -223,7 +217,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.Label lblTitleFormat
       Caption         =   "Title &format"
-      Enabled         =   0   'False
       Height          =   285
       Left            =   660
       TabIndex        =   21
@@ -232,7 +225,6 @@ Begin VB.Form frmOptions
    End
    Begin VB.Label lblScreenWidth
       Caption         =   "Screen &width (characters): "
-      Enabled         =   0   'False
       Height          =   285
       Left            =   660
       TabIndex        =   16
@@ -248,6 +240,18 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
+Private Sub chkIncludeTitle_Click()
+    Dim en As Boolean
+    en = chkIncludeTitle.Value = vbChecked
+    lblScreenWidth.Enabled = en
+    txtScreenWidth.Enabled = en
+    optAlignLeft.Enabled = en
+    optAlignCenter.Enabled = en
+    optAlignRight.Enabled = en
+    lblTitleFormat.Enabled = en
+    txtTitleFormat.Enabled = en
+End Sub
+
 Private Sub cmdCancel_Click()
     Me.Hide
 End Sub
@@ -256,6 +260,137 @@ Private Sub cmdOK_Click()
     Unload Me
 End Sub
 
-Sub saveOptions()
+Private Sub Form_Load()
+    chkIncludeTitle.Enabled = IIf(IsRegistered, vbChecked, vbUnchecked)
+End Sub
 
+Private Sub optNameDefault_Click()
+    lblNameSrc.Enabled = False
+    txtNameSrc.Enabled = False
+    lblNameDst.Enabled = False
+    txtNameDst.Enabled = False
+End Sub
+
+Private Sub optNameRegex_Click()
+    lblNameSrc.Enabled = True
+    txtNameSrc.Enabled = True
+    lblNameDst.Enabled = True
+    txtNameDst.Enabled = True
+End Sub
+
+Private Sub optOutSame_Click()
+    txtOutDir.Enabled = False
+    cmdOutBrowse.Enabled = False
+End Sub
+
+Private Sub optOutSpec_Click()
+    txtOutDir.Enabled = True
+    cmdOutBrowse.Enabled = True
+End Sub
+
+
+
+Public Sub SetOptions(opts As Options)
+    LoadOptions opts
+
+    Me.Show 1
+
+    SaveOptions opts
+End Sub
+
+
+Public Sub LoadOptions(opts As Options)
+    If opts.OutSameDir Then
+        optOutSame.Value = True
+    Else
+        optOutSame.Value = False
+        txtOutDir.Text = opts.OutDir
+    End If
+
+    If opts.NameDefault Then
+        optNameDefault.Value = True
+    Else
+        optNameDefault.Value = False
+        txtNameSrc.Text = opts.NameSrc
+        txtNameDst.Text = opts.NameDst
+    End If
+
+    chkBackup.Value = IIf(opts.Backup, vbChecked, vbUnchecked)
+
+    chkIncludeTitle.Value = IIf(opts.IncludeTitle, vbChecked, vbUnchecked)
+
+    If opts.IncludeTitle Then
+        txtScreenWidth = Trim(Str(opts.ScreenWidth))
+        Select Case opts.TitleAlignment
+        Case vbLeftJustify
+            optAlignLeft.Value = True
+        Case vbCenter
+            optAlignCenter.Value = True
+        Case vbRightJustify
+            optAlignRight.Value = True
+        End Select
+        txtTitleFormat = opts.TitleFormat
+    End If
+End Sub
+
+
+Public Sub SaveOptions(opts As Options)
+    If optOutSame Then
+        opts.OutSameDir = True
+    Else
+        opts.OutSameDir = False
+        opts.OutDir = txtOutDir.Text
+    End If
+
+    If optNameDefault Then
+        opts.NameDefault = True
+    Else
+        opts.NameDefault = False
+        opts.NameSrc = txtNameSrc
+        opts.NameDst = txtNameDst
+    End If
+
+    opts.Backup = chkBackup.Value = vbChecked
+
+    opts.IncludeTitle = chkIncludeTitle.Value = vbChecked
+
+    If opts.IncludeTitle Then
+        opts.ScreenWidth = Val(txtScreenWidth)
+        If optAlignLeft Then opts.TitleAlignment = vbLeftJustify
+        If optAlignCenter Then opts.TitleAlignment = vbCenter
+        If optAlignRight Then opts.TitleAlignment = vbRightJustify
+        opts.TitleFormat = txtTitleFormat
+        'opts.Variables("TITLE") = txtTitleFormat
+    End If
+End Sub
+
+Private Sub txtOutDir_Validate(Cancel As Boolean)
+    On Error GoTo x
+    With frmHTMLFlattener
+        .FindFiles.Path = txtOutDir
+        If .FindFiles.Path <> txtOutDir Then
+            txtOutDir = .FindFiles.Path
+        End If
+    End With
+    On Error GoTo 0
+    Exit Sub
+x:
+    If Err.Number = 76 Then
+        MsgBox "The specified directory isn't existed. ", vbInformation
+        Cancel = True
+        txtOutDir = ""
+    End If
+End Sub
+
+Private Sub txtScreenWidth_Validate(Cancel As Boolean)
+    If Not IsNumeric(txtScreenWidth) Then
+        MsgBox "Screen width must be number", vbInformation
+        Cancel = True
+    End If
+
+    Dim v As Integer
+    v = Int(Abs(Val(txtScreenWidth)))
+    If Str(v) <> txtScreenWidth Then
+        txtScreenWidth = v
+    End If
 End Sub
