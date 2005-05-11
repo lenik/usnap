@@ -154,6 +154,8 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+Option Base 0
+
 
 Private Sub cmdAbout_Click()
     frmAbout.Show 1
@@ -183,7 +185,11 @@ Private Sub cmdConvert_Click()
     posid = Replace(Replace(txtPosid, " ", ""), "-", "")
     If posid = "" Then Exit Sub
 
-    bytes = CCS6ToBytes(posid)
+    If Len(posid) = 3 Then
+        bytes = CCS5ToBytes(posid)
+    Else
+        bytes = CCS6ToBytes(posid)
+    End If
 
     If optHex Then
         txtCode = BytesToHex(bytes, " ")
@@ -202,30 +208,38 @@ Private Sub cmdCopy_Click()
 End Sub
 
 Private Sub cmdDecode_Click()
-    Dim bytes() As Byte, ccs6 As String
-    bytes = HexToBytes(Replace(Replace(txtPosid, " ", ""), ":", ""))
-    ccs6 = BytesToCCS6(bytes, (UBound(bytes) - LBound(bytes) + 1) * 8)
+    Dim bytes() As Byte, ccs As String
+    Dim nbytes As Integer
 
-    If Left(ccs6, 4) = "umac" Then              ' umac-mmmm-mmmm-aaa-bbb-ccc
-        txtPosid = Left(ccs6, 4) & "-" & _
-                    Mid(ccs6, 5, 4) & "-" & _
-                    Mid(ccs6, 9, 4) & "-" & _
-                    Mid(ccs6, 13, 3) & "-" & _
-                    Mid(ccs6, 16, 3) & "-" & _
-                    Mid(ccs6, 19, 3)
-    ElseIf Left(ccs6, 4) = "utim" Then          ' utim-ttttt-rrr-aaa-bbb-ccc
-        txtPosid = Left(ccs6, 4) & "-" & _
-                    Mid(ccs6, 5, 5) & "-" & _
-                    Mid(ccs6, 10, 3) & "-" & _
-                    Mid(ccs6, 13, 3) & "-" & _
-                    Mid(ccs6, 16, 3) & "-" & _
-                    Mid(ccs6, 19, 3)
+    bytes = HexToBytes(Replace(Replace(txtPosid, " ", ""), ":", ""))
+    nbytes = UBound(bytes) + 1
+
+    If nbytes = 2 And (bytes(1) And 1 = 0) Then
+        ccs = BytesToCCS6(bytes, nbytes * 8)
+    Else
+        ccs = BytesToCCS5(bytes, 15)
+    End If
+
+    If Left(ccs, 4) = "umac" Then              ' umac-mmmm-mmmm-aaa-bbb-ccc
+        txtPosid = Left(ccs, 4) & "-" & _
+                    Mid(ccs, 5, 4) & "-" & _
+                    Mid(ccs, 9, 4) & "-" & _
+                    Mid(ccs, 13, 3) & "-" & _
+                    Mid(ccs, 16, 3) & "-" & _
+                    Mid(ccs, 19, 3)
+    ElseIf Left(ccs, 4) = "utim" Then          ' utim-ttttt-rrr-aaa-bbb-ccc
+        txtPosid = Left(ccs, 4) & "-" & _
+                    Mid(ccs, 5, 5) & "-" & _
+                    Mid(ccs, 10, 3) & "-" & _
+                    Mid(ccs, 13, 3) & "-" & _
+                    Mid(ccs, 16, 3) & "-" & _
+                    Mid(ccs, 19, 3)
     Else                                        ' xxxx-yyyy-...
         txtPosid = ""
-        While ccs6 <> ""
+        While ccs <> ""
             If txtPosid <> "" Then txtPosid = txtPosid & "-"
-            txtPosid = txtPosid & Left(ccs6, 4)
-            ccs6 = Mid(ccs6, 5)
+            txtPosid = txtPosid & Left(ccs, 4)
+            ccs = Mid(ccs, 5)
         Wend
     End If
 End Sub

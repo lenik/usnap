@@ -1,5 +1,7 @@
 Attribute VB_Name = "modGetMac"
 Option Explicit
+Option Base 0
+
 
 Private Const NCBASTAT = &H33
 Private Const NCBNAMSZ = 16

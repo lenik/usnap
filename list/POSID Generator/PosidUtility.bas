@@ -1,5 +1,6 @@
 Attribute VB_Name = "modPosidUtility"
 Option Explicit
+Option Base 0
 
 
 Public Const CCS5_Encode = "_abcdefghijklmnopqrstuvwxyz.:$@%"
@@ -11,15 +12,14 @@ Public Const CCS6_Encode = "_abcdefghijklmnopqrstuvwxyz01234.ABCDEFGHIJKLMNOPQRS
 ' Extra bitgrp/padding in returned byte() should be taken care by caller.
 Public Function BitSplit(bytes() As Byte, ByVal bits As Integer) As Byte()
     Dim shifts
-    Dim l As Integer, u As Integer
+    Dim nbytes As Integer
 
     shifts = Array(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768)
-    l = LBound(bytes)
-    u = UBound(bytes)
+    nbytes = UBound(bytes) + 1
 
     ' ceiling( bytes * 8 / bits )
     Dim bitsGroups As Integer
-    bitsGroups = 8 * (u - l + 1)
+    bitsGroups = 8 * nbytes
     bitsGroups = Int((bitsGroups + bits - 1) / bits)
     ReDim res(0 To bitsGroups - 1) As Byte
     Dim iRes As Integer
@@ -28,12 +28,12 @@ Public Function BitSplit(bytes() As Byte, ByVal bits As Integer) As Byte()
     Dim bc As Integer        ' bit-capacity in long value v  (0 -> ..)
 
     iRes = 0
-    i = l
+    i = 0
 
     Do While iRes < bitsGroups
 
         v = (v * &H100)
-        If i <= u Then v = v Or bytes(i)
+        If i < nbytes Then v = v Or bytes(i)
         ' Else v = (v << 8) | 0x00
 
         bc = bc + 8
@@ -59,15 +59,14 @@ End Function
 ' Extra bitgrp/padding in bitgrps() should be trimmed by caller.
 Public Function BitJoin(bitgrps() As Byte, ByVal bits As Integer) As Byte()
     Dim shifts
-    Dim l As Integer, u As Integer
+    Dim nbytes As Integer
 
     shifts = Array(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768)
-    l = LBound(bitgrps)
-    u = UBound(bitgrps)
+    nbytes = UBound(bitgrps) + 1
 
     ' ceiling( bitgrps * bits / 8 )
     Dim byteGroups As Integer
-    byteGroups = bits * (u - l + 1)
+    byteGroups = bits * nbytes
     byteGroups = Int((byteGroups + 7) / 8)
     ReDim res(0 To byteGroups - 1) As Byte
     Dim iRes As Integer
@@ -76,12 +75,12 @@ Public Function BitJoin(bitgrps() As Byte, ByVal bits As Integer) As Byte()
     Dim bc As Integer        ' bit-capacity in long value v  (0 -> ..)
 
     iRes = 0
-    i = l
+    i = 0
 
     Do While iRes < byteGroups
 
         v = (v * shifts(bits))
-        If i <= u Then v = v Or bitgrps(i)
+        If i < nbytes Then v = v Or bitgrps(i)
         ' Else v = (v << bits) | 0x00
 
         bc = bc + bits
@@ -149,14 +148,14 @@ Public Function CCS5ToBytes(ByVal ccs5 As String) As Byte()
         b5grps(i) = cv
     Next
 
-    Dim nBytes As Integer
+    Dim nbytes As Integer
     Dim res1
 
-    nBytes = Int((l * 5 + 7) / 8)
+    nbytes = Int((l * 5 + 7) / 8)
     res1 = BitJoin(b5grps, 5)
 
-    ReDim res2(0 To nBytes - 1) As Byte
-    For i = 0 To nBytes - 1
+    ReDim res2(0 To nbytes - 1) As Byte
+    For i = 0 To nbytes - 1
         res2(i) = res1(i)
     Next
 
@@ -181,14 +180,14 @@ Public Function CCS6ToBytes(ByVal ccs6 As String) As Byte()
         b6grps(i) = cv
     Next
 
-    Dim nBytes As Integer
+    Dim nbytes As Integer
     Dim res1
 
-    nBytes = Int((l * 6 + 7) / 8)
+    nbytes = Int((l * 6 + 7) / 8)
     res1 = BitJoin(b6grps, 6)
 
-    ReDim res2(0 To nBytes - 1) As Byte
-    For i = 0 To nBytes - 1
+    ReDim res2(0 To nbytes - 1) As Byte
+    For i = 0 To nbytes - 1
         res2(i) = res1(i)
     Next
 
@@ -251,16 +250,15 @@ End Function
 
 
 Public Function ReverseBytes(bytes() As Byte)
-    Dim l As Integer, u As Integer
+    Dim nbytes As Integer
     Dim i As Integer
 
-    l = LBound(bytes)
-    u = UBound(bytes)
+    nbytes = UBound(bytes) + 1
 
-    ReDim res(l To u) As Byte
+    ReDim res(0 To nbytes - 1) As Byte
 
-    For i = l To u
-        res(u - i + l) = bytes(i)
+    For i = 0 To nbytes - 1
+        res(nbytes - 1 - i) = bytes(i)
     Next
 
     ReverseBytes = res
@@ -270,7 +268,7 @@ End Function
 Public Function BytesToHex(bytes() As Byte, Optional delim As String = "-") As String
     Dim i As Integer
     Dim s As String
-    For i = LBound(bytes) To UBound(bytes)
+    For i = 0 To UBound(bytes)
         If (bytes(i) < 16) Then
             s = "0" & Hex(bytes(i))
         Else
@@ -288,14 +286,14 @@ Public Function HexToBytes(ByVal hexes As String) As Byte()
     If Len(hexes) Mod 2 = 1 Then hexes = hexes & "0"
     hexes = LCase(hexes)
 
-    Dim nBytes As Integer
-    nBytes = Int(Len(hexes) / 2)
+    Dim nbytes As Integer
+    nbytes = Int(Len(hexes) / 2)
 
-    ReDim bytes(0 To nBytes - 1) As Byte
+    ReDim bytes(0 To nbytes - 1) As Byte
     Dim i As Integer
 
     On Error GoTo InvalidSyntax
-    For i = 0 To nBytes - 1
+    For i = 0 To nbytes - 1
         bytes(i) = Val("&H" & Mid(hexes, 1 + i * 2, 2))
     Next
     On Error GoTo 0
