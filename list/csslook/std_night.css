@@ -1,0 +1,153 @@
+body {
+	font-family: Georgia, Times New Roman, Times, serif;
+	background-color: #14163b;
+	font-size: 12px;
+	color: #e5eefa;
+}
+
+table {
+}
+
+th, td {
+}
+
+a {
+	color: #fffddd;
+}
+
+form {
+	background-color: #32373d;
+	padding: 5px;
+}
+
+.Title1 {
+	font-size: 30px;
+	font-weight: bold;
+	background-color: #383a65;
+	color: #f1f6fc;
+}
+.Title2 {
+	font-size: 20px;
+}
+.Title3 {
+	font-size: 14px;
+	font-style: italic;
+}
+.Header1 {
+	font-size: 26px;
+	background-color: #292c5a;
+	font-weight: bold;
+}
+.Header2 {
+	font-size: 24px;
+	background-color: #292c5a;
+}
+.Header3 {
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #292c5a;
+}
+.Header4 {
+	font-size: 19px;
+	background-color: #292c5a;
+}
+.Header5 {
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #292c5a;
+}
+.Header6 {
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #292c5a;
+}
+.Header7 {
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #292c5a;
+}
+.Footer {
+	font-size: 12px;
+	background-color: #292c5a;
+}
+.Legal {
+	color: #CCCCCC;
+	font-style: italic;
+	font-size: 11px;
+}
+.Dingbat {}
+.NavBar {
+	background-color: #0e0f27;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #54567b;
+}
+.NavItem {
+	color: #f4e4ff;
+}
+.NavItemHighlight {
+	color: #0e0f27;
+	background-color: #f4e4ff;
+}
+.SiteBlock {
+	background-color: #32374d;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #abbbcf;
+}
+.SiteHeader {
+	background-color: #97a5b7;
+	font-weight: bold;
+	text-align: left;
+	color: #000000;
+}
+.SiteFooter {
+	color: #000000;
+	background-color: #97a5b7;
+	text-align: right;
+	font-weight: bold;
+}
+.SiteBar {
+	margin: 5px;
+}
+.Box1 {
+	border-style: double;
+	border-width: 4px;
+	margin: 20px;
+	padding: 10px;
+	background-color: #2A2C5A;
+}
+.Box2 {
+	border-style: dashed;
+	border-width: 2px;
+	padding: 8px;
+	margin: 16px;
+	background-color: #222554;
+}
+.Box3 {
+	border-style: dotted;
+	border-width: 1px;
+	margin: 12px;
+	padding: 6px;
+	background-color: #313360;
+}
+.TextEffect1 {
+}
+.TextEffect2 {
+}
+.TextEffect3 {
+}
+.TextEffect4 {
+}
+.TextEffect5 {
+}
+.TextEffect6 {
+}
+.TextEffect7 {
+}
+.TextEffect8 {
+}
+.TextEffect9 {
+}
+.TextEffect10 {
+}

@@ -1,0 +1,25 @@
+
+- LowXRuntime impl.
+
+Public Function ShowOpenFile( _
+        Optional ByVal hwndOwner As Long = 0, _
+        Optional ByVal filter As String = "*.*|All Files(*.*)||", _
+        Optional ByVal defaultExt As String = "*.*", _
+        Optional ByVal initialDir As String = ".") As String
+
+    Dim ofn As OPENFILENAME
+    Dim l As Long
+    Dim buffer(0 To 1000) As Byte
+    Const pFile = 0
+    Const pfilter = 300
+    Const pDefExit = 500
+    Const pInitialDir = 800
+
+    l = XP.pByte(buffer(0))
+
+    ofn.hwndOwner = hwndOwner
+
+    ofn.lpstrFile = XP.pByte(buffer(0))
+    ofn.lpstrDefExt = XP.pStr(defaultExt)
+
+End Function

@@ -1,0 +1,168 @@
+
+body {
+	font-family: Georgia, Times New Roman, Times, serif;
+	background-color: #FFFFFF;
+	font-size: 12px;
+	color: #000000;
+}
+
+table {
+}
+
+th, td {
+}
+
+a {
+	color: #003399;
+}
+
+form {
+	background-color: #f4fff1;
+	padding: 5px;
+}
+
+.Highlight {
+	background-color: #FBFBD5;
+	font-family: Courier New, Courier, mono;
+}
+.Title1 {
+	font-size: 36px;
+	font-weight: bold;
+	background-color: #FFF3E8;
+}
+.Title2 {
+	font-size: 20px;
+	background-color: #FFF8F0;
+}
+.Title3 {
+	font-size: 14px;
+	font-style: italic;
+}
+.Header1 {
+	font-size: 26px;
+	font-weight: bold;
+	background-color: #FFFBF7;
+}
+.Header2 {
+	font-size: 24px;
+	background-color: #FFFBF7;
+}
+.Header3 {
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #FFFBF7;
+}
+.Header4 {
+	font-size: 19px;
+	background-color: #FFFBF7;
+}
+.Header5 {
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #FFFBF7;
+}
+.Header6 {
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #FFFBF7;
+}
+.Header7 {
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #FFFBF7;
+}
+.Footer {
+	font-size: 12px;
+	color: #333333;
+	background-color: #EFEFEF;
+}
+.Legal {
+	color: #7F7F7F;
+	font-style: italic;
+	font-size: 11px;
+}
+.Dingbat {}
+.NavBar {
+	background-color: #F7FCFF;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #C1CDDF;
+	color: #434E96;
+}
+.NavItem {
+	color: #156BEC;
+}
+.NavItemHighlight {
+	color: #FBFBD5;
+	background-color: #71ACEE;
+}
+.SiteBlock {
+	background-color: #FFF0E1;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #FFAF60;
+}
+.SiteHeader {
+	background-color: #FFCB97;
+	font-weight: bold;
+	text-align: left;
+	color: #000000;
+}
+.SiteFooter {
+	color: #000000;
+	background-color: #FFCB97;
+	text-align: right;
+	font-weight: bold;
+}
+.SiteBar {
+	margin: 5px;
+	background-color: #FFE8D0;
+}
+.SiteBar2 {
+	margin: 10px;
+	background-color: #FFE8D0;
+}
+.Box1 {
+	border-style: double;
+	border-width: 4px;
+	margin: 20px;
+	padding: 10px;
+	background-color: #f4fff1;
+	border-color: #8DC9FE;
+}
+.Box2 {
+	border-style: dashed;
+	border-width: 2px;
+	padding: 8px;
+	margin: 16px;
+	background-color: #F0FFF7;
+	border-color: #94C7FE;
+}
+.Box3 {
+	border-style: dotted;
+	border-width: 1px;
+	margin: 12px;
+	padding: 6px;
+	background-color: #F0FEFF;
+	border-color: #8099FD;
+}
+.TextEffect1 {
+}
+.TextEffect2 {
+}
+.TextEffect3 {
+}
+.TextEffect4 {
+}
+.TextEffect5 {
+}
+.TextEffect6 {
+}
+.TextEffect7 {
+}
+.TextEffect8 {
+}
+.TextEffect9 {
+}
+.TextEffect10 {
+}
