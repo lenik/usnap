@@ -12,6 +12,10 @@ Public PreviewHtml_Body As String
 
 Public RegexCssEntry As New VBScript_RegExp_10.RegExp
 
+Public CurrentFile As String
+Public CurrentContent As String
+Public LastEntries As String
+
 Public Sub Main()
     Init
     Load frmCssLook
@@ -19,11 +23,11 @@ Public Sub Main()
     frmCssLook.Show
 
     If Command <> "" Then
-        Dim fileName As String
-        fileName = Command
-        If Left(fileName, 1) = """" Then fileName = Mid(fileName, 2)
-        If Right(fileName, 1) = """" Then fileName = Left(fileName, Len(fileName) - 1)
-        OpenCSS fileName
+        Dim FileName As String
+        FileName = Command
+        If Left(FileName, 1) = """" Then FileName = Mid(FileName, 2)
+        If Right(FileName, 1) = """" Then FileName = Left(FileName, Len(FileName) - 1)
+        OpenCSS FileName
     End If
 End Sub
 
@@ -60,7 +64,22 @@ x_ReadPreview:
 End Sub
 
 Public Sub OpenCSS(ByVal cssFile As String)
-    Dim content As String
+
+    On Error GoTo x_readcss
+    CurrentContent = FSO.OpenTextFile(cssFile).ReadAll
+    On Error GoTo 0
+
+    CurrentFile = cssFile
+    LoadCSS CurrentContent
+
+    frmCssLook.Caption = "Css Look - " & cssFile
+    Exit Sub
+
+x_readcss:
+    MsgBox "Can't read " & cssFile & "!" & vbNewLine & Err.Description, vbCritical
+End Sub
+
+Public Sub LoadCSS(content)
     Dim matches As MatchCollection
     Dim m As Match
     Dim i As Integer, j As Integer, k As Integer
@@ -69,10 +88,6 @@ Public Sub OpenCSS(ByVal cssFile As String)
     Dim stylePreview As String
     Dim sampleText As String
     Dim previewHtml As String
-
-    On Error GoTo x_readcss
-    content = FSO.OpenTextFile(cssFile).ReadAll
-    On Error GoTo 0
 
     previewHtml = _
         PreviewHtml_Head & _
@@ -107,11 +122,5 @@ Public Sub OpenCSS(ByVal cssFile As String)
         stylePreview & _
         PreviewHtml_Body
 
-    frmCssLook.Caption = "Css Look - " & cssFile
     frmCssLook.loadHtml previewHtml
-
-    Exit Sub
-
-x_readcss:
-    MsgBox "Can't read " & cssFile & "!" & vbNewLine & Err.Description, vbCritical
 End Sub
