@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Xmlspy (Ru-Board) -->
+<xs:schema xmlns:loc="http://www.bodz.net/xml/current/bas.k.nls.x.locale" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bodz.net/xml/current/bas.k.nls.x.locale" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="locale">
+		<xs:annotation>
+			<xs:documentation>bas.k.nls.x.locale</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="date">
+					<xs:complexType>
+						<xs:attribute name="short" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Short date format</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="long" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Long date format</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="time" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Time format</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="zone" type="xs:integer" default="0">
+							<xs:annotation>
+								<xs:documentation>Time zone, in GMT+minutes</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="number-format" type="xs:string"/>
+				<xs:element name="currency-format" type="xs:string"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Locale name</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="extends" type="xs:anyURI"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

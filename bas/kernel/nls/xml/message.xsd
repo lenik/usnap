@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Xmlspy (Ru-Board) -->
+<xs:schema xmlns:msg="http://www.bodz.net/xml/current/bas.k.nls.x.message" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bodz.net/xml/current/bas.k.nls.x.message" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="message-set">
+		<xs:annotation>
+			<xs:documentation>bas.k.nls.x.message</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="message">
+					<xs:annotation>
+						<xs:documentation>Use xml:lang to indicate what language is used. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="variable">
+								<xs:annotation>
+									<xs:documentation>Variable insert</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="name" type="xs:string" use="required"/>
+						<xs:attribute name="comment" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

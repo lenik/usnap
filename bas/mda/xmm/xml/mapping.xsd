@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Xmlspy (Ru-Board) -->
+<xs:schema xmlns:xmm="http://www.bodz.net/xml/current/bas.m.xmm.x.mapping" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bodz.net/xml/current/bas.m.xmm.x.mapping" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="mapping">
+		<xs:annotation>
+			<xs:documentation>bas.m.xmm.x.mapping</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="xslt-attach" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="value" type="xs:anySimpleType" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="href" type="xs:string"/>
+						<xs:attribute name="digest" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="model" type="xs:string" use="required"/>
+			<xs:attribute name="digest" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

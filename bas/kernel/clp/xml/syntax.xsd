@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Xmlspy (Ru-Board) -->
+<xs:schema xmlns:clp="http://www.bodz.net/xml/current/bas.k.clp.x.syntax" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bodz.net/xml/current/bas.k.clp.x.syntax" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="syntax">
+		<xs:annotation>
+			<xs:documentation>bas.k.clp.x.syntax</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="argument" type="clp:argumentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Arguments with prefix -, prefix--</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="main-argument" type="clp:argumentType">
+					<xs:annotation>
+						<xs:documentation>Arguments without prefix -, -- or any arguments after '--'</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="extends" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>Not used yet</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="case-sensitive" type="xs:boolean" default="false"/>
+			<xs:attribute name="explicit">
+				<xs:annotation>
+					<xs:documentation>Disable abbreviation argument name. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="argumentType">
+		<xs:attribute name="name" use="required">
+			<xs:annotation>
+				<xs:documentation>Alias names are separated by '|'</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="form" type="xs:token" use="required">
+			<xs:annotation>
+				<xs:documentation>scalar, list, map</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" type="clp:value-type" default="bool">
+			<xs:annotation>
+				<xs:documentation>Argument value-type</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="required" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Should the argument be occured at least once? </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="default" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Default value for empty-scalar-value, empty-list-item-value, or empty-map-item-val-value. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subroutine" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Wether use subroutine to analyze the argument-value. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:simpleType name="value-type">
+		<xs:annotation>
+			<xs:documentation>used in argument value</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="bool"/>
+			<xs:enumeration value="int"/>
+			<xs:enumeration value="long"/>
+			<xs:enumeration value="float"/>
+			<xs:enumeration value="double"/>
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="date"/>
+			<xs:enumeration value="file"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
