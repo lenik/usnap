@@ -1,0 +1,3 @@
+VBGROUP 5.0
+StartupProject=vbext\VBExt.vbp
+Project=crypt\ModCrypt.vbp

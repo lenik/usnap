@@ -1,0 +1,52 @@
+// Binaries.idl : IDL source for Binaries.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Binaries.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(C565B2A3-F3A2-4BD9-B0B9-29CEBE330C3B),
+	version(1.0),
+	helpstring("Binaries 1.0 Type Library")
+]
+library BinariesLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		object,
+		uuid(E75C5C81-06E1-45A4-B72C-26B4D1933ABA),
+		dual,
+		helpstring("IBase64 Interface"),
+		pointer_default(unique)
+	]
+	interface IBase64 : IDispatch
+	{
+		[id(1), helpstring("将字符串编码至 BASE64 文本")]
+			HRESULT EncodeString([in]BSTR str, [out, retval]BSTR *ret);
+		[id(2), helpstring("将 BASE64 文本解码至字符串")]
+			HRESULT DecodeString([in]BSTR base64, [out, retval]BSTR *ret);
+		[id(3), helpstring("将二进制数据（Byte Array）编码至 BASE64 文本")]
+			HRESULT EncodeData([in]VARIANT *data, [out, retval]BSTR *ret);
+		[id(4), helpstring("将 BASE64 文本解码至二进制数据（Byte Array）")]
+			HRESULT DecodeData([in]BSTR base64, [out, retval]VARIANT *data);
+		[id(5), helpstring("编码指定文件，并返回 BASE64 文本")]
+			HRESULT EncodeFile([in]BSTR fileName, [out, retval]BSTR *ret);
+		[id(6), helpstring("解码指定 BASE64 文本，并将结果保存至指定文件")]
+			HRESULT DecodeFile([in]BSTR base64, [in]BSTR outputFileName);
+	};
+
+	[
+		uuid(A7687779-319D-4291-A4B3-48E043627242),
+		helpstring("Base64 Class")
+	]
+	coclass Base64
+	{
+		[default] interface IBase64;
+	};
+};

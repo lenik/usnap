@@ -1,0 +1,26 @@
+HKCR
+{
+	Binaries.Base64.1 = s 'Base64 Class'
+	{
+		CLSID = s '{A7687779-319D-4291-A4B3-48E043627242}'
+	}
+	Binaries.Base64 = s 'Base64 Class'
+	{
+		CLSID = s '{A7687779-319D-4291-A4B3-48E043627242}'
+		CurVer = s 'Binaries.Base64.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A7687779-319D-4291-A4B3-48E043627242} = s 'Base64 Class'
+		{
+			ProgID = s 'Binaries.Base64.1'
+			VersionIndependentProgID = s 'Binaries.Base64'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C565B2A3-F3A2-4BD9-B0B9-29CEBE330C3B}'
+		}
+	}
+}

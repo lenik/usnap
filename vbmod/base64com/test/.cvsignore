@@ -1,0 +1,8 @@
+*.aps
+*.ncb
+*.plg
+*.tlb
+*.pdb
+*.exe
+Debug
+Release
