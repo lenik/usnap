@@ -1,0 +1,4 @@
+VBGROUP 5.0
+Project=VBExt.vbp
+Project=test\Test_Layout.vbp
+StartupProject=test\Test_Config.vbp

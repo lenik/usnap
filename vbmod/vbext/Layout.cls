@@ -15,7 +15,7 @@ Option Explicit
 Option Base 0
 
 Private Const LOCATION = "VBExt::Layout"
-Private Const MAX_SIZE = 20
+Private Const MAX_SIZE = 256
 Private Const MIN_WIDTH = 10
 Private Const MIN_HEIGHT = 10
 
@@ -72,20 +72,20 @@ Public Sub InitializeCoordinations(objectsContainer As Object)
             Assert m_Items < MAX_SIZE - 1
             Set m_Item(m_Items, 0) = child
             Set m_Item(m_Items, 1) = child.container
-            m_ItemPos(m_Items).x0 = child.left
+            m_ItemPos(m_Items).x0 = child.Left
             m_ItemPos(m_Items).y0 = child.Top
-            m_ItemPos(m_Items).x1 = child.left + child.Width
+            m_ItemPos(m_Items).x1 = child.Left + child.Width
             m_ItemPos(m_Items).y1 = child.Top + child.Height
             m_Items = m_Items + 1
 
             Assert m_Containers < MAX_SIZE - 1
             Set m_Container(m_Containers) = child.container
-            m_ContainerPos(m_Containers).x0 = child.container.left
+            m_ContainerPos(m_Containers).x0 = child.container.Left
             m_ContainerPos(m_Containers).y0 = child.container.Top
 
             Assert child.container.Width > MIN_WIDTH, "原始容器尺寸不能过小", LOCATION
             Assert child.container.Height > MIN_HEIGHT, "原始容器尺寸不能过小", LOCATION
-            m_ContainerPos(m_Containers).x1 = child.container.left + child.container.Width
+            m_ContainerPos(m_Containers).x1 = child.container.Left + child.container.Width
             m_ContainerPos(m_Containers).y1 = child.container.Top + child.container.Height
             m_Containers = m_Containers + 1
         End If
@@ -133,9 +133,9 @@ Private Sub RelayoutItem(itemObject As Object, containerObject As Object)
     ' Original coordinations
     oldItem = GetItemPosition(itemObject)
     oldContainer = GetContainerPosition(containerObject)
-    newContainer.x0 = containerObject.left
+    newContainer.x0 = containerObject.Left
     newContainer.y0 = containerObject.Top
-    newContainer.x1 = containerObject.left + containerObject.Width
+    newContainer.x1 = containerObject.Left + containerObject.Width
     newContainer.y1 = containerObject.Top + containerObject.Height
     oldW = oldContainer.x1 - oldContainer.x0
     oldH = oldContainer.y1 - oldContainer.y0
@@ -160,16 +160,15 @@ Private Sub RelayoutItem(itemObject As Object, containerObject As Object)
         newItem.y0 = oldItem.y0 * scaleY
         newItem.y1 = oldItem.y1 * scaleY
     Else
-        newItem.y0 = oldItem.y0 * scaleY
-        newItem.y1 = oldItem.y1 * scaleY
-        newItem.y0 = oldItem.y0 + _
-            ((oldItem.y1 - oldItem.y0) - (newItem.y1 - newItem.y0)) / 2
+        newItem.y0 = oldItem.y0 * scaleY + _
+            (oldItem.y1 - oldItem.y0) * scaleY / 2 - _
+            (oldItem.y1 - oldItem.y0) / 2
         newItem.y1 = newItem.y0 + _
             oldItem.y1 - oldItem.y0
     End If
 
     On Error Resume Next
-    itemObject.left = newItem.x0
+    itemObject.Left = newItem.x0
     itemObject.Top = newItem.y0
     itemObject.Width = newItem.x1 - newItem.x0
     itemObject.Height = newItem.y1 - newItem.y0

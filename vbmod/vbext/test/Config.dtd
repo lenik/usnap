@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Entries (Entry*)>
+<!ELEMENT Entry EMPTY>
+<!ATTLIST Entry
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+	Type CDATA #IMPLIED
+>
