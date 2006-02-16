@@ -1,4 +1,7 @@
+*.pdb
 Debug
 Release
+ReleaseMinDependency
+ReleaseMinSize
 ReleaseUMinDependency
 ReleaseUMinSize

@@ -16,7 +16,7 @@ Option Explicit
 Public Configuration As New Configuration
 Public Config As Object
 
-Private Declare Function GetCommandLine Lib "kernel32" Alias "GetCommandLineA" () As String
+Private LE As New LowXRuntime.Execute
 
 Private Sub Class_Initialize()
     InitializationsToTry
@@ -30,7 +30,7 @@ End Sub
 
 Private Property Get RootFile() As String
     Dim cl As String
-    cl = GetCommandLine
+    cl = LE.CommandLine
     If InStr(cl, Chr(0)) Then cl = Left(cl, InStr(cl, Chr(0)) - 1)
     If Left(cl, 1) = """" Then
         cl = Mid(cl, 2)

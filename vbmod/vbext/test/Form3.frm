@@ -55,5 +55,5 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Form_Load()
-    configuration.Path = "C:\.lokaj\zbmis\module\vbext\test\Test_Config"
+    configuration.Path = App.Path & "\Test_Config"
 End Sub
