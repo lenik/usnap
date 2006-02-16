@@ -46,7 +46,7 @@ Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal m
 
     Dim ent As Entry
     Set ent = m_EntryId(CStr(methodIndex))
-    Assert Not ent Is Nothing
+    G.Assert Not ent Is Nothing
 
     Select Case itype
     Case InvokeMethod
@@ -59,7 +59,7 @@ Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal m
     End Select
     Exit Function
 notexist:
-    Unexpected
+    G.Unexpected
 End Function
 
 ' Impl Utilities

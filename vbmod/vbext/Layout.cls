@@ -54,14 +54,14 @@ End Function
 Private Function GetItemPosition(object As Object) As Position
     Dim i As Integer
     i = GetItemIndex(object)
-    Assert i >= 0
+    G.Assert i >= 0
     GetItemPosition = m_ItemPos(i)
 End Function
 
 Private Function GetContainerPosition(object As Object) As Position
     Dim i As Integer
     i = GetContainerIndex(object)
-    Assert i >= 0
+    G.Assert i >= 0
     GetContainerPosition = m_ContainerPos(i)
 End Function
 
@@ -69,7 +69,7 @@ Public Sub InitializeCoordinations(objectsContainer As Object)
     Dim child As Object
     For Each child In objectsContainer
         If LC.HasMember(child, "Container") Then
-            Assert m_Items < MAX_SIZE - 1
+            G.Assert m_Items < MAX_SIZE - 1
             Set m_Item(m_Items, 0) = child
             Set m_Item(m_Items, 1) = child.container
             m_ItemPos(m_Items).x0 = child.Left
@@ -78,13 +78,13 @@ Public Sub InitializeCoordinations(objectsContainer As Object)
             m_ItemPos(m_Items).y1 = child.Top + child.Height
             m_Items = m_Items + 1
 
-            Assert m_Containers < MAX_SIZE - 1
+            G.Assert m_Containers < MAX_SIZE - 1
             Set m_Container(m_Containers) = child.container
             m_ContainerPos(m_Containers).x0 = child.container.Left
             m_ContainerPos(m_Containers).y0 = child.container.Top
 
-            Assert child.container.Width > MIN_WIDTH, "原始容器尺寸不能过小", LOCATION
-            Assert child.container.Height > MIN_HEIGHT, "原始容器尺寸不能过小", LOCATION
+            G.Assert child.container.Width > MIN_WIDTH, "原始容器尺寸不能过小", LOCATION
+            G.Assert child.container.Height > MIN_HEIGHT, "原始容器尺寸不能过小", LOCATION
             m_ContainerPos(m_Containers).x1 = child.container.Left + child.container.Width
             m_ContainerPos(m_Containers).y1 = child.container.Top + child.container.Height
             m_Containers = m_Containers + 1
@@ -103,7 +103,7 @@ Public Sub Relayout(Optional container)
         Next
     Else
         ' Only m_Items in the containerObject
-        Assert IsObject(container)
+        G.Assert IsObject(container)
         Dim containerObject As Object
         Set containerObject = container ' reinterpret_cast<>
         For i = 0 To m_Items - 1
@@ -127,7 +127,7 @@ Private Sub RelayoutItem(itemObject As Object, containerObject As Object)
 
     If containerObject Is Nothing Then
         Set containerObject = itemObject.container
-        Assert Not containerObject Is Nothing
+        G.Assert Not containerObject Is Nothing
     End If
 
     ' Original coordinations
