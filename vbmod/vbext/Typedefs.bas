@@ -14,6 +14,8 @@ Public Enum TypeConstants
     SubType
 End Enum
 
+Public LC As New LowXRuntime.Component
+Public FSO As New Scripting.FileSystemObject
 Public G As New Globals
 
 Public Function ParseType(typeval) As TypeConstants

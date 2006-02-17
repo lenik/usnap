@@ -19,8 +19,6 @@ Private Const MAX_SIZE = 256
 Private Const MIN_WIDTH = 10
 Private Const MIN_HEIGHT = 10
 
-Private LC As New LowXRuntime.Component
-
 Private m_Item(MAX_SIZE, 1) As Object
 Private m_Items As Integer
 Private m_ItemPos(MAX_SIZE) As Position
