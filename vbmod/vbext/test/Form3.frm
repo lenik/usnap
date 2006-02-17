@@ -44,8 +44,8 @@ Private Sub Command1_Click()
     Dim name
     Dim value
     List1.Clear
-    For Each name In configuration.Names
-        value = configuration.Item(name)
+    For Each name In Application.Attributes
+        value = Application.Item(name)
         List1.AddItem name & " = " & value
     Next
 End Sub
@@ -55,5 +55,9 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Form_Load()
-    configuration.Path = App.Path & "\Test_Config"
+    Dim name As String
+    name = App.EXEName
+    If LCase(Right(name, 4)) = ".exe" Then name = Left(name, Len(name) - 4)
+    Application.name = App.EXEName
+    Application.HomeDirectory = App.Path
 End Sub

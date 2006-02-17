@@ -17,7 +17,7 @@ Const ERR_ASSERT             As Integer = -1
 Const ERR_WARNING            As Integer = -2
 Const ERR_UNEXPECTED         As Integer = -3
 
-Public Configuration As New Configuration
+Public Application As New Configuration
 Public Config As Object
 Public DebugMode As Boolean
 Public ReleaseMode As Boolean
@@ -31,12 +31,24 @@ Private Sub Class_Initialize()
     ReleaseMode = Not DebugMode
 
     InitializationsToTry
-    Set Config = Configuration.Accessor
+    Set Config = Application.Accessor
 End Sub
 
 Private Sub InitializationsToTry()
     On Error Resume Next
-    Configuration.Path = "::" & RootFile
+    Dim path As String
+    Dim dir As String
+    Dim base As String
+    path = RootFile
+    If InStr(path, "\") = 0 Then
+        dir = "."
+        base = path
+    Else
+        dir = Left(path, InStr(path, "\") - 1)
+        base = Mid(path, InStr(path, "\") + 1)
+    End If
+    Application.HomeDirectory = "::" & dir
+    Application.Name = base
 End Sub
 
 Private Function CheckIDE() As Boolean
@@ -80,7 +92,7 @@ Public Sub Assert(x, Optional msg, Optional loc)
     End If
     If Not x Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.Path
+        If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
     End If
 End Sub
@@ -92,13 +104,13 @@ Public Sub Warning(x, Optional msg, Optional loc)
     End If
     If Not x Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.Path
+        If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
     End If
 End Sub
 
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-    If IsMissing(loc) Then loc = App.Path
+    If IsMissing(loc) Then loc = App.path
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub

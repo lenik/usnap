@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "PlainObjectAdapter"
+Attribute VB_Name = "ViewObjectAdapter"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -16,6 +16,7 @@ Option Explicit
 Private Const LOCATION = "MVCArch::PlainObjectAdapter"
 
 Private m_PO As Object
+Private m_Dirty As Boolean
 
 Implements IDynamicObject
 
@@ -23,6 +24,6 @@ Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
 
 End Function
 
-Private Function IDynamicObject_DynamicInvoke(ByVal itype As LowXRuntime.InvokeType, ByVal methodIndex As Long, parameters As Variant) As Variant
+Private Function IDynamicObject_DynamicInvoke(ByVal itype As LowXRuntime.InvokeType, ByVal methodIndex As Long, Parameters As Variant) As Variant
 
 End Function

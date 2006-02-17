@@ -18,7 +18,8 @@ Private Const LOCATION = "VBExt::Configuration"
 Private Const EXTNAME = ".cfg"
 Private Const DISPID_BASE = 1024
 
-Private m_Path As String
+Private m_Name As String
+Private m_HomeDirectory As String
 Private m_EntryName As Map
 Private m_EntryId As Map
 Private m_NextId As Integer
@@ -26,10 +27,10 @@ Private m_NextId As Integer
 Implements IDynamicObject
 
 ' IDynamicObject::DynamicIndex
-Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
+Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
     Dim ce
-    LC.Assign ce, m_EntryName.Item(name)
-    If Not IsNull(ce) Then IDynamicObject_DynamicIndex = ce.id
+    LC.Assign ce, m_EntryName.Item(Name)
+    If Not IsNull(ce) Then IDynamicObject_DynamicIndex = ce.Id
 End Function
 
 ' IDynamicObject::DynamicInvoke
@@ -55,29 +56,36 @@ End Function
 
 ' Impl Utilities
 
-Private Sub SetEntry(name, ce)
-    If ce.id = 0 Then
-        ce.id = m_NextId
+Private Sub SetEntry(Name, ce)
+    If ce.Id = 0 Then
+        ce.Id = m_NextId
         m_NextId = m_NextId + 1
     End If
-    m_EntryName.Item(name) = ce
-    m_EntryId.Item(ce.id) = ce
+    m_EntryName.Item(Name) = ce
+    m_EntryId.Item(ce.Id) = ce
 End Sub
 
-Private Function RemoveEntry(name) As Boolean
+Private Function RemoveEntry(Name) As Boolean
     Dim ce
-    LC.Assign ce, m_EntryName.Item(name)
+    LC.Assign ce, m_EntryName.Item(Name)
     If Not IsNull(ce) Then
-        m_EntryName.Remove name
-        m_EntryId.Remove ce.id
+        m_EntryName.Remove Name
+        m_EntryId.Remove ce.Id
         RemoveEntry = True
     End If
 End Function
 
-Private Sub LoadConfig(ByVal Path As String)
+Private Function AbsolutePath(ByVal path As String) As String
+    AbsolutePath = m_HomeDirectory & "\" & m_Name & path & EXTNAME
+End Function
+
+Private Sub LoadConfig(ByVal Section As String)
+    Dim path As String
     Dim xmldoc As New DOMDocument
-    If Not xmldoc.Load(Path & EXTNAME) Then
-        Err.Raise ERR_CANT_LOAD_CONFIG, LOCATION, "无法装载配置文件: " & Path & EXTNAME
+
+    path = AbsolutePath(Section)
+    If Not xmldoc.Load(path) Then
+        Err.Raise ERR_CANT_LOAD_CONFIG, LOCATION, "无法装载配置文件: " & path
     End If
 
     ' /Entries/ConfigEntry
@@ -87,56 +95,67 @@ Private Sub LoadConfig(ByVal Path As String)
     Dim i As Integer
     For i = 0 To nodelist.length - 1
         Dim node As IXMLDOMNode
-        Dim name As String
-        Dim type_ As TypeConstants
+        Dim Name As String
+        Dim Type_ As TypeConstants
         Dim Value As String
         Dim j As Integer
         Dim ce
 
         Set node = nodelist.Item(i)
-        name = Empty
-        type_ = TextType
+        Name = Empty
+        Type_ = TextType
         Value = Empty
         For j = 0 To node.Attributes.length - 1
             With node.Attributes(j)
                 Select Case .nodeName
                 Case "Name"
-                    name = .nodeValue
+                    Name = .nodeValue
                 Case "Type"
-                    type_ = ParseType(.nodeValue)
+                    Type_ = ParseType(.nodeValue)
                 Case "Value"
                     Value = .nodeValue
                 End Select
             End With
         Next
 
-        If Not IsEmpty(name) Then
+        If Not IsEmpty(Name) Then
             Set ce = New ConfigEntry
-            ce.ParseValue type_, Value
-            SetEntry name, ce
+            ce.ParseValue Type_, Value
+            ce.Section = Section
+            SetEntry Name, ce
         End If
 
-        If type_ = SubType Then
-            Dim subfile As String
-            subfile = Path & "_" & Value
-            If Not FSO.FileExists(subfile & EXTNAME) Then
-                Err.Raise ERR_SUB_NOT_EXIST, LOCATION, "子配置文件 " & subfile & EXTNAME & " 不存在"
+        If Type_ = SubType Then
+            Dim SubSection As String
+            Dim SubPath As String
+            SubSection = Section & "_" & Value
+            SubPath = AbsolutePath(SubSection)
+            If Not FSO.FileExists(SubPath) Then
+                Err.Raise ERR_SUB_NOT_EXIST, LOCATION, "子配置文件 " & SubPath & " 不存在"
             End If
-            LoadConfig subfile
+            LoadConfig SubSection
         End If
     Next
 End Sub
 
-Public Property Get Path() As String
-    Path = m_Path
+Public Property Get Name() As String
+    Name = m_Name
 End Property
 
-Public Property Let Path(ByVal newpath As String)
-    If Left(newpath, 2) = "::" Then
-        newpath = Mid(newpath, 3)
+Property Let Name(ByVal newName As String)
+    m_Name = newName
+End Property
+
+Public Property Get HomeDirectory() As String
+    HomeDirectory = m_HomeDirectory
+End Property
+
+Public Property Let HomeDirectory(ByVal newHome As String)
+    If Left(newHome, 2) = "::" Then
+        newHome = Mid(newHome, 3)
         On Error Resume Next
     End If
-    m_Path = newpath
+    m_HomeDirectory = newHome
     Reload
 End Property
 
@@ -145,33 +164,33 @@ Public Sub Reload()
     Set m_EntryName = New Map
     m_NextId = DISPID_BASE
 
-    LoadConfig m_Path
+    LoadConfig ""
 End Sub
 
-Public Property Get Item(name)
+Public Property Get Item(Name)
     Dim ce
-    LC.Assign ce, m_EntryName.Item(name)
+    LC.Assign ce, m_EntryName.Item(Name)
     If Not IsNull(ce) Then LC.Assign Item, ce.Value
 End Property
 
-Public Property Let Item(name, Value)
+Public Property Let Item(Name, Value)
     Dim ce
-    LC.Assign ce, m_EntryName.Item(name)
+    LC.Assign ce, m_EntryName.Item(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
         LC.Assign ce.Value, Value
-        SetEntry name, ce
+        SetEntry Name, ce
     Else
         ce.Value = Value
     End If
 End Property
 
-Public Sub Remove(ByVal name As String)
-    RemoveEntry name
+Public Sub Remove(ByVal Name As String)
+    RemoveEntry Name
 End Sub
 
-Public Property Get Names() As Collection
-    Set Names = m_EntryName.KeySet
+Public Property Get Attributes() As Collection
+    Set Attributes = m_EntryName.KeySet
 End Property
 
 Public Function Accessor() As Object

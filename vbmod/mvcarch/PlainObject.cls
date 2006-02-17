@@ -6,19 +6,17 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "ConfigEntry"
+Attribute VB_Name = "PlainObject"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
+Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 Option Explicit
 
-Public Id As Long
-Public Type_ As Integer
-Public Value
-Public Section As String
+' Tag Class
 
-Public Sub ParseValue(Type_, valstr As String)
-    Me.Type_ = Type_
-    Value = valstr
-End Sub
+Public Function GetFieldNames()
+    ' Example of implementation:
+    '
+    '   GetFieldNames = Split("name|age|sex|...|birthday", "|")
+End Function
