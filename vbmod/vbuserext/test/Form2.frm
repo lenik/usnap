@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#6.0#0"; "VBUserExt.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#8.0#0"; "VBUserExt.ocx"
 Begin VB.Form Form2
    Caption         =   "Form1"
    ClientHeight    =   3090
@@ -11,8 +11,8 @@ Begin VB.Form Form2
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
    Begin VBUserExt.EventFilter EventFilter1
-      Left            =   360
-      Top             =   360
+      Left            =   2100
+      Top             =   1320
       _ExtentX        =   900
       _ExtentY        =   900
    End
@@ -29,5 +29,5 @@ Private Sub EventFilter1_Sizing(ByVal sizingAt As VBUserExt.SizingAtConstants, L
 End Sub
 
 Private Sub Form_Load()
-    EventFilter1.Hook
+    'EventFilter1.Hook
 End Sub

@@ -1,0 +1,4 @@
+VBGROUP 5.0
+Project=VBUserExt.vbp
+Project=test\Test_EventFilter.vbp
+StartupProject=test\Test_EventFilter2.vbp

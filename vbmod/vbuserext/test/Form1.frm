@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#5.0#0"; "VBUserExt.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#8.0#0"; "VBUserExt.ocx"
 Begin VB.Form Form1
    Caption         =   "Form1"
    ClientHeight    =   3090
@@ -12,8 +12,8 @@ Begin VB.Form Form1
    ScaleWidth      =   312
    StartUpPosition =   3  'Windows Default
    Begin VBUserExt.EventFilter EventFilter1
-      Left            =   300
-      Top             =   360
+      Left            =   360
+      Top             =   420
       _ExtentX        =   900
       _ExtentY        =   900
    End
