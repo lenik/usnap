@@ -1,4 +1,6 @@
 VBGROUP 5.0
 Project=VBExt.vbp
 Project=test\Test_Layout.vbp
-StartupProject=test\Test_Config.vbp
+Project=test\Test_Config.vbp
+Project=..\vbuserext\VBUserExt.vbp
+StartupProject=..\vbuserext\test\Test_EventFilter.vbp

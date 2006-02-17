@@ -19,10 +19,17 @@ Const ERR_UNEXPECTED         As Integer = -3
 
 Public Configuration As New Configuration
 Public Config As Object
+Public DebugMode As Boolean
+Public ReleaseMode As Boolean
 
 Private LE As New LowXRuntime.Execute
 
+Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Long
+
 Private Sub Class_Initialize()
+    DebugMode = CheckIDE
+    ReleaseMode = Not DebugMode
+
     InitializationsToTry
     Set Config = Configuration.Accessor
 End Sub
@@ -31,6 +38,22 @@ Private Sub InitializationsToTry()
     On Error Resume Next
     Configuration.Path = "::" & RootFile
 End Sub
+
+Private Function CheckIDE() As Boolean
+    Dim ModuleHandle As String
+    Dim EnvVal As Variant
+    Dim ReturnVal As Long
+    Dim i As Long
+    EnvVal = Array("vb.exe", "vb32.exe", "vb5.exe", "vb6.exe")
+    For i = LBound(EnvVal) To UBound(EnvVal)
+       ModuleHandle = EnvVal(i)
+       ReturnVal = GetModuleHandle(ModuleHandle)
+       If ReturnVal <> 0 Then
+          CheckIDE = True
+          Exit Function
+       End If
+    Next
+End Function
 
 Private Property Get RootFile() As String
     Dim cl As String
@@ -51,6 +74,7 @@ Private Property Get RootFile() As String
 End Property
 
 Public Sub Assert(x, Optional msg, Optional loc)
+    If ReleaseMode Then Exit Sub
     If IsObject(x) Then
         If Not x Is Nothing Then Exit Sub
     End If
@@ -62,6 +86,7 @@ Public Sub Assert(x, Optional msg, Optional loc)
 End Sub
 
 Public Sub Warning(x, Optional msg, Optional loc)
+    If ReleaseMode Then Exit Sub
     If IsObject(x) Then
         If Not x Is Nothing Then Exit Sub
     End If
