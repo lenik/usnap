@@ -12,81 +12,39 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
+Option Base 0
 
-Const ERR_ASSERT             As Integer = -1
-Const ERR_WARNING            As Integer = -2
-Const ERR_UNEXPECTED         As Integer = -3
+Private Const LOCATION = "VBExt::Globals"
 
-Public Application As New Configuration
-Public Config As Object
-Public DebugMode As Boolean
-Public ReleaseMode As Boolean
-
-Private LE As New LowXRuntime.Execute
-
-Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Long
+Public Enum ReferenceTypeConstants
+    vbxStrongReference = 0              ' Place-holder, por faciligi
+    vbxSoftReference                    ' Used for memory-sensitive caches
+    vbxWeakReference                    ' Used for canonicalizing mappings
+End Enum
 
 Private Sub Class_Initialize()
-    DebugMode = CheckIDE
-    ReleaseMode = Not DebugMode
-
-    InitializationsToTry
-    Set Config = Application.Accessor
+    InitializeGlobals
 End Sub
 
-Private Sub InitializationsToTry()
-    On Error Resume Next
-    Dim path As String
-    Dim dir As String
-    Dim base As String
-    path = RootFile
-    If InStr(path, "\") = 0 Then
-        dir = "."
-        base = path
-    Else
-        dir = Left(path, InStr(path, "\") - 1)
-        base = Mid(path, InStr(path, "\") + 1)
-    End If
-    Application.HomeDirectory = "::" & dir
-    Application.Name = base
-End Sub
-
-Private Function CheckIDE() As Boolean
-    Dim ModuleHandle As String
-    Dim EnvVal As Variant
-    Dim ReturnVal As Long
-    Dim i As Long
-    EnvVal = Array("vb.exe", "vb32.exe", "vb5.exe", "vb6.exe")
-    For i = LBound(EnvVal) To UBound(EnvVal)
-       ModuleHandle = EnvVal(i)
-       ReturnVal = GetModuleHandle(ModuleHandle)
-       If ReturnVal <> 0 Then
-          CheckIDE = True
-          Exit Function
-       End If
-    Next
-End Function
-
-Private Property Get RootFile() As String
-    Dim cl As String
-    cl = LE.CommandLine
-    If InStr(cl, Chr(0)) Then cl = Left(cl, InStr(cl, Chr(0)) - 1)
-    If Left(cl, 1) = """" Then
-        cl = Mid(cl, 2)
-        If InStr(cl, """") > 0 Then cl = Left(cl, InStr(cl, """") - 1)
-    ElseIf InStr(cl, " ") > 0 Then
-        cl = Left(cl, InStr(cl, " ") - 1)
-    ElseIf InStr(cl, Chr(9)) > 0 Then
-        cl = Left(cl, InStr(cl, Chr(9)) - 1)
-    End If
-    RootFile = cl
-    If LCase(Right(RootFile, 4)) = ".exe" Then
-        RootFile = Left(RootFile, Len(RootFile) - 4)
-    End If
+Public Property Get Application() As Configuration
+    Set Application = g_Configuration
 End Property
 
+Public Property Get Config() As Object
+    Set Config = g_Config
+End Property
+
+Public Property Get DebugMode() As Boolean
+    DebugMode = g_DebugMode
+End Property
+
+Public Property Get ReleaseMode() As Boolean
+    ReleaseMode = Not g_DebugMode
+End Property
+
+' COPY GlobalsSingleton.Assert
 Public Sub Assert(x, Optional msg, Optional loc)
-    If ReleaseMode Then Exit Sub
+    If Not g_DebugMode Then Exit Sub
     If IsObject(x) Then
         If Not x Is Nothing Then Exit Sub
     End If
@@ -97,8 +55,9 @@ Public Sub Assert(x, Optional msg, Optional loc)
     End If
 End Sub
 
+' COPY GlobalsSingleton.Warning
 Public Sub Warning(x, Optional msg, Optional loc)
-    If ReleaseMode Then Exit Sub
+    If Not g_DebugMode Then Exit Sub
     If IsObject(x) Then
         If Not x Is Nothing Then Exit Sub
     End If
@@ -109,8 +68,29 @@ Public Sub Warning(x, Optional msg, Optional loc)
     End If
 End Sub
 
+' COPY GlobalsSingleton.Unexpected
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
     If IsMissing(loc) Then loc = App.path
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
+End Sub
+
+Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
+    Set Ref = GlobalsSingleton.GetRef(RefType, Name)
+End Property
+
+Public Property Let Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
+    GlobalsSingleton.PutRef RefType, Name, newval
+End Property
+
+Public Sub GarbageCollect()
+    GlobalsSingleton.GarbageCollect
+End Sub
+
+Public Sub RegisterSystemEventListener(ByVal Name As String, ByVal listener As SystemEventListener)
+    GlobalsSingleton.RegisterSystemEventListener Name, listener
+End Sub
+
+Public Sub UnregisterSystemEventListener(ByVal Name As String)
+    GlobalsSingleton.UnregisterSystemEventListener Name
 End Sub

@@ -1,0 +1,7 @@
+// SAOT.cpp : Implementation of CSAOT
+#include "stdafx.h"
+#include "Fastalg.h"
+#include "SAOT.h"
+
+/////////////////////////////////////////////////////////////////////////////
+// CSAOT

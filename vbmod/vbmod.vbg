@@ -1,5 +1,5 @@
 VBGROUP 5.0
-StartupProject=vbext\VBExt.vbp
+Project=vbext\VBExt.vbp
 Project=crypt\ModCrypt.vbp
 Project=vbuserext\VBUserExt.vbp
 Project=mvcarch\MVCArch.vbp

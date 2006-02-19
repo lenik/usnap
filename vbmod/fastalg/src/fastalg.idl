@@ -1,0 +1,56 @@
+// fastalg.idl : IDL source for fastalg.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (fastalg.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(AECAFF4C-5D51-483A-8619-E80511E69439),
+		dual,
+		helpstring("Slotted-Array Operation Test Interface"),
+		pointer_default(unique)
+	]
+	interface ISAOT : IDispatch
+	{
+	};
+	[
+		object,
+		uuid(604D4559-902D-4066-B1FA-81F692610519),
+		dual,
+		helpstring("Discover Ranges In Array Interface"),
+		pointer_default(unique)
+	]
+	interface IDRIA : IDispatch
+	{
+	};
+
+[
+	uuid(5B4DC081-852D-4465-898E-D179454234DA),
+	version(1.0),
+	helpstring("Fast Algorithms 1.0 Type Library")
+]
+library FastAlgLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(CD583388-D348-4A9E-BBBB-9A8D25F3DAAD),
+		helpstring("Slotted-Array Operation Test")
+	]
+	coclass SAOT
+	{
+		[default] interface ISAOT;
+	};
+	[
+		uuid(AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476),
+		helpstring("Discover Ranges In Array")
+	]
+	coclass DRIA
+	{
+		[default] interface IDRIA;
+	};
+};

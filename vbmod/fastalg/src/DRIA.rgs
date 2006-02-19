@@ -1,0 +1,26 @@
+HKCR
+{
+	Fastalg.DRIA.1 = s 'DRIA Class'
+	{
+		CLSID = s '{AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476}'
+	}
+	Fastalg.DRIA = s 'DRIA Class'
+	{
+		CLSID = s '{AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476}'
+		CurVer = s 'Fastalg.DRIA.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476} = s 'DRIA Class'
+		{
+			ProgID = s 'Fastalg.DRIA.1'
+			VersionIndependentProgID = s 'Fastalg.DRIA'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{5B4DC081-852D-4465-898E-D179454234DA}'
+		}
+	}
+}

@@ -1,0 +1,7 @@
+// DRIA.cpp : Implementation of CDRIA
+#include "stdafx.h"
+#include "Fastalg.h"
+#include "DRIA.h"
+
+/////////////////////////////////////////////////////////////////////////////
+// CDRIA

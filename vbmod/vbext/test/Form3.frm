@@ -41,12 +41,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Command1_Click()
-    Dim name
+    Dim Name
     Dim value
     List1.Clear
-    For Each name In Application.Attributes
-        value = Application.Item(name)
-        List1.AddItem name & " = " & value
+    For Each Name In Application.Attributes
+        value = Application.Item(Name)
+        List1.AddItem Name & " = " & value
     Next
 End Sub
 
@@ -55,9 +55,9 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Form_Load()
-    Dim name As String
-    name = App.EXEName
-    If LCase(Right(name, 4)) = ".exe" Then name = Left(name, Len(name) - 4)
-    Application.name = App.EXEName
+    Dim Name As String
+    Name = App.EXEName
+    If LCase(Right(Name, 4)) = ".exe" Then Name = Left(Name, Len(Name) - 4)
+    Application.Name = App.EXEName
     Application.HomeDirectory = App.Path
 End Sub

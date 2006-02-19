@@ -34,24 +34,24 @@ Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
 End Function
 
 ' IDynamicObject::DynamicInvoke
-Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal methodIndex As Long, parameters As Variant) As Variant
+Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal methodIndex As Long, Parameters As Variant) As Variant
     Dim ce
     LC.Assign ce, m_EntryId.Item(methodIndex)
-    G.Assert Not IsNull(ce)
+    Assert Not IsNull(ce)
 
     Select Case itype
     Case InvokeMethod
         ' ??
     Case InvokePropertyGet
-        IDynamicObject_DynamicInvoke = ce.Value
+        IDynamicObject_DynamicInvoke = ce.value
     Case InvokePropertyPut
-        ce.Value = parameters(0)
+        ce.value = Parameters(0)
     Case InvokePropertyPutRef
-        Set ce.Value = parameters(0)
+        Set ce.value = Parameters(0)
     End Select
     Exit Function
 NotExist:
-    G.Unexpected
+    Unexpected
 End Function
 
 ' Impl Utilities
@@ -97,14 +97,14 @@ Private Sub LoadConfig(ByVal Section As String)
         Dim node As IXMLDOMNode
         Dim Name As String
         Dim Type_ As TypeConstants
-        Dim Value As String
+        Dim value As String
         Dim j As Integer
         Dim ce
 
         Set node = nodelist.Item(i)
         Name = Empty
         Type_ = TextType
-        Value = Empty
+        value = Empty
         For j = 0 To node.Attributes.length - 1
             With node.Attributes(j)
                 Select Case .nodeName
@@ -113,14 +113,14 @@ Private Sub LoadConfig(ByVal Section As String)
                 Case "Type"
                     Type_ = ParseType(.nodeValue)
                 Case "Value"
-                    Value = .nodeValue
+                    value = .nodeValue
                 End Select
             End With
         Next
 
         If Not IsEmpty(Name) Then
             Set ce = New ConfigEntry
-            ce.ParseValue Type_, Value
+            ce.ParseValue Type_, value
             ce.Section = Section
             SetEntry Name, ce
         End If
@@ -128,7 +128,7 @@ Private Sub LoadConfig(ByVal Section As String)
         If Type_ = SubType Then
             Dim SubSection As String
             Dim SubPath As String
-            SubSection = Section & "_" & Value
+            SubSection = Section & "_" & value
             SubPath = AbsolutePath(SubSection)
             If Not FSO.FileExists(SubPath) Then
                 Err.Raise ERR_SUB_NOT_EXIST, LOCATION, "子配置文件 " & SubPath & " 不存在"
@@ -170,18 +170,18 @@ End Sub
 Public Property Get Item(Name)
     Dim ce
     LC.Assign ce, m_EntryName.Item(Name)
-    If Not IsNull(ce) Then LC.Assign Item, ce.Value
+    If Not IsNull(ce) Then LC.Assign Item, ce.value
 End Property
 
-Public Property Let Item(Name, Value)
+Public Property Let Item(Name, value)
     Dim ce
     LC.Assign ce, m_EntryName.Item(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
-        LC.Assign ce.Value, Value
+        LC.Assign ce.value, value
         SetEntry Name, ce
     Else
-        ce.Value = Value
+        ce.value = value
     End If
 End Property
 

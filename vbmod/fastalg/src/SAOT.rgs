@@ -1,0 +1,26 @@
+HKCR
+{
+	Fastalg.SAOT.1 = s 'SAOT Class'
+	{
+		CLSID = s '{CD583388-D348-4A9E-BBBB-9A8D25F3DAAD}'
+	}
+	Fastalg.SAOT = s 'SAOT Class'
+	{
+		CLSID = s '{CD583388-D348-4A9E-BBBB-9A8D25F3DAAD}'
+		CurVer = s 'Fastalg.SAOT.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {CD583388-D348-4A9E-BBBB-9A8D25F3DAAD} = s 'SAOT Class'
+		{
+			ProgID = s 'Fastalg.SAOT.1'
+			VersionIndependentProgID = s 'Fastalg.SAOT'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{5B4DC081-852D-4465-898E-D179454234DA}'
+		}
+	}
+}
