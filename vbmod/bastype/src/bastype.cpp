@@ -1,25 +1,21 @@
-// fastalg.cpp : Implementation of DLL Exports.
+// bastype.cpp : Implementation of DLL Exports.
 
 
 // Note: Proxy/Stub Information
 //      To build a separate proxy/stub DLL,
-//      run nmake -f fastalgps.mk in the project directory.
+//      run nmake -f bastypeps.mk in the project directory.
 
 #include "stdafx.h"
 #include "resource.h"
 #include <initguid.h>
-#include "fastalg.h"
+#include "bastype.h"
 
-#include "fastalg_i.c"
-#include "SAOT.h"
-#include "DRIA.h"
+#include "bastype_i.c"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
-OBJECT_ENTRY(CLSID_SAOT, CSAOT)
-OBJECT_ENTRY(CLSID_DRIA, CDRIA)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,7 +26,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID /*lpReserved*/)
 {
     if (dwReason == DLL_PROCESS_ATTACH)
     {
-        _Module.Init(ObjectMap, hInstance, &LIBID_FastAlgLib);
+        _Module.Init(ObjectMap, hInstance, &LIBID_BasTypeLib);
         DisableThreadLibraryCalls(hInstance);
     }
     else if (dwReason == DLL_PROCESS_DETACH)
@@ -69,9 +65,4 @@ STDAPI DllRegisterServer(void)
 STDAPI DllUnregisterServer(void)
 {
     return _Module.UnregisterServer(TRUE);
-}
-
-// FIX: LNK2001
-int main() {
-    return- 1;
 }

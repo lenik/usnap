@@ -1,0 +1,43 @@
+// bastype.idl : IDL source for bastype.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (bastype.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(3AD5FB90-8C80-461D-8F18-F65732FCED17),
+		dual,
+		helpstring("IComparable Interface"),
+		pointer_default(unique)
+	]
+	interface IComparable : IDispatch
+	{
+		[id(1), helpstring("Return: -1(this < rhs), 0(this == rhs), 1(this > rhs)")]
+                HRESULT compareTo([in]VARIANT *rhs, [out, retval]int *result);
+	};
+	[
+		object,
+		uuid(99A5A9D2-90B9-48A6-805F-2D14FED3238A),
+		dual,
+		helpstring("IStringizable Interface"),
+		pointer_default(unique)
+	]
+	interface IStringizable : IDispatch
+	{
+		[id(1), helpstring("method ToString")] HRESULT ToString([out, retval]BSTR *result);
+	};
+
+[
+	uuid(A2C5D7B2-5074-4051-829C-054554A52194),
+	version(1.0),
+	helpstring("Visual Basic 6.0 Basic Types for Object-Oriented Programming")
+]
+library BasTypeLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

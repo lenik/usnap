@@ -1,28 +1,28 @@
-# Microsoft Developer Studio Project File - Name="fastalg" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="bastype" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=fastalg - Win32 Debug
+CFG=bastype - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE
-!MESSAGE NMAKE /f "fastalg.mak".
+!MESSAGE NMAKE /f "bastype.mak".
 !MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE
-!MESSAGE NMAKE /f "fastalg.mak" CFG="fastalg - Win32 Debug"
+!MESSAGE NMAKE /f "bastype.mak" CFG="bastype - Win32 Debug"
 !MESSAGE
 !MESSAGE Possible choices for configuration are:
 !MESSAGE
-!MESSAGE "fastalg - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "fastalg - Win32 Unicode Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "fastalg - Win32 Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "fastalg - Win32 Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "fastalg - Win32 Unicode Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "fastalg - Win32 Unicode Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Unicode Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Unicode Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "bastype - Win32 Unicode Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE
 
 # Begin Project
@@ -33,7 +33,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "fastalg - Win32 Debug"
+!IF  "$(CFG)" == "bastype - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -44,10 +44,9 @@ RSC=rc.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
-# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ     /c
+# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ     /c
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
 # ADD RSC /l 0x804 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -58,8 +57,8 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\Debug
-TargetPath=.\Debug\fastalg.dll
-InputPath=.\Debug\fastalg.dll
+TargetPath=.\Debug\bastype.dll
+InputPath=.\Debug\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -68,7 +67,7 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "fastalg - Win32 Unicode Debug"
+!ELSEIF  "$(CFG)" == "bastype - Win32 Unicode Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -80,8 +79,8 @@ SOURCE="$(InputPath)"
 # PROP Output_Dir "DebugU"
 # PROP Intermediate_Dir "DebugU"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /Yu"stdafx.h" /FD /GZ   /c
+# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /Yu"stdafx.h" /FD /GZ   /c
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
 # ADD RSC /l 0x804 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -92,8 +91,8 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\DebugU
-TargetPath=.\DebugU\fastalg.dll
-InputPath=.\DebugU\fastalg.dll
+TargetPath=.\DebugU\bastype.dll
+InputPath=.\DebugU\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -108,7 +107,7 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "fastalg - Win32 Release MinSize"
+!ELSEIF  "$(CFG)" == "bastype - Win32 Release MinSize"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -119,7 +118,6 @@ SOURCE="$(InputPath)"
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "ReleaseMinSize"
 # PROP Intermediate_Dir "ReleaseMinSize"
-# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_DLL" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
 # ADD CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_DLL" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
@@ -130,11 +128,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/fastalg.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinSize
-TargetPath=\.lokaj\zbmis\bin\fastalg.dll
-InputPath=\.lokaj\zbmis\bin\fastalg.dll
+TargetPath=.\ReleaseMinSize\bastype.dll
+InputPath=.\ReleaseMinSize\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -143,7 +141,7 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "fastalg - Win32 Release MinDependency"
+!ELSEIF  "$(CFG)" == "bastype - Win32 Release MinDependency"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -154,7 +152,6 @@ SOURCE="$(InputPath)"
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "ReleaseMinDependency"
 # PROP Intermediate_Dir "ReleaseMinDependency"
-# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
 # ADD CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
@@ -165,11 +162,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/fastalg.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinDependency
-TargetPath=\.lokaj\zbmis\bin\fastalg.dll
-InputPath=\.lokaj\zbmis\bin\fastalg.dll
+TargetPath=.\ReleaseMinDependency\bastype.dll
+InputPath=.\ReleaseMinDependency\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -178,7 +175,7 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "fastalg - Win32 Unicode Release MinSize"
+!ELSEIF  "$(CFG)" == "bastype - Win32 Unicode Release MinSize"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -189,7 +186,6 @@ SOURCE="$(InputPath)"
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "ReleaseUMinSize"
 # PROP Intermediate_Dir "ReleaseUMinSize"
-# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /D "_ATL_DLL" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
 # ADD CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /D "_ATL_DLL" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
@@ -200,11 +196,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/fastalg.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseUMinSize
-TargetPath=\.lokaj\zbmis\bin\fastalg.dll
-InputPath=\.lokaj\zbmis\bin\fastalg.dll
+TargetPath=.\ReleaseUMinSize\bastype.dll
+InputPath=.\ReleaseUMinSize\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -219,7 +215,7 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "fastalg - Win32 Unicode Release MinDependency"
+!ELSEIF  "$(CFG)" == "bastype - Win32 Unicode Release MinDependency"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -230,7 +226,6 @@ SOURCE="$(InputPath)"
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "ReleaseUMinDependency"
 # PROP Intermediate_Dir "ReleaseUMinDependency"
-# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
 # ADD CPP /nologo /MT /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "_ATL_MIN_CRT" /Yu"stdafx.h" /FD /c
@@ -241,11 +236,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/fastalg.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseUMinDependency
-TargetPath=\.lokaj\zbmis\bin\fastalg.dll
-InputPath=\.lokaj\zbmis\bin\fastalg.dll
+TargetPath=.\ReleaseUMinDependency\bastype.dll
+InputPath=.\ReleaseUMinDependency\bastype.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -264,43 +259,31 @@ SOURCE="$(InputPath)"
 
 # Begin Target
 
-# Name "fastalg - Win32 Debug"
-# Name "fastalg - Win32 Unicode Debug"
-# Name "fastalg - Win32 Release MinSize"
-# Name "fastalg - Win32 Release MinDependency"
-# Name "fastalg - Win32 Unicode Release MinSize"
-# Name "fastalg - Win32 Unicode Release MinDependency"
+# Name "bastype - Win32 Debug"
+# Name "bastype - Win32 Unicode Debug"
+# Name "bastype - Win32 Release MinSize"
+# Name "bastype - Win32 Release MinDependency"
+# Name "bastype - Win32 Unicode Release MinSize"
+# Name "bastype - Win32 Unicode Release MinDependency"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\DRIA.cpp
+SOURCE=.\bastype.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\fastalg.cpp
+SOURCE=.\bastype.def
 # End Source File
 # Begin Source File
 
-SOURCE=.\fastalg.def
+SOURCE=.\bastype.idl
+# ADD MTL /tlb ".\bastype.tlb" /h "bastype.h" /iid "bastype_i.c" /Oicf
 # End Source File
 # Begin Source File
 
-SOURCE=.\fastalg.idl
-# ADD MTL /tlb ".\fastalg.tlb" /h "fastalg.h" /iid "fastalg_i.c" /Oicf
-# End Source File
-# Begin Source File
-
-SOURCE=.\fastalg.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\kernel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SAOT.cpp
+SOURCE=.\bastype.rc
 # End Source File
 # Begin Source File
 
@@ -313,19 +296,7 @@ SOURCE=.\StdAfx.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\DRIA.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\kernel.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Resource.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SAOT.h
 # End Source File
 # Begin Source File
 
@@ -335,14 +306,6 @@ SOURCE=.\StdAfx.h
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-# Begin Source File
-
-SOURCE=.\DRIA.rgs
-# End Source File
-# Begin Source File
-
-SOURCE=.\SAOT.rgs
-# End Source File
 # End Group
 # End Target
 # End Project

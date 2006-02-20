@@ -1,14 +1,18 @@
 #pragma once
 
-#include <functional>
-#include <xtree>
+#include <vector>
 
 struct int_range {
     int from;
     int to;
-
+    int_range() {}
+    int_range(int a, int b) : from(a), to(b) {}
     bool operator<(const int_range& rhs) const;
 };
+
+/*
+#include <functional>
+#include <xtree>
 
 typedef std::less<int_range> int_range_less;
 
@@ -34,20 +38,30 @@ bool irt::existed(int_range& ir) {
     }
     return true;
 }
+*/
+
+typedef std::vector<int_range> int_ranges;
 
 // discover ranges in array
 class dria {
-    int_range_tree tree;
+    //int_range_tree tree;
+    int_ranges vec;
 public:
     dria();
     ~dria();
 
     void clear();
-    void add(int_range *range);
-    void remove(int_range *range);
+    int ceil(int v) const;
+    int floor(int v) const;
+    bool add(const int_range& range);
+    bool remove(const int_range& range);
 
     // int[] = { from[0] to[0] from[1] to[1] ... 0 -1 };
     int* ranges();
 
     bool operator<(const int_range& rhs) const;
+};
+
+// slotted-array operation test
+class saot {
 };
