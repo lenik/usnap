@@ -138,75 +138,150 @@ int* dria::ranges() {
 
 saot::saot() {
     m_alloc = 0;
-    m_nextfree = -1;
+    m_used = 0;
+    m_next = 0;
 }
 
-int saot::alloc_size() {
+
+int saot::slot_alloc() {
     return m_alloc;
 }
 
-int saot::add(int ar_index) {
-    _assert_(ar_index >= 0);
-    int slot = slot_of_index(ar_index);
-    if (slot >= 0)  // existed
-        return slot;
-    if (m_nextfree == m_alloc) {
-        _assert_(m_alloc < MAX_SLOTS);
-        m_slot[m_alloc] = -1;
-        m_alloc++;
+int saot::size() {
+    return m_used;
+}
+
+int saot::slot_add() {
+    _assert_(m_alloc <= MAX_ITEMS);
+    if (m_next == m_alloc) {
+        if (m_alloc == MAX_ITEMS)
+            return -1;
+        m_slot[m_next++] = SLOT_PLACEHOLDER;
+        m_used++;
+        return m_alloc++;
     }
-    m_slot[slot = m_nextfree++] = ar_index;
-    while (m_nextfree < m_alloc) {
-        if (m_slot[m_nextfree] == -1)
-            break;
-        m_nextfree++;
+
+    int slot = m_next;
+    m_slot[m_next++] = SLOT_PLACEHOLDER;
+    m_used++;
+    // update m_next
+    while (m_next < m_alloc) {
+        if (m_slot[m_next] == SLOT_AVAILABLE)
+            return slot;
+        m_next++;
     }
-    if (m_nextfree == m_alloc) {
-        // loop back, try once
-        m_nextfree = 0;
-        while (m_nextfree < slot) {
-            if (m_slot[m_nextfree] == -1)
-                break;
-            m_nextfree++;
-        }
-        if (m_nextfree == slot) {
-            // Really full..
-            m_nextfree = m_alloc;       // ask for more alloc space.
-        }
+    // loop back
+    m_next = 0;
+    while (m_next < slot) {
+        if (m_slot[m_next] == SLOT_AVAILABLE)
+            return slot;
+        m_next++;
     }
+    // slots full..
+    m_next = m_alloc;                   // ask for more alloc space.
     return slot;
 }
 
-int saot::remove(int ar_index) {
-    _assert_(ar_index >= 0);
-    int slot = slot_of_index(ar_index);
-    if (slot >= 0)
-        m_slot[slot] = -1;
+void saot::slot_remove(int slot) {
+    _assert_(slot >= 0 && slot < m_alloc);
+    if (m_slot[slot] != SLOT_AVAILABLE) {
+        m_slot[slot] = SLOT_AVAILABLE;
+        m_used--;
+        if (slot == m_alloc - 1) {
+            if (m_next != m_alloc)
+                m_alloc--;
+        } else if (slot < m_next) {     // optimize
+            m_next = slot;
+        }
+    }
+}
 
-    // adjust array indexes.
-    for (int i = 0; i < m_alloc; i++)
-        if (m_slot[i] > ar_index)
+void saot::slot_clear() {
+    m_alloc = 0;
+    m_used = 0;
+    m_next = 0;
+}
+
+int saot::idx_insert(index_type before) {
+    int slot = slot_add();
+    if (slot == -1)
+        return -1;
+    for (int i = 0; i < m_alloc; i++) {
+        if (m_slot[i] >= before)
+            m_slot[i]++;
+    }
+    m_slot[slot] = before;
+    return slot;
+}
+
+int saot::idx_remove(index_type index) {
+    int slot = find_index(index);
+    if (slot == -1)
+        return -1;
+    for (int i = 0; i < m_alloc; i++) {
+        if (m_slot[i] >= index)
             m_slot[i]--;
-
+    }
+    slot_remove(slot);
     return slot;
 }
 
-int saot::remove_slot(int slot) {
-    _assert_(slot >= 0 && slot < m_size);
-    int i = m_slot[slot];
-    m_slot[slot] = -1;
-    return i;
+int saot::idx_append(int count) {
+    int start = 0;
+    int made = 0;
+    for (int i = 0; i < m_used; i++) {
+        if (m_slot[i] >= start)
+            start = m_slot[i] + 1;
+    }
+    while (count--) {
+        int slot = slot_add();
+        if (slot == -1)
+            break;
+        m_slot[slot] = start++;
+        made++;
+    }
+    return made;
 }
 
-int saot::index_at_slot(int slot) {
-    _assert_(slot >= 0 && slot < m_size);
+index_type saot::find_slot(int slot) {
+    _assert_(slot >= 0 && slot < m_alloc);
     return m_slot[slot];
 }
 
-int saot::slot_of_index(int ar_index) {
-    _assert_(ar_index >= 0);
-    for (int s = 0; s < m_alloc; s++)
-        if (m_slot[s] == ar_index)
-            return s;
+int saot::find_index(index_type index) {
+    if (index < 0 || index >= m_used)
+        return -1;
+    for (int i = 0; i < m_alloc; i++)
+        if (m_slot[i] == index)
+            return i;
     return -1;
+}
+
+struct index_slot {
+    index_type index;
+    int slot;
+};
+
+int _cdecl index_slot_cmp(const void *a, const void *b) {
+    const index_slot *p = (const index_slot *)a;
+    const index_slot *q = (const index_slot *)b;
+    return p->index - q->index;
+}
+
+void saot::idx_sort(int *slots) {
+    index_slot *map = new index_slot[m_used];
+    int i, mapi = 0;
+    for (i = 0; i < m_alloc; i++) {
+        if (m_slot[i] >= 0) {
+            _assert_(mapi < m_used);
+            map[mapi].slot = i;
+            map[mapi].index = m_slot[i];
+            mapi++;
+        }
+    }
+    qsort(map, m_used, sizeof(index_slot), index_slot_cmp);
+    for (i = 0; i < m_used; i++) {
+        slots[i] = map[i].slot;
+    }
+    delete[] map;
 }

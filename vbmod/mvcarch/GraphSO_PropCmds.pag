@@ -1,30 +1,32 @@
 VERSION 5.00
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#14.0#0"; "VBUserExt.ocx"
 Begin VB.PropertyPage StateControl_Commands
    Caption         =   "Commands"
-   ClientHeight    =   3705
+   ClientHeight    =   3360
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   6315
+   ClientWidth     =   6330
    PaletteMode     =   0  'Halftone
-   ScaleHeight     =   3705
-   ScaleWidth      =   6315
-   Begin VB.VScrollBar VScroll1
-      Height          =   3315
-      Left            =   6000
-      Max             =   0
-      TabIndex        =   9
-      Top             =   360
-      Width           =   255
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   0
+   ScaleHeight     =   3360
+   ScaleWidth      =   6330
+   Begin VBUserExt.ScrollableContainer ScrollableContainer1
+      Height          =   2955
       Left            =   60
       TabIndex        =   8
       Top             =   360
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
+      Width           =   6195
+      _ExtentX        =   10927
+      _ExtentY        =   5212
+      Begin MVCArch.StateControl_Command cmd
+         Height          =   375
+         Index           =   0
+         Left            =   0
+         TabIndex        =   9
+         Top             =   0
+         Width           =   5895
+         _ExtentX        =   10398
+         _ExtentY        =   661
+      End
    End
    Begin VB.CommandButton cmdClear
       Caption         =   "&Clear"
@@ -188,3 +190,30 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Dim m_SAOT As New SAOT
+
+Private Sub cmdAdd_Click()
+    Dim slot As Integer
+    slot = m_SAOT.Append(1)
+    ' TODO
+End Sub
+
+Private Sub PropertyPage_ApplyChanges()
+    '
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+    Dim st As StateControl
+    ' Assert selectedcontrols(0) instanceof StateControl
+    Set st = SelectedControls(0)
+
+    m_SAOT.SlotClear
+    m_SAOT.Append st.Commands
+    RefreshLines
+End Sub
+
+Sub RefreshLines()
+    Dim slots
+    slots = m_SAOT.SortSlots
+
+End Sub

@@ -362,7 +362,7 @@ End Property
 'End Property
 
 Public Property Get CommandName(ByVal Index As Integer) As String
-Attribute CommandName.VB_ProcData.VB_Invoke_Property = "Commands"
+Attribute CommandName.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     CommandName = m_Command(Index).Name
 End Property
@@ -372,7 +372,7 @@ Public Property Let CommandName(ByVal Index As Integer, ByVal newval As String)
 End Property
 
 Public Property Get CommandDefault(ByVal Index As Integer) As Boolean
-Attribute CommandDefault.VB_ProcData.VB_Invoke_Property = "Commands"
+Attribute CommandDefault.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     CommandDefault = m_Command(Index).Default
 End Property
@@ -384,7 +384,7 @@ Public Property Let CommandDefault(ByVal Index As Integer, ByVal newval As Boole
 End Property
 
 Public Property Get CommandTarget(ByVal Index As Integer) As String
-Attribute CommandTarget.VB_ProcData.VB_Invoke_Property = "Commands"
+Attribute CommandTarget.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     CommandTarget = m_Command(Index).Target
 End Property
@@ -405,7 +405,7 @@ Public Property Let CommandMethod(ByVal Index As Integer, ByVal newval As Method
 End Property
 
 Public Property Get CommandVisible(ByVal Index As Integer) As Boolean
-Attribute CommandVisible.VB_ProcData.VB_Invoke_Property = "Commands"
+Attribute CommandVisible.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     CommandVisible = m_Command(Index).Visible
 End Property
@@ -416,7 +416,7 @@ Public Property Let CommandVisible(ByVal Index As Integer, ByVal newval As Boole
 End Property
 
 Public Property Get CommandTitle(ByVal Index As Integer) As String
-Attribute CommandTitle.VB_ProcData.VB_Invoke_Property = "Commands"
+Attribute CommandTitle.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     CommandTitle = m_Command(Index).Title
 End Property
@@ -453,14 +453,15 @@ Public Sub AddCommand(ByVal Name As String, ByVal Target As String, _
         Optional ByVal Visible As Boolean = True, _
         Optional ByVal Icon As IPictureDisp = Nothing)
     Assert m_Commands < MAX_COMMANDS, "Too many commands: a state object could have a maximum of " & MAX_COMMANDS & " commands at most", LOCATION
+    Assert Method = methodGoto Or Method = methodCall
     Name = Trim(Name)
     Title = Trim(Title)
     If Title = "" Then Title = Name
     With m_Command(m_Commands)
-        .Name = Name
-        .Target = Target
+        .Name = Name                    ' The behavior of duplicated names is undefined.
+        .Target = Target                ' Undefined target will exit the controller (with exit-state = this)
         .Title = Title
-        .Default = Default
+        .Default = Default              ' More than 1 commands have default property set, then only one will be the default.
         .Method = Method
         .Visible = Visible
         Set .Icon = Icon

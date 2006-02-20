@@ -9,6 +9,14 @@ Begin VB.Form Form1
    ScaleHeight     =   5160
    ScaleWidth      =   8460
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdTest
+      Caption         =   "Test"
+      Height          =   1095
+      Left            =   600
+      TabIndex        =   12
+      Top             =   3720
+      Width           =   1455
+   End
    Begin VB.OptionButton optSelected
       Height          =   375
       Index           =   3
@@ -118,14 +126,3 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-
-Dim m_SAOT As SAOT
-
-
-Private Sub Form_Load()
-
-End Sub
-
-Private Sub txtValue_Change(Index As Integer)
-
-End Sub

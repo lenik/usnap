@@ -66,28 +66,37 @@ public:
 };
 
 
-#define MAX_SLOTS                       1024
+#define MAX_ITEMS                       1024
+#define SLOT_AVAILABLE                  -1
+#define SLOT_PLACEHOLDER                -2
+
+typedef int index_type;
 
 // slotted-array operation test
 class saot {
     // dria m_dria;
-    int m_slot[MAX_SLOTS];
+    index_type m_slot[MAX_ITEMS];
+
     int m_alloc;
-    int m_nextfree;                     // -1 if slots full
+    int m_used;
+    int m_next;                         // -1 if no more space available
 public:
     saot();
 
-    int alloc_size();
+    // slot-layer
+    int slot_alloc();
+    int size();
+    int slot_add();                     // returns -1 if no no more space available
+    void slot_remove(int slot);
+    void slot_clear();
 
-    // return: slot-index
-    int add(int ar_index);
+    // index-layer
+    int idx_insert(index_type index);   // before index
+    int idx_remove(index_type index);   // WARNING: the returned slot# is a hint, which may be not usable.
+    int idx_append(int count);          // returns number of indexes have been appended.
 
-    // return: slot-index
-    int remove(int ar_index);
-
-    // return: ar-index
-    int remove_slot(int slot);
-
-    int index_at_slot(int slot);
-    int slot_of_index(int ar_index);
+    // mapping
+    index_type find_slot(int slot);
+    int find_index(index_type index);
+    void idx_sort(int *slots);
 };

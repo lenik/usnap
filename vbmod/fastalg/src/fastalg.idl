@@ -15,9 +15,17 @@ import "ocidl.idl";
 	]
 	interface ISAOT : IDispatch
 	{
-		[propget, id(1), helpstring("property AllocatedSlots")] HRESULT AllocatedSlots([out, retval] long *pVal);
-		[id(2), helpstring("method Add")] HRESULT Add([in]long ArIndex, [out, retval]long *SlotIndex);
-		[id(3), helpstring("method Remove")] HRESULT Remove([in]long ArIndex, [out, retval]long *SlotIndex);
+		[propget, id(1), helpstring("property SlotAllocated")] HRESULT SlotAllocated([out, retval] long *pVal);
+		[propget, id(2), helpstring("property Size")] HRESULT Size([out, retval] long *pVal);
+		[id(3), helpstring("method SlotAdd")] HRESULT SlotAdd([out, retval]long *result);
+		[id(4), helpstring("method SlotRemove")] HRESULT SlotRemove([in]long Slot);
+		[id(5), helpstring("method SlotClear")] HRESULT SlotClear();
+		[id(6), helpstring("method Insert")] HRESULT Insert([in]long Index, [out, retval]long *result);
+		[id(7), helpstring("method Remove")] HRESULT Remove([in]long Index, [out, retval]long *result);
+		[id(8), helpstring("method FindSlot")] HRESULT FindSlot([in]long Slot, [out, retval]long *result);
+		[id(9), helpstring("method FindIndex")] HRESULT FindIndex([in]long Index, [out, retval]long *result);
+		[id(10), helpstring("method SortSlots")] HRESULT SortSlots([out, retval]VARIANT *SortedSlots);
+		[id(11), helpstring("method Append")] HRESULT Append([in]long count, [out, retval]long *result);
 	};
 	[
 		object,

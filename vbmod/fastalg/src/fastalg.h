@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Feb 20 17:20:52 2006
+/* at Mon Feb 20 21:09:26 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\fastalg\src\fastalg.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -95,16 +95,42 @@ EXTERN_C const IID IID_ISAOT;
     ISAOT : public IDispatch
     {
     public:
-        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_AllocatedSlots(
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SlotAllocated(
             /* [retval][out] */ long __RPC_FAR *pVal) = 0;
 
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add(
-            /* [in] */ long ArIndex,
-            /* [retval][out] */ long __RPC_FAR *SlotIndex) = 0;
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Size(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SlotAdd(
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SlotRemove(
+            /* [in] */ long Slot) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SlotClear( void) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Insert(
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
 
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Remove(
-            /* [in] */ long ArIndex,
-            /* [retval][out] */ long __RPC_FAR *SlotIndex) = 0;
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE FindSlot(
+            /* [in] */ long Slot,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE FindIndex(
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SortSlots(
+            /* [retval][out] */ VARIANT __RPC_FAR *SortedSlots) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Append(
+            /* [in] */ long count,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
 
     };
 
@@ -154,19 +180,53 @@ EXTERN_C const IID IID_ISAOT;
             /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
             /* [out] */ UINT __RPC_FAR *puArgErr);
 
-        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_AllocatedSlots )(
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_SlotAllocated )(
             ISAOT __RPC_FAR * This,
             /* [retval][out] */ long __RPC_FAR *pVal);
 
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Add )(
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Size )(
             ISAOT __RPC_FAR * This,
-            /* [in] */ long ArIndex,
-            /* [retval][out] */ long __RPC_FAR *SlotIndex);
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SlotAdd )(
+            ISAOT __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *result);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SlotRemove )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long Slot);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SlotClear )(
+            ISAOT __RPC_FAR * This);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Insert )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result);
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Remove )(
             ISAOT __RPC_FAR * This,
-            /* [in] */ long ArIndex,
-            /* [retval][out] */ long __RPC_FAR *SlotIndex);
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *FindSlot )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long Slot,
+            /* [retval][out] */ long __RPC_FAR *result);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *FindIndex )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long Index,
+            /* [retval][out] */ long __RPC_FAR *result);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SortSlots )(
+            ISAOT __RPC_FAR * This,
+            /* [retval][out] */ VARIANT __RPC_FAR *SortedSlots);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Append )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long count,
+            /* [retval][out] */ long __RPC_FAR *result);
 
         END_INTERFACE
     } ISAOTVtbl;
@@ -204,14 +264,38 @@ EXTERN_C const IID IID_ISAOT;
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
-#define ISAOT_get_AllocatedSlots(This,pVal)	\
-    (This)->lpVtbl -> get_AllocatedSlots(This,pVal)
+#define ISAOT_get_SlotAllocated(This,pVal)	\
+    (This)->lpVtbl -> get_SlotAllocated(This,pVal)
 
-#define ISAOT_Add(This,ArIndex,SlotIndex)	\
-    (This)->lpVtbl -> Add(This,ArIndex,SlotIndex)
+#define ISAOT_get_Size(This,pVal)	\
+    (This)->lpVtbl -> get_Size(This,pVal)
 
-#define ISAOT_Remove(This,ArIndex,SlotIndex)	\
-    (This)->lpVtbl -> Remove(This,ArIndex,SlotIndex)
+#define ISAOT_SlotAdd(This,result)	\
+    (This)->lpVtbl -> SlotAdd(This,result)
+
+#define ISAOT_SlotRemove(This,Slot)	\
+    (This)->lpVtbl -> SlotRemove(This,Slot)
+
+#define ISAOT_SlotClear(This)	\
+    (This)->lpVtbl -> SlotClear(This)
+
+#define ISAOT_Insert(This,Index,result)	\
+    (This)->lpVtbl -> Insert(This,Index,result)
+
+#define ISAOT_Remove(This,Index,result)	\
+    (This)->lpVtbl -> Remove(This,Index,result)
+
+#define ISAOT_FindSlot(This,Slot,result)	\
+    (This)->lpVtbl -> FindSlot(This,Slot,result)
+
+#define ISAOT_FindIndex(This,Index,result)	\
+    (This)->lpVtbl -> FindIndex(This,Index,result)
+
+#define ISAOT_SortSlots(This,SortedSlots)	\
+    (This)->lpVtbl -> SortSlots(This,SortedSlots)
+
+#define ISAOT_Append(This,count,result)	\
+    (This)->lpVtbl -> Append(This,count,result)
 
 #endif /* COBJMACROS */
 
@@ -220,25 +304,72 @@ EXTERN_C const IID IID_ISAOT;
 
 
 
-/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISAOT_get_AllocatedSlots_Proxy(
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISAOT_get_SlotAllocated_Proxy(
     ISAOT __RPC_FAR * This,
     /* [retval][out] */ long __RPC_FAR *pVal);
 
 
-void __RPC_STUB ISAOT_get_AllocatedSlots_Stub(
+void __RPC_STUB ISAOT_get_SlotAllocated_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,
     DWORD *_pdwStubPhase);
 
 
-/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Add_Proxy(
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISAOT_get_Size_Proxy(
     ISAOT __RPC_FAR * This,
-    /* [in] */ long ArIndex,
-    /* [retval][out] */ long __RPC_FAR *SlotIndex);
+    /* [retval][out] */ long __RPC_FAR *pVal);
 
 
-void __RPC_STUB ISAOT_Add_Stub(
+void __RPC_STUB ISAOT_get_Size_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_SlotAdd_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB ISAOT_SlotAdd_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_SlotRemove_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long Slot);
+
+
+void __RPC_STUB ISAOT_SlotRemove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_SlotClear_Proxy(
+    ISAOT __RPC_FAR * This);
+
+
+void __RPC_STUB ISAOT_SlotClear_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Insert_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long Index,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB ISAOT_Insert_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,
@@ -247,11 +378,62 @@ void __RPC_STUB ISAOT_Add_Stub(
 
 /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Remove_Proxy(
     ISAOT __RPC_FAR * This,
-    /* [in] */ long ArIndex,
-    /* [retval][out] */ long __RPC_FAR *SlotIndex);
+    /* [in] */ long Index,
+    /* [retval][out] */ long __RPC_FAR *result);
 
 
 void __RPC_STUB ISAOT_Remove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_FindSlot_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long Slot,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB ISAOT_FindSlot_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_FindIndex_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long Index,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB ISAOT_FindIndex_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_SortSlots_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [retval][out] */ VARIANT __RPC_FAR *SortedSlots);
+
+
+void __RPC_STUB ISAOT_SortSlots_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Append_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long count,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB ISAOT_Append_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,
@@ -647,6 +829,11 @@ DRIA;
 #endif /* __FastAlgLib_LIBRARY_DEFINED__ */
 
 /* Additional Prototypes for ALL interfaces */
+
+unsigned long             __RPC_USER  VARIANT_UserSize(     unsigned long __RPC_FAR *, unsigned long            , VARIANT __RPC_FAR * );
+unsigned char __RPC_FAR * __RPC_USER  VARIANT_UserMarshal(  unsigned long __RPC_FAR *, unsigned char __RPC_FAR *, VARIANT __RPC_FAR * );
+unsigned char __RPC_FAR * __RPC_USER  VARIANT_UserUnmarshal(unsigned long __RPC_FAR *, unsigned char __RPC_FAR *, VARIANT __RPC_FAR * );
+void                      __RPC_USER  VARIANT_UserFree(     unsigned long __RPC_FAR *, VARIANT __RPC_FAR * );
 
 /* end of Additional Prototypes */
 

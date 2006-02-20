@@ -1,13 +1,6 @@
 Attribute VB_Name = "Typedefs"
 Option Explicit
 
-Public Type Position
-    x0 As Double
-    y0 As Double
-    x1 As Double
-    y1 As Double
-End Type
-
 Public Enum TypeConstants
     TextType = 0
     FileType

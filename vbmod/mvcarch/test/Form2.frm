@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#6.0#0"; "MVCArch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#8.0#0"; "MVCArch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
    ClientHeight    =   3090
@@ -11,8 +11,8 @@ Begin VB.Form Form2
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
    Begin MVCArch.StateControl StateControl2
-      Left            =   1140
-      Top             =   1620
+      Left            =   1560
+      Top             =   1740
       _ExtentX        =   1614
       _ExtentY        =   1085
       Transparent     =   0   'False
@@ -27,8 +27,8 @@ Begin VB.Form Form2
       Commands        =   0
    End
    Begin MVCArch.StateControl StateControl1
-      Left            =   2160
-      Top             =   480
+      Left            =   2280
+      Top             =   360
       _ExtentX        =   2249
       _ExtentY        =   1296
       Transparent     =   0   'False
@@ -43,11 +43,8 @@ Begin VB.Form Form2
       Commands        =   0
    End
    Begin MVCArch.ControllerControl ControllerControl1
-      Height          =   720
       Left            =   300
-      TabIndex        =   0
       Top             =   480
-      Width           =   720
       _ExtentX        =   1270
       _ExtentY        =   1270
    End
@@ -58,3 +55,15 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+Private Sub StateControl1_Enter(ByVal PreviousState As MVCArch.StateObject)
+
+End Sub
+
+Private Sub StateControl1_Leave(ByVal NextState As MVCArch.StateObject)
+
+End Sub
+
+Private Sub StateControl1_Process(ByVal Message As Variant, Parameters As Variant, NextState As MVCArch.StateObject)
+
+End Sub
