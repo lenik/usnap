@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Feb 20 14:16:41 2006
+/* at Mon Feb 20 17:20:52 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\fastalg\src\fastalg.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -95,6 +95,17 @@ EXTERN_C const IID IID_ISAOT;
     ISAOT : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_AllocatedSlots(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add(
+            /* [in] */ long ArIndex,
+            /* [retval][out] */ long __RPC_FAR *SlotIndex) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Remove(
+            /* [in] */ long ArIndex,
+            /* [retval][out] */ long __RPC_FAR *SlotIndex) = 0;
+
     };
 
 #else 	/* C style interface */
@@ -143,6 +154,20 @@ EXTERN_C const IID IID_ISAOT;
             /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
             /* [out] */ UINT __RPC_FAR *puArgErr);
 
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_AllocatedSlots )(
+            ISAOT __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Add )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long ArIndex,
+            /* [retval][out] */ long __RPC_FAR *SlotIndex);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Remove )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ long ArIndex,
+            /* [retval][out] */ long __RPC_FAR *SlotIndex);
+
         END_INTERFACE
     } ISAOTVtbl;
 
@@ -179,11 +204,58 @@ EXTERN_C const IID IID_ISAOT;
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
+#define ISAOT_get_AllocatedSlots(This,pVal)	\
+    (This)->lpVtbl -> get_AllocatedSlots(This,pVal)
+
+#define ISAOT_Add(This,ArIndex,SlotIndex)	\
+    (This)->lpVtbl -> Add(This,ArIndex,SlotIndex)
+
+#define ISAOT_Remove(This,ArIndex,SlotIndex)	\
+    (This)->lpVtbl -> Remove(This,ArIndex,SlotIndex)
+
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISAOT_get_AllocatedSlots_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB ISAOT_get_AllocatedSlots_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Add_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long ArIndex,
+    /* [retval][out] */ long __RPC_FAR *SlotIndex);
+
+
+void __RPC_STUB ISAOT_Add_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Remove_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ long ArIndex,
+    /* [retval][out] */ long __RPC_FAR *SlotIndex);
+
+
+void __RPC_STUB ISAOT_Remove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -205,6 +277,45 @@ EXTERN_C const IID IID_IDRIA;
     IDRIA : public IDispatch
     {
     public:
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Clear( void) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Ceil(
+            /* [in] */ long x,
+            /* [retval][out] */ int __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Floor(
+            /* [in] */ long x,
+            /* [retval][out] */ int __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE AddRange(
+            /* [in] */ long lower,
+            /* [in] */ long upper,
+            /* [retval][out] */ BOOL __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE RemoveRange(
+            /* [in] */ long lower,
+            /* [in] */ long upper,
+            /* [retval][out] */ BOOL __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add(
+            /* [in] */ long x,
+            /* [retval][out] */ BOOL __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Remove(
+            /* [in] */ long x,
+            /* [retval][out] */ BOOL __RPC_FAR *retval) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Count(
+            /* [retval][out] */ int __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RangeLower(
+            /* [in] */ int index,
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RangeUpper(
+            /* [in] */ int index,
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
     };
 
 #else 	/* C style interface */
@@ -253,6 +364,55 @@ EXTERN_C const IID IID_IDRIA;
             /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
             /* [out] */ UINT __RPC_FAR *puArgErr);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Clear )(
+            IDRIA __RPC_FAR * This);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Ceil )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long x,
+            /* [retval][out] */ int __RPC_FAR *retval);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Floor )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long x,
+            /* [retval][out] */ int __RPC_FAR *retval);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *AddRange )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long lower,
+            /* [in] */ long upper,
+            /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *RemoveRange )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long lower,
+            /* [in] */ long upper,
+            /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Add )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long x,
+            /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Remove )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ long x,
+            /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Count )(
+            IDRIA __RPC_FAR * This,
+            /* [retval][out] */ int __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_RangeLower )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ int index,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_RangeUpper )(
+            IDRIA __RPC_FAR * This,
+            /* [in] */ int index,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
         END_INTERFACE
     } IDRIAVtbl;
 
@@ -289,11 +449,170 @@ EXTERN_C const IID IID_IDRIA;
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
+#define IDRIA_Clear(This)	\
+    (This)->lpVtbl -> Clear(This)
+
+#define IDRIA_Ceil(This,x,retval)	\
+    (This)->lpVtbl -> Ceil(This,x,retval)
+
+#define IDRIA_Floor(This,x,retval)	\
+    (This)->lpVtbl -> Floor(This,x,retval)
+
+#define IDRIA_AddRange(This,lower,upper,retval)	\
+    (This)->lpVtbl -> AddRange(This,lower,upper,retval)
+
+#define IDRIA_RemoveRange(This,lower,upper,retval)	\
+    (This)->lpVtbl -> RemoveRange(This,lower,upper,retval)
+
+#define IDRIA_Add(This,x,retval)	\
+    (This)->lpVtbl -> Add(This,x,retval)
+
+#define IDRIA_Remove(This,x,retval)	\
+    (This)->lpVtbl -> Remove(This,x,retval)
+
+#define IDRIA_get_Count(This,pVal)	\
+    (This)->lpVtbl -> get_Count(This,pVal)
+
+#define IDRIA_get_RangeLower(This,index,pVal)	\
+    (This)->lpVtbl -> get_RangeLower(This,index,pVal)
+
+#define IDRIA_get_RangeUpper(This,index,pVal)	\
+    (This)->lpVtbl -> get_RangeUpper(This,index,pVal)
+
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_Clear_Proxy(
+    IDRIA __RPC_FAR * This);
+
+
+void __RPC_STUB IDRIA_Clear_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_Ceil_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long x,
+    /* [retval][out] */ int __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_Ceil_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_Floor_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long x,
+    /* [retval][out] */ int __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_Floor_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_AddRange_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long lower,
+    /* [in] */ long upper,
+    /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_AddRange_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_RemoveRange_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long lower,
+    /* [in] */ long upper,
+    /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_RemoveRange_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_Add_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long x,
+    /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_Add_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDRIA_Remove_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ long x,
+    /* [retval][out] */ BOOL __RPC_FAR *retval);
+
+
+void __RPC_STUB IDRIA_Remove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDRIA_get_Count_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [retval][out] */ int __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDRIA_get_Count_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDRIA_get_RangeLower_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ int index,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDRIA_get_RangeLower_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IDRIA_get_RangeUpper_Proxy(
+    IDRIA __RPC_FAR * This,
+    /* [in] */ int index,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IDRIA_get_RangeUpper_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 

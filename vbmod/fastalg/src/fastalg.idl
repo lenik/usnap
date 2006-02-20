@@ -15,6 +15,9 @@ import "ocidl.idl";
 	]
 	interface ISAOT : IDispatch
 	{
+		[propget, id(1), helpstring("property AllocatedSlots")] HRESULT AllocatedSlots([out, retval] long *pVal);
+		[id(2), helpstring("method Add")] HRESULT Add([in]long ArIndex, [out, retval]long *SlotIndex);
+		[id(3), helpstring("method Remove")] HRESULT Remove([in]long ArIndex, [out, retval]long *SlotIndex);
 	};
 	[
 		object,
@@ -25,6 +28,16 @@ import "ocidl.idl";
 	]
 	interface IDRIA : IDispatch
 	{
+		[id(1), helpstring("method Clear")] HRESULT Clear();
+		[id(2), helpstring("method Ceil")] HRESULT Ceil([in]long x, [out, retval]int *retval);
+		[id(3), helpstring("method Floor")] HRESULT Floor([in]long x, [out, retval]int *retval);
+		[id(4), helpstring("method AddRange")] HRESULT AddRange([in]long lower, [in]long upper, [out, retval]BOOL *retval);
+		[id(5), helpstring("method RemoveRange")] HRESULT RemoveRange([in]long lower, [in]long upper, [out, retval]BOOL *retval);
+		[id(6), helpstring("method Add")] HRESULT Add([in]long x, [out, retval]BOOL *retval);
+		[id(7), helpstring("method Remove")] HRESULT Remove([in]long x, [out, retval]BOOL *retval);
+		[propget, id(8), helpstring("property Count")] HRESULT Count([out, retval] int *pVal);
+		[propget, id(9), helpstring("property RangeLower")] HRESULT RangeLower([in]int index, [out, retval] long *pVal);
+		[propget, id(10), helpstring("property RangeUpper")] HRESULT RangeUpper([in]int index, [out, retval] long *pVal);
 	};
 
 [

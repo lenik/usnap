@@ -47,14 +47,17 @@ class dria {
     //int_range_tree tree;
     int_ranges vec;
 public:
-    dria();
-    ~dria();
-
     void clear();
+    int size() const;
     int ceil(int v) const;
     int floor(int v) const;
     bool add(const int_range& range);
     bool remove(const int_range& range);
+
+    inline bool add(int i) { return add(int_range(i, i)); }
+    inline bool remove(int i) { return remove(int_range(i, i)); }
+
+    int_range& operator[](int seg_index);
 
     // int[] = { from[0] to[0] from[1] to[1] ... 0 -1 };
     int* ranges();
@@ -62,6 +65,29 @@ public:
     bool operator<(const int_range& rhs) const;
 };
 
+
+#define MAX_SLOTS                       1024
+
 // slotted-array operation test
 class saot {
+    // dria m_dria;
+    int m_slot[MAX_SLOTS];
+    int m_alloc;
+    int m_nextfree;                     // -1 if slots full
+public:
+    saot();
+
+    int alloc_size();
+
+    // return: slot-index
+    int add(int ar_index);
+
+    // return: slot-index
+    int remove(int ar_index);
+
+    // return: ar-index
+    int remove_slot(int slot);
+
+    int index_at_slot(int slot);
+    int slot_of_index(int ar_index);
 };

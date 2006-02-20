@@ -28,6 +28,9 @@ END_COM_MAP()
 
 // ISAOT
 public:
+	STDMETHOD(Remove)(/*[in]*/long ArIndex, /*[out, retval]*/long *SlotIndex);
+	STDMETHOD(Add)(/*[in]*/long ArIndex, /*[out, retval]*/long *SlotIndex);
+	STDMETHOD(get_AllocatedSlots)(/*[out, retval]*/ long *pVal);
 };
 
 #endif //__SAOT_H_

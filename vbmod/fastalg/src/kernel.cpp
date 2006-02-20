@@ -64,6 +64,10 @@ void dria::clear() {
     vec.clear();
 }
 
+int dria::size() const {
+    return vec.size();
+}
+
 bool dria::add(const int_range& range) {
     if (vec.size() == 0) {
         vec.push_back(range);
@@ -114,6 +118,10 @@ bool dria::remove(const int_range& range) {
     return false;
 }
 
+int_range& dria::operator[](int seg_index) {
+    return vec[seg_index];
+}
+
 int* dria::ranges() {
     int size = vec.size();
     int *ret = new int[size * 2 + 2];
@@ -125,4 +133,80 @@ int* dria::ranges() {
     ret[j++] = 0;
     ret[j++] = -1;
     return ret;
+}
+
+
+saot::saot() {
+    m_alloc = 0;
+    m_nextfree = -1;
+}
+
+int saot::alloc_size() {
+    return m_alloc;
+}
+
+int saot::add(int ar_index) {
+    _assert_(ar_index >= 0);
+    int slot = slot_of_index(ar_index);
+    if (slot >= 0)  // existed
+        return slot;
+    if (m_nextfree == m_alloc) {
+        _assert_(m_alloc < MAX_SLOTS);
+        m_slot[m_alloc] = -1;
+        m_alloc++;
+    }
+    m_slot[slot = m_nextfree++] = ar_index;
+    while (m_nextfree < m_alloc) {
+        if (m_slot[m_nextfree] == -1)
+            break;
+        m_nextfree++;
+    }
+    if (m_nextfree == m_alloc) {
+        // loop back, try once
+        m_nextfree = 0;
+        while (m_nextfree < slot) {
+            if (m_slot[m_nextfree] == -1)
+                break;
+            m_nextfree++;
+        }
+        if (m_nextfree == slot) {
+            // Really full..
+            m_nextfree = m_alloc;       // ask for more alloc space.
+        }
+    }
+    return slot;
+}
+
+int saot::remove(int ar_index) {
+    _assert_(ar_index >= 0);
+    int slot = slot_of_index(ar_index);
+    if (slot >= 0)
+        m_slot[slot] = -1;
+
+    // adjust array indexes.
+    for (int i = 0; i < m_alloc; i++)
+        if (m_slot[i] > ar_index)
+            m_slot[i]--;
+
+    return slot;
+}
+
+int saot::remove_slot(int slot) {
+    _assert_(slot >= 0 && slot < m_size);
+    int i = m_slot[slot];
+    m_slot[slot] = -1;
+    return i;
+}
+
+int saot::index_at_slot(int slot) {
+    _assert_(slot >= 0 && slot < m_size);
+    return m_slot[slot];
+}
+
+int saot::slot_of_index(int ar_index) {
+    _assert_(ar_index >= 0);
+    for (int s = 0; s < m_alloc; s++)
+        if (m_slot[s] == ar_index)
+            return s;
+    return -1;
 }
