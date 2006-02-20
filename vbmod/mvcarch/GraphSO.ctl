@@ -10,6 +10,7 @@ Begin VB.UserControl StateControl
    ScaleHeight     =   48
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   48
+   ToolboxBitmap   =   "StateControl.ctx":001C
    Begin VB.PictureBox picIcon
       AutoSize        =   -1  'True
       BorderStyle     =   0  'None

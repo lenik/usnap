@@ -60,76 +60,6 @@ Begin VB.PropertyPage StateControl_Commands
       Top             =   0
       Width           =   555
    End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   1
-      Left            =   60
-      TabIndex        =   10
-      Top             =   780
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   2
-      Left            =   60
-      TabIndex        =   11
-      Top             =   1200
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   3
-      Left            =   60
-      TabIndex        =   12
-      Top             =   1620
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   4
-      Left            =   60
-      TabIndex        =   13
-      Top             =   2040
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   5
-      Left            =   60
-      TabIndex        =   14
-      Top             =   2460
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   6
-      Left            =   60
-      TabIndex        =   15
-      Top             =   2880
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
-   Begin MVCArch.StateControl_Command cmd
-      Height          =   375
-      Index           =   7
-      Left            =   60
-      TabIndex        =   16
-      Top             =   3300
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   661
-   End
    Begin VB.Label lblHead
       AutoSize        =   -1  'True
       Caption         =   "Title"
@@ -258,14 +188,3 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private Sub cmd_Changed(Index As Integer)
-
-End Sub
-
-Private Sub cmd_Remove(Index As Integer)
-
-End Sub
-
-Private Sub cmd_SetDefault(Index As Integer)
-
-End Sub

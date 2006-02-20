@@ -1,17 +1,17 @@
 VERSION 5.00
 Begin VB.UserControl EventFilter
-   BorderStyle     =   1  'Fixed Single
-   ClientHeight    =   510
+   ClientHeight    =   720
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   510
+   ClientWidth     =   735
    HasDC           =   0   'False
    InvisibleAtRuntime=   -1  'True
    Picture         =   "EventFilter.ctx":0000
-   ScaleHeight     =   34
-   ScaleMode       =   3  'Pixel
-   ScaleWidth      =   34
-   ToolboxBitmap   =   "EventFilter.ctx":030A
+   ScaleHeight     =   720
+   ScaleMode       =   0  'User
+   ScaleWidth      =   720
+   ToolboxBitmap   =   "EventFilter.ctx":046E
+   Windowless      =   -1  'True
 End
 Attribute VB_Name = "EventFilter"
 Attribute VB_GlobalNameSpace = False
@@ -69,8 +69,8 @@ Private Sub UserControl_Terminate()
 End Sub
 
 Private Sub UserControl_Resize()
-    Width = 510
-    Height = 510
+    Width = 720
+    Height = 720
 End Sub
 
 Function FilterProc(ByVal hWnd As Long, ByVal Message As Long, ByVal wParam As Long, ByVal lParam As Long) As Long

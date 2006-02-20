@@ -1,11 +1,14 @@
 VERSION 5.00
 Begin VB.UserControl ControllerControl
-   ClientHeight    =   450
+   ClientHeight    =   720
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   450
-   ScaleHeight     =   450
-   ScaleWidth      =   450
+   ClientWidth     =   720
+   InvisibleAtRuntime=   -1  'True
+   Picture         =   "ControllerControl.ctx":0000
+   ScaleHeight     =   720
+   ScaleWidth      =   720
+   ToolboxBitmap   =   "ControllerControl.ctx":74F2
    Windowless      =   -1  'True
 End
 Attribute VB_Name = "ControllerControl"
@@ -73,4 +76,9 @@ End Sub
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     ' read...
     ' init references
+End Sub
+
+Private Sub UserControl_Resize()
+    Width = 720
+    Height = 720
 End Sub
