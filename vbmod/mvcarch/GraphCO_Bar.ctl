@@ -4,7 +4,6 @@ Begin VB.UserControl ControllerControl
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   450
-   Picture         =   "ControllerControl.ctx":0000
    ScaleHeight     =   450
    ScaleWidth      =   450
    Windowless      =   -1  'True
@@ -32,8 +31,8 @@ Private Function ControllerObject_Process(ByVal Message As Variant, Parameters A
     ControllerObject_Process = Process(Message, Parameters)
 End Function
 
-Private Sub ControllerObject_RegisterCommand(ByVal name As String, ByVal Title As String)
-    RegisterCommand name, Title
+Private Sub ControllerObject_RegisterCommand(ByVal Name As String, ByVal Title As String)
+    RegisterCommand Name, Title
 End Sub
 
 Private Sub ControllerObject_ResetCommands()
@@ -60,7 +59,7 @@ End Function
 Public Property Get State() As StateObject
 End Property
 
-Public Sub RegisterCommand(ByVal name As String, ByVal Title As String)
+Public Sub RegisterCommand(ByVal Name As String, ByVal Title As String)
 End Sub
 
 Public Sub ResetCommands()
