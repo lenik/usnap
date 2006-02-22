@@ -1,5 +1,6 @@
 VERSION 5.00
 Begin VB.UserControl ScrollableContainer
+   BackStyle       =   0  'Transparent
    ClientHeight    =   2070
    ClientLeft      =   0
    ClientTop       =   0
@@ -53,6 +54,7 @@ Private Const SCROLL_MIN                As Single = -32767
 Private Const SCROLL_MAX                As Single = 32767
 Private Const DENOM_MIN                 As Single = 1#      ' avoid divide by zero
 
+Private Const DEFAULT_STATICLAYOUT      As Boolean = True
 Private Const DEFAULT_PADLEFT           As Single = 0
 Private Const DEFAULT_PADTOP            As Single = 0
 Private Const DEFAULT_PADRIGHT          As Single = 0
@@ -61,12 +63,12 @@ Private Const DEFAULT_BORDERLEFT        As Single = MAXVAL  ' Freq. used value: 
 Private Const DEFAULT_BORDERTOP         As Single = MAXVAL  ' Freq. used value: 0
 Private Const DEFAULT_BORDERRIGHT       As Single = -MAXVAL ' Freq. used value: ScaleWidth
 Private Const DEFAULT_BORDERBOTTOM      As Single = -MAXVAL ' Freq. used value: ScaleHeight
-
 Private Const DEFAULT_HSMALLCHANGE      As Single = 1
 Private Const DEFAULT_HLARGECHANGE      As Single = 10
 Private Const DEFAULT_VSMALLCHANGE      As Single = 1
 Private Const DEFAULT_VLARGECHANGE      As Single = 10
 
+Private m_StaticLayout As Boolean
 Private m_PadLeft As Single
 Private m_PadTop As Single
 Private m_PadRight As Single
@@ -75,7 +77,6 @@ Private m_BorderLeft As Single
 Private m_BorderTop As Single
 Private m_BorderRight As Single
 Private m_BorderBottom As Single
-
 Private m_HSmallChange As Single
 Private m_HLargeChange As Single
 Private m_VSmallChange As Single
@@ -88,6 +89,8 @@ Private m_ExtY1 As Single
 Private m_RangeH As Single
 Private m_RangeV As Single
 
+Private m_EventLock As Integer
+
 'Event Declarations:
 Event Click() 'MappingInfo=UserControl,UserControl,-1,Click
 Attribute Click.VB_Description = "Occurs when the user presses and then releases a mouse button over an object."
@@ -99,34 +102,57 @@ Event KeyPress(KeyAscii As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyP
 Attribute KeyPress.VB_Description = "Occurs when the user presses and releases an ANSI key."
 Event KeyUp(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyUp
 Attribute KeyUp.VB_Description = "Occurs when the user releases a key while an object has the focus."
-Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
+Event MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
 Attribute MouseDown.VB_Description = "Occurs when the user presses the mouse button while an object has the focus."
-Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
+Event MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
 Attribute MouseMove.VB_Description = "Occurs when the user moves the mouse."
-Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
+Event MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
 Attribute MouseUp.VB_Description = "Occurs when the user releases the mouse button while an object has the focus."
+
+Private Sub LockEvent()
+    m_EventLock = m_EventLock + 1
+End Sub
+Private Sub UnlockEvent()
+    m_EventLock = m_EventLock - 1
+    Assert m_EventLock >= 0, "Unlock without lock", LOCATION
+End Sub
 
 Private Property Get PosX() As Single
     PosX = (hs.Value - SCROLL_MIN) / (SCROLL_MAX - SCROLL_MIN)
-    PosX = (1 - PosX) * m_RangeH
+    PosX = (PosX) * m_RangeH
 End Property
 Private Property Let PosX(ByVal newval As Single)
     If m_RangeH < DENOM_MIN Then Exit Property
-    newval = (1 - newval / m_RangeH) * (SCROLL_MAX - SCROLL_MIN) + SCROLL_MIN
+    newval = (newval / m_RangeH) * (SCROLL_MAX - SCROLL_MIN) + SCROLL_MIN
     If newval < SCROLL_MIN Then newval = SCROLL_MIN
     If newval > SCROLL_MAX Then newval = SCROLL_MAX
-    If hs.Value <> CInt(newval) Then hs.Value = newval
+    If hs.Value <> CInt(newval) Then
+        LockEvent
+        hs.Value = newval
+        UnlockEvent
+    End If
 End Property
 Private Property Get PosY() As Single
     PosY = (vs.Value - SCROLL_MIN) / (SCROLL_MAX - SCROLL_MIN)
-    PosY = (1 - PosY) * m_RangeV
+    PosY = (PosY) * m_RangeV
 End Property
 Private Property Let PosY(ByVal newval As Single)
     If m_RangeV < DENOM_MIN Then Exit Property
-    newval = (1 - newval / m_RangeV) * (SCROLL_MAX - SCROLL_MIN) + SCROLL_MIN
+    newval = (newval / m_RangeV) * (SCROLL_MAX - SCROLL_MIN) + SCROLL_MIN
     If newval < SCROLL_MIN Then newval = SCROLL_MIN
     If newval > SCROLL_MAX Then newval = SCROLL_MAX
-    If vs.Value <> CInt(newval) Then vs.Value = newval
+    If vs.Value <> CInt(newval) Then
+        LockEvent
+        vs.Value = newval
+        UnlockEvent
+    End If
+End Property
+
+Private Property Get ViewPosX() As Single
+    ViewPosX = -m_ExtX0
+End Property
+Private Property Get ViewPosY() As Single
+    ViewPosY = -m_ExtY0
 End Property
 
 Private Sub UpdateScrollBars()
@@ -201,49 +227,53 @@ Private Sub GetBound(x0 As Single, y0 As Single, x1 As Single, y1 As Single)
 End Sub
 
 Public Sub RecalcBounds()
-    Dim addLeft As Single
-    Dim addTop As Single
-    Dim addRight As Single
-    Dim addBottom As Single
-    GetBound m_ExtX0, m_ExtY0, m_ExtX1, m_ExtY1
-    m_ExtX0 = m_ExtX0 - m_PadLeft
-    m_ExtY0 = m_ExtY0 - m_PadTop
-    m_ExtX1 = m_ExtX1 + m_PadTop
-    m_ExtY1 = m_ExtY1 + m_PadBottom
+    Dim x0 As Single
+    Dim y0 As Single
+    Dim x1 As Single
+    Dim y1 As Single
+    Dim AddLeft As Single
+    Dim AddTop As Single
+    Dim AddRight As Single
+    Dim AddBottom As Single
+    GetBound x0, y0, x1, y1
+    x0 = x0 - m_PadLeft
+    y0 = y0 - m_PadTop
+    x1 = x1 + m_PadTop
+    y1 = y1 + m_PadBottom
 
-    If m_ExtX0 > 0 Then m_ExtX0 = 0
-    If m_ExtY0 > 0 Then m_ExtY0 = 0
-    If m_ExtX1 < ScaleWidth Then m_ExtX1 = ScaleWidth
-    If m_ExtY1 < ScaleHeight Then m_ExtY1 = ScaleHeight
+    If x0 > 0 Then x0 = 0
+    If y0 > 0 Then y0 = 0
+    If x1 < ScaleWidth Then x1 = ScaleWidth
+    If y1 < ScaleHeight Then y1 = ScaleHeight
 
-    If m_ExtX0 > m_BorderLeft Then addRight = m_ExtX0 - m_BorderLeft
-    If m_ExtY0 > m_BorderTop Then addBottom = m_ExtY0 - m_BorderTop
-    If m_ExtX1 < m_BorderRight Then addLeft = m_BorderRight - m_ExtX1
-    If m_ExtY1 < m_BorderBottom Then addTop = m_BorderBottom - m_ExtY1
-    m_ExtX0 = m_ExtX0 - addLeft
-    m_ExtY0 = m_ExtY0 - addTop
-    m_ExtX1 = m_ExtX1 + addRight
-    m_ExtY1 = m_ExtY1 + addBottom
+    If x0 > m_BorderLeft Then AddRight = x0 - m_BorderLeft
+    If y0 > m_BorderTop Then AddBottom = y0 - m_BorderTop
+    If x1 < m_BorderRight Then AddLeft = m_BorderRight - x1
+    If y1 < m_BorderBottom Then AddTop = m_BorderBottom - y1
+    x0 = x0 - AddLeft
+    y0 = y0 - AddTop
+    x1 = x1 + AddRight
+    y1 = y1 + AddBottom
 
-    ' Assert m_ExtX1 - m_ExtX0 >= ScaleWidth
-    ' Assert m_ExtY1 - m_ExtY0 >= ScaleHeight
-    m_RangeH = m_ExtX1 - m_ExtX0 - ScaleWidth
-    m_RangeV = m_ExtY1 - m_ExtY0 - ScaleHeight
+    ' If not changed.
+    If x0 = m_ExtX0 And y0 = m_ExtY0 And x1 = m_ExtX1 And y1 = m_ExtY1 Then Exit Sub
 
+    ' Assert X1 - X0 >= ScaleWidth
+    ' Assert Y1 - Y0 >= ScaleHeight
+    m_RangeH = x1 - x0 - ScaleWidth
+    m_RangeV = y1 - y0 - ScaleHeight
     ' Assert m_RangeH >= 0
     ' Assert m_RangeV >= 0
+
     hs.Visible = m_RangeH > 0
     vs.Visible = m_RangeV > 0
 
+    m_ExtX0 = x0
+    m_ExtY0 = y0
+    m_ExtX1 = x1
+    m_ExtY1 = y1
+
     UpdateScrollBars
-End Sub
-
-Private Sub UserControl_Paint()
-    RecalcBounds
-End Sub
-
-Private Sub UserControl_Resize()
-    RecalcBounds
 End Sub
 
 Private Sub Scroll()
@@ -252,36 +282,58 @@ Private Sub Scroll()
     Dim ctrl As Object
     Dim updateScrollBar As Boolean
 
-    deltaX = PosX - m_ExtX0
-    deltaY = PosY - m_ExtY0
+    deltaX = PosX - ViewPosX
+    deltaY = PosY - ViewPosY
 
     If deltaX <> 0 Then
         For Each ctrl In ContainedControls
-            ctrl.Left = ctrl.Left + deltaX
+            ctrl.Left = ctrl.Left - deltaX
         Next
         updateScrollBar = True
     End If
     If deltaY <> 0 Then
         For Each ctrl In ContainedControls
-            ctrl.Top = ctrl.Top + deltaY
+            ctrl.Top = ctrl.Top - deltaY
         Next
         updateScrollBar = True
     End If
     If deltaX <> 0 Or deltaY <> 0 Then RecalcBounds
 End Sub
 
+Private Sub UserControl_Paint()
+    If m_EventLock Then Exit Sub
+    If m_StaticLayout And Ambient.UserMode Then Exit Sub
+    RecalcBounds
+End Sub
+
+Private Sub UserControl_Resize()
+    If m_EventLock Then Exit Sub
+    RecalcBounds
+End Sub
+
 Private Sub hs_Change()
+    If m_EventLock Then Exit Sub
     Scroll
 End Sub
 Private Sub hs_Scroll()
+    If m_EventLock Then Exit Sub
     Scroll
 End Sub
 Private Sub vs_Change()
+    If m_EventLock Then Exit Sub
     Scroll
 End Sub
 Private Sub vs_Scroll()
+    If m_EventLock Then Exit Sub
     Scroll
 End Sub
+
+Public Property Get StaticLayout() As Boolean
+    StaticLayout = m_StaticLayout
+End Property
+Public Property Let StaticLayout(ByVal newval As Boolean)
+    m_StaticLayout = newval
+End Property
 
 Public Property Get PadLeft() As Single
     PadLeft = m_PadLeft
@@ -425,6 +477,7 @@ Public Property Let BorderStyle(ByVal New_BorderStyle As Integer)
 End Property
 
 Private Sub UserControl_Click()
+    'If m_EventLock Then Exit Sub
     RaiseEvent Click
 End Sub
 
@@ -436,6 +489,7 @@ Attribute Controls.VB_Description = "A collection whose elements represent each 
 End Property
 
 Private Sub UserControl_DblClick()
+    'If m_EventLock Then Exit Sub
     RaiseEvent DblClick
 End Sub
 
@@ -452,19 +506,23 @@ Public Property Let Enabled(ByVal New_Enabled As Boolean)
 End Property
 
 Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
+    'If m_EventLock Then Exit Sub
     RaiseEvent KeyDown(KeyCode, Shift)
 End Sub
 
 Private Sub UserControl_KeyPress(KeyAscii As Integer)
+    'If m_EventLock Then Exit Sub
     RaiseEvent KeyPress(KeyAscii)
 End Sub
 
 Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
+    'If m_EventLock Then Exit Sub
     RaiseEvent KeyUp(KeyCode, Shift)
 End Sub
 
-Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    RaiseEvent MouseDown(Button, Shift, X, Y)
+Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+    'If m_EventLock Then Exit Sub
+    RaiseEvent MouseDown(Button, Shift, x, y)
 End Sub
 
 
@@ -480,9 +538,10 @@ Public Property Set MouseIcon(ByVal New_MouseIcon As Picture)
     PropertyChanged "MouseIcon"
 End Property
 
-Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+    'If m_EventLock Then Exit Sub
     'Parent.Caption = X & "," & Y
-    RaiseEvent MouseMove(Button, Shift, X, Y)
+    RaiseEvent MouseMove(Button, Shift, x, y)
 End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
@@ -497,11 +556,13 @@ Public Property Let MousePointer(ByVal New_MousePointer As Integer)
     PropertyChanged "MousePointer"
 End Property
 
-Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    RaiseEvent MouseUp(Button, Shift, X, Y)
+Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+    'If m_EventLock Then Exit Sub
+    RaiseEvent MouseUp(Button, Shift, x, y)
 End Sub
 
 Private Sub UserControl_InitProperties()
+    m_StaticLayout = DEFAULT_STATICLAYOUT
     m_PadLeft = DEFAULT_PADLEFT
     m_PadTop = DEFAULT_PADTOP
     m_PadRight = DEFAULT_PADRIGHT
@@ -522,6 +583,7 @@ End Sub
 
 'Load property values from storage
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
+    m_StaticLayout = PropBag.ReadProperty("StaticLayout", DEFAULT_STATICLAYOUT)
     m_PadLeft = PropBag.ReadProperty("PadLeft", DEFAULT_PADLEFT)
     m_PadTop = PropBag.ReadProperty("PadTop", DEFAULT_PADTOP)
     m_PadRight = PropBag.ReadProperty("PadRight", DEFAULT_PADRIGHT)
@@ -550,6 +612,7 @@ End Sub
 
 'Write property values to storage
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
+    Call PropBag.WriteProperty("StaticLayout", m_StaticLayout, DEFAULT_STATICLAYOUT)
     Call PropBag.WriteProperty("PadLeft", m_PadLeft, DEFAULT_PADLEFT)
     Call PropBag.WriteProperty("PadTop", m_PadTop, DEFAULT_PADTOP)
     Call PropBag.WriteProperty("PadRight", m_PadRight, DEFAULT_PADRIGHT)

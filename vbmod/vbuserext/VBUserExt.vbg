@@ -5,3 +5,4 @@ Project=test\Test_EventFilter2.vbp
 Project=test\Test_Layout.vbp
 Project=test\Test_FavoriteBox.vbp
 StartupProject=test\Test_ScrollableContainer.vbp
+Project=test\Test_AuxShape.vbp
