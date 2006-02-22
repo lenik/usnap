@@ -1,12 +1,10 @@
 Type=Exe
+Form=Form4.frm
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Form=Form2.frm
 Object={79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#18.0#0; VBUserExt.ocx
-IconForm="Form2"
-Startup="Form2"
-ExeName32="Test_EventFilter2.exe"
+Startup="Form4"
 Command32=""
-Name="Test_EventFilter2"
+Name="Test_ScrollableContainer"
 HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1

@@ -10,11 +10,35 @@ Begin VB.Form Form2
    ScaleHeight     =   3090
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
-   Begin MVCArch.StateControl StateControl2
-      Left            =   1560
-      Top             =   1740
-      _ExtentX        =   1614
-      _ExtentY        =   1085
+   Begin VB.CommandButton Command3
+      Caption         =   "Command3"
+      Height          =   375
+      Left            =   120
+      TabIndex        =   2
+      Top             =   1560
+      Width           =   555
+   End
+   Begin VB.CommandButton Command2
+      Caption         =   "Command2"
+      Height          =   495
+      Left            =   120
+      TabIndex        =   1
+      Top             =   840
+      Width           =   555
+   End
+   Begin VB.CommandButton Command1
+      Caption         =   "Command1"
+      Height          =   315
+      Left            =   180
+      TabIndex        =   0
+      Top             =   300
+      Width           =   375
+   End
+   Begin MVCArch.StateControl StateControl1
+      Left            =   1500
+      Top             =   1140
+      _ExtentX        =   2884
+      _ExtentY        =   2037
       Transparent     =   0   'False
       FontName        =   "Courier New"
       FontSize        =   9
@@ -24,29 +48,8 @@ Begin VB.Form Form2
       BorderStyle     =   1
       BorderWidth     =   1
       Icon            =   "Form2.frx":0000
+      ControllerName  =   ""
       Commands        =   0
-   End
-   Begin MVCArch.StateControl StateControl1
-      Left            =   2280
-      Top             =   360
-      _ExtentX        =   2249
-      _ExtentY        =   1296
-      Transparent     =   0   'False
-      FontName        =   "Courier New"
-      FontSize        =   9
-      FontItalic      =   0   'False
-      BackColor       =   16777215
-      ForeColor       =   0
-      BorderStyle     =   1
-      BorderWidth     =   1
-      Icon            =   "Form2.frx":001C
-      Commands        =   0
-   End
-   Begin MVCArch.ControllerControl ControllerControl1
-      Left            =   300
-      Top             =   480
-      _ExtentX        =   1270
-      _ExtentY        =   1270
    End
 End
 Attribute VB_Name = "Form2"
@@ -56,14 +59,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Sub Form_Load()
+
+End Sub
+
 Private Sub StateControl1_Enter(ByVal PreviousState As MVCArch.StateObject)
-
-End Sub
-
-Private Sub StateControl1_Leave(ByVal NextState As MVCArch.StateObject)
-
-End Sub
-
-Private Sub StateControl1_Process(ByVal Message As Variant, Parameters As Variant, NextState As MVCArch.StateObject)
 
 End Sub

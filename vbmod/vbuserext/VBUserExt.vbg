@@ -2,4 +2,6 @@ VBGROUP 5.0
 Project=VBUserExt.vbp
 Project=test\Test_EventFilter.vbp
 Project=test\Test_EventFilter2.vbp
-StartupProject=test\Test_Layout.vbp
+Project=test\Test_Layout.vbp
+Project=test\Test_FavoriteBox.vbp
+StartupProject=test\Test_ScrollableContainer.vbp

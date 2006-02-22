@@ -11,18 +11,14 @@ Begin VB.UserControl StateControl
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   48
    ToolboxBitmap   =   "StateControl.ctx":001C
-   Begin VB.PictureBox picIcon
-      AutoSize        =   -1  'True
-      BorderStyle     =   0  'None
-      Height          =   240
-      Left            =   240
-      ScaleHeight     =   16
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   16
-      TabIndex        =   1
-      Top             =   180
+   Windowless      =   -1  'True
+   Begin VB.Image imgIcon
+      Height          =   360
+      Left            =   180
+      Stretch         =   -1  'True
+      Top             =   120
       Visible         =   0   'False
-      Width           =   240
+      Width           =   360
    End
    Begin VB.Label lblTitle
       Alignment       =   2  'Center
@@ -30,9 +26,9 @@ Begin VB.UserControl StateControl
       BackStyle       =   0  'Transparent
       Caption         =   "State"
       Height          =   195
-      Left            =   135
+      Left            =   180
       TabIndex        =   0
-      Top             =   420
+      Top             =   480
       Width           =   390
    End
    Begin VB.Shape shpOutline
@@ -40,6 +36,7 @@ Begin VB.UserControl StateControl
       FillColor       =   &H8000000F&
       Height          =   720
       Left            =   0
+      Shape           =   2  'Oval
       Top             =   0
       Width           =   720
    End
@@ -92,17 +89,20 @@ End Enum
 Private Type StateCommandType
     Name As String                      ' The name will be passed as "message" to Process event
     Default As Boolean                  ' Default command
-    Target As String                    ' Target state name
-    Method As MethodConstants           ' How to jump into target state
+    TargetName As String                ' Target state name
+    Method As MethodConstants           ' How to jump into TargetName state
     Visible As Boolean                  ' Button visible
     Title As String                     ' Button text
     Icon As IPictureDisp                ' Button icon
 End Type
 
 Private m_Style As StateStyleConstants
+Private m_ControllerName As String      ' Owner controller name
 Private m_Command(MAX_COMMANDS - 1) As StateCommandType
 Private m_Commands As Integer
 Private m_Base As String                ' Share the base(StateControl)'s m_Commands
+
+Private m_Con
 
 Implements StateObject
 
@@ -162,7 +162,7 @@ Private Property Let StyleInfo(info As StyleInfoType)
         lblTitle.FontSize = .FontSize
         lblTitle.FontBold = .FontBold
         lblTitle.FontItalic = .FontItalic
-        Set picIcon.Picture = .Icon
+        Set imgIcon.Picture = .Icon
     End With
 End Property
 
@@ -178,6 +178,26 @@ Private Function StateObject_Process(ByVal Message As Variant, Parameters As Var
     Set StateObject_Process = Me
     RaiseEvent Process(Message, Parameters, StateObject_Process)
 End Function
+
+Private Sub UserControl_HitTest(X As Single, Y As Single, HitResult As Integer)
+    Dim a As Single, b As Single, z As Single
+    Const FUZZY = 0.05
+    a = ScaleWidth / 2
+    b = ScaleHeight / 2
+    z = ((X - a) / a) ^ 2 + ((Y - b) / b) ^ 2
+
+    If z < 1 - FUZZY Then
+        If shpOutline.BackStyle = vbTransparent Then
+            HitResult = vbHitResultTransparent
+        Else
+            HitResult = vbHitResultHit
+        End If
+    ElseIf X > 1 + FUZZY Then
+        HitResult = vbHitResultOutside
+    Else
+        HitResult = vbHitResultHit
+    End If
+End Sub
 
 Private Sub UserControl_Resize()
     Redraw
@@ -204,12 +224,13 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     End With
     StyleInfo = info
 
+    m_ControllerName = PropBag.ReadProperty("ControllerName", "ControllerControl1")
     m_Commands = PropBag.ReadProperty("Commands", 0)
     Dim i As Integer
     For i = 0 To m_Commands - 1
         With m_Command(i)
             .Name = PropBag.ReadProperty("Name_" & i)
-            .Target = PropBag.ReadProperty("Target_" & i)
+            .TargetName = PropBag.ReadProperty("TargetName_" & i)
             .Title = PropBag.ReadProperty("Title_" & i)
             .Default = PropBag.ReadProperty("Default_" & i)
             .Method = PropBag.ReadProperty("Method_" & i)
@@ -236,12 +257,13 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
         PropBag.WriteProperty "Icon", .Icon
     End With
 
+    PropBag.WriteProperty "ControllerName", m_ControllerName
     PropBag.WriteProperty "Commands", m_Commands
     Dim i As Integer
     For i = 0 To m_Commands - 1
         With m_Command(i)
             PropBag.WriteProperty "Name_" & i, .Name
-            PropBag.WriteProperty ".Target_" & i, .Target
+            PropBag.WriteProperty ".TargetName_" & i, .TargetName
             PropBag.WriteProperty ".Title_" & i, .Title
             PropBag.WriteProperty ".Default_" & i, .Default
             PropBag.WriteProperty ".Method_" & i, .Method
@@ -345,12 +367,18 @@ Public Property Let FontItalic(ByVal newval As Boolean)
 End Property
 
 Public Property Get Icon() As IPictureDisp
-    Set Icon = picIcon.Picture
+    Set Icon = imgIcon.Picture
 End Property
 Public Property Let Icon(ByVal newval As IPictureDisp)
-    Set picIcon.Picture = newval
-    picIcon.Visible = Not newval Is Nothing
+    Set imgIcon.Picture = newval
+    imgIcon.Visible = Not newval Is Nothing
     Redraw                              ' position
+End Property
+
+Private Property Get Controller() As ControllerControl
+    On Error GoTo NotExisted
+    Set Controller = UserControl.ParentControls(m_ControllerName)
+NotExisted:
 End Property
 
 Public Property Get Commands() As Integer
@@ -383,15 +411,22 @@ Public Property Let CommandDefault(ByVal Index As Integer, ByVal newval As Boole
     RedrawButtons
 End Property
 
-Public Property Get CommandTarget(ByVal Index As Integer) As String
-Attribute CommandTarget.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
+Public Property Get CommandTargetName(ByVal Index As Integer) As String
+Attribute CommandTargetName.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
-    CommandTarget = m_Command(Index).Target
+    CommandTargetName = m_Command(Index).TargetName
 End Property
-Public Property Let CommandTarget(ByVal Index As Integer, ByVal newval As String)
+Public Property Let CommandTargetName(ByVal Index As Integer, ByVal newval As String)
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
-    m_Command(Index).Target = newval
+    m_Command(Index).TargetName = newval
     RedrawArrows
+End Property
+
+Private Property Get CommandTarget(ByVal Index As Integer) As StateControl
+    Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
+    On Error GoTo NotExisted
+    Set CommandTarget = ParentControls(m_Command(Index).TargetName)
+NotExisted:
 End Property
 
 Public Property Get CommandMethod(ByVal Index As Integer) As MethodConstants
@@ -446,7 +481,7 @@ Public Property Let Base(ByVal newval As String)
     RedrawButtons
 End Property
 
-Public Sub AddCommand(ByVal Name As String, ByVal Target As String, _
+Public Sub AddCommand(ByVal Name As String, ByVal TargetName As String, _
         Optional ByVal Title As String = "", _
         Optional ByVal Default As Boolean = False, _
         Optional ByVal Method As MethodConstants = methodGoto, _
@@ -459,7 +494,7 @@ Public Sub AddCommand(ByVal Name As String, ByVal Target As String, _
     If Title = "" Then Title = Name
     With m_Command(m_Commands)
         .Name = Name                    ' The behavior of duplicated names is undefined.
-        .Target = Target                ' Undefined target will exit the controller (with exit-state = this)
+        .TargetName = TargetName                ' Undefined TargetName will exit the controller (with exit-state = this)
         .Title = Title
         .Default = Default              ' More than 1 commands have default property set, then only one will be the default.
         .Method = Method
@@ -476,7 +511,7 @@ Public Sub RemoveCommand(ByVal Index As Integer)
         With m_Command(i - 1)
             .Name = m_Command(i).Name
             .Title = m_Command(i).Title
-            .Target = m_Command(i).Target
+            .TargetName = m_Command(i).TargetName
             .Default = m_Command(i).Default
             .Method = m_Command(i).Method
             .Visible = m_Command(i).Visible
@@ -490,12 +525,12 @@ Public Sub Redraw()
     shpOutline.Width = ScaleWidth
     shpOutline.Height = ScaleHeight
     lblTitle.Left = (ScaleWidth - lblTitle.Width) / 2
-    picIcon.Left = (ScaleWidth - picIcon.Width) / 2
-    If picIcon.Visible Then
+    imgIcon.Left = (ScaleWidth - imgIcon.Width) / 2
+    If imgIcon.Visible Then
         Dim SEP_SPACE_Y As Integer
-        SEP_SPACE_Y = 3 * Screen.TwipsPerPixelY
-        picIcon.Top = (ScaleHeight - (lblTitle.Height + picIcon.Height + SEP_SPACE_Y)) / 2
-        lblTitle.Top = picIcon.Top + picIcon.Height + SEP_SPACE_Y
+        SEP_SPACE_Y = 2 * Screen.TwipsPerPixelY
+        imgIcon.Top = (ScaleHeight - (lblTitle.Height + imgIcon.Height + SEP_SPACE_Y)) / 2
+        lblTitle.Top = imgIcon.Top + imgIcon.Height + SEP_SPACE_Y
     Else
         lblTitle.Top = (ScaleHeight - lblTitle.Height) / 2
     End If
@@ -504,6 +539,11 @@ End Sub
 Public Sub RedrawArrows()
     ' Using outline'bordercolor to draw arrow-line
     ' Using title'forecolor to draw caption
+    Dim hDC As Long
+    Parent.Refresh
+    hDC = GetDC(ContainerHwnd)
+        ' draw lines
+    ReleaseDC ContainerHwnd, hDC
 End Sub
 
 Public Sub RedrawButtons()

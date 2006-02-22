@@ -198,6 +198,11 @@ Private Sub cmdAdd_Click()
     ' TODO
 End Sub
 
+Private Sub cmdClear_Click()
+    m_SAOT.SlotClear
+
+End Sub
+
 Private Sub PropertyPage_ApplyChanges()
     '
 End Sub
@@ -209,11 +214,21 @@ Private Sub PropertyPage_SelectionChanged()
 
     m_SAOT.SlotClear
     m_SAOT.Append st.Commands
-    RefreshLines
+    'Remap
 End Sub
 
-Sub RefreshLines()
+Sub Layout()
+    Dim n, i
     Dim slots
+    n = m_SAOT.Size
     slots = m_SAOT.SortSlots
 
+    ' TODO: (optimize) only do remap if slots changes
+
+    For i = 0 To n - 1
+    Next
+
+    For i = n To m_SAOT.SlotAllocated - 1
+        cmd(i).Visible = False
+    Next
 End Sub
