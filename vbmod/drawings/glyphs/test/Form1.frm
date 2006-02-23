@@ -75,5 +75,5 @@ Sub Redraw()
     y1 = ScaleY(y1, ScaleMode, vbPixels)
 
     Cls
-    Lines.Arrow Me.hDC, arrowNormal, x0, y0, x1, y1
+    Lines.Arrow Me.hDC, arrowNormalDbl, x0, y0, x1, y1
 End Sub

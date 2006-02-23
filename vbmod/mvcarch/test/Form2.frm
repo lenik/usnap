@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#8.0#0"; "MVCArch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#14.0#0"; "MVCArch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
    ClientHeight    =   3090
@@ -34,11 +34,11 @@ Begin VB.Form Form2
       Top             =   300
       Width           =   375
    End
-   Begin MVCArch.StateControl StateControl1
-      Left            =   1500
-      Top             =   1140
-      _ExtentX        =   2884
-      _ExtentY        =   2037
+   Begin MVCArch.StateControl Cond
+      Left            =   1320
+      Top             =   1500
+      _ExtentX        =   1402
+      _ExtentY        =   1296
       Transparent     =   0   'False
       FontName        =   "Courier New"
       FontSize        =   9
@@ -48,6 +48,43 @@ Begin VB.Form Form2
       BorderStyle     =   1
       BorderWidth     =   1
       Icon            =   "Form2.frx":0000
+      Title           =   "Cond"
+      ControllerName  =   ""
+      Commands        =   0
+   End
+   Begin MVCArch.StateControl StEnd
+      Left            =   2820
+      Top             =   1860
+      _ExtentX        =   1402
+      _ExtentY        =   1402
+      Transparent     =   0   'False
+      FontName        =   "Courier New"
+      FontSize        =   9
+      FontItalic      =   0   'False
+      BackColor       =   16777215
+      ForeColor       =   0
+      BorderStyle     =   1
+      BorderWidth     =   1
+      Icon            =   "Form2.frx":001C
+      Title           =   "End"
+      ControllerName  =   ""
+      Commands        =   0
+   End
+   Begin MVCArch.StateControl Init
+      Left            =   2160
+      Top             =   360
+      _ExtentX        =   1508
+      _ExtentY        =   1402
+      Transparent     =   0   'False
+      FontName        =   "Courier New"
+      FontSize        =   9
+      FontItalic      =   0   'False
+      BackColor       =   16777215
+      ForeColor       =   0
+      BorderStyle     =   1
+      BorderWidth     =   1
+      Icon            =   "Form2.frx":0038
+      Title           =   "Init"
       ControllerName  =   ""
       Commands        =   0
    End
@@ -59,10 +96,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub Form_Load()
+Private Sub StateControl1_Enter(ByVal PreviousState As MVCArch.StateObject)
 
 End Sub
 
-Private Sub StateControl1_Enter(ByVal PreviousState As MVCArch.StateObject)
+Private Sub Init_Enter(ByVal PreviousState As MVCArch.StateObject)
 
 End Sub

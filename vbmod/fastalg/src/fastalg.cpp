@@ -70,8 +70,3 @@ STDAPI DllUnregisterServer(void)
 {
     return _Module.UnregisterServer(TRUE);
 }
-
-// FIX: LNK2001
-int main() {
-    return- 1;
-}

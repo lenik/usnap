@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#24.0#0"; "VBUserExt.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#25.0#0"; "VBUserExt.ocx"
 Begin VB.PropertyPage StateControl_Commands
    Caption         =   "Commands"
    ClientHeight    =   3360
@@ -17,6 +17,9 @@ Begin VB.PropertyPage StateControl_Commands
       Width           =   6195
       _ExtentX        =   10927
       _ExtentY        =   5106
+      StaticLayout    =   0   'False
+      BorderLeft      =   0
+      BorderTop       =   0
       Begin MVCArch.StateControl_Command cmd
          Height          =   375
          Index           =   0
@@ -197,6 +200,23 @@ Private Const SLOT_PADDING_V            As Integer = 3
 Private WithEvents Ker As SAOT
 Attribute Ker.VB_VarHelpID = -1
 
+Private Property Get State() As StateControl
+    Set State = PropertyPage.SelectedControls(0)
+End Property
+
+Private Sub cmd_Remove(Index As Integer)
+    Ker.SlotRemove Index
+End Sub
+
+Private Sub cmd_SetDefault(Index As Integer)
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        If i <> Index Then
+            cmd(i).CommandDefault = False
+        End If
+    Next
+End Sub
+
 Private Sub cmdAdd_Click()
     Ker.Append 1
 End Sub
@@ -208,8 +228,8 @@ End Sub
 Private Sub CmdAlloc(ByVal slot As Integer)
     On Error GoTo AlreadyLoaded
     Load cmd(slot)
-    cmd(slot).Visible = True
 AlreadyLoaded:
+    cmd(slot).Visible = True
 End Sub
 Private Sub CmdFree(ByVal slot As Integer)
     On Error GoTo NotyetLoaded
@@ -217,13 +237,22 @@ Private Sub CmdFree(ByVal slot As Integer)
 NotyetLoaded:
 End Sub
 
-Private Sub Ker_Add(ByVal slot As Long, ByVal index As Long)
+Private Sub Ker_Add(ByVal slot As Long, ByVal Index As Long)
     CmdAlloc slot
+    With cmd(slot)
+        .CommandName = "Name" & Index
+        .CommandMethod = methodGoto
+        '.CommandTarget = ""
+        .CommandDefault = False
+        .CommandVisible = True
+        .CommandTitle = ""
+    End With
     Layout
 End Sub
 
-Private Sub Ker_Remove(ByVal slot As Long, ByVal index As Long)
+Private Sub Ker_Remove(ByVal slot As Long, ByVal Index As Long)
     CmdFree slot
+    Layout
 End Sub
 
 Private Sub PropertyPage_ApplyChanges()
@@ -236,27 +265,21 @@ Private Sub PropertyPage_Initialize()
 End Sub
 
 Private Sub PropertyPage_SelectionChanged()
-    Dim st As StateControl
-    ' Assert selectedcontrols(0) instanceof StateControl
-    Set st = SelectedControls(0)
-
-    Ker.SlotClear
-    Ker.Append st.Commands
-    'Remap
-    'new GlyphLib.
+    Ker.Clear
+    Ker.Append State.Commands
 End Sub
 
-Private Function ByPixelX(ByVal x As Integer) As Single
-    ByPixelX = ScaleX(x, vbPixels, ScaleMode)
+Private Function ByPixelX(ByVal X As Integer) As Single
+    ByPixelX = ScaleX(X, vbPixels, ScaleMode)
 End Function
-Private Function ByPixelY(ByVal y As Integer) As Single
-    ByPixelY = ScaleY(y, vbPixels, ScaleMode)
+Private Function ByPixelY(ByVal Y As Integer) As Single
+    ByPixelY = ScaleY(Y, vbPixels, ScaleMode)
 End Function
 
 Sub Layout()
     Dim n As Integer
     Dim slots() As Long
-    Dim index As Integer
+    Dim Index As Integer
     Dim slot As Integer
     Dim oldSV As Single
     n = Ker.Size
@@ -267,8 +290,8 @@ Sub Layout()
     oldSV = scCommands.ScrollV
     scCommands.ScrollV = 0              ' ScrollV to top
     cmd(slot).Top = 0
-    For index = 1 To n - 1
-        slot = slots(index)
+    For Index = 1 To n - 1
+        slot = slots(Index)
         cmd(slot).Top = cmd(slot - 1).Top + ByPixelY(SLOT_PADDING_V)
     Next
     scCommands.ScrollV = oldSV

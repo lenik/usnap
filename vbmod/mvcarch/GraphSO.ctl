@@ -50,18 +50,19 @@ Attribute VB_Ext_KEY = "PropPageWizardRun" ,"Yes"
 Option Explicit
 Option Base 0
 
-Private Const LOCATION = "MVCArch::StateControl"
-Private Const MAX_COMMANDS = 32
-Private Const DEFAULT_TRANSPARENT = False
-Private Const DEFAULT_BACKCOLOR = &HFFFFFF
-Private Const DEFAULT_FORECOLOR = &H0&
-Private Const DEFAULT_BORDERWIDTH = 1
-Private Const DEFAULT_BORDERSTYLE = vbBSSolid
-Private Const DEFAULT_FONTNAME = "Courier New"
-Private Const DEFAULT_FONTSIZE = 9
-Private Const DEFAULT_FONTBOLD = False
-Private Const DEFAULT_FONTITALIC = False
-
+Private Const LOCATION                  As String = "MVCArch::StateControl"
+Private Const MAX_COMMANDS              As String = 32
+Private Const DEFAULT_TRANSPARENT       As Boolean = False
+Private Const DEFAULT_BACKCOLOR         As Long = &HFFFFFF
+Private Const DEFAULT_FORECOLOR         As Long = &H0&
+Private Const DEFAULT_BORDERWIDTH       As Integer = 1
+Private Const DEFAULT_BORDERSTYLE       As Integer = vbBSSolid
+Private Const DEFAULT_FONTNAME          As String = "Courier New"
+Private Const DEFAULT_FONTSIZE          As Integer = 9
+Private Const DEFAULT_FONTBOLD          As Boolean = False
+Private Const DEFAULT_FONTITALIC        As Boolean = False
+Private Const DEFAULT_TITLE             As String = "State"
+Private Const DEFAULT_CONTROLLERNAME    As String = "ControllerControl1"
 Public Enum StateStyleConstants
     stateNormal = 0
     stateInternal                       ' No stop
@@ -223,8 +224,8 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
         Set .Icon = PropBag.ReadProperty("Icon", Nothing)
     End With
     StyleInfo = info
-
-    m_ControllerName = PropBag.ReadProperty("ControllerName", "ControllerControl1")
+    lblTitle.Caption = PropBag.ReadProperty("Title", DEFAULT_TITLE)
+    m_ControllerName = PropBag.ReadProperty("ControllerName", DEFAULT_CONTROLLERNAME)
     m_Commands = PropBag.ReadProperty("Commands", 0)
     Dim i As Integer
     For i = 0 To m_Commands - 1
@@ -239,6 +240,9 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
         End With
     Next
     m_Base = PropBag.ReadProperty("Base", "")
+End Sub
+
+Private Sub UserControl_Show()
     Redraw
     RedrawArrows
     RedrawButtons
@@ -256,7 +260,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
         PropBag.WriteProperty "BorderWidth", .BorderWidth
         PropBag.WriteProperty "Icon", .Icon
     End With
-
+    PropBag.WriteProperty "Title", lblTitle.Caption
     PropBag.WriteProperty "ControllerName", m_ControllerName
     PropBag.WriteProperty "Commands", m_Commands
     Dim i As Integer
@@ -520,6 +524,23 @@ Public Sub RemoveCommand(ByVal Index As Integer)
     Next
     m_Commands = m_Commands - 1
 End Sub
+
+Private Property Get This() As Object
+    For Each This In UserControl.ParentControls
+        If This Is Me Then Exit Property
+    Next
+End Property
+Public Property Get ThisName() As String
+    Dim t As Object
+    Set t = This
+    If Not t Is Nothing Then ThisName = This.Name
+End Property
+Private Property Get ThisLeft() As Single
+    ThisLeft = This.Left
+End Property
+Private Property Get ThisTop() As Single
+    ThisTop = This.Top
+End Property
 
 Public Sub Redraw()
     shpOutline.Width = ScaleWidth

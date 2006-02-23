@@ -5,7 +5,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Feb 23 13:46:38 2006
+/* at Thu Feb 23 16:33:49 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\drawings\glyphs\glyphs.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext

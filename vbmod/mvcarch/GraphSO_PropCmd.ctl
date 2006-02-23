@@ -82,10 +82,19 @@ Private Const LOCATION = "MVCArch::StateControl_Command"
 
 Private m_Ref As ContainerObjects
 Private m_Default As Boolean
+Private m_EventLock As Integer
 
 Event Changed()
 Event Remove()
 Event SetDefault()
+
+Private Sub LockEvent()
+    m_EventLock = m_EventLock + 1
+End Sub
+Private Sub UnlockEvent()
+    m_EventLock = m_EventLock - 1
+    Assert m_EventLock >= 0, "Unlock without lock", LOCATION
+End Sub
 
 Public Sub Initialize(Ref As ContainerObjects)
     Set m_Ref = Ref
@@ -101,6 +110,7 @@ Private Sub RefreshStateObjects()
 End Sub
 
 Private Sub chkDefault_Click()
+    If m_EventLock Then Exit Sub
     Dim newval As Boolean
     newval = chkDefault.Value = vbChecked
     If m_Default <> newval Then
@@ -110,22 +120,27 @@ Private Sub chkDefault_Click()
 End Sub
 
 Private Sub chkVisible_Click()
+    If m_EventLock Then Exit Sub
     RaiseEvent Changed
 End Sub
 
 Private Sub cmdRemove_Click()
+    If m_EventLock Then Exit Sub
     RaiseEvent Remove
 End Sub
 
 Private Sub lstMethod_Click()
+    If m_EventLock Then Exit Sub
     RaiseEvent Changed
 End Sub
 
 Private Sub lstTarget_Click()
+    If m_EventLock Then Exit Sub
     RaiseEvent Changed
 End Sub
 
 Private Sub txtName_Change()
+    If m_EventLock Then Exit Sub
     RaiseEvent Changed
 End Sub
 
@@ -177,7 +192,9 @@ Public Property Get CommandDefault() As Boolean
 End Property
 
 Public Property Let CommandDefault(ByVal newval As Boolean)
+    LockEvent
     chkDefault.Value = IIf(newval, vbChecked, vbUnchecked)
+    UnlockEvent
 End Property
 
 Public Property Get CommandVisible() As Boolean

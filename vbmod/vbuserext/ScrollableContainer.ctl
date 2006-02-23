@@ -17,6 +17,7 @@ Begin VB.UserControl ScrollableContainer
       TabIndex        =   2
       TabStop         =   0   'False
       Top             =   1740
+      Visible         =   0   'False
       Width           =   255
    End
    Begin VB.HScrollBar hs
@@ -27,6 +28,7 @@ Begin VB.UserControl ScrollableContainer
       TabStop         =   0   'False
       Top             =   1740
       Value           =   -32767
+      Visible         =   0   'False
       Width           =   2115
    End
    Begin VB.VScrollBar vs
@@ -37,6 +39,7 @@ Begin VB.UserControl ScrollableContainer
       TabStop         =   0   'False
       Top             =   0
       Value           =   -32767
+      Visible         =   0   'False
       Width           =   255
    End
 End
@@ -324,7 +327,7 @@ Private Sub Scroll()
 End Sub
 
 Private Sub UserControl_Paint()
-    If m_EventLock Then Exit Sub
+    ' If m_EventLock Then Exit Sub
     If m_StaticLayout And Ambient.UserMode Then Exit Sub
     RecalcBounds
 End Sub
@@ -342,6 +345,11 @@ Private Sub hs_Scroll()
     If m_EventLock Then Exit Sub
     Scroll
 End Sub
+
+Private Sub UserControl_Show()
+    RecalcBounds
+End Sub
+
 Private Sub vs_Change()
     If m_EventLock Then Exit Sub
     Scroll
