@@ -11,11 +11,13 @@
 #include "bastype.h"
 
 #include "bastype_i.c"
+#include "List.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
+OBJECT_ENTRY(CLSID_List, CList)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

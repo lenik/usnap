@@ -63,6 +63,7 @@ Private Const DEFAULT_FONTBOLD          As Boolean = False
 Private Const DEFAULT_FONTITALIC        As Boolean = False
 Private Const DEFAULT_TITLE             As String = "State"
 Private Const DEFAULT_CONTROLLERNAME    As String = "ControllerControl1"
+
 Public Enum StateStyleConstants
     stateNormal = 0
     stateInternal                       ' No stop
@@ -102,8 +103,6 @@ Private m_ControllerName As String      ' Owner controller name
 Private m_Command(MAX_COMMANDS - 1) As StateCommandType
 Private m_Commands As Integer
 Private m_Base As String                ' Share the base(StateControl)'s m_Commands
-
-Private m_Con
 
 Implements StateObject
 
@@ -180,12 +179,12 @@ Private Function StateObject_Process(ByVal Message As Variant, Parameters As Var
     RaiseEvent Process(Message, Parameters, StateObject_Process)
 End Function
 
-Private Sub UserControl_HitTest(X As Single, Y As Single, HitResult As Integer)
+Private Sub UserControl_HitTest(x As Single, Y As Single, HitResult As Integer)
     Dim a As Single, b As Single, z As Single
     Const FUZZY = 0.05
     a = ScaleWidth / 2
     b = ScaleHeight / 2
-    z = ((X - a) / a) ^ 2 + ((Y - b) / b) ^ 2
+    z = ((x - a) / a) ^ 2 + ((Y - b) / b) ^ 2
 
     If z < 1 - FUZZY Then
         If shpOutline.BackStyle = vbTransparent Then
@@ -193,7 +192,7 @@ Private Sub UserControl_HitTest(X As Single, Y As Single, HitResult As Integer)
         Else
             HitResult = vbHitResultHit
         End If
-    ElseIf X > 1 + FUZZY Then
+    ElseIf x > 1 + FUZZY Then
         HitResult = vbHitResultOutside
     Else
         HitResult = vbHitResultHit
@@ -203,6 +202,12 @@ End Sub
 Private Sub UserControl_Resize()
     Redraw
     RedrawArrows
+End Sub
+
+Private Sub UserControl_Show()
+    Redraw
+    RedrawArrows
+    RedrawButtons
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -236,16 +241,10 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
             .Default = PropBag.ReadProperty("Default_" & i)
             .Method = PropBag.ReadProperty("Method_" & i)
             .Visible = PropBag.ReadProperty("Visible_" & i)
-            Set .Icon = PropBag.ReadProperty("Icon_" & i)
+            Set .Icon = PropBag.ReadProperty("Icon_" & i, Nothing)
         End With
     Next
     m_Base = PropBag.ReadProperty("Base", "")
-End Sub
-
-Private Sub UserControl_Show()
-    Redraw
-    RedrawArrows
-    RedrawButtons
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -267,12 +266,12 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     For i = 0 To m_Commands - 1
         With m_Command(i)
             PropBag.WriteProperty "Name_" & i, .Name
-            PropBag.WriteProperty ".TargetName_" & i, .TargetName
-            PropBag.WriteProperty ".Title_" & i, .Title
-            PropBag.WriteProperty ".Default_" & i, .Default
-            PropBag.WriteProperty ".Method_" & i, .Method
-            PropBag.WriteProperty ".Visible_" & i, .Visible
-            PropBag.WriteProperty ".Icon_" & i, .Icon
+            PropBag.WriteProperty "TargetName_" & i, .TargetName
+            PropBag.WriteProperty "Title_" & i, .Title
+            PropBag.WriteProperty "Default_" & i, .Default
+            PropBag.WriteProperty "Method_" & i, .Method
+            PropBag.WriteProperty "Visible_" & i, .Visible
+            PropBag.WriteProperty "Icon_" & i, .Icon
         End With
     Next
 End Sub
@@ -388,10 +387,14 @@ End Property
 Public Property Get Commands() As Integer
     Commands = m_Commands
 End Property
-'Public Property Let Commands(ByVal newval As Integer)
-'    Assert newval <= MAX_COMMANDS
-'    m_Commands = newval
-'End Property
+Public Property Let Commands(ByVal newval As Integer)
+    Assert newval <= MAX_COMMANDS
+    If newval < m_Commands Then
+        m_Commands = newval             ' Quickly removes
+        RedrawArrows
+        RedrawButtons
+    End If
+End Property
 
 Public Property Get CommandName(ByVal Index As Integer) As String
 Attribute CommandName.VB_ProcData.VB_Invoke_Property = "PropertyPage1"
@@ -426,10 +429,10 @@ Public Property Let CommandTargetName(ByVal Index As Integer, ByVal newval As St
     RedrawArrows
 End Property
 
-Private Property Get CommandTarget(ByVal Index As Integer) As StateControl
+Private Property Get CommandTarget(ByVal Index As Integer) As Object
     Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     On Error GoTo NotExisted
-    Set CommandTarget = ParentControls(m_Command(Index).TargetName)
+    Set CommandTarget = Siblings.Objects.Item(m_Command(Index).TargetName)
 NotExisted:
 End Property
 
@@ -525,21 +528,48 @@ Public Sub RemoveCommand(ByVal Index As Integer)
     m_Commands = m_Commands - 1
 End Sub
 
+Friend Property Get Siblings() As Siblings
+    Set Siblings = New Siblings
+    Siblings.SetEnumed UserControl.Parent.Controls, UserControl.Parent.Name
+End Property
+
+Friend Sub SetCommands(cmdprop, sa As SAOT)
+    Dim slots() As Long
+    Dim i As Integer
+    Dim cmd As StateControl_Command
+    slots = sa.SortSlots
+    Assert sa.Size <= MAX_COMMANDS, "Too many commands", LOCATION
+    For i = 0 To sa.Size - 1
+        Set cmd = cmdprop(slots(i))
+        With m_Command(i)
+            .Name = cmd.CommandName
+            .TargetName = cmd.CommandTarget
+            .Method = cmd.CommandMethod
+            .Default = cmd.CommandDefault
+            .Visible = cmd.CommandVisible
+            .Title = cmd.CommandTitle
+            '.Icon = cmd.CommandIcon
+        End With
+    Next
+    m_Commands = sa.Size
+    RedrawArrows
+    RedrawButtons
+    UserControl.PropertyChanged
+End Sub
+
 Private Property Get This() As Object
     For Each This In UserControl.ParentControls
         If This Is Me Then Exit Property
     Next
 End Property
 Public Property Get ThisName() As String
-    Dim t As Object
-    Set t = This
-    If Not t Is Nothing Then ThisName = This.Name
+    If Not This Is Nothing Then ThisName = This.Name
 End Property
 Private Property Get ThisLeft() As Single
-    ThisLeft = This.Left
+    If Not This Is Nothing Then ThisLeft = This.Left
 End Property
 Private Property Get ThisTop() As Single
-    ThisTop = This.Top
+    If Not This Is Nothing Then ThisTop = This.Top
 End Property
 
 Public Sub Redraw()
@@ -561,9 +591,19 @@ Public Sub RedrawArrows()
     ' Using outline'bordercolor to draw arrow-line
     ' Using title'forecolor to draw caption
     Dim hDC As Long
+    Dim i As Integer
+    Dim ct As Object
     Parent.Refresh
     hDC = GetDC(ContainerHwnd)
-        ' draw lines
+    With m_Command(i)
+        For i = 0 To m_Commands - 1
+            Set ct = CommandTarget(i)
+            If Not ct Is Nothing Then
+                Lines.Arrow hDC, IIf(.Method = methodGoto, arrowNormal, arrowNormalDbl), _
+                    ThisLeft, ThisTop, CommandTarget(i).Left, CommandTarget(i).Top
+            End If
+        Next
+    End With
     ReleaseDC ContainerHwnd, hDC
 End Sub
 

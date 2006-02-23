@@ -195,17 +195,45 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const LOCATION                  As String = "MVCArch::StateControl_Commands"
-Private Const SLOT_PADDING_V            As Integer = 3
+Private Const SLOT_PADDING_V            As Integer = 1
+
+Private Const LOAD_EXISTS               As Integer = 0
+Private Const LOAD_DEFAULTS             As Integer = 1
+
+Private m_AddMode As Integer
 
 Private WithEvents Ker As SAOT
 Attribute Ker.VB_VarHelpID = -1
 
-Private Property Get State() As StateControl
-    Set State = PropertyPage.SelectedControls(0)
+Property Get KerInfo() As String
+    Dim i As Integer
+    Dim slots() As Long
+    For i = 0 To Ker.SlotAllocated - 1
+        If i > 0 Then KerInfo = KerInfo & "."
+        KerInfo = KerInfo & Ker.FindSlot(i)
+    Next
+    KerInfo = KerInfo & "  =>  "
+    slots = Ker.SortSlots
+    For i = 0 To Ker.Size - 1
+        If i > 0 Then KerInfo = KerInfo & "."
+        KerInfo = KerInfo & slots(i)
+    Next
 End Property
+
+Private Property Get State() As StateControl
+    On Error GoTo NotAState
+    Set State = PropertyPage.SelectedControls(0)
+NotAState:
+End Property
+
+Private Sub cmd_Changed(Index As Integer)
+    Changed
+End Sub
 
 Private Sub cmd_Remove(Index As Integer)
     Ker.SlotRemove Index
+    Changed
+    Layout
 End Sub
 
 Private Sub cmd_SetDefault(Index As Integer)
@@ -215,48 +243,63 @@ Private Sub cmd_SetDefault(Index As Integer)
             cmd(i).CommandDefault = False
         End If
     Next
+    Changed
 End Sub
 
 Private Sub cmdAdd_Click()
     Ker.Append 1
+    Changed
+    Layout
 End Sub
 
 Private Sub cmdClear_Click()
     Ker.Clear
+    Changed
 End Sub
 
 Private Sub CmdAlloc(ByVal slot As Integer)
     On Error GoTo AlreadyLoaded
     Load cmd(slot)
 AlreadyLoaded:
+    cmd(slot).Initialize State.Siblings
     cmd(slot).Visible = True
 End Sub
 Private Sub CmdFree(ByVal slot As Integer)
     On Error GoTo NotyetLoaded
-    Unload cmd(slot)
+    cmd(slot).Visible = False
+    'Unload cmd(slot)
 NotyetLoaded:
 End Sub
 
 Private Sub Ker_Add(ByVal slot As Long, ByVal Index As Long)
     CmdAlloc slot
     With cmd(slot)
-        .CommandName = "Name" & Index
-        .CommandMethod = methodGoto
-        '.CommandTarget = ""
-        .CommandDefault = False
-        .CommandVisible = True
-        .CommandTitle = ""
+        If m_AddMode = LOAD_EXISTS Then
+            .CommandName = State.CommandName(Index)
+            .CommandMethod = State.CommandMethod(Index)
+            .CommandTarget = State.CommandTargetName(Index)
+            .CommandDefault = State.CommandDefault(Index)
+            .CommandVisible = State.CommandVisible(Index)
+            .CommandTitle = State.CommandTitle(Index)
+            ' .Icon = ...
+        ElseIf m_AddMode = LOAD_DEFAULTS Then
+            .CommandName = "Name" & Index
+            .CommandMethod = methodGoto
+            '.CommandTarget = ""
+            .CommandDefault = False
+            .CommandVisible = True
+            .CommandTitle = ""
+            ' Icon...
+        End If
     End With
-    Layout
 End Sub
 
 Private Sub Ker_Remove(ByVal slot As Long, ByVal Index As Long)
     CmdFree slot
-    Layout
 End Sub
 
 Private Sub PropertyPage_ApplyChanges()
-    '
+    State.SetCommands cmd, Ker
 End Sub
 
 Private Sub PropertyPage_Initialize()
@@ -265,34 +308,47 @@ Private Sub PropertyPage_Initialize()
 End Sub
 
 Private Sub PropertyPage_SelectionChanged()
+    If State Is Nothing Then Exit Sub
     Ker.Clear
+    m_AddMode = LOAD_EXISTS
     Ker.Append State.Commands
+    m_AddMode = LOAD_DEFAULTS
+    Layout
 End Sub
 
-Private Function ByPixelX(ByVal X As Integer) As Single
-    ByPixelX = ScaleX(X, vbPixels, ScaleMode)
+Private Sub Changed()
+    PropertyPage.Changed = True
+End Sub
+
+Private Function ByPixelX(ByVal x As Integer) As Single
+    ByPixelX = ScaleX(x, vbPixels, ScaleMode)
 End Function
+
 Private Function ByPixelY(ByVal Y As Integer) As Single
     ByPixelY = ScaleY(Y, vbPixels, ScaleMode)
 End Function
 
-Sub Layout()
+Private Sub Layout()
     Dim n As Integer
     Dim slots() As Long
     Dim Index As Integer
-    Dim slot As Integer
+    Dim slot As Integer, slot1 As Integer
     Dim oldSV As Single
     n = Ker.Size
+    If n = 0 Then Exit Sub
+
     slots = Ker.SortSlots
 
     ' TODO: (optimize) only do remap if slots changes
 
     oldSV = scCommands.ScrollV
     scCommands.ScrollV = 0              ' ScrollV to top
-    cmd(slot).Top = 0
+    cmd(slots(0)).Top = 0
     For Index = 1 To n - 1
         slot = slots(Index)
-        cmd(slot).Top = cmd(slot - 1).Top + ByPixelY(SLOT_PADDING_V)
+        slot1 = slots(Index - 1)
+        cmd(slot).Top = cmd(slot1).Top + cmd(slot1).Height + ByPixelY(SLOT_PADDING_V)
     Next
     scCommands.ScrollV = oldSV
+    scCommands.RecalcBounds
 End Sub

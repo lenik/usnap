@@ -6,14 +6,14 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "ContainerObjects"
+Attribute VB_Name = "Siblings"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Const LOCATION = "MVCArch::ContainerObjects"
+Private Const LOCATION = "MVCArch::Siblings"
 
 Private m_Container As Object
 Private m_ContainerName As String
@@ -27,6 +27,20 @@ Public Sub SetIndexed(IndexedObjects, ByVal ContainerName As String)
     Set m_Objects = New Map
     For i = LBound(IndexedObjects) To UBound(IndexedObjects)
         Set obj = IndexedObjects(i)
+        If LC.HasMember(obj, "Name") Then
+            m_Objects.Item(obj.Name) = obj
+        'Else
+        '    m_Objects.Item("#Noname." & m_NonameId) = obj
+        '    m_NonameId = m_NonameId + 1
+        End If
+    Next
+End Sub
+
+Public Sub SetEnumed(EnumedObjects, ByVal ContainerName As String)
+    Dim obj As Object
+    m_ContainerName = ContainerName
+    Set m_Objects = New Map
+    For Each obj In EnumedObjects
         If LC.HasMember(obj, "Name") Then
             m_Objects.Item(obj.Name) = obj
         'Else

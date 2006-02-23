@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#14.0#0"; "MVCArch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#15.1#0"; "MVCArch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
    ClientHeight    =   3090
@@ -35,8 +35,8 @@ Begin VB.Form Form2
       Width           =   375
    End
    Begin MVCArch.StateControl Cond
-      Left            =   1320
-      Top             =   1500
+      Left            =   1260
+      Top             =   1380
       _ExtentX        =   1402
       _ExtentY        =   1296
       Transparent     =   0   'False
@@ -50,10 +50,22 @@ Begin VB.Form Form2
       Icon            =   "Form2.frx":0000
       Title           =   "Cond"
       ControllerName  =   ""
-      Commands        =   0
+      Commands        =   2
+      Name_0          =   "e0"
+      TargetName_0    =   "1"
+      Title_0         =   "da"
+      Default_0       =   0   'False
+      Method_0        =   0
+      Visible_0       =   -1  'True
+      Name_1          =   "gfa"
+      TargetName_1    =   "1"
+      Title_1         =   "fa"
+      Default_1       =   -1  'True
+      Method_1        =   1
+      Visible_1       =   -1  'True
    End
    Begin MVCArch.StateControl StEnd
-      Left            =   2820
+      Left            =   3120
       Top             =   1860
       _ExtentX        =   1402
       _ExtentY        =   1402
@@ -68,10 +80,16 @@ Begin VB.Form Form2
       Icon            =   "Form2.frx":001C
       Title           =   "End"
       ControllerName  =   ""
-      Commands        =   0
+      Commands        =   1
+      Name_0          =   "Nafs"
+      TargetName_0    =   "xcvcs"
+      Title_0         =   ""
+      Default_0       =   0   'False
+      Method_0        =   0
+      Visible_0       =   -1  'True
    End
    Begin MVCArch.StateControl Init
-      Left            =   2160
+      Left            =   2400
       Top             =   360
       _ExtentX        =   1508
       _ExtentY        =   1402
@@ -86,7 +104,13 @@ Begin VB.Form Form2
       Icon            =   "Form2.frx":0038
       Title           =   "Init"
       ControllerName  =   ""
-      Commands        =   0
+      Commands        =   1
+      Name_0          =   "Name0"
+      TargetName_0    =   "xcvcs"
+      Title_0         =   "53454"
+      Default_0       =   -1  'True
+      Method_0        =   0
+      Visible_0       =   0   'False
    End
 End
 Attribute VB_Name = "Form2"
@@ -95,11 +119,3 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-
-Private Sub StateControl1_Enter(ByVal PreviousState As MVCArch.StateObject)
-
-End Sub
-
-Private Sub Init_Enter(ByVal PreviousState As MVCArch.StateObject)
-
-End Sub

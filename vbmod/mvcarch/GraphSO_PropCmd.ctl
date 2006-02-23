@@ -64,7 +64,6 @@ Begin VB.UserControl StateControl_Command
    Begin VB.ComboBox lstTarget
       Height          =   315
       Left            =   1680
-      Style           =   2  'Dropdown List
       TabIndex        =   2
       ToolTipText     =   "Target State"
       Top             =   0
@@ -80,7 +79,7 @@ Option Explicit
 
 Private Const LOCATION = "MVCArch::StateControl_Command"
 
-Private m_Ref As ContainerObjects
+Private m_Ref As Siblings
 Private m_Default As Boolean
 Private m_EventLock As Integer
 
@@ -96,7 +95,7 @@ Private Sub UnlockEvent()
     Assert m_EventLock >= 0, "Unlock without lock", LOCATION
 End Sub
 
-Public Sub Initialize(Ref As ContainerObjects)
+Public Sub Initialize(Ref As Siblings)
     Set m_Ref = Ref
     RefreshStateObjects
 End Sub
@@ -105,7 +104,9 @@ Private Sub RefreshStateObjects()
     Dim Name
     lstTarget.Clear
     For Each Name In m_Ref.Objects.KeySet
-        lstTarget.AddItem Name
+        If TypeName(m_Ref.Objects.Item(Name)) = "StateControl" Then
+            lstTarget.AddItem Name
+        End If
     Next
 End Sub
 
@@ -114,6 +115,7 @@ Private Sub chkDefault_Click()
     Dim newval As Boolean
     newval = chkDefault.Value = vbChecked
     If m_Default <> newval Then
+        m_Default = newval
         RaiseEvent SetDefault
         RaiseEvent Changed
     End If
@@ -149,7 +151,7 @@ Public Property Get CommandName() As String
 End Property
 
 Public Property Let CommandName(ByVal newval As String)
-    txtName.Text = CommandName
+    txtName.Text = newval
 End Property
 
 Public Property Get CommandMethod() As MethodConstants
@@ -184,7 +186,8 @@ Public Property Let CommandTarget(ByVal newval As String)
             Exit Property
         End If
     Next
-    Assert False, "StateControl: " & newval & " isn't existed", LOCATION
+    'Assert False, "StateControl: " & newval & " isn't existed", LOCATION
+    lstTarget.Text = newval
 End Property
 
 Public Property Get CommandDefault() As Boolean
@@ -212,3 +215,8 @@ End Property
 Public Property Let CommandTitle(ByVal newval As String)
     txtTitle.Text = newval
 End Property
+
+Private Sub txtTitle_Change()
+    If m_EventLock Then Exit Sub
+    RaiseEvent Changed
+End Sub

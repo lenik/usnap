@@ -20,7 +20,7 @@ Option Explicit
 
 Private Const LOCATION = "MVCArch::ControllerControl"
 
-Private m_Ref As ContainerObjects
+Private m_Ref As Siblings
 Private m_StartState As String
 
 Implements ControllerObject
@@ -69,7 +69,7 @@ Public Sub ResetCommands()
 End Sub
 
 Private Sub InitReferences()
-    m_Ref = New ContainerObjects
+    m_Ref = New Siblings
     m_Ref.SetIndexed UserControl.ContainedControls, "(Parent Form)"
 End Sub
 

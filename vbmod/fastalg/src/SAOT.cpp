@@ -44,20 +44,25 @@ STDMETHODIMP CSAOT::SlotRemove(long slot)
 
 STDMETHODIMP CSAOT::Clear()
 {
-    if (m_mask & saotemRemove) {
-        int slot = 0;
-        int alloc = m_saot.slot_alloc();
-        while (slot < alloc) {
-            index_type index = m_saot.find_slot(slot);
-            if (index != -1) {
-                // INCONSISTENCY:  the Remove event should be fired after removed.
-                this->Fire_Remove(slot, index);
-            }
-        }
-    }
     if (m_mask & saotemClear)
         this->Fire_Clear();
-	m_saot.slot_clear();
+    int size = m_saot.size();
+    int *slots = NULL;
+    if (size > 0 && (m_mask & saotemRemove)) {
+        slots = new int[size];
+        m_saot.idx_sort(slots);
+    }
+
+    m_saot.slot_clear();
+
+    if (m_mask & saotemRemove) {
+        for (int index = 0; index < size; index++) {
+            int slot = slots[index];
+            this->Fire_Remove(slot, index);
+        }
+    }
+    if (slots != NULL)
+        delete[] slots;
 	return S_OK;
 }
 
