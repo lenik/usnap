@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#19.0#0"; "VBUserExt.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#22.0#0"; "VBUserExt.ocx"
 Begin VB.Form Form4
    Caption         =   "ScrollableContainer #1"
    ClientHeight    =   1725
@@ -24,10 +24,10 @@ Begin VB.Form Form4
       PadBottom       =   100
       BorderLeft      =   0
       BorderTop       =   0
-      ExtX0           =   -800
-      ExtY0           =   -380
-      ExtX1           =   4255
-      ExtY1           =   1435
+      ExtX0           =   -200
+      ExtY0           =   -150
+      ExtX1           =   4875
+      ExtY1           =   1385
       Appearance      =   0
       BackColor       =   -2147483643
       BorderStyle     =   1
@@ -35,27 +35,27 @@ Begin VB.Form Form4
          Caption         =   "Test"
          Height          =   795
          Index           =   2
-         Left            =   2520
+         Left            =   3620
          TabIndex        =   3
-         Top             =   -180
+         Top             =   -50
          Width           =   1155
       End
       Begin VB.CommandButton Test
          Caption         =   "Test"
          Height          =   795
          Index           =   1
-         Left            =   1860
+         Left            =   2360
          TabIndex        =   2
-         Top             =   360
+         Top             =   490
          Width           =   1155
       End
       Begin VB.CommandButton Test
          Caption         =   "Test"
          Height          =   795
          Index           =   0
-         Left            =   -600
+         Left            =   -100
          TabIndex        =   1
-         Top             =   -60
+         Top             =   70
          Width           =   1155
       End
    End

@@ -1,6 +1,5 @@
 VERSION 5.00
 Begin VB.UserControl ScrollableContainer
-   BackStyle       =   0  'Transparent
    ClientHeight    =   2070
    ClientLeft      =   0
    ClientTop       =   0
@@ -155,6 +154,28 @@ Private Property Get ViewPosY() As Single
     ViewPosY = -m_ExtY0
 End Property
 
+Public Property Get ScrollH() As Single
+    ScrollH = PosX
+End Property
+Public Property Let ScrollH(ByVal newval As Single)
+    PosX = newval
+    Scroll
+End Property
+Public Property Get ScrollHRange() As Single
+    ScrollHRange = m_RangeH
+End Property
+
+Public Property Get ScrollV() As Single
+    ScrollV = PosY
+End Property
+Public Property Let ScrollV(ByVal newval As Single)
+    PosY = newval
+    Scroll
+End Property
+Public Property Get ScrollVRange() As Single
+    ScrollVRange = m_RangeV
+End Property
+
 Private Sub UpdateScrollBars()
     On Error Resume Next
     Dim k As Single
@@ -206,23 +227,25 @@ End Sub
 
 Private Sub GetBound(x0 As Single, y0 As Single, x1 As Single, y1 As Single)
     Dim ctrl As Object
-    If ContainedControls.Count = 0 Then
-        x0 = m_ExtX0
-        y0 = m_ExtY0
-        x1 = m_ExtX1
-        y1 = m_ExtY1
-    Else
-        x0 = MAXVAL
-        y0 = MAXVAL
-        x1 = -MAXVAL
-        y1 = -MAXVAL
-        For Each ctrl In ContainedControls
+    Dim n As Integer
+    x0 = MAXVAL
+    y0 = MAXVAL
+    x1 = -MAXVAL
+    y1 = -MAXVAL
+    For Each ctrl In ContainedControls
+        If ctrl.Visible Then
             If ctrl.Left < x0 Then x0 = ctrl.Left
             If ctrl.Top < y0 Then y0 = ctrl.Top
             If ctrl.Left + ctrl.Width > x1 Then x1 = ctrl.Left + ctrl.Width
             If ctrl.Top + ctrl.Height > y1 Then y1 = ctrl.Top + ctrl.Height
-        Next
-        Assert x0 <> MAXVAL And y0 <> MAXVAL And x1 <> -MAXVAL And y1 <> -MAXVAL
+            n = n + 1
+        End If
+    Next
+    If n = 0 Then
+        x0 = m_ExtX0
+        y0 = m_ExtY0
+        x1 = m_ExtX1
+        y1 = m_ExtY1
     End If
 End Sub
 

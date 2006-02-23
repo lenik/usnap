@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Feb 20 21:09:26 2006
+/* at Thu Feb 23 09:48:25 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\fastalg\src\fastalg.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -49,6 +49,12 @@ typedef interface IDRIA IDRIA;
 #endif 	/* __IDRIA_FWD_DEFINED__ */
 
 
+#ifndef ___ISAOTEvents_FWD_DEFINED__
+#define ___ISAOTEvents_FWD_DEFINED__
+typedef interface _ISAOTEvents _ISAOTEvents;
+#endif 	/* ___ISAOTEvents_FWD_DEFINED__ */
+
+
 #ifndef __SAOT_FWD_DEFINED__
 #define __SAOT_FWD_DEFINED__
 
@@ -86,6 +92,13 @@ void __RPC_USER MIDL_user_free( void __RPC_FAR * );
 /* interface ISAOT */
 /* [unique][helpstring][dual][uuid][object] */
 
+typedef
+enum SAOTEventMaskConstants
+    {	saotemAdd	= 1,
+	saotemRemove	= 2,
+	saotemClear	= 8
+    }	SAOTEventMaskConstants;
+
 
 EXTERN_C const IID IID_ISAOT;
 
@@ -107,7 +120,7 @@ EXTERN_C const IID IID_ISAOT;
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SlotRemove(
             /* [in] */ long Slot) = 0;
 
-        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SlotClear( void) = 0;
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Clear( void) = 0;
 
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Insert(
             /* [in] */ long Index,
@@ -131,6 +144,12 @@ EXTERN_C const IID IID_ISAOT;
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Append(
             /* [in] */ long count,
             /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_EventMask(
+            /* [retval][out] */ SAOTEventMaskConstants __RPC_FAR *pVal) = 0;
+
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_EventMask(
+            /* [in] */ SAOTEventMaskConstants newVal) = 0;
 
     };
 
@@ -196,7 +215,7 @@ EXTERN_C const IID IID_ISAOT;
             ISAOT __RPC_FAR * This,
             /* [in] */ long Slot);
 
-        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SlotClear )(
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Clear )(
             ISAOT __RPC_FAR * This);
 
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Insert )(
@@ -227,6 +246,14 @@ EXTERN_C const IID IID_ISAOT;
             ISAOT __RPC_FAR * This,
             /* [in] */ long count,
             /* [retval][out] */ long __RPC_FAR *result);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_EventMask )(
+            ISAOT __RPC_FAR * This,
+            /* [retval][out] */ SAOTEventMaskConstants __RPC_FAR *pVal);
+
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *put_EventMask )(
+            ISAOT __RPC_FAR * This,
+            /* [in] */ SAOTEventMaskConstants newVal);
 
         END_INTERFACE
     } ISAOTVtbl;
@@ -276,8 +303,8 @@ EXTERN_C const IID IID_ISAOT;
 #define ISAOT_SlotRemove(This,Slot)	\
     (This)->lpVtbl -> SlotRemove(This,Slot)
 
-#define ISAOT_SlotClear(This)	\
-    (This)->lpVtbl -> SlotClear(This)
+#define ISAOT_Clear(This)	\
+    (This)->lpVtbl -> Clear(This)
 
 #define ISAOT_Insert(This,Index,result)	\
     (This)->lpVtbl -> Insert(This,Index,result)
@@ -296,6 +323,12 @@ EXTERN_C const IID IID_ISAOT;
 
 #define ISAOT_Append(This,count,result)	\
     (This)->lpVtbl -> Append(This,count,result)
+
+#define ISAOT_get_EventMask(This,pVal)	\
+    (This)->lpVtbl -> get_EventMask(This,pVal)
+
+#define ISAOT_put_EventMask(This,newVal)	\
+    (This)->lpVtbl -> put_EventMask(This,newVal)
 
 #endif /* COBJMACROS */
 
@@ -352,11 +385,11 @@ void __RPC_STUB ISAOT_SlotRemove_Stub(
     DWORD *_pdwStubPhase);
 
 
-/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_SlotClear_Proxy(
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ISAOT_Clear_Proxy(
     ISAOT __RPC_FAR * This);
 
 
-void __RPC_STUB ISAOT_SlotClear_Stub(
+void __RPC_STUB ISAOT_Clear_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,
@@ -434,6 +467,30 @@ void __RPC_STUB ISAOT_SortSlots_Stub(
 
 
 void __RPC_STUB ISAOT_Append_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISAOT_get_EventMask_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [retval][out] */ SAOTEventMaskConstants __RPC_FAR *pVal);
+
+
+void __RPC_STUB ISAOT_get_EventMask_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE ISAOT_put_EventMask_Proxy(
+    ISAOT __RPC_FAR * This,
+    /* [in] */ SAOTEventMaskConstants newVal);
+
+
+void __RPC_STUB ISAOT_put_EventMask_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,
@@ -810,6 +867,112 @@ void __RPC_STUB IDRIA_get_RangeUpper_Stub(
 
 
 EXTERN_C const IID LIBID_FastAlgLib;
+
+#ifndef ___ISAOTEvents_DISPINTERFACE_DEFINED__
+#define ___ISAOTEvents_DISPINTERFACE_DEFINED__
+
+/* dispinterface _ISAOTEvents */
+/* [helpstring][uuid] */
+
+
+EXTERN_C const IID DIID__ISAOTEvents;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("8DDACB85-672D-47D7-8074-4F3B57A92F3D")
+    _ISAOTEvents : public IDispatch
+    {
+    };
+
+#else 	/* C style interface */
+
+    typedef struct _ISAOTEventsVtbl
+    {
+        BEGIN_INTERFACE
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *QueryInterface )(
+            _ISAOTEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *AddRef )(
+            _ISAOTEvents __RPC_FAR * This);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *Release )(
+            _ISAOTEvents __RPC_FAR * This);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfoCount )(
+            _ISAOTEvents __RPC_FAR * This,
+            /* [out] */ UINT __RPC_FAR *pctinfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfo )(
+            _ISAOTEvents __RPC_FAR * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetIDsOfNames )(
+            _ISAOTEvents __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR __RPC_FAR *rgszNames,
+            /* [in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID __RPC_FAR *rgDispId);
+
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Invoke )(
+            _ISAOTEvents __RPC_FAR * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS __RPC_FAR *pDispParams,
+            /* [out] */ VARIANT __RPC_FAR *pVarResult,
+            /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
+            /* [out] */ UINT __RPC_FAR *puArgErr);
+
+        END_INTERFACE
+    } _ISAOTEventsVtbl;
+
+    interface _ISAOTEvents
+    {
+        CONST_VTBL struct _ISAOTEventsVtbl __RPC_FAR *lpVtbl;
+    };
+
+
+
+#ifdef COBJMACROS
+
+
+#define _ISAOTEvents_QueryInterface(This,riid,ppvObject)	\
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+
+#define _ISAOTEvents_AddRef(This)	\
+    (This)->lpVtbl -> AddRef(This)
+
+#define _ISAOTEvents_Release(This)	\
+    (This)->lpVtbl -> Release(This)
+
+
+#define _ISAOTEvents_GetTypeInfoCount(This,pctinfo)	\
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+
+#define _ISAOTEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+
+#define _ISAOTEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+
+#define _ISAOTEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___ISAOTEvents_DISPINTERFACE_DEFINED__ */
+
 
 EXTERN_C const CLSID CLSID_SAOT;
 

@@ -15,17 +15,25 @@ import "ocidl.idl";
 	]
 	interface ISAOT : IDispatch
 	{
+            typedef enum SAOTEventMaskConstants {
+                saotemAdd = 1,
+                saotemRemove = 2,
+                // saotemShift = 4,
+                saotemClear = 8,
+            } SAOTEventMaskConstants;
 		[propget, id(1), helpstring("property SlotAllocated")] HRESULT SlotAllocated([out, retval] long *pVal);
 		[propget, id(2), helpstring("property Size")] HRESULT Size([out, retval] long *pVal);
 		[id(3), helpstring("method SlotAdd")] HRESULT SlotAdd([out, retval]long *result);
 		[id(4), helpstring("method SlotRemove")] HRESULT SlotRemove([in]long Slot);
-		[id(5), helpstring("method SlotClear")] HRESULT SlotClear();
+		[id(5), helpstring("method Clear")] HRESULT Clear();
 		[id(6), helpstring("method Insert")] HRESULT Insert([in]long Index, [out, retval]long *result);
 		[id(7), helpstring("method Remove")] HRESULT Remove([in]long Index, [out, retval]long *result);
 		[id(8), helpstring("method FindSlot")] HRESULT FindSlot([in]long Slot, [out, retval]long *result);
 		[id(9), helpstring("method FindIndex")] HRESULT FindIndex([in]long Index, [out, retval]long *result);
 		[id(10), helpstring("method SortSlots")] HRESULT SortSlots([out, retval]VARIANT *SortedSlots);
 		[id(11), helpstring("method Append")] HRESULT Append([in]long count, [out, retval]long *result);
+		[propget, id(12), helpstring("property EventMask")] HRESULT EventMask([out, retval] SAOTEventMaskConstants *pVal);
+		[propput, id(12), helpstring("property EventMask")] HRESULT EventMask([in] SAOTEventMaskConstants newVal);
 	};
 	[
 		object,
@@ -59,13 +67,28 @@ library FastAlgLib
 	importlib("stdole2.tlb");
 
 	[
+		uuid(8DDACB85-672D-47D7-8074-4F3B57A92F3D),
+		helpstring("_ISAOTEvents Interface")
+	]
+	dispinterface _ISAOTEvents
+	{
+		properties:
+		methods:
+		[id(1), helpstring("After Added")] HRESULT Add([in]long slot, [in]long index);
+		[id(2), helpstring("After Removed")] HRESULT Remove([in]long slot, [in]long index);
+		// [id(3), helpstring("Before Shift")] HRESULT Shift([in]long slot, [in]long old_index, [in]long new_index);
+		[id(4), helpstring("Before Clear")] HRESULT Clear();
+	};
+	[
 		uuid(CD583388-D348-4A9E-BBBB-9A8D25F3DAAD),
 		helpstring("Slotted-Array Operation Test")
 	]
 	coclass SAOT
 	{
 		[default] interface ISAOT;
+                [default, source] dispinterface _ISAOTEvents;
 	};
+
 	[
 		uuid(AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476),
 		helpstring("Discover Ranges In Array")

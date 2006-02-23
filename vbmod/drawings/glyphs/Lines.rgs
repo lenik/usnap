@@ -1,0 +1,26 @@
+HKCR
+{
+	Glyphs.Lines.1 = s 'Lines Class'
+	{
+		CLSID = s '{61901D17-346A-48A1-ACAF-BF67DF638749}'
+	}
+	Glyphs.Lines = s 'Lines Class'
+	{
+		CLSID = s '{61901D17-346A-48A1-ACAF-BF67DF638749}'
+		CurVer = s 'Glyphs.Lines.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {61901D17-346A-48A1-ACAF-BF67DF638749} = s 'Lines Class'
+		{
+			ProgID = s 'Glyphs.Lines.1'
+			VersionIndependentProgID = s 'Glyphs.Lines'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{4C3F115E-AF2C-4FEC-9D69-F8E97245F948}'
+		}
+	}
+}

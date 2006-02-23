@@ -55,11 +55,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../../bin/fastalg.dll" /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\Debug
-TargetPath=.\Debug\fastalg.dll
-InputPath=.\Debug\fastalg.dll
+TargetPath=\.lokaj\zbmis\bin\fastalg.dll
+InputPath=\.lokaj\zbmis\bin\fastalg.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -314,6 +314,10 @@ SOURCE=.\StdAfx.cpp
 # Begin Source File
 
 SOURCE=.\DRIA.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\fastalgCP.h
 # End Source File
 # Begin Source File
 

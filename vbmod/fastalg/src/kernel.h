@@ -66,18 +66,18 @@ public:
 };
 
 
-#define MAX_ITEMS                       1024
+// #define MAX_ITEMS                       1024
 #define SLOT_AVAILABLE                  -1
-#define SLOT_PLACEHOLDER                -2
+// #define SLOT_PLACEHOLDER                -2
 
 typedef int index_type;
+typedef std::vector<index_type> indexes;
 
 // slotted-array operation test
 class saot {
     // dria m_dria;
-    index_type m_slot[MAX_ITEMS];
+    indexes m_slot;
 
-    int m_alloc;
     int m_used;
     int m_next;                         // -1 if no more space available
 public:
@@ -85,7 +85,6 @@ public:
 
     // slot-layer
     int slot_alloc();
-    int size();
     int slot_add();                     // returns -1 if no no more space available
     void slot_remove(int slot);
     void slot_clear();
@@ -93,9 +92,10 @@ public:
     // index-layer
     int idx_insert(index_type index);   // before index
     int idx_remove(index_type index);   // WARNING: the returned slot# is a hint, which may be not usable.
-    int idx_append(int count);          // returns number of indexes have been appended.
+    int idx_append(int count, int *slots); // returns number of indexes have been appended.
 
     // mapping
+    int size();
     index_type find_slot(int slot);
     int find_index(index_type index);
     void idx_sort(int *slots);

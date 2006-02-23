@@ -1,0 +1,66 @@
+// glyphs.idl : IDL source for glyphs.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (glyphs.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(D0B0E3AC-E38C-4C94-B01A-B7BEF0D92A46),
+		dual,
+		helpstring("ILines Interface"),
+		pointer_default(unique)
+	]
+	interface ILines : IDispatch
+	{
+		typedef enum ArrowTypeConstants {
+                    arrowNormal = 0,
+                    arrowNormalDbl,
+                    arrowSharp,
+                    arrowSharpDbl,
+                    arrowDiamond,
+                } ArrowTypeConstants;
+		[id(1), helpstring("method Arrow")] HRESULT Arrow([in]long hDC, [in]ArrowTypeConstants type, [in]long x0, [in]long y0, [in]long x1, [in]long y1);
+	};
+	[
+		object,
+		uuid(E3430624-662E-41E1-B35C-ED33F43C5F61),
+		dual,
+		helpstring("IShapes Interface"),
+		pointer_default(unique)
+	]
+	interface IShapes : IDispatch
+	{
+		[propget, id(1), helpstring("property Lines")] HRESULT Lines([out, retval] ILines * *pVal);
+	};
+
+[
+	uuid(4C3F115E-AF2C-4FEC-9D69-F8E97245F948),
+	version(1.0),
+	helpstring("Built-in Glyphs Library")
+]
+library GlyphsLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(61901D17-346A-48A1-ACAF-BF67DF638749),
+		helpstring("Lines Class")
+	]
+	coclass Lines
+	{
+		[default] interface ILines;
+	};
+	[
+		uuid(03505851-D307-4160-9A6F-F1B7CBEB4288),
+                appobject,
+		helpstring("Shapes Class")
+	]
+	coclass Shapes
+	{
+		[default] interface IShapes;
+	};
+};

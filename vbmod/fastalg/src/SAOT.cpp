@@ -33,12 +33,30 @@ STDMETHODIMP CSAOT::SlotAdd(long *result)
 
 STDMETHODIMP CSAOT::SlotRemove(long slot)
 {
-	m_saot.slot_remove(slot);
+    if (m_mask & saotemRemove) {
+        int index = m_saot.find_slot(slot);
+        if (index != -1)
+            return this->Remove(index, &slot);
+    }
+    m_saot.slot_remove(slot);
 	return S_OK;
 }
 
-STDMETHODIMP CSAOT::SlotClear()
+STDMETHODIMP CSAOT::Clear()
 {
+    if (m_mask & saotemRemove) {
+        int slot = 0;
+        int alloc = m_saot.slot_alloc();
+        while (slot < alloc) {
+            index_type index = m_saot.find_slot(slot);
+            if (index != -1) {
+                // INCONSISTENCY:  the Remove event should be fired after removed.
+                this->Fire_Remove(slot, index);
+            }
+        }
+    }
+    if (m_mask & saotemClear)
+        this->Fire_Clear();
 	m_saot.slot_clear();
 	return S_OK;
 }
@@ -48,7 +66,11 @@ STDMETHODIMP CSAOT::Insert(long Index, long *result)
 	if (result == NULL)
         return E_POINTER;
 	int slot = m_saot.idx_insert(Index);
+    if (slot == -1)                     // Index > Size()
+        return E_INVALIDARG;
     *result = slot;
+    if (m_mask & saotemAdd)
+        this->Fire_Add(slot, Index);
 	return S_OK;
 }
 
@@ -57,12 +79,18 @@ STDMETHODIMP CSAOT::Remove(long Index, long *result)
 	if (result == NULL)
         return E_POINTER;
 	int slot = m_saot.idx_remove(Index);
+    if (slot == -1)
+        return E_INVALIDARG;            // Index out of bounds
+    if (m_mask & saotemRemove)
+        this->Fire_Remove(slot, Index);
     *result = slot;
-	return S_OK;
+    return S_OK;
 }
 
 STDMETHODIMP CSAOT::FindSlot(long Slot, long *result)
 {
+    if (Slot < 0 || Slot >= m_saot.slot_alloc())
+        return E_INVALIDARG;
 	if (result == NULL)
         return E_POINTER;
     index_type index = m_saot.find_slot(Slot);
@@ -109,7 +137,34 @@ STDMETHODIMP CSAOT::Append(long count, long *result)
         return E_INVALIDARG;
     if (result == NULL)
         return E_POINTER;
-    long made = m_saot.idx_append(count);
+    long index_from = m_saot.size();
+    int *slots = NULL;
+    if (m_mask & saotemAdd) {
+        slots = new int[count];
+        if (! slots)
+            return E_OUTOFMEMORY;
+    }
+    long made = m_saot.idx_append(count, slots);
     *result = made;
+    if (m_mask & saotemAdd) {
+        for (long i = 0; i < made; i++) {
+            Fire_Add((long)slots[i], index_from + i);
+        }
+        delete[] slots;
+    }
     return made == count ? S_OK : S_FALSE;
+}
+
+STDMETHODIMP CSAOT::get_EventMask(SAOTEventMaskConstants *pVal)
+{
+	if (pVal == NULL)
+        return E_POINTER;
+    *pVal = m_mask;
+	return S_OK;
+}
+
+STDMETHODIMP CSAOT::put_EventMask(SAOTEventMaskConstants newVal)
+{
+	m_mask = newVal;
+	return S_OK;
 }
