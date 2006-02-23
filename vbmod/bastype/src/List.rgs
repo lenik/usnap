@@ -1,0 +1,26 @@
+HKCR
+{
+	Bastype.List.1 = s 'List Class'
+	{
+		CLSID = s '{B4C78A36-6E54-4E66-A1E9-776E6BA8FB80}'
+	}
+	Bastype.List = s 'List Class'
+	{
+		CLSID = s '{B4C78A36-6E54-4E66-A1E9-776E6BA8FB80}'
+		CurVer = s 'Bastype.List.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {B4C78A36-6E54-4E66-A1E9-776E6BA8FB80} = s 'List Class'
+		{
+			ProgID = s 'Bastype.List.1'
+			VersionIndependentProgID = s 'Bastype.List'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{A2C5D7B2-5074-4051-829C-054554A52194}'
+		}
+	}
+}
