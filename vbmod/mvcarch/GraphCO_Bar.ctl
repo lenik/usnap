@@ -1,84 +1,106 @@
 VERSION 5.00
-Begin VB.UserControl ControllerControl
-   ClientHeight    =   720
+Begin VB.UserControl StatusBarCO
+   Alignable       =   -1  'True
+   ClientHeight    =   555
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   720
+   ClientWidth     =   7485
    InvisibleAtRuntime=   -1  'True
-   Picture         =   "ControllerControl.ctx":0000
-   ScaleHeight     =   720
-   ScaleWidth      =   720
-   ToolboxBitmap   =   "ControllerControl.ctx":74F2
-   Windowless      =   -1  'True
+   ScaleHeight     =   555
+   ScaleWidth      =   7485
+   ToolboxBitmap   =   "StatusBarCO.ctx":0000
 End
-Attribute VB_Name = "ControllerControl"
+Attribute VB_Name = "StatusBarCO"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private Const LOCATION = "MVCArch::ControllerControl"
+Private Const LOCATION = "MVCArch::StatusBarCO"
 
-Private m_Ref As Siblings
-Private m_StartState As String
+Private m_Outer As Siblings
+Private m_kCmd As New SAOT
 
 Implements ControllerObject
+Private WithEvents m_Impl As BasicCO
+Attribute m_Impl.VB_VarHelpID = -1
 
-Public Event Started(InitState As StateObject)
-Public Event Ended(ByVal LastState As StateObject)
-Public Event Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
-Public Event Leave(ByVal CurrentState As StateObject, NextState As StateObject)
+Public Event Started(InitState As StateControl)
+Public Event Ended(ByVal LastState As StateControl)
+Public Event Enter(ByVal PreviousState As StateControl, ByVal CurrentState As StateControl)
+Public Event Leave(ByVal CurrentState As StateControl, NextState As StateControl)
+
+Public Sub Start()
+    ' m_ActiveState = ...
+    ' RaiseEvent Started(ActiveState)
+End Sub
+
+' Return False for termination
+Public Function Process(ByVal Message, Parameters) As Boolean
+    ' Process = False
+    ' RaiseEvent Ended(ActiveState)
+End Function
+
+Public Property Get ActiveState() As StateObject
+End Property
+
+Public Property Get State(ByVal Name As String) As StateObject
+End Property
+
+Public Sub AddCommand(ByVal Name As String, ByVal Title As String)
+End Sub
+
+Public Sub RemoveCommand(ByVal Name As String)
+End Sub
+
+Public Sub ResetCommand()
+End Sub
+
+
+' -o ControllerObject
+Private Property Get ControllerObject_ActiveState() As StateObject
+    Set ControllerObject_ActiveState = ActiveState
+End Property
+
+Private Property Get ControllerObject_State(ByVal Name As String) As StateObject
+    Set ControllerObject_State = State(Name)
+End Property
+
+Private Sub ControllerObject_AddCommand(ByVal Name As String, ByVal Title As String)
+    AddCommand Name, Title
+End Sub
 
 Private Function ControllerObject_Process(ByVal Message As Variant, Parameters As Variant) As Boolean
     ControllerObject_Process = Process(Message, Parameters)
 End Function
 
-Private Sub ControllerObject_RegisterCommand(ByVal Name As String, ByVal Title As String)
-    RegisterCommand Name, Title
+Private Sub ControllerObject_RemoveCommand(ByVal Name As String)
+    RemoveCommand Name
 End Sub
 
-Private Sub ControllerObject_ResetCommands()
-    ResetCommands
+Private Sub ControllerObject_ResetCommand()
+    ResetCommand
 End Sub
 
 Private Sub ControllerObject_Start()
     Start
 End Sub
 
-Private Property Get ControllerObject_State() As StateObject
-    Set ControllerObject_State = State
-End Property
 
-Public Sub Start()
-    Dim State As StateObject
-    Set State = UserControl.ContainedControls
-    RaiseEvent Started(Nothing)
+' <>- BasicCO
+Private Sub m_Impl_Ended(ByVal LastState As StateObject)
+    RaiseEvent Ended(LastState)
 End Sub
 
-Public Function Process(ByVal Message, Parameters) As Boolean
-End Function
-
-Public Property Get State() As StateObject
-End Property
-
-Public Sub RegisterCommand(ByVal Name As String, ByVal Title As String)
+Private Sub m_Impl_Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
+    RaiseEvent Enter(PreviousState, CurrentState)
 End Sub
 
-Public Sub ResetCommands()
+Private Sub m_Impl_Leave(ByVal CurrentState As StateObject, NextState As StateObject)
+    RaiseEvent Leave(CurrentState, NextState)
 End Sub
 
-Private Sub InitReferences()
-    m_Ref = New Siblings
-    m_Ref.SetIndexed UserControl.ContainedControls, "(Parent Form)"
-End Sub
-
-Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
-    ' read...
-    ' init references
-End Sub
-
-Private Sub UserControl_Resize()
-    Width = 720
-    Height = 720
+Private Sub m_Impl_Started(InitState As StateObject)
+    RaiseEvent Started(InitState)
 End Sub

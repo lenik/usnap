@@ -124,6 +124,37 @@ Public Sub Unexpected(Optional msg, Optional loc)
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
+Public Function FindControl(ByVal outer As Object, ByVal key) As Object
+    On Error GoTo NoControls
+    Set FindControl = outer.Controls(key)
+NoControls:
+
+    On Error GoTo NoDef
+    Set FindControl = outer(key)
+NoDef:
+
+    On Error GoTo NotEnum
+    Dim obj As Object
+    For Each obj In outer
+        If Not obj Is Nothing Then
+            If LC.HasMember(obj, "Name") Then
+                If obj.Name = key Then
+                    Set FindControl = obj
+                    Exit Function
+                End If
+            ElseIf LC.HasMember(obj, "name") Then
+                If obj.Name = key Then
+                    Set FindControl = obj
+                    Exit Function
+                End If
+            End If
+        End If
+    Next
+NotEnum:
+
+    Set FindControl = Nothing
+End Function
+
 Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
     Set GetRef = g_Ref(RefType).Ref(Name)
@@ -131,7 +162,7 @@ End Function
 
 Public Function PutRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
-    Set g_Ref(RefType).Ref(Name) = newval
+    g_Ref(RefType).Ref(Name) = newval
 End Function
 
 Public Sub GarbageCollect()

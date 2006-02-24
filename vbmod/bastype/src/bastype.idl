@@ -31,6 +31,19 @@ import "ocidl.idl";
 	};
 	[
 		object,
+		uuid(9A64E934-FB27-4584-904D-2DFFD2D75565),
+		dual,
+		helpstring("IIterator Interface"),
+		pointer_default(unique)
+	]
+	interface IIterator : IDispatch
+	{
+		[id(1), helpstring("method hasNext")] HRESULT hasNext([out, retval]VARIANT_BOOL *result);
+		[id(2), helpstring("method fetch")] HRESULT fetch([out, retval]VARIANT *result);
+		[id(3), helpstring("method remove")] HRESULT remove();
+	};
+	[
+		object,
 		uuid(C5D3407B-D364-4328-BC1A-3C4CCA631DDA),
 		dual,
 		helpstring("IList Interface"),
@@ -43,6 +56,21 @@ import "ocidl.idl";
 		[id(3), helpstring("method pop")] HRESULT pop([out, retval]VARIANT *var);
 		[id(4), helpstring("method unshift")] HRESULT unshift([in]VARIANT *var);
 		[id(5), helpstring("method shift")] HRESULT shift([out, retval]VARIANT *var);
+		[id(6), helpstring("method iterator")] HRESULT iterator([out, retval]IIterator **result);
+	};
+	[
+		object,
+		uuid(9583076E-91BC-4F21-8973-48EEF1BAF567),
+		dual,
+		helpstring("IVector Interface"),
+		pointer_default(unique)
+	]
+	interface IVector : IList
+	{
+		[propget, id(0), helpstring("property item")] HRESULT item([in]long index, [out, retval] VARIANT *pVal);
+		[propput, id(0), helpstring("property item")] HRESULT item([in]long index, [in] VARIANT *newVal);
+		[id(8), helpstring("method insert")] HRESULT insert([in]long index, [in]VARIANT *var);
+		[id(9), helpstring("method remove")] HRESULT remove([in]long index);
 	};
 
 [
@@ -56,11 +84,27 @@ library BasTypeLib
 	importlib("stdole2.tlb");
 
 	[
+		uuid(9F0FD3A4-6DC8-4F5E-A56E-1935D49EE840),
+		helpstring("Iterator Class")
+	]
+	coclass Iterator
+	{
+		[default] interface IIterator;
+	};
+	[
 		uuid(B4C78A36-6E54-4E66-A1E9-776E6BA8FB80),
 		helpstring("List Class")
 	]
 	coclass List
 	{
 		[default] interface IList;
+	};
+	[
+		uuid(B0361D48-3618-4267-9FA5-90FF3849E5A2),
+		helpstring("Vector Class")
+	]
+	coclass Vector
+	{
+		[default] interface IVector;
 	};
 };

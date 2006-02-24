@@ -5,6 +5,8 @@
 #define IDS_PROJNAME                    100
 #define IDR_COMPARABLE                  101
 #define IDR_LIST                        103
+#define IDR_VECTOR                      104
+#define IDR_ITERATOR                    105
 
 // Next default values for new objects
 //
@@ -13,6 +15,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        201
 #define _APS_NEXT_COMMAND_VALUE         32768
 #define _APS_NEXT_CONTROL_VALUE         201
-#define _APS_NEXT_SYMED_VALUE           104
+#define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif

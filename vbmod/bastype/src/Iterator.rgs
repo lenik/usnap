@@ -1,0 +1,26 @@
+HKCR
+{
+	Bastype.Iterator.1 = s 'Iterator Class'
+	{
+		CLSID = s '{9F0FD3A4-6DC8-4F5E-A56E-1935D49EE840}'
+	}
+	Bastype.Iterator = s 'Iterator Class'
+	{
+		CLSID = s '{9F0FD3A4-6DC8-4F5E-A56E-1935D49EE840}'
+		CurVer = s 'Bastype.Iterator.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {9F0FD3A4-6DC8-4F5E-A56E-1935D49EE840} = s 'Iterator Class'
+		{
+			ProgID = s 'Bastype.Iterator.1'
+			VersionIndependentProgID = s 'Bastype.Iterator'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{A2C5D7B2-5074-4051-829C-054554A52194}'
+		}
+	}
+}

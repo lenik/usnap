@@ -62,7 +62,7 @@ Private Const DEFAULT_FONTSIZE          As Integer = 9
 Private Const DEFAULT_FONTBOLD          As Boolean = False
 Private Const DEFAULT_FONTITALIC        As Boolean = False
 Private Const DEFAULT_TITLE             As String = "State"
-Private Const DEFAULT_CONTROLLERNAME    As String = "ControllerControl1"
+Private Const DEFAULT_CONTROLLERNAME    As String = ""
 
 Public Enum StateStyleConstants
     stateNormal = 0
@@ -82,11 +82,6 @@ Private Type StyleInfoType
     FontItalic As Boolean
     Icon As IPictureDisp
 End Type
-
-Public Enum MethodConstants
-    methodGoto = 0
-    methodCall
-End Enum
 
 Private Type StateCommandType
     Name As String                      ' The name will be passed as "message" to Process event
@@ -378,7 +373,7 @@ Public Property Let Icon(ByVal newval As IPictureDisp)
     Redraw                              ' position
 End Property
 
-Private Property Get Controller() As ControllerControl
+Private Property Get Controller() As ControllerObject
     On Error GoTo NotExisted
     Set Controller = UserControl.ParentControls(m_ControllerName)
 NotExisted:
@@ -526,6 +521,14 @@ Public Sub RemoveCommand(ByVal Index As Integer)
         End With
     Next
     m_Commands = m_Commands - 1
+    RedrawArrows
+    RedrawButtons
+End Sub
+
+Public Sub ResetCommand()
+    m_Commands = 0
+    RedrawArrows
+    RedrawButtons
 End Sub
 
 Friend Property Get Siblings() As Siblings

@@ -29,7 +29,7 @@ Public Function KeySet() As Collection
     Set KeySet = New Collection
     For Each ent In m_Entries
         ' Assert no duplicated ent.key
-        KeySet.Add ent.Key
+        KeySet.Add ent.key
     Next
 End Function
 
@@ -43,48 +43,49 @@ Public Function Values()
     ReDim vlist(n)
     n = 0
     For Each ent In m_Entries
-        LC.Assign vlist(n), ent.Value
+        LC.Assign vlist(n), ent.value
         n = n + 1
     Next
     Values = vlist
 End Function
 
-Public Property Get Item(Key)
+Public Property Get Item(key)
+Attribute Item.VB_UserMemId = 0
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(Key))
-    LC.Assign Item, ent.Value
+    Set ent = m_Entries(CStr(key))
+    LC.Assign Item, ent.value
     Exit Property
 NotExist:
     Item = Null
 End Property
 
-Public Property Let Item(Key, Value)
+Public Property Let Item(key, value)
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(Key))
-    ent.Value = Value
+    Set ent = m_Entries(CStr(key))
+    ent.value = value
     Exit Property
 NotExist:
     Set ent = New Entry
-    ent.Key = Key
-    ent.Value = Value
-    m_Entries.Add ent, CStr(Key)
+    ent.key = key
+    ent.value = value
+    m_Entries.Add ent, CStr(key)
 End Property
 
-Public Function Contain(Key) As Boolean
+Public Function Contain(key) As Boolean
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(Key))
+    Set ent = m_Entries(CStr(key))
     Contain = True
 NotExist:
 End Function
 
-Public Function Remove(Key) As Boolean
+Public Function Remove(key) As Boolean
     Dim ent  As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(Key))
-    m_Entries.Remove CStr(Key)
+    Set ent = m_Entries(CStr(key))
+    m_Entries.Remove CStr(key)
     Remove = True
 NotExist:
 End Function
@@ -93,7 +94,7 @@ Public Function Walk(it As Iterator) As Long
     Dim ent As Entry
     Walk = 0
     For Each ent In m_Entries
-        If Not it.Iterate(ent.Key, ent.Value) Then
+        If Not it.Iterate(ent.key, ent.value) Then
             Exit Function
         End If
         Walk = Walk + 1

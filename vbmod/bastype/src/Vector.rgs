@@ -1,0 +1,26 @@
+HKCR
+{
+	Bastype.Vector.1 = s 'Vector Class'
+	{
+		CLSID = s '{B0361D48-3618-4267-9FA5-90FF3849E5A2}'
+	}
+	Bastype.Vector = s 'Vector Class'
+	{
+		CLSID = s '{B0361D48-3618-4267-9FA5-90FF3849E5A2}'
+		CurVer = s 'Bastype.Vector.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {B0361D48-3618-4267-9FA5-90FF3849E5A2} = s 'Vector Class'
+		{
+			ProgID = s 'Bastype.Vector.1'
+			VersionIndependentProgID = s 'Bastype.Vector'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{A2C5D7B2-5074-4051-829C-054554A52194}'
+		}
+	}
+}

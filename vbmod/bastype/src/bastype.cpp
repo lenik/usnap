@@ -12,12 +12,16 @@
 
 #include "bastype_i.c"
 #include "List.h"
+#include "Vector.h"
+#include "Iterator.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
 OBJECT_ENTRY(CLSID_List, CList)
+OBJECT_ENTRY(CLSID_Vector, CVector)
+OBJECT_ENTRY(CLSID_Iterator, CIterator)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

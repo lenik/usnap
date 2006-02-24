@@ -9,6 +9,22 @@ Begin VB.Form Form3
    ScaleHeight     =   4350
    ScaleWidth      =   6690
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command4
+      Caption         =   "ref"
+      Height          =   675
+      Left            =   5040
+      TabIndex        =   4
+      Top             =   3060
+      Width           =   1035
+   End
+   Begin VB.CommandButton Command3
+      Caption         =   "Findcontrol"
+      Height          =   615
+      Left            =   4920
+      TabIndex        =   3
+      Top             =   1860
+      Width           =   1095
+   End
    Begin VB.CommandButton Command2
       Caption         =   "Command2"
       Height          =   735
@@ -27,9 +43,9 @@ Begin VB.Form Form3
    End
    Begin VB.ListBox List1
       Height          =   2400
-      Left            =   900
+      Left            =   480
       TabIndex        =   0
-      Top             =   1800
+      Top             =   1560
       Width           =   3975
    End
 End
@@ -52,6 +68,17 @@ End Sub
 
 Private Sub Command2_Click()
     MsgBox config.runas
+End Sub
+
+Private Sub Command3_Click()
+    MsgBox TypeName(FindControl(Me, "Command3"))
+End Sub
+
+Private Sub Command4_Click()
+    ref(vbxSoftReference, "Hello") = Me
+    MsgBox TypeName(ref(vbxSoftReference, "Hello"))
+    GarbageCollect
+    MsgBox TypeName(ref(vbxSoftReference, "Hello"))
 End Sub
 
 Private Sub Form_Load()

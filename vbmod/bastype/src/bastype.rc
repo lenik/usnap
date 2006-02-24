@@ -96,6 +96,8 @@ END
 //
 
 IDR_LIST                REGISTRY DISCARDABLE    "List.rgs"
+IDR_VECTOR              REGISTRY DISCARDABLE    "Vector.rgs"
+IDR_ITERATOR            REGISTRY DISCARDABLE    "Iterator.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //

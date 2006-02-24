@@ -75,6 +75,10 @@ Public Sub Unexpected(Optional msg, Optional loc)
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
+Public Function FindControl(ByVal outer As Object, ByVal key) As Object
+    Set FindControl = GlobalsSingleton.FindControl(outer, key)
+End Function
+
 Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
     Set Ref = GlobalsSingleton.GetRef(RefType, Name)
 End Property

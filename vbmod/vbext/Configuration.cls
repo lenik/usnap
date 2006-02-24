@@ -29,14 +29,14 @@ Implements IDynamicObject
 ' IDynamicObject::DynamicIndex
 Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
     Dim ce
-    LC.Assign ce, m_EntryName.Item(Name)
+    LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then IDynamicObject_DynamicIndex = ce.Id
 End Function
 
 ' IDynamicObject::DynamicInvoke
 Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal methodIndex As Long, Parameters As Variant) As Variant
     Dim ce
-    LC.Assign ce, m_EntryId.Item(methodIndex)
+    LC.Assign ce, m_EntryId(methodIndex)
     Assert Not IsNull(ce)
 
     Select Case itype
@@ -61,13 +61,13 @@ Private Sub SetEntry(Name, ce)
         ce.Id = m_NextId
         m_NextId = m_NextId + 1
     End If
-    m_EntryName.Item(Name) = ce
-    m_EntryId.Item(ce.Id) = ce
+    m_EntryName(Name) = ce
+    m_EntryId(ce.Id) = ce
 End Sub
 
 Private Function RemoveEntry(Name) As Boolean
     Dim ce
-    LC.Assign ce, m_EntryName.Item(Name)
+    LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then
         m_EntryName.Remove Name
         m_EntryId.Remove ce.Id
@@ -101,7 +101,7 @@ Private Sub LoadConfig(ByVal Section As String)
         Dim j As Integer
         Dim ce
 
-        Set node = nodelist.Item(i)
+        Set node = nodelist(i)
         Name = Empty
         Type_ = TextType
         value = Empty
@@ -169,13 +169,13 @@ End Sub
 
 Public Property Get Item(Name)
     Dim ce
-    LC.Assign ce, m_EntryName.Item(Name)
+    LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then LC.Assign Item, ce.value
 End Property
 
 Public Property Let Item(Name, value)
     Dim ce
-    LC.Assign ce, m_EntryName.Item(Name)
+    LC.Assign ce, m_EntryName(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
         LC.Assign ce.value, value

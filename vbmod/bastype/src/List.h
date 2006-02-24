@@ -6,7 +6,7 @@
 #include "resource.h"       // main symbols
 
 #include <list>
-typedef std::list<VARIANT> VARIANTS;
+typedef std::list<VARIANT> varlist;
 
 /////////////////////////////////////////////////////////////////////////////
 // CList
@@ -15,7 +15,7 @@ class ATL_NO_VTABLE CList :
 	public CComCoClass<CList, &CLSID_List>,
 	public IDispatchImpl<IList, &IID_IList, &LIBID_BasTypeLib>
 {
-    VARIANTS m_vars;
+    varlist m_vars;
 
 public:
 	CList();
@@ -32,6 +32,7 @@ END_COM_MAP()
 
 // IList
 public:
+	STDMETHOD(iterator)(/*[out, retval]*/IIterator **result);
 	STDMETHOD(shift)(/*[out, retval]*/VARIANT *var);
 	STDMETHOD(unshift)(/*[in]*/VARIANT *var);
 	STDMETHOD(pop)(/*[out, retval]*/VARIANT *var);

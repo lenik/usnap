@@ -21,20 +21,27 @@ Public Event Enter(ByVal PreviousState As StateObject, ByVal CurrentState As Sta
 Public Event Leave(ByVal CurrentState As StateObject, NextState As StateObject)
 
 Public Sub Start()
-    RaiseEvent Started(Nothing)
+    ' m_ActiveState = ...
+    ' RaiseEvent Started(ActiveState)
 End Sub
 
 ' Return False for termination
 Public Function Process(ByVal Message, Parameters) As Boolean
-    Process = False
+    ' Process = False
+    ' RaiseEvent Ended(ActiveState)
 End Function
 
-Public Property Get State() As StateObject
-    Set State = Nothing
+Public Property Get ActiveState() As StateObject
 End Property
 
-Public Sub RegisterCommand(ByVal Name As String, ByVal Title As String)
+Public Property Get State(ByVal Name As String) As StateObject
+End Property
+
+Public Sub AddCommand(ByVal Name As String, ByVal Title As String)
 End Sub
 
-Public Sub ResetCommands()
+Public Sub RemoveCommand(ByVal Name As String)
+End Sub
+
+Public Sub ResetCommand()
 End Sub
