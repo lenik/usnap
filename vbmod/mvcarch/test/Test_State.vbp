@@ -1,7 +1,7 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
 Form=Form2.frm
-Object={529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#16.0#0; MVCArch.ocx
+Object={529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#18.0#0; MVCArch.ocx
 Startup="Form2"
 Command32=""
 Name="Test_State"

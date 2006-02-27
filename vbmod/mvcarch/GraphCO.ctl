@@ -1,25 +1,40 @@
 VERSION 5.00
-Begin VB.UserControl FavoriteBox
-   Appearance      =   0  'Flat
-   BackColor       =   &H80000005&
-   BorderStyle     =   1  'Fixed Single
-   ClientHeight    =   1500
+Begin VB.UserControl GraphCO
+   AutoRedraw      =   -1  'True
+   ClientHeight    =   3600
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   1500
+   ClientWidth     =   4800
    ControlContainer=   -1  'True
-   ScaleHeight     =   100
-   ScaleMode       =   3  'Pixel
-   ScaleWidth      =   100
-   ToolboxBitmap   =   "FavoriteBox.ctx":0000
+   EditAtDesignTime=   -1  'True
+   InvisibleAtRuntime=   -1  'True
+   ScaleHeight     =   3600
+   ScaleWidth      =   4800
 End
-Attribute VB_Name = "FavoriteBox"
+Attribute VB_Name = "GraphCO"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private Const LOCATION = "MVCArch::GraphCO"
+
+Private m_Context As Object
+Private m_kCmd As New SAOT
+
+Implements ControllerObject
+Private WithEvents m_Impl As BasicCO
+Attribute m_Impl.VB_VarHelpID = -1
+
+Public Event Started(InitState As GraphSO)
+Public Event Ended(ByVal LastState As GraphSO)
+Public Event Enter(ByVal PreviousState As GraphSO, ByVal CurrentState As GraphSO)
+Public Event Leave(ByVal CurrentState As GraphSO, NextState As GraphSO)
+
+'
+' <Favorite Box Copy>
+'
 Private Const MARGIN = 1
 Private Const BORDER = 1
 Private Const SHAPE_SIZE = 10
@@ -27,7 +42,7 @@ Private Const SHAPE_PAD = 2
 Private Const TITLE_PAD = 5
 
 Private Const DEFAULT_COLLAPSED = False
-Private Const DEFAULT_TITLE = "Favorite Box"
+Private Const DEFAULT_TITLE = "Controller"
 Private Const DEFAULT_EXPANDEDWIDTH = 100
 Private Const DEFAULT_EXPANDEDHEIGHT = 100
 
@@ -66,6 +81,154 @@ Event Hide() 'MappingInfo=UserControl,UserControl,-1,Hide
 Event DblClick() 'MappingInfo=UserControl,UserControl,-1,DblClick
 
 
+'
+' Controller Impl.
+'
+Public Sub Start()
+    ' m_ActiveState = ...
+    ' RaiseEvent Started(ActiveState)
+End Sub
+
+' Return False for termination
+Public Function Process(ByVal Message, Optional Parameters) As Boolean
+    ' Process = False
+    ' RaiseEvent Ended(ActiveState)
+End Function
+
+Public Property Get ActiveState() As GraphSO
+End Property
+
+Public Property Get State(ByVal name As String) As GraphSO
+End Property
+
+Public Function AddCommand(ByVal cmd As StateObjectCommand) As StateObjectCommand
+End Function
+
+Public Sub RemoveCommand(ByVal index As Integer)
+End Sub
+
+Public Sub ResetCommand()
+End Sub
+
+Private Property Get Context() As Object
+    If m_Context Is Nothing Then Set m_Context = Parent
+    Set Context = m_Context
+End Property
+
+Function PixelX(ByVal v As Single) As Integer
+    PixelX = ScaleX(v, UserControl.ScaleMode, vbPixels)
+End Function
+Function PixelY(ByVal v As Single) As Integer
+    PixelY = ScaleY(v, UserControl.ScaleMode, vbPixels)
+End Function
+
+Public Sub Redraw()
+    UserControl.Cls
+    RedrawIcon
+    RedrawTitle
+    RedrawArrows
+    UserControl.Refresh
+End Sub
+
+Private Sub RedrawArrows()
+    ' Using outline'bordercolor to draw arrow-line
+    ' Using title'forecolor to draw caption
+
+    If Context Is Nothing Then Exit Sub
+
+    Dim ctrls As Map
+    Dim name
+    Dim obj As Object
+
+    Set ctrls = FindControls(Context)
+
+    For Each name In ctrls.KeySet
+        Set obj = ctrls(name)
+        If TypeName(obj) = "GraphSO" Then
+            Dim so As GraphSO
+            Dim i As Integer
+            Dim ct As Object
+
+            Set so = obj
+            For i = 0 To so.Commands - 1
+                With so.Command(i)
+                Set ct = .Target(Context)
+                    If Not ct Is Nothing Then
+                        Dim x0, y0, x1, y1
+                        x0 = obj.Left + obj.Width / 2
+                        y0 = obj.Top + obj.Height / 2
+                        x1 = ct.Left + ct.Width / 2
+                        y1 = ct.Top + ct.Height / 2
+
+                        x0 = PixelX(x0)
+                        y0 = PixelY(y0)
+                        x1 = PixelX(x1)
+                        y1 = PixelY(y1)
+                        Lines.Arrow hDC, IIf(so.Command(i).Method = methodGoto, arrowNormal, arrowNormalDbl), _
+                                    x0, y0, x1, y1
+
+                        Dim size As SIZEL
+                        GetTextExtentPoint hDC, .Title, strlen(.Title), size
+
+                        TextOut hDC, (x0 + x1) / 2 - size.cx / 2, (y0 + y1) / 2 - size.cy / 2, _
+                                .Title, strlen(.Title)
+                    End If
+                End With
+            Next
+        End If
+    Next
+End Sub
+
+' -o ControllerObject
+Private Property Get ControllerObject_ActiveState() As StateObject
+    Set ControllerObject_ActiveState = ActiveState
+End Property
+
+Private Property Get ControllerObject_State(ByVal name As String) As StateObject
+    Set ControllerObject_State = State(name)
+End Property
+
+Private Function ControllerObject_AddCommand(ByVal cmd As StateObjectCommand) As Integer
+    ControllerObject_AddCommand = AddCommand(cmd)
+End Function
+
+Private Function ControllerObject_Process(ByVal Message As Variant, Optional Parameters As Variant) As Boolean
+    ControllerObject_Process = Process(Message, Parameters)
+End Function
+
+Private Sub ControllerObject_RemoveCommand(ByVal index As Integer)
+    RemoveCommand index
+End Sub
+
+Private Sub ControllerObject_ResetCommand()
+    ResetCommand
+End Sub
+
+Private Sub ControllerObject_Start()
+    Start
+End Sub
+
+
+' <>- BasicCO
+Private Sub m_Impl_Ended(ByVal LastState As StateObject)
+    RaiseEvent Ended(LastState)
+End Sub
+
+Private Sub m_Impl_Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
+    RaiseEvent Enter(PreviousState, CurrentState)
+End Sub
+
+Private Sub m_Impl_Leave(ByVal CurrentState As StateObject, NextState As StateObject)
+    RaiseEvent Leave(CurrentState, NextState)
+End Sub
+
+Private Sub m_Impl_Started(InitState As StateObject)
+    RaiseEvent Started(InitState)
+End Sub
+
+'
+' <Favorite Box Copy>
+'
 Public Property Get Collapsed() As Boolean
     Collapsed = m_Collapsed
 End Property
@@ -81,7 +244,7 @@ Public Property Let Collapsed(ByVal newval As Boolean)
         Width = m_ExpandedWidth
         Height = m_ExpandedHeight
     End If
-    UserControl.Refresh
+    Redraw
 End Property
 
 Public Property Get Title() As String
@@ -114,7 +277,7 @@ Sub InitShapes()
     Next
 End Sub
 
-Sub RedrawIcon()
+Private Sub RedrawIcon()
     If m_Collapsed Then
         Polygon hDC, m_ShapeCollapsed(0), 3
     Else
@@ -122,7 +285,7 @@ Sub RedrawIcon()
     End If
 End Sub
 
-Sub RedrawTitle()
+Private Sub RedrawTitle()
     Dim size As SIZEL
     Dim l As Long
     Dim x As Long, y As Long
@@ -136,20 +299,6 @@ Sub RedrawTitle()
     m_CollapsedHeight = (y + size.cy + MARGIN + BORDER) * Screen.TwipsPerPixelY
 End Sub
 
-
-Private Sub Label1_Click()
-
-End Sub
-
-'Private Sub UserControl_HitTest(X As Single, Y As Single, HitResult As Integer)
-'    If X >= 0 And X < SHAPE_SIZE + SHAPE_PAD And Y >= 0 And Y < SHAPE_SIZE + SHAPE_PAD Then
-'        Collapsed = Not Collapsed
-'        HitResult = vbHitResultHit
-'    Else
-'        HitResult = vbHitResultOutside
-'    End If
-'End Sub
-
 Private Sub UserControl_Initialize()
     InitShapes
 End Sub
@@ -159,11 +308,6 @@ Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Sing
         Collapsed = Not Collapsed
     End If
     RaiseEvent MouseDown(Button, Shift, x, y)
-End Sub
-
-Private Sub UserControl_Paint()
-    RedrawIcon
-    RedrawTitle
 End Sub
 
 Private Sub UserControl_InitProperties()

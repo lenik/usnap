@@ -27,7 +27,6 @@ Private Const DEFAULT_METHOD            As Integer = methodGoto
 Private Const DEFAULT_VISIBLE           As Boolean = True
 Private Const DEFAULT_TITLE             As String = ""
 
-Private m_Context
 Private m_Name As String                ' The name will be passed as "message" to Process event
 Private m_Default As Boolean            ' Default command
 Private m_TargetName As String          ' Target state name
@@ -38,10 +37,10 @@ Private m_Icon As IPictureDisp          ' Button icon
 
 Event Changed()
 
-Public Property Get Name() As String
-    Name = m_Name
+Public Property Get name() As String
+    name = m_Name
 End Property
-Public Property Let Name(ByVal newval As String)
+Public Property Let name(ByVal newval As String)
     If m_Name <> newval Then
         m_Name = newval
         RaiseEvent Changed
@@ -89,7 +88,7 @@ Public Property Let Visible(ByVal newval As Boolean)
 End Property
 
 Public Property Get Title() As String
-    Title = m_Title
+    Title = IIf(m_Title = "", m_Name, m_Title)
 End Property
 Public Property Let Title(ByVal newval As String)
     If m_Title <> newval Then
@@ -106,4 +105,8 @@ Public Property Let Icon(ByVal newval As IPictureDisp)
         Set m_Icon = newval
         RaiseEvent Changed
     End If
+End Property
+
+Public Property Get Target(Context) As Object
+    Set Target = FindControl(Context, m_TargetName)
 End Property

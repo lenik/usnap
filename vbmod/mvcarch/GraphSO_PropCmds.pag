@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#25.0#0"; "VBUserExt.ocx"
-Begin VB.PropertyPage StateControl_Commands
+Begin VB.PropertyPage GraphSO_PropCmds
    Caption         =   "Commands"
    ClientHeight    =   3360
    ClientLeft      =   0
@@ -20,8 +20,8 @@ Begin VB.PropertyPage StateControl_Commands
       StaticLayout    =   0   'False
       BorderLeft      =   0
       BorderTop       =   0
-      Begin MVCArch.StateControl_Command cmd
-         Height          =   375
+      Begin MVCArch.GraphSO_PropCmd cmd
+         Height          =   315
          Index           =   0
          Left            =   0
          TabIndex        =   9
@@ -29,7 +29,7 @@ Begin VB.PropertyPage StateControl_Commands
          Visible         =   0   'False
          Width           =   5895
          _ExtentX        =   10398
-         _ExtentY        =   661
+         _ExtentY        =   556
       End
    End
    Begin VB.CommandButton cmdClear
@@ -187,7 +187,7 @@ Begin VB.PropertyPage StateControl_Commands
       Width           =   480
    End
 End
-Attribute VB_Name = "StateControl_Commands"
+Attribute VB_Name = "GraphSO_PropCmds"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -205,6 +205,7 @@ Private m_AddMode As Integer
 Private WithEvents Ker As SAOT
 Attribute Ker.VB_VarHelpID = -1
 
+' For debug purpose.
 Property Get KerInfo() As String
     Dim i As Integer
     Dim slots() As Long
@@ -220,30 +221,29 @@ Property Get KerInfo() As String
     Next
 End Property
 
-Private Property Get State() As StateControl
+Private Property Get State() As GraphSO
     On Error GoTo NotAState
     Set State = PropertyPage.SelectedControls(0)
 NotAState:
 End Property
 
-Private Sub cmd_Changed(Index As Integer)
+Private Sub cmd_Changed(index As Integer)
     Changed
 End Sub
 
-Private Sub cmd_Remove(Index As Integer)
-    Ker.SlotRemove Index
+Private Sub cmd_Remove(index As Integer)
+    Ker.SlotRemove index
     Changed
     Layout
 End Sub
 
-Private Sub cmd_SetDefault(Index As Integer)
+Private Sub cmd_SetDefault(index As Integer)
     Dim i As Integer
     For i = 0 To Ker.Size - 1
-        If i <> Index Then
+        If i <> index Then
             cmd(i).CommandDefault = False
         End If
     Next
-    Changed
 End Sub
 
 Private Sub cmdAdd_Click()
@@ -261,7 +261,7 @@ Private Sub CmdAlloc(ByVal slot As Integer)
     On Error GoTo AlreadyLoaded
     Load cmd(slot)
 AlreadyLoaded:
-    cmd(slot).Initialize State.Siblings
+    cmd(slot).SetTargets State.context
     cmd(slot).Visible = True
 End Sub
 Private Sub CmdFree(ByVal slot As Integer)
@@ -271,19 +271,19 @@ Private Sub CmdFree(ByVal slot As Integer)
 NotyetLoaded:
 End Sub
 
-Private Sub Ker_Add(ByVal slot As Long, ByVal Index As Long)
+Private Sub Ker_Add(ByVal slot As Long, ByVal index As Long)
     CmdAlloc slot
     With cmd(slot)
         If m_AddMode = LOAD_EXISTS Then
-            .CommandName = State.CommandName(Index)
-            .CommandMethod = State.CommandMethod(Index)
-            .CommandTarget = State.CommandTargetName(Index)
-            .CommandDefault = State.CommandDefault(Index)
-            .CommandVisible = State.CommandVisible(Index)
-            .CommandTitle = State.CommandTitle(Index)
+            .CommandName = State.Command(index).name
+            .CommandMethod = State.Command(index).Method
+            .CommandTarget = State.Command(index).TargetName
+            .CommandDefault = State.Command(index).Default
+            .CommandVisible = State.Command(index).Visible
+            .CommandTitle = State.Command(index).Title
             ' .Icon = ...
         ElseIf m_AddMode = LOAD_DEFAULTS Then
-            .CommandName = "Name" & Index
+            .CommandName = "Name" & index
             .CommandMethod = methodGoto
             '.CommandTarget = ""
             .CommandDefault = False
@@ -294,7 +294,7 @@ Private Sub Ker_Add(ByVal slot As Long, ByVal Index As Long)
     End With
 End Sub
 
-Private Sub Ker_Remove(ByVal slot As Long, ByVal Index As Long)
+Private Sub Ker_Remove(ByVal slot As Long, ByVal index As Long)
     CmdFree slot
 End Sub
 
@@ -331,7 +331,7 @@ End Function
 Private Sub Layout()
     Dim n As Integer
     Dim slots() As Long
-    Dim Index As Integer
+    Dim index As Integer
     Dim slot As Integer, slot1 As Integer
     Dim oldSV As Single
     n = Ker.Size
@@ -344,9 +344,9 @@ Private Sub Layout()
     oldSV = scCommands.ScrollV
     scCommands.ScrollV = 0              ' ScrollV to top
     cmd(slots(0)).Top = 0
-    For Index = 1 To n - 1
-        slot = slots(Index)
-        slot1 = slots(Index - 1)
+    For index = 1 To n - 1
+        slot = slots(index)
+        slot1 = slots(index - 1)
         cmd(slot).Top = cmd(slot1).Top + cmd(slot1).Height + ByPixelY(SLOT_PADDING_V)
     Next
     scCommands.ScrollV = oldSV

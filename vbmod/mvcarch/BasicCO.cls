@@ -15,13 +15,7 @@ Option Explicit
 
 Private Const LOCATION = "MVCArch::ControllerControl"
 
-Private m_Outer As Object
-Private m_StartName As String
-Private m_Cmd() As StateObjectCommand
-Private WithEvents k_Cmd As SAOT
-Attribute k_Cmd.VB_VarHelpID = -1
-
-Public Event CommandChange()
+Private m_Context As Object
 
 Implements ControllerObject
 Public Event Started(InitState As StateObject)
@@ -43,65 +37,21 @@ End Function
 Public Property Get ActiveState() As StateObject
 End Property
 
-Public Property Get State(ByVal Name As String) As StateObject
+Public Property Get State(ByVal name As String) As StateObject
 End Property
-
-Public Function AddCommand(ByVal Name As String, ByVal Title As String) As Integer
-    Dim Index As Integer
-    Dim slot As Integer
-    Index = k_Cmd.Size
-    k_Cmd.Append 1
-    slot = k_Cmd.FindIndex(Index)
-    With m_Cmd(slot)
-        .Name = Name
-        .Title = Title
-    End With
-    AddCommand = Index
-End Function
-
-Public Sub RemoveCommand(ByVal Index As String)
-    k_Cmd.Remove Index
-End Sub
-
-Public Sub ResetCommand()
-    k_Cmd.Clear
-End Sub
-
-Private Sub k_Cmd_Add(ByVal slot As Long, ByVal Index As Long)
-    ReDim Preserve m_Cmd(0 To k_Cmd.SlotAllocated - 1)
-    Set m_Cmd(slot) = New StateObjectCommand
-    RaiseEvent CommandChange
-End Sub
-
-Private Sub k_Cmd_Remove(ByVal slot As Long, ByVal Index As Long)
-    ReDim Preserve m_Cmd(0 To k_Cmd.SlotAllocated - 1)
-
-End Sub
 
 ' -o ControllerObject
 Private Property Get ControllerObject_ActiveState() As StateObject
     ControllerObject_ActiveState = ActiveState
 End Property
 
-Private Property Get ControllerObject_State(ByVal Name As String) As StateObject
-    Set ControllerObject_State = State(Name)
+Private Property Get ControllerObject_State(ByVal name As String) As StateObject
+    Set ControllerObject_State = State(name)
 End Property
 
-Private Sub ControllerObject_AddCommand(ByVal Name As String, ByVal Title As String)
-    AddCommand Name, Title
-End Sub
-
-Private Function ControllerObject_Process(ByVal Message As Variant, Parameters As Variant) As Boolean
+Private Function ControllerObject_Process(ByVal Message As Variant, Optional Parameters As Variant) As Boolean
     ControllerObject_Process = Process(Message, Parameters)
 End Function
-
-Private Sub ControllerObject_RemoveCommand(ByVal Name As String)
-    RemoveCommand Name
-End Sub
-
-Private Sub ControllerObject_ResetCommand()
-    ResetCommand
-End Sub
 
 Private Sub ControllerObject_Start()
     Start

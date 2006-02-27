@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.Form Form3
-   Caption         =   "Form1"
+   Caption         =   "Form3"
    ClientHeight    =   4350
    ClientLeft      =   60
    ClientTop       =   450
@@ -9,12 +9,28 @@ Begin VB.Form Form3
    ScaleHeight     =   4350
    ScaleWidth      =   6690
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command6
+      Caption         =   "Command6"
+      Height          =   375
+      Left            =   480
+      TabIndex        =   6
+      Top             =   120
+      Width           =   1035
+   End
+   Begin VB.CommandButton Command5
+      Caption         =   "FindControls"
+      Height          =   495
+      Left            =   4980
+      TabIndex        =   5
+      Top             =   2700
+      Width           =   1335
+   End
    Begin VB.CommandButton Command4
       Caption         =   "ref"
       Height          =   675
-      Left            =   5040
+      Left            =   4680
       TabIndex        =   4
-      Top             =   3060
+      Top             =   3480
       Width           =   1035
    End
    Begin VB.CommandButton Command3
@@ -57,12 +73,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Command1_Click()
-    Dim Name
+    Dim name
     Dim value
     List1.Clear
-    For Each Name In Application.Attributes
-        value = Application.Item(Name)
-        List1.AddItem Name & " = " & value
+    For Each name In Application.Attributes
+        value = Application.Item(name)
+        List1.AddItem name & " = " & value
     Next
 End Sub
 
@@ -71,7 +87,7 @@ Private Sub Command2_Click()
 End Sub
 
 Private Sub Command3_Click()
-    MsgBox TypeName(FindControl(Me, "Command3"))
+    MsgBox TypeName(findcontrol(Me, "Command3"))
 End Sub
 
 Private Sub Command4_Click()
@@ -81,10 +97,25 @@ Private Sub Command4_Click()
     MsgBox TypeName(ref(vbxSoftReference, "Hello"))
 End Sub
 
+Private Sub Command5_Click()
+    Dim m As map
+    Set m = findcontrols(Me)
+    Dim name
+    For Each name In m.KeySet
+        MsgBox name
+    Next
+End Sub
+
+Private Sub Command6_Click()
+    Dim x As Object
+    Set x = findcontrol(Me, "stuff")
+    MsgBox TypeName(x)
+End Sub
+
 Private Sub Form_Load()
-    Dim Name As String
-    Name = App.EXEName
-    If LCase(Right(Name, 4)) = ".exe" Then Name = Left(Name, Len(Name) - 4)
-    Application.Name = App.EXEName
+    Dim name As String
+    name = App.EXEName
+    If LCase(Right(name, 4)) = ".exe" Then name = Left(name, Len(name) - 4)
+    Application.name = App.EXEName
     Application.HomeDirectory = App.Path
 End Sub

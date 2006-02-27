@@ -26,7 +26,7 @@ Public Sub Start()
 End Sub
 
 ' Return False for termination
-Public Function Process(ByVal Message, Parameters) As Boolean
+Public Function Process(ByVal Message, Optional Parameters) As Boolean
     ' Process = False
     ' RaiseEvent Ended(ActiveState)
 End Function
@@ -34,14 +34,5 @@ End Function
 Public Property Get ActiveState() As StateObject
 End Property
 
-Public Property Get State(ByVal Name As String) As StateObject
+Public Property Get State(ByVal name As String) As StateObject
 End Property
-
-Public Sub AddCommand(ByVal Name As String, ByVal Title As String)
-End Sub
-
-Public Sub RemoveCommand(ByVal Name As String)
-End Sub
-
-Public Sub ResetCommand()
-End Sub

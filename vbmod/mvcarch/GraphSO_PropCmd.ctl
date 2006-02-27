@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.UserControl StateControl_Command
+Begin VB.UserControl GraphSO_PropCmd
    ClientHeight    =   345
    ClientLeft      =   0
    ClientTop       =   0
@@ -7,7 +7,6 @@ Begin VB.UserControl StateControl_Command
    ScaleHeight     =   23
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   392
-   ToolboxBitmap   =   "StateControl_Command.ctx":0000
    Begin VB.TextBox txtName
       Height          =   315
       Left            =   0
@@ -28,9 +27,9 @@ Begin VB.UserControl StateControl_Command
    End
    Begin VB.ComboBox lstMethod
       Height          =   315
-      ItemData        =   "StateControl_Command.ctx":0312
+      ItemData        =   "GraphSO_PropCmd.ctx":0000
       Left            =   840
-      List            =   "StateControl_Command.ctx":031C
+      List            =   "GraphSO_PropCmd.ctx":000A
       Style           =   2  'Dropdown List
       TabIndex        =   1
       ToolTipText     =   "Command Type"
@@ -70,7 +69,7 @@ Begin VB.UserControl StateControl_Command
       Width           =   1215
    End
 End
-Attribute VB_Name = "StateControl_Command"
+Attribute VB_Name = "GraphSO_PropCmd"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -79,7 +78,6 @@ Option Explicit
 
 Private Const LOCATION = "MVCArch::StateControl_Command"
 
-Private m_Ref As Siblings
 Private m_Default As Boolean
 Private m_EventLock As Integer
 
@@ -95,19 +93,16 @@ Private Sub UnlockEvent()
     Assert m_EventLock >= 0, "Unlock without lock", LOCATION
 End Sub
 
-Public Sub Initialize(Ref As Siblings)
-    Set m_Ref = Ref
-    RefreshStateObjects
-End Sub
-
-Private Sub RefreshStateObjects()
-    Dim Name
+Public Sub SetTargets(context)
+    Dim Target
     lstTarget.Clear
-    For Each Name In m_Ref.Objects.KeySet
-        If TypeName(m_Ref.Objects.Item(Name)) = "StateControl" Then
-            lstTarget.AddItem Name
-        End If
-    Next
+    With FindControls(context)
+        For Each Target In .KeySet
+            If TypeName(.Item(Target)) = "GraphSO" Then
+                lstTarget.AddItem Target
+            End If
+        Next
+    End With
 End Sub
 
 Private Sub chkDefault_Click()
@@ -179,13 +174,13 @@ Public Property Get CommandTarget() As String
 End Property
 
 Public Property Let CommandTarget(ByVal newval As String)
-    Dim i
-    For i = 0 To lstTarget.ListCount - 1
-        If LCase(newval) = LCase(lstTarget.List(i)) Then
-            lstTarget.ListIndex = i
-            Exit Property
-        End If
-    Next
+    'Dim i
+    'For i = 0 To lstTarget.ListCount - 1
+    '    If LCase(newval) = LCase(lstTarget.List(i)) Then
+    '        lstTarget.ListIndex = i
+    '        Exit Property
+    '    End If
+    'Next
     'Assert False, "StateControl: " & newval & " isn't existed", LOCATION
     lstTarget.Text = newval
 End Property
@@ -196,6 +191,7 @@ End Property
 
 Public Property Let CommandDefault(ByVal newval As Boolean)
     LockEvent
+    m_Default = newval
     chkDefault.Value = IIf(newval, vbChecked, vbUnchecked)
     UnlockEvent
 End Property

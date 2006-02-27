@@ -79,6 +79,10 @@ Public Function FindControl(ByVal outer As Object, ByVal key) As Object
     Set FindControl = GlobalsSingleton.FindControl(outer, key)
 End Function
 
+Public Function FindControls(ByVal outer As Object) As Map
+    Set FindControls = GlobalsSingleton.FindControls(outer)
+End Function
+
 Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
     Set Ref = GlobalsSingleton.GetRef(RefType, Name)
 End Property
