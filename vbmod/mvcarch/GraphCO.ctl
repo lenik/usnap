@@ -10,6 +10,7 @@ Begin VB.UserControl GraphCO
    InvisibleAtRuntime=   -1  'True
    ScaleHeight     =   3600
    ScaleWidth      =   4800
+   ToolboxBitmap   =   "GraphCO.ctx":0000
 End
 Attribute VB_Name = "GraphCO"
 Attribute VB_GlobalNameSpace = False
@@ -152,18 +153,37 @@ Private Sub RedrawArrows()
             Set so = obj
             For i = 0 To so.Commands - 1
                 With so.Command(i)
-                Set ct = .Target(Context)
+                If .Visible = True Then
+                    Set ct = .Target(Context)
                     If Not ct Is Nothing Then
-                        Dim x0, y0, x1, y1
+                        Dim x0 As Single, y0 As Single, x1 As Single, y1 As Single
+                        Dim dx As Single, dy As Single
+                        Dim a As Single, b As Single, p As Single
                         x0 = obj.Left + obj.Width / 2
                         y0 = obj.Top + obj.Height / 2
                         x1 = ct.Left + ct.Width / 2
                         y1 = ct.Top + ct.Height / 2
 
+                        dx = x1 - x0
+                        dy = y1 - y0
+                        a = obj.Width / 2
+                        b = obj.Height / 2
+                        p = Sqr(dx * dx / a / a + dy * dy / b / b)
+                        x0 = x0 + dx / p
+                        y0 = y0 + dy / p
+
+                        a = ct.Width / 2
+                        b = ct.Height / 2
+                        p = Sqr(dx * dx / a / a + dy * dy / b / b)
+                        x1 = x1 - dx / p
+                        y1 = y1 - dy / p
+
                         x0 = PixelX(x0)
                         y0 = PixelY(y0)
                         x1 = PixelX(x1)
                         y1 = PixelY(y1)
+
+                        Me.ForeColor = so.ForeColor
                         Lines.Arrow hDC, IIf(so.Command(i).Method = methodGoto, arrowNormal, arrowNormalDbl), _
                                     x0, y0, x1, y1
 
@@ -173,6 +193,7 @@ Private Sub RedrawArrows()
                         TextOut hDC, (x0 + x1) / 2 - size.cx / 2, (y0 + y1) / 2 - size.cy / 2, _
                                 .Title, strlen(.Title)
                     End If
+                End If
                 End With
             Next
         End If

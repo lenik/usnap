@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#17.0#0"; "MVCArch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#18.0#0"; "MVCArch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
    ClientHeight    =   4695
@@ -40,8 +40,8 @@ Begin VB.Form Form2
       Top             =   4140
    End
    Begin MVCArch.GraphCO GraphCO1
-      Left            =   900
-      Top             =   180
+      Left            =   960
+      Top             =   240
       _ExtentX        =   8916
       _ExtentY        =   7646
       Collapsed       =   0   'False
@@ -54,6 +54,7 @@ Begin VB.Form Form2
       ScaleWidth      =   5055
       ScaleMode       =   1
       ScaleHeight     =   4335
+      ForeColor       =   0
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -125,7 +126,7 @@ Begin VB.Form Form2
       End
       Begin MVCArch.GraphSO soSubA
          Height          =   615
-         Left            =   960
+         Left            =   1020
          TabIndex        =   5
          Top             =   2760
          Width           =   720
@@ -169,7 +170,7 @@ Begin VB.Form Form2
          FontSize        =   9
          FontItalic      =   0   'False
          BackColor       =   16777215
-         ForeColor       =   0
+         ForeColor       =   8421504
          BorderStyle     =   1
          BorderWidth     =   1
          Icon            =   "Form2.frx":0054
@@ -185,7 +186,7 @@ Begin VB.Form Form2
       End
       Begin MVCArch.GraphSO soSubB
          Height          =   615
-         Left            =   3420
+         Left            =   3540
          TabIndex        =   7
          Top             =   2760
          Width           =   720

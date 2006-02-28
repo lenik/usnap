@@ -19,7 +19,6 @@ RevisionVer=8
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H41000000
-VersionCompanyName="CPU-007"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0

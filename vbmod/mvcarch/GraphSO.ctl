@@ -51,6 +51,8 @@ Option Base 0
 
 Private Const LOCATION                  As String = "MVCArch::StateControl"
 Private Const MAX_COMMANDS              As String = 32
+Private Const MIN_WIDTH                 As Integer = 24
+Private Const MIN_HEIGHT                As Integer = 24
 Private Const DEFAULT_TRANSPARENT       As Boolean = False
 Private Const DEFAULT_BACKCOLOR         As Long = &HFFFFFF
 Private Const DEFAULT_FORECOLOR         As Long = &H0&
@@ -331,7 +333,7 @@ End Property
 Public Sub AddCommand(ByVal name As String, ByVal TargetName As String, _
         Optional ByVal Title As String = "", _
         Optional ByVal Default As Boolean = False, _
-        Optional ByVal Method As MethodConstants = methodGoto, _
+        Optional ByVal Method As Integer = methodGoto, _
         Optional ByVal Visible As Boolean = True, _
         Optional ByVal Icon As IPictureDisp = Nothing)
     Assert m_Commands < MAX_COMMANDS, "Too many commands: a state object could have a maximum of " & MAX_COMMANDS & " commands at most", LOCATION
@@ -460,6 +462,12 @@ End Sub
 
 Private Sub UserControl_Resize()
     If Not m_Shown Then Exit Sub
+    If ScaleX(Width, vbTwips) < ScaleX(MIN_WIDTH, vbPixels) Then
+        Width = ScaleX(MIN_WIDTH, vbPixels, vbTwips)
+    End If
+    If ScaleY(Height, vbTwips) < ScaleY(MIN_HEIGHT, vbPixels) Then
+        Height = ScaleY(MIN_HEIGHT, vbPixels, vbTwips)
+    End If
     Redraw
     RedrawArrows
 End Sub

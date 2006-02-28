@@ -24,6 +24,3 @@ Option Explicit
 
 Private Const LOCATION = "MVCArch::GraphCO_Bar"
 
-Private Sub UserControl_Initialize()
-
-End Sub

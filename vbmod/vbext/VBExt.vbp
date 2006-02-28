@@ -39,7 +39,6 @@ RevisionVer=30
 AutoIncrementVer=1
 ServerSupportFiles=0
 DllBaseAddress=&H31000000
-VersionCompanyName="S-FIA & TC"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0
