@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.Recordset.1 = s 'Recordset Class'
+	{
+		CLSID = s '{EF53CBB0-5516-4BB9-89E9-2F125EEECF6C}'
+	}
+	Mapping.Recordset = s 'Recordset Class'
+	{
+		CLSID = s '{EF53CBB0-5516-4BB9-89E9-2F125EEECF6C}'
+		CurVer = s 'Mapping.Recordset.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {EF53CBB0-5516-4BB9-89E9-2F125EEECF6C} = s 'Recordset Class'
+		{
+			ProgID = s 'Mapping.Recordset.1'
+			VersionIndependentProgID = s 'Mapping.Recordset'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

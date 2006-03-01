@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.Command.1 = s 'Command Class'
+	{
+		CLSID = s '{09CBBD2B-F57A-4FE6-B65D-FBBD10CFC8EF}'
+	}
+	Mapping.Command = s 'Command Class'
+	{
+		CLSID = s '{09CBBD2B-F57A-4FE6-B65D-FBBD10CFC8EF}'
+		CurVer = s 'Mapping.Command.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {09CBBD2B-F57A-4FE6-B65D-FBBD10CFC8EF} = s 'Command Class'
+		{
+			ProgID = s 'Mapping.Command.1'
+			VersionIndependentProgID = s 'Mapping.Command'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

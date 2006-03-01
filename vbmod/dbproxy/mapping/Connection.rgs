@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.Connection.1 = s 'Connection Class'
+	{
+		CLSID = s '{4E4A5AE0-A4C0-4DFA-8C83-51E4939E1AC0}'
+	}
+	Mapping.Connection = s 'Connection Class'
+	{
+		CLSID = s '{4E4A5AE0-A4C0-4DFA-8C83-51E4939E1AC0}'
+		CurVer = s 'Mapping.Connection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4E4A5AE0-A4C0-4DFA-8C83-51E4939E1AC0} = s 'Connection Class'
+		{
+			ProgID = s 'Mapping.Connection.1'
+			VersionIndependentProgID = s 'Mapping.Connection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

@@ -1,0 +1,117 @@
+// mapping.idl : IDL source for mapping.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (mapping.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(487159B4-4EA2-48A0-AA60-DE05CB2983DC),
+	version(1.0),
+	helpstring("ADO Interface Mapping 1.0 Type Library")
+]
+library ADOMapping
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+        importlib("C:\Program Files\Common Files\System\ado\msado15.dll");
+
+	[
+		object,
+		uuid(7BA7DF7A-D03B-4147-A3A6-94BA9EB8E4A5),
+		dual,
+		helpstring("IConnection Interface"),
+		pointer_default(unique)
+	]
+	interface IConnection : IDispatch
+	{
+	};
+
+	[
+		uuid(7F96F6F4-7D0D-4FF1-8376-7F052C34F8F1),
+		helpstring("_IConnectionEvents Interface")
+	]
+	dispinterface _IConnectionEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		object,
+		uuid(C26EE01B-C5F7-44A5-9551-66BDCD7963CD),
+		dual,
+		helpstring("IRecordset Interface"),
+		pointer_default(unique)
+	]
+	interface IRecordset : IDispatch
+	{
+	};
+
+	[
+		uuid(ED4E77A5-841E-4923-9915-2D7AA2D4FE2F),
+		helpstring("_IRecordsetEvents Interface")
+	]
+	dispinterface _IRecordsetEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		object,
+		uuid(A0FA3E07-F428-490E-814D-1174F3946351),
+		dual,
+		helpstring("ICommand Interface"),
+		pointer_default(unique)
+	]
+	interface ICommand : IDispatch
+	{
+	};
+
+	[
+		uuid(6B7EC815-6CAF-46A8-9219-85EF3C949681),
+		helpstring("_ICommandEvents Interface")
+	]
+	dispinterface _ICommandEvents
+	{
+		properties:
+		methods:
+	};
+
+	[
+		uuid(4E4A5AE0-A4C0-4DFA-8C83-51E4939E1AC0),
+		helpstring("Connection Class")
+	]
+	coclass P_Connection
+	{
+		[default] interface IConnection;
+                interface _Connection;
+		[default, source] dispinterface _IConnectionEvents;
+	};
+
+	[
+		uuid(09CBBD2B-F57A-4FE6-B65D-FBBD10CFC8EF),
+		helpstring("Command Class")
+	]
+	coclass P_Command
+	{
+		[default] interface ICommand;
+                interface _Command;
+		[default, source] dispinterface _ICommandEvents;
+	};
+
+	[
+		uuid(EF53CBB0-5516-4BB9-89E9-2F125EEECF6C),
+		helpstring("Recordset Class")
+	]
+	coclass P_Recordset
+	{
+		[default] interface IRecordset;
+                interface _Recordset;
+		[default, source] dispinterface _IRecordsetEvents;
+	};
+
+};
