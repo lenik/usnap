@@ -7,7 +7,7 @@ BEGIN
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
 Attribute VB_Name = "Globals"
-Attribute VB_GlobalNameSpace = False
+Attribute VB_GlobalNameSpace = True
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
@@ -18,26 +18,49 @@ Public Property Get ConnectionString() As String
         ConnectionString = Config.ConnectionString
     Else
         ConnectionString = "DRIVER=" & Config.DBDriver & _
-                           ";DBQ=" & Config.DBPath & _
-                           ";UserID=" & Config.DBUserId & _
-                           ";Password=" & Config.DBPassword
-    End If
-End Property
-
-Public Property Get DefaultConnection() As Connection
-    Dim conn As Connection
-
-    Set conn = Dict
-    ' Create the newest versioft of coclass
-    Set conn = CreateObject("ADODB.Connection")
-
-    conn.Open ConnectionString
-
-    If Not IsNull(Config.dbdatabase) Then
-        conn.DefaultDatabase = Config.dbdatabase
+                           ";SERVER=" & Config.DBServer & _
+                           ";UID=" & Config.DBUserID & _
+                           ";PWD=" & Config.DBPassword
     End If
 End Property
 
 Public Property Get Dict() As DBDict
     Set Dict = GlobalsSingleton.Dict
 End Property
+
+Public Function DBConnectEx(Optional ByVal Driver, _
+                            Optional ByVal Server, _
+                            Optional ByVal Database, _
+                            Optional ByVal UserID, _
+                            Optional ByVal Password, _
+                            Optional ByVal Options As Long = -1&) As DBConnection
+    If IsMissing(Driver) Then Driver = Config.DBDriver
+    If IsMissing(Server) Then Server = Config.DBServer
+    If IsMissing(Database) Then Database = Config.DBDatabase
+    If IsMissing(UserID) Then UserID = Config.DBUserID
+    If IsMissing(Password) Then Password = Config.DBPassword
+
+    Dim connstr As String
+    If Driver <> "" Then connstr = connstr & ";DRIVER={" & Driver & "}"
+    If Server <> "" Then connstr = connstr & ";SERVER=" & Server
+    If Database <> "" Then connstr = connstr & ";DATABASE=" & Database
+    If UserID <> "" Then connstr = connstr & ";UID=" & UserID
+    If Password <> "" Then connstr = connstr & ";PWD=" & Password
+
+    If connstr = "" Then
+        Set DBConnectEx = DBConnect(, Options)
+    Else
+        Set DBConnectEx = DBConnect(Mid(connstr, 2), Options)
+    End If
+End Function
+
+Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Options As Long = -1) As DBConnection
+    Set DBConnect = New DBConnection
+
+    If IsMissing(ConnectionString) Then ConnectionString = Config.DBConnectionString
+    If ConnectionString = "" Then
+        DBConnect.Allocate , , , Options
+    Else
+        DBConnect.Allocate ConnectionString, , , Options
+    End If
+End Function

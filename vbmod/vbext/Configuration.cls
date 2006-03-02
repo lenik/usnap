@@ -168,6 +168,7 @@ Public Sub Reload()
 End Sub
 
 Public Property Get Item(Name)
+Attribute Item.VB_UserMemId = 0
     Dim ce
     LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then LC.Assign Item, ce.value
