@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.ConnectionAdapter.1 = s 'ConnectionAdapter Class'
+	{
+		CLSID = s '{57AF83EC-E40D-484A-97FB-F9A8207202D5}'
+	}
+	Mapping.ConnectionAdapter = s 'ConnectionAdapter Class'
+	{
+		CLSID = s '{57AF83EC-E40D-484A-97FB-F9A8207202D5}'
+		CurVer = s 'Mapping.ConnectionAdapter.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {57AF83EC-E40D-484A-97FB-F9A8207202D5} = s 'ConnectionAdapter Class'
+		{
+			ProgID = s 'Mapping.ConnectionAdapter.1'
+			VersionIndependentProgID = s 'Mapping.ConnectionAdapter'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

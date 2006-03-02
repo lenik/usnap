@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "DBLink"
+Attribute VB_Name = "DBConnection"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -15,7 +15,7 @@ Option Explicit
 
 Private m_Filter As New DBSQLFilter
 
-Implements ADODB.Connection
+'Implements ADOMapping.P_Connection
 
 Public Function Query(ByVal sql As String)
 

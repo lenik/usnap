@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.CommandAdapter.1 = s 'CommandAdapter Class'
+	{
+		CLSID = s '{9674967D-95EF-40ED-BB73-1AF1506D51CF}'
+	}
+	Mapping.CommandAdapter = s 'CommandAdapter Class'
+	{
+		CLSID = s '{9674967D-95EF-40ED-BB73-1AF1506D51CF}'
+		CurVer = s 'Mapping.CommandAdapter.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {9674967D-95EF-40ED-BB73-1AF1506D51CF} = s 'CommandAdapter Class'
+		{
+			ProgID = s 'Mapping.CommandAdapter.1'
+			VersionIndependentProgID = s 'Mapping.CommandAdapter'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.RecordsetAdapter.1 = s 'RecordsetAdapter Class'
+	{
+		CLSID = s '{13534E37-13D6-4438-8B79-830C3D800E88}'
+	}
+	Mapping.RecordsetAdapter = s 'RecordsetAdapter Class'
+	{
+		CLSID = s '{13534E37-13D6-4438-8B79-830C3D800E88}'
+		CurVer = s 'Mapping.RecordsetAdapter.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {13534E37-13D6-4438-8B79-830C3D800E88} = s 'RecordsetAdapter Class'
+		{
+			ProgID = s 'Mapping.RecordsetAdapter.1'
+			VersionIndependentProgID = s 'Mapping.RecordsetAdapter'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

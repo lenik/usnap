@@ -1,3 +1,4 @@
 VBGROUP 5.0
-StartupProject=DBProxy.vbp
-Project=test\Test_Link.vbp
+Project=DBProxy.vbp
+Project=..\test\Test_Link.vbp
+StartupProject=..\mapping\test\Test_Mapping.vbp

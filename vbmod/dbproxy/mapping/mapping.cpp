@@ -11,17 +11,19 @@
 #include "mapping.h"
 #include "mapping_i.c"
 
-#include "Connection.h"
-#include "Recordset.h"
-#include "Command.h"
+#include "ConnectionAdapter.h"
+#include "CommandAdapter.h"
+#include "RecordsetAdapter.h"
+#include "Globals.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
-OBJECT_ENTRY(CLSID_P_Connection, CConnection)
-OBJECT_ENTRY(CLSID_P_Recordset, CRecordset)
-OBJECT_ENTRY(CLSID_P_Command, CCommand)
+OBJECT_ENTRY(CLSID_ConnectionAdapter, CConnectionAdapter)
+OBJECT_ENTRY(CLSID_RecordsetAdapter, CRecordsetAdapter)
+OBJECT_ENTRY(CLSID_CommandAdapter, CCommandAdapter)
+OBJECT_ENTRY(CLSID_Globals, CGlobals)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

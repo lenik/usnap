@@ -1,0 +1,1326 @@
+// Changes to ADO 2.8 Typelib.
+
+		object,
+		uuid(7BA7DF7A-D03B-4147-A3A6-94BA9EB8E4A5),
+		dual,
+		helpstring("IConnection Interface"),
+		pointer_default(unique)
+
+    [
+      object,
+      uuid(10000512-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_Collection Interface"),
+      pointer_default(unique)
+    ]
+    interface _Collection : IDispatch {
+        [id(0x00000001), propget, helpcontext(0x0012c91a)]
+        HRESULT Count([out, retval] long* c);
+        [id(0xfffffffc), restricted]
+        HRESULT _NewEnum([out, retval] IUnknown** ppvObject);
+        [id(0x00000002), helpcontext(0x0012c8da)]
+        HRESULT Refresh();
+    };
+
+    [
+      object,
+      uuid(10000513-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_DynaCollection Interface"),
+      pointer_default(unique)
+    ]
+    interface _DynaCollection : _Collection {
+        [id(0x60030000), helpcontext(0x0012c8b5)]
+        HRESULT Append([in] IDispatch* Object);
+        [id(0x60030001), helpcontext(0x0012c8c4)]
+        HRESULT Delete([in] VARIANT Index);
+    };
+
+    [
+      object,
+      uuid(10000534-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_ADO Interface"),
+      pointer_default(unique)
+    ]
+    interface _ADO : IDispatch {
+        [id(0x000001f4), propget, helpcontext(0x0012c900)]
+        HRESULT Properties([out, retval] Properties** ppvObject);
+    };
+
+    [
+      object,
+      uuid(10000504-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Properties Interface"),
+      pointer_default(unique)
+    ]
+    interface Properties : _Collection {
+        [id(00000000), propget, helpcontext(0x0012c8d1)]
+        HRESULT Item(
+                        [in] VARIANT Index,
+                        [out, retval] Property** ppvObject);
+    };
+
+    [
+      object,
+      uuid(10000503-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Property Interface"),
+      pointer_default(unique)
+    ]
+    interface Property : IDispatch {
+        [id(00000000), propget, helpcontext(0x0012c94d)]
+        HRESULT Value([out, retval] VARIANT* pval);
+        [id(00000000), propput, helpcontext(0x0012c94d)]
+        HRESULT Value([in] VARIANT pval);
+        [id(0x60020002), propget, helpcontext(0x0012c92f)]
+        HRESULT Name([out, retval] BSTR* pbstr);
+        [id(0x60020003), propget, helpcontext(0x0012c94a)]
+        HRESULT Type([out, retval] DataTypeEnum* ptype);
+        [id(0x60020004), propget, helpcontext(0x0012c90d)]
+        HRESULT Attributes([out, retval] long* plAttributes);
+        [id(0x60020004), propput, helpcontext(0x0012c90d)]
+        HRESULT Attributes([in] long plAttributes);
+    };
+
+    [
+      object,
+      uuid(10000500-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Error Interface"),
+      pointer_default(unique)
+    ]
+    interface Error : IDispatch {
+        [id(0x00000001), propget, helpcontext(0x0012c931)]
+        HRESULT Number([out, retval] long* pl);
+        [id(0x00000002), propget, helpcontext(0x0012c944)]
+        HRESULT Source([out, retval] BSTR* pbstr);
+        [id(00000000), propget, helpcontext(0x0012c91f)]
+        HRESULT Description([out, retval] BSTR* pbstr);
+        [id(0x00000003), propget, helpcontext(0x000f4251)]
+        HRESULT HelpFile([out, retval] BSTR* pbstr);
+        [id(0x00000004), propget, helpcontext(0x0012c929)]
+        HRESULT HelpContext([out, retval] long* pl);
+        [id(0x00000005), propget, helpcontext(0x0012c947)]
+        HRESULT SQLState([out, retval] BSTR* pbstr);
+        [id(0x00000006), propget, helpcontext(0x0012c930)]
+        HRESULT NativeError([out, retval] long* pl);
+    };
+
+    [
+      object,
+      uuid(10000501-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Errors Interface"),
+      pointer_default(unique)
+    ]
+    interface Errors : _Collection {
+        [id(00000000), propget, helpcontext(0x0012c8d1)]
+        HRESULT Item(
+                        [in] VARIANT Index,
+                        [out, retval] Error** ppvObject);
+        [id(0x60030001), helpcontext(0x0012c8bd)]
+        HRESULT Clear();
+    };
+
+    [
+      object,
+      uuid(10000508-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Command15 Interface"),
+      pointer_default(unique)
+    ]
+    interface Command15 : _ADO {
+        [id(0x00000001), propget, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([out, retval] _Connection** ppvObject);
+        [id(0x00000001), propputref, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] _Connection* ppvObject);
+        [id(0x00000001), propput, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] VARIANT ppvObject);
+        [id(0x00000002), propget, helpcontext(0x0012c913)]
+        HRESULT CommandText([out, retval] BSTR* pbstr);
+        [id(0x00000002), propput, helpcontext(0x0012c913)]
+        HRESULT CommandText([in] BSTR pbstr);
+        [id(0x00000003), propget, helpcontext(0x0012c914)]
+        HRESULT CommandTimeout([out, retval] long* pl);
+        [id(0x00000003), propput, helpcontext(0x0012c914)]
+        HRESULT CommandTimeout([in] long pl);
+        [id(0x00000004), propget, helpcontext(0x0012c939)]
+        HRESULT Prepared([out, retval] VARIANT_BOOL* pfPrepared);
+        [id(0x00000004), propput, helpcontext(0x0012c939)]
+        HRESULT Prepared([in] VARIANT_BOOL pfPrepared);
+        [id(0x00000005), helpcontext(0x0012c8cb)]
+        HRESULT Execute(
+                        [out, optional] VARIANT* RecordsAffected,
+                        [in, optional] VARIANT* Parameters,
+                        [in, optional, defaultvalue(-1)] long Options,
+                        [out, retval] _Recordset** ppiRs);
+        [id(0x00000006), helpcontext(0x0012c8c2)]
+        HRESULT CreateParameter(
+                        [in, optional, defaultvalue("")] BSTR Name,
+                        [in, optional, defaultvalue(0)] DataTypeEnum Type,
+                        [in, optional, defaultvalue(1)] ParameterDirectionEnum Direction,
+                        [in, optional, defaultvalue(0)] ADO_LONGPTR Size,
+                        [in, optional] VARIANT Value,
+                        [out, retval] _Parameter** ppiprm);
+        [id(00000000), propget, helpcontext(0x0012c8ff)]
+        HRESULT Parameters([out, retval] Parameters** ppvObject);
+        [id(0x00000007), propput, helpcontext(0x0012c915)]
+        HRESULT CommandType([in] CommandTypeEnum plCmdType);
+        [id(0x00000007), propget, helpcontext(0x0012c915)]
+        HRESULT CommandType([out, retval] CommandTypeEnum* plCmdType);
+        [id(0x00000008), propget, helpcontext(0x0012c92f)]
+        HRESULT Name([out, retval] BSTR* pbstrName);
+        [id(0x00000008), propput, helpcontext(0x0012c92f)]
+        HRESULT Name([in] BSTR pbstrName);
+    };
+
+    [
+      object,
+      uuid(10000550-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_Connection Interface"),
+      pointer_default(unique)
+    ]
+    interface _Connection : Connection15 {
+        [id(0x00000015), helpcontext(0x0012c8b8)]
+        HRESULT Cancel();
+    };
+
+    [
+      object,
+      uuid(10000515-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Connection15 Interface"),
+      pointer_default(unique)
+    ]
+    interface Connection15 : _ADO {
+        [id(00000000), propget, helpcontext(0x0012c918)]
+        HRESULT ConnectionString([out, retval] BSTR* pbstr);
+        [id(00000000), propput, helpcontext(0x0012c918)]
+        HRESULT ConnectionString([in] BSTR pbstr);
+        [id(0x00000002), propget, helpcontext(0x0012c914)]
+        HRESULT CommandTimeout([out, retval] long* plTimeout);
+        [id(0x00000002), propput, helpcontext(0x0012c914)]
+        HRESULT CommandTimeout([in] long plTimeout);
+        [id(0x00000003), propget, helpcontext(0x0012c919)]
+        HRESULT ConnectionTimeout([out, retval] long* plTimeout);
+        [id(0x00000003), propput, helpcontext(0x0012c919)]
+        HRESULT ConnectionTimeout([in] long plTimeout);
+        [id(0x00000004), propget, helpcontext(0x0012c94e)]
+        HRESULT Version([out, retval] BSTR* pbstr);
+        [id(0x00000005), helpcontext(0x0012c8bf)]
+        HRESULT Close();
+        [id(0x00000006), helpcontext(0x0012c8cc)]
+        HRESULT Execute(
+                        [in] BSTR CommandText,
+                        [out, optional] VARIANT* RecordsAffected,
+                        [in, optional, defaultvalue(-1)] long Options,
+                        [out, retval] _Recordset** ppiRset);
+        [id(0x00000007), helpcontext(0x0012c8b7)]
+        HRESULT BeginTrans([out, retval] long* TransactionLevel);
+        [id(0x00000008), helpcontext(0x000f4248)]
+        HRESULT CommitTrans();
+        [id(0x00000009), helpcontext(0x000f4249)]
+        HRESULT RollbackTrans();
+        [id(0x0000000a), helpcontext(0x0012c8d6)]
+        HRESULT Open(
+                        [in, optional, defaultvalue("")] BSTR ConnectionString,
+                        [in, optional, defaultvalue("")] BSTR UserID,
+                        [in, optional, defaultvalue("")] BSTR Password,
+                        [in, optional, defaultvalue(-1)] long Options);
+        [id(0x0000000b), propget, helpcontext(0x0012c8fd)]
+        HRESULT Errors([out, retval] Errors** ppvObject);
+        [id(0x0000000c), propget, helpcontext(0x0012c91d)]
+        HRESULT DefaultDatabase([out, retval] BSTR* pbstr);
+        [id(0x0000000c), propput, helpcontext(0x0012c91d)]
+        HRESULT DefaultDatabase([in] BSTR pbstr);
+        [id(0x0000000d), propget, helpcontext(0x0012c92a)]
+        HRESULT IsolationLevel([out, retval] IsolationLevelEnum* Level);
+        [id(0x0000000d), propput, helpcontext(0x0012c92a)]
+        HRESULT IsolationLevel([in] IsolationLevelEnum Level);
+        [id(0x0000000e), propget, helpcontext(0x0012c90d)]
+        HRESULT Attributes([out, retval] long* plAttr);
+        [id(0x0000000e), propput, helpcontext(0x0012c90d)]
+        HRESULT Attributes([in] long plAttr);
+        [id(0x0000000f), propget, helpcontext(0x0012c91b)]
+        HRESULT CursorLocation([out, retval] CursorLocationEnum* plCursorLoc);
+        [id(0x0000000f), propput, helpcontext(0x0012c91b)]
+        HRESULT CursorLocation([in] CursorLocationEnum plCursorLoc);
+        [id(0x00000010), propget, helpcontext(0x0012c92e)]
+        HRESULT Mode([out, retval] ConnectModeEnum* plMode);
+        [id(0x00000010), propput, helpcontext(0x0012c92e)]
+        HRESULT Mode([in] ConnectModeEnum plMode);
+        [id(0x00000011), propget, helpcontext(0x0012c93a)]
+        HRESULT Provider([out, retval] BSTR* pbstr);
+        [id(0x00000011), propput, helpcontext(0x0012c93a)]
+        HRESULT Provider([in] BSTR pbstr);
+        [id(0x00000012), propget, helpcontext(0x0012c948)]
+        HRESULT State([out, retval] long* plObjState);
+        [id(0x00000013), helpcontext(0x0012c8d8)]
+        HRESULT OpenSchema(
+                        [in] SchemaEnum Schema,
+                        [in, optional] VARIANT Restrictions,
+                        [in, optional] VARIANT SchemaID,
+                        [out, retval] _Recordset** pprset);
+    };
+
+    [
+      object,
+      uuid(10000556-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_Recordset Interface"),
+      pointer_default(unique)
+    ]
+    interface _Recordset : Recordset21 {
+        [id(0x00000421), helpcontext(0x0012c8df)]
+        HRESULT Save(
+                        [in, optional] VARIANT Destination,
+                        [in, optional, defaultvalue(0)] PersistFormatEnum PersistFormat);
+    };
+
+    [
+      object,
+      uuid(10000555-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Recordset21 Interface"),
+      pointer_default(unique)
+    ]
+    interface Recordset21 : Recordset20 {
+        [id(0x0000042a), helpcontext(0x001356db)]
+        HRESULT Seek(
+                        [in] VARIANT KeyValues,
+                        [in, optional, defaultvalue(1)] SeekEnum SeekOption);
+        [id(0x0000042b), propput, helpcontext(0x001356da)]
+        HRESULT Index([in] BSTR pbstrIndex);
+        [id(0x0000042b), propget, helpcontext(0x001356da)]
+        HRESULT Index([out, retval] BSTR* pbstrIndex);
+    };
+
+    [
+      object,
+      uuid(1000054F-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Recordset20 Interface"),
+      pointer_default(unique)
+    ]
+    interface Recordset20 : Recordset15 {
+        [id(0x0000041f), helpcontext(0x0012c8b8)]
+        HRESULT Cancel();
+        [id(0x00000420), propget, helpcontext(0x0012dbbe)]
+        HRESULT DataSource([out, retval] IUnknown** ppunkDataSource);
+        [id(0x00000420), propputref, helpcontext(0x0012dbbe)]
+        HRESULT DataSource([in] IUnknown* ppunkDataSource);
+        [id(0x60040003), hidden]
+        HRESULT _xSave(
+                        [in, optional, defaultvalue("")] BSTR FileName,
+                        [in, optional, defaultvalue(0)] PersistFormatEnum PersistFormat);
+        [id(0x00000425), propget, helpcontext(0x0012dbbc)]
+        HRESULT ActiveCommand([out, retval] IDispatch** ppCmd);
+        [id(0x00000427), propput, helpcontext(0x0012dbd0)]
+        HRESULT StayInSync([in] VARIANT_BOOL pbStayInSync);
+        [id(0x00000427), propget, helpcontext(0x0012dbd0)]
+        HRESULT StayInSync([out, retval] VARIANT_BOOL* pbStayInSync);
+        [id(0x00000426), helpcontext(0x0012c8d0)]
+        HRESULT GetString(
+                        [in, optional, defaultvalue(2)] StringFormatEnum StringFormat,
+                        [in, optional, defaultvalue(-1)] long NumRows,
+                        [in, optional, defaultvalue("")] BSTR ColumnDelimeter,
+                        [in, optional, defaultvalue("")] BSTR RowDelimeter,
+                        [in, optional, defaultvalue("")] BSTR NullExpr,
+                        [out, retval] BSTR* pRetString);
+        [id(0x00000428), propget, helpcontext(0x0012dbbd)]
+        HRESULT DataMember([out, retval] BSTR* pbstrDataMember);
+        [id(0x00000428), propput, helpcontext(0x0012dbbd)]
+        HRESULT DataMember([in] BSTR pbstrDataMember);
+        [id(0x00000429), helpcontext(0x0012dba4)]
+        HRESULT CompareBookmarks(
+                        [in] VARIANT Bookmark1,
+                        [in] VARIANT Bookmark2,
+                        [out, retval] CompareEnum* pCompare);
+        [id(0x0000040a), helpcontext(0x0012c8be)]
+        HRESULT Clone(
+                        [in, optional, defaultvalue(-1)] LockTypeEnum LockType,
+                        [out, retval] _Recordset** ppvObject);
+        [id(0x00000400), helpcontext(0x0012c8de)]
+        HRESULT Resync(
+                        [in, optional, defaultvalue(3)] AffectEnum AffectRecords,
+                        [in, optional, defaultvalue(2)] ResyncEnum ResyncValues);
+    };
+
+    [
+      object,
+      uuid(1000050E-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Recordset15 Interface"),
+      pointer_default(unique)
+    ]
+    interface Recordset15 : _ADO {
+        [id(0x000003e8), propget, helpcontext(0x0012c905)]
+        HRESULT AbsolutePosition([out, retval] PositionEnum_Param* pl);
+        [id(0x000003e8), propput, helpcontext(0x0012c905)]
+        HRESULT AbsolutePosition([in] PositionEnum_Param pl);
+        [id(0x000003e9), propputref, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] IDispatch* pvar);
+        [id(0x000003e9), propput, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] VARIANT pvar);
+        [id(0x000003e9), propget, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([out, retval] VARIANT* pvar);
+        [id(0x000003ea), propget, helpcontext(0x0012c910)]
+        HRESULT BOF([out, retval] VARIANT_BOOL* pb);
+        [id(0x000003eb), propget, helpcontext(0x0012c911)]
+        HRESULT Bookmark([out, retval] VARIANT* pvBookmark);
+        [id(0x000003eb), propput, helpcontext(0x0012c911)]
+        HRESULT Bookmark([in] VARIANT pvBookmark);
+        [id(0x000003ec), propget, helpcontext(0x0012c912)]
+        HRESULT CacheSize([out, retval] long* pl);
+        [id(0x000003ec), propput, helpcontext(0x0012c912)]
+        HRESULT CacheSize([in] long pl);
+        [id(0x000003ed), propget, helpcontext(0x0012c91c)]
+        HRESULT CursorType([out, retval] CursorTypeEnum* plCursorType);
+        [id(0x000003ed), propput, helpcontext(0x0012c91c)]
+        HRESULT CursorType([in] CursorTypeEnum plCursorType);
+        [id(0x000003ee), propget, helpcontext(0x000f4250)]
+        HRESULT EOF([out, retval] VARIANT_BOOL* pb);
+        [id(00000000), propget, helpcontext(0x0012c8fe)]
+        HRESULT Fields([out, retval] Fields** ppvObject);
+        [id(0x000003f0), propget, helpcontext(0x0012c92b)]
+        HRESULT LockType([out, retval] LockTypeEnum* plLockType);
+        [id(0x000003f0), propput, helpcontext(0x0012c92b)]
+        HRESULT LockType([in] LockTypeEnum plLockType);
+        [id(0x000003f1), propget, helpcontext(0x0012c92d)]
+        HRESULT MaxRecords([out, retval] ADO_LONGPTR* plMaxRecords);
+        [id(0x000003f1), propput, helpcontext(0x0012c92d)]
+        HRESULT MaxRecords([in] ADO_LONGPTR plMaxRecords);
+        [id(0x000003f2), propget, helpcontext(0x0012c93b)]
+        HRESULT RecordCount([out, retval] ADO_LONGPTR* pl);
+        [id(0x000003f3), propputref, helpcontext(0x0012c945)]
+        HRESULT Source([in] IDispatch* pvSource);
+        [id(0x000003f3), propput, helpcontext(0x0012c945)]
+        HRESULT Source([in] BSTR pvSource);
+        [id(0x000003f3), propget, helpcontext(0x0012c945)]
+        HRESULT Source([out, retval] VARIANT* pvSource);
+        [id(0x000003f4), helpcontext(0x0012c8b4)]
+        HRESULT AddNew(
+                        [in, optional] VARIANT FieldList,
+                        [in, optional] VARIANT Values);
+        [id(0x000003f5), helpcontext(0x0012c8bb)]
+        HRESULT CancelUpdate();
+        [id(0x000003f6), helpcontext(0x0012c8bf)]
+        HRESULT Close();
+        [id(0x000003f7), helpcontext(0x0012c8ca)]
+        HRESULT Delete([in, optional, defaultvalue(1)] AffectEnum AffectRecords);
+        [id(0x000003f8), helpcontext(0x0012c8cf)]
+        HRESULT GetRows(
+                        [in, optional, defaultvalue(-1)] long Rows,
+                        [in, optional] VARIANT Start,
+                        [in, optional] VARIANT Fields,
+                        [out, retval] VARIANT* pvar);
+        [id(0x000003f9), helpcontext(0x0012c8d2)]
+        HRESULT Move(
+                        [in] ADO_LONGPTR NumRecords,
+                        [in, optional] VARIANT Start);
+        [id(0x000003fa), helpcontext(0x000f424b)]
+        HRESULT MoveNext();
+        [id(0x000003fb), helpcontext(0x000f424c)]
+        HRESULT MovePrevious();
+        [id(0x000003fc), helpcontext(0x0012c8d3)]
+        HRESULT MoveFirst();
+        [id(0x000003fd), helpcontext(0x000f424a)]
+        HRESULT MoveLast();
+        [id(0x000003fe), helpcontext(0x0012c8d7)]
+        HRESULT Open(
+                        [in, optional] VARIANT Source,
+                        [in, optional] VARIANT ActiveConnection,
+                        [in, optional, defaultvalue(-1)] CursorTypeEnum CursorType,
+                        [in, optional, defaultvalue(-1)] LockTypeEnum LockType,
+                        [in, optional, defaultvalue(-1)] long Options);
+        [id(0x000003ff), helpcontext(0x0012c8dc)]
+        HRESULT Requery([in, optional, defaultvalue(-1)] long Options);
+        [id(0x60030022), hidden]
+        HRESULT _xResync([in, optional, defaultvalue(3)] AffectEnum AffectRecords);
+        [id(0x00000401), helpcontext(0x0012c8e2)]
+        HRESULT Update(
+                        [in, optional] VARIANT Fields,
+                        [in, optional] VARIANT Values);
+        [id(0x00000417), propget, helpcontext(0x0012c904)]
+        HRESULT AbsolutePage([out, retval] PositionEnum_Param* pl);
+        [id(0x00000417), propput, helpcontext(0x0012c904)]
+        HRESULT AbsolutePage([in] PositionEnum_Param pl);
+        [id(0x00000402), propget, helpcontext(0x0012c921)]
+        HRESULT EditMode([out, retval] EditModeEnum* pl);
+        [id(0x00000406), propget, helpcontext(0x0012c924)]
+        HRESULT Filter([out, retval] VARIANT* Criteria);
+        [id(0x00000406), propput, helpcontext(0x0012c924)]
+        HRESULT Filter([in] VARIANT Criteria);
+        [id(0x0000041a), propget, helpcontext(0x0012c935)]
+        HRESULT PageCount([out, retval] ADO_LONGPTR* pl);
+        [id(0x00000418), propget, helpcontext(0x0012c936)]
+        HRESULT PageSize([out, retval] long* pl);
+        [id(0x00000418), propput, helpcontext(0x0012c936)]
+        HRESULT PageSize([in] long pl);
+        [id(0x00000407), propget, helpcontext(0x0012c941)]
+        HRESULT Sort([out, retval] BSTR* Criteria);
+        [id(0x00000407), propput, helpcontext(0x0012c941)]
+        HRESULT Sort([in] BSTR Criteria);
+        [id(0x00000405), propget, helpcontext(0x0012c949)]
+        HRESULT Status([out, retval] long* pl);
+        [id(0x0000041e), propget, helpcontext(0x0012c948)]
+        HRESULT State([out, retval] long* plObjState);
+        [id(0x60030030), hidden]
+        HRESULT _xClone([out, retval] _Recordset** ppvObject);
+        [id(0x0000040b), helpcontext(0x0012c8e3)]
+        HRESULT UpdateBatch([in, optional, defaultvalue(3)] AffectEnum AffectRecords);
+        [id(0x00000419), helpcontext(0x0012c8ba)]
+        HRESULT CancelBatch([in, optional, defaultvalue(3)] AffectEnum AffectRecords);
+        [id(0x0000041b), propget, helpcontext(0x0012c91b)]
+        HRESULT CursorLocation([out, retval] CursorLocationEnum* plCursorLoc);
+        [id(0x0000041b), propput, helpcontext(0x0012c91b)]
+        HRESULT CursorLocation([in] CursorLocationEnum plCursorLoc);
+        [id(0x0000041c), helpcontext(0x0012c8d5)]
+        HRESULT NextRecordset(
+                        [out, optional] VARIANT* RecordsAffected,
+                        [out, retval] _Recordset** ppiRs);
+        [id(0x0000040c), helpcontext(0x0012c8e1)]
+        HRESULT Supports(
+                        [in] CursorOptionEnum CursorOptions,
+                        [out, retval] VARIANT_BOOL* pb);
+        [id(0xfffffff8), propget, hidden]
+        HRESULT Collect(
+                        [in] VARIANT Index,
+                        [out, retval] VARIANT* pvar);
+        [id(0xfffffff8), propput, hidden]
+        HRESULT Collect(
+                        [in] VARIANT Index,
+                        [in] VARIANT pvar);
+        [id(0x0000041d), propget, helpcontext(0x0012c92c)]
+        HRESULT MarshalOptions([out, retval] MarshalOptionsEnum* peMarshal);
+        [id(0x0000041d), propput, helpcontext(0x0012c92c)]
+        HRESULT MarshalOptions([in] MarshalOptionsEnum peMarshal);
+        [id(0x00000422), helpcontext(0x0012c8cd)]
+        HRESULT Find(
+                        [in] BSTR Criteria,
+                        [in, optional, defaultvalue(0)] ADO_LONGPTR SkipRecords,
+                        [in, optional, defaultvalue(1)] SearchDirectionEnum SearchDirection,
+                        [in, optional] VARIANT Start);
+    };
+
+    [
+      object,
+      uuid(10000564-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Fields Interface"),
+      pointer_default(unique)
+    ]
+    interface Fields : Fields20 {
+        [id(0x00000003), helpcontext(0x0012f05d)]
+        HRESULT Append(
+                        [in] BSTR Name,
+                        [in] DataTypeEnum Type,
+                        [in, optional, defaultvalue(0)] ADO_LONGPTR DefinedSize,
+                        [in, optional, defaultvalue(-1)] FieldAttributeEnum Attrib,
+                        [in, optional] VARIANT FieldValue);
+        [id(0x00000005), helpcontext(0x0012f05e)]
+        HRESULT Update();
+        [id(0x00000006), helpcontext(0x0012f05f)]
+        HRESULT Resync([in, optional, defaultvalue(2)] ResyncEnum ResyncValues);
+        [id(0x00000007), helpcontext(0x0012f060)]
+        HRESULT CancelUpdate();
+    };
+
+    [
+      object,
+      uuid(1000054D-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Fields20 Interface"),
+      pointer_default(unique)
+    ]
+    interface Fields20 : Fields15 {
+        [id(0x60040000), hidden]
+        HRESULT _Append(
+                        [in] BSTR Name,
+                        [in] DataTypeEnum Type,
+                        [in, optional, defaultvalue(0)] ADO_LONGPTR DefinedSize,
+                        [in, optional, defaultvalue(-1)] FieldAttributeEnum Attrib);
+        [id(0x00000004), helpcontext(0x0012f05c)]
+        HRESULT Delete([in] VARIANT Index);
+    };
+
+    [
+      object,
+      uuid(10000506-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Fields15 Interface"),
+      pointer_default(unique)
+    ]
+    interface Fields15 : _Collection {
+        [id(00000000), propget, helpcontext(0x0012c8d1)]
+        HRESULT Item(
+                        [in] VARIANT Index,
+                        [out, retval] Field** ppvObject);
+    };
+
+    [
+      object,
+      uuid(10000569-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c908),
+      helpstring("Field Interface"),
+      pointer_default(unique)
+    ]
+    interface Field : Field20 {
+        [id(0x0000045c), propget, helpcontext(0x0012c90e)]
+        HRESULT Status([out, retval] long* pFStatus);
+    };
+
+    [
+      object,
+      uuid(1000054C-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Field20 Interface"),
+      pointer_default(unique)
+    ]
+    interface Field20 : _ADO {
+        [id(0x00000455), propget, helpcontext(0x0012c90c)]
+        HRESULT ActualSize([out, retval] ADO_LONGPTR* pl);
+        [id(0x0000045a), propget, helpcontext(0x0012c90d)]
+        HRESULT Attributes([out, retval] long* pl);
+        [id(0x0000044f), propget, helpcontext(0x0012c91e)]
+        HRESULT DefinedSize([out, retval] ADO_LONGPTR* pl);
+        [id(0x0000044c), propget, helpcontext(0x0012c92f)]
+        HRESULT Name([out, retval] BSTR* pbstr);
+        [id(0x0000044e), propget, helpcontext(0x0012c94a)]
+        HRESULT Type([out, retval] DataTypeEnum* pDataType);
+        [id(00000000), propget, helpcontext(0x0012c94d)]
+        HRESULT Value([out, retval] VARIANT* pvar);
+        [id(00000000), propput, helpcontext(0x0012c94d)]
+        HRESULT Value([in] VARIANT pvar);
+        [id(0x00000458), propget, helpcontext(0x0012c938)]
+        HRESULT Precision([out, retval] unsigned char* pbPrecision);
+        [id(0x00000459), propget, helpcontext(0x0012c932)]
+        HRESULT NumericScale([out, retval] unsigned char* pbNumericScale);
+        [id(0x00000453), helpcontext(0x0012c8b6)]
+        HRESULT AppendChunk([in] VARIANT Data);
+        [id(0x00000454), helpcontext(0x0012c8ce)]
+        HRESULT GetChunk(
+                        [in] long Length,
+                        [out, retval] VARIANT* pvar);
+        [id(0x00000450), propget, helpcontext(0x0012c934)]
+        HRESULT OriginalValue([out, retval] VARIANT* pvar);
+        [id(0x00000451), propget, helpcontext(0x0012c94b)]
+        HRESULT UnderlyingValue([out, retval] VARIANT* pvar);
+        [id(0x0000045b), propget]
+        HRESULT DataFormat([out, retval] IUnknown** ppiDF);
+        [id(0x0000045b), propputref]
+        HRESULT DataFormat([in] IUnknown* ppiDF);
+        [id(0x00000458), propput, helpcontext(0x0012c938)]
+        HRESULT Precision([in] unsigned char pbPrecision);
+        [id(0x00000459), propput, helpcontext(0x0012c932)]
+        HRESULT NumericScale([in] unsigned char pbNumericScale);
+        [id(0x0000044e), propput, helpcontext(0x0012c94a)]
+        HRESULT Type([in] DataTypeEnum pDataType);
+        [id(0x0000044f), propput, helpcontext(0x0012c91e)]
+        HRESULT DefinedSize([in] ADO_LONGPTR pl);
+        [id(0x0000045a), propput, helpcontext(0x0012c90d)]
+        HRESULT Attributes([in] long pl);
+    };
+
+    typedef [uuid(54D8B4B9-663B-4A9C-95F6-0E749ABD70F1), public]
+    long ADO_LONGPTR;
+
+    [
+      object,
+      uuid(1000050C-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("_Parameter Interface"),
+      pointer_default(unique)
+    ]
+    interface _Parameter : _ADO {
+        [id(0x00000001), propget, helpcontext(0x0012c92f)]
+        HRESULT Name([out, retval] BSTR* pbstr);
+        [id(0x00000001), propput, helpcontext(0x0012c92f)]
+        HRESULT Name([in] BSTR pbstr);
+        [id(00000000), propget, helpcontext(0x0012c94d)]
+        HRESULT Value([out, retval] VARIANT* pvar);
+        [id(00000000), propput, helpcontext(0x0012c94d)]
+        HRESULT Value([in] VARIANT pvar);
+        [id(0x00000002), propget, helpcontext(0x0012c94a)]
+        HRESULT Type([out, retval] DataTypeEnum* psDataType);
+        [id(0x00000002), propput, helpcontext(0x0012c94a)]
+        HRESULT Type([in] DataTypeEnum psDataType);
+        [id(0x00000003), propput, helpcontext(0x0012c920)]
+        HRESULT Direction([in] ParameterDirectionEnum plParmDirection);
+        [id(0x00000003), propget, helpcontext(0x0012c920)]
+        HRESULT Direction([out, retval] ParameterDirectionEnum* plParmDirection);
+        [id(0x00000004), propput, helpcontext(0x0012c938)]
+        HRESULT Precision([in] unsigned char pbPrecision);
+        [id(0x00000004), propget, helpcontext(0x0012c938)]
+        HRESULT Precision([out, retval] unsigned char* pbPrecision);
+        [id(0x00000005), propput, helpcontext(0x0012c932)]
+        HRESULT NumericScale([in] unsigned char pbScale);
+        [id(0x00000005), propget, helpcontext(0x0012c932)]
+        HRESULT NumericScale([out, retval] unsigned char* pbScale);
+        [id(0x00000006), propput, helpcontext(0x0012c940)]
+        HRESULT Size([in] ADO_LONGPTR pl);
+        [id(0x00000006), propget, helpcontext(0x0012c940)]
+        HRESULT Size([out, retval] ADO_LONGPTR* pl);
+        [id(0x00000007), helpcontext(0x0012c8b6)]
+        HRESULT AppendChunk([in] VARIANT Val);
+        [id(0x00000008), propget, helpcontext(0x0012c90d)]
+        HRESULT Attributes([out, retval] long* plParmAttribs);
+        [id(0x00000008), propput, helpcontext(0x0012c90d)]
+        HRESULT Attributes([in] long plParmAttribs);
+    };
+
+    [
+      object,
+      uuid(1000050D-0000-4c82-9E8B-32C8E3C254EC),
+      dual,
+      helpstring("Parameters Interface"),
+      pointer_default(unique)
+    ]
+    interface Parameters : _DynaCollection {
+        [id(00000000), propget, helpcontext(0x0012c8d1)]
+        HRESULT Item(
+                        [in] VARIANT Index,
+                        [out, retval] _Parameter** ppvObject);
+    };
+
+    [
+      object,
+      uuid(1000054E-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("Command25 Interface"),
+      pointer_default(unique)
+    ]
+    interface Command25 : Command15 {
+        [id(0x00000009), propget, helpcontext(0x0012c948)]
+        HRESULT State([out, retval] long* plObjState);
+        [id(0x0000000a), helpcontext(0x0012c8b8)]
+        HRESULT Cancel();
+    };
+
+    [
+      object,
+      uuid(B08400BD-F9D1-4D02-B856-71D5DBA123E9),
+      dual,
+      helpstring("_Command Interface"),
+      pointer_default(unique)
+    ]
+    interface _Command : Command25 {
+        [id(0x0000000b), propputref, helpcontext(0x0012c956)]
+        HRESULT CommandStream([in] IUnknown* pvStream);
+        [id(0x0000000b), propget, helpcontext(0x0012c956)]
+        HRESULT CommandStream([out, retval] VARIANT* pvStream);
+        [id(0x0000000c), propput, helpcontext(0x0012c957)]
+        HRESULT Dialect([in] BSTR pbstrDialect);
+        [id(0x0000000c), propget, helpcontext(0x0012c957)]
+        HRESULT Dialect([out, retval] BSTR* pbstrDialect);
+        [id(0x0000000d), propput, helpcontext(0x0012c958)]
+        HRESULT NamedParameters([in] VARIANT_BOOL pfNamedParameters);
+        [id(0x0000000d), propget, helpcontext(0x0012c958)]
+        HRESULT NamedParameters([out, retval] VARIANT_BOOL* pfNamedParameters);
+    };
+
+    [
+      object,
+      uuid(10000402-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("ConnectionEventsVt Interface"),
+      pointer_default(unique)
+    ]
+    interface ConnectionEventsVt : IUnknown {
+        [helpcontext(0x0012d374)]
+        HRESULT _stdcall InfoMessage(
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x0012d344)]
+        HRESULT _stdcall BeginTransComplete(
+                        [in] long TransactionLevel,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x000f4241)]
+        HRESULT _stdcall CommitTransComplete(
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x000f4242)]
+        HRESULT _stdcall RollbackTransComplete(
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x0012d357)]
+        HRESULT _stdcall WillExecute(
+                        [in, out] BSTR* Source,
+                        [in, out] CursorTypeEnum* CursorType,
+                        [in, out] LockTypeEnum* LockType,
+                        [in, out] long* Options,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Command* pCommand,
+                        [in] _Recordset* pRecordset,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x0012d367)]
+        HRESULT _stdcall ExecuteComplete(
+                        [in] long RecordsAffected,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Command* pCommand,
+                        [in] _Recordset* pRecordset,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x0012d355)]
+        HRESULT _stdcall WillConnect(
+                        [in, out] BSTR* ConnectionString,
+                        [in, out] BSTR* UserID,
+                        [in, out] BSTR* Password,
+                        [in, out] long* Options,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x0012d356)]
+        HRESULT _stdcall ConnectComplete(
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+        [helpcontext(0x000f4243)]
+        HRESULT _stdcall Disconnect(
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Connection* pConnection);
+    };
+
+    [
+      object,
+      uuid(10000403-0000-4c82-9E8B-32C8E3C254EC), hidden,
+      dual,
+      helpstring("RecordsetEventsVt Interface"),
+      pointer_default(unique)
+    ]
+    interface RecordsetEventsVt : IUnknown {
+        [helpcontext(0x0012d377)]
+        HRESULT _stdcall WillChangeField(
+                        [in] long cFields,
+                        [in] VARIANT Fields,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x000f4244)]
+        HRESULT _stdcall FieldChangeComplete(
+                        [in] long cFields,
+                        [in] VARIANT Fields,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d378)]
+        HRESULT _stdcall WillChangeRecord(
+                        [in] EventReasonEnum adReason,
+                        [in] long cRecords,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x000f4245)]
+        HRESULT _stdcall RecordChangeComplete(
+                        [in] EventReasonEnum adReason,
+                        [in] long cRecords,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d379)]
+        HRESULT _stdcall WillChangeRecordset(
+                        [in] EventReasonEnum adReason,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x000f4246)]
+        HRESULT _stdcall RecordsetChangeComplete(
+                        [in] EventReasonEnum adReason,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d376)]
+        HRESULT _stdcall WillMove(
+                        [in] EventReasonEnum adReason,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x000f4247)]
+        HRESULT _stdcall MoveComplete(
+                        [in] EventReasonEnum adReason,
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d37a)]
+        HRESULT _stdcall EndOfRecordset(
+                        [in, out] VARIANT_BOOL* fMoreData,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d47d)]
+        HRESULT _stdcall FetchProgress(
+                        [in] long Progress,
+                        [in] long MaxProgress,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+        [helpcontext(0x0012d47e)]
+        HRESULT _stdcall FetchComplete(
+                        [in] Error* pError,
+                        [in, out] EventStatusEnum* adStatus,
+                        [in] _Recordset* pRecordset);
+    };
+
+    [
+      uuid(10000400-0000-4c82-9E8B-32C8E3C254EC)
+    ]
+    dispinterface ConnectionEvents {
+        properties:
+        methods:
+            [id(00000000), helpcontext(0x0012d374)]
+            HRESULT InfoMessage(
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000001), helpcontext(0x0012d344)]
+            HRESULT BeginTransComplete(
+                            [in] long TransactionLevel,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000003), helpcontext(0x000f4241)]
+            HRESULT CommitTransComplete(
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000002), helpcontext(0x000f4242)]
+            HRESULT RollbackTransComplete(
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000004), helpcontext(0x0012d357)]
+            HRESULT WillExecute(
+                            [in, out] BSTR* Source,
+                            [in, out] CursorTypeEnum* CursorType,
+                            [in, out] LockTypeEnum* LockType,
+                            [in, out] long* Options,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Command* pCommand,
+                            [in] _Recordset* pRecordset,
+                            [in] _Connection* pConnection);
+            [id(0x00000005), helpcontext(0x0012d367)]
+            HRESULT ExecuteComplete(
+                            [in] long RecordsAffected,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Command* pCommand,
+                            [in] _Recordset* pRecordset,
+                            [in] _Connection* pConnection);
+            [id(0x00000006), helpcontext(0x0012d355)]
+            HRESULT WillConnect(
+                            [in, out] BSTR* ConnectionString,
+                            [in, out] BSTR* UserID,
+                            [in, out] BSTR* Password,
+                            [in, out] long* Options,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000007), helpcontext(0x0012d356)]
+            HRESULT ConnectComplete(
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+            [id(0x00000008), helpcontext(0x000f4243)]
+            HRESULT Disconnect(
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Connection* pConnection);
+    };
+
+    [
+      uuid(10000266-0000-4c82-9E8B-32C8E3C254EC)
+    ]
+    dispinterface RecordsetEvents {
+        properties:
+        methods:
+            [id(0x00000009), helpcontext(0x0012d377)]
+            HRESULT WillChangeField(
+                            [in] long cFields,
+                            [in] VARIANT Fields,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000a), helpcontext(0x000f4244)]
+            HRESULT FieldChangeComplete(
+                            [in] long cFields,
+                            [in] VARIANT Fields,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000b), helpcontext(0x0012d378)]
+            HRESULT WillChangeRecord(
+                            [in] EventReasonEnum adReason,
+                            [in] long cRecords,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000c), helpcontext(0x000f4245)]
+            HRESULT RecordChangeComplete(
+                            [in] EventReasonEnum adReason,
+                            [in] long cRecords,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000d), helpcontext(0x0012d379)]
+            HRESULT WillChangeRecordset(
+                            [in] EventReasonEnum adReason,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000e), helpcontext(0x000f4246)]
+            HRESULT RecordsetChangeComplete(
+                            [in] EventReasonEnum adReason,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x0000000f), helpcontext(0x0012d376)]
+            HRESULT WillMove(
+                            [in] EventReasonEnum adReason,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x00000010), helpcontext(0x000f4247)]
+            HRESULT MoveComplete(
+                            [in] EventReasonEnum adReason,
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x00000011), helpcontext(0x0012d37a)]
+            HRESULT EndOfRecordset(
+                            [in, out] VARIANT_BOOL* fMoreData,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x00000012), helpcontext(0x0012d47d)]
+            HRESULT FetchProgress(
+                            [in] long Progress,
+                            [in] long MaxProgress,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+            [id(0x00000013), helpcontext(0x0012d47e)]
+            HRESULT FetchComplete(
+                            [in] Error* pError,
+                            [in, out] EventStatusEnum* adStatus,
+                            [in] _Recordset* pRecordset);
+    };
+
+    [
+      odl,
+      uuid(10000516-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADOConnectionConstruction15 : IUnknown {
+        [propget]
+        HRESULT _stdcall DSO([out, retval] IUnknown** ppDSO);
+        [propget]
+        HRESULT _stdcall Session([out, retval] IUnknown** ppSession);
+        HRESULT _stdcall WrapDSOandSession(
+                        [in] IUnknown* pDSO,
+                        [in] IUnknown* pSession);
+    };
+
+    [
+      odl,
+      uuid(10000551-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADOConnectionConstruction : ADOConnectionConstruction15 {
+    };
+
+    [
+      uuid(10000514-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c901),
+      licensed
+    ]
+    coclass Connection {
+        [default] interface _Connection;
+        [default, source] dispinterface ConnectionEvents;
+    };
+
+    [
+      odl,
+      uuid(10000562-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012cc8e),
+      hidden,
+      dual,
+      oleautomation
+    ]
+    interface _Record : _ADO {
+        [id(0x00000001), propget, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([out, retval] VARIANT* pvar);
+        [id(0x00000001), propput, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] BSTR pvar);
+        [id(0x00000001), propputref, helpcontext(0x0012c90b)]
+        HRESULT ActiveConnection([in] _Connection* pvar);
+        [id(0x00000002), propget, helpcontext(0x0012cc80)]
+        HRESULT State([out, retval] ObjectStateEnum* pState);
+        [id(0x00000003), propget, helpcontext(0x0012cc81)]
+        HRESULT Source([out, retval] VARIANT* pvar);
+        [id(0x00000003), propput, helpcontext(0x0012cc81)]
+        HRESULT Source([in] BSTR pvar);
+        [id(0x00000003), propputref, helpcontext(0x0012cc81)]
+        HRESULT Source([in] IDispatch* pvar);
+        [id(0x00000004), propget, helpcontext(0x0012cc82)]
+        HRESULT Mode([out, retval] ConnectModeEnum* pMode);
+        [id(0x00000004), propput, helpcontext(0x0012cc82)]
+        HRESULT Mode([in] ConnectModeEnum pMode);
+        [id(0x00000005), propget, helpcontext(0x0012cc83)]
+        HRESULT ParentURL([out, retval] BSTR* pbstrParentURL);
+        [id(0x00000006), helpcontext(0x0012cc84)]
+        HRESULT MoveRecord(
+                        [in, optional, defaultvalue("")] BSTR Source,
+                        [in, optional, defaultvalue("")] BSTR Destination,
+                        [in, optional, defaultvalue("")] BSTR UserName,
+                        [in, optional, defaultvalue("")] BSTR Password,
+                        [in, optional, defaultvalue(-1)] MoveRecordOptionsEnum Options,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL Async,
+                        [out, retval] BSTR* pbstrNewURL);
+        [id(0x00000007), helpcontext(0x0012cc85)]
+        HRESULT CopyRecord(
+                        [in, optional, defaultvalue("")] BSTR Source,
+                        [in, optional, defaultvalue("")] BSTR Destination,
+                        [in, optional, defaultvalue("")] BSTR UserName,
+                        [in, optional, defaultvalue("")] BSTR Password,
+                        [in, optional, defaultvalue(-1)] CopyRecordOptionsEnum Options,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL Async,
+                        [out, retval] BSTR* pbstrNewURL);
+        [id(0x00000008), helpcontext(0x0012cc86)]
+        HRESULT DeleteRecord(
+                        [in, optional, defaultvalue("")] BSTR Source,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL Async);
+        [id(0x00000009), helpcontext(0x0012cc87)]
+        HRESULT Open(
+                        [in, optional] VARIANT Source,
+                        [in, optional] VARIANT ActiveConnection,
+                        [in, optional, defaultvalue(0)] ConnectModeEnum Mode,
+                        [in, optional, defaultvalue(-1)] RecordCreateOptionsEnum CreateOptions,
+                        [in, optional, defaultvalue(-1)] RecordOpenOptionsEnum Options,
+                        [in, optional, defaultvalue("")] BSTR UserName,
+                        [in, optional, defaultvalue("")] BSTR Password);
+        [id(0x0000000a), helpcontext(0x0012cc88)]
+        HRESULT Close();
+        [id(00000000), propget, helpcontext(0x0012cc89)]
+        HRESULT Fields([out, retval] Fields** ppFlds);
+        [id(0x0000000b), propget, helpcontext(0x0012cc8a)]
+        HRESULT RecordType([out, retval] RecordTypeEnum* ptype);
+        [id(0x0000000c), helpcontext(0x0012cc8d)]
+        HRESULT GetChildren([out, retval] _Recordset** pprset);
+        [id(0x0000000d), helpcontext(0x0012cc8c)]
+        HRESULT Cancel();
+    };
+
+    [
+      uuid(10000560-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012cc8e),
+      licensed
+    ]
+    coclass Record {
+        [default] interface _Record;
+    };
+
+    [
+      odl,
+      uuid(10000565-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012ccc7),
+      hidden,
+      dual,
+      oleautomation
+    ]
+    interface _Stream : IDispatch {
+        [id(0x00000001), propget, helpcontext(0x0012ccb2)]
+        HRESULT Size([out, retval] ADO_LONGPTR* pSize);
+        [id(0x00000002), propget, helpcontext(0x0012ccb3)]
+        HRESULT EOS([out, retval] VARIANT_BOOL* pEOS);
+        [id(0x00000003), propget, helpcontext(0x0012ccb4)]
+        HRESULT Position([out, retval] ADO_LONGPTR* pPos);
+        [id(0x00000003), propput, helpcontext(0x0012ccb4)]
+        HRESULT Position([in] ADO_LONGPTR pPos);
+        [id(0x00000004), propget, helpcontext(0x0012ccb5)]
+        HRESULT Type([out, retval] StreamTypeEnum* ptype);
+        [id(0x00000004), propput, helpcontext(0x0012ccb5)]
+        HRESULT Type([in] StreamTypeEnum ptype);
+        [id(0x00000005), propget, helpcontext(0x0012ccb6)]
+        HRESULT LineSeparator([out, retval] LineSeparatorEnum* pLS);
+        [id(0x00000005), propput, helpcontext(0x0012ccb6)]
+        HRESULT LineSeparator([in] LineSeparatorEnum pLS);
+        [id(0x00000006), propget, helpcontext(0x0012ccb7)]
+        HRESULT State([out, retval] ObjectStateEnum* pState);
+        [id(0x00000007), propget, helpcontext(0x0012ccb8)]
+        HRESULT Mode([out, retval] ConnectModeEnum* pMode);
+        [id(0x00000007), propput, helpcontext(0x0012ccb8)]
+        HRESULT Mode([in] ConnectModeEnum pMode);
+        [id(0x00000008), propget, helpcontext(0x0012ccb9)]
+        HRESULT Charset([out, retval] BSTR* pbstrCharset);
+        [id(0x00000008), propput, helpcontext(0x0012ccb9)]
+        HRESULT Charset([in] BSTR pbstrCharset);
+        [id(0x00000009), helpcontext(0x0012ccba)]
+        HRESULT Read(
+                        [in, optional, defaultvalue(-1)] long NumBytes,
+                        [out, retval] VARIANT* pval);
+        [id(0x0000000a), helpcontext(0x0012ccbb)]
+        HRESULT Open(
+                        [in, optional] VARIANT Source,
+                        [in, optional, defaultvalue(0)] ConnectModeEnum Mode,
+                        [in, optional, defaultvalue(-1)] StreamOpenOptionsEnum Options,
+                        [in, optional, defaultvalue("")] BSTR UserName,
+                        [in, optional, defaultvalue("")] BSTR Password);
+        [id(0x0000000b), helpcontext(0x0012ccbc)]
+        HRESULT Close();
+        [id(0x0000000c), helpcontext(0x0012ccbd)]
+        HRESULT SkipLine();
+        [id(0x0000000d), helpcontext(0x0012ccbe)]
+        HRESULT Write([in] VARIANT Buffer);
+        [id(0x0000000e), helpcontext(0x0012ccbf)]
+        HRESULT SetEOS();
+        [id(0x0000000f), helpcontext(0x0012ccc0)]
+        HRESULT CopyTo(
+                        [in] _Stream* DestStream,
+                        [in, optional, defaultvalue(-1)] ADO_LONGPTR CharNumber);
+        [id(0x00000010), helpcontext(0x0012ccc1)]
+        HRESULT Flush();
+        [id(0x00000011), helpcontext(0x0012ccc2)]
+        HRESULT SaveToFile(
+                        [in] BSTR FileName,
+                        [in, optional, defaultvalue(1)] SaveOptionsEnum Options);
+        [id(0x00000012), helpcontext(0x0012ccc3)]
+        HRESULT LoadFromFile([in] BSTR FileName);
+        [id(0x00000013), helpcontext(0x0012ccc4)]
+        HRESULT ReadText(
+                        [in, optional, defaultvalue(-1)] long NumChars,
+                        [out, retval] BSTR* pbstr);
+        [id(0x00000014), helpcontext(0x0012ccc5)]
+        HRESULT WriteText(
+                        [in] BSTR Data,
+                        [in, optional, defaultvalue(0)] StreamWriteEnum Options);
+        [id(0x00000015), helpcontext(0x0012ccc6)]
+        HRESULT Cancel();
+    };
+
+    [
+      uuid(10000566-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012ccc7),
+      licensed
+    ]
+    coclass Stream {
+        [default] interface _Stream;
+    };
+
+    [
+      odl,
+      uuid(10000567-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADORecordConstruction : IDispatch {
+        [propget]
+        HRESULT _stdcall Row([out, retval] IUnknown** ppRow);
+        [propput]
+        HRESULT _stdcall Row([in] IUnknown* ppRow);
+        [propput]
+        HRESULT _stdcall ParentRow([in] IUnknown* rhs);
+    };
+
+    [
+      odl,
+      uuid(10000568-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADOStreamConstruction : IDispatch {
+        [propget]
+        HRESULT _stdcall Stream([out, retval] IUnknown** ppStm);
+        [propput]
+        HRESULT _stdcall Stream([in] IUnknown* ppStm);
+    };
+
+    [
+      odl,
+      uuid(10000517-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADOCommandConstruction : IUnknown {
+        [propget]
+        HRESULT _stdcall OLEDBCommand([out, retval] IUnknown** ppOLEDBCommand);
+        [propput]
+        HRESULT _stdcall OLEDBCommand([in] IUnknown* ppOLEDBCommand);
+    };
+
+    [
+      uuid(10000507-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c902),
+      licensed
+    ]
+    coclass Command {
+        [default] interface _Command;
+    };
+
+    [
+      uuid(10000535-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c903),
+      licensed
+    ]
+    coclass Recordset {
+        [default] interface _Recordset;
+        [default, source] dispinterface RecordsetEvents;
+    };
+
+    [
+      odl,
+      uuid(10000283-0000-4c82-9E8B-32C8E3C254EC),
+      restricted
+    ]
+    interface ADORecordsetConstruction : IDispatch {
+        [propget]
+        HRESULT _stdcall Rowset([out, retval] IUnknown** ppRowset);
+        [propput]
+        HRESULT _stdcall Rowset([in] IUnknown* ppRowset);
+        [propget]
+        HRESULT _stdcall Chapter([out, retval] ADO_LONGPTR* plChapter);
+        [propput]
+        HRESULT _stdcall Chapter([in] ADO_LONGPTR plChapter);
+        [propget]
+        HRESULT _stdcall RowPosition([out, retval] IUnknown** ppRowPos);
+        [propput]
+        HRESULT _stdcall RowPosition([in] IUnknown* ppRowPos);
+    };
+
+    [
+      odl,
+      uuid(10000505-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c908),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface Field15 : _ADO {
+        [id(0x00000455), propget, helpcontext(0x0012c90c)]
+        HRESULT ActualSize([out, retval] ADO_LONGPTR* pl);
+        [id(0x0000045a), propget, helpcontext(0x0012c90d)]
+        HRESULT Attributes([out, retval] long* pl);
+        [id(0x0000044f), propget, helpcontext(0x0012c91e)]
+        HRESULT DefinedSize([out, retval] ADO_LONGPTR* pl);
+        [id(0x0000044c), propget, helpcontext(0x0012c92f)]
+        HRESULT Name([out, retval] BSTR* pbstr);
+        [id(0x0000044e), propget, helpcontext(0x0012c94a)]
+        HRESULT Type([out, retval] DataTypeEnum* pDataType);
+        [id(00000000), propget, helpcontext(0x0012c94d)]
+        HRESULT Value([out, retval] VARIANT* pvar);
+        [id(00000000), propput, helpcontext(0x0012c94d)]
+        HRESULT Value([in] VARIANT pvar);
+        [id(0x00000458), propget, helpcontext(0x0012c938)]
+        HRESULT Precision([out, retval] unsigned char* pbPrecision);
+        [id(0x00000459), propget, helpcontext(0x0012c932)]
+        HRESULT NumericScale([out, retval] unsigned char* pbNumericScale);
+        [id(0x00000453), helpcontext(0x0012c8b6)]
+        HRESULT AppendChunk([in] VARIANT Data);
+        [id(0x00000454), helpcontext(0x0012c8ce)]
+        HRESULT GetChunk(
+                        [in] long Length,
+                        [out, retval] VARIANT* pvar);
+        [id(0x00000450), propget, helpcontext(0x0012c934)]
+        HRESULT OriginalValue([out, retval] VARIANT* pvar);
+        [id(0x00000451), propget, helpcontext(0x0012c94b)]
+        HRESULT UnderlyingValue([out, retval] VARIANT* pvar);
+    };
+
+    [
+      uuid(1000050B-0000-4c82-9E8B-32C8E3C254EC),
+      helpcontext(0x0012c909),
+      licensed
+    ]
+    coclass Parameter {
+        [default] interface _Parameter;
+    };

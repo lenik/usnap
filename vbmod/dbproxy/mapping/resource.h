@@ -3,9 +3,10 @@
 // Used by mapping.rc
 //
 #define IDS_PROJNAME                    100
-#define IDR_CONNECTION                  104
-#define IDR_RECORDSET                   105
-#define IDR_COMMAND                     106
+#define IDR_CONNECTIONADAPTER           108
+#define IDR_COMMANDADAPTER              109
+#define IDR_RECORDSETADAPTER            110
+#define IDR_GLOBALS                     111
 
 // Next default values for new objects
 //
@@ -14,6 +15,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        201
 #define _APS_NEXT_COMMAND_VALUE         32768
 #define _APS_NEXT_CONTROL_VALUE         201
-#define _APS_NEXT_SYMED_VALUE           107
+#define _APS_NEXT_SYMED_VALUE           112
 #endif
 #endif

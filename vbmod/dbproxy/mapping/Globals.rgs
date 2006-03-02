@@ -1,0 +1,26 @@
+HKCR
+{
+	Mapping.Globals.1 = s 'Globals Class'
+	{
+		CLSID = s '{E58DE534-6E51-45BF-AD8C-7E02C09B2758}'
+	}
+	Mapping.Globals = s 'Globals Class'
+	{
+		CLSID = s '{E58DE534-6E51-45BF-AD8C-7E02C09B2758}'
+		CurVer = s 'Mapping.Globals.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E58DE534-6E51-45BF-AD8C-7E02C09B2758} = s 'Globals Class'
+		{
+			ProgID = s 'Mapping.Globals.1'
+			VersionIndependentProgID = s 'Mapping.Globals'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{487159B4-4EA2-48A0-AA60-DE05CB2983DC}'
+		}
+	}
+}

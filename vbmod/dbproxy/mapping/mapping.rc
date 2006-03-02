@@ -95,9 +95,10 @@ END
 // REGISTRY
 //
 
-IDR_CONNECTION          REGISTRY DISCARDABLE    "Connection.rgs"
-IDR_RECORDSET           REGISTRY DISCARDABLE    "Recordset.rgs"
-IDR_COMMAND             REGISTRY DISCARDABLE    "Command.rgs"
+IDR_CONNECTIONADAPTER   REGISTRY DISCARDABLE    "ConnectionAdapter.rgs"
+IDR_COMMANDADAPTER      REGISTRY DISCARDABLE    "CommandAdapter.rgs"
+IDR_RECORDSETADAPTER    REGISTRY DISCARDABLE    "RecordsetAdapter.rgs"
+IDR_GLOBALS             REGISTRY DISCARDABLE    "Globals.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //
