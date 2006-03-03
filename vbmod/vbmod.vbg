@@ -1,5 +1,6 @@
 VBGROUP 5.0
 Project=vbext\VBExt.vbp
-Project=crypt\ModCrypt.vbp
 Project=vbuserext\VBUserExt.vbp
 Project=mvcarch\MVCArch.vbp
+Project=dbproxy\impl\DBProxy.vbp
+StartupProject=critpatches\CritPatches.vbp
