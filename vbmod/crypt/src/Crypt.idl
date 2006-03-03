@@ -1,0 +1,20 @@
+// Crypt.idl : IDL source for Crypt.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Crypt.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(D8D70B81-644C-48F2-ABC2-3FCEC3B21BCA),
+	version(1.0),
+	helpstring("Visual Basic 6.0 Binary Process: Encrypt/Decrypt 1.0")
+]
+library CryptLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};
