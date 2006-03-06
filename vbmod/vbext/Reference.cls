@@ -16,12 +16,12 @@ Option Base 0
 
 ' Tag Class
 
-Public Property Get Ref(ByVal Name As String) As Object
+Public Property Get Ref() As Object
 Attribute Ref.VB_Description = "Dereference"
 Attribute Ref.VB_UserMemId = 0
 End Property
 
-Public Property Let Ref(ByVal Name As String, ByVal newval As Object)
+Public Property Let Ref(ByVal newval As Object)
 End Property
 
 Public Sub Collect()

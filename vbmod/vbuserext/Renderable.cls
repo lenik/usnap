@@ -6,22 +6,14 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "StrongReference"
+Attribute VB_Name = "Renderable"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 Option Explicit
 
-Private m_Ref As New Collection
+' Tag Class
 
-Implements Reference
-
-Private Property Get Reference_Ref() As Object
-End Property
-
-Private Property Let Reference_Ref(ByVal rhs As Object)
-End Property
-
-Private Sub Reference_Collect()
+Public Sub Render(ByVal hDC As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, Optional ByVal mode As Long = 0)
 End Sub

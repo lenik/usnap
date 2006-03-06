@@ -43,12 +43,12 @@ Public Property Get ReleaseMode() As Boolean
 End Property
 
 ' COPY GlobalsSingleton.Assert
-Public Sub Assert(x, Optional msg, Optional loc)
+Public Sub Assert(X, Optional msg, Optional loc)
     If Not g_DebugMode Then Exit Sub
-    If IsObject(x) Then
-        If Not x Is Nothing Then Exit Sub
+    If IsObject(X) Then
+        If Not X Is Nothing Then Exit Sub
     End If
-    If Not x Then
+    If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
@@ -56,12 +56,12 @@ Public Sub Assert(x, Optional msg, Optional loc)
 End Sub
 
 ' COPY GlobalsSingleton.Warning
-Public Sub Warning(x, Optional msg, Optional loc)
+Public Sub Warning(X, Optional msg, Optional loc)
     If Not g_DebugMode Then Exit Sub
-    If IsObject(x) Then
-        If Not x Is Nothing Then Exit Sub
+    If IsObject(X) Then
+        If Not X Is Nothing Then Exit Sub
     End If
-    If Not x Then
+    If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
@@ -102,3 +102,7 @@ End Sub
 Public Sub UnregisterSystemEventListener(ByVal Name As String)
     GlobalsSingleton.UnregisterSystemEventListener Name
 End Sub
+
+Public Property Get Cached() As Cached
+    Set Cached = g_Cached
+End Property

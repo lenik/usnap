@@ -26,6 +26,8 @@ Public g_Ref(MAX_REFTYPE) As Reference
 Public g_SystemEventListeners As New Collection
 Public g_IsInitialized As Boolean
 
+Public g_Cached As New Cached
+
 Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
     If g_IsInitialized Then Exit Sub
 
@@ -94,24 +96,24 @@ Public Property Get RootFile() As String
     End If
 End Property
 
-Public Sub Assert(x, Optional msg, Optional loc)
+Public Sub Assert(X, Optional msg, Optional loc)
     If Not g_DebugMode Then Exit Sub
-    If IsObject(x) Then
-        If Not x Is Nothing Then Exit Sub
+    If IsObject(X) Then
+        If Not X Is Nothing Then Exit Sub
     End If
-    If Not x Then
+    If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
     End If
 End Sub
 
-Public Sub Warning(x, Optional msg, Optional loc)
+Public Sub Warning(X, Optional msg, Optional loc)
     If Not g_DebugMode Then Exit Sub
-    If IsObject(x) Then
-        If Not x Is Nothing Then Exit Sub
+    If IsObject(X) Then
+        If Not X Is Nothing Then Exit Sub
     End If
-    If Not x Then
+    If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_WARNING, loc, "Assert Failure" & msg

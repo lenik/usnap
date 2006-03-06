@@ -17,12 +17,10 @@ Private m_Ref As New Collection
 
 Implements Reference
 
-Private Property Let Reference_Ref(ByVal Name As String, ByVal RHS As Object)
-
+Private Property Get Reference_Ref() As Object
 End Property
 
-Private Property Get Reference_Ref(ByVal Name As String) As Object
-
+Private Property Let Reference_Ref(ByVal rhs As Object)
 End Property
 
 Private Sub Reference_Collect()

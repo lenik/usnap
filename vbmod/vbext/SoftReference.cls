@@ -13,22 +13,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private m_Ref As New Map
-
 Implements Reference
 
-Private Property Let Reference_Ref(ByVal Name As String, ByVal rhs As Object)
-    m_Ref(Name) = rhs
+Private Property Get Reference_Ref() As Object
 End Property
 
-Private Property Get Reference_Ref(ByVal Name As String) As Object
-    Dim v
-    LC.Assign v, m_Ref(Name)
-    If Not IsNull(v) Then
-        Set Reference_Ref = v
-    End If
+Private Property Let Reference_Ref(ByVal rhs As Object)
 End Property
 
 Private Sub Reference_Collect()
-    Set m_Ref = New Map
 End Sub

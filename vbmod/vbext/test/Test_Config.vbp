@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1b.0#0#..\..\..\bin\VBExt.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1b.2#0#..\..\..\bin\VBExt.dll#Visual Basic 6.0 Bugfix & Extension
 Reference=*\G{64674040-3A82-101B-8181-00AA003743D3}#1.1#0#..\..\..\bin\win.tlb#Windows API (ANSI)
 Form=Form3.frm
 IconForm="Form3"
