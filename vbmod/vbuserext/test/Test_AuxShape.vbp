@@ -1,7 +1,7 @@
 Type=Exe
 Form=Form6.frm
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Object={79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#27.0#0; vbuserext.ocx
+Object={79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0; vbuserext.ocx
 IconForm="Form6"
 Startup="Form6"
 HelpFile=""

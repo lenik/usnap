@@ -132,7 +132,7 @@ Private Sub Redraw()
     Refresh
 End Sub
 
-Private Sub UserControl_HitTest(X As Single, Y As Single, HitResult As Integer)
+Private Sub UserControl_HitTest(x As Single, y As Single, HitResult As Integer)
     HitResult = vbHitResultHit
 End Sub
 

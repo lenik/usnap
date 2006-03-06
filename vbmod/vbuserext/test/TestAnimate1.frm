@@ -1,15 +1,16 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#26.1#0"; "vbuserext.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0"; "vbuserext.ocx"
 Begin VB.Form TestAnimate1
-   BackColor       =   &H000000FF&
+   BackColor       =   &H00C0FFC0&
    Caption         =   "Form1"
    ClientHeight    =   3090
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   4680
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3090
-   ScaleWidth      =   4680
+   ScaleHeight     =   206
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   312
    StartUpPosition =   3  'Windows Default
    Begin VBUserExt.Animate Animate3
       Height          =   1335
@@ -23,11 +24,11 @@ Begin VB.Form TestAnimate1
       PackedSteps     =   $"TestAnimate1.frx":0000
    End
    Begin VBUserExt.Animate Animate2
-      Height          =   1335
-      Left            =   2280
+      Height          =   1275
+      Left            =   2400
       TabIndex        =   1
       Top             =   1500
-      Width           =   1575
+      Width           =   1335
       _ExtentX        =   2778
       _ExtentY        =   2355
       Looped          =   -1  'True

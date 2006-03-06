@@ -1,38 +1,39 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#18.0#0"; "MVCArch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#22.0#0"; "mvcarch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
-   ClientHeight    =   4695
-   ClientLeft      =   60
-   ClientTop       =   450
-   ClientWidth     =   6405
+   ClientHeight    =   5670
+   ClientLeft      =   165
+   ClientTop       =   855
+   ClientWidth     =   7305
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4695
-   ScaleWidth      =   6405
+   ScaleHeight     =   5670
+   ScaleWidth      =   7305
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton Command1
-      Caption         =   "ok"
-      Height          =   615
-      Left            =   180
+   Begin MVCArch.GraphCO_Bar bar
+      Align           =   2  'Align Bottom
+      Height          =   630
+      Left            =   0
       TabIndex        =   0
-      Top             =   840
-      Width           =   1335
-   End
-   Begin VB.CommandButton Command3
-      Caption         =   "restart"
-      Height          =   555
-      Left            =   180
-      TabIndex        =   2
-      Top             =   2520
-      Width           =   1335
-   End
-   Begin VB.CommandButton Command2
-      Caption         =   "failed"
-      Height          =   555
-      Left            =   180
-      TabIndex        =   1
-      Top             =   1680
-      Width           =   1335
+      Top             =   5040
+      Width           =   7305
+      _ExtentX        =   12885
+      _ExtentY        =   1111
+      Padding         =   10
+      Stretch         =   0   'False
+      IconInfo        =   $"Form2.frx":0000
+      Text            =   "Hello, World!"
+      FontSize        =   20.25
+      FontName        =   "Times New Roman"
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+         Name            =   "Times New Roman"
+         Size            =   20.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.Timer Timer1
       Interval        =   1000
@@ -40,8 +41,8 @@ Begin VB.Form Form2
       Top             =   4140
    End
    Begin MVCArch.GraphCO GraphCO1
-      Left            =   960
-      Top             =   240
+      Left            =   900
+      Top             =   180
       _ExtentX        =   8916
       _ExtentY        =   7646
       Collapsed       =   0   'False
@@ -67,7 +68,7 @@ Begin VB.Form Form2
       Begin MVCArch.GraphSO soStart
          Height          =   645
          Left            =   840
-         TabIndex        =   3
+         TabIndex        =   5
          Top             =   900
          Width           =   780
          _ExtentX        =   1376
@@ -80,7 +81,7 @@ Begin VB.Form Form2
          ForeColor       =   0
          BorderStyle     =   1
          BorderWidth     =   1
-         Icon            =   "Form2.frx":0000
+         Icon            =   "Form2.frx":014E
          Title           =   "Start"
          ControllerName  =   ""
          Commands        =   1
@@ -90,11 +91,12 @@ Begin VB.Form Form2
          Default_0       =   -1  'True
          Method_0        =   0
          Visible_0       =   -1  'True
+         Base            =   ""
       End
       Begin MVCArch.GraphSO soPrepare
          Height          =   585
          Left            =   1980
-         TabIndex        =   4
+         TabIndex        =   1
          Top             =   1860
          Width           =   1080
          _ExtentX        =   1905
@@ -107,7 +109,7 @@ Begin VB.Form Form2
          ForeColor       =   0
          BorderStyle     =   3
          BorderWidth     =   1
-         Icon            =   "Form2.frx":001C
+         Icon            =   "Form2.frx":016A
          Title           =   "Prepare"
          ControllerName  =   ""
          Commands        =   2
@@ -123,11 +125,12 @@ Begin VB.Form Form2
          Default_1       =   0   'False
          Method_1        =   0
          Visible_1       =   -1  'True
+         Base            =   ""
       End
       Begin MVCArch.GraphSO soSubA
          Height          =   615
          Left            =   1020
-         TabIndex        =   5
+         TabIndex        =   2
          Top             =   2760
          Width           =   720
          _ExtentX        =   1270
@@ -140,7 +143,7 @@ Begin VB.Form Form2
          ForeColor       =   0
          BorderStyle     =   1
          BorderWidth     =   1
-         Icon            =   "Form2.frx":0038
+         Icon            =   "Form2.frx":0186
          Title           =   "SubA"
          ControllerName  =   ""
          Commands        =   2
@@ -156,11 +159,12 @@ Begin VB.Form Form2
          Default_1       =   0   'False
          Method_1        =   1
          Visible_1       =   -1  'True
+         Base            =   ""
       End
       Begin MVCArch.GraphSO soEnd
          Height          =   615
          Left            =   2160
-         TabIndex        =   6
+         TabIndex        =   3
          Top             =   3540
          Width           =   720
          _ExtentX        =   1270
@@ -173,7 +177,7 @@ Begin VB.Form Form2
          ForeColor       =   8421504
          BorderStyle     =   1
          BorderWidth     =   1
-         Icon            =   "Form2.frx":0054
+         Icon            =   "Form2.frx":01A2
          Title           =   "End"
          ControllerName  =   ""
          Commands        =   1
@@ -183,11 +187,12 @@ Begin VB.Form Form2
          Default_0       =   0   'False
          Method_0        =   0
          Visible_0       =   -1  'True
+         Base            =   ""
       End
       Begin MVCArch.GraphSO soSubB
          Height          =   615
          Left            =   3540
-         TabIndex        =   7
+         TabIndex        =   4
          Top             =   2760
          Width           =   720
          _ExtentX        =   1270
@@ -200,7 +205,7 @@ Begin VB.Form Form2
          ForeColor       =   0
          BorderStyle     =   1
          BorderWidth     =   1
-         Icon            =   "Form2.frx":0070
+         Icon            =   "Form2.frx":01BE
          Title           =   "SubB"
          ControllerName  =   ""
          Commands        =   1
@@ -210,6 +215,25 @@ Begin VB.Form Form2
          Default_0       =   0   'False
          Method_0        =   0
          Visible_0       =   -1  'True
+         Base            =   ""
+      End
+   End
+   Begin VB.Menu mStart
+      Caption         =   "Start"
+   End
+   Begin VB.Menu msend
+      Caption         =   "Send"
+      Begin VB.Menu msItem
+         Caption         =   "ok"
+         Index           =   0
+      End
+      Begin VB.Menu msItem
+         Caption         =   "fail"
+         Index           =   1
+      End
+      Begin VB.Menu msItem
+         Caption         =   "restart"
+         Index           =   2
       End
    End
 End
@@ -220,16 +244,28 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub Command1_Click()
-    GraphCO1.Process "ok"
+Private Sub GraphCO1_Ended1(ByVal lastState As MVCArch.GraphSO)
+    '
 End Sub
 
-Private Sub Command2_Click()
-    GraphCO1.Process "failed"
+Private Sub GraphCO1_Enter1(ByVal PreviousState As MVCArch.GraphSO, ByVal CurrentState As MVCArch.GraphSO)
+    '
 End Sub
 
-Private Sub Command3_Click()
-    GraphCO1.Process "restart"
+Private Sub GraphCO1_Leave1(ByVal CurrentState As MVCArch.GraphSO, NextState As MVCArch.GraphSO)
+    '
+End Sub
+
+Private Sub GraphCO1_Started(InitState As MVCArch.GraphSO)
+    '
+End Sub
+
+Private Sub msItem_Click(Index As Integer)
+    GraphCO1.Process msItem(Index).Caption
+End Sub
+
+Private Sub mStart_Click()
+    GraphCO1.Start
 End Sub
 
 Private Sub soEnd_Enter(ByVal PreviousState As MVCArch.StateObject)

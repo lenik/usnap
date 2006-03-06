@@ -1,15 +1,15 @@
 VERSION 5.00
 Begin VB.UserControl GraphCO
    AutoRedraw      =   -1  'True
-   ClientHeight    =   3600
+   ClientHeight    =   1770
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   4800
+   ClientWidth     =   1965
    ControlContainer=   -1  'True
    EditAtDesignTime=   -1  'True
    InvisibleAtRuntime=   -1  'True
-   ScaleHeight     =   3600
-   ScaleWidth      =   4800
+   ScaleHeight     =   1770
+   ScaleWidth      =   1965
    ToolboxBitmap   =   "GraphCO.ctx":0000
 End
 Attribute VB_Name = "GraphCO"
@@ -20,18 +20,6 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const LOCATION = "MVCArch::GraphCO"
-
-Private m_Context As Object
-Private m_kCmd As New SAOT
-
-Implements ControllerObject
-Private WithEvents m_Impl As BasicCO
-Attribute m_Impl.VB_VarHelpID = -1
-
-Public Event Started(InitState As GraphSO)
-Public Event Ended(ByVal LastState As GraphSO)
-Public Event Enter(ByVal PreviousState As GraphSO, ByVal CurrentState As GraphSO)
-Public Event Leave(ByVal CurrentState As GraphSO, NextState As GraphSO)
 
 '
 ' <Favorite Box Copy>
@@ -69,46 +57,128 @@ Event Resize() 'MappingInfo=UserControl,UserControl,-1,Resize
 Event OLEStartDrag(Data As DataObject, AllowedEffects As Long) 'MappingInfo=UserControl,UserControl,-1,OLEStartDrag
 Event OLESetData(Data As DataObject, DataFormat As Integer) 'MappingInfo=UserControl,UserControl,-1,OLESetData
 Event OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean) 'MappingInfo=UserControl,UserControl,-1,OLEGiveFeedback
-Event OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single, State As Integer) 'MappingInfo=UserControl,UserControl,-1,OLEDragOver
-Event OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,OLEDragDrop
+Event OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer) 'MappingInfo=UserControl,UserControl,-1,OLEDragOver
+Event OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,OLEDragDrop
 Event OLECompleteDrag(Effect As Long) 'MappingInfo=UserControl,UserControl,-1,OLECompleteDrag
-Event MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
-Event MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
-Event MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
+Event MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
+Event MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
+Event MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
 Event KeyUp(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyUp
 Event KeyPress(KeyAscii As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyPress
 Event KeyDown(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyDown
 Event Hide() 'MappingInfo=UserControl,UserControl,-1,Hide
 Event DblClick() 'MappingInfo=UserControl,UserControl,-1,DblClick
 
-
 '
 ' Controller Impl.
 '
+Private m_Context As Object
+Private m_InitialName As String
+Private m_InitialState As GraphSO
+Private m_Active As GraphSO
+Private m_Stack As New List
+Private m_AllCmds As List
+Private m_Bar As GraphCO_Bar
+
+Implements ControllerObject
+
+Event Started(InitState As GraphSO)
+Event Ended(ByVal lastState As GraphSO)
+Event Enter(ByVal PreviousState As GraphSO, ByVal CurrentState As GraphSO)
+Event Leave(ByVal CurrentState As GraphSO, NextState As GraphSO)
+
 Public Sub Start()
-    ' m_ActiveState = ...
-    ' RaiseEvent Started(ActiveState)
+    Dim Initial As GraphSO
+    Set Initial = InitialState
+    RaiseEvent Started(Initial)
+    SetState Initial
+End Sub
+
+Private Sub SetState(ByVal State As GraphSO)
+    ' No changes
+    If State Is m_Active Then Exit Sub
+
+    ' Concrete state -> New state
+    If Not m_Active Is Nothing Then
+        m_Active.Leave State
+        RaiseEvent Leave(m_Active, State)
+    End If
+
+    Dim lastState As StateObject
+    Set lastState = m_Active
+    Set m_Active = State
+
+    ' Old state -> Concrete state
+    If Not m_Active Is Nothing Then
+        m_Active.Enter lastState
+        RaiseEvent Enter(lastState, m_Active)
+    End If
 End Sub
 
 ' Return False for termination
 Public Function Process(ByVal Message, Optional Parameters) As Boolean
-    ' Process = False
-    ' RaiseEvent Ended(ActiveState)
+    If m_Active Is Nothing Then Exit Function
+    Dim NextState As GraphSO
+    Set NextState = m_Active.Process(Message, Parameters)
+    If NextState Is Nothing Then
+        RaiseEvent Ended(m_Active)
+    End If
+    SetState NextState
+    Process = Not NextState Is Nothing
 End Function
+
+Public Property Get Initial() As String
+    Initial = m_InitialName
+End Property
+Public Property Let Initial(ByVal newval As String)
+    On Error GoTo NotExist
+    Set m_InitialState = State(newval)
+    m_InitialName = newval
+NotExist:
+End Property
+
+Private Property Get InitialState() As GraphSO
+    Set InitialState = m_InitialState
+End Property
+Private Property Set InitialState(ByVal newval As GraphSO)
+    Set m_InitialState = newval
+End Property
 
 Public Property Get ActiveState() As GraphSO
+    'set activestate=basic
 End Property
 
-Public Property Get State(ByVal name As String) As GraphSO
+Public Property Get State(ByVal Name As String) As GraphSO
+    Set State = FindControl(Context, Name)
 End Property
 
-Public Function AddCommand(ByVal cmd As StateObjectCommand) As StateObjectCommand
+Public Sub PushState(ByVal State As GraphSO)
+    m_Stack.push State
+End Sub
+
+Public Function PopState() As GraphSO
+    If m_Stack.size > 0 Then
+        Set PopState = m_Stack.pop
+    End If
 End Function
 
-Public Sub RemoveCommand(ByVal index As Integer)
+Public Property Get Bar() As GraphCO_Bar
+    Set Bar = m_Bar
+End Property
+Public Property Set Bar(ByVal newval As GraphCO_Bar)
+    Set m_Bar = newval
+End Property
+
+Public Function AddCommand(ByVal cmd As StateObjectCommand) As Integer
+    If Not m_Bar Is Nothing Then m_Bar.AddCommand cmd
+End Function
+
+Public Sub RemoveCommand(ByVal Index As Integer)
+    If Not m_Bar Is Nothing Then m_Bar.RemoveCommand Index
 End Sub
 
 Public Sub ResetCommand()
+    If Not m_Bar Is Nothing Then m_Bar.ResetCommand
 End Sub
 
 Private Property Get Context() As Object
@@ -138,21 +208,21 @@ Private Sub RedrawArrows()
     If Context Is Nothing Then Exit Sub
 
     Dim ctrls As Map
-    Dim name
+    Dim Name
     Dim obj As Object
 
     Set ctrls = FindControls(Context)
 
-    For Each name In ctrls.KeySet
-        Set obj = ctrls(name)
+    For Each Name In ctrls.KeySet
+        Set obj = ctrls(Name)
         If TypeName(obj) = "GraphSO" Then
             Dim so As GraphSO
-            Dim i As Integer
+            Dim I As Integer
             Dim ct As Object
 
             Set so = obj
-            For i = 0 To so.Commands - 1
-                With so.Command(i)
+            For I = 0 To so.Commands - 1
+                With so.Command(I)
                 If .Visible = True Then
                     Set ct = .Target(Context)
                     If Not ct Is Nothing Then
@@ -184,7 +254,7 @@ Private Sub RedrawArrows()
                         y1 = PixelY(y1)
 
                         Me.ForeColor = so.ForeColor
-                        Lines.Arrow hDC, IIf(so.Command(i).Method = methodGoto, arrowNormal, arrowNormalDbl), _
+                        Lines.Arrow hDC, IIf(so.Command(I).Method = methodGoto, arrowNormal, arrowNormalDbl), _
                                     x0, y0, x1, y1
 
                         Dim size As SIZEL
@@ -205,20 +275,32 @@ Private Property Get ControllerObject_ActiveState() As StateObject
     Set ControllerObject_ActiveState = ActiveState
 End Property
 
-Private Property Get ControllerObject_State(ByVal name As String) As StateObject
-    Set ControllerObject_State = State(name)
+Private Property Set ControllerObject_InitialState(ByVal RHS As StateObject)
+    Set InitialState = RHS
+End Property
+
+Private Property Get ControllerObject_InitialState() As StateObject
+    Set ControllerObject_InitialState = InitialState
 End Property
 
 Private Function ControllerObject_AddCommand(ByVal cmd As StateObjectCommand) As Integer
     ControllerObject_AddCommand = AddCommand(cmd)
 End Function
 
+Private Function ControllerObject_PopState() As StateObject
+    Set ControllerObject_PopState = PopState
+End Function
+
 Private Function ControllerObject_Process(ByVal Message As Variant, Optional Parameters As Variant) As Boolean
     ControllerObject_Process = Process(Message, Parameters)
 End Function
 
-Private Sub ControllerObject_RemoveCommand(ByVal index As Integer)
-    RemoveCommand index
+Private Sub ControllerObject_PushState(ByVal State As StateObject)
+    PushState State
+End Sub
+
+Private Sub ControllerObject_RemoveCommand(ByVal Index As Integer)
+    RemoveCommand Index
 End Sub
 
 Private Sub ControllerObject_ResetCommand()
@@ -229,23 +311,6 @@ Private Sub ControllerObject_Start()
     Start
 End Sub
 
-
-' <>- BasicCO
-Private Sub m_Impl_Ended(ByVal LastState As StateObject)
-    RaiseEvent Ended(LastState)
-End Sub
-
-Private Sub m_Impl_Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
-    RaiseEvent Enter(PreviousState, CurrentState)
-End Sub
-
-Private Sub m_Impl_Leave(ByVal CurrentState As StateObject, NextState As StateObject)
-    RaiseEvent Leave(CurrentState, NextState)
-End Sub
-
-Private Sub m_Impl_Started(InitState As StateObject)
-    RaiseEvent Started(InitState)
-End Sub
 
 '
 ' <Favorite Box Copy>
@@ -283,18 +348,18 @@ Sub InitShapes()
     h = SHAPE_SIZE * 0.866025403784439
 
     m_ShapeCollapsed(1).x = 0
-    m_ShapeCollapsed(1).y = SHAPE_SIZE - 1
+    m_ShapeCollapsed(1).Y = SHAPE_SIZE - 1
     m_ShapeCollapsed(2).x = h - 1
-    m_ShapeCollapsed(2).y = SHAPE_SIZE / 2 - 1
+    m_ShapeCollapsed(2).Y = SHAPE_SIZE / 2 - 1
     m_ShapeExpanded(1).x = SHAPE_SIZE - 1
-    m_ShapeExpanded(1).y = 0
+    m_ShapeExpanded(1).Y = 0
     m_ShapeExpanded(2).x = SHAPE_SIZE / 2 - 1
-    m_ShapeExpanded(2).y = h - 1
+    m_ShapeExpanded(2).Y = h - 1
 
-    Dim i As Integer
-    For i = 0 To 3
-        m_ShapeCollapsed(i).x = m_ShapeCollapsed(i).x + MARGIN
-        m_ShapeExpanded(i).x = m_ShapeExpanded(i).x + MARGIN
+    Dim I As Integer
+    For I = 0 To 3
+        m_ShapeCollapsed(I).x = m_ShapeCollapsed(I).x + MARGIN
+        m_ShapeExpanded(I).x = m_ShapeExpanded(I).x + MARGIN
     Next
 End Sub
 
@@ -309,26 +374,26 @@ End Sub
 Private Sub RedrawTitle()
     Dim size As SIZEL
     Dim l As Long
-    Dim x As Long, y As Long
+    Dim x As Long, Y As Long
     l = GetTextExtentPoint(hDC, m_Title, m_TitleLen, size)
     x = MARGIN + SHAPE_SIZE + SHAPE_PAD
-    y = 1
-    l = TextOut(hDC, x, y, m_Title, m_TitleLen)
-    MoveTo hDC, 0, y + size.cy
-    LineTo hDC, ScaleWidth - 1, y + size.cy ' Underline
+    Y = 1
+    l = TextOut(hDC, x, Y, m_Title, m_TitleLen)
+    MoveTo hDC, 0, Y + size.cy
+    LineTo hDC, ScaleWidth - 1, Y + size.cy ' Underline
     m_CollapsedWidth = (x + size.cx + MARGIN + TITLE_PAD + BORDER) * Screen.TwipsPerPixelX
-    m_CollapsedHeight = (y + size.cy + MARGIN + BORDER) * Screen.TwipsPerPixelY
+    m_CollapsedHeight = (Y + size.cy + MARGIN + BORDER) * Screen.TwipsPerPixelY
 End Sub
 
 Private Sub UserControl_Initialize()
     InitShapes
 End Sub
 
-Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-    If y < SHAPE_SIZE * Screen.TwipsPerPixelY Then
+Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    If Y < SHAPE_SIZE * Screen.TwipsPerPixelY Then
         Collapsed = Not Collapsed
     End If
-    RaiseEvent MouseDown(Button, Shift, x, y)
+    RaiseEvent MouseDown(Button, Shift, x, Y)
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -638,12 +703,12 @@ Public Property Let OLEDropMode(ByVal New_OLEDropMode As Integer)
     PropertyChanged "OLEDropMode"
 End Property
 
-Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single, State As Integer)
-    RaiseEvent OLEDragOver(Data, Effect, Button, Shift, x, y, State)
+Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer)
+    RaiseEvent OLEDragOver(Data, Effect, Button, Shift, x, Y, State)
 End Sub
 
-Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, x, y)
+Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+    RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, x, Y)
 End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
@@ -656,8 +721,8 @@ Private Sub UserControl_OLECompleteDrag(Effect As Long)
     RaiseEvent OLECompleteDrag(Effect)
 End Sub
 
-Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent MouseUp(Button, Shift, x, y)
+Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    RaiseEvent MouseUp(Button, Shift, x, Y)
 End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
@@ -671,8 +736,8 @@ Public Property Let MousePointer(ByVal New_MousePointer As Integer)
     PropertyChanged "MousePointer"
 End Property
 
-Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    RaiseEvent MouseMove(Button, Shift, x, y)
+Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    RaiseEvent MouseMove(Button, Shift, x, Y)
 End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!

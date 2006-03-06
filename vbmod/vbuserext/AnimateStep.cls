@@ -98,12 +98,11 @@ Public Sub Render(ByVal hDC As Long, ByVal x As Long, ByVal y As Long, ByVal cx 
     End With
 End Sub
 
-
-Public Function CreateInfo() As String
-    CreateInfo = "|" & m_Filename
-    If m_Delay <> 0 Then CreateInfo = CreateInfo & "|" & m_Delay
-    If m_Effects <> 0 Then CreateInfo = CreateInfo & "|" & m_Effects
-    If Not m_Next Is Nothing Then CreateInfo = CreateInfo & m_Next.CreateInfo
+Public Function CreateInfo(Optional ByVal delim As String = "|") As String
+    CreateInfo = delim & m_Filename
+    If m_Delay <> 0 Then CreateInfo = CreateInfo & delim & m_Delay
+    If m_Effects <> 0 Then CreateInfo = CreateInfo & delim & m_Effects
+    If Not m_Next Is Nothing Then CreateInfo = CreateInfo & m_Next.CreateInfo(delim)
 End Function
 
 Function ToString() As String

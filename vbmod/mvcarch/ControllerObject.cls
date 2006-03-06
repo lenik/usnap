@@ -16,7 +16,7 @@ Option Explicit
 ' Tag Class
 
 Public Event Started(InitState As StateObject)
-Public Event Ended(ByVal LastState As StateObject)
+Public Event Ended(ByVal lastState As StateObject)
 Public Event Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
 Public Event Leave(ByVal CurrentState As StateObject, NextState As StateObject)
 
@@ -31,8 +31,16 @@ Public Function Process(ByVal Message, Optional Parameters) As Boolean
     ' RaiseEvent Ended(ActiveState)
 End Function
 
+Public Property Get InitialState() As StateObject
+End Property
+Public Property Set InitialState(ByVal newval As StateObject)
+End Property
+
 Public Property Get ActiveState() As StateObject
 End Property
 
-Public Property Get State(ByVal name As String) As StateObject
-End Property
+Public Sub PushState(ByVal State As StateObject)
+End Sub
+
+Public Function PopState() As StateObject
+End Function

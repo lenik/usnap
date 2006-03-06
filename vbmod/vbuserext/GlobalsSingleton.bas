@@ -16,6 +16,7 @@ Public Function CreateAnimateSteps(ByVal args) As AnimateStep
     State = 0
     If StringP(args) Then
         Dim sargs
+        If Len(args) < 2 Then Exit Function
         sargs = Split(Mid(args, 2), Left(args, 1))
         ReDim args(LBound(sargs) To UBound(sargs))
         For i = LBound(args) To UBound(args)

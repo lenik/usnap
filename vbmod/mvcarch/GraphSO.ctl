@@ -92,7 +92,8 @@ Private m_Style As StateStyleConstants
 Private m_ControllerName As String      ' Owner controller name
 Private m_Command(MAX_COMMANDS) As New StateObjectCommand
 Private m_Commands As Integer
-Private m_Base As String                ' Share the base(StateControl)'s m_Commands
+Private m_BaseName As String            ' Share the base(StateControl)'s m_Commands
+Private m_BaseState As GraphSO
 
 Implements StateObject
 
@@ -101,16 +102,59 @@ Public Event Leave(ByVal NextState As StateObject)
 Public Event Process(ByVal Message, Parameters, NextState As StateObject)
 
 Private Sub StateObject_Enter(ByVal PreviousState As StateObject)
-    RaiseEvent Enter(PreviousState)
+    Enter PreviousState
 End Sub
 
 Private Sub StateObject_Leave(ByVal NextState As StateObject)
+    Leave NextState
+End Sub
+
+Private Function StateObject_Process(ByVal Message As Variant, Optional Parameters As Variant) As StateObject
+    Set StateObject_Process = Process(Message, Parameters)
+End Function
+
+Public Sub Enter(ByVal PreviousState As GraphSO)
+    RaiseEvent Enter(PreviousState)
+End Sub
+
+Public Sub Leave(ByVal NextState As GraphSO)
     RaiseEvent Leave(NextState)
 End Sub
 
-Private Function StateObject_Process(ByVal Message As Variant, Parameters As Variant) As StateObject
-    Set StateObject_Process = Me
-    RaiseEvent Process(Message, Parameters, StateObject_Process)
+Public Function Process(ByVal Message, Optional Parameters) As GraphSO
+    Dim i As Integer
+    Dim cmd As StateObjectCommand
+    Dim defcmd As StateObjectCommand
+
+    Set Process = Me
+    For i = 0 To m_Commands - 1
+        If m_Command(i).Name = Message Then
+            Set cmd = m_Command(i)
+            Exit For
+        End If
+        If m_Command(i).Default Then
+            Set defcmd = m_Command(i)
+        End If
+    Next
+
+    If cmd Is Nothing And defcmd Is Nothing Then
+        ' Command undefined -> terminate by default
+        Set Process = Nothing
+    Else
+        ' Command defined -> using defined by default
+        If cmd Is Nothing Then Set cmd = defcmd
+        If cmd.Method = methodCall Then
+            Controller.PushState Me
+        End If
+        Set Process = cmd.Target(m_Context)
+    End If
+
+    RaiseEvent Process(Message, Parameters, Process)
+
+    If Process Is Nothing Then
+        ' Pop stack if stack isn't empty
+        Set Process = Controller.PopState
+    End If
 End Function
 
 Public Property Get Context()
@@ -276,25 +320,19 @@ Public Property Let Icon(ByVal newval As IPictureDisp)
     Redraw                              ' position
 End Property
 
+Private Property Get BaseState() As GraphSO
+    If m_BaseState Is Nothing Then
+        If m_BaseName = "" Then Exit Property
+        On Error GoTo NotExist
+        Set m_BaseState = FindControl(Context, m_BaseName)
+    End If
+    Set BaseState = m_BaseState
+NotExist:
+End Property
+
 Private Property Get Controller() As GraphCO
     If m_Controller Is Nothing Then
-        If m_ControllerName = "" Then
-            On Error GoTo NotExisted_Def
-            Dim ctrls As Map
-            Dim name
-            Set ctrls = FindControls(Context)
-            For Each name In ctrls.KeySet
-                If TypeName(ctrls(name)) = "GraphCO" Then
-                    Set m_Controller = ctrls(name)
-                    Exit For
-                End If
-            Next
-NotExisted_Def:
-        Else
-            On Error GoTo NotExited_Named
-            Set m_Controller = FindControl(Context, m_ControllerName)
-NotExited_Named:
-        End If
+        Set m_Controller = FindController(Context, m_ControllerName)
     End If
     Set Controller = m_Controller
 End Property
@@ -316,38 +354,40 @@ Public Property Let Commands(ByVal newval As Integer)
     End If
 End Property
 
-Public Property Get Command(ByVal index As Integer) As StateObjectCommand
-    Assert index >= 0 And index < m_Commands
-    Set Command = m_Command(index)
+Public Property Get Command(ByVal Index As Integer) As StateObjectCommand
+    Assert Index >= 0 And Index < m_Commands
+    Set Command = m_Command(Index)
 End Property
 
 Public Property Get Base() As String
-    Base = m_Base
+    Base = m_BaseName
 End Property
 Public Property Let Base(ByVal newval As String)
-    m_Base = newval
-    RedrawArrows
+    m_BaseName = newval
+    'RedrawArrows
     RedrawButtons
 End Property
 
-Public Sub AddCommand(ByVal name As String, ByVal TargetName As String, _
+Public Sub AddCommand(ByVal Name As String, ByVal TargetName As String, _
         Optional ByVal Title As String = "", _
         Optional ByVal Default As Boolean = False, _
         Optional ByVal Method As Integer = methodGoto, _
+        Optional ByVal Grayed As Boolean = False, _
         Optional ByVal Visible As Boolean = True, _
         Optional ByVal Icon As IPictureDisp = Nothing)
     Assert m_Commands < MAX_COMMANDS, "Too many commands: a state object could have a maximum of " & MAX_COMMANDS & " commands at most", LOCATION
     Assert Method = methodGoto Or Method = methodCall
-    name = Trim(name)
+    Name = Trim(Name)
     Title = Trim(Title)
-    If Title = "" Then Title = name
+    If Title = "" Then Title = Name
     Set m_Command(m_Commands) = New StateObjectCommand
     With m_Command(m_Commands)
-        .name = name                    ' The behavior of duplicated names is undefined.
+        .Name = Name                    ' The behavior of duplicated names is undefined.
         .TargetName = TargetName        ' Undefined TargetName will exit the controller (with exit-state = this)
         .Title = Title
         .Default = Default              ' More than 1 commands have default property set, then only one will be the default.
         .Method = Method
+        .Grayed = Grayed
         .Visible = Visible
         .Icon = Icon
     End With
@@ -356,10 +396,10 @@ Public Sub AddCommand(ByVal name As String, ByVal TargetName As String, _
     RedrawButtons
 End Sub
 
-Public Sub RemoveCommand(ByVal index As Integer)
-    Assert index >= 0 And index < m_Commands, "Index out of range", LOCATION
+Public Sub RemoveCommand(ByVal Index As Integer)
+    Assert Index >= 0 And Index < m_Commands, "Index out of range", LOCATION
     Dim i As Integer
-    For i = index + 1 To m_Commands - 1
+    For i = Index + 1 To m_Commands - 1
         Set m_Command(i - 1) = m_Command(i)
     Next
     m_Commands = m_Commands - 1
@@ -375,16 +415,16 @@ Public Sub ResetCommand()
 End Sub
 
 Friend Sub SetCommands(cmdprops, sa As SAOT)
-    Dim slots() As Long
+    Dim Slots() As Long
     Dim i As Integer
     Dim cmd As GraphSO_PropCmd
-    slots = sa.SortSlots
+    Slots = sa.SortSlots
     Assert sa.size <= MAX_COMMANDS, "Too many commands", LOCATION
     For i = 0 To sa.size - 1
-        Set cmd = cmdprops(slots(i))
+        Set cmd = cmdprops(Slots(i))
         Set m_Command(i) = New StateObjectCommand
         With m_Command(i)
-            .name = cmd.CommandName
+            .Name = cmd.CommandName
             .TargetName = cmd.CommandTarget
             .Method = cmd.CommandMethod
             .Default = cmd.CommandDefault
@@ -437,12 +477,12 @@ Public Sub RedrawButtons()
     End With
 End Sub
 
-Private Sub UserControl_HitTest(x As Single, y As Single, HitResult As Integer)
+Private Sub UserControl_HitTest(x As Single, Y As Single, HitResult As Integer)
     Dim a As Single, b As Single, z As Single
     Const FUZZY = 0.05
     a = ScaleWidth / 2
     b = ScaleHeight / 2
-    z = ((x - a) / a) ^ 2 + ((y - b) / b) ^ 2
+    z = ((x - a) / a) ^ 2 + ((Y - b) / b) ^ 2
 
     If z < 1 - FUZZY Then
         If shpOutline.BackStyle = vbTransparent Then
@@ -505,7 +545,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     For i = 0 To m_Commands - 1
         'Set m_Command(i) = PropBag.ReadProperty("Command_" & i, m_Command(i))
         With m_Command(i)
-            .name = PropBag.ReadProperty("Name_" & i)
+            .Name = PropBag.ReadProperty("Name_" & i)
             .TargetName = PropBag.ReadProperty("TargetName_" & i)
             .Title = PropBag.ReadProperty("Title_" & i)
             .Default = PropBag.ReadProperty("Default_" & i)
@@ -514,7 +554,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
             .Icon = PropBag.ReadProperty("Icon_" & i, Nothing)
         End With
     Next
-    m_Base = PropBag.ReadProperty("Base", "")
+    m_BaseName = PropBag.ReadProperty("Base", "")
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -536,7 +576,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     For i = 0 To m_Commands - 1
         'PropBag.WriteProperty "Command_" & i, m_Command(i)
         With m_Command(i)
-            PropBag.WriteProperty "Name_" & i, .name
+            PropBag.WriteProperty "Name_" & i, .Name
             PropBag.WriteProperty "TargetName_" & i, .TargetName
             PropBag.WriteProperty "Title_" & i, .Title
             PropBag.WriteProperty "Default_" & i, .Default
@@ -545,4 +585,5 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
             PropBag.WriteProperty "Icon_" & i, .Icon
         End With
     Next
+    PropBag.WriteProperty "Base", m_BaseName
 End Sub

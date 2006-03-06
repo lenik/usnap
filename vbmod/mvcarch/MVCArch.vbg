@@ -1,4 +1,5 @@
 VBGROUP 5.0
-StartupProject=MVCArch.vbp
+Project=MVCArch.vbp
 Project=test\Test_State.vbp
 Project=test\Person.vbp
+StartupProject=test\State2.vbp

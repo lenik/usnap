@@ -21,5 +21,5 @@ End Sub
 Public Sub Leave(ByVal NextState As StateObject)
 End Sub
 
-Public Function Process(ByVal Message, Parameters) As StateObject
+Public Function Process(ByVal Message, Optional Parameters) As StateObject
 End Function

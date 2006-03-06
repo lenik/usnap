@@ -24,6 +24,7 @@ Private Const DEFAULT_NAME              As String = "Noname"
 Private Const DEFAULT_DEFAULT           As Boolean = False
 Private Const DEFAULT_TARGETNAME        As String = ""
 Private Const DEFAULT_METHOD            As Integer = methodGoto
+Private Const DEFAULT_GRAYED            As Boolean = False
 Private Const DEFAULT_VISIBLE           As Boolean = True
 Private Const DEFAULT_TITLE             As String = ""
 
@@ -31,16 +32,17 @@ Private m_Name As String                ' The name will be passed as "message" t
 Private m_Default As Boolean            ' Default command
 Private m_TargetName As String          ' Target state name
 Private m_Method As MethodConstants     ' How to jump into TargetName state
+Private m_Grayed As Boolean             ' Button disabled
 Private m_Visible As Boolean            ' Button visible
 Private m_Title As String               ' Button text
 Private m_Icon As IPictureDisp          ' Button icon
 
 Event Changed()
 
-Public Property Get name() As String
-    name = m_Name
+Public Property Get Name() As String
+    Name = m_Name
 End Property
-Public Property Let name(ByVal newval As String)
+Public Property Let Name(ByVal newval As String)
     If m_Name <> newval Then
         m_Name = newval
         RaiseEvent Changed
@@ -73,6 +75,16 @@ End Property
 Public Property Let Method(ByVal newval As MethodConstants)
     If m_Method <> newval Then
         m_Method = newval
+        RaiseEvent Changed
+    End If
+End Property
+
+Public Property Get Grayed() As Boolean
+    Grayed = m_Grayed
+End Property
+Public Property Let Grayed(ByVal newval As Boolean)
+    If m_Grayed <> newval Then
+        m_Grayed = newval
         RaiseEvent Changed
     End If
 End Property
