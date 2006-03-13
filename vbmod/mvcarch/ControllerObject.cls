@@ -19,6 +19,7 @@ Public Event Started(InitState As StateObject)
 Public Event Ended(ByVal lastState As StateObject)
 Public Event Enter(ByVal PreviousState As StateObject, ByVal CurrentState As StateObject)
 Public Event Leave(ByVal CurrentState As StateObject, NextState As StateObject)
+Public Event Undefined(ByVal Message, ByVal Parameters, NextState As StateObject)
 
 Public Sub Start()
     ' m_ActiveState = ...

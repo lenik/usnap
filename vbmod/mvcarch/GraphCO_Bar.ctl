@@ -6,6 +6,7 @@ Begin VB.UserControl GraphCO_Bar
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   7485
+   PropertyPages   =   "GraphCO_Bar.ctx":0000
    ScaleHeight     =   34
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   499
@@ -77,6 +78,13 @@ Private m_Stretch As Boolean            ' Stretch text font and icon picture
 Private WithEvents Ker As FastAlgLib.SAOT
 Attribute Ker.VB_VarHelpID = -1
 
+Property Get KerInfo() As String
+    Dim i As Integer
+    For i = 0 To Ker.SlotAllocated - 1
+        KerInfo = KerInfo & Ker.FindSlot(i) & " "
+    Next
+End Property
+
 Public Property Get IconInfo() As String
     IconInfo = StatusIcon.PackedSteps
 End Property
@@ -118,7 +126,7 @@ Private Sub Layout()
         StatusIcon.Height = ScaleHeight - StatusIcon.Top * 2
         StatusIcon.Width = StatusIcon.Height
         StatusText.Left = StatusIcon.Left + StatusIcon.Width + m_Padding
-        StatusText.FontSize = StatusIcon.Height - m_MarginTop - m_MarginBottom
+        StatusText.FontSize = (StatusIcon.Height - m_MarginTop - m_MarginBottom) * 0.75
         StatusText.Top = (ScaleHeight - StatusText.Height) / 2
     Else
         StatusIcon.Left = m_MarginLeft
@@ -127,28 +135,28 @@ Private Sub Layout()
         StatusText.Top = (ScaleHeight - StatusText.Height) / 2
     End If
 
-    If Ker.size = 0 Then Exit Sub
+    If Ker.Size = 0 Then Exit Sub
 
     Const TAB_LAST = 10000
     Dim slots() As Long
     Dim BtnWidth As Single
-    Dim I As Integer
+    Dim i As Integer
     Dim iPrev As Integer
     slots = Ker.SortSlots
     BtnWidth = (ScaleWidth - (StatusText.Left + StatusText.Width + m_Padding) _
-                - m_MarginRight) / Ker.size - m_Padding
+                - m_MarginRight) / Ker.Size - m_Padding
     If BtnWidth < MIN_BUTTON_WIDTH Then BtnWidth = MIN_BUTTON_WIDTH
 
     iPrev = slots(0)
     Button(iPrev).Left = ScaleWidth - m_MarginRight - BtnWidth
     Button(iPrev).Width = BtnWidth
-    For I = 1 To Ker.size - 1
-        With Button(slots(I))
+    For i = 1 To Ker.Size - 1
+        With Button(slots(i))
             If .Visible Then
                 .Left = Button(iPrev).Left - BtnWidth - m_Padding
                 .Width = BtnWidth
                 .TabIndex = TAB_LAST
-                iPrev = I
+                iPrev = i
             End If
         End With
     Next
@@ -261,9 +269,9 @@ Attribute FontUnderline.VB_Description = "Returns/sets underline font styles."
 End Property
 Public Property Let FontUnderline(ByVal newval As Boolean)
     StatusText.FontUnderline = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontUnderline = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontUnderline = newval
     Next
     PropertyChanged "FontUnderline"
 End Property
@@ -273,9 +281,9 @@ Public Property Get FontStrikethru() As Boolean
 End Property
 Public Property Let FontStrikethru(ByVal newval As Boolean)
     StatusText.FontStrikethru = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontStrikethru = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontStrikethru = newval
     Next
     PropertyChanged "FontStrikethru"
 End Property
@@ -285,9 +293,9 @@ Public Property Get FontSize() As Single
 End Property
 Public Property Let FontSize(ByVal newval As Single)
     StatusText.FontSize = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontSize = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontSize = newval
     Next
     PropertyChanged "FontSize"
 End Property
@@ -298,9 +306,9 @@ Attribute FontName.VB_Description = "Specifies the name of the font that appears
 End Property
 Public Property Let FontName(ByVal newval As String)
     StatusText.FontName = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontName = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontName = newval
     Next
     PropertyChanged "FontName"
 End Property
@@ -310,9 +318,9 @@ Public Property Get FontItalic() As Boolean
 End Property
 Public Property Let FontItalic(ByVal newval As Boolean)
     StatusText.FontItalic = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontItalic = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontItalic = newval
     Next
     PropertyChanged "FontItalic"
 End Property
@@ -322,9 +330,9 @@ Public Property Get FontBold() As Boolean
 End Property
 Public Property Let FontBold(ByVal newval As Boolean)
     StatusText.FontBold = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Button(Ker.FindIndex(I)).FontBold = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Button(Ker.FindIndex(i)).FontBold = newval
     Next
     PropertyChanged "FontBold"
 End Property
@@ -334,9 +342,9 @@ Public Property Get Font() As StdFont
 End Property
 Public Property Set Font(ByVal newval As StdFont)
     Set StatusText.Font = newval
-    Dim I As Integer
-    For I = 0 To Ker.size - 1
-        Set Button(Ker.FindIndex(I)).Font = newval
+    Dim i As Integer
+    For i = 0 To Ker.Size - 1
+        Set Button(Ker.FindIndex(i)).Font = newval
     Next
     PropertyChanged "Font"
 End Property
@@ -352,6 +360,7 @@ Private Sub UserControl_InitProperties()
     m_MarginBottom = DEFAULT_MARGINBOTTOM
     m_Padding = DEFAULT_PADDING
     m_Stretch = DEFAULT_STRETCH
+    Layout
 End Sub
 
 Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
@@ -372,6 +381,8 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     FontItalic = PropBag.ReadProperty("FontItalic", UserControl.FontItalic)
     FontBold = PropBag.ReadProperty("FontBold", UserControl.FontBold)
     Set Font = PropBag.ReadProperty("Font", Ambient.Font)
+
+    Layout
 End Sub
 
 Private Sub UserControl_Resize()

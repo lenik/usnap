@@ -17,6 +17,16 @@ Private Const LOCATION                  As String = "VBExt::BaseFunctions"
 
 ' Predicates
 
+Public Function Test(var) As Boolean
+    If IsObject(var) Then
+        Test = Not var Is Nothing
+    ElseIf IsArray(var) Then
+        Test = UBound(var) >= LBound(var)
+    Else
+        Test = CBool(var)
+    End If
+End Function
+
 Public Function StringP(var) As Boolean
     StringP = VarType(var) = vbString
 End Function

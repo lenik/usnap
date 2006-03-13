@@ -93,10 +93,10 @@ Private Sub UnlockEvent()
     Assert m_EventLock >= 0, "Unlock without lock", LOCATION
 End Sub
 
-Public Sub SetTargets(context)
+Public Sub SetTargets(Context)
     Dim Target
     lstTarget.Clear
-    With FindControls(context)
+    With FindControls(Context)
         For Each Target In .KeySet
             If TypeName(.Item(Target)) = "GraphSO" Then
                 lstTarget.AddItem Target

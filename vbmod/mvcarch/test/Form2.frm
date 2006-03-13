@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#22.0#0"; "mvcarch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#23.0#0"; "mvcarch.ocx"
 Begin VB.Form Form2
    Caption         =   "Test State"
    ClientHeight    =   5670
@@ -10,24 +10,32 @@ Begin VB.Form Form2
    ScaleHeight     =   5670
    ScaleWidth      =   7305
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command1
+      Caption         =   "Command1"
+      Height          =   495
+      Left            =   360
+      TabIndex        =   6
+      Top             =   1440
+      Width           =   615
+   End
    Begin MVCArch.GraphCO_Bar bar
       Align           =   2  'Align Bottom
-      Height          =   630
+      Height          =   570
       Left            =   0
       TabIndex        =   0
-      Top             =   5040
+      Top             =   5100
       Width           =   7305
       _ExtentX        =   12885
-      _ExtentY        =   1111
+      _ExtentY        =   1005
       Padding         =   10
       Stretch         =   0   'False
       IconInfo        =   $"Form2.frx":0000
       Text            =   "Hello, World!"
-      FontSize        =   20.25
+      FontSize        =   22.5
       FontName        =   "Times New Roman"
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
          Name            =   "Times New Roman"
-         Size            =   20.25
+         Size            =   22.5
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -41,14 +49,15 @@ Begin VB.Form Form2
       Top             =   4140
    End
    Begin MVCArch.GraphCO GraphCO1
-      Left            =   900
-      Top             =   180
+      Left            =   1140
+      Top             =   300
       _ExtentX        =   8916
       _ExtentY        =   7646
       Collapsed       =   0   'False
       ExpandedWidth   =   5055
       ExpandedHeight  =   4335
       Title           =   "Controller"
+      Initial         =   "soStart"
       Appearance      =   1
       BackColor       =   -2147483633
       BorderStyle     =   0
@@ -67,7 +76,7 @@ Begin VB.Form Form2
       EndProperty
       Begin MVCArch.GraphSO soStart
          Height          =   645
-         Left            =   840
+         Left            =   960
          TabIndex        =   5
          Top             =   900
          Width           =   780
@@ -129,11 +138,11 @@ Begin VB.Form Form2
       End
       Begin MVCArch.GraphSO soSubA
          Height          =   615
-         Left            =   1020
+         Left            =   960
          TabIndex        =   2
          Top             =   2760
-         Width           =   720
-         _ExtentX        =   1270
+         Width           =   780
+         _ExtentX        =   1376
          _ExtentY        =   1085
          Transparent     =   0   'False
          FontName        =   "Courier New"
@@ -212,7 +221,7 @@ Begin VB.Form Form2
          Name_0          =   "def"
          TargetName_0    =   "soEnd"
          Title_0         =   "def"
-         Default_0       =   0   'False
+         Default_0       =   -1  'True
          Method_0        =   0
          Visible_0       =   -1  'True
          Base            =   ""
@@ -244,19 +253,30 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub GraphCO1_Ended1(ByVal lastState As MVCArch.GraphSO)
+Private Sub Command1_Click()
+    Dim x As New BasTypeLib.List
+    Dim t
+    x.push soStart
+    Set t = x.pop
+End Sub
+
+Private Sub GraphCO1_Ended(ByVal LastState As Object)
     '
 End Sub
 
-Private Sub GraphCO1_Enter1(ByVal PreviousState As MVCArch.GraphSO, ByVal CurrentState As MVCArch.GraphSO)
-    '
+Private Sub GraphCO1_Enter(ByVal PreviousState As Object, ByVal CurrentState As Object)
+    Dim g As MVCArch.GraphSO
+    Set g = CurrentState.This
+    bar.Text = "Enter " & g.Name
 End Sub
 
-Private Sub GraphCO1_Leave1(ByVal CurrentState As MVCArch.GraphSO, NextState As MVCArch.GraphSO)
-    '
+Private Sub GraphCO1_Leave(ByVal CurrentState As Object, NextState As Object)
+    Dim g As MVCArch.GraphSO
+    Set g = CurrentState.This
+    bar.Text = "Leave " & g.Name
 End Sub
 
-Private Sub GraphCO1_Started(InitState As MVCArch.GraphSO)
+Private Sub GraphCO1_Started(InitState As Object)
     '
 End Sub
 
@@ -268,20 +288,24 @@ Private Sub mStart_Click()
     GraphCO1.Start
 End Sub
 
-Private Sub soEnd_Enter(ByVal PreviousState As MVCArch.StateObject)
-    MsgBox "Ended"
+Private Sub soEnd_Enter(ByVal PreviousState As Object)
+    'MsgBox "enter End"
 End Sub
 
-Private Sub soPrepare_Enter(ByVal PreviousState As MVCArch.StateObject)
-    MsgBox "Preparing"
+Private Sub soPrepare_Enter(ByVal PreviousState As Object)
+    'MsgBox "enter Prepare"
 End Sub
 
-Private Sub soStart_Enter(ByVal PreviousState As MVCArch.StateObject)
-    MsgBox "Started"
+Private Sub soStart_Enter(ByVal PreviousState As Object)
+    'MsgBox "enter Start"
+End Sub
+
+Private Sub soStart_Process(ByVal Message As Variant, Parameters As Variant, NextState As Object)
+    '
 End Sub
 
 Private Sub Timer1_Timer()
     If Not GraphCO1.ActiveState Is Nothing Then
-        Caption = "Current State: " & GraphCO1.ActiveState.this.Name
+        Caption = "Current State: " & GraphCO1.ActiveState.This.Name
     End If
 End Sub

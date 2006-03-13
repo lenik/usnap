@@ -1,0 +1,134 @@
+VERSION 5.00
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0"; "vbuserext.ocx"
+Begin VB.PropertyPage GraphCO_Bar_PropCmds
+   Caption         =   "PropertyPage1"
+   ClientHeight    =   3495
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   6330
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   3495
+   ScaleWidth      =   6330
+   Begin VBUserExt.ScrollableContainer ScrollableContainer1
+      Height          =   2955
+      Left            =   60
+      TabIndex        =   5
+      Top             =   420
+      Width           =   6195
+      _ExtentX        =   10927
+      _ExtentY        =   5212
+      ExtX1           =   6255
+      ExtY1           =   3195
+   End
+   Begin VB.CommandButton cmdAdd
+      Caption         =   "&Add"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
+      Left            =   4980
+      TabIndex        =   1
+      Top             =   0
+      Width           =   555
+   End
+   Begin VB.CommandButton cmdClear
+      Caption         =   "&Clear"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
+      Left            =   5580
+      TabIndex        =   0
+      Top             =   0
+      Width           =   675
+   End
+   Begin VB.Line Line1
+      X1              =   60
+      X2              =   6300
+      Y1              =   360
+      Y2              =   360
+   End
+   Begin VB.Label lblHead
+      AutoSize        =   -1  'True
+      Caption         =   "Title"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Index           =   0
+      Left            =   240
+      TabIndex        =   4
+      Top             =   60
+      Width           =   375
+   End
+   Begin VB.Label lblHead
+      AutoSize        =   -1  'True
+      Caption         =   "Message"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Index           =   1
+      Left            =   1020
+      TabIndex        =   3
+      Top             =   60
+      Width           =   750
+   End
+   Begin VB.Label lblHead
+      AutoSize        =   -1  'True
+      Caption         =   "Parameters (separate by "","")"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Index           =   2
+      Left            =   1980
+      TabIndex        =   2
+      Top             =   60
+      Width           =   2415
+   End
+End
+Attribute VB_Name = "GraphCO_Bar_PropCmds"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Private Sub Image1_Click()
+
+End Sub
+
+Private Sub Picture1_Click()
+
+End Sub

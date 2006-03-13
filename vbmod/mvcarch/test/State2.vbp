@@ -1,7 +1,8 @@
 Type=Exe
 Form=State2_Form1.frm
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Object={529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#22.0#0; mvcarch.ocx
+Object={529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#23.0#0; mvcarch.ocx
+IconForm="State2_Form1"
 Startup="State2_Form1"
 Command32=""
 Name="State2"

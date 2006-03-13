@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#22.0#0"; "mvcarch.ocx"
+Object = "{529C9DC9-47A3-4A28-AC7B-5A7DBB82E939}#22.1#0"; "mvcarch.ocx"
 Begin VB.Form State2_Form1
    Caption         =   "Form1"
    ClientHeight    =   3090
@@ -11,8 +11,8 @@ Begin VB.Form State2_Form1
    ScaleWidth      =   4680
    StartUpPosition =   3  'Windows Default
    Begin MVCArch.GraphCO GraphCO1
-      Left            =   960
-      Top             =   420
+      Left            =   840
+      Top             =   300
       _ExtentX        =   5106
       _ExtentY        =   4048
       Collapsed       =   0   'False

@@ -31,9 +31,10 @@ Private Const SHAPE_PAD = 2
 Private Const TITLE_PAD = 5
 
 Private Const DEFAULT_COLLAPSED = False
-Private Const DEFAULT_TITLE = "Controller"
 Private Const DEFAULT_EXPANDEDWIDTH = 100
 Private Const DEFAULT_EXPANDEDHEIGHT = 100
+Private Const DEFAULT_TITLE = "Controller"
+Private Const DEFAULT_INITIAL = "soStart"
 
 Private m_Collapsed As Boolean
 Private m_Title As String
@@ -51,23 +52,23 @@ Private m_ShapeExpanded(0 To 3) As POINTL
 Private Declare Function strlen Lib "kernel32" Alias "lstrlenA" (ByVal Str As String) As Long
 
 'Event Declarations:
-Event Click() 'MappingInfo=UserControl,UserControl,-1,Click
-Event Show() 'MappingInfo=UserControl,UserControl,-1,Show
-Event Resize() 'MappingInfo=UserControl,UserControl,-1,Resize
-Event OLEStartDrag(Data As DataObject, AllowedEffects As Long) 'MappingInfo=UserControl,UserControl,-1,OLEStartDrag
-Event OLESetData(Data As DataObject, DataFormat As Integer) 'MappingInfo=UserControl,UserControl,-1,OLESetData
-Event OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean) 'MappingInfo=UserControl,UserControl,-1,OLEGiveFeedback
-Event OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer) 'MappingInfo=UserControl,UserControl,-1,OLEDragOver
-Event OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,OLEDragDrop
-Event OLECompleteDrag(Effect As Long) 'MappingInfo=UserControl,UserControl,-1,OLECompleteDrag
-Event MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
-Event MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
-Event MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
-Event KeyUp(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyUp
-Event KeyPress(KeyAscii As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyPress
-Event KeyDown(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyDown
-Event Hide() 'MappingInfo=UserControl,UserControl,-1,Hide
-Event DblClick() 'MappingInfo=UserControl,UserControl,-1,DblClick
+'Event Click() 'MappingInfo=UserControl,UserControl,-1,Click
+'Event Show() 'MappingInfo=UserControl,UserControl,-1,Show
+'Event Resize() 'MappingInfo=UserControl,UserControl,-1,Resize
+'Event OLEStartDrag(Data As DataObject, AllowedEffects As Long) 'MappingInfo=UserControl,UserControl,-1,OLEStartDrag
+'Event OLESetData(Data As DataObject, DataFormat As Integer) 'MappingInfo=UserControl,UserControl,-1,OLESetData
+'Event OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean) 'MappingInfo=UserControl,UserControl,-1,OLEGiveFeedback
+'Event OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer) 'MappingInfo=UserControl,UserControl,-1,OLEDragOver
+'Event OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,OLEDragDrop
+'Event OLECompleteDrag(Effect As Long) 'MappingInfo=UserControl,UserControl,-1,OLECompleteDrag
+'Event MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseUp
+'Event MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseMove
+'Event MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single) 'MappingInfo=UserControl,UserControl,-1,MouseDown
+'Event KeyUp(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyUp
+'Event KeyPress(KeyAscii As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyPress
+'Event KeyDown(KeyCode As Integer, Shift As Integer) 'MappingInfo=UserControl,UserControl,-1,KeyDown
+'Event Hide() 'MappingInfo=UserControl,UserControl,-1,Hide
+'Event DblClick() 'MappingInfo=UserControl,UserControl,-1,DblClick
 
 '
 ' Controller Impl.
@@ -76,25 +77,26 @@ Private m_Context As Object
 Private m_InitialName As String
 Private m_InitialState As GraphSO
 Private m_Active As GraphSO
-Private m_Stack As New List
+Private m_Stack As New LinkedList
 Private m_AllCmds As List
 Private m_Bar As GraphCO_Bar
 
 Implements ControllerObject
 
-Event Started(InitState As GraphSO)
-Event Ended(ByVal lastState As GraphSO)
-Event Enter(ByVal PreviousState As GraphSO, ByVal CurrentState As GraphSO)
-Event Leave(ByVal CurrentState As GraphSO, NextState As GraphSO)
+Public Event Started(InitState As Object)
+Public Event Ended(ByVal lastState As Object)
+Public Event Enter(ByVal PreviousState As Object, ByVal CurrentState As Object)
+Public Event Leave(ByVal CurrentState As Object, NextState As Object)
+Public Event Undefined(ByVal Message, ByVal Parameters, NextState As Object)
 
 Public Sub Start()
     Dim Initial As GraphSO
     Set Initial = InitialState
     RaiseEvent Started(Initial)
-    SetState Initial
+    Jump Initial
 End Sub
 
-Private Sub SetState(ByVal State As GraphSO)
+Private Sub Jump(ByVal State As GraphSO)
     ' No changes
     If State Is m_Active Then Exit Sub
 
@@ -118,12 +120,63 @@ End Sub
 ' Return False for termination
 Public Function Process(ByVal Message, Optional Parameters) As Boolean
     If m_Active Is Nothing Then Exit Function
+
     Dim NextState As GraphSO
+
+    ' <event> GraphSO.Process
     Set NextState = m_Active.Process(Message, Parameters)
+    If Not NextState Is Nothing Then
+        Set m_Active = NextState
+        Process = True
+        Exit Function
+    End If
+
+    ' <cmd> GraphSO.Commands
+    Dim i As Integer
+    Dim cmd As StateObjectCommand
+    Dim defcmd As StateObjectCommand
+
+    Set NextState = Me
+    For i = 0 To m_Active.Commands - 1
+        With m_Active.Command(i)
+            If .Name = Message Then
+                Set cmd = m_Active.Command(i)
+                Exit For
+            End If
+            If .Default Then
+                Set defcmd = m_Active.Command(i)
+            End If
+        End With
+    Next
+
+    If cmd Is Nothing And defcmd Is Nothing Then
+        ' Command undefined -> terminate by default
+        Set NextState = Nothing
+        RaiseEvent Undefined(Message, Parameters, NextState)
+    Else
+        ' Command defined -> using defined by default
+        If cmd Is Nothing Then Set cmd = defcmd
+        If cmd.Method = methodCall Then
+            PushState Me
+        End If
+        Set NextState = cmd.Target(m_Context)
+    End If
+
+    Select Case NextState.Style
+    Case stateInternal
+
+    End Select
+
+    If NextState Is Nothing Then
+        ' Pop stack if stack isn't empty
+        Set NextState = PopState
+    End If
+
     If NextState Is Nothing Then
         RaiseEvent Ended(m_Active)
     End If
-    SetState NextState
+
+    Jump NextState
     Process = Not NextState Is Nothing
 End Function
 
@@ -138,7 +191,12 @@ NotExist:
 End Property
 
 Private Property Get InitialState() As GraphSO
+    If m_InitialState Is Nothing Then
+        On Error GoTo NotExist
+        Set m_InitialState = State(m_InitialName)
+    End If
     Set InitialState = m_InitialState
+NotExist:
 End Property
 Private Property Set InitialState(ByVal newval As GraphSO)
     Set m_InitialState = newval
@@ -153,12 +211,14 @@ Public Property Get State(ByVal Name As String) As GraphSO
 End Property
 
 Public Sub PushState(ByVal State As GraphSO)
-    m_Stack.push State
+    m_Stack.Push State
 End Sub
 
 Public Function PopState() As GraphSO
-    If m_Stack.size > 0 Then
-        Set PopState = m_Stack.pop
+    If m_Stack.Count > 0 Then
+        Dim v
+        LC.Assign v, m_Stack.Pop
+        Set PopState = v
     End If
 End Function
 
@@ -217,12 +277,12 @@ Private Sub RedrawArrows()
         Set obj = ctrls(Name)
         If TypeName(obj) = "GraphSO" Then
             Dim so As GraphSO
-            Dim I As Integer
+            Dim i As Integer
             Dim ct As Object
 
             Set so = obj
-            For I = 0 To so.Commands - 1
-                With so.Command(I)
+            For i = 0 To so.Commands - 1
+                With so.Command(i)
                 If .Visible = True Then
                     Set ct = .Target(Context)
                     If Not ct Is Nothing Then
@@ -253,14 +313,14 @@ Private Sub RedrawArrows()
                         x1 = PixelX(x1)
                         y1 = PixelY(y1)
 
-                        Me.ForeColor = so.ForeColor
-                        Lines.Arrow hDC, IIf(so.Command(I).Method = methodGoto, arrowNormal, arrowNormalDbl), _
+                        ForeColor = so.ForeColor
+                        Lines.Arrow hDC, IIf(so.Command(i).Method = methodGoto, arrowNormal, arrowNormalDbl), _
                                     x0, y0, x1, y1
 
-                        Dim size As SIZEL
-                        GetTextExtentPoint hDC, .Title, strlen(.Title), size
+                        Dim Size As SIZEL
+                        GetTextExtentPoint hDC, .Title, strlen(.Title), Size
 
-                        TextOut hDC, (x0 + x1) / 2 - size.cx / 2, (y0 + y1) / 2 - size.cy / 2, _
+                        TextOut hDC, (x0 + x1) / 2 - Size.cx / 2, (y0 + y1) / 2 - Size.cy / 2, _
                                 .Title, strlen(.Title)
                     End If
                 End If
@@ -339,7 +399,7 @@ End Property
 Public Property Let Title(ByVal newval As String)
     m_Title = newval
     m_TitleLen = strlen(m_Title)
-    UserControl.Refresh
+    Redraw
 End Property
 
 Sub InitShapes()
@@ -356,10 +416,10 @@ Sub InitShapes()
     m_ShapeExpanded(2).x = SHAPE_SIZE / 2 - 1
     m_ShapeExpanded(2).Y = h - 1
 
-    Dim I As Integer
-    For I = 0 To 3
-        m_ShapeCollapsed(I).x = m_ShapeCollapsed(I).x + MARGIN
-        m_ShapeExpanded(I).x = m_ShapeExpanded(I).x + MARGIN
+    Dim i As Integer
+    For i = 0 To 3
+        m_ShapeCollapsed(i).x = m_ShapeCollapsed(i).x + MARGIN
+        m_ShapeExpanded(i).x = m_ShapeExpanded(i).x + MARGIN
     Next
 End Sub
 
@@ -372,17 +432,17 @@ Private Sub RedrawIcon()
 End Sub
 
 Private Sub RedrawTitle()
-    Dim size As SIZEL
+    Dim Size As SIZEL
     Dim l As Long
     Dim x As Long, Y As Long
-    l = GetTextExtentPoint(hDC, m_Title, m_TitleLen, size)
+    l = GetTextExtentPoint(hDC, m_Title, m_TitleLen, Size)
     x = MARGIN + SHAPE_SIZE + SHAPE_PAD
     Y = 1
     l = TextOut(hDC, x, Y, m_Title, m_TitleLen)
-    MoveTo hDC, 0, Y + size.cy
-    LineTo hDC, ScaleWidth - 1, Y + size.cy ' Underline
-    m_CollapsedWidth = (x + size.cx + MARGIN + TITLE_PAD + BORDER) * Screen.TwipsPerPixelX
-    m_CollapsedHeight = (Y + size.cy + MARGIN + BORDER) * Screen.TwipsPerPixelY
+    MoveTo hDC, 0, Y + Size.cy
+    LineTo hDC, ScaleWidth - 1, Y + Size.cy ' Underline
+    m_CollapsedWidth = (x + Size.cx + MARGIN + TITLE_PAD + BORDER) * Screen.TwipsPerPixelX
+    m_CollapsedHeight = (Y + Size.cy + MARGIN + BORDER) * Screen.TwipsPerPixelY
 End Sub
 
 Private Sub UserControl_Initialize()
@@ -393,7 +453,7 @@ Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, x As Sing
     If Y < SHAPE_SIZE * Screen.TwipsPerPixelY Then
         Collapsed = Not Collapsed
     End If
-    RaiseEvent MouseDown(Button, Shift, x, Y)
+    'RaiseEvent MouseDown(Button, Shift, x, Y)
 End Sub
 
 Private Sub UserControl_InitProperties()
@@ -401,6 +461,7 @@ Private Sub UserControl_InitProperties()
     m_ExpandedWidth = DEFAULT_EXPANDEDWIDTH
     m_ExpandedHeight = DEFAULT_EXPANDEDHEIGHT
     Title = DEFAULT_TITLE
+    Initial = DEFAULT_INITIAL
 
     Set UserControl.Font = Ambient.Font
 End Sub
@@ -410,6 +471,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     m_ExpandedWidth = PropBag.ReadProperty("ExpandedWidth", DEFAULT_EXPANDEDWIDTH)
     m_ExpandedHeight = PropBag.ReadProperty("ExpandedHeight", DEFAULT_EXPANDEDHEIGHT)
     Title = PropBag.ReadProperty("Title", DEFAULT_TITLE)
+    m_InitialName = PropBag.ReadProperty("Initial", DEFAULT_INITIAL)
 
     UserControl.Appearance = PropBag.ReadProperty("Appearance", 0)
     UserControl.BackStyle = PropBag.ReadProperty("BackStyle", 1)
@@ -442,11 +504,11 @@ End Sub
 Private Sub UserControl_Resize()
     '' Doverb edit for design-mode
     'If Not Ambient.UserMode Then UserControl.DoVerb "EDIT"
-    RaiseEvent Resize
+    'RaiseEvent Resize
 End Sub
 
 Private Sub UserControl_Show()
-    RaiseEvent Show
+    'RaiseEvent Show
 End Sub
 
 Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
@@ -454,6 +516,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     PropBag.WriteProperty "ExpandedWidth", m_ExpandedWidth
     PropBag.WriteProperty "ExpandedHeight", m_ExpandedHeight
     PropBag.WriteProperty "Title", m_Title
+    PropBag.WriteProperty "Initial", m_InitialName
 
     Call PropBag.WriteProperty("Appearance", UserControl.Appearance, 0)
     Call PropBag.WriteProperty("BackStyle", UserControl.BackStyle, 1)
@@ -496,417 +559,417 @@ End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,BackStyle
-Public Property Get BackStyle() As Integer
-    BackStyle = UserControl.BackStyle
-End Property
+'Public Property Get BackStyle() As Integer
+'    BackStyle = UserControl.BackStyle
+'End Property
 
-Public Property Let BackStyle(ByVal New_BackStyle As Integer)
-    UserControl.BackStyle() = New_BackStyle
-    PropertyChanged "BackStyle"
-End Property
+'Public Property Let BackStyle(ByVal New_BackStyle As Integer)
+'    UserControl.BackStyle() = New_BackStyle
+'    PropertyChanged "BackStyle"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,BackColor
-Public Property Get BackColor() As OLE_COLOR
-    BackColor = UserControl.BackColor
-End Property
+'Public Property Get BackColor() As OLE_COLOR
+'    BackColor = UserControl.BackColor
+'End Property
 
-Public Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
-    UserControl.BackColor() = New_BackColor
-    PropertyChanged "BackColor"
-End Property
+'Public Property Let BackColor(ByVal New_BackColor As OLE_COLOR)
+'    UserControl.BackColor() = New_BackColor
+'    PropertyChanged "BackColor"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,BorderStyle
-Public Property Get BorderStyle() As Integer
-    BorderStyle = UserControl.BorderStyle
-End Property
+'Public Property Get BorderStyle() As Integer
+'    BorderStyle = UserControl.BorderStyle
+'End Property
 
-Public Property Let BorderStyle(ByVal New_BorderStyle As Integer)
-    UserControl.BorderStyle() = New_BorderStyle
-    PropertyChanged "BorderStyle"
-End Property
+'Public Property Let BorderStyle(ByVal New_BorderStyle As Integer)
+'    UserControl.BorderStyle() = New_BorderStyle
+'    PropertyChanged "BorderStyle"
+'End Property
 
-Private Sub UserControl_Click()
-    RaiseEvent Click
-End Sub
+'Private Sub UserControl_Click()
+'    RaiseEvent Click
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ClipBehavior
-Public Property Get ClipBehavior() As Integer
-    ClipBehavior = UserControl.ClipBehavior
-End Property
+'Public Property Get ClipBehavior() As Integer
+'    ClipBehavior = UserControl.ClipBehavior
+'End Property
 
-Public Property Let ClipBehavior(ByVal New_ClipBehavior As Integer)
-    UserControl.ClipBehavior() = New_ClipBehavior
-    PropertyChanged "ClipBehavior"
-End Property
+'Public Property Let ClipBehavior(ByVal New_ClipBehavior As Integer)
+'    UserControl.ClipBehavior() = New_ClipBehavior
+'    PropertyChanged "ClipBehavior"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ClipControls
-Public Property Get ClipControls() As Boolean
-    ClipControls = UserControl.ClipControls
-End Property
+'Public Property Get ClipControls() As Boolean
+'    ClipControls = UserControl.ClipControls
+'End Property
 
-Public Property Let ClipControls(ByVal New_ClipControls As Boolean)
-    UserControl.ClipControls() = New_ClipControls
-    PropertyChanged "ClipControls"
-End Property
+'Public Property Let ClipControls(ByVal New_ClipControls As Boolean)
+'    UserControl.ClipControls() = New_ClipControls
+'    PropertyChanged "ClipControls"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,TextWidth
-Public Function TextWidth(ByVal Str As String) As Single
-    TextWidth = UserControl.TextWidth(Str)
-End Function
+'Public Function TextWidth(ByVal Str As String) As Single
+'    TextWidth = UserControl.TextWidth(Str)
+'End Function
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,TextHeight
-Public Function TextHeight(ByVal Str As String) As Single
-    TextHeight = UserControl.TextHeight(Str)
-End Function
+'Public Function TextHeight(ByVal Str As String) As Single
+'    TextHeight = UserControl.TextHeight(Str)
+'End Function
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Size
-Public Sub size(ByVal Width As Single, ByVal Height As Single)
-    UserControl.size Width, Height
-End Sub
+'Public Sub Size(ByVal Width As Single, ByVal Height As Single)
+'    UserControl.Size Width, Height
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleY
-Public Function ScaleY(ByVal Height As Single, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
-    ScaleY = UserControl.ScaleY(Height, FromScale, ToScale)
-End Function
+'Public Function ScaleY(ByVal Height As Single, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
+'    ScaleY = UserControl.ScaleY(Height, FromScale, ToScale)
+'End Function
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleX
-Public Function ScaleX(ByVal Width As Single, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
-    ScaleX = UserControl.ScaleX(Width, FromScale, ToScale)
-End Function
+'Public Function ScaleX(ByVal Width As Single, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
+'    ScaleX = UserControl.ScaleX(Width, FromScale, ToScale)
+'End Function
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleWidth
-Public Property Get ScaleWidth() As Single
-    ScaleWidth = UserControl.ScaleWidth
-End Property
+'Public Property Get ScaleWidth() As Single
+'    ScaleWidth = UserControl.ScaleWidth
+'End Property
 
-Public Property Let ScaleWidth(ByVal New_ScaleWidth As Single)
-    UserControl.ScaleWidth() = New_ScaleWidth
-    PropertyChanged "ScaleWidth"
-End Property
+'Public Property Let ScaleWidth(ByVal New_ScaleWidth As Single)
+'    UserControl.ScaleWidth() = New_ScaleWidth
+'    PropertyChanged "ScaleWidth"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleTop
-Public Property Get ScaleTop() As Single
-    ScaleTop = UserControl.ScaleTop
-End Property
+'Public Property Get ScaleTop() As Single
+'    ScaleTop = UserControl.ScaleTop
+'End Property
 
-Public Property Let ScaleTop(ByVal New_ScaleTop As Single)
-    UserControl.ScaleTop() = New_ScaleTop
-    PropertyChanged "ScaleTop"
-End Property
+'Public Property Let ScaleTop(ByVal New_ScaleTop As Single)
+'    UserControl.ScaleTop() = New_ScaleTop
+'    PropertyChanged "ScaleTop"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleMode
-Public Property Get ScaleMode() As ScaleModeConstants
-    ScaleMode = UserControl.ScaleMode
-End Property
+'Public Property Get ScaleMode() As ScaleModeConstants
+'    ScaleMode = UserControl.ScaleMode
+'End Property
 
-Public Property Let ScaleMode(ByVal New_ScaleMode As ScaleModeConstants)
-    UserControl.ScaleMode() = New_ScaleMode
-    PropertyChanged "ScaleMode"
-End Property
+'Public Property Let ScaleMode(ByVal New_ScaleMode As ScaleModeConstants)
+'    UserControl.ScaleMode() = New_ScaleMode
+'    PropertyChanged "ScaleMode"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleLeft
-Public Property Get ScaleLeft() As Single
-    ScaleLeft = UserControl.ScaleLeft
-End Property
+'Public Property Get ScaleLeft() As Single
+'    ScaleLeft = UserControl.ScaleLeft
+'End Property
 
-Public Property Let ScaleLeft(ByVal New_ScaleLeft As Single)
-    UserControl.ScaleLeft() = New_ScaleLeft
-    PropertyChanged "ScaleLeft"
-End Property
+'Public Property Let ScaleLeft(ByVal New_ScaleLeft As Single)
+'    UserControl.ScaleLeft() = New_ScaleLeft
+'    PropertyChanged "ScaleLeft"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ScaleHeight
-Public Property Get ScaleHeight() As Single
-    ScaleHeight = UserControl.ScaleHeight
-End Property
+'Public Property Get ScaleHeight() As Single
+'    ScaleHeight = UserControl.ScaleHeight
+'End Property
 
-Public Property Let ScaleHeight(ByVal New_ScaleHeight As Single)
-    UserControl.ScaleHeight() = New_ScaleHeight
-    PropertyChanged "ScaleHeight"
-End Property
+'Public Property Let ScaleHeight(ByVal New_ScaleHeight As Single)
+'    UserControl.ScaleHeight() = New_ScaleHeight
+'    PropertyChanged "ScaleHeight"
+'End Property
 
 'The Underscore following "Scale" is necessary because it
 'is a Reserved Word in VBA.
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Scale
-Public Sub Scale_(Optional x1 As Variant, Optional y1 As Variant, Optional X2 As Variant, Optional Y2 As Variant)
-    UserControl.Scale (x1, y1)-(X2, Y2)
-End Sub
+'Public Sub Scale_(Optional x1 As Variant, Optional y1 As Variant, Optional X2 As Variant, Optional Y2 As Variant)
+'    UserControl.Scale (x1, y1)-(X2, Y2)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,RightToLeft
-Public Property Get RightToLeft() As Boolean
-    RightToLeft = UserControl.RightToLeft
-End Property
+'Public Property Get RightToLeft() As Boolean
+'    RightToLeft = UserControl.RightToLeft
+'End Property
 
-Public Property Let RightToLeft(ByVal New_RightToLeft As Boolean)
-    UserControl.RightToLeft() = New_RightToLeft
-    PropertyChanged "RightToLeft"
-End Property
+'Public Property Let RightToLeft(ByVal New_RightToLeft As Boolean)
+'    UserControl.RightToLeft() = New_RightToLeft
+'    PropertyChanged "RightToLeft"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Refresh
-Public Sub Refresh()
-    UserControl.Refresh
-End Sub
+'Public Sub Refresh()
+'    UserControl.Refresh
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Picture
-Public Property Get Picture() As Picture
-    Set Picture = UserControl.Picture
-End Property
+'Public Property Get Picture() As Picture
+'    Set Picture = UserControl.Picture
+'End Property
 
-Public Property Set Picture(ByVal New_Picture As Picture)
-    Set UserControl.Picture = New_Picture
-    PropertyChanged "Picture"
-End Property
+'Public Property Set Picture(ByVal New_Picture As Picture)
+'    Set UserControl.Picture = New_Picture
+'    PropertyChanged "Picture"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,PaintPicture
-Public Sub PaintPicture(ByVal Picture As Picture, ByVal x1 As Single, ByVal y1 As Single, Optional ByVal Width1 As Variant, Optional ByVal Height1 As Variant, Optional ByVal X2 As Variant, Optional ByVal Y2 As Variant, Optional ByVal Width2 As Variant, Optional ByVal Height2 As Variant, Optional ByVal Opcode As Variant)
-    UserControl.PaintPicture Picture, x1, y1, Width1, Height1, X2, Y2, Width2, Height2, Opcode
-End Sub
+'Public Sub PaintPicture(ByVal Picture As Picture, ByVal x1 As Single, ByVal y1 As Single, Optional ByVal Width1 As Variant, Optional ByVal Height1 As Variant, Optional ByVal X2 As Variant, Optional ByVal Y2 As Variant, Optional ByVal Width2 As Variant, Optional ByVal Height2 As Variant, Optional ByVal Opcode As Variant)
+'    UserControl.PaintPicture Picture, x1, y1, Width1, Height1, X2, Y2, Width2, Height2, Opcode
+'End Sub
 
-Private Sub UserControl_OLEStartDrag(Data As DataObject, AllowedEffects As Long)
-    RaiseEvent OLEStartDrag(Data, AllowedEffects)
-End Sub
+'Private Sub UserControl_OLEStartDrag(Data As DataObject, AllowedEffects As Long)
+'    RaiseEvent OLEStartDrag(Data, AllowedEffects)
+'End Sub
 
-Private Sub UserControl_OLESetData(Data As DataObject, DataFormat As Integer)
-    RaiseEvent OLESetData(Data, DataFormat)
-End Sub
+'Private Sub UserControl_OLESetData(Data As DataObject, DataFormat As Integer)
+'    RaiseEvent OLESetData(Data, DataFormat)
+'End Sub
 
-Private Sub UserControl_OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean)
-    RaiseEvent OLEGiveFeedback(Effect, DefaultCursors)
-End Sub
+'Private Sub UserControl_OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean)
+'    RaiseEvent OLEGiveFeedback(Effect, DefaultCursors)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,OLEDropMode
-Public Property Get OLEDropMode() As Integer
-    OLEDropMode = UserControl.OLEDropMode
-End Property
+'Public Property Get OLEDropMode() As Integer
+'    OLEDropMode = UserControl.OLEDropMode
+'End Property
 
-Public Property Let OLEDropMode(ByVal New_OLEDropMode As Integer)
-    UserControl.OLEDropMode() = New_OLEDropMode
-    PropertyChanged "OLEDropMode"
-End Property
+'Public Property Let OLEDropMode(ByVal New_OLEDropMode As Integer)
+'    UserControl.OLEDropMode() = New_OLEDropMode
+'    PropertyChanged "OLEDropMode"
+'End Property
 
-Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer)
-    RaiseEvent OLEDragOver(Data, Effect, Button, Shift, x, Y, State)
-End Sub
+'Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single, State As Integer)
+'    RaiseEvent OLEDragOver(Data, Effect, Button, Shift, x, Y, State)
+'End Sub
 
-Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
-    RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, x, Y)
-End Sub
+'Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+'    RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, x, Y)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,OLEDrag
-Public Sub OLEDrag()
-    UserControl.OLEDrag
-End Sub
+'Public Sub OLEDrag()
+'    UserControl.OLEDrag
+'End Sub
 
-Private Sub UserControl_OLECompleteDrag(Effect As Long)
-    RaiseEvent OLECompleteDrag(Effect)
-End Sub
+'Private Sub UserControl_OLECompleteDrag(Effect As Long)
+'    RaiseEvent OLECompleteDrag(Effect)
+'End Sub
 
-Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    RaiseEvent MouseUp(Button, Shift, x, Y)
-End Sub
+'Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+'    RaiseEvent MouseUp(Button, Shift, x, Y)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,MousePointer
-Public Property Get MousePointer() As Integer
-    MousePointer = UserControl.MousePointer
-End Property
+'Public Property Get MousePointer() As Integer
+'    MousePointer = UserControl.MousePointer
+'End Property
 
-Public Property Let MousePointer(ByVal New_MousePointer As Integer)
-    UserControl.MousePointer() = New_MousePointer
-    PropertyChanged "MousePointer"
-End Property
+'Public Property Let MousePointer(ByVal New_MousePointer As Integer)
+'    UserControl.MousePointer() = New_MousePointer
+'    PropertyChanged "MousePointer"
+'End Property
 
-Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    RaiseEvent MouseMove(Button, Shift, x, Y)
-End Sub
+'Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
+'    RaiseEvent MouseMove(Button, Shift, x, Y)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,MouseIcon
-Public Property Get MouseIcon() As Picture
-    Set MouseIcon = UserControl.MouseIcon
-End Property
+'Public Property Get MouseIcon() As Picture
+'    Set MouseIcon = UserControl.MouseIcon
+'End Property
 
-Public Property Set MouseIcon(ByVal New_MouseIcon As Picture)
-    Set UserControl.MouseIcon = New_MouseIcon
-    PropertyChanged "MouseIcon"
-End Property
+'Public Property Set MouseIcon(ByVal New_MouseIcon As Picture)
+'    Set UserControl.MouseIcon = New_MouseIcon
+'    PropertyChanged "MouseIcon"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,MaskPicture
-Public Property Get MaskPicture() As Picture
-    Set MaskPicture = UserControl.MaskPicture
-End Property
+'Public Property Get MaskPicture() As Picture
+'    Set MaskPicture = UserControl.MaskPicture
+'End Property
 
-Public Property Set MaskPicture(ByVal New_MaskPicture As Picture)
-    Set UserControl.MaskPicture = New_MaskPicture
-    PropertyChanged "MaskPicture"
-End Property
+'Public Property Set MaskPicture(ByVal New_MaskPicture As Picture)
+'    Set UserControl.MaskPicture = New_MaskPicture
+'    PropertyChanged "MaskPicture"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,MaskColor
-Public Property Get MaskColor() As Long
-    MaskColor = UserControl.MaskColor
-End Property
+'Public Property Get MaskColor() As Long
+'    MaskColor = UserControl.MaskColor
+'End Property
 
-Public Property Let MaskColor(ByVal New_MaskColor As Long)
-    UserControl.MaskColor() = New_MaskColor
-    PropertyChanged "MaskColor"
-End Property
+'Public Property Let MaskColor(ByVal New_MaskColor As Long)
+'    UserControl.MaskColor() = New_MaskColor
+'    PropertyChanged "MaskColor"
+'End Property
 
-Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
-    RaiseEvent KeyUp(KeyCode, Shift)
-End Sub
+'Private Sub UserControl_KeyUp(KeyCode As Integer, Shift As Integer)
+'    RaiseEvent KeyUp(KeyCode, Shift)
+'End Sub
 
-Private Sub UserControl_KeyPress(KeyAscii As Integer)
-    RaiseEvent KeyPress(KeyAscii)
-End Sub
+'Private Sub UserControl_KeyPress(KeyAscii As Integer)
+'    RaiseEvent KeyPress(KeyAscii)
+'End Sub
 
-Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
-    RaiseEvent KeyDown(KeyCode, Shift)
-End Sub
+'Private Sub UserControl_KeyDown(KeyCode As Integer, Shift As Integer)
+'    RaiseEvent KeyDown(KeyCode, Shift)
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Image
-Public Property Get Image() As Picture
-    Set Image = UserControl.Image
-End Property
+'Public Property Get Image() As Picture
+'    Set Image = UserControl.Image
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,hWnd
-Public Property Get hWnd() As Long
-    hWnd = UserControl.hWnd
-End Property
+'Public Property Get hWnd() As Long
+'    hWnd = UserControl.hWnd
+'End Property
 
-Private Sub UserControl_Hide()
-    RaiseEvent Hide
-End Sub
+'Private Sub UserControl_Hide()
+'    RaiseEvent Hide
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,hDC
-Public Property Get hDC() As Long
-    hDC = UserControl.hDC
-End Property
+'Public Property Get hDC() As Long
+'    hDC = UserControl.hDC
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ForeColor
-Public Property Get ForeColor() As OLE_COLOR
-    ForeColor = UserControl.ForeColor
-End Property
+'Public Property Get ForeColor() As OLE_COLOR
+'    ForeColor = UserControl.ForeColor
+'End Property
 
-Public Property Let ForeColor(ByVal New_ForeColor As OLE_COLOR)
-    UserControl.ForeColor() = New_ForeColor
-    PropertyChanged "ForeColor"
-End Property
+'Public Property Let ForeColor(ByVal New_ForeColor As OLE_COLOR)
+'    UserControl.ForeColor() = New_ForeColor
+'    PropertyChanged "ForeColor"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Font
-Public Property Get Font() As Font
-    Set Font = UserControl.Font
-End Property
+'Public Property Get Font() As Font
+'    Set Font = UserControl.Font
+'End Property
 
-Public Property Set Font(ByVal New_Font As Font)
-    Set UserControl.Font = New_Font
-    PropertyChanged "Font"
-End Property
+'Public Property Set Font(ByVal New_Font As Font)
+'    Set UserControl.Font = New_Font
+'    PropertyChanged "Font"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,FillStyle
-Public Property Get FillStyle() As FillStyleConstants
-    FillStyle = UserControl.FillStyle
-End Property
+'Public Property Get FillStyle() As FillStyleConstants
+'    FillStyle = UserControl.FillStyle
+'End Property
 
-Public Property Let FillStyle(ByVal New_FillStyle As FillStyleConstants)
-    UserControl.FillStyle() = New_FillStyle
-    PropertyChanged "FillStyle"
-End Property
+'Public Property Let FillStyle(ByVal New_FillStyle As FillStyleConstants)
+'    UserControl.FillStyle() = New_FillStyle
+'    PropertyChanged "FillStyle"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,FillColor
-Public Property Get FillColor() As OLE_COLOR
-    FillColor = UserControl.FillColor
-End Property
+'Public Property Get FillColor() As OLE_COLOR
+'    FillColor = UserControl.FillColor
+'End Property
 
-Public Property Let FillColor(ByVal New_FillColor As OLE_COLOR)
-    UserControl.FillColor() = New_FillColor
-    PropertyChanged "FillColor"
-End Property
+'Public Property Let FillColor(ByVal New_FillColor As OLE_COLOR)
+'    UserControl.FillColor() = New_FillColor
+'    PropertyChanged "FillColor"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Enabled
-Public Property Get Enabled() As Boolean
-    Enabled = UserControl.Enabled
-End Property
+'Public Property Get Enabled() As Boolean
+'    Enabled = UserControl.Enabled
+'End Property
 
-Public Property Let Enabled(ByVal New_Enabled As Boolean)
-    UserControl.Enabled() = New_Enabled
-    PropertyChanged "Enabled"
-End Property
+'Public Property Let Enabled(ByVal New_Enabled As Boolean)
+'    UserControl.Enabled() = New_Enabled
+'    PropertyChanged "Enabled"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,DrawWidth
-Public Property Get DrawWidth() As Integer
-    DrawWidth = UserControl.DrawWidth
-End Property
+'Public Property Get DrawWidth() As Integer
+'    DrawWidth = UserControl.DrawWidth
+'End Property
 
-Public Property Let DrawWidth(ByVal New_DrawWidth As Integer)
-    UserControl.DrawWidth() = New_DrawWidth
-    PropertyChanged "DrawWidth"
-End Property
+'Public Property Let DrawWidth(ByVal New_DrawWidth As Integer)
+'    UserControl.DrawWidth() = New_DrawWidth
+'    PropertyChanged "DrawWidth"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,DrawStyle
-Public Property Get DrawStyle() As DrawStyleConstants
-    DrawStyle = UserControl.DrawStyle
-End Property
+'Public Property Get DrawStyle() As DrawStyleConstants
+'    DrawStyle = UserControl.DrawStyle
+'End Property
 
-Public Property Let DrawStyle(ByVal New_DrawStyle As DrawStyleConstants)
-    UserControl.DrawStyle() = New_DrawStyle
-    PropertyChanged "DrawStyle"
-End Property
+'Public Property Let DrawStyle(ByVal New_DrawStyle As DrawStyleConstants)
+'    UserControl.DrawStyle() = New_DrawStyle
+'    PropertyChanged "DrawStyle"
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,DrawMode
-Public Property Get DrawMode() As DrawModeConstants
-    DrawMode = UserControl.DrawMode
-End Property
+'Public Property Get DrawMode() As DrawModeConstants
+'    DrawMode = UserControl.DrawMode
+'End Property
 
-Public Property Let DrawMode(ByVal New_DrawMode As DrawModeConstants)
-    UserControl.DrawMode() = New_DrawMode
-    PropertyChanged "DrawMode"
-End Property
+'Public Property Let DrawMode(ByVal New_DrawMode As DrawModeConstants)
+'    UserControl.DrawMode() = New_DrawMode
+'    PropertyChanged "DrawMode"
+'End Property
 
-Private Sub UserControl_DblClick()
-    RaiseEvent DblClick
-End Sub
+'Private Sub UserControl_DblClick()
+'    RaiseEvent DblClick
+'End Sub
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,ActiveControl
-Public Property Get ActiveControl() As Object
-    Set ActiveControl = UserControl.ActiveControl
-End Property
+'Public Property Get ActiveControl() As Object
+'    Set ActiveControl = UserControl.ActiveControl
+'End Property
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MappingInfo=UserControl,UserControl,-1,Controls
-Public Property Get Controls() As Object
-    Set Controls = UserControl.Controls
-End Property
+'Public Property Get Controls() As Object
+'    Set Controls = UserControl.Controls
+'End Property

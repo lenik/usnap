@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#25.0#0"; "VBUserExt.ocx"
+Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0"; "vbuserext.ocx"
 Begin VB.PropertyPage GraphSO_PropCmds
    Caption         =   "Commands"
    ClientHeight    =   3360
@@ -207,17 +207,17 @@ Attribute Ker.VB_VarHelpID = -1
 
 ' For debug purpose.
 Property Get KerInfo() As String
-    Dim i As Integer
+    Dim I As Integer
     Dim slots() As Long
-    For i = 0 To Ker.SlotAllocated - 1
-        If i > 0 Then KerInfo = KerInfo & "."
-        KerInfo = KerInfo & Ker.FindSlot(i)
+    For I = 0 To Ker.SlotAllocated - 1
+        If I > 0 Then KerInfo = KerInfo & "."
+        KerInfo = KerInfo & Ker.FindSlot(I)
     Next
     KerInfo = KerInfo & "  =>  "
     slots = Ker.SortSlots
-    For i = 0 To Ker.Size - 1
-        If i > 0 Then KerInfo = KerInfo & "."
-        KerInfo = KerInfo & slots(i)
+    For I = 0 To Ker.size - 1
+        If I > 0 Then KerInfo = KerInfo & "."
+        KerInfo = KerInfo & slots(I)
     Next
 End Property
 
@@ -227,21 +227,21 @@ Private Property Get State() As GraphSO
 NotAState:
 End Property
 
-Private Sub cmd_Changed(index As Integer)
+Private Sub cmd_Changed(Index As Integer)
     Changed
 End Sub
 
-Private Sub cmd_Remove(index As Integer)
-    Ker.SlotRemove index
+Private Sub cmd_Remove(Index As Integer)
+    Ker.SlotRemove Index
     Changed
     Layout
 End Sub
 
-Private Sub cmd_SetDefault(index As Integer)
-    Dim i As Integer
-    For i = 0 To Ker.Size - 1
-        If i <> index Then
-            cmd(i).CommandDefault = False
+Private Sub cmd_SetDefault(Index As Integer)
+    Dim I As Integer
+    For I = 0 To Ker.size - 1
+        If I <> Index Then
+            cmd(I).CommandDefault = False
         End If
     Next
 End Sub
@@ -261,7 +261,7 @@ Private Sub CmdAlloc(ByVal slot As Integer)
     On Error GoTo AlreadyLoaded
     Load cmd(slot)
 AlreadyLoaded:
-    cmd(slot).SetTargets State.context
+    cmd(slot).SetTargets State.Context
     cmd(slot).Visible = True
 End Sub
 Private Sub CmdFree(ByVal slot As Integer)
@@ -271,19 +271,19 @@ Private Sub CmdFree(ByVal slot As Integer)
 NotyetLoaded:
 End Sub
 
-Private Sub Ker_Add(ByVal slot As Long, ByVal index As Long)
+Private Sub Ker_Add(ByVal slot As Long, ByVal Index As Long)
     CmdAlloc slot
     With cmd(slot)
         If m_AddMode = LOAD_EXISTS Then
-            .CommandName = State.Command(index).name
-            .CommandMethod = State.Command(index).Method
-            .CommandTarget = State.Command(index).TargetName
-            .CommandDefault = State.Command(index).Default
-            .CommandVisible = State.Command(index).Visible
-            .CommandTitle = State.Command(index).Title
+            .CommandName = State.Command(Index).Name
+            .CommandMethod = State.Command(Index).Method
+            .CommandTarget = State.Command(Index).TargetName
+            .CommandDefault = State.Command(Index).Default
+            .CommandVisible = State.Command(Index).Visible
+            .CommandTitle = State.Command(Index).Title
             ' .Icon = ...
         ElseIf m_AddMode = LOAD_DEFAULTS Then
-            .CommandName = "Name" & index
+            .CommandName = "Name" & Index
             .CommandMethod = methodGoto
             '.CommandTarget = ""
             .CommandDefault = False
@@ -294,7 +294,7 @@ Private Sub Ker_Add(ByVal slot As Long, ByVal index As Long)
     End With
 End Sub
 
-Private Sub Ker_Remove(ByVal slot As Long, ByVal index As Long)
+Private Sub Ker_Remove(ByVal slot As Long, ByVal Index As Long)
     CmdFree slot
 End Sub
 
@@ -331,10 +331,10 @@ End Function
 Private Sub Layout()
     Dim n As Integer
     Dim slots() As Long
-    Dim index As Integer
+    Dim Index As Integer
     Dim slot As Integer, slot1 As Integer
     Dim oldSV As Single
-    n = Ker.Size
+    n = Ker.size
     If n = 0 Then Exit Sub
 
     slots = Ker.SortSlots
@@ -344,9 +344,9 @@ Private Sub Layout()
     oldSV = scCommands.ScrollV
     scCommands.ScrollV = 0              ' ScrollV to top
     cmd(slots(0)).Top = 0
-    For index = 1 To n - 1
-        slot = slots(index)
-        slot1 = slots(index - 1)
+    For Index = 1 To n - 1
+        slot = slots(Index)
+        slot1 = slots(Index - 1)
         cmd(slot).Top = cmd(slot1).Top + cmd(slot1).Height + ByPixelY(SLOT_PADDING_V)
     Next
     scCommands.ScrollV = oldSV

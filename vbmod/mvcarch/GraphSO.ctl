@@ -97,9 +97,9 @@ Private m_BaseState As GraphSO
 
 Implements StateObject
 
-Public Event Enter(ByVal PreviousState As StateObject)
-Public Event Leave(ByVal NextState As StateObject)
-Public Event Process(ByVal Message, Parameters, NextState As StateObject)
+Public Event Enter(ByVal PreviousState As Object)
+Public Event Leave(ByVal NextState As Object)
+Public Event Process(ByVal Message, Parameters, NextState As Object)
 
 Private Sub StateObject_Enter(ByVal PreviousState As StateObject)
     Enter PreviousState
@@ -122,39 +122,7 @@ Public Sub Leave(ByVal NextState As GraphSO)
 End Sub
 
 Public Function Process(ByVal Message, Optional Parameters) As GraphSO
-    Dim i As Integer
-    Dim cmd As StateObjectCommand
-    Dim defcmd As StateObjectCommand
-
-    Set Process = Me
-    For i = 0 To m_Commands - 1
-        If m_Command(i).Name = Message Then
-            Set cmd = m_Command(i)
-            Exit For
-        End If
-        If m_Command(i).Default Then
-            Set defcmd = m_Command(i)
-        End If
-    Next
-
-    If cmd Is Nothing And defcmd Is Nothing Then
-        ' Command undefined -> terminate by default
-        Set Process = Nothing
-    Else
-        ' Command defined -> using defined by default
-        If cmd Is Nothing Then Set cmd = defcmd
-        If cmd.Method = methodCall Then
-            Controller.PushState Me
-        End If
-        Set Process = cmd.Target(m_Context)
-    End If
-
     RaiseEvent Process(Message, Parameters, Process)
-
-    If Process Is Nothing Then
-        ' Pop stack if stack isn't empty
-        Set Process = Controller.PopState
-    End If
 End Function
 
 Public Property Get Context()
@@ -415,13 +383,13 @@ Public Sub ResetCommand()
 End Sub
 
 Friend Sub SetCommands(cmdprops, sa As SAOT)
-    Dim Slots() As Long
+    Dim slots() As Long
     Dim i As Integer
     Dim cmd As GraphSO_PropCmd
-    Slots = sa.SortSlots
-    Assert sa.size <= MAX_COMMANDS, "Too many commands", LOCATION
-    For i = 0 To sa.size - 1
-        Set cmd = cmdprops(Slots(i))
+    slots = sa.SortSlots
+    Assert sa.Size <= MAX_COMMANDS, "Too many commands", LOCATION
+    For i = 0 To sa.Size - 1
+        Set cmd = cmdprops(slots(i))
         Set m_Command(i) = New StateObjectCommand
         With m_Command(i)
             .Name = cmd.CommandName
@@ -433,7 +401,7 @@ Friend Sub SetCommands(cmdprops, sa As SAOT)
             '.Icon = cmd.CommandIcon
         End With
     Next
-    m_Commands = sa.size
+    m_Commands = sa.Size
     RedrawArrows
     RedrawButtons
     UserControl.PropertyChanged

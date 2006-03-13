@@ -1,3 +1,4 @@
 VBGROUP 5.0
 Project=VBExt.vbp
 StartupProject=test\Test_Config.vbp
+Project=test\Test_List.vbp
