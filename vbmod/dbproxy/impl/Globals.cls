@@ -13,27 +13,12 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Property Get ConnectionString() As String
-    If Config.ConnectionString Then
-        ConnectionString = Config.ConnectionString
-    Else
-        ConnectionString = "DRIVER=" & Config.DBDriver & _
-                           ";SERVER=" & Config.DBServer & _
-                           ";UID=" & Config.DBUserID & _
-                           ";PWD=" & Config.DBPassword
-    End If
-End Property
-
-Public Property Get Dict() As DBDict
-    Set Dict = GlobalsSingleton.Dict
-End Property
-
-Public Function DBConnectEx(Optional ByVal Driver, _
-                            Optional ByVal Server, _
-                            Optional ByVal Database, _
-                            Optional ByVal UserID, _
-                            Optional ByVal Password, _
-                            Optional ByVal Options As Long = -1&) As DBConnection
+Public Property Get DBConnectionString(Optional ByVal Driver, _
+                                       Optional ByVal Server, _
+                                       Optional ByVal Database, _
+                                       Optional ByVal UserID, _
+                                       Optional ByVal Password, _
+                                       Optional ByVal Options As Long = -1&) As String
     If IsMissing(Driver) Then Driver = Config.DBDriver
     If IsMissing(Server) Then Server = Config.DBServer
     If IsMissing(Database) Then Database = Config.DBDatabase
@@ -47,20 +32,36 @@ Public Function DBConnectEx(Optional ByVal Driver, _
     If UserID <> "" Then connstr = connstr & ";UID=" & UserID
     If Password <> "" Then connstr = connstr & ";PWD=" & Password
 
-    If connstr = "" Then
-        Set DBConnectEx = DBConnect(, Options)
-    Else
-        Set DBConnectEx = DBConnect(Mid(connstr, 2), Options)
-    End If
+    ' chop leading ';'
+    If connstr <> "" Then connstr = Mid(connstr, 2)
+
+    If connstr = "" Then connstr = Config.DBConnectionString
+
+    DBConnectionString = connstr
+End Property
+
+Public Property Get Dictionary() As DBDict
+    Set Dictionary = GlobalsSingleton.Dict
+End Property
+
+Public Function DBConnectEx(Optional ByVal Driver, _
+                            Optional ByVal Server, _
+                            Optional ByVal Database, _
+                            Optional ByVal UserID, _
+                            Optional ByVal Password, _
+                            Optional ByVal Options As Long = -1&, _
+                            Optional ByVal ConnectionOptions As Long = -1&) As DBConnection
+    Set DBConnectEx = DBConnect(DBConnectionString( _
+        Driver, Server, Database, UserID, Password, Options), ConnectionOptions)
 End Function
 
-Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Options As Long = -1) As DBConnection
+Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal ConnectionOptions As Long = -1) As DBConnection
     Set DBConnect = New DBConnection
 
     If IsMissing(ConnectionString) Then ConnectionString = Config.DBConnectionString
     If ConnectionString = "" Then
-        DBConnect.Allocate , , , Options
+        DBConnect.Allocate , , , ConnectionOptions
     Else
-        DBConnect.Allocate ConnectionString, , , Options
+        DBConnect.Allocate ConnectionString, , , ConnectionOptions
     End If
 End Function

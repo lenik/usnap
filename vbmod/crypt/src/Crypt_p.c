@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Mar 16 14:07:55 2006
+/* at Thu Mar 16 16:50:53 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\crypt\src\Crypt.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -198,7 +198,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 #else
 			NdrFcShort( 0x38 ),	/* Alpha Stack size/offset = 56 */
 #endif
-/* 10 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 10 */	NdrFcShort( 0x20 ),	/* 32 */
 /* 12 */	NdrFcShort( 0x28 ),	/* 40 */
 /* 14 */	0x6,		/* Oi2 Flags:  clt must size, has return, */
 			0x6,		/* 6 */
@@ -215,7 +215,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 
 	/* Parameter a_msb */
 
-/* 22 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+/* 22 */	NdrFcShort( 0x158 ),	/* Flags:  in, out, base type, simple ref, */
 #ifndef _ALPHA_
 /* 24 */	NdrFcShort( 0x8 ),	/* x86, MIPS, PPC Stack size/offset = 8 */
 #else
@@ -226,7 +226,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 
 	/* Parameter b */
 
-/* 28 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+/* 28 */	NdrFcShort( 0x158 ),	/* Flags:  in, out, base type, simple ref, */
 #ifndef _ALPHA_
 /* 30 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
 #else
@@ -237,7 +237,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 
 	/* Parameter c */
 
-/* 34 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+/* 34 */	NdrFcShort( 0x158 ),	/* Flags:  in, out, base type, simple ref, */
 #ifndef _ALPHA_
 /* 36 */	NdrFcShort( 0x10 ),	/* x86, MIPS, PPC Stack size/offset = 16 */
 #else
@@ -248,7 +248,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 
 	/* Parameter d_lsb */
 
-/* 40 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+/* 40 */	NdrFcShort( 0x158 ),	/* Flags:  in, out, base type, simple ref, */
 #ifndef _ALPHA_
 /* 42 */	NdrFcShort( 0x14 ),	/* x86, MIPS, PPC Stack size/offset = 20 */
 #else
@@ -305,7 +305,7 @@ static const MIDL_TYPE_FORMAT_STRING __MIDL_TypeFormatString =
 /* 32 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 34 */	NdrFcShort( 0xffffffe0 ),	/* Offset= -32 (2) */
 /* 36 */
-			0x11, 0xc,	/* FC_RP [alloced_on_stack] [simple_pointer] */
+			0x11, 0x8,	/* FC_RP [simple_pointer] */
 /* 38 */	0x8,		/* FC_LONG */
 			0x5c,		/* FC_PAD */
 

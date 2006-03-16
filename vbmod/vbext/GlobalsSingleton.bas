@@ -18,6 +18,8 @@ Public g_Configuration As New Configuration
 Public g_Config As Object
 Public g_DebugMode As Boolean
 
+Public g_Digest As New Digest
+
 Public LE As New LowXRuntime.Execute
 
 Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Long
@@ -94,6 +96,10 @@ Public Property Get RootFile() As String
         RootFile = Left(RootFile, Len(RootFile) - 4)
     End If
 End Property
+
+Public Function NameSerial(ByVal Name As String) As Long
+    g_Digest.MD5_String Name, NameSerial
+End Function
 
 Public Sub Assert(X, Optional msg, Optional loc)
     If Not g_DebugMode Then Exit Sub

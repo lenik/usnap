@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Mar 16 14:07:55 2006
+/* at Thu Mar 16 16:50:53 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\crypt\src\Crypt.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -79,10 +79,10 @@ EXTERN_C const IID IID_IDigest;
     public:
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE MD5_String(
             /* [in] */ BSTR message,
-            /* [out] */ long __RPC_FAR *a_msb,
-            /* [out] */ long __RPC_FAR *b,
-            /* [out] */ long __RPC_FAR *c,
-            /* [out] */ long __RPC_FAR *d_lsb) = 0;
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *a_msb = 0,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *b = 0,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *c = 0,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *d_lsb = 0) = 0;
 
     };
 
@@ -135,10 +135,10 @@ EXTERN_C const IID IID_IDigest;
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *MD5_String )(
             IDigest __RPC_FAR * This,
             /* [in] */ BSTR message,
-            /* [out] */ long __RPC_FAR *a_msb,
-            /* [out] */ long __RPC_FAR *b,
-            /* [out] */ long __RPC_FAR *c,
-            /* [out] */ long __RPC_FAR *d_lsb);
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *a_msb,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *b,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *c,
+            /* [defaultvalue][optional][out][in] */ long __RPC_FAR *d_lsb);
 
         END_INTERFACE
     } IDigestVtbl;
@@ -189,10 +189,10 @@ EXTERN_C const IID IID_IDigest;
 /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IDigest_MD5_String_Proxy(
     IDigest __RPC_FAR * This,
     /* [in] */ BSTR message,
-    /* [out] */ long __RPC_FAR *a_msb,
-    /* [out] */ long __RPC_FAR *b,
-    /* [out] */ long __RPC_FAR *c,
-    /* [out] */ long __RPC_FAR *d_lsb);
+    /* [defaultvalue][optional][out][in] */ long __RPC_FAR *a_msb,
+    /* [defaultvalue][optional][out][in] */ long __RPC_FAR *b,
+    /* [defaultvalue][optional][out][in] */ long __RPC_FAR *c,
+    /* [defaultvalue][optional][out][in] */ long __RPC_FAR *d_lsb);
 
 
 void __RPC_STUB IDigest_MD5_String_Stub(

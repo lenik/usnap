@@ -27,9 +27,9 @@ Private m_NextId As Integer
 Implements IDynamicObject
 
 ' IDynamicObject::DynamicIndex
-Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
+Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
     Dim ce
-    LC.Assign ce, m_EntryName(Name)
+    LC.Assign ce, m_EntryName(name)
     If Not IsNull(ce) Then IDynamicObject_DynamicIndex = ce.Id
 End Function
 
@@ -56,20 +56,20 @@ End Function
 
 ' Impl Utilities
 
-Private Sub SetEntry(Name, ce)
+Private Sub SetEntry(name, ce)
     If ce.Id = 0 Then
         ce.Id = m_NextId
         m_NextId = m_NextId + 1
     End If
-    m_EntryName(Name) = ce
+    m_EntryName(name) = ce
     m_EntryId(ce.Id) = ce
 End Sub
 
-Private Function RemoveEntry(Name) As Boolean
+Private Function RemoveEntry(name) As Boolean
     Dim ce
-    LC.Assign ce, m_EntryName(Name)
+    LC.Assign ce, m_EntryName(name)
     If Not IsNull(ce) Then
-        m_EntryName.Remove Name
+        m_EntryName.Remove name
         m_EntryId.Remove ce.Id
         RemoveEntry = True
     End If
@@ -95,21 +95,21 @@ Private Sub LoadConfig(ByVal Section As String)
     Dim i As Integer
     For i = 0 To nodelist.length - 1
         Dim Node As IXMLDOMNode
-        Dim Name As String
+        Dim name As String
         Dim Type_ As TypeConstants
         Dim Value As String
         Dim j As Integer
         Dim ce
 
         Set Node = nodelist(i)
-        Name = Empty
+        name = Empty
         Type_ = TextType
         Value = Empty
         For j = 0 To Node.Attributes.length - 1
             With Node.Attributes(j)
                 Select Case .nodeName
                 Case "Name"
-                    Name = .nodeValue
+                    name = .nodeValue
                 Case "Type"
                     Type_ = ParseType(.nodeValue)
                 Case "Value"
@@ -118,11 +118,11 @@ Private Sub LoadConfig(ByVal Section As String)
             End With
         Next
 
-        If Not IsEmpty(Name) Then
+        If Not IsEmpty(name) Then
             Set ce = New ConfigEntry
             ce.ParseValue Type_, Value
             ce.Section = Section
-            SetEntry Name, ce
+            SetEntry name, ce
         End If
 
         If Type_ = SubType Then
@@ -138,11 +138,11 @@ Private Sub LoadConfig(ByVal Section As String)
     Next
 End Sub
 
-Public Property Get Name() As String
-    Name = m_Name
+Public Property Get name() As String
+    name = m_Name
 End Property
 
-Property Let Name(ByVal newName As String)
+Property Let name(ByVal newName As String)
     m_Name = newName
 End Property
 
@@ -167,27 +167,27 @@ Public Sub Reload()
     LoadConfig ""
 End Sub
 
-Public Property Get Item(Name)
+Public Property Get Item(name)
 Attribute Item.VB_UserMemId = 0
     Dim ce
-    LC.Assign ce, m_EntryName(Name)
+    LC.Assign ce, m_EntryName(name)
     If Not IsNull(ce) Then LC.Assign Item, ce.Value
 End Property
 
-Public Property Let Item(Name, Value)
+Public Property Let Item(name, Value)
     Dim ce
-    LC.Assign ce, m_EntryName(Name)
+    LC.Assign ce, m_EntryName(name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
         LC.Assign ce.Value, Value
-        SetEntry Name, ce
+        SetEntry name, ce
     Else
         ce.Value = Value
     End If
 End Property
 
-Public Sub Remove(ByVal Name As String)
-    RemoveEntry Name
+Public Sub Remove(ByVal name As String)
+    RemoveEntry name
 End Sub
 
 Public Property Get Attributes() As Collection

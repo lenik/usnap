@@ -15,7 +15,11 @@ import "ocidl.idl";
 	]
 	interface IDigest : IDispatch
 	{
-		[id(1), helpstring("method MD5")] HRESULT MD5_String([in]BSTR message, [out]long *a_msb, [out]long *b, [out]long *c, [out]long *d_lsb);
+		[id(1), helpstring("method MD5")] HRESULT MD5_String([in]BSTR message,
+                    [in, out, optional, defaultvalue(0)]long *a_msb,
+                    [in, out, optional, defaultvalue(0)]long *b,
+                    [in, out, optional, defaultvalue(0)]long *c,
+                    [in, out, optional, defaultvalue(0)]long *d_lsb);
 	};
 
 [
