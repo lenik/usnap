@@ -76,31 +76,31 @@ Public Sub Unexpected(Optional msg, Optional loc)
 End Sub
 
 Public Function FindControl(ByVal outer As Object, ByVal key) As Object
-    Set FindControl = GlobalsSingleton.FindControl(outer, key)
+    Set FindControl = RuntimeControls.FindControl(outer, key)
 End Function
 
 Public Function FindControls(ByVal outer As Object) As Map
-    Set FindControls = GlobalsSingleton.FindControls(outer)
+    Set FindControls = RuntimeControls.FindControls(outer)
 End Function
 
-Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
-    Set Ref = GlobalsSingleton.GetRef(RefType, Name)
+Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal name As String) As Object
+    Set Ref = GlobalsSingleton.GetRef(RefType, name)
 End Property
 
-Public Property Let Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
-    GlobalsSingleton.PutRef RefType, Name, newval
+Public Property Let Ref(ByVal RefType As ReferenceTypeConstants, ByVal name As String, ByVal newval As Object)
+    GlobalsSingleton.PutRef RefType, name, newval
 End Property
 
 Public Sub GarbageCollect()
     GlobalsSingleton.GarbageCollect
 End Sub
 
-Public Sub RegisterSystemEventListener(ByVal Name As String, ByVal listener As SystemEventListener)
-    GlobalsSingleton.RegisterSystemEventListener Name, listener
+Public Sub RegisterSystemEventListener(ByVal name As String, ByVal listener As SystemEventListener)
+    SystemEvents.RegisterSystemEventListener name, listener
 End Sub
 
-Public Sub UnregisterSystemEventListener(ByVal Name As String)
-    GlobalsSingleton.UnregisterSystemEventListener Name
+Public Sub UnregisterSystemEventListener(ByVal name As String)
+    SystemEvents.UnregisterSystemEventListener name
 End Sub
 
 Public Property Get Cached() As Cached

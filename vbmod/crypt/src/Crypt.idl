@@ -6,6 +6,17 @@
 
 import "oaidl.idl";
 import "ocidl.idl";
+	[
+		object,
+		uuid(37ECCF71-E520-4791-AB28-482455E1181F),
+		dual,
+		helpstring("IDigest Interface"),
+		pointer_default(unique)
+	]
+	interface IDigest : IDispatch
+	{
+		[id(1), helpstring("method MD5")] HRESULT MD5_String([in]BSTR message, [out]long *a_msb, [out]long *b, [out]long *c, [out]long *d_lsb);
+	};
 
 [
 	uuid(D8D70B81-644C-48F2-ABC2-3FCEC3B21BCA),
@@ -17,4 +28,12 @@ library CryptLib
 	importlib("stdole32.tlb");
 	importlib("stdole2.tlb");
 
+	[
+		uuid(5585D1C0-3D20-4E4D-9EA0-78A13D55540D),
+		helpstring("Digest Class")
+	]
+	coclass Digest
+	{
+		[default] interface IDigest;
+	};
 };

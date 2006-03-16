@@ -11,11 +11,13 @@
 #include "Crypt.h"
 
 #include "Crypt_i.c"
+#include "Digest.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
+OBJECT_ENTRY(CLSID_Digest, CDigest)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

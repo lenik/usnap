@@ -97,6 +97,7 @@ END
 
 IDR_SAOT                REGISTRY DISCARDABLE    "SAOT.rgs"
 IDR_DRIA                REGISTRY DISCARDABLE    "DRIA.rgs"
+IDR_HASHCODE            REGISTRY DISCARDABLE    "HashCode.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Feb 23 09:48:25 2006
+/* at Mon Mar 13 16:29:09 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\fastalg\src\fastalg.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -55,6 +55,12 @@ typedef interface _ISAOTEvents _ISAOTEvents;
 #endif 	/* ___ISAOTEvents_FWD_DEFINED__ */
 
 
+#ifndef __IHashCode_FWD_DEFINED__
+#define __IHashCode_FWD_DEFINED__
+typedef interface IHashCode IHashCode;
+#endif 	/* __IHashCode_FWD_DEFINED__ */
+
+
 #ifndef __SAOT_FWD_DEFINED__
 #define __SAOT_FWD_DEFINED__
 
@@ -77,6 +83,18 @@ typedef struct DRIA DRIA;
 #endif /* __cplusplus */
 
 #endif 	/* __DRIA_FWD_DEFINED__ */
+
+
+#ifndef __HashCode_FWD_DEFINED__
+#define __HashCode_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class HashCode HashCode;
+#else
+typedef struct HashCode HashCode;
+#endif /* __cplusplus */
+
+#endif 	/* __HashCode_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -974,6 +992,141 @@ EXTERN_C const IID DIID__ISAOTEvents;
 #endif 	/* ___ISAOTEvents_DISPINTERFACE_DEFINED__ */
 
 
+#ifndef __IHashCode_INTERFACE_DEFINED__
+#define __IHashCode_INTERFACE_DEFINED__
+
+/* interface IHashCode */
+/* [unique][helpstring][dual][uuid][object] */
+
+
+EXTERN_C const IID IID_IHashCode;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("7F1F1F9A-2B2A-407D-BC23-B7D9D3F8A230")
+    IHashCode : public IDispatch
+    {
+    public:
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE hcVariant(
+            /* [in] */ VARIANT __RPC_FAR *var,
+            /* [retval][out] */ long __RPC_FAR *result) = 0;
+
+    };
+
+#else 	/* C style interface */
+
+    typedef struct IHashCodeVtbl
+    {
+        BEGIN_INTERFACE
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *QueryInterface )(
+            IHashCode __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *AddRef )(
+            IHashCode __RPC_FAR * This);
+
+        ULONG ( STDMETHODCALLTYPE __RPC_FAR *Release )(
+            IHashCode __RPC_FAR * This);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfoCount )(
+            IHashCode __RPC_FAR * This,
+            /* [out] */ UINT __RPC_FAR *pctinfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetTypeInfo )(
+            IHashCode __RPC_FAR * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo);
+
+        HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetIDsOfNames )(
+            IHashCode __RPC_FAR * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR __RPC_FAR *rgszNames,
+            /* [in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID __RPC_FAR *rgDispId);
+
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Invoke )(
+            IHashCode __RPC_FAR * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS __RPC_FAR *pDispParams,
+            /* [out] */ VARIANT __RPC_FAR *pVarResult,
+            /* [out] */ EXCEPINFO __RPC_FAR *pExcepInfo,
+            /* [out] */ UINT __RPC_FAR *puArgErr);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *hcVariant )(
+            IHashCode __RPC_FAR * This,
+            /* [in] */ VARIANT __RPC_FAR *var,
+            /* [retval][out] */ long __RPC_FAR *result);
+
+        END_INTERFACE
+    } IHashCodeVtbl;
+
+    interface IHashCode
+    {
+        CONST_VTBL struct IHashCodeVtbl __RPC_FAR *lpVtbl;
+    };
+
+
+
+#ifdef COBJMACROS
+
+
+#define IHashCode_QueryInterface(This,riid,ppvObject)	\
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+
+#define IHashCode_AddRef(This)	\
+    (This)->lpVtbl -> AddRef(This)
+
+#define IHashCode_Release(This)	\
+    (This)->lpVtbl -> Release(This)
+
+
+#define IHashCode_GetTypeInfoCount(This,pctinfo)	\
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+
+#define IHashCode_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+
+#define IHashCode_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+
+#define IHashCode_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+
+
+#define IHashCode_hcVariant(This,var,result)	\
+    (This)->lpVtbl -> hcVariant(This,var,result)
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IHashCode_hcVariant_Proxy(
+    IHashCode __RPC_FAR * This,
+    /* [in] */ VARIANT __RPC_FAR *var,
+    /* [retval][out] */ long __RPC_FAR *result);
+
+
+void __RPC_STUB IHashCode_hcVariant_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+
+#endif 	/* __IHashCode_INTERFACE_DEFINED__ */
+
+
 EXTERN_C const CLSID CLSID_SAOT;
 
 #ifdef __cplusplus
@@ -988,6 +1141,14 @@ EXTERN_C const CLSID CLSID_DRIA;
 
 class DECLSPEC_UUID("AF43CEA4-BF31-4BF7-AEB6-EAD41BB7B476")
 DRIA;
+#endif
+
+EXTERN_C const CLSID CLSID_HashCode;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("4773BB15-41A1-4AC1-9661-2B83D18C2A95")
+HashCode;
 #endif
 #endif /* __FastAlgLib_LIBRARY_DEFINED__ */
 

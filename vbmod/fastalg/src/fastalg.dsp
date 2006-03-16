@@ -47,7 +47,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
 # ADD RSC /l 0x804 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -296,6 +296,10 @@ SOURCE=.\fastalg.rc
 # End Source File
 # Begin Source File
 
+SOURCE=.\HashCode.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\kernel.cpp
 # End Source File
 # Begin Source File
@@ -321,6 +325,10 @@ SOURCE=.\fastalgCP.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\HashCode.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\kernel.h
 # End Source File
 # Begin Source File
@@ -342,6 +350,10 @@ SOURCE=.\StdAfx.h
 # Begin Source File
 
 SOURCE=.\DRIA.rgs
+# End Source File
+# Begin Source File
+
+SOURCE=.\HashCode.rgs
 # End Source File
 # Begin Source File
 

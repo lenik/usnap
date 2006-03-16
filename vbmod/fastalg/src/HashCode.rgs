@@ -1,0 +1,26 @@
+HKCR
+{
+	Fastalg.HashCode.1 = s 'HashCode Class'
+	{
+		CLSID = s '{4773BB15-41A1-4AC1-9661-2B83D18C2A95}'
+	}
+	Fastalg.HashCode = s 'HashCode Class'
+	{
+		CLSID = s '{4773BB15-41A1-4AC1-9661-2B83D18C2A95}'
+		CurVer = s 'Fastalg.HashCode.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4773BB15-41A1-4AC1-9661-2B83D18C2A95} = s 'HashCode Class'
+		{
+			ProgID = s 'Fastalg.HashCode.1'
+			VersionIndependentProgID = s 'Fastalg.HashCode'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{5B4DC081-852D-4465-898E-D179454234DA}'
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	Crypt.Digest.1 = s 'Digest Class'
+	{
+		CLSID = s '{5585D1C0-3D20-4E4D-9EA0-78A13D55540D}'
+	}
+	Crypt.Digest = s 'Digest Class'
+	{
+		CLSID = s '{5585D1C0-3D20-4E4D-9EA0-78A13D55540D}'
+		CurVer = s 'Crypt.Digest.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5585D1C0-3D20-4E4D-9EA0-78A13D55540D} = s 'Digest Class'
+		{
+			ProgID = s 'Crypt.Digest.1'
+			VersionIndependentProgID = s 'Crypt.Digest'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{D8D70B81-644C-48F2-ABC2-3FCEC3B21BCA}'
+		}
+	}
+}

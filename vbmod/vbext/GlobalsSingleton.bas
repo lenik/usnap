@@ -23,7 +23,6 @@ Public LE As New LowXRuntime.Execute
 Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Long
 
 Public g_Ref(MAX_REFTYPE) As Reference
-Public g_SystemEventListeners As New Collection
 Public g_IsInitialized As Boolean
 
 Public g_Cached As New Cached
@@ -56,7 +55,7 @@ Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
         base = Mid(path, InStr(path, "\") + 1)
     End If
     g_Configuration.HomeDirectory = "::" & dir
-    g_Configuration.Name = base
+    g_Configuration.name = base
     Set g_Config = g_Configuration.Accessor
 
     g_IsInitialized = True
@@ -126,95 +125,14 @@ Public Sub Unexpected(Optional msg, Optional loc)
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
-Public Function FindControl(ByVal outer As Object, ByVal key) As Object
-    On Error GoTo NoDef
-    Set FindControl = outer(key)
-    Exit Function
-NoDef:
-
-    'On Error GoTo NoControls
-    Set FindControl = CP_Controls_get(outer.Controls, key)
-    If FindControl Is Nothing Then GoTo NoControls
-    Exit Function
-NoControls:
-
-    On Error GoTo NotEnum
-    Dim obj As Object
-    For Each obj In outer
-        If Not obj Is Nothing Then
-            If LC.HasMember(obj, "Name") Then
-                If obj.Name = key Then
-                    Set FindControl = obj
-                    Exit Function
-                End If
-            ElseIf LC.HasMember(obj, "name") Then
-                If obj.Name = key Then
-                    Set FindControl = obj
-                    Exit Function
-                End If
-            End If
-        End If
-    Next
-    Exit Function
-NotEnum:
-
-    Set FindControl = Nothing
-End Function
-
-Public Function FindControls(outer As Object) As Map
-    On Error GoTo NotAMap
-    Set FindControls = outer
-    Exit Function
-NotAMap:
-
-    Set FindControls = New Map
-
-    On Error GoTo NoControls
-    Set outer = outer.Controls
-    ' Yes, has controls
-NoControls:
-
-    Dim obj As Object
-
-    On Error GoTo NotEnum
-    For Each obj In outer
-        If Not obj Is Nothing Then
-            If LC.HasMember(obj, "Name") Then
-                FindControls.Item(obj.Name) = obj
-            ElseIf LC.HasMember(obj, "name") Then
-                FindControls.Item(obj.Name) = obj
-            End If
-        End If
-    Next
-    Exit Function
-NotEnum:
-
-    On Error GoTo NoCount
-    Dim i As Integer
-    For i = 0 To outer.Count - 1
-        If IsObject(outer(i)) Then
-            Set obj = outer(i)
-            If LC.HasMember(obj, "Name") Then
-                FindControls.Item(obj.Name) = obj
-            ElseIf LC.HasMember(obj, "name") Then
-                FindControls.Item(obj.Name) = obj
-            End If
-        End If
-    Next
-    Exit Function
-NoCount:
-
-    Set FindControls = Nothing
-End Function
-
-Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
+Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal name As String) As Object
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
-    Set GetRef = g_Ref(RefType).Ref(Name)
+    Set GetRef = g_Ref(RefType).Ref(name)
 End Function
 
-Public Function PutRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
+Public Function PutRef(ByVal RefType As ReferenceTypeConstants, ByVal name As String, ByVal newval As Object)
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
-    g_Ref(RefType).Ref(Name) = newval
+    g_Ref(RefType).Ref(name) = newval
 End Function
 
 Public Sub GarbageCollect()
@@ -224,29 +142,3 @@ Public Sub GarbageCollect()
     Next
 End Sub
 
-Public Sub RegisterSystemEventListener(ByVal Name As String, ByVal listener As SystemEventListener)
-    Name = Trim(Name)
-    Assert Name <> "", "Illegal Name", LOCATION
-    Assert Not listener Is Nothing, "Illegal Listener Object", LOCATION
-    On Error GoTo Failed
-    g_SystemEventListeners.Add listener, Name
-    Exit Sub
-Failed:
-    Assert False, "The listener with name " & Name & " has been already registered."
-End Sub
-
-Public Sub UnregisterSystemEventListener(ByVal Name As String)
-    Name = Trim(Name)
-    Assert Name <> "", "Illegal Name", LOCATION
-    On Error GoTo Failed
-    g_SystemEventListeners.Remove Name
-Failed:
-    Assert False, "The listener with name " & Name & " hasn't been registered, yet."
-End Sub
-
-Public Sub DispatchSystemEvent(ByVal e As SystemEventConstants, Parameters)
-    Dim listener As SystemEventListener
-    For Each listener In g_SystemEventListeners
-        listener.Handler e, Parameters
-    Next
-End Sub

@@ -41,38 +41,23 @@ End Function
 ' Common Functions
 
 Public Function Min(arg1, ParamArray args())
-    Dim i As Integer
-    Min = arg1
-    For i = LBound(args) To UBound(args)
-        If args(i) < Min Then Min = args(i)
-    Next
+    Min = Variants.Min(arg1, args)
 End Function
 
 Public Function Max(arg1, ParamArray args())
-    Dim i As Integer
-    Max = arg1
-    For i = LBound(args) To UBound(args)
-        If args(i) > Max Then Max = args(i)
-    Next
+    Max = Variants.Max(arg1, args)
 End Function
 
 Public Function Avg(arg1, ParamArray args())
-    Dim i As Integer
-    Avg = arg1
-    For i = LBound(args) To UBound(args)
-        Avg = Avg + args(i)
-    Next
-    Avg = Avg / (UBound(args) - LBound(args) + 2)
+    Avg = Variants.Avg(arg1, args)
 End Function
 
 Public Function AvgG(arg1, ParamArray args())
-    Dim i As Integer
-    Assert arg1 > 0, "Parameters of AvgG must be positive numbers", LOCATION
-    AvgG = Log(arg1)
-    For i = LBound(args) To UBound(args)
-        Assert args(i) > 0, "Parameters of AvgG must be positive numbers", LOCATION
-        AvgG = AvgG + Log(args(i))
-    Next
-    AvgG = AvgG / (UBound(args) - LBound(args) + 2)
-    AvgG = Exp(AvgG)
+    AvgG = Variants.AvgG(arg1, args)
+End Function
+
+' Hashcode
+
+Public Function Hashcode(v As Variant) As Long
+    Hashcode = Variants.Hashcode(v)
 End Function

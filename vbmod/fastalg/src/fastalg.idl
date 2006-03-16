@@ -80,6 +80,17 @@ library FastAlgLib
 		[id(4), helpstring("Before Clear")] HRESULT Clear();
 	};
 	[
+		object,
+		uuid(7F1F1F9A-2B2A-407D-BC23-B7D9D3F8A230),
+		dual,
+		helpstring("IHashCode Interface"),
+		pointer_default(unique)
+	]
+	interface IHashCode : IDispatch
+	{
+		[id(1), helpstring("method hcVariant")] HRESULT hcVariant([in]VARIANT *var, [out, retval]long *result);
+	};
+	[
 		uuid(CD583388-D348-4A9E-BBBB-9A8D25F3DAAD),
 		helpstring("Slotted-Array Operation Test")
 	]
@@ -96,5 +107,13 @@ library FastAlgLib
 	coclass DRIA
 	{
 		[default] interface IDRIA;
+	};
+	[
+		uuid(4773BB15-41A1-4AC1-9661-2B83D18C2A95),
+		helpstring("HashCode Class")
+	]
+	coclass HashCode
+	{
+		[default] interface IHashCode;
 	};
 };

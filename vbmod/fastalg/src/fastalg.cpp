@@ -13,6 +13,7 @@
 #include "fastalg_i.c"
 #include "SAOT.h"
 #include "DRIA.h"
+#include "HashCode.h"
 
 
 CComModule _Module;
@@ -20,6 +21,7 @@ CComModule _Module;
 BEGIN_OBJECT_MAP(ObjectMap)
 OBJECT_ENTRY(CLSID_SAOT, CSAOT)
 OBJECT_ENTRY(CLSID_DRIA, CDRIA)
+OBJECT_ENTRY(CLSID_HashCode, CHashCode)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
