@@ -83,7 +83,7 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-    MsgBox config.runas
+    MsgBox config.runas2
 End Sub
 
 Private Sub Command3_Click()

@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Mar 16 16:50:53 2006
+/* at Fri Mar 17 08:32:13 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\crypt\src\Crypt.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext

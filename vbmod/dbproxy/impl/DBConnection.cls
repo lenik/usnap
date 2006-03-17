@@ -14,9 +14,26 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0
 
+Public Enum QueryTypeConstants
+    qtRead = 0                          ' openForwardOnly,  lockReadOnly
+    qtEdit                              ' openForwardOnly,  lockPessimistic
+    qtForEach                           ' openForwardOnly,  lockReadOnly
+    qtBrowse                            ' openKeyset,       lockReadonly
+    qtBrowseAndEdit                     ' openKeyset,       lockPessimistic
+    qtSnapshot                          ' openStatic,       lockReadonly
+    qtDirectAccess                      ' openDynamic,      lockOptimistic
+    qtStatistics                        ' openKeyset,       lockReadonly
+    qtUpdateRedundants                  ' openForwardOnly,  lockOptimistic
+    qtBatchUpdate                       ' openForwardOnly,  lockBatchOptimistic
+    qtBatchUpdateBi                     ' openKeyset,       lockBatchOptimistic
+End Enum
+
 Private WithEvents m_Raw As ADODB.Connection
 Attribute m_Raw.VB_VarHelpID = -1
 Private m_Exported As Connection
+
+Private m_LockType As LockTypeEnum      ' Default lock type
+Private m_CursorType As CursorTypeEnum  ' Default cursor type
 
 Private m_Filter As New DBSQLFilter
 
@@ -34,16 +51,21 @@ Event WillExecute(Source As String, CursorType As ADODB.CursorTypeEnum, LockType
 
 ' New Features
 
-Public Property Get Connection() As Connection
+Private Property Get Exported() As ADODB.Connection
     If m_Exported Is Nothing Then
         Set m_Exported = ExportConnection(Me)
     End If
-    Set Connection = m_Exported
+    Set Exported = m_Exported
 End Property
 
-Public Function Query(ByVal sql As String, Optional ByVal Options As Long = -1) As Recordset
-    Dim records
-    Set Query = m_Raw.Execute(sql, records, Options)
+Public Property Get Connection() As ADODB.Connection
+    Set Connection = Exported
+End Property
+
+Public Function Query(ByVal sql As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
+    Set Query = New Recordset
+    ' OPT: ExecuteOptionEnum
+    Query.Open sql, m_Raw, g_CursorTypes(QueryType), g_LockTypes(QueryType)
 End Function
 
 Public Function Update(ByVal sql As String, Optional ByVal Options As Long = -1) As Long
@@ -141,6 +163,7 @@ End Function
 
 Private Sub Class_Initialize()
     Set m_Raw = New Connection
+    Presets.Initialize
 End Sub
 
 '

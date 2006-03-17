@@ -16,7 +16,7 @@ Option Base 0
 
 Private Const LOCATION = "VBExt::Configuration"
 Private Const EXTNAME = ".cfg"
-Private Const DISPID_BASE = 1024
+Private Const DISPID_BASE = 10001
 
 Private m_Name As String
 Private m_HomeDirectory As String
@@ -27,10 +27,15 @@ Private m_NextId As Integer
 Implements IDynamicObject
 
 ' IDynamicObject::DynamicIndex
-Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
+Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
     Dim ce
-    LC.Assign ce, m_EntryName(name)
-    If Not IsNull(ce) Then IDynamicObject_DynamicIndex = ce.Id
+    LC.Assign ce, m_EntryName(Name)
+    If IsNull(ce) Then
+        ' Add null entry for dynamic adding properties
+        Item(Name) = Null
+        LC.Assign ce, m_EntryName(Name)
+    End If
+    IDynamicObject_DynamicIndex = ce.Id
 End Function
 
 ' IDynamicObject::DynamicInvoke
@@ -43,11 +48,11 @@ Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal m
     Case InvokeMethod
         ' ??
     Case InvokePropertyGet
-        IDynamicObject_DynamicInvoke = ce.Value
+        IDynamicObject_DynamicInvoke = ce.value
     Case InvokePropertyPut
-        ce.Value = parameters(0)
+        ce.value = parameters(0)
     Case InvokePropertyPutRef
-        Set ce.Value = parameters(0)
+        Set ce.value = parameters(0)
     End Select
     Exit Function
 NotExist:
@@ -56,20 +61,20 @@ End Function
 
 ' Impl Utilities
 
-Private Sub SetEntry(name, ce)
+Private Sub SetEntry(Name, ce)
     If ce.Id = 0 Then
         ce.Id = m_NextId
         m_NextId = m_NextId + 1
     End If
-    m_EntryName(name) = ce
+    m_EntryName(Name) = ce
     m_EntryId(ce.Id) = ce
 End Sub
 
-Private Function RemoveEntry(name) As Boolean
+Private Function RemoveEntry(Name) As Boolean
     Dim ce
-    LC.Assign ce, m_EntryName(name)
+    LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then
-        m_EntryName.Remove name
+        m_EntryName.Remove Name
         m_EntryId.Remove ce.Id
         RemoveEntry = True
     End If
@@ -95,40 +100,40 @@ Private Sub LoadConfig(ByVal Section As String)
     Dim i As Integer
     For i = 0 To nodelist.length - 1
         Dim Node As IXMLDOMNode
-        Dim name As String
+        Dim Name As String
         Dim Type_ As TypeConstants
-        Dim Value As String
+        Dim value As String
         Dim j As Integer
         Dim ce
 
         Set Node = nodelist(i)
-        name = Empty
+        Name = Empty
         Type_ = TextType
-        Value = Empty
+        value = Empty
         For j = 0 To Node.Attributes.length - 1
             With Node.Attributes(j)
                 Select Case .nodeName
                 Case "Name"
-                    name = .nodeValue
+                    Name = .nodeValue
                 Case "Type"
                     Type_ = ParseType(.nodeValue)
                 Case "Value"
-                    Value = .nodeValue
+                    value = .nodeValue
                 End Select
             End With
         Next
 
-        If Not IsEmpty(name) Then
+        If Not IsEmpty(Name) Then
             Set ce = New ConfigEntry
-            ce.ParseValue Type_, Value
+            ce.ParseValue Type_, value
             ce.Section = Section
-            SetEntry name, ce
+            SetEntry Name, ce
         End If
 
         If Type_ = SubType Then
             Dim SubSection As String
             Dim SubPath As String
-            SubSection = Section & "_" & Value
+            SubSection = Section & "_" & value
             SubPath = AbsolutePath(SubSection)
             If Not FSO.FileExists(SubPath) Then
                 Err.Raise ERR_SUB_NOT_EXIST, LOCATION, "子配置文件 " & SubPath & " 不存在"
@@ -138,11 +143,11 @@ Private Sub LoadConfig(ByVal Section As String)
     Next
 End Sub
 
-Public Property Get name() As String
-    name = m_Name
+Public Property Get Name() As String
+    Name = m_Name
 End Property
 
-Property Let name(ByVal newName As String)
+Property Let Name(ByVal newName As String)
     m_Name = newName
 End Property
 
@@ -167,27 +172,27 @@ Public Sub Reload()
     LoadConfig ""
 End Sub
 
-Public Property Get Item(name)
+Public Property Get Item(Name)
 Attribute Item.VB_UserMemId = 0
     Dim ce
-    LC.Assign ce, m_EntryName(name)
-    If Not IsNull(ce) Then LC.Assign Item, ce.Value
+    LC.Assign ce, m_EntryName(Name)
+    If Not IsNull(ce) Then LC.Assign Item, ce.value
 End Property
 
-Public Property Let Item(name, Value)
+Public Property Let Item(Name, value)
     Dim ce
-    LC.Assign ce, m_EntryName(name)
+    LC.Assign ce, m_EntryName(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
-        LC.Assign ce.Value, Value
-        SetEntry name, ce
+        LC.Assign ce.value, value
+        SetEntry Name, ce
     Else
-        ce.Value = Value
+        ce.value = value
     End If
 End Property
 
-Public Sub Remove(ByVal name As String)
-    RemoveEntry name
+Public Sub Remove(ByVal Name As String)
+    RemoveEntry Name
 End Sub
 
 Public Property Get Attributes() As Collection

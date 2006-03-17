@@ -44,24 +44,24 @@ Public Property Get Dictionary() As DBDict
     Set Dictionary = GlobalsSingleton.Dict
 End Property
 
-Public Function DBConnectEx(Optional ByVal Driver, _
-                            Optional ByVal Server, _
-                            Optional ByVal Database, _
-                            Optional ByVal UserID, _
-                            Optional ByVal Password, _
-                            Optional ByVal Options As Long = -1&, _
-                            Optional ByVal ConnectionOptions As Long = -1&) As DBConnection
-    Set DBConnectEx = DBConnect(DBConnectionString( _
-        Driver, Server, Database, UserID, Password, Options), ConnectionOptions)
-End Function
-
-Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal ConnectionOptions As Long = -1) As DBConnection
+Public Function DBConnect(Optional ByVal ConnectionString) As DBConnection
     Set DBConnect = New DBConnection
 
-    If IsMissing(ConnectionString) Then ConnectionString = Config.DBConnectionString
+    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
-        DBConnect.Allocate , , , ConnectionOptions
+        DBConnect.Allocate
     Else
-        DBConnect.Allocate ConnectionString, , , ConnectionOptions
+        DBConnect.Allocate ConnectionString
+    End If
+End Function
+
+Public Function DBConnectFast(Optional ByVal ConnectionString) As DBConnection
+    Set DBConnectFast = New DBConnection
+
+    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
+    If ConnectionString = "" Then
+        DBConnectFast.Allocate , , , adAsyncConnect
+    Else
+        DBConnectFast.Allocate ConnectionString, , , adAsyncConnect
     End If
 End Function

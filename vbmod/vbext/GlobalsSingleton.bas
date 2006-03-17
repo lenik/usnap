@@ -97,8 +97,8 @@ Public Property Get RootFile() As String
     End If
 End Property
 
-Public Function NameSerial(ByVal Name As String) As Long
-    g_Digest.MD5_String Name, NameSerial
+Public Function NameSerial(ByVal name As String) As Long
+    g_Digest.MD5_String name, NameSerial
 End Function
 
 Public Sub Assert(X, Optional msg, Optional loc)
