@@ -8,7 +8,7 @@ BEGIN
 END
 Attribute VB_Name = "AutoScaleLayout"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
+Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
@@ -122,7 +122,7 @@ Private Sub RelayoutItem(itemObject As Object, containerObject As Object)
     Dim newItem As Position
     Dim oldW As Double, newW As Double
     Dim oldH As Double, newH As Double
-    Dim scaleX As Double, scaleY As Double
+    Dim ScaleX As Double, ScaleY As Double
     Dim doVertical As Boolean
 
     If containerObject Is Nothing Then
@@ -145,23 +145,25 @@ Private Sub RelayoutItem(itemObject As Object, containerObject As Object)
     ' New coordination
     ' For Label/Text, don't do vertical-resize
     Select Case TypeName(itemObject)
-    Case "Label", "TextBox"
+    Case "Label"
         doVertical = False
+    Case "TextBox"
+        doVertical = itemObject.MultiLine
     Case Else
         doVertical = True
     End Select
 
-    scaleX = newW / oldW    ' oldW > MIN_WIDTH
-    scaleY = newH / oldH    ' oldH > MIN_HEIGHT
+    ScaleX = newW / oldW    ' oldW > MIN_WIDTH
+    ScaleY = newH / oldH    ' oldH > MIN_HEIGHT
 
-    newItem.x0 = oldItem.x0 * scaleX
-    newItem.x1 = oldItem.x1 * scaleX
+    newItem.x0 = oldItem.x0 * ScaleX
+    newItem.x1 = oldItem.x1 * ScaleX
     If doVertical Then
-        newItem.y0 = oldItem.y0 * scaleY
-        newItem.y1 = oldItem.y1 * scaleY
+        newItem.y0 = oldItem.y0 * ScaleY
+        newItem.y1 = oldItem.y1 * ScaleY
     Else
-        newItem.y0 = oldItem.y0 * scaleY + _
-            (oldItem.y1 - oldItem.y0) * scaleY / 2 - _
+        newItem.y0 = oldItem.y0 * ScaleY + _
+            (oldItem.y1 - oldItem.y0) * ScaleY / 2 - _
             (oldItem.y1 - oldItem.y0) / 2
         newItem.y1 = newItem.y0 + _
             oldItem.y1 - oldItem.y0
