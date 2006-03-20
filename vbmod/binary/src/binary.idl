@@ -17,9 +17,10 @@ import "ocidl.idl";
 	{
 		[id(1), helpstring("method SetStringB")] HRESULT SetStringB([in]BSTR stringB);
 		[id(2), helpstring("method SetString")] HRESULT SetString([in]BSTR stringUnicode, [in, optional, defaultvalue("gb2312")]BSTR encoding);
-		[id(3), helpstring("method GetBase64")] HRESULT GetBase64([out, retval]BSTR *base64);
-		[id(4), helpstring("method GetStringB")] HRESULT GetStringB([out, retval]BSTR *stringB);
-		[id(5), helpstring("method GetString")] HRESULT GetString([in, optional, defaultvalue("gb2312")]BSTR encoding, [out, retval]BSTR *string);
+		[id(3), helpstring("method SetBase64")] HRESULT SetBase64([in]BSTR base64);
+		[id(4), helpstring("method GetBase64")] HRESULT GetBase64([out, retval]BSTR *base64);
+		[id(5), helpstring("method GetStringB")] HRESULT GetStringB([out, retval]BSTR *stringB);
+		[id(6), helpstring("method GetString")] HRESULT GetString([in, optional, defaultvalue("gb2312")]BSTR encoding, [out, retval]BSTR *string);
 	};
 
 [

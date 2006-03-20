@@ -4,10 +4,11 @@
 #include "Base64.h"
 #include "kernel.h"
 #include <iconv.h>
+#include <errno.h>
 #include <comutil.h>
 
 #ifndef CS_UNICODE
-#define CS_UNICODE "utf16-le"
+#define CS_UNICODE "UCS-2LE"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,6 +42,7 @@ STDMETHODIMP CBase64::SetStringB(BSTR stringB)
         copy = (char *)malloc(len);
         if (copy == NULL)
             return E_OUTOFMEMORY;
+        memcpy(copy, stringB, len);
     }
 
     clear();
@@ -77,12 +79,13 @@ STDMETHODIMP CBase64::SetString(BSTR stringUnicode, BSTR encoding)
     if (outbuf == NULL)
         return E_OUTOFMEMORY;
 
-    iconv_t cd = iconv_open(_bstr_t(encoding), CS_UNICODE);
-    if (cd == NULL) {
+    _bstr_t _encoding(encoding);
+    iconv_t cd = iconv_open(_encoding, CS_UNICODE);
+    if (cd == (iconv_t)-1) {
+        int err = errno;
         free(outbuf);
         return E_FAIL;
     }
-
     const char *pin = inbuf;
     char *pout = outbuf;
     size_t converted;
@@ -112,7 +115,7 @@ STDMETHODIMP CBase64::GetBase64(BSTR *base64)
             m_Base64 = SysAllocString(L"");
         } else {
             // 6 bytes -> 8 chars, + 10 for safe purpose.
-            char prox_chars = m_RawSize / 6 * 8 + 10;
+            size_t prox_chars = m_RawSize / 6 * 8 + 10;
             char *buffer = (char *)malloc(prox_chars);
             int cc = base64_encode(m_Raw, m_RawSize, buffer, prox_chars);
             _bstr_t bstr(buffer);
@@ -122,6 +125,31 @@ STDMETHODIMP CBase64::GetBase64(BSTR *base64)
     }
 
     *base64 = SysAllocString(m_Base64);
+	return S_OK;
+}
+
+STDMETHODIMP CBase64::SetBase64(BSTR base64)
+{
+    if (base64 == NULL)
+        return E_INVALIDARG;
+
+    DWORD len = ((DWORD *)base64)[-1];
+    DWORD cc = len >> 1;                // ASSERT(len % 2 = 0);
+
+    // 8 chars -> 6 bytes, + 10 for safe purpose.
+    size_t prox_rawsize = cc / 8 * 6 + 10;
+
+    char *raw = (char *)malloc(prox_rawsize);
+    if (raw == NULL)
+        return E_OUTOFMEMORY;
+
+    size_t rawsize = 0;
+    int cb = base64_decode(_bstr_t(base64), cc, raw, prox_rawsize);
+
+    m_Raw = raw;
+    m_RawSize = cb;
+    m_Base64 = SysAllocString(base64);
+
 	return S_OK;
 }
 
@@ -145,18 +173,23 @@ STDMETHODIMP CBase64::GetString(BSTR encoding, BSTR *string)
     if (string == NULL)
         return E_POINTER;
 
-    iconv_t cd;
-    cd = iconv_open(CS_UNICODE, _bstr_t(encoding));
-    if (cd == NULL)
-        return E_FAIL;
-
     const char *pin = m_Raw;
     size_t inbytesleft = m_RawSize;
 
     // scaled by * 1.5 for safe purpose.
     size_t outbytesleft = inbytesleft * 3 / 2;
     char *outbuf = (char *)malloc(outbytesleft);
+    if (outbuf == NULL)
+        return E_OUTOFMEMORY;
+
     char *pout = outbuf;
+
+    iconv_t cd;
+    cd = iconv_open(CS_UNICODE, _bstr_t(encoding));
+    if (cd == (iconv_t)-1) {
+        int err = errno;
+        return E_FAIL;
+    }
 
     size_t converted;
     converted = iconv(cd, &pin, &inbytesleft, &pout, &outbytesleft);

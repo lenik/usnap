@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Mar 20 09:12:03 2006
+/* at Mon Mar 20 10:15:05 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -84,6 +84,9 @@ EXTERN_C const IID IID_IBase64;
             /* [in] */ BSTR stringUnicode,
             /* [defaultvalue][optional][in] */ BSTR encoding = L"gb2312") = 0;
 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetBase64(
+            /* [in] */ BSTR base64) = 0;
+
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE GetBase64(
             /* [retval][out] */ BSTR __RPC_FAR *base64) = 0;
 
@@ -151,6 +154,10 @@ EXTERN_C const IID IID_IBase64;
             /* [in] */ BSTR stringUnicode,
             /* [defaultvalue][optional][in] */ BSTR encoding);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SetBase64 )(
+            IBase64 __RPC_FAR * This,
+            /* [in] */ BSTR base64);
+
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetBase64 )(
             IBase64 __RPC_FAR * This,
             /* [retval][out] */ BSTR __RPC_FAR *base64);
@@ -206,6 +213,9 @@ EXTERN_C const IID IID_IBase64;
 #define IBase64_SetString(This,stringUnicode,encoding)	\
     (This)->lpVtbl -> SetString(This,stringUnicode,encoding)
 
+#define IBase64_SetBase64(This,base64)	\
+    (This)->lpVtbl -> SetBase64(This,base64)
+
 #define IBase64_GetBase64(This,base64)	\
     (This)->lpVtbl -> GetBase64(This,base64)
 
@@ -241,6 +251,18 @@ void __RPC_STUB IBase64_SetStringB_Stub(
 
 
 void __RPC_STUB IBase64_SetString_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IBase64_SetBase64_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [in] */ BSTR base64);
+
+
+void __RPC_STUB IBase64_SetBase64_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,

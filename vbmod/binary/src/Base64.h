@@ -22,6 +22,13 @@ public:
         m_Base64 = NULL;
 	}
 
+    ~CBase64() {
+        if (m_Raw)
+            free(m_Raw);
+        if (m_Base64)
+            SysFreeString(m_Base64);
+    }
+
 DECLARE_REGISTRY_RESOURCEID(IDR_BASE64)
 
 DECLARE_PROTECT_FINAL_CONSTRUCT()
@@ -36,6 +43,7 @@ public:
 
 // IBase64
 public:
+	STDMETHOD(SetBase64)(/*[in]*/BSTR base64);
 	STDMETHOD(GetString)(/*[in, optional("gb2312")]*/BSTR encoding, /*[out, retval]*/BSTR *string);
 	STDMETHOD(GetStringB)(/*[out, retval]*/BSTR *stringB);
 	STDMETHOD(GetBase64)(/*[out, retval]*/BSTR *base64);

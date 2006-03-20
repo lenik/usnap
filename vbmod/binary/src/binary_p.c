@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Mar 20 09:12:03 2006
+/* at Mon Mar 20 10:15:05 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -28,7 +28,7 @@
 #include "binary.h"
 
 #define TYPE_FORMAT_STRING_SIZE   55
-#define PROC_FORMAT_STRING_SIZE   153
+#define PROC_FORMAT_STRING_SIZE   181
 
 typedef struct _MIDL_TYPE_FORMAT_STRING
     {
@@ -101,7 +101,8 @@ static const unsigned short IBase64_FormatStringOffsetTable[] =
     28,
     62,
     90,
-    118
+    118,
+    146
     };
 
 static const MIDL_SERVER_INFO IBase64_ServerInfo =
@@ -126,7 +127,7 @@ static const MIDL_STUBLESS_PROXY_INFO IBase64_ProxyInfo =
     0
     };
 
-CINTERFACE_PROXY_VTABLE(12) _IBase64ProxyVtbl =
+CINTERFACE_PROXY_VTABLE(13) _IBase64ProxyVtbl =
 {
     &IBase64_ProxyInfo,
     &IID_IBase64,
@@ -139,6 +140,7 @@ CINTERFACE_PROXY_VTABLE(12) _IBase64ProxyVtbl =
     0 /* IDispatch_Invoke_Proxy */ ,
     (void *)-1 /* IBase64::SetStringB */ ,
     (void *)-1 /* IBase64::SetString */ ,
+    (void *)-1 /* IBase64::SetBase64 */ ,
     (void *)-1 /* IBase64::GetBase64 */ ,
     (void *)-1 /* IBase64::GetStringB */ ,
     (void *)-1 /* IBase64::GetString */
@@ -155,6 +157,7 @@ static const PRPC_STUB_FUNCTION IBase64_table[] =
     NdrStubCall2,
     NdrStubCall2,
     NdrStubCall2,
+    NdrStubCall2,
     NdrStubCall2
 };
 
@@ -162,7 +165,7 @@ CInterfaceStubVtbl _IBase64StubVtbl =
 {
     &IID_IBase64,
     &IBase64_ServerInfo,
-    12,
+    13,
     &IBase64_table[-3],
     CStdStubBuffer_DELEGATING_METHODS
 };
@@ -283,7 +286,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 /* 60 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
-	/* Procedure GetBase64 */
+	/* Procedure SetBase64 */
 
 /* 62 */	0x33,		/* FC_AUTO_HANDLE */
 			0x6c,		/* Old Flags:  object, Oi2 */
@@ -296,18 +299,18 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 #endif
 /* 72 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 74 */	NdrFcShort( 0x8 ),	/* 8 */
-/* 76 */	0x5,		/* Oi2 Flags:  srv must size, has return, */
+/* 76 */	0x6,		/* Oi2 Flags:  clt must size, has return, */
 			0x2,		/* 2 */
 
 	/* Parameter base64 */
 
-/* 78 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
+/* 78 */	NdrFcShort( 0x8b ),	/* Flags:  must size, must free, in, by val, */
 #ifndef _ALPHA_
 /* 80 */	NdrFcShort( 0x4 ),	/* x86, MIPS, PPC Stack size/offset = 4 */
 #else
 			NdrFcShort( 0x8 ),	/* Alpha Stack size/offset = 8 */
 #endif
-/* 82 */	NdrFcShort( 0x2c ),	/* Type Offset=44 */
+/* 82 */	NdrFcShort( 0x1a ),	/* Type Offset=26 */
 
 	/* Return value */
 
@@ -320,7 +323,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 /* 88 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
-	/* Procedure GetStringB */
+	/* Procedure GetBase64 */
 
 /* 90 */	0x33,		/* FC_AUTO_HANDLE */
 			0x6c,		/* Old Flags:  object, Oi2 */
@@ -336,7 +339,7 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 /* 104 */	0x5,		/* Oi2 Flags:  srv must size, has return, */
 			0x2,		/* 2 */
 
-	/* Parameter stringB */
+	/* Parameter base64 */
 
 /* 106 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
 #ifndef _ALPHA_
@@ -357,51 +360,88 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 /* 116 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
-	/* Procedure GetString */
+	/* Procedure GetStringB */
 
 /* 118 */	0x33,		/* FC_AUTO_HANDLE */
 			0x6c,		/* Old Flags:  object, Oi2 */
 /* 120 */	NdrFcLong( 0x0 ),	/* 0 */
 /* 124 */	NdrFcShort( 0xb ),	/* 11 */
 #ifndef _ALPHA_
-/* 126 */	NdrFcShort( 0x10 ),	/* x86, MIPS, PPC Stack size/offset = 16 */
+/* 126 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
 #else
-			NdrFcShort( 0x20 ),	/* Alpha Stack size/offset = 32 */
+			NdrFcShort( 0x18 ),	/* Alpha Stack size/offset = 24 */
 #endif
 /* 128 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 130 */	NdrFcShort( 0x8 ),	/* 8 */
-/* 132 */	0x7,		/* Oi2 Flags:  srv must size, clt must size, has return, */
-			0x3,		/* 3 */
+/* 132 */	0x5,		/* Oi2 Flags:  srv must size, has return, */
+			0x2,		/* 2 */
 
-	/* Parameter encoding */
+	/* Parameter stringB */
 
-/* 134 */	NdrFcShort( 0x8b ),	/* Flags:  must size, must free, in, by val, */
+/* 134 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
 #ifndef _ALPHA_
 /* 136 */	NdrFcShort( 0x4 ),	/* x86, MIPS, PPC Stack size/offset = 4 */
 #else
 			NdrFcShort( 0x8 ),	/* Alpha Stack size/offset = 8 */
 #endif
-/* 138 */	NdrFcShort( 0x1a ),	/* Type Offset=26 */
+/* 138 */	NdrFcShort( 0x2c ),	/* Type Offset=44 */
 
-	/* Parameter string */
+	/* Return value */
 
-/* 140 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
+/* 140 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
 #ifndef _ALPHA_
 /* 142 */	NdrFcShort( 0x8 ),	/* x86, MIPS, PPC Stack size/offset = 8 */
 #else
 			NdrFcShort( 0x10 ),	/* Alpha Stack size/offset = 16 */
 #endif
-/* 144 */	NdrFcShort( 0x2c ),	/* Type Offset=44 */
+/* 144 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
+	/* Procedure GetString */
+
+/* 146 */	0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/* 148 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 152 */	NdrFcShort( 0xc ),	/* 12 */
+#ifndef _ALPHA_
+/* 154 */	NdrFcShort( 0x10 ),	/* x86, MIPS, PPC Stack size/offset = 16 */
+#else
+			NdrFcShort( 0x20 ),	/* Alpha Stack size/offset = 32 */
+#endif
+/* 156 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 158 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 160 */	0x7,		/* Oi2 Flags:  srv must size, clt must size, has return, */
+			0x3,		/* 3 */
+
+	/* Parameter encoding */
+
+/* 162 */	NdrFcShort( 0x8b ),	/* Flags:  must size, must free, in, by val, */
+#ifndef _ALPHA_
+/* 164 */	NdrFcShort( 0x4 ),	/* x86, MIPS, PPC Stack size/offset = 4 */
+#else
+			NdrFcShort( 0x8 ),	/* Alpha Stack size/offset = 8 */
+#endif
+/* 166 */	NdrFcShort( 0x1a ),	/* Type Offset=26 */
+
+	/* Parameter string */
+
+/* 168 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
+#ifndef _ALPHA_
+/* 170 */	NdrFcShort( 0x8 ),	/* x86, MIPS, PPC Stack size/offset = 8 */
+#else
+			NdrFcShort( 0x10 ),	/* Alpha Stack size/offset = 16 */
+#endif
+/* 172 */	NdrFcShort( 0x2c ),	/* Type Offset=44 */
 
 	/* Return value */
 
-/* 146 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 174 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
 #ifndef _ALPHA_
-/* 148 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
+/* 176 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
 #else
 			NdrFcShort( 0x18 ),	/* Alpha Stack size/offset = 24 */
 #endif
-/* 150 */	0x8,		/* FC_LONG */
+/* 178 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
 			0x0
