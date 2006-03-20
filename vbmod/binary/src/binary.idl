@@ -1,0 +1,43 @@
+// binary.idl : IDL source for binary.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (binary.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(A051359F-BF80-4014-B50D-74C597CB0FE4),
+		dual,
+		helpstring("IBase64 Interface"),
+		pointer_default(unique)
+	]
+	interface IBase64 : IDispatch
+	{
+		[id(1), helpstring("method SetStringB")] HRESULT SetStringB([in]BSTR stringB);
+		[id(2), helpstring("method SetString")] HRESULT SetString([in]BSTR stringUnicode, [in, optional, defaultvalue("gb2312")]BSTR encoding);
+		[id(3), helpstring("method GetBase64")] HRESULT GetBase64([out, retval]BSTR *base64);
+		[id(4), helpstring("method GetStringB")] HRESULT GetStringB([out, retval]BSTR *stringB);
+		[id(5), helpstring("method GetString")] HRESULT GetString([in, optional, defaultvalue("gb2312")]BSTR encoding, [out, retval]BSTR *string);
+	};
+
+[
+	uuid(E8017760-AC1B-47E5-919B-DE90C298BBE3),
+	version(1.0),
+	helpstring("Visual Basic 6.0 Binary Process")
+]
+library BinaryLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(7867B0A2-C95C-4B3D-8E0D-7A006DAAB0BC),
+		helpstring("Base64 Class")
+	]
+	coclass Base64
+	{
+		[default] interface IBase64;
+	};
+};
