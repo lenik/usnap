@@ -136,7 +136,7 @@ Public Function Process(ByVal Message, Optional Parameters) As Boolean
     Dim cmd As StateObjectCommand
     Dim defcmd As StateObjectCommand
 
-    Set NextState = Me
+    Set NextState = m_Active
     For i = 0 To m_Active.Commands - 1
         With m_Active.Command(i)
             If .Name = Message Then

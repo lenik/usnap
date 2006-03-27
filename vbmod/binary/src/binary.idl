@@ -21,6 +21,8 @@ import "ocidl.idl";
 		[id(4), helpstring("method GetBase64")] HRESULT GetBase64([out, retval]BSTR *base64);
 		[id(5), helpstring("method GetStringB")] HRESULT GetStringB([out, retval]BSTR *stringB);
 		[id(6), helpstring("method GetString")] HRESULT GetString([in, optional, defaultvalue("gb2312")]BSTR encoding, [out, retval]BSTR *string);
+		[id(7), helpstring("method GetHex")] HRESULT GetHex([in, optional, defaultvalue(" ")]BSTR separator, [out, retval]BSTR *hexes);
+		[id(8), helpstring("method SetHex")] HRESULT SetHex([in]BSTR hexes, [out, retval]long *bytes);
 	};
 
 [

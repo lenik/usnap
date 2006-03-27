@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Mar 20 10:15:05 2006
+/* at Wed Mar 22 17:03:49 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -27,8 +27,8 @@
 
 #include "binary.h"
 
-#define TYPE_FORMAT_STRING_SIZE   55
-#define PROC_FORMAT_STRING_SIZE   181
+#define TYPE_FORMAT_STRING_SIZE   59
+#define PROC_FORMAT_STRING_SIZE   249
 
 typedef struct _MIDL_TYPE_FORMAT_STRING
     {
@@ -102,7 +102,9 @@ static const unsigned short IBase64_FormatStringOffsetTable[] =
     62,
     90,
     118,
-    146
+    146,
+    180,
+    214
     };
 
 static const MIDL_SERVER_INFO IBase64_ServerInfo =
@@ -127,7 +129,7 @@ static const MIDL_STUBLESS_PROXY_INFO IBase64_ProxyInfo =
     0
     };
 
-CINTERFACE_PROXY_VTABLE(13) _IBase64ProxyVtbl =
+CINTERFACE_PROXY_VTABLE(15) _IBase64ProxyVtbl =
 {
     &IBase64_ProxyInfo,
     &IID_IBase64,
@@ -143,7 +145,9 @@ CINTERFACE_PROXY_VTABLE(13) _IBase64ProxyVtbl =
     (void *)-1 /* IBase64::SetBase64 */ ,
     (void *)-1 /* IBase64::GetBase64 */ ,
     (void *)-1 /* IBase64::GetStringB */ ,
-    (void *)-1 /* IBase64::GetString */
+    (void *)-1 /* IBase64::GetString */ ,
+    (void *)-1 /* IBase64::GetHex */ ,
+    (void *)-1 /* IBase64::SetHex */
 };
 
 
@@ -158,6 +162,8 @@ static const PRPC_STUB_FUNCTION IBase64_table[] =
     NdrStubCall2,
     NdrStubCall2,
     NdrStubCall2,
+    NdrStubCall2,
+    NdrStubCall2,
     NdrStubCall2
 };
 
@@ -165,7 +171,7 @@ CInterfaceStubVtbl _IBase64StubVtbl =
 {
     &IID_IBase64,
     &IBase64_ServerInfo,
-    13,
+    15,
     &IBase64_table[-3],
     CStdStubBuffer_DELEGATING_METHODS
 };
@@ -444,6 +450,101 @@ static const MIDL_PROC_FORMAT_STRING __MIDL_ProcFormatString =
 /* 178 */	0x8,		/* FC_LONG */
 			0x0,		/* 0 */
 
+	/* Procedure GetHex */
+
+/* 180 */	0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/* 182 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 186 */	NdrFcShort( 0xd ),	/* 13 */
+#ifndef _ALPHA_
+/* 188 */	NdrFcShort( 0x10 ),	/* x86, MIPS, PPC Stack size/offset = 16 */
+#else
+			NdrFcShort( 0x20 ),	/* Alpha Stack size/offset = 32 */
+#endif
+/* 190 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 192 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 194 */	0x7,		/* Oi2 Flags:  srv must size, clt must size, has return, */
+			0x3,		/* 3 */
+
+	/* Parameter separator */
+
+/* 196 */	NdrFcShort( 0x8b ),	/* Flags:  must size, must free, in, by val, */
+#ifndef _ALPHA_
+/* 198 */	NdrFcShort( 0x4 ),	/* x86, MIPS, PPC Stack size/offset = 4 */
+#else
+			NdrFcShort( 0x8 ),	/* Alpha Stack size/offset = 8 */
+#endif
+/* 200 */	NdrFcShort( 0x1a ),	/* Type Offset=26 */
+
+	/* Parameter hexes */
+
+/* 202 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
+#ifndef _ALPHA_
+/* 204 */	NdrFcShort( 0x8 ),	/* x86, MIPS, PPC Stack size/offset = 8 */
+#else
+			NdrFcShort( 0x10 ),	/* Alpha Stack size/offset = 16 */
+#endif
+/* 206 */	NdrFcShort( 0x2c ),	/* Type Offset=44 */
+
+	/* Return value */
+
+/* 208 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+#ifndef _ALPHA_
+/* 210 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
+#else
+			NdrFcShort( 0x18 ),	/* Alpha Stack size/offset = 24 */
+#endif
+/* 212 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
+	/* Procedure SetHex */
+
+/* 214 */	0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/* 216 */	NdrFcLong( 0x0 ),	/* 0 */
+/* 220 */	NdrFcShort( 0xe ),	/* 14 */
+#ifndef _ALPHA_
+/* 222 */	NdrFcShort( 0x10 ),	/* x86, MIPS, PPC Stack size/offset = 16 */
+#else
+			NdrFcShort( 0x20 ),	/* Alpha Stack size/offset = 32 */
+#endif
+/* 224 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 226 */	NdrFcShort( 0x10 ),	/* 16 */
+/* 228 */	0x6,		/* Oi2 Flags:  clt must size, has return, */
+			0x3,		/* 3 */
+
+	/* Parameter hexes */
+
+/* 230 */	NdrFcShort( 0x8b ),	/* Flags:  must size, must free, in, by val, */
+#ifndef _ALPHA_
+/* 232 */	NdrFcShort( 0x4 ),	/* x86, MIPS, PPC Stack size/offset = 4 */
+#else
+			NdrFcShort( 0x8 ),	/* Alpha Stack size/offset = 8 */
+#endif
+/* 234 */	NdrFcShort( 0x1a ),	/* Type Offset=26 */
+
+	/* Parameter bytes */
+
+/* 236 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+#ifndef _ALPHA_
+/* 238 */	NdrFcShort( 0x8 ),	/* x86, MIPS, PPC Stack size/offset = 8 */
+#else
+			NdrFcShort( 0x10 ),	/* Alpha Stack size/offset = 16 */
+#endif
+/* 240 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
+	/* Return value */
+
+/* 242 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+#ifndef _ALPHA_
+/* 244 */	NdrFcShort( 0xc ),	/* x86, MIPS, PPC Stack size/offset = 12 */
+#else
+			NdrFcShort( 0x18 ),	/* Alpha Stack size/offset = 24 */
+#endif
+/* 246 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
 			0x0
         }
     };
@@ -492,6 +593,10 @@ static const MIDL_TYPE_FORMAT_STRING __MIDL_TypeFormatString =
 /* 48 */	NdrFcShort( 0x4 ),	/* 4 */
 /* 50 */	NdrFcShort( 0x0 ),	/* 0 */
 /* 52 */	NdrFcShort( 0xfffffff4 ),	/* Offset= -12 (40) */
+/* 54 */
+			0x11, 0xc,	/* FC_RP [alloced_on_stack] [simple_pointer] */
+/* 56 */	0x8,		/* FC_LONG */
+			0x5c,		/* FC_PAD */
 
 			0x0
         }

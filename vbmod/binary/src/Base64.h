@@ -43,6 +43,8 @@ public:
 
 // IBase64
 public:
+	STDMETHOD(SetHex)(/*[in]*/BSTR hexes, /*[out, retval]*/long *bytes);
+	STDMETHOD(GetHex)(/*[in, optional, default_value(" ")]*/BSTR separator, /*[out, retval]*/BSTR *hexes);
 	STDMETHOD(SetBase64)(/*[in]*/BSTR base64);
 	STDMETHOD(GetString)(/*[in, optional("gb2312")]*/BSTR encoding, /*[out, retval]*/BSTR *string);
 	STDMETHOD(GetStringB)(/*[out, retval]*/BSTR *stringB);

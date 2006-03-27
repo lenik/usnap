@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Mar 20 10:15:05 2006
+/* at Wed Mar 22 17:03:49 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -97,6 +97,14 @@ EXTERN_C const IID IID_IBase64;
             /* [defaultvalue][optional][in] */ BSTR encoding,
             /* [retval][out] */ BSTR __RPC_FAR *string) = 0;
 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE GetHex(
+            /* [defaultvalue][optional][in] */ BSTR separator,
+            /* [retval][out] */ BSTR __RPC_FAR *hexes) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SetHex(
+            /* [in] */ BSTR hexes,
+            /* [retval][out] */ long __RPC_FAR *bytes) = 0;
+
     };
 
 #else 	/* C style interface */
@@ -171,6 +179,16 @@ EXTERN_C const IID IID_IBase64;
             /* [defaultvalue][optional][in] */ BSTR encoding,
             /* [retval][out] */ BSTR __RPC_FAR *string);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *GetHex )(
+            IBase64 __RPC_FAR * This,
+            /* [defaultvalue][optional][in] */ BSTR separator,
+            /* [retval][out] */ BSTR __RPC_FAR *hexes);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *SetHex )(
+            IBase64 __RPC_FAR * This,
+            /* [in] */ BSTR hexes,
+            /* [retval][out] */ long __RPC_FAR *bytes);
+
         END_INTERFACE
     } IBase64Vtbl;
 
@@ -224,6 +242,12 @@ EXTERN_C const IID IID_IBase64;
 
 #define IBase64_GetString(This,encoding,string)	\
     (This)->lpVtbl -> GetString(This,encoding,string)
+
+#define IBase64_GetHex(This,separator,hexes)	\
+    (This)->lpVtbl -> GetHex(This,separator,hexes)
+
+#define IBase64_SetHex(This,hexes,bytes)	\
+    (This)->lpVtbl -> SetHex(This,hexes,bytes)
 
 #endif /* COBJMACROS */
 
@@ -300,6 +324,32 @@ void __RPC_STUB IBase64_GetStringB_Stub(
 
 
 void __RPC_STUB IBase64_GetString_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IBase64_GetHex_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [defaultvalue][optional][in] */ BSTR separator,
+    /* [retval][out] */ BSTR __RPC_FAR *hexes);
+
+
+void __RPC_STUB IBase64_GetHex_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IBase64_SetHex_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [in] */ BSTR hexes,
+    /* [retval][out] */ long __RPC_FAR *bytes);
+
+
+void __RPC_STUB IBase64_SetHex_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,

@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{E8017760-AC1B-47E5-919B-DE90C298BBE3}#1.0#0#..\..\..\bin\binary.dll#Visual Basic 6.0 Binary Process
+Reference=*\G{E8017760-AC1B-47E5-919B-DE90C298BBE3}#1.0#0#..\src\Debug\binary.dll#Visual Basic 6.0 Binary Process
 Form=Form1.frm
 Module=Module1; Module1.bas
 IconForm="Form1"
@@ -14,7 +14,7 @@ HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1
 MinorVer=0
-RevisionVer=2
+RevisionVer=4
 AutoIncrementVer=1
 ServerSupportFiles=0
 VersionCompanyName="CPU-007"
