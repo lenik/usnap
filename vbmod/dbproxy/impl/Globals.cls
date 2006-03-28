@@ -65,3 +65,7 @@ Public Function DBConnectFast(Optional ByVal ConnectionString) As DBConnection
         DBConnectFast.Allocate ConnectionString, , , adAsyncConnect
     End If
 End Function
+
+Public Property Get SQLF() As SQLFunctions
+    Set SQLF = GlobalsSingleton.SQLF
+End Property

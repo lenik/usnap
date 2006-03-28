@@ -65,7 +65,7 @@ End Property
 Public Function Query(ByVal sql As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
     Set Query = New Recordset
     ' OPT: ExecuteOptionEnum
-    Query.Open sql, m_Raw, g_CursorTypes(QueryType), g_LockTypes(QueryType)
+    Query.Open sql, m_Raw, Presets.CursorType(QueryType), Presets.LockType(QueryType)
 End Function
 
 Public Function Update(ByVal sql As String, Optional ByVal Options As Long = -1) As Long
@@ -163,7 +163,6 @@ End Function
 
 Private Sub Class_Initialize()
     Set m_Raw = New Connection
-    Presets.Initialize
 End Sub
 
 '
