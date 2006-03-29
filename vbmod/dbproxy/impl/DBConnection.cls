@@ -325,6 +325,7 @@ Public Property Get Mode() As ADODB.ConnectModeEnum
 End Property
 
 Public Sub Allocate(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
+    m_Raw.CursorLocation = adUseClient
     m_Raw.Open ConnectionString, UserID, Password, Options
 End Sub
 
