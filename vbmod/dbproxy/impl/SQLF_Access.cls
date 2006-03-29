@@ -8,9 +8,9 @@ BEGIN
 END
 Attribute VB_Name = "SQLF_Access"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
+Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = True
+Attribute VB_Exposed = False
 Option Explicit
 
 Implements SQLFunctions
@@ -24,7 +24,11 @@ Private Function SQLFunctions_Left(ByVal Name As String, ByVal Length As Integer
 End Function
 
 Private Function SQLFunctions_Mid(ByVal Name As String, ByVal start As Integer, Optional ByVal Length As Variant) As String
-    SQLFunctions_Mid = SQLF_Default.Mid(Name, start, Length)
+    Dim buf As String
+    buf = "MID(" & Name
+    If Not IsMissing(start) Then buf = buf & "," & start
+    If Not IsMissing(Length) Then buf = buf & "," & Length
+    SQLFunctions_Mid = buf & ")"
 End Function
 
 Private Function SQLFunctions_PadLeft(ByVal Name As String, Optional ByVal Length As Variant = 8, Optional ByVal PadChar As String = "0") As String

@@ -336,21 +336,22 @@ Public Property Let Base(ByVal newval As String)
     RedrawButtons
 End Property
 
-Public Sub AddCommand(ByVal Name As String, ByVal TargetName As String, _
-        Optional ByVal Title As String = "", _
-        Optional ByVal Default As Boolean = False, _
-        Optional ByVal Method As Integer = methodGoto, _
-        Optional ByVal Grayed As Boolean = False, _
-        Optional ByVal Visible As Boolean = True, _
-        Optional ByVal Icon As IPictureDisp = Nothing)
+Public Sub AddCommand(ByVal name As String, _
+                      ByVal TargetName As String, _
+                      Optional ByVal Title As String = "", _
+                      Optional ByVal Default As Boolean = False, _
+                      Optional ByVal Method As Integer = methodGoto, _
+                      Optional ByVal Grayed As Boolean = False, _
+                      Optional ByVal Visible As Boolean = True, _
+                      Optional ByVal Icon As IPictureDisp = Nothing)
     Assert m_Commands < MAX_COMMANDS, "Too many commands: a state object could have a maximum of " & MAX_COMMANDS & " commands at most", LOCATION
     Assert Method = methodGoto Or Method = methodCall
-    Name = Trim(Name)
+    name = Trim(name)
     Title = Trim(Title)
-    If Title = "" Then Title = Name
+    If Title = "" Then Title = name
     Set m_Command(m_Commands) = New StateObjectCommand
     With m_Command(m_Commands)
-        .Name = Name                    ' The behavior of duplicated names is undefined.
+        .name = name                    ' The behavior of duplicated names is undefined.
         .TargetName = TargetName        ' Undefined TargetName will exit the controller (with exit-state = this)
         .Title = Title
         .Default = Default              ' More than 1 commands have default property set, then only one will be the default.
@@ -392,7 +393,7 @@ Friend Sub SetCommands(cmdprops, sa As SAOT)
         Set cmd = cmdprops(slots(i))
         Set m_Command(i) = New StateObjectCommand
         With m_Command(i)
-            .Name = cmd.CommandName
+            .name = cmd.CommandName
             .TargetName = cmd.CommandTarget
             .Method = cmd.CommandMethod
             .Default = cmd.CommandDefault
@@ -513,7 +514,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     For i = 0 To m_Commands - 1
         'Set m_Command(i) = PropBag.ReadProperty("Command_" & i, m_Command(i))
         With m_Command(i)
-            .Name = PropBag.ReadProperty("Name_" & i)
+            .name = PropBag.ReadProperty("Name_" & i)
             .TargetName = PropBag.ReadProperty("TargetName_" & i)
             .Title = PropBag.ReadProperty("Title_" & i)
             .Default = PropBag.ReadProperty("Default_" & i)
@@ -544,7 +545,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     For i = 0 To m_Commands - 1
         'PropBag.WriteProperty "Command_" & i, m_Command(i)
         With m_Command(i)
-            PropBag.WriteProperty "Name_" & i, .Name
+            PropBag.WriteProperty "Name_" & i, .name
             PropBag.WriteProperty "TargetName_" & i, .TargetName
             PropBag.WriteProperty "Title_" & i, .Title
             PropBag.WriteProperty "Default_" & i, .Default

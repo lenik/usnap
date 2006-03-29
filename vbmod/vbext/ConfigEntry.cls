@@ -14,24 +14,46 @@ Attribute VB_Exposed = False
 Option Explicit
 
 ' Id/Name mappnig
-Public Id As Long
+Private m_Id As Long
 
 ' Entry type: string, sub, file, etc.
-Public Type_ As Integer
+Private m_Type As Integer
 
 ' Belongs to which section
-Public Section As String
+Private m_Section As String
 
-' Value
+' Entry Value
 Private m_Value As Variant
 
 
-Public Sub ParseValue(ByVal Type_, ByVal valstr As Variant)
-    Me.Type_ = Type_
-    LC.Assign Value, valstr
+Sub InitEntry(ByVal Id As Long, ByVal Section As String)
+    m_Id = Id
+    m_Section = Section
 End Sub
 
+Public Sub ParseValue(ByVal Type_, ByVal valstr As Variant)
+    m_Type = Type_
+    LC.Assign m_Value, valstr
+End Sub
+
+Public Property Get Id() As Long
+    Id = m_Id
+End Property
+
+Public Property Let Id(ByVal newval As Long)
+    m_Id = newval
+End Property
+
+Public Property Get Type_() As Integer
+    Type_ = m_Type
+End Property
+
+Public Property Get Section() As String
+    Section = m_Section
+End Property
+
 Public Property Get Value() As Variant
+Attribute Value.VB_UserMemId = 0
     If IsObject(Value) Then
         ' Is Dynamic Property?
         ' <EXT...>

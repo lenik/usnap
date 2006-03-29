@@ -30,6 +30,10 @@ Public Property Get Application() As Configuration
     Set Application = g_Configuration
 End Property
 
+Public Property Get InstPrefix() As String
+    InstPrefix = GlobalsSingleton.InstPrefix
+End Property
+
 Public Property Get Config() As Object
     Set Config = g_Config
 End Property

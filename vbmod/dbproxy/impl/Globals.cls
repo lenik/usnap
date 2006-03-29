@@ -69,3 +69,11 @@ End Function
 Public Property Get SQLF() As SQLFunctions
     Set SQLF = GlobalsSingleton.SQLF
 End Property
+
+Public Property Get DBApplication()
+    Set DBApplication = VBExt.Application
+End Property
+
+Public Property Get DBConfig() As Object
+    Set DBConfig = VBExt.Config
+End Property

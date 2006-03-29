@@ -32,8 +32,9 @@ Public Function DumpVariant(v As Variant, Optional ByVal indent As Integer = 0) 
             Next
         Case 2
             For i = LBound(v, 1) To UBound(v, 1)
+                buf = buf & vbNewLine & prefix & "  " & i & "[]. "
                 For j = LBound(v, 2) To UBound(v, 2)
-                    buf = buf & vbNewLine & prefix & "  " & i & "/" & j & ". " & DumpVariant(v(i, j), indent + 1)
+                    buf = buf & DumpVariant(v(i, j), indent + 1) & "  "
                 Next
             Next
         Case Else
@@ -56,3 +57,8 @@ Public Function DumpVariant(v As Variant, Optional ByVal indent As Integer = 0) 
     End If
     DumpVariant = DumpVariant & buf
 End Function
+
+Public Sub tt()
+    Dim conn As DBConnection
+    Set conn = DBConnect
+End Sub

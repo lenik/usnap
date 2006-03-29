@@ -62,95 +62,152 @@ Public Property Get Connection() As ADODB.Connection
     Set Connection = Exported
 End Property
 
-Public Function Query(ByVal sql As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
+Public Function Query(ByVal SQL As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
     Set Query = New Recordset
     ' OPT: ExecuteOptionEnum
-    Query.Open sql, m_Raw, Presets.CursorType(QueryType), Presets.LockType(QueryType)
+    Query.Open SQL, m_Raw, Presets.CursorType(QueryType), Presets.LockType(QueryType)
 End Function
 
-Public Function Update(ByVal sql As String, Optional ByVal Options As Long = -1) As Long
+Public Function Update(ByVal SQL As String, Optional ByVal Options As Long = -1) As Long
     Dim records
-    m_Raw.Execute sql, records, Options
+    m_Raw.Execute SQL, records, Options
     Update = CLng(records)
 End Function
 
-Public Function QueryValue(ByVal sql As String, Optional ByVal Rows As Integer = 1, Optional ByVal Columns As Integer = 1)
+Public Function QueryValue(ByVal SQL As String, Optional ByVal Rows, Optional ByVal Columns, Optional ByVal AlwaysMatrix As Boolean = False)
     Dim rs As Recordset
-    Dim Cols As Integer
+    Dim ScanCols As Integer
     Dim iRow As Integer
     Dim iCol As Integer
+    Dim vec As Vector
+    Dim i As Integer, j As Integer
 
-    Assert Rows > 0 And Columns > 0
+    Set rs = m_Raw.Execute(SQL)
 
-    Set rs = m_Raw.Execute(sql)
+    ' Empty if N/A
+    If rs.EOF Then Exit Function
 
-    If Rows = 1 And Columns = 1 Then
-        If Not rs.EOF Then
+    If IsMissing(Rows) Then
+        If IsMissing(Columns) Then
+            ' Scalar
             QueryValue = rs.Fields(0)
-        End If
-    ElseIf Rows > 1 And Columns > 1 Then
-        ' Matrix
-        ReDim mat(0 To Columns - 1, 0 To Rows - 1)
-        ' Min(fields, columns)
-        Cols = IIf(Columns > rs.Fields.Count, rs.Fields.Count, Columns)
-        Do While Not rs.EOF
-            If iRow >= Rows Then Exit Do
-            For iCol = 0 To Cols - 1
-                mat(iCol, iRow) = rs.Fields(iCol).value
+        Else
+            ' QueryValue(SQL, , COLUMN)
+            ' Y-Vector
+            Columns = Int(Val(Columns))
+            Assert Columns > 0
+            If Columns >= rs.Fields.Count Then Exit Function
+
+            Set vec = New Vector
+            Do While Not rs.EOF
+                vec.Push rs.Fields(Columns).value
+                rs.MoveNext
+            Loop
+
+            ReDim yvec(0 To vec.Size - 1)
+            For iRow = 0 To vec.Size - 1
+                yvec(iRow) = vec(iRow)
             Next
-            rs.MoveNext
-            iRow = iRow + 1
-        Loop
-        ' Expect iRow == Rows
-        If iRow < Rows Then
-            If iRow = 0 Then
-                ' QueryValue = Empty
-                Exit Function
-            Else
-                ' Only rows could be redim.
-                ReDim Preserve mat(0 To Columns - 1, 0 To iRow - 1)
-            End If
+            QueryValue = yvec
         End If
-        QueryValue = mat
-    ElseIf Rows > 1 Then
-        ' Row-Vector
-        ReDim rvec(0 To Rows - 1)
-        Do While Not rs.EOF
-            If iRow >= Rows Then Exit Do
-            rvec(iRow) = rs.Fields(0).value
-            rs.MoveNext
-            iRow = iRow + 1
-        Loop
-        ' Expect iRow == Rows
-        If iRow < Rows Then
-            If iRow = 0 Then
-                ' QueryValue = Empty
-                Exit Function
-            Else
-                ReDim Preserve rvec(0 To iRow - 1)
-            End If
-        End If
-        QueryValue = rvec
     Else
-        ' Column-Vector
-        If Not rs.EOF Then
-            ReDim cvec(0 To Columns - 1)
-            ' Min(fields, columns)
-            Cols = IIf(Columns > rs.Fields.Count, rs.Fields.Count, Columns)
-            For iCol = 0 To Cols - 1
-                cvec(iCol) = rs.Fields(iCol)
+        Rows = Int(Val(Rows))
+        Assert Rows >= 0
+        If IsMissing(Columns) Then
+            ' QueryValue(SQL, ROW, )
+            ' X-Vector
+            While Rows > 0 And Not rs.EOF
+                rs.MoveNext
+                Rows = Rows - 1
+            Wend
+            ' Empty if N/A
+            If rs.EOF Then Exit Function
+
+            ReDim xvec(0 To rs.Fields.Count - 1)
+            For iCol = 0 To rs.Fields.Count - 1
+                xvec(iCol) = rs.Fields(iCol).value
             Next
-            QueryValue = cvec
+            QueryValue = xvec
+        Else
+            Assert Rows > 0
+
+            Columns = Int(Val(Columns))
+            Assert Columns > 0
+
+            If (Rows > 1 And Columns > 1) Or AlwaysMatrix Then
+                ' Matrix, Array(Fixed-Columns, ??) with empty cells if N/A
+                ReDim mat(0 To Rows - 1, 0 To Columns - 1)
+                ' Min(fields, columns)
+                ScanCols = IIf(Columns > rs.Fields.Count, rs.Fields.Count, Columns)
+                Do While Not rs.EOF
+                    If iRow >= Rows Then Exit Do
+                    For iCol = 0 To ScanCols - 1
+                        mat(iRow, iCol) = rs.Fields(iCol).value
+                    Next
+                    rs.MoveNext
+                    iRow = iRow + 1
+                Loop
+                ' Expect iRow == Rows
+                If iRow < Rows Then
+                    If iRow = 0 Then
+                        ' QueryValue = Empty
+                        Exit Function
+                    Else
+                        ' OPT  Only X could be redim, when dim Array(X, Y)
+                        ' OPT  So not using Preserve keyword to make the copy faster.
+                        ReDim mat2(0 To iRow - 1, 0 To Columns - 1)
+                        For i = 0 To iRow - 1
+                            For j = 0 To Columns - 1
+                                mat2(i, j) = mat(i, j)
+                            Next
+                        Next
+                        QueryValue = mat2
+                    End If
+                End If
+
+                If IsEmpty(QueryValue) Then QueryValue = mat
+
+            ElseIf Rows = 1 Then
+                ' Column-Vector
+                ReDim cvec(0 To Columns - 1)
+                ' Min(fields, columns)
+                ScanCols = IIf(Columns > rs.Fields.Count, rs.Fields.Count, Columns)
+                For iCol = 0 To ScanCols - 1
+                    cvec(iCol) = rs.Fields(iCol)
+                Next
+                QueryValue = cvec
+            ElseIf Columns = 1 Then
+                ' Row-Vector, Fixed-Array with empty cells if N/A
+                ReDim rvec(0 To Rows - 1)
+                Do While Not rs.EOF
+                    If iRow >= Rows Then Exit Do
+                    rvec(iRow) = rs.Fields(0).value
+                    rs.MoveNext
+                    iRow = iRow + 1
+                Loop
+                ' Expect iRow == Rows
+                If iRow < Rows Then
+                    If iRow = 0 Then
+                        ' QueryValue = Empty
+                        Exit Function
+                    Else
+                        ReDim Preserve rvec(0 To iRow - 1)
+                    End If
+                End If
+                QueryValue = rvec
+            Else
+                Unexpected
+            End If
         End If
     End If
 
     rs.Close
 End Function
 
-Public Function QueryToCache(ByVal sql As String) As DBResultCache
+Public Function QueryToCache(ByVal SQL As String) As DBResultCache
     Dim rs As Recordset
     Dim c As New DBResultCache
-    Set rs = m_Raw.Execute(sql)
+    Set rs = m_Raw.Execute(SQL)
     While rs.EOF
         ' Save to cache...
         rs.MoveNext
@@ -159,7 +216,18 @@ Public Function QueryToCache(ByVal sql As String) As DBResultCache
     Set QueryToCache = c
 End Function
 
-' New Features Helpers
+Private Function IsInSchema(ByVal Schema As SchemaEnum, ByVal Name As String) As Boolean
+    Dim rs As Recordset
+    Set rs = m_Raw.OpenSchema(Schema, Name)
+    IsInSchema = Not rs.EOF
+End Function
+
+Public Function IsTableExist(ByVal Name As String) As Boolean
+    IsTableExist = IsInSchema(adSchemaTables, Name)
+    ' If Not IsTableExist Then
+End Function
+
+' Privates
 
 Private Sub Class_Initialize()
     Set m_Raw = New Connection

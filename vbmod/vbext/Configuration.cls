@@ -18,6 +18,7 @@ Private Const LOCATION = "VBExt::Configuration"
 Private Const EXTNAME = ".cfg"
 Private Const DISPID_BASE = 10001
 
+Private m_Accessor As Object
 Private m_Name As String
 Private m_HomeDirectory As String
 Private m_EntryName As Map
@@ -48,11 +49,11 @@ Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal m
     Case InvokeMethod
         ' ??
     Case InvokePropertyGet
-        IDynamicObject_DynamicInvoke = ce.value
+        IDynamicObject_DynamicInvoke = ce.Value
     Case InvokePropertyPut
-        ce.value = parameters(0)
+        ce.Value = parameters(0)
     Case InvokePropertyPutRef
-        Set ce.value = parameters(0)
+        Set ce.Value = parameters(0)
     End Select
     Exit Function
 NotExist:
@@ -80,8 +81,8 @@ Private Function RemoveEntry(Name) As Boolean
     End If
 End Function
 
-Private Function AbsolutePath(ByVal path As String) As String
-    AbsolutePath = m_HomeDirectory & "\" & m_Name & path & EXTNAME
+Private Function AbsolutePath(ByVal SectionPath As String) As String
+    AbsolutePath = m_HomeDirectory & "\" & m_Name & SectionPath & EXTNAME
 End Function
 
 Private Sub LoadConfig(ByVal Section As String)
@@ -102,38 +103,36 @@ Private Sub LoadConfig(ByVal Section As String)
         Dim Node As IXMLDOMNode
         Dim Name As String
         Dim Type_ As TypeConstants
-        Dim value As String
+        Dim Value As String
         Dim j As Integer
-        Dim ce
+        Dim ce As ConfigEntry
 
         Set Node = nodelist(i)
-        Name = Empty
         Type_ = TextType
-        value = Empty
         For j = 0 To Node.Attributes.length - 1
             With Node.Attributes(j)
-                Select Case .nodeName
-                Case "Name"
+                Select Case LCase(.nodeName)
+                Case "name"
                     Name = .nodeValue
-                Case "Type"
+                Case "type"
                     Type_ = ParseType(.nodeValue)
-                Case "Value"
-                    value = .nodeValue
+                Case "value"
+                    Value = .nodeValue
                 End Select
             End With
         Next
 
-        If Not IsEmpty(Name) Then
+        If Name <> "" Then
             Set ce = New ConfigEntry
-            ce.ParseValue Type_, value
-            ce.Section = Section
+            ce.ParseValue Type_, Value
+            ce.InitEntry 0, Section
             SetEntry Name, ce
         End If
 
         If Type_ = SubType Then
             Dim SubSection As String
             Dim SubPath As String
-            SubSection = Section & "_" & value
+            SubSection = Section & "_" & Value
             SubPath = AbsolutePath(SubSection)
             If Not FSO.FileExists(SubPath) Then
                 Err.Raise ERR_SUB_NOT_EXIST, LOCATION, "子配置文件 " & SubPath & " 不存在"
@@ -156,19 +155,15 @@ Public Property Get HomeDirectory() As String
 End Property
 
 Public Property Let HomeDirectory(ByVal newHome As String)
-    If Left(newHome, 2) = "::" Then
-        newHome = Mid(newHome, 3)
-        On Error Resume Next
-    End If
     m_HomeDirectory = newHome
-    Reload
 End Property
 
-Public Sub Reload()
+Public Sub Reload(Optional ByVal IgnoreErrors As Boolean = False)
     Set m_EntryId = New Map
     Set m_EntryName = New Map
     m_NextId = DISPID_BASE
 
+    If IgnoreErrors Then On Error Resume Next
     LoadConfig ""
 End Sub
 
@@ -176,18 +171,18 @@ Public Property Get Item(Name)
 Attribute Item.VB_UserMemId = 0
     Dim ce
     LC.Assign ce, m_EntryName(Name)
-    If Not IsNull(ce) Then LC.Assign Item, ce.value
+    If Not IsNull(ce) Then LC.Assign Item, ce.Value
 End Property
 
-Public Property Let Item(Name, value)
+Public Property Let Item(Name, Value)
     Dim ce
     LC.Assign ce, m_EntryName(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
-        LC.Assign ce.value, value
+        LC.Assign ce.Value, Value
         SetEntry Name, ce
     Else
-        ce.value = value
+        ce.Value = Value
     End If
 End Property
 
@@ -200,5 +195,8 @@ Public Property Get Attributes() As Collection
 End Property
 
 Public Function Accessor() As Object
-    Set Accessor = LC.ImplementDynamicObject(Me)
+    If m_Accessor Is Nothing Then
+        Set m_Accessor = LC.ImplementDynamicObject(Me)
+    End If
+    Set Accessor = m_Accessor
 End Function

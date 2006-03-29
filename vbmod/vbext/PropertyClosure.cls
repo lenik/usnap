@@ -6,14 +6,17 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "RuntimeMethods"
+Attribute VB_Name = "PropertyClosure"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-' Tag Class
+' @TAG-CLASS
 
-Public Function Invoke(ByVal Name As String, Optional Parameters As Variant) As Variant
+Public Function PropertyGet(ParamArray Parameters())
 End Function
+
+Public Sub PropertyLet(NewProperty, ParamArray Parameters())
+End Sub
