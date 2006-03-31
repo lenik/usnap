@@ -257,6 +257,8 @@ Public Sub RecalcBounds()
     Dim y0 As Single
     Dim x1 As Single
     Dim y1 As Single
+    Dim rangeH As Single
+    Dim rangeV As Single
     Dim AddLeft As Single
     Dim AddTop As Single
     Dim AddRight As Single
@@ -267,6 +269,22 @@ Public Sub RecalcBounds()
     x1 = x1 + m_PadTop
     y1 = y1 + m_PadBottom
 
+    ' Take account of the size of scrollbar itself.
+    If x0 < 0 Or x1 > ScaleWidth Then
+        y1 = y1 + hs.Height
+        If y0 < 0 Or y1 > ScaleHeight Then
+            x1 = x1 + vs.Width
+        End If
+    Else
+        If y0 < 0 Or y1 > ScaleHeight Then
+            x1 = x1 + vs.Width
+            If x0 < 0 Or x1 > ScaleWidth Then
+                y1 = y1 + hs.Height
+            End If
+        End If
+    End If
+
+    ' The extension should cover the canvas, at smallest.
     If x0 > 0 Then x0 = 0
     If y0 > 0 Then y0 = 0
     If x1 < ScaleWidth Then x1 = ScaleWidth
@@ -280,24 +298,23 @@ Public Sub RecalcBounds()
     y0 = y0 - AddTop
     x1 = x1 + AddRight
     y1 = y1 + AddBottom
+    rangeH = x1 - x0 - ScaleWidth
+    rangeV = y1 - y0 - ScaleHeight
+    ' Assert rangeH >= 0
+    ' Assert rangeV >= 0
 
     ' If not changed.
-    If x0 = m_ExtX0 And y0 = m_ExtY0 And x1 = m_ExtX1 And y1 = m_ExtY1 Then Exit Sub
+    ' If x0 = m_ExtX0 And y0 = m_ExtY0 And x1 = m_ExtX1 And y1 = m_ExtY1 Then Exit Sub
 
-    ' Assert X1 - X0 >= ScaleWidth
-    ' Assert Y1 - Y0 >= ScaleHeight
-    m_RangeH = x1 - x0 - ScaleWidth
-    m_RangeV = y1 - y0 - ScaleHeight
-    ' Assert m_RangeH >= 0
-    ' Assert m_RangeV >= 0
-
-    hs.Visible = m_RangeH > 0
-    vs.Visible = m_RangeV > 0
+    hs.Visible = rangeH > 0
+    vs.Visible = rangeV > 0
 
     m_ExtX0 = x0
     m_ExtY0 = y0
     m_ExtX1 = x1
     m_ExtY1 = y1
+    m_RangeH = rangeH
+    m_RangeV = rangeV
 
     UpdateScrollBars
 End Sub
