@@ -1,13 +1,13 @@
 VERSION 5.00
 Begin VB.Form Form1
    Caption         =   "Config test #2"
-   ClientHeight    =   3090
+   ClientHeight    =   3225
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   4680
+   ClientWidth     =   4860
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3090
-   ScaleWidth      =   4680
+   ScaleHeight     =   3225
+   ScaleWidth      =   4860
    StartUpPosition =   3  'Windows Default
    Begin VB.ListBox List1
       Height          =   2010
@@ -45,8 +45,10 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-    Dim rs As Recordset
-    Set rs = DBConnect.Execute("select * from user")
+    Dim conn As DBConnection
+    Dim rs As ADODB.Recordset
+    Set conn = DBConnect
+    Set rs = conn.Query("select * from user")
     List1.Clear
     While Not rs.EOF
         List1.AddItem rs!host & " - " & rs!user & " - " & rs!Password
@@ -57,14 +59,14 @@ End Sub
 Private Sub Form_Load()
     If DebugMode Then
         Caption = "In Debug Mode!"
-        application.Name = App.EXEName
-        application.HomeDirectory = "C:\.lokaj\zbmis\module\vbext\test"
-        application.Reload
+        Application.Name = App.EXEName
+        Application.HomeDirectory = "C:\.lokaj\zbmis\module\vbext\test"
+        Application.Reload
     Else
         Caption = "In Release Mode"
     End If
 
-    config.test = 123
+    Config.Test = 123
 
     'Dim app2, cfg2
     'Set app2 = DBProxy.DBApplication

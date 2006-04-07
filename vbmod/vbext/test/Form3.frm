@@ -9,6 +9,14 @@ Begin VB.Form Form3
    ScaleHeight     =   4350
    ScaleWidth      =   6690
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command7
+      Caption         =   "Command7"
+      Height          =   615
+      Left            =   2760
+      TabIndex        =   7
+      Top             =   180
+      Width           =   795
+   End
    Begin VB.CommandButton Command6
       Caption         =   "Command6"
       Height          =   375
@@ -83,23 +91,23 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-    MsgBox config.runas2
+    MsgBox Config.runas2
 End Sub
 
 Private Sub Command3_Click()
-    MsgBox TypeName(findcontrol(Me, "Command3"))
+    MsgBox TypeName(FindControl(Me, "Command3"))
 End Sub
 
 Private Sub Command4_Click()
-    ref(vbxSoftReference, "Hello") = Me
-    MsgBox TypeName(ref(vbxSoftReference, "Hello"))
+    Ref(vbxSoftReference, "Hello") = Me
+    MsgBox TypeName(Ref(vbxSoftReference, "Hello"))
     GarbageCollect
-    MsgBox TypeName(ref(vbxSoftReference, "Hello"))
+    MsgBox TypeName(Ref(vbxSoftReference, "Hello"))
 End Sub
 
 Private Sub Command5_Click()
-    Dim m As map
-    Set m = findcontrols(Me)
+    Dim m As Map
+    Set m = FindControls(Me)
     Dim name
     For Each name In m.KeySet
         MsgBox name
@@ -108,14 +116,21 @@ End Sub
 
 Private Sub Command6_Click()
     Dim x As Object
-    Set x = findcontrol(Me, "stuff")
+    Set x = FindControl(Me, "stuff")
     MsgBox TypeName(x)
 End Sub
 
+Private Sub Command7_Click()
+    MsgBox Config.hello2
+End Sub
+
 Private Sub Form_Load()
-    Dim name As String
-    name = App.EXEName
-    If LCase(Right(name, 4)) = ".exe" Then name = Left(name, Len(name) - 4)
-    Application.name = App.EXEName
-    Application.HomeDirectory = App.Path
+    If DebugMode Then
+        Dim name As String
+        name = App.EXEName
+        If LCase(Right(name, 4)) = ".exe" Then name = Left(name, Len(name) - 4)
+        Application.name = App.EXEName
+        Application.HomeDirectory = App.Path
+        Application.Reload
+    End If
 End Sub
