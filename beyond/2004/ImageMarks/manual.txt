@@ -1,0 +1,20 @@
+
+Image Marks Manual
+==================================================================
+                                   Bytes of Danci.Z (www.bodz.net)
+                                                          JUN 2004
+
+
+Contents
+
+	1  Install/uninstall
+	2  Create your first IMF (Image Marks File)
+	3  Layers and Objects
+	4  IMF file format
+	5  Using Marks object and loading IMF file
+	6  Redistribute
+	7  Contacts
+
+
+1  Install/uninstall
+------------------------------------------------------------------

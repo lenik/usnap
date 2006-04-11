@@ -1,0 +1,16 @@
+
+imagemarks:
+
+	IMF1.0;;
+
+	Picture:
+		...
+		;;
+
+	Top:
+		g1,rectangle,SL0,ST0,SR30,SB30;
+		e1,ellipse,PL20,PT20,SL70,ST40;
+		g1,group,g1,e1;
+		c1,color-range;
+		;;
+	Back:
