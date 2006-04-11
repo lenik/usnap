@@ -1,0 +1,6 @@
+
+const       static data
+libcall     a simple (embedded) shell language
+mcell       a layered memory unit structure
+mm          memory manager
+parser      common parser structure

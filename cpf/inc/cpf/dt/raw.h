@@ -13,6 +13,9 @@ typedef unsigned short u16_t;
 typedef signed long i32_t;
 typedef unsigned long u32_t;
 
+typedef signed __int64 i64_t;
+typedef unsigned __int64 u64_t;
+
 typedef float f32_t;
 typedef double f64_t;
 typedef long double f128_t;

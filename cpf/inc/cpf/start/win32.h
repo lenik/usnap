@@ -92,6 +92,9 @@
         inline RetT __cast(ParamT x) { return (RetT)x; }
 #   endif
 
+#   define FEIY_BEGIN                   namespace feiy {
+#   define FEIY_END                     }
+
 #   define WARN(uID)                    { feiy::popup_message((LPCTSTR)(uID), false); }
 #   define FATAL(uID)                   { feiy::popup_message((LPCTSTR)(uID), true); }
 
@@ -134,7 +137,7 @@
                         if (!bQuit) exit(-1);
                         break;
                     case IDRETRY:
-                        __brk;
+                        _asm int 3;
                         break;
                     case IDIGNORE: ;
                 }
