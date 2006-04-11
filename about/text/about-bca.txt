@@ -1,0 +1,65 @@
+﻿
+BODZ | S-FIA & TC
+Dir-T|Note                                                  http://tc.bodz.net
+Snima Denik Personal                                            denik@bodz.net
+
+NOTES FOR SPEED                                 STATUS Draft   SERIAL ________
+
+   TITLE _____________________________________________________________________
+KEYWORDS _____________________________________________________________________
+
+
+> ΣΔ-003 符号集
+
+    - ΣΔ-003 符号集（又称BCA）是 Σν?μα Δ?νικ 发明的用于简化日记格式的标记，每
+      个符号由三个拉丁字母缩写组成，其中有些有对应的特殊符号。
+
+    - ΣΔ-003 Version 1.1 标准 摘要
+    以下为自描述的标准摘要，括号中是特殊符号，
+    比如 <标题2> 可以记作 "NH2- ..."，"H2- ...", "- ..."，
+    比如 <学习计划> 可以记作 "KLR- ..."，"@ ..."，
+    所有符号都必须位于行首（可以有空白），<标题1>必须以双换行结束。
+
+    h2- Common:
+        Comment             CCT (#)
+
+    h2- Notes:
+                            (Prefix N- ignorable in note contents)
+        Head1               NH1 (>)
+        Head2               NH2 (-)
+        Head3               NH3 (o)
+        Head4               NH4 (.)
+        Remind              NRM (!)
+        To Do               NTD (=)
+        Just Note           NNT (')
+        Reference           NRF (@)
+
+        (Technology)
+        Example             NEG
+        Prototype           NPT
+        Reference Impl.     NRI
+        For Layer           NFL
+
+    h2- Task:
+        Shopping            KSP (+)
+        Learn               KLR (@)
+        Research & Develop  KRD (&)
+        Money Relate        KMN ($)
+        Life                KLF (*)
+        Reply               KRP (>)
+        Meeting, Discussion KMT (%)
+        Go to               KTO (/)
+        Think               KTK (?)
+        Task Done           KDN (v)
+        Task Passed         KPS (o)
+        Task Canceled       KCC (c)
+        Task Failure        KFL (x)
+
+    h2- Diary:
+        General Matter      YMA
+        Ticket Traffic      YTT
+        Ticket Food         YTF
+        Ticket Shopping     YTS
+        Ticket Anything     YTA
+        Ticket Value Cards  YTV
+        Ticket Medical      YTM
