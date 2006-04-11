@@ -1,0 +1,27 @@
+﻿
+BODZ | S-FIA & TC
+Dir-T|Note                                                  http://tc.bodz.net
+Snima Denik Personal                                            denik@bodz.net
+
+NOTES FOR SPEED                                 STATUS Draft   SERIAL ________
+
+   TITLE LaTiX（中间语言）的类型和变量实体定义
+KEYWORDS _____________________________________________________________________
+
+
+> Latix Type/Element
+
+LaTiX中本质上不区别类型和变量，类型不过是相同类型变量的一个模版单件，而变量亦可成为其他变量的模版而成为类型。
+
+在Schema中，type element union array pointer reference皆为同一种类型，即base-typedef。
+
+base-typedef 为 mixed 元素，其中的文本作为值构造使用。每个类型定义包括以下几种构造：
+	泛型构造	编译时
+	值构造		存储分配之后，通过复制进行。包括基体、父体的值构造。
+	构造符构造	值构造之后，通过调用构造实现进行。包括基体、父体的构造符构造。
+
+	构造次序为泛型构造->值构造->构造体构造，
+	对于每一种构造，次序为基体/父体/本体。
+
+
+>
