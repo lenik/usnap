@@ -3,11 +3,18 @@ Option Explicit
 Option Base 0
 
 
-Public Const CCS5_Encode = "_abcdefghijklmnopqrstuvwxyz.:$@%"
+Public CCS5_Encode As String
+Public CCS6_Encode As String
 
-Public Const CCS6_Encode = "_abcdefghijklmnopqrstuvwxyz01234.ABCDEFGHIJKLMNOPQRSTUVWXYZ56789"
-'
-
+Public Sub EnableIdentifier(ByVal enabled As Boolean)
+    If enabled Then
+        CCS5_Encode = "_abcdefghijklmnopqrstuvwxyz01234"
+        CCS6_Encode = "_abcdefghijklmnopqrstuvwxyz012345ABCDEFGHIJKLMNOPQRSTUVWXYZ56789"
+    Else
+        CCS5_Encode = "_abcdefghijklmnopqrstuvwxyz.:$@%"
+        CCS6_Encode = "_abcdefghijklmnopqrstuvwxyz01234.ABCDEFGHIJKLMNOPQRSTUVWXYZ56789"
+    End If
+End Sub
 
 ' Extra bitgrp/padding in returned byte() should be taken care by caller.
 Public Function BitSplit(bytes() As Byte, ByVal bits As Integer) As Byte()

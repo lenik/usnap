@@ -1,47 +1,54 @@
 VERSION 5.00
 Begin VB.Form frmMain
-   BorderStyle     =   3  'Fixed Dialog
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "S'FIA|TC - POSID Generator"
    ClientHeight    =   3060
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   8310
    LinkTopic       =   "Form1"
-   LockControls    =   -1  'True
    MaxButton       =   0   'False
-   MinButton       =   0   'False
    ScaleHeight     =   3060
    ScaleWidth      =   8310
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
+   Begin VB.CheckBox chkIdentifier
+      Caption         =   "&IDentifier"
+      Height          =   195
+      Left            =   6540
+      TabIndex        =   9
+      ToolTipText     =   "This will reduce the bits of generated POSID"
+      Top             =   1800
+      Value           =   1  'Checked
+      Width           =   1575
+   End
    Begin VB.CommandButton cmdAbout
       Caption         =   "&About"
       Height          =   555
       Left            =   4980
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   2280
       Width           =   1515
    End
    Begin VB.OptionButton optArray
       Caption         =   "Array initializer"
-      Height          =   255
+      Height          =   195
       Left            =   6540
       TabIndex        =   8
-      Top             =   1800
+      Top             =   1560
       Value           =   -1  'True
       Width           =   1515
    End
    Begin VB.OptionButton optDefines
       Caption         =   "DEFINES"
-      Height          =   255
+      Height          =   195
       Left            =   6540
       TabIndex        =   7
-      Top             =   1440
+      Top             =   1320
       Width           =   1515
    End
    Begin VB.OptionButton optHex
       Caption         =   "Hex"
-      Height          =   255
+      Height          =   195
       Left            =   6540
       TabIndex        =   6
       Top             =   1080
@@ -52,7 +59,7 @@ Begin VB.Form frmMain
       Caption         =   "E&xit"
       Height          =   555
       Left            =   6540
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   2280
       Width           =   1515
    End
@@ -60,7 +67,7 @@ Begin VB.Form frmMain
       Caption         =   "&Copy to clipbooard"
       Height          =   555
       Left            =   3420
-      TabIndex        =   11
+      TabIndex        =   12
       Top             =   2280
       Width           =   1515
    End
@@ -68,7 +75,7 @@ Begin VB.Form frmMain
       Caption         =   "Generate by &Timestamp"
       Height          =   555
       Left            =   1860
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   2280
       Width           =   1515
    End
@@ -76,7 +83,7 @@ Begin VB.Form frmMain
       Caption         =   "Generate by &MAC"
       Height          =   555
       Left            =   300
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   2280
       Width           =   1515
    End
@@ -156,6 +163,21 @@ Attribute VB_Exposed = False
 Option Explicit
 Option Base 0
 
+Function PosidPrint(posid) As String
+    If chkIdentifier Then
+        PosidPrint = Replace(posid, "-", "")
+    Else
+        PosidPrint = posid
+    End If
+End Function
+
+Private Sub chkIdentifier_Click()
+    If chkIdentifier Then
+        EnableIdentifier True
+    Else
+        EnableIdentifier False
+    End If
+End Sub
 
 Private Sub cmdAbout_Click()
     frmAbout.Show 1
@@ -166,7 +188,7 @@ Private Sub cmdByMAC_Click()
     mac = BytesToCCS6(GetMac(0), 48)
     mac = Left(mac, 4) & "-" & Mid(mac, 5)
     tail = CCS6Random(3) & "-" & CCS6Random(3) & "-" & CCS6Random(3)
-    txtPosid = "umac-" & mac & "-" & tail
+    txtPosid = PosidPrint("umac-" & mac & "-" & tail)
     cmdConvert_Click
 End Sub
 
@@ -174,7 +196,7 @@ Private Sub cmdByTime_Click()
     Dim id, st, tail
     st = GetPosidTimestamp()
     tail = CCS6Random(3) & "-" & CCS6Random(3) & "-" & CCS6Random(3)
-    txtPosid = "utim-" & st & "-" & tail
+    txtPosid = PosidPrint("utim-" & st & "-" & tail)
     cmdConvert_Click
 End Sub
 
@@ -221,24 +243,24 @@ Private Sub cmdDecode_Click()
     End If
 
     If Left(ccs, 4) = "umac" Then              ' umac-mmmm-mmmm-aaa-bbb-ccc
-        txtPosid = Left(ccs, 4) & "-" & _
+        txtPosid = PosidPrint(Left(ccs, 4) & "-" & _
                     Mid(ccs, 5, 4) & "-" & _
                     Mid(ccs, 9, 4) & "-" & _
                     Mid(ccs, 13, 3) & "-" & _
                     Mid(ccs, 16, 3) & "-" & _
-                    Mid(ccs, 19, 3)
+                    Mid(ccs, 19, 3))
     ElseIf Left(ccs, 4) = "utim" Then          ' utim-ttttt-rrr-aaa-bbb-ccc
-        txtPosid = Left(ccs, 4) & "-" & _
+        txtPosid = PosidPrint(Left(ccs, 4) & "-" & _
                     Mid(ccs, 5, 5) & "-" & _
                     Mid(ccs, 10, 3) & "-" & _
                     Mid(ccs, 13, 3) & "-" & _
                     Mid(ccs, 16, 3) & "-" & _
-                    Mid(ccs, 19, 3)
+                    Mid(ccs, 19, 3))
     Else                                        ' xxxx-yyyy-...
         txtPosid = ""
         While ccs <> ""
             If txtPosid <> "" Then txtPosid = txtPosid & "-"
-            txtPosid = txtPosid & Left(ccs, 4)
+            txtPosid = PosidPrint(txtPosid & Left(ccs, 4))
             ccs = Mid(ccs, 5)
         Wend
     End If
@@ -250,6 +272,7 @@ End Sub
 
 Private Sub Form_Load()
     Randomize Timer
+    EnableIdentifier True
     cmdByTime_Click
     txtPosid_GotFocus
 End Sub
