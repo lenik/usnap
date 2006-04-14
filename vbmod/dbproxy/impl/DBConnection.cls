@@ -32,6 +32,9 @@ Private WithEvents m_Raw As ADODB.Connection
 Attribute m_Raw.VB_VarHelpID = -1
 Private m_Exported As Connection
 
+Private m_Name As String
+Private m_User As Variant
+
 Private m_LockType As LockTypeEnum      ' Default lock type
 Private m_CursorType As CursorTypeEnum  ' Default cursor type
 
@@ -39,15 +42,15 @@ Private m_Filter As New DBSQLFilter
 
 Implements ADOMapping.IConnection
 
-Event BeginTransComplete(ByVal TransactionLevel As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event CommitTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event ConnectComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event Disconnect(adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event ExecuteComplete(ByVal RecordsAffected As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As ADODB.Connection)
-Event InfoMessage(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event RollbackTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event WillConnect(ConnectionString As String, UserID As String, Password As String, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-Event WillExecute(Source As String, CursorType As ADODB.CursorTypeEnum, LockType As ADODB.LockTypeEnum, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As ADODB.Connection)
+Event BeginTransComplete(ByVal TransactionLevel As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event CommitTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event ConnectComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event Disconnect(adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event ExecuteComplete(ByVal RecordsAffected As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As DBConnection)
+Event InfoMessage(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event RollbackTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event WillConnect(ConnectionString As String, UserID As String, Password As String, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
+Event WillExecute(Source As String, CursorType As ADODB.CursorTypeEnum, LockType As ADODB.LockTypeEnum, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As DBConnection)
 
 ' New Features
 
@@ -60,6 +63,23 @@ End Property
 
 Public Property Get Connection() As ADODB.Connection
     Set Connection = Exported
+End Property
+
+Public Property Get Name() As String
+Attribute Name.VB_UserMemId = 0
+    Name = m_Name
+End Property
+
+Public Property Let Name(ByVal newval As String)
+    m_Name = newval
+End Property
+
+Public Property Get User() As Variant
+    LC.Assign User, m_User
+End Property
+
+Public Property Let User(ByVal newval As Variant)
+    LC.Assign m_User, newval
 End Property
 
 Public Function Query(ByVal SQL As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
@@ -216,6 +236,13 @@ Public Function QueryToCache(ByVal SQL As String) As DBResultCache
     Set QueryToCache = c
 End Function
 
+Public Function Count(ByVal SQL As String) As Long
+    Dim rs As Recordset
+    Set rs = Query(SQL)
+    Count = rs.RecordCount
+    rs.Close
+End Function
+
 Private Function IsInSchema(ByVal Schema As SchemaEnum, ByVal Name As String) As Boolean
     Dim rs As Recordset
     Set rs = m_Raw.OpenSchema(Schema, Name)
@@ -230,7 +257,7 @@ End Function
 ' Privates
 
 Private Sub Class_Initialize()
-    Set m_Raw = New Connection
+    Set m_Raw = New ADODB.Connection
 End Sub
 
 '
@@ -357,7 +384,6 @@ Public Property Get Version() As String
     Version = m_Raw.Version
 End Property
 
-
 '
 ' -o IConnection
 '
@@ -482,37 +508,37 @@ Private Property Get IConnection_Version() As String
 End Property
 
 Private Sub m_Raw_BeginTransComplete(ByVal TransactionLevel As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent BeginTransComplete(TransactionLevel, pError, adStatus, pConnection)
+    RaiseEvent BeginTransComplete(TransactionLevel, pError, adStatus, Me)
 End Sub
 
 Private Sub m_Raw_CommitTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent CommitTransComplete(pError, adStatus, pConnection)
+    RaiseEvent CommitTransComplete(pError, adStatus, Me)
 End Sub
 
 Private Sub m_Raw_ConnectComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent ConnectComplete(pError, adStatus, pConnection)
+    RaiseEvent ConnectComplete(pError, adStatus, Me)
 End Sub
 
 Private Sub m_Raw_Disconnect(adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent Disconnect(adStatusCancel, pConnection)
+    RaiseEvent Disconnect(adStatusCancel, Me)
 End Sub
 
 Private Sub m_Raw_ExecuteComplete(ByVal RecordsAffected As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As ADODB.Connection)
-    RaiseEvent ExecuteComplete(RecordsAffected, pError, adStatus, pCommand, pRecordset, pConnection)
+    RaiseEvent ExecuteComplete(RecordsAffected, pError, adStatus, pCommand, pRecordset, Me)
 End Sub
 
 Private Sub m_Raw_InfoMessage(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent InfoMessage(pError, adStatus, pConnection)
+    RaiseEvent InfoMessage(pError, adStatus, Me)
 End Sub
 
 Private Sub m_Raw_RollbackTransComplete(ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent RollbackTransComplete(pError, adStatusCancel, pConnection)
+    RaiseEvent RollbackTransComplete(pError, adStatusCancel, Me)
 End Sub
 
 Private Sub m_Raw_WillConnect(ConnectionString As String, UserID As String, Password As String, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pConnection As ADODB.Connection)
-    RaiseEvent WillConnect(ConnectionString, UserID, Password, Options, adStatus, pConnection)
+    RaiseEvent WillConnect(ConnectionString, UserID, Password, Options, adStatus, Me)
 End Sub
 
 Private Sub m_Raw_WillExecute(Source As String, CursorType As ADODB.CursorTypeEnum, LockType As ADODB.LockTypeEnum, Options As Long, adStatus As ADODB.EventStatusEnum, ByVal pCommand As ADODB.Command, ByVal pRecordset As ADODB.Recordset, ByVal pConnection As ADODB.Connection)
-    RaiseEvent WillExecute(Source, CursorType, LockType, Options, adStatus, pCommand, pRecordset, pConnection)
+    RaiseEvent WillExecute(Source, CursorType, LockType, Options, adStatus, pCommand, pRecordset, Me)
 End Sub

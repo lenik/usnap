@@ -44,7 +44,7 @@ Public Property Get Dictionary() As DBDict
     Set Dictionary = GlobalsSingleton.Dict
 End Property
 
-Public Function DBConnect(Optional ByVal ConnectionString) As DBConnection
+Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBConnection
     Set DBConnect = New DBConnection
 
     If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
@@ -53,17 +53,21 @@ Public Function DBConnect(Optional ByVal ConnectionString) As DBConnection
     Else
         DBConnect.Allocate ConnectionString
     End If
+
+    If Name <> "" Then DBConnect.Name = Name
 End Function
 
-Public Function DBConnectFast(Optional ByVal ConnectionString) As DBConnection
-    Set DBConnectFast = New DBConnection
+Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBConnection
+    Set DBConnectAsync = New DBConnection
 
     If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
-        DBConnectFast.Allocate , , , adAsyncConnect
+        DBConnectAsync.Allocate , , , adAsyncConnect
     Else
-        DBConnectFast.Allocate ConnectionString, , , adAsyncConnect
+        DBConnectAsync.Allocate ConnectionString, , , adAsyncConnect
     End If
+
+    If Name <> "" Then DBConnectAsync.Name = Name
 End Function
 
 Public Property Get SQLF() As SQLFunctions
