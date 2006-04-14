@@ -317,3 +317,91 @@ STDMETHODIMP CBase64::SetHex(BSTR hexes, long *bytes)
 
 	return S_OK;
 }
+
+STDMETHODIMP CBase64::ReadFile(BSTR path, long offset, long cbread, long *cbreaded)
+{
+    if (path == NULL || offset < 0)
+        return E_INVALIDARG;
+
+	FILE *fp = fopen(_bstr_t(path), "rb");
+    if (fp == NULL)
+        return E_FAIL;
+
+    size_t fsize;
+    fseek(fp, 0, SEEK_END);
+    fsize = ftell(fp);
+
+    if (offset >= fsize) {
+        fclose(fp);
+        return E_INVALIDARG;
+    }
+    if (cbread == -1)
+        cbread = fsize - offset;
+    if (cbread < 0) {
+        fclose(fp);
+        return E_INVALIDARG;
+    }
+    if (offset + cbread > fsize) {
+        fclose(fp);
+        return E_INVALIDARG;
+    }
+
+    char *buffer = (char *)malloc(cbread);
+    if (buffer == NULL) {
+        fclose(fp);
+        return E_OUTOFMEMORY;
+    }
+
+    fseek(fp, offset, SEEK_SET);
+    size_t cb = fread(buffer, 1, cbread, fp);
+    if (cbreaded)
+        *cbreaded = (long)cb;
+
+    fclose(fp);
+
+    clear();
+    m_Raw = buffer;
+    m_RawSize = cb;                     // some bytes are not used, just let it go, it's ok.
+	return S_OK;
+}
+
+STDMETHODIMP CBase64::WriteFile(BSTR path, long offset, long cbwrite, BOOL append, long *cbwritten)
+{
+    if (path == NULL || offset < 0)
+        return E_INVALIDARG;
+    if (m_Raw == NULL)
+        m_RawSize = 0;
+    if (offset >= m_RawSize)
+        return E_INVALIDARG;
+    if (cbwrite == -1)
+        cbwrite = m_RawSize - offset;
+    if (cbwrite < 0)
+        return E_INVALIDARG;
+    if (offset + cbwrite > m_RawSize)
+        return E_INVALIDARG;
+
+    char *mode = "wb";
+    if (append)
+        mode = "ab";
+
+	FILE *fp = fopen(_bstr_t(path), mode);
+    if (fp == NULL)
+        return E_FAIL;
+
+    size_t cb = fwrite(m_Raw, 1, cbwrite, fp);
+    if (cbwritten)
+        *cbwritten = (long)cb;
+
+    fclose(fp);
+	return S_OK;
+}
+
+STDMETHODIMP CBase64::get_Size(long *pVal)
+{
+	if (pVal == NULL)
+        return E_POINTER;
+    if (m_Raw == NULL)
+        m_RawSize = 0;
+    *pVal = this->m_RawSize;
+	return S_OK;
+}

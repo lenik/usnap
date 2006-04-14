@@ -23,6 +23,9 @@ import "ocidl.idl";
 		[id(6), helpstring("method GetString")] HRESULT GetString([in, optional, defaultvalue("gb2312")]BSTR encoding, [out, retval]BSTR *string);
 		[id(7), helpstring("method GetHex")] HRESULT GetHex([in, optional, defaultvalue(" ")]BSTR separator, [out, retval]BSTR *hexes);
 		[id(8), helpstring("method SetHex")] HRESULT SetHex([in]BSTR hexes, [out, retval]long *bytes);
+		[id(9), helpstring("method ReadFile")] HRESULT ReadFile([in]BSTR path, [in, optional, defaultvalue(0)]long offset, [in, optional, defaultvalue(-1)]long cbread, [out, retval]long *cbreaded);
+		[id(10), helpstring("method WriteFile")] HRESULT WriteFile([in]BSTR path, [in, optional, defaultvalue(0)]long offset, [in, optional, defaultvalue(-1)]long cbwrite, [in, optional, defaultvalue(FALSE)]BOOL append, [out, retval]long *cbwritten);
+		[propget, id(11), helpstring("property size")] HRESULT Size([out, retval] long *pVal);
 	};
 
 [

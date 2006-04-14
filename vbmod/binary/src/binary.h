@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Wed Mar 22 17:03:49 2006
+/* at Fri Apr 14 16:08:14 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -105,6 +105,22 @@ EXTERN_C const IID IID_IBase64;
             /* [in] */ BSTR hexes,
             /* [retval][out] */ long __RPC_FAR *bytes) = 0;
 
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ReadFile(
+            /* [in] */ BSTR path,
+            /* [defaultvalue][optional][in] */ long offset,
+            /* [defaultvalue][optional][in] */ long cbread,
+            /* [retval][out] */ long __RPC_FAR *cbreaded) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE WriteFile(
+            /* [in] */ BSTR path,
+            /* [defaultvalue][optional][in] */ long offset,
+            /* [defaultvalue][optional][in] */ long cbwrite,
+            /* [defaultvalue][optional][in] */ BOOL append,
+            /* [retval][out] */ long __RPC_FAR *cbwritten) = 0;
+
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Size(
+            /* [retval][out] */ long __RPC_FAR *pVal) = 0;
+
     };
 
 #else 	/* C style interface */
@@ -189,6 +205,25 @@ EXTERN_C const IID IID_IBase64;
             /* [in] */ BSTR hexes,
             /* [retval][out] */ long __RPC_FAR *bytes);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *ReadFile )(
+            IBase64 __RPC_FAR * This,
+            /* [in] */ BSTR path,
+            /* [defaultvalue][optional][in] */ long offset,
+            /* [defaultvalue][optional][in] */ long cbread,
+            /* [retval][out] */ long __RPC_FAR *cbreaded);
+
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *WriteFile )(
+            IBase64 __RPC_FAR * This,
+            /* [in] */ BSTR path,
+            /* [defaultvalue][optional][in] */ long offset,
+            /* [defaultvalue][optional][in] */ long cbwrite,
+            /* [defaultvalue][optional][in] */ BOOL append,
+            /* [retval][out] */ long __RPC_FAR *cbwritten);
+
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *get_Size )(
+            IBase64 __RPC_FAR * This,
+            /* [retval][out] */ long __RPC_FAR *pVal);
+
         END_INTERFACE
     } IBase64Vtbl;
 
@@ -248,6 +283,15 @@ EXTERN_C const IID IID_IBase64;
 
 #define IBase64_SetHex(This,hexes,bytes)	\
     (This)->lpVtbl -> SetHex(This,hexes,bytes)
+
+#define IBase64_ReadFile(This,path,offset,cbread,cbreaded)	\
+    (This)->lpVtbl -> ReadFile(This,path,offset,cbread,cbreaded)
+
+#define IBase64_WriteFile(This,path,offset,cbwrite,append,cbwritten)	\
+    (This)->lpVtbl -> WriteFile(This,path,offset,cbwrite,append,cbwritten)
+
+#define IBase64_get_Size(This,pVal)	\
+    (This)->lpVtbl -> get_Size(This,pVal)
 
 #endif /* COBJMACROS */
 
@@ -350,6 +394,49 @@ void __RPC_STUB IBase64_GetHex_Stub(
 
 
 void __RPC_STUB IBase64_SetHex_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IBase64_ReadFile_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [in] */ BSTR path,
+    /* [defaultvalue][optional][in] */ long offset,
+    /* [defaultvalue][optional][in] */ long cbread,
+    /* [retval][out] */ long __RPC_FAR *cbreaded);
+
+
+void __RPC_STUB IBase64_ReadFile_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IBase64_WriteFile_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [in] */ BSTR path,
+    /* [defaultvalue][optional][in] */ long offset,
+    /* [defaultvalue][optional][in] */ long cbwrite,
+    /* [defaultvalue][optional][in] */ BOOL append,
+    /* [retval][out] */ long __RPC_FAR *cbwritten);
+
+
+void __RPC_STUB IBase64_WriteFile_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IBase64_get_Size_Proxy(
+    IBase64 __RPC_FAR * This,
+    /* [retval][out] */ long __RPC_FAR *pVal);
+
+
+void __RPC_STUB IBase64_get_Size_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,

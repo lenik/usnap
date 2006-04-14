@@ -5,7 +5,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Wed Mar 22 17:03:49 2006
+/* at Fri Apr 14 16:08:14 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\binary\src\binary.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext

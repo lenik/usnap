@@ -43,6 +43,9 @@ public:
 
 // IBase64
 public:
+	STDMETHOD(get_Size)(/*[out, retval]*/ long *pVal);
+	STDMETHOD(WriteFile)(/*[in]*/BSTR path, /*[in, optional, defaultvalue(0)]*/long offset, /*[in, optional, defaultvalue(-1)]*/long cbwrite, /*[in, optional, defaultvalue(FALSE)]*/BOOL append, /*[out, retval]*/long *cbwritten);
+	STDMETHOD(ReadFile)(/*[in]*/BSTR path, /*[in, optional, defaultvalue(0)]*/long offset, /*[in, optional, defaultvalue(-1)]*/long cbread, /*[out, retval]*/long *cbreaded);
 	STDMETHOD(SetHex)(/*[in]*/BSTR hexes, /*[out, retval]*/long *bytes);
 	STDMETHOD(GetHex)(/*[in, optional, default_value(" ")]*/BSTR separator, /*[out, retval]*/BSTR *hexes);
 	STDMETHOD(SetBase64)(/*[in]*/BSTR base64);
