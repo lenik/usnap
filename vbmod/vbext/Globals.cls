@@ -110,3 +110,43 @@ End Sub
 Public Property Get Cached() As Cached
     Set Cached = g_Cached
 End Property
+
+Public Property Get LC() As LowXRuntime.Component
+    Set LC = Typedefs.LC
+End Property
+Public Property Get LD() As LowXRuntime.Debugger
+    Set LD = Typedefs.LD
+End Property
+Public Property Get LE() As LowXRuntime.Execute
+    Set LE = Typedefs.LE
+End Property
+Public Property Get LK() As LowXRuntime.Call
+    Set LK = Typedefs.LK
+End Property
+Public Property Get LM() As LowXRuntime.Memory
+    Set LM = Typedefs.LM
+End Property
+Public Property Get LP() As LowXRuntime.Pointer
+    Set LP = Typedefs.LP
+End Property
+Public Property Get LR() As LowXRuntime.RawDataType
+    Set LR = Typedefs.LR
+End Property
+Public Property Get LS() As LowXRuntime.String
+    Set LS = Typedefs.LS
+End Property
+Public Property Get LV() As LowXRuntime.Vtbl
+    Set LV = Typedefs.LV
+End Property
+Public Property Get LW() As LowXRuntime.Window
+    Set LW = Typedefs.LW
+End Property
+Public Property Get LX() As LowXRuntime.PseudoControl
+    Set LX = Typedefs.LX
+End Property
+Public Property Get LXDefault() As LowXRuntime.PseudoControlSetting
+    Set LXDefault = Typedefs.LXDefault
+End Property
+Public Property Get FSO() As Scripting.FileSystemObject
+    Set FSO = Typedefs.FSO
+End Property

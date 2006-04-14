@@ -15,9 +15,9 @@ Option Explicit
 
 ' Tag Class
 
-Public Property Get Item(ByVal name As String) As Variant
+Public Property Get Item(ByVal Name As String) As Variant
 Attribute Item.VB_UserMemId = 0
 End Property
 
-Public Property Let Item(ByVal name As String, ByVal newval As Variant)
+Public Property Let Item(ByVal Name As String, ByVal newval As Variant)
 End Property
