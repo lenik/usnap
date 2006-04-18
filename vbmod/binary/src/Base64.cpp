@@ -49,7 +49,7 @@ STDMETHODIMP CBase64::SetStringB(BSTR stringB)
     m_Raw = copy;
     m_RawSize = len;
 
-    ASSERT(m_Base64 == NULL);
+    _assert_(m_Base64 == NULL);
 	return S_OK;
 }
 
@@ -95,12 +95,12 @@ STDMETHODIMP CBase64::SetString(BSTR stringUnicode, BSTR encoding)
 
     iconv_close(cd);
 
-    ASSERT(outbytesleft >= 0);
+    _assert_(outbytesleft >= 0);
 
     clear();
     m_RawSize = pout - outbuf;
     m_Raw = outbuf;
-    ASSERT(m_Base64 == NULL);
+    _assert_(m_Base64 == NULL);
 
     return S_OK;
 }
