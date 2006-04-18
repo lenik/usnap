@@ -1,22 +1,37 @@
 Attribute VB_Name = "GlobalsSingleton"
 Option Explicit
 
-Private m_SQLF As SQLFunctions
+Private m_ConfigSQLF As SQLFunctions
 
-Public Property Get SQLF() As SQLFunctions
-    If m_SQLF Is Nothing Then
-        Select Case LCase(Config.dbdialect)
-        Case "mysql"
-            Set m_SQLF = New SQLF_MySQL
-        Case "mssql"
-            Set m_SQLF = New SQLF_MSSQL
-        Case "access"
-            Set m_SQLF = New SQLF_Access
-        Case Else
-            Set m_SQLF = SQLF_Default
-        End Select
+Public Property Get SQLF(Optional ByVal Dialect As String) As SQLFunctions
+    If Dialect = "" Then
+        If m_ConfigSQLF Is Nothing Then
+            Set m_ConfigSQLF = SQLF(Config.DBDialect)
+        End If
+        Set SQLF = m_ConfigSQLF
+        Exit Property
     End If
-    Set SQLF = m_SQLF
+
+    Select Case LCase(Dialect)
+    Case "as400"
+    Case "access"
+        Set SQLF = New SQLF_Access
+    Case "dbase"
+    Case "excel"
+    Case "mysql"
+        Set SQLF = New SQLF_MySQL
+    Case "oracle"
+    Case "paradox"
+    Case "mssql"
+        Set SQLF = New SQLF_MSSQL
+    Case "sybase"
+        Set SQLF = New SQLF_Sybase
+    Case "asa"
+    Case "text"
+    Case "foxpro"
+    Case Else
+        Set SQLF = SQLF_Default
+    End Select
 End Property
 
 Public Property Get Dict() As DBDict

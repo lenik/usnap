@@ -38,6 +38,8 @@ Private m_User As Variant
 Private m_LockType As LockTypeEnum      ' Default lock type
 Private m_CursorType As CursorTypeEnum  ' Default cursor type
 
+Private m_Dialect As String
+Private m_SQLF As SQLFunctions
 Private m_Filter As New DBSQLFilter
 
 Implements ADOMapping.IConnection
@@ -80,6 +82,19 @@ End Property
 
 Public Property Let User(ByVal newval As Variant)
     LC.Assign m_User, newval
+End Property
+
+Public Property Get Dialect() As String
+    Dialect = m_Dialect
+End Property
+
+Public Property Let Dialect(ByVal newval As String)
+    m_Dialect = newval
+    Set m_SQLF = GlobalsSingleton.SQLF(newval)
+End Property
+
+Public Property Get SQLF() As SQLFunctions
+    Set SQLF = m_SQLF
 End Property
 
 Public Function Query(ByVal SQL As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
@@ -351,7 +366,7 @@ Public Property Get Mode() As ADODB.ConnectModeEnum
     Mode = m_Raw.Mode
 End Property
 
-Public Sub Allocate(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
+Public Sub Connect(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
     m_Raw.CursorLocation = adUseClient
     m_Raw.Open ConnectionString, UserID, Password, Options
 End Sub

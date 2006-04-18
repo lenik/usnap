@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Const LOCATION                  As String = "DBProxy::SQLF_Access"
+
 Implements SQLFunctions
 
 Private Function SQLFunctions_Concat(ParamArray args() As Variant) As String

@@ -6,14 +6,14 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "SQLF_MySQL"
+Attribute VB_Name = "SQLF_Sybase"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
+Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 Option Explicit
 
-Private Const LOCATION                  As String = "DBProxy::SQLF_MySQL"
+Private Const LOCATION                  As String = "DBProxy::SQLF_Sybase"
 
 Implements SQLFunctions
 
@@ -38,15 +38,16 @@ Private Function SQLFunctions_PadRight(ByVal Name As String, Optional ByVal Leng
 End Function
 
 Private Function SQLFunctions_QuoteDate(ByVal date_ As Date) As String
-    SQLFunctions_QuoteDate = SQLF_Default.QuoteDate(date_)
+    SQLFunctions_QuoteDate = SQLFunctions_QuoteDateTime( _
+        DateSerial(Year(date_), Month(date_), Day(date_)))
 End Function
 
 Private Function SQLFunctions_QuoteDateTime(ByVal date_ As Date) As String
-    SQLFunctions_QuoteDateTime = SQLF_Default.QuoteDateTime(date_)
+    SQLFunctions_QuoteDateTime = "convert(DATETIME, " & SQLFunctions_QuoteString(date_) & ")"
 End Function
 
 Private Function SQLFunctions_QuoteName(ByVal Name As String) As String
-    SQLFunctions_QuoteName = SQLF_Default.QuoteName(Name)
+    SQLFunctions_QuoteName = "[" & Name & "]"
 End Function
 
 Private Function SQLFunctions_QuoteString(ByVal str As String) As String
@@ -54,7 +55,8 @@ Private Function SQLFunctions_QuoteString(ByVal str As String) As String
 End Function
 
 Private Function SQLFunctions_QuoteTime(ByVal time_ As Date) As String
-    SQLFunctions_QuoteTime = SQLF_Default.QuoteTime(time_)
+    SQLFunctions_QuoteTime = SQLFunctions_QuoteDateTime( _
+        TimeSerial(Hour(time_), Minute(time_), Second(time_)))
 End Function
 
 Private Function SQLFunctions_Right(ByVal Name As String, ByVal Length As Integer) As String

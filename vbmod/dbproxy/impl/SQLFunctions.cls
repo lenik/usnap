@@ -13,7 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private Const LOCATION                  As String = "SQLF_Default"
+Private Const LOCATION                  As String = "DBProxy::SQLF_Default"
 
 ' @TAG-CLASS
 ' @DEFAULT-IMPLEMENTATION
@@ -27,16 +27,16 @@ Public Function QuoteString(ByVal str As String) As String
 End Function
 
 Public Function QuoteDate(ByVal date_ As Date) As String
-    QuoteDate = "#" & Year(date_) & "-" & Month(date_) & "-" & Day(date_) & "#"
+    QuoteDate = "date('" & Year(date_) & "-" & Month(date_) & "-" & Day(date_) & "')"
 End Function
 
 Public Function QuoteTime(ByVal time_ As Date) As String
-    QuoteTime = "#" & Hour(time_) & ":" & Minute(time_) & ":" & Second(time_) & "#"
+    QuoteTime = "time('" & Hour(time_) & ":" & Minute(time_) & ":" & Second(time_) & "')"
 End Function
 
 Public Function QuoteDateTime(ByVal date_ As Date) As String
-    QuoteDateTime = "#" & Year(date_) & "-" & Month(date_) & "-" & Day(date_) _
-                  & " " & Hour(date_) & ":" & Minute(date_) & ":" & Second(date_) & "#"
+    QuoteDateTime = "datetime('" & Year(date_) & "-" & Month(date_) & "-" & Day(date_) _
+                  & " " & Hour(date_) & ":" & Minute(date_) & ":" & Second(date_) & "')"
 End Function
 
 Public Function Concat(ParamArray args()) As String

@@ -44,27 +44,39 @@ Public Property Get Dictionary() As DBDict
     Set Dictionary = GlobalsSingleton.Dict
 End Property
 
-Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBConnection
+Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBProxy.DBConnection
+    Dim i As Integer
+
     Set DBConnect = New DBConnection
+
+    DBConnect.Dialect = GuessDialect(ConnectionString)
+    i = InStr(ConnectionString, "::")
+    If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
     If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
-        DBConnect.Allocate
+        DBConnect.Connect
     Else
-        DBConnect.Allocate ConnectionString
+        DBConnect.Connect ConnectionString
     End If
 
     If Name <> "" Then DBConnect.Name = Name
 End Function
 
-Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBConnection
+Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBProxy.DBConnection
+    Dim i As Integer
+
     Set DBConnectAsync = New DBConnection
+
+    DBConnectAsync.Dialect = GuessDialect(ConnectionString)
+    i = InStr(ConnectionString, "::")
+    If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
     If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
-        DBConnectAsync.Allocate , , , adAsyncConnect
+        DBConnectAsync.Connect , , , adAsyncConnect
     Else
-        DBConnectAsync.Allocate ConnectionString, , , adAsyncConnect
+        DBConnectAsync.Connect ConnectionString, , , adAsyncConnect
     End If
 
     If Name <> "" Then DBConnectAsync.Name = Name
