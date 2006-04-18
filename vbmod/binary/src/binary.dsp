@@ -23,6 +23,8 @@ CFG=binary - Win32 Debug
 !MESSAGE "binary - Win32 Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "binary - Win32 Unicode Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "binary - Win32 Unicode Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "binary - Win32 Deploy US" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "binary - Win32 Deploy UD" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE
 
 # Begin Project
@@ -261,6 +263,90 @@ SOURCE="$(InputPath)"
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "binary - Win32 Deploy US"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "binary___Win32_Deploy_US"
+# PROP BASE Intermediate_Dir "binary___Win32_Deploy_US"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "binary___Win32_Deploy_US"
+# PROP Intermediate_Dir "binary___Win32_Deploy_US"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_DLL" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_DLL" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
+# ADD BASE RSC /l 0x804 /d "NDEBUG"
+# ADD RSC /l 0x804 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_us.dll"
+# Begin Custom Build - Performing registration
+OutDir=.\binary___Win32_Deploy_US
+TargetPath=\.lokaj\zbmis\module\binary\bin\binary_us.dll
+InputPath=\.lokaj\zbmis\module\binary\bin\binary_us.dll
+SOURCE="$(InputPath)"
+
+"$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	if "%OS%"=="" goto NOTNT
+	if not "%OS%"=="Windows_NT" goto NOTNT
+	regsvr32 /s /c "$(TargetPath)"
+	echo regsvr32 exec. time > "$(OutDir)\regsvr32.trg"
+	goto end
+	:NOTNT
+	echo Warning : Cannot register Unicode DLL on Windows 95
+	:end
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "binary - Win32 Deploy UD"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "binary___Win32_Deploy_UD"
+# PROP BASE Intermediate_Dir "binary___Win32_Deploy_UD"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "binary___Win32_Deploy_UD"
+# PROP Intermediate_Dir "binary___Win32_Deploy_UD"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /FR /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /FR /Yu"stdafx.h" /FD /c
+# ADD BASE RSC /l 0x804 /d "NDEBUG"
+# ADD RSC /l 0x804 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_ud.dll"
+# Begin Custom Build - Performing registration
+OutDir=.\binary___Win32_Deploy_UD
+TargetPath=\.lokaj\zbmis\module\binary\bin\binary_ud.dll
+InputPath=\.lokaj\zbmis\module\binary\bin\binary_ud.dll
+SOURCE="$(InputPath)"
+
+"$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	if "%OS%"=="" goto NOTNT
+	if not "%OS%"=="Windows_NT" goto NOTNT
+	regsvr32 /s /c "$(TargetPath)"
+	echo regsvr32 exec. time > "$(OutDir)\regsvr32.trg"
+	goto end
+	:NOTNT
+	echo Warning : Cannot register Unicode DLL on Windows 95
+	:end
+
+# End Custom Build
+
 !ENDIF
 
 # Begin Target
@@ -271,6 +357,8 @@ SOURCE="$(InputPath)"
 # Name "binary - Win32 Release MinDependency"
 # Name "binary - Win32 Unicode Release MinSize"
 # Name "binary - Win32 Unicode Release MinDependency"
+# Name "binary - Win32 Deploy US"
+# Name "binary - Win32 Deploy UD"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
