@@ -1,0 +1,8 @@
+# Microsoft Developer Studio Generated Dependency File, included by xtree_1.mak
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+
+
+.\xtree_1.cpp : \
+	".\StdAfx.h"\

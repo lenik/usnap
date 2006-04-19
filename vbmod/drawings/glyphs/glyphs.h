@@ -2,9 +2,9 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Thu Feb 23 16:33:49 2006
+/* at Wed Apr 19 14:27:09 2006
  */
-/* Compiler settings for C:\.lokaj\zbmis\module\drawings\glyphs\glyphs.idl:
+/* Compiler settings for .\glyphs.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
     error checks: allocation ref bounds_check enum stub_data
 */

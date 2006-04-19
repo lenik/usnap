@@ -1,0 +1,60 @@
+# Microsoft Developer Studio Generated Dependency File, included by mapping.mak
+
+.\CommandAdapter.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	".\adoenum.h"\
+	".\CommandAdapter.h"\
+	".\mapping.h"\
+
+
+.\ConnectionAdapter.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	".\adoenum.h"\
+	".\ConnectionAdapter.h"\
+	".\mapping.h"\
+	".\msado15CP.h"\
+
+
+.\Globals.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	".\adoenum.h"\
+	".\CommandAdapter.h"\
+	".\ConnectionAdapter.h"\
+	".\Globals.h"\
+	".\mapping.h"\
+	".\msado15CP.h"\
+	".\RecordsetAdapter.h"\
+
+
+.\mapping.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	".\adoenum.h"\
+	".\CommandAdapter.h"\
+	".\ConnectionAdapter.h"\
+	".\Globals.h"\
+	".\mapping.h"\
+	".\mapping_i.c"\
+	".\msado15CP.h"\
+	".\RecordsetAdapter.h"\
+
+
+.\mapping.rc : \
+	".\CommandAdapter.rgs"\
+	".\ConnectionAdapter.rgs"\
+	".\Globals.rgs"\
+	".\mapping.tlb"\
+	".\RecordsetAdapter.rgs"\
+
+
+.\RecordsetAdapter.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	".\adoenum.h"\
+	".\mapping.h"\
+	".\msado15CP.h"\
+	".\RecordsetAdapter.h"\
+
+
+.\StdAfx.cpp : \
+	"..\..\..\..\..\program files\common files\system\ado\msado15.dll"\
+	"..\..\..\..\..\program files\vs98\vc98\include\basetsd.h"\
+	".\StdAfx.h"\

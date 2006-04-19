@@ -1,0 +1,44 @@
+# Microsoft Developer Studio Generated Dependency File, included by fastalg.mak
+
+.\DRIA.cpp : \
+	".\DRIA.h"\
+	".\fastalg.h"\
+	".\kernel.h"\
+
+
+.\fastalg.cpp : \
+	".\DRIA.h"\
+	".\fastalg.h"\
+	".\fastalg_i.c"\
+	".\fastalgCP.h"\
+	".\HashCode.h"\
+	".\kernel.h"\
+	".\SAOT.h"\
+
+
+.\fastalg.rc : \
+	".\DRIA.rgs"\
+	".\fastalg.tlb"\
+	".\HashCode.rgs"\
+	".\SAOT.rgs"\
+
+
+.\HashCode.cpp : \
+	".\fastalg.h"\
+	".\HashCode.h"\
+
+
+.\kernel.cpp : \
+	".\kernel.h"\
+
+
+.\SAOT.cpp : \
+	".\fastalg.h"\
+	".\fastalgCP.h"\
+	".\kernel.h"\
+	".\SAOT.h"\
+
+
+.\StdAfx.cpp : \
+	"..\..\..\..\..\program files\vs98\vc98\include\basetsd.h"\
+	".\StdAfx.h"\

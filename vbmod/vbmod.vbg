@@ -4,3 +4,4 @@ Project=vbuserext\VBUserExt.vbp
 Project=mvcarch\MVCArch.vbp
 Project=dbproxy\impl\DBProxy.vbp
 StartupProject=critpatches\CritPatches.vbp
+Project=vbioext\VBIOExt.vbp

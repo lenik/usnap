@@ -43,7 +43,8 @@ Private Function SQLFunctions_QuoteDate(ByVal date_ As Date) As String
 End Function
 
 Private Function SQLFunctions_QuoteDateTime(ByVal date_ As Date) As String
-    SQLFunctions_QuoteDateTime = "convert(DATETIME, " & SQLFunctions_QuoteString(date_) & ")"
+    ' SQLFunctions_QuoteDateTime = "convert(DATETIME, " & SQLFunctions_QuoteString(date_) & ")"
+    SQLFunctions_QuoteDateTime = SQLFunctions_QuoteString(date_)
 End Function
 
 Private Function SQLFunctions_QuoteName(ByVal Name As String) As String

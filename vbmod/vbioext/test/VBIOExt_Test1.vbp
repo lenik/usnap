@@ -1,9 +1,10 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#3.0#0#..\..\..\bin\VBIOExt.dll#Visual Basic I/O Extensions
+Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#3.0#0#..\..\..\bin\vbioext.dll#Visual Basic I/O Extensions
 Form=Base64Pic.frm
 Class=FunctionProfile; FunctionProfile.cls
 Startup="Base64Pic"
+ExeName32="VBIOExt_Test1.exe"
 Command32=""
 Name="VBIOExt_Test1"
 HelpContextID="0"

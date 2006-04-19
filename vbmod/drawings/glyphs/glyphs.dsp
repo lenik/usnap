@@ -23,8 +23,6 @@ CFG=glyphs - Win32 Debug
 !MESSAGE "glyphs - Win32 Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "glyphs - Win32 Unicode Release MinSize" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "glyphs - Win32 Unicode Release MinDependency" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "glyphs - Win32 Deploy US" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "glyphs - Win32 Deploy UD" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE
 
 # Begin Project
@@ -57,11 +55,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../../bin/glyphs.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\Debug
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
+TargetPath=.\Debug\glyphs.dll
+InputPath=.\Debug\glyphs.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -92,11 +90,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../../bin/glyphs.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\DebugU
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
+TargetPath=.\DebugU\glyphs.dll
+InputPath=.\DebugU\glyphs.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -133,11 +131,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/glyphs_s.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinSize
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
+TargetPath=\.lokaj\zbmis\module\drawings\bin\glyphs_s.dll
+InputPath=\.lokaj\zbmis\module\drawings\bin\glyphs_s.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -168,11 +166,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/glyphs_d.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinDependency
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
+TargetPath=\.lokaj\zbmis\module\drawings\bin\glyphs_d.dll
+InputPath=\.lokaj\zbmis\module\drawings\bin\glyphs_d.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -203,11 +201,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/glyphs_us.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseUMinSize
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
+TargetPath=\.lokaj\zbmis\module\drawings\bin\glyphs_us.dll
+InputPath=\.lokaj\zbmis\module\drawings\bin\glyphs_us.dll
 SOURCE="$(InputPath)"
 
 "$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -244,96 +242,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
-# SUBTRACT LINK32 /nodefaultlib
-# Begin Custom Build - Performing registration
-OutDir=.\ReleaseUMinDependency
-TargetPath=\.lokaj\zbmis\bin\glyphs.dll
-InputPath=\.lokaj\zbmis\bin\glyphs.dll
-SOURCE="$(InputPath)"
-
-"$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	if "%OS%"=="" goto NOTNT
-	if not "%OS%"=="Windows_NT" goto NOTNT
-	regsvr32 /s /c "$(TargetPath)"
-	echo regsvr32 exec. time > "$(OutDir)\regsvr32.trg"
-	goto end
-	:NOTNT
-	echo Warning : Cannot register Unicode DLL on Windows 95
-	:end
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "glyphs - Win32 Deploy US"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "glyphs___Win32_Deploy_US"
-# PROP BASE Intermediate_Dir "glyphs___Win32_Deploy_US"
-# PROP BASE Ignore_Export_Lib 0
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "glyphs___Win32_Deploy_US"
-# PROP Intermediate_Dir "glyphs___Win32_Deploy_US"
-# PROP Ignore_Export_Lib 0
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_DLL" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_DLL" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
-# ADD BASE RSC /l 0x804 /d "NDEBUG"
-# ADD RSC /l 0x804 /d "NDEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/glyphs_us.dll"
-# Begin Custom Build - Performing registration
-OutDir=.\glyphs___Win32_Deploy_US
-TargetPath=\.lokaj\zbmis\module\drawings\bin\glyphs_us.dll
-InputPath=\.lokaj\zbmis\module\drawings\bin\glyphs_us.dll
-SOURCE="$(InputPath)"
-
-"$(OutDir)\regsvr32.trg" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	if "%OS%"=="" goto NOTNT
-	if not "%OS%"=="Windows_NT" goto NOTNT
-	regsvr32 /s /c "$(TargetPath)"
-	echo regsvr32 exec. time > "$(OutDir)\regsvr32.trg"
-	goto end
-	:NOTNT
-	echo Warning : Cannot register Unicode DLL on Windows 95
-	:end
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "glyphs - Win32 Deploy UD"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "glyphs___Win32_Deploy_UD"
-# PROP BASE Intermediate_Dir "glyphs___Win32_Deploy_UD"
-# PROP BASE Ignore_Export_Lib 0
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "glyphs___Win32_Deploy_UD"
-# PROP Intermediate_Dir "glyphs___Win32_Deploy_UD"
-# PROP Ignore_Export_Lib 0
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /O1 /D "_UNICODE" /D "_ATL_STATIC_REGISTRY" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
-# ADD BASE RSC /l 0x804 /d "NDEBUG"
-# ADD RSC /l 0x804 /d "NDEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/glyphs.dll"
-# SUBTRACT BASE LINK32 /nodefaultlib
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/glyphs_ud.dll"
 # SUBTRACT LINK32 /nodefaultlib
 # Begin Custom Build - Performing registration
-OutDir=.\glyphs___Win32_Deploy_UD
+OutDir=.\ReleaseUMinDependency
 TargetPath=\.lokaj\zbmis\module\drawings\bin\glyphs_ud.dll
 InputPath=\.lokaj\zbmis\module\drawings\bin\glyphs_ud.dll
 SOURCE="$(InputPath)"
@@ -360,8 +272,6 @@ SOURCE="$(InputPath)"
 # Name "glyphs - Win32 Release MinDependency"
 # Name "glyphs - Win32 Unicode Release MinSize"
 # Name "glyphs - Win32 Unicode Release MinDependency"
-# Name "glyphs - Win32 Deploy US"
-# Name "glyphs - Win32 Deploy UD"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"

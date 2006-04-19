@@ -21,9 +21,57 @@
 extern CComModule _Module;
 #include <atlcom.h>
 
-#include <cpf/start/win32.h>
-#undef EOF
+#pragma warning(disable: 4100)       // unreferenced formal parameter
+#pragma warning(disable: 4127)       // condition is constant
+#pragma warning(disable: 4786)       // symbol long in debug info
+#pragma warning(disable: 4530)       // exception with /GX
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <tchar.h>
+#include <windows.h>
+#include <windowsx.h>
+#include <commdlg.h>
+#include <tlhelp32.h>
+
+#ifdef _DEBUG
+#   include <assert.h>
+#   ifndef _assert_
+#       define _assert_(x) assert(x)
+#   endif
+#   ifndef _verify_
+#       define _verify_(x) assert(x)
+#   endif
+#   ifndef _debug_
+#       define _debug_(x) x
+#   endif
+#else
+#   ifndef _assert_
+#       define _assert_(x)
+#   endif
+#   ifndef _verify_
+#       define _verify_(x) x
+#   endif
+#   ifndef _debug_
+#       define _debug_(x)
+#   endif
+#endif
+
+#define SAFE_DELETE(p)       if (p) { delete (p); (p) = NULL; }
+#define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p); (p) = NULL; }
+#define SAFE_DEREF_(p, def)  ((p) == 0 ? (def) : *(p))
+#define SAFE_DEREF(p)        SAFE_DEREF_(p, 0)
+#define SAFE_ADDREF(p)       if (p) { (p)->AddRef(); }
+#define SAFE_RELEASE(p)      if (p) { (p)->Release(); (p) = NULL; }
+#define SAFE_RC(p)           ((p) ? ((p)->AddRef() - 1, (p)->Release()) : 0)
+
+#   include <iostream>
+#   include <strstream>
+#   include <vector>
+#   include <list>
+#   include <utility>
+
+#undef EOF
 #import "C:\Program Files\Common Files\System\ado\msado15.dll" raw_interfaces_only, raw_native_types, named_guids
 using namespace ADODB;
 

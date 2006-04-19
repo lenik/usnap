@@ -1,0 +1,47 @@
+# Microsoft Developer Studio Generated Dependency File, included by glyphs.mak
+
+.\glyphs.cpp : \
+	".\glyphs.h"\
+	".\glyphs_i.c"\
+	".\Lines.h"\
+	".\Shapes.h"\
+
+
+.\glyphs.rc : \
+	".\glyphs.tlb"\
+	".\Lines.rgs"\
+	".\Shapes.rgs"\
+
+
+.\kernel.cpp : \
+	".\glyphs.h"\
+	".\kernel.h"\
+	".\mat.h"\
+	".\shape.h"\
+
+
+.\Lines.cpp : \
+	".\glyphs.h"\
+	".\kernel.h"\
+	".\Lines.h"\
+	".\mat.h"\
+
+
+.\mat.cpp : \
+	".\mat.h"\
+
+
+.\shape.cpp : \
+	".\mat.h"\
+	".\shape.h"\
+
+
+.\Shapes.cpp : \
+	".\glyphs.h"\
+	".\Lines.h"\
+	".\Shapes.h"\
+
+
+.\StdAfx.cpp : \
+	"..\..\..\..\..\program files\vs98\vc98\include\basetsd.h"\
+	".\StdAfx.h"\
