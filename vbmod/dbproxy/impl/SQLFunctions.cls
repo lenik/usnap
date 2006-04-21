@@ -39,7 +39,10 @@ Public Function QuoteDateTime(ByVal date_ As Date) As String
                   & " " & Hour(date_) & ":" & Minute(date_) & ":" & Second(date_) & "')"
 End Function
 
-Public Function Concat(ParamArray args()) As String
+Public Function Concat(ParamArray args_()) As String
+    Dim args
+    args = ParamArrayToArray(args_)
+
     Dim l As Integer
     Dim r As Integer
     Dim i As Integer

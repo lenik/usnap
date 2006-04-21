@@ -30,6 +30,7 @@ Public Function GuessDialect(ByVal ConnectionString As String) As String
             If j > 0 Then Driver = Mid(Driver, 1, j - 1)
         End If
     End If
+
     Select Case LCase(Driver)
     ' AS-400
     Case "client access odbc driver (32-bit)"
@@ -77,4 +78,18 @@ Public Function GuessDialect(ByVal ConnectionString As String) As String
 
 NoDriver:
     GuessDialect = "unknown"
+End Function
+
+Public Function ParamArrayToArray(ParamArray params_()) As Variant()
+    Dim params
+    params = params_(0)
+    Dim l As Integer
+    l = LBound(params)
+    If l = UBound(params) Then
+        If TypeName(params(l)) = "Variant()" Then
+            ParamArrayToArray = params(l)
+            Exit Function
+        End If
+    End If
+    ParamArrayToArray = params
 End Function

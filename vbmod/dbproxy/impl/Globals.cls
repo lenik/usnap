@@ -44,42 +44,44 @@ Public Property Get Dictionary() As DBDict
     Set Dictionary = GlobalsSingleton.Dict
 End Property
 
-Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBProxy.DBConnection
+Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name) As DBProxy.DBConnection
     Dim i As Integer
 
     Set DBConnect = New DBConnection
+
+    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
 
     DBConnect.Dialect = GuessDialect(ConnectionString)
     i = InStr(ConnectionString, "::")
     If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
-    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
         DBConnect.Connect
     Else
         DBConnect.Connect ConnectionString
     End If
 
-    If Name <> "" Then DBConnect.Name = Name
+    If Not IsMissing(Name) Then DBConnect.Name = Name
 End Function
 
-Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal Name As String) As DBProxy.DBConnection
+Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal Name) As DBProxy.DBConnection
     Dim i As Integer
 
     Set DBConnectAsync = New DBConnection
+
+    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
 
     DBConnectAsync.Dialect = GuessDialect(ConnectionString)
     i = InStr(ConnectionString, "::")
     If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
-    If IsMissing(ConnectionString) Then ConnectionString = DBConnectionString
     If ConnectionString = "" Then
         DBConnectAsync.Connect , , , adAsyncConnect
     Else
         DBConnectAsync.Connect ConnectionString, , , adAsyncConnect
     End If
 
-    If Name <> "" Then DBConnectAsync.Name = Name
+    If Not IsMissing(Name) Then DBConnectAsync.Name = Name
 End Function
 
 Public Property Get SQLF() As SQLFunctions

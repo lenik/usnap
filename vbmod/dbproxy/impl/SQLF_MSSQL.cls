@@ -17,8 +17,20 @@ Private Const LOCATION                  As String = "DBProxy::SQLF_MSSQL"
 
 Implements SQLFunctions
 
-Private Function SQLFunctions_Concat(ParamArray args() As Variant) As String
-    SQLFunctions_Concat = SQLF_Default.Concat(args)
+Private Function SQLFunctions_Concat(ParamArray args_() As Variant) As String
+    Dim args
+    args = ParamArrayToArray(args_)
+
+    Dim l As Integer
+    Dim r As Integer
+    Dim i As Integer
+    l = LBound(args)
+    r = UBound(args)
+    Assert r > l, "Concat at least 2 arguments", LOCATION
+    For i = l To r
+        If i > l Then SQLFunctions_Concat = SQLFunctions_Concat & " + "
+        SQLFunctions_Concat = SQLFunctions_Concat & args(i)
+    Next
 End Function
 
 Private Function SQLFunctions_Left(ByVal Name As String, ByVal Length As Integer) As String
