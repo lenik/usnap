@@ -1,24 +1,48 @@
 
-class bin_in {
+
+typedef struct _nsiodrv_t nsiodrv_t;
+typedef struct _nssvc_t nssvc_t;
+
+struct _nsiodrv_t {
+    void (_stdcall *out)(x32_t, size_t, void *);
+    void (_stdcall *close)();
 };
 
-class bin_out {
+struct _nssvc_t {
+    const char *name;
+    nsiodrv_t *drv;
+    void (_stdcall *pkt_in)(nssvc_t *, x32_t, size_t, void *);
+    void (_stdcall *bin_in)(nssvc_t *, x32_t, size_t, void *);
+    void (_stdcall *cmd_in)(nssvc_t *, x32_t, nscmd_t *, void **args, int nopts);
+    list_t mods;
 };
+
+static nsiodrv_t siodrv {
+    &siodrv_out,
+    &siodrv_close,
+};
+
+void siodrv_pkt_in(sioctx_t *sioctx, size_t size, void *data) {
+    nssvc_t *svc = sioctx->user;
+    svc->pkt_in(svc, 0, size, data);
+}
+
+// nssvc_t *nsnew(void out
 
 typedef enum _param_type_t param_type_t;
 typedef struct _nscmd_t nscmd_t;
-typedef struct _nsext_t nsext_t;
+typedef struct _nsmod_t nsmod_t;
 
 enum _param_type_t {
+    PARAMTYPE_INT,                      /* int */
+    PARAMTYPE_LONG,                     /* long */
+    PARAMTYPE_SHORT,                    /* short */
+    PARAMTYPE_CHAR,                     /* char */
+    PARAMTYPE_FLOAT,                    /* float */
+    PARAMTYPE_DOUBLE,                   /* double */
+    PARAMTYPE_BOOL,                     /* char (format: 'true', 'false') */
     PARAMTYPE_STRING = 0,               /* const char * */
-    PARAMTYPE_INT = 1,                  /* int */
-    PARAMTYPE_LONG = 2,                 /* long */
-    PARAMTYPE_SHORT = 3,                /* short */
-    PARAMTYPE_CHAR = 4,                 /* char */
-    PARAMTYPE_FLOAT = 5,                /* float */
-    PARAMTYPE_DOUBLE = 6,               /* double */
-    PARAMTYPE_BOOL = 7,                 /* char (format: 'true', 'false') */
-    PARAMTYPE_BIN = 8,                  /* const void *, size_t */
+    PARAMTYPE_BIN,                      /* const void *, size_t */
     PARAMTYPE_ARRAY = 0x1000,           /* (<type> *) */
     PARAMTYPE_VT = 0x2000,              /* (typed_value_t<type> *) */
 } param_type_t;
@@ -29,7 +53,7 @@ enum _param_type_t {
 struct _nscmd_t {
     const char *name;
     u32_t flags;
-    u32_t (_stdcall *entry)(void **args, int nopts);
+    u32_t (_stdcall *cmdmain)(nssvc_t *svc, void **args, int nopts);
     const param_type_t *args;
     u32_t nargs;
     const param_type_t *opts;           /* optional parameters */
@@ -38,11 +62,11 @@ struct _nscmd_t {
     u32_t nsubcmds;
     const char *help;
     const char *version;
-} nscmd_t;
+};
 
-struct nsext_t {
+struct _nsmod_t {
     const nscmd_t *cmds;
     int ncmds;
     const char *help;
     const char *version;
-} nsext_t;
+};
