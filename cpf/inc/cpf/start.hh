@@ -4,9 +4,13 @@
 #include "config.h"
 #include "start.h"
 
-/* platform-branch... */
-#include "win32/start.hh"
+#if CPF_PLATFORM_WIN32
+#   include "win32/start.h"
+#else
+#   error OS other than Win32 is Not supported yet.
+#endif
 
 /* cpp utilities using c++ features */
+#include "specfunc.hh"
 
 #endif

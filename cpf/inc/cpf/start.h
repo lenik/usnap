@@ -6,8 +6,11 @@
 /* system-indepentent utilities */
 #define _zinit_(v) memset(&(v), 0, sizeof(v))
 
-/* platform-branch... */
-#include "win32/start.h"
+#if CPF_PLATFORM_WIN32
+#   include "win32/start.h"
+#else
+#   error OS other than Win32 is Not supported yet.
+#endif
 
 /* cpp utilities using c features */
 #ifdef AfxDebugBreak
