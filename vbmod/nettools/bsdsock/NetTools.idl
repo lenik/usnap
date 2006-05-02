@@ -1,0 +1,20 @@
+// NetTools.idl : IDL source for NetTools.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (NetTools.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(D430659F-A6B1-4482-8EF0-31A450E4F268),
+	version(1.0),
+	helpstring("NetTools 1.0 Type Library")
+]
+library NETTOOLSLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};
