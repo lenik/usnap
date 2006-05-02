@@ -6,7 +6,13 @@ public:
     virtual void dtor();
 };
 
-class node_t {
+class user_t : public mm_base_t {
+public:
+    virtual void dtor();
+    virtual user_t *clone();
+};
+
+class node_t : public mm_base_t, virtual public user_t {
 public:
     virtual node_t *prev() { return NULL; }
     virtual node_t *next() { return NULL; }
@@ -35,6 +41,7 @@ public:
     virtual node_t *clone();
 };
 
+
 class edge_t : virtual public node_t {
 public:
     virtual node_t *source() = 0;
@@ -45,3 +52,7 @@ public:
     inline edge_t *in_prev() { return static_cast<edge_t *> parent(); }
     inline edge_t *in_next() { return static_cast<edge_t *> child(); }
 };
+
+class list_node_t : public node_t {
+
+}
