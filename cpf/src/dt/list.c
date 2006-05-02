@@ -1,5 +1,5 @@
 
-#include <cpf/list.h>
+#include <cpf/dt/list.h>
 #include <memory.h>
 
 list_t *list_first(list_t *list) {
@@ -184,7 +184,7 @@ list_t *list_sort(list_t *list, mem_cmpf_t cmpf, void *user) {
         tbl[i++] =  x;
         x = x->next;
     }
-    qsort2(tbl, n, sizeof(list_t *), _list_sort_cmp, cmpf, user);
+    qsort_(tbl, n, sizeof(list_t *), _list_sort_cmp, cmpf, user);
 
     /* re-link the list nodes according to the temp table */
     tbl[0]->prev = 0;
