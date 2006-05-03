@@ -78,18 +78,33 @@ list_t *list_append(list_t *list, void *data, size_t size) {
     return after;
 }
 
+list_t *list_detach(list_t **list) {
+    list_t *d;
+    _assert_(list);
+    if (! d = *list)
+        return 0;
+    if (d->prev) {
+        if (d->prev->next = d->next) {
+            d->next->prev = d->prev;
+            d->next = 0;
+        }
+        *list = d->prev;
+        d->prev = 0;
+    } else {
+        if (*list = d->next)
+            (*list)->prev = 0;
+        d->next = 0;
+    }
+    return d;
+}
+
 list_t *list_remove(list_t *list) {
-    list_t *prev;
+    list_t *d;
     if (! list)
         return 0;
-    if (prev = list->prev) {
-        if (prev->next = list->next)
-            list->next->prev = prev;
-    } else {
-        prev = list->next;
-    }
-    free(list);
-    return prev;
+    d = list_detach(&list);
+    free(d);
+    return list;
 }
 
 list_t *list_push(list_t *list, void *data, size_t size) {
@@ -103,6 +118,8 @@ list_t *list_unshift(list_t *list, void *data, size_t size) {
 list_t *list_pop(list_t **list) {
     list_t *last;
     _assert_(list);
+    if (! *list)
+        return 0;
     last = list_last(*list);
     if (last)
         if (*list = last->prev) {
@@ -115,6 +132,8 @@ list_t *list_pop(list_t **list) {
 list_t *list_shift(list_t **list) {
     list_t *first;
     _assert_(list);
+    if (! *list)
+        return 0;
     first = list_first(*list);
     if (*list = first->next) {
         (*list)->prev = 0;
