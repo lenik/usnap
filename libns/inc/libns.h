@@ -2,8 +2,9 @@
 typedef struct _nssvc_t nssvc_t;
 typedef struct _nsdrv_t nsdrv_t;
 
-typedef enum _param_type_t param_type_t;
+typedef enum _nstype_t nstype_t;
 typedef struct _nscmd_t nscmd_t;
+typedef struct _nscmdi_t nscmdi_t;
 typedef struct _nsmod_t nsmod_t;
 
 struct _nssvc_t {
@@ -23,8 +24,8 @@ struct _nssvc_t {
     void (_stdcall *line_out)(nssvc_t *, x32_t, void *, size_t);
 
     /* texts are decoded to native charset, the line is converted to object */
-    void (_stdcall *cmd_in)(nssvc_t *, x32_t, nscmd_t *, void **, int);
-    void (_stdcall *cmd_out)(nssvc_t *, x32_t, nscmd_t *, void **, int);
+    void (_stdcall *cmd_in)(nssvc_t *, x32_t, nscmdi_t *, x32_t *, int);
+    void (_stdcall *cmd_out)(nssvc_t *, x32_t, nscmdi_t *, x32_t *, int);
 
     list_t *mods;
     list_t *callstack;
@@ -54,42 +55,57 @@ struct _nscodec_t {
 #define NSCMDF_HIDDEN 1                 /* invisible in high-level prog-lang */
 #define NSCMDF_ASYNC 2                  /* asynchronized command */
 
+enum _nstype_t {
+    NSTYPE_INT,                         /* int */
+    NSTYPE_LONG,                        /* long */
+    NSTYPE_SHORT,                       /* short */
+    NSTYPE_CHAR,                        /* char */
+    NSTYPE_FLOAT,                       /* float */
+    NSTYPE_DOUBLE,                      /* double */
+    NSTYPE_BOOL,                        /* char (format: 'true', 'false') */
+    NSTYPE_STRING = 0,                  /* const char * */
+    NSTYPE_BIN,                         /* const void *, size_t */
+    NSTYPE_ARRAY = 0x1000,              /* (<type> *) */
+    NSTYPE_VT = 0x2000,                 /* (typed_value_t<type> *) */
+};
+
 struct _nscmd_t {
     const char *name;
     u32_t flags;
-    u32_t (_stdcall *cmdmain)(nssvc_t *svc, void **args, int nopts);
-    const param_type_t *args;
+    u32_t (_stdcall *main)(nssvc_t *svc, x32_t *args, int nopts);
+    const nstype_t *args;
     u32_t nargs;
-    const param_type_t *opts;           /* optional parameters */
+    const nstype_t *opts;               /* optional parameters */
     u32_t nopts;
     nscmd_t *subcmds;                   /* load into sub symbol table */
     u32_t nsubcmds;
+    u32_t iextra;                       /* extra bytes to cmd instance */
     const char *help;
     const char *version;
 };
 
-enum _param_type_t {
-    PARAMTYPE_INT,                      /* int */
-    PARAMTYPE_LONG,                     /* long */
-    PARAMTYPE_SHORT,                    /* short */
-    PARAMTYPE_CHAR,                     /* char */
-    PARAMTYPE_FLOAT,                    /* float */
-    PARAMTYPE_DOUBLE,                   /* double */
-    PARAMTYPE_BOOL,                     /* char (format: 'true', 'false') */
-    PARAMTYPE_STRING = 0,               /* const char * */
-    PARAMTYPE_BIN,                      /* const void *, size_t */
-    PARAMTYPE_ARRAY = 0x1000,           /* (<type> *) */
-    PARAMTYPE_VT = 0x2000,              /* (typed_value_t<type> *) */
+struct _nscmdi_t {
+    nscmd_t *proto;
+    x32_t *args;
+    int nopts;
+    /* extra ... */
 };
 
+#define nscmdi_ex(t, i) ((t *)(((u8_t *)&(i)) + sizeof(nscmdi_t)))
+#define nscmdi_size(i) (sizeof(nscmdi_t) + ((i).proto->iextra))
+
+#define NSMODF_HIDDEN 1
+
 struct _nsmod_t {
+    const char *name;
+    u32_t flags;
     const nscmd_t *cmds;
     int ncmds;
     const char *help;
     const char *version;
 };
 
-#define NSDRV_CONSOLE       0
+#define NSDRV_STDIO         0
 #define NSDRV_SIO           1
 #define NSDRV_MAX           1
 
