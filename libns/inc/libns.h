@@ -26,7 +26,18 @@ struct _nssvc_t {
     void (_stdcall *cmd_in)(nssvc_t *, x32_t, nscmd_t *, void **, int);
     void (_stdcall *cmd_out)(nssvc_t *, x32_t, nscmd_t *, void **, int);
 
-    list_t mods;
+    list_t *mods;
+    list_t *callstack;
+
+    /* pendings */
+    list_t *pd_pkt_in;
+    list_t *pd_pkt_out;
+    list_t *pd_bin_in;
+    list_t *pd_bin_out;
+    list_t *pd_line_in;
+    list_t *pd_line_out;
+    list_t *pd_cmd_in;
+    list_t *pd_cmd_out;
 };
 
 struct _nsdrv_t {
