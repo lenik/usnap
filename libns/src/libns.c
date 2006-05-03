@@ -46,8 +46,24 @@ nssvc_t *nsfree(nssvc_t *svc) {
     return 0;
 }
 
-void nsinsmod(nssvc_t *svc, nsmod_t *mod) {
+int nsinsmod(nssvc_t *svc, nsmod_t *mod) {
+    svc->mods = list_unshift(svc->mods, mod);
+    return 1;
 }
 
-void nsrmmod(nssvc_t *svc, nsmod_t *mod) {
+int nsrmmod(nssvc_t *svc, const char *name) {
+    list_t *i;
+    nsmod_t *mod;
+    if (! svc->mods)
+        return;
+    for (i = list_first(svc->mods); i; i = i->next) {
+        mod = (nsmod_t *)i->p;
+        if (strcmp(mod->name, name) == 0) {
+            /* found the mod */
+            i = list_detach(&svc->mods);
+            list_free(i);
+            return 1;
+        }
+    }
+    return 0;
 }
