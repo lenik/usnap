@@ -46,9 +46,31 @@ u32_t _stdcall modcore_base64(nssvc_t *svc, x32_t *args, int nopts) {
     return NSERR_OK;
 }
 
+/* .section.  codec impl */
+
+void _stdcall base64_pkt_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
+    svc->bin_in(svc, sel, data, size);
+}
+
+void _stdcall base64_bin_out(nssvc_t *svc, x32_t sel, void *data, size_t size) {
+    svc->pkt_out(svc, sel, data, size);
+}
+
+void _stdcall hex_pkt_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
+    /* concat(rest_data, data); */
+    /* decode hex -> bin */
+    svc->bin_in(svc, sel, data, size);
+}
+
+void _stdcall hex_bin_out(nssvc_t *svc, x32_t sel, void *data, size_t size) {
+    /* concat(rest_data, data); */
+    /* decode hex -> bin */
+    svc->pkt_out(svc, sel, data, size);
+}
+
 /* .section.  mod export */
 
-#define MODCORE_VER "modcore $Revision: 1.1 $"
+#define MODCORE_VER "modcore $Revision: 1.2 $"
 #define MODCORE_HELP \
     "modcore provides the core settings of libns and basic info of installed" \
     " modules/commands"
