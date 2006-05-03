@@ -1,5 +1,5 @@
 #ifndef _start_umac_n_xWDeY4wnHke7bu_
-#define _start_umac_n_xWDeY4wnHke7bu_
+#define _start_umac_n_xWDeY4wnHke7bu_ "$Id: start.hh,v 1.3 2006-05-03 00:47:39 dansei Exp $"
 
 #include "config.h"
 #include "start.h"

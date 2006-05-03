@@ -1,5 +1,5 @@
 #ifndef _choose_umac_n_xWDeY_BEjht87g_
-#define _choose_umac_n_xWDeY_BEjht87g_
+#define _choose_umac_n_xWDeY_BEjht87g_ "$Id: choose.h,v 1.3 2006-05-03 00:47:39 dansei Exp $"
 
 #if defined (__PVM__)
 #    define CPF_PLATFORM "POS VM"
