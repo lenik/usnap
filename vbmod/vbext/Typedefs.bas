@@ -1,12 +1,6 @@
 Attribute VB_Name = "Typedefs"
 Option Explicit
 
-Public Enum TypeConstants
-    TextType = 0
-    FileType
-    SubType
-End Enum
-
 Public LC As New LowXRuntime.Component
 Public LD As New LowXRuntime.Debugger
 Public LE As New LowXRuntime.Execute
@@ -22,15 +16,97 @@ Public LXDefault As New LowXRuntime.PseudoControlSetting
 
 Public FSO As New Scripting.FileSystemObject
 
-Public Function ParseType(typeval) As TypeConstants
+Public Function ParseType(typeval) As ConfigEntryTypeConstants
     On Error GoTo X
-    ParseType = TextType
+    ParseType = cetText
     Select Case LCase(typeval)
-    Case "file"
-        ParseType = FileType
+    Case "path"
+        ParseType = cetFile
     Case "sub"
-        ParseType = SubType
+        ParseType = cetSub
     End Select
     Exit Function
 X:
+End Function
+
+Public Function ParseMap(ByVal str As String) As VBExt.Map
+    Set ParseMap = New VBExt.Map
+    If str = "" Then Exit Function
+
+    Dim qq_k As String
+    Dim qq As String
+    Dim segs, kv
+    Dim i As Integer, s As String
+    Dim k As String, v
+
+    segs = Split(str, ":")
+    For i = LBound(segs) To UBound(segs)
+        s = segs(i)
+        If qq <> "" Then
+            If Right(s, 1) = """" Then    ' ..."$
+                s = Left(s, Len(s) - 1)
+                qq = qq & ":" & QQEval(s)
+                ParseMap.Item(qq_k) = qq
+                qq = ""
+            Else
+                qq = qq & ":" & QQEval(s)
+            End If
+        Else
+            kv = Split(s, "=", 2)
+            If UBound(kv) = 1 Then      ' key=value where value must be existed
+                k = Trim(kv(0))
+                If k <> "" Then
+                    v = LTrim(kv(1))
+                    If Left(v, 1) = """" Then ' ^"...
+                        v = Mid(v, 2)
+                        If Right(v, 1) = """" Then ' ..."$
+                            ' BUGFIX: when \":.. the end-" is quoted
+                            If Len(v) > 1 And Left(Right(v, 2), 1) = "\" Then
+                                qq = QQEval(v)
+                                qq_k = k
+                            Else
+                                v = Left(v, Len(v) - 1)
+                                v = QQEval(v)
+                                ParseMap.Item(k) = v
+                            End If
+                        Else
+                            qq = QQEval(v)
+                            qq_k = k
+                        End If
+                    Else
+                        v = RTrim(v)
+                        ParseMap.Item(k) = v
+                    End If ' v =~ m/^\"/
+                End If ' k ne ''
+            End If ' ubound(kv)=1
+        End If ' qq
+    Next '
+End Function
+
+Public Function QQEval(ByVal str As String) As String
+    Dim segs
+    Dim i As Integer
+    Dim s As String
+    segs = Split(str, "\")
+    QQEval = segs(0)
+    For i = 1 To UBound(segs)
+        s = segs(i)
+        If s = "" Then                  ' ... \ (\|$)   => \\
+            If i < UBound(segs) Then
+                segs(i + 1) = "\" & segs(i + 1)
+            End If
+        Else
+            Select Case Left(s, 1)
+            Case "n"                    ' ... \ n...    => \n
+                s = vbLf & Mid(s, 2)
+            Case "r"                    ' ... \ r...    => \r
+                s = vbCr & Mid(s, 2)
+            Case "t"                    ' ... \ t...    => \t
+                s = vbTab & Mid(s, 2)
+            Case Else                   ' ... \ .       => .
+                '
+            End Select
+        End If
+        QQEval = QQEval & s
+    Next
 End Function

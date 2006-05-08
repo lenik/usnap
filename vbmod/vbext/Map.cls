@@ -15,6 +15,9 @@ Option Explicit
 Option Base 0
 
 Private m_Entries As Collection
+Private m_Serialization As String
+
+Implements VBExt.Iterator               ' For serialization
 
 Public Sub Clear()
     Set m_Entries = New Collection
@@ -101,6 +104,38 @@ Public Function Walk(it As Iterator) As Long
     Next
 End Function
 
+Public Property Get Serialization() As String
+    m_Serialization = ""
+    Walk Me
+    Serialization = m_Serialization
+End Property
+
 Private Sub Class_Initialize()
     Clear
 End Sub
+
+Private Function Iterator_Iterate(key As Variant, value As Variant) As Boolean
+    Dim seg As String
+    Dim qq As Boolean
+
+    qq = True
+    If InStr(value, "\") > 0 Then       ' \\
+    ElseIf InStr(value, """") > 0 Then  ' \"
+    ElseIf InStr(value, vbNewLine) > 0 Then ' \n
+    Else
+        qq = False
+    End If
+
+    If qq Then
+        value = Replace(value, "\", "\\")
+        value = Replace(value, """", "\""")
+        value = Replace(value, vbNewLine, "\n")
+        value = """" & value & """"
+    End If
+
+    seg = key & "=" & value
+    If m_Serialization <> "" Then m_Serialization = m_Serialization & ":"
+    m_Serialization = m_Serialization & seg
+
+    Iterator_Iterate = True
+End Function

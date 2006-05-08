@@ -91,7 +91,7 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-    MsgBox Config.runas2
+    MsgBox config.runas2
 End Sub
 
 Private Sub Command3_Click()
@@ -121,7 +121,7 @@ Private Sub Command6_Click()
 End Sub
 
 Private Sub Command7_Click()
-    MsgBox Config.hello2
+    MsgBox config.hello2
 End Sub
 
 Private Sub Form_Load()

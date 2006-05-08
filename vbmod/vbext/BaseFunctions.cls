@@ -61,3 +61,9 @@ End Function
 Public Function Hashcode(v As Variant) As Long
     Hashcode = Variants.Hashcode(v)
 End Function
+
+' Type Parser
+
+Public Function ParseMap(ByVal str As String) As VBExt.Map
+    Set ParseMap = Typedefs.ParseMap(str)
+End Function
