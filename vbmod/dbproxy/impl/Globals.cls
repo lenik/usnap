@@ -95,3 +95,7 @@ End Property
 Public Property Get DBConfig() As Object
     Set DBConfig = VBExt.Config
 End Property
+
+Public Function VarReplace(ByVal VarStr As String, ByVal VarDef As String) As String
+    VarReplace = SQLParse(VarStr, VarDef, Nothing)
+End Function
