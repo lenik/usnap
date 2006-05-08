@@ -100,8 +100,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim conn As DBConnection
-
 'dim conn as New
 Private Sub cmdQuery_Click()
     Dim v As Variant
@@ -141,5 +139,6 @@ Private Sub Form_Load()
         Application.HomeDirectory = App.Path
         Application.Reload
     End If
-    Set conn = DBConnect
+    Set conn = DBConnect("DRIVER={SQL Server};SERVER=192.168.0.253;UID=sa;PWD=kelingbarcode;Database=ZBGZGLXT")
+
 End Sub

@@ -21,6 +21,7 @@ Public Property Get SQLF(Optional ByVal Dialect As String) As SQLFunctions
     Case "mysql"
         Set SQLF = New SQLF_MySQL
     Case "oracle"
+        Set SQLF = New SQLF_Oracle
     Case "paradox"
     Case "mssql"
         Set SQLF = New SQLF_MSSQL

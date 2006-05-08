@@ -1,6 +1,8 @@
 Attribute VB_Name = "Module1"
 Option Explicit
 
+Public conn As DBConnection
+
 Public Function GetDimensions(a) As Integer
     On Error GoTo FinalDim
     Dim i As Integer
@@ -57,8 +59,3 @@ Public Function DumpVariant(v As Variant, Optional ByVal indent As Integer = 0) 
     End If
     DumpVariant = DumpVariant & buf
 End Function
-
-Public Sub tt()
-    Dim conn As DBConnection
-    Set conn = DBConnect
-End Sub
