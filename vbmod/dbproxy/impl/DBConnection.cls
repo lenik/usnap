@@ -42,6 +42,9 @@ Private m_Dialect As String
 Private m_SQLF As SQLFunctions
 Private m_Filter As New DBSQLFilter
 
+Private m_Tables As Map
+Private m_TableRestrict(0 To 3)         ' CATALOG, SCHEMA, NAME, TYPE, GUID
+
 Implements ADOMapping.IConnection
 
 Event BeginTransComplete(ByVal TransactionLevel As Long, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pConnection As DBConnection)
@@ -96,6 +99,10 @@ End Property
 Public Property Get SQLF() As SQLFunctions
     Set SQLF = m_SQLF
 End Property
+
+Public Function SQLParse(ByVal QuotedSQL As String, Optional ByVal VarDef As String) As String
+    SQLParse = Utils.SQLParse(QuotedSQL, VarDef, Me.SQLF)
+End Function
 
 Public Function Query(ByVal SQL As String, Optional ByVal QueryType As QueryTypeConstants = 0) As Recordset
     Set Query = New Recordset
@@ -265,8 +272,22 @@ Private Function IsInSchema(ByVal Schema As SchemaEnum, ByVal Name As String) As
 End Function
 
 Public Function IsTableExist(ByVal Name As String) As Boolean
-    IsTableExist = IsInSchema(adSchemaTables, Name)
-    ' If Not IsTableExist Then
+    Dim rs As New Recordset
+    'If m_Tables Is Nothing Then
+    '    Set rs = m_Raw.OpenSchema(adSchemaTables)
+    '    Set m_Tables = New VBExt.Map
+    '    Do Until rs.EOF
+    '        m_Tables.Item(rs(2)) = True
+    '        rs.MoveNext
+    '    Loop
+    'End If
+    'IsTableExist = Not IsNull(m_Tables.Item(Name))
+
+    ' 0-CATALOG, 1-SCHEMA, 2-NAME, 3-TYPE, 4-GUID
+    m_TableRestrict(2) = Name
+    Set rs = m_Raw.OpenSchema(adSchemaTables, m_TableRestrict)
+    IsTableExist = Not rs.EOF
+    rs.Close
 End Function
 
 ' Privates
