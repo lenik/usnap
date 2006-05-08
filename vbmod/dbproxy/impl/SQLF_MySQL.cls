@@ -21,20 +21,24 @@ Private Function SQLFunctions_Concat(ParamArray args() As Variant) As String
     SQLFunctions_Concat = SQLF_Default.Concat(args)
 End Function
 
-Private Function SQLFunctions_Left(ByVal Name As String, ByVal Length As Integer) As String
-    SQLFunctions_Left = SQLF_Default.Left(Name, Length)
+Private Function SQLFunctions_Left(ByVal str As String, ByVal Length As Integer) As String
+    SQLFunctions_Left = SQLF_Default.Left(str, Length)
 End Function
 
-Private Function SQLFunctions_Mid(ByVal Name As String, ByVal start As Integer, Optional ByVal Length As Variant) As String
-    SQLFunctions_Mid = SQLF_Default.Mid(Name, start, Length)
+Private Function SQLFunctions_LTrim(ByVal str As String) As String
+    SQLFunctions_LTrim = SQLF_Default.LTrim(str)
 End Function
 
-Private Function SQLFunctions_PadLeft(ByVal Name As String, Optional ByVal Length As Variant = 8, Optional ByVal PadChar As String = "0") As String
-    SQLFunctions_PadLeft = SQLF_Default.PadLeft(Name, Length, PadChar)
+Private Function SQLFunctions_Mid(ByVal str As String, ByVal start As Integer, Optional ByVal Length As Variant) As String
+    SQLFunctions_Mid = SQLF_Default.Mid(str, start, Length)
 End Function
 
-Private Function SQLFunctions_PadRight(ByVal Name As String, Optional ByVal Length As Variant = 8, Optional ByVal PadChar As String = " ") As String
-    SQLFunctions_PadRight = SQLF_Default.PadRight(Name, Length, PadChar)
+Private Function SQLFunctions_PadLeft(ByVal str As String, Optional ByVal Length As Variant = 8, Optional ByVal PadChar As String = "0") As String
+    SQLFunctions_PadLeft = SQLF_Default.PadLeft(str, Length, PadChar)
+End Function
+
+Private Function SQLFunctions_PadRight(ByVal str As String, Optional ByVal Length As Variant = 8, Optional ByVal PadChar As String = " ") As String
+    SQLFunctions_PadRight = SQLF_Default.PadRight(str, Length, PadChar)
 End Function
 
 Private Function SQLFunctions_QuoteDate(ByVal date_ As Date) As String
@@ -45,8 +49,8 @@ Private Function SQLFunctions_QuoteDateTime(ByVal date_ As Date) As String
     SQLFunctions_QuoteDateTime = SQLF_Default.QuoteDateTime(date_)
 End Function
 
-Private Function SQLFunctions_QuoteName(ByVal Name As String) As String
-    SQLFunctions_QuoteName = SQLF_Default.QuoteName(Name)
+Private Function SQLFunctions_QuoteName(ByVal str As String) As String
+    SQLFunctions_QuoteName = SQLF_Default.QuoteName(str)
 End Function
 
 Private Function SQLFunctions_QuoteString(ByVal str As String) As String
@@ -57,6 +61,42 @@ Private Function SQLFunctions_QuoteTime(ByVal time_ As Date) As String
     SQLFunctions_QuoteTime = SQLF_Default.QuoteTime(time_)
 End Function
 
-Private Function SQLFunctions_Right(ByVal Name As String, ByVal Length As Integer) As String
-    SQLFunctions_Right = SQLF_Default.Right(Name, Length)
+Private Function SQLFunctions_Right(ByVal str As String, ByVal Length As Integer) As String
+    SQLFunctions_Right = SQLF_Default.Right(str, Length)
+End Function
+
+Private Function SQLFunctions_RTrim(ByVal str As String) As String
+    SQLFunctions_RTrim = SQLF_Default.RTrim(str)
+End Function
+
+Private Function SQLFunctions_Trim(ByVal str As String) As String
+    SQLFunctions_Trim = SQLF_Default.Trim(str)
+End Function
+
+Private Function SQLFunctions_IsTrue(ByVal str As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = 2&) As String
+    SQLFunctions_IsTrue = SQLF_Default.IsTrue(str, WhatIfNull)
+End Function
+
+Private Function SQLFunctions_IsFalse(ByVal str As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = 2&) As String
+    SQLFunctions_IsFalse = SQLF_Default.IsFalse(str, WhatIfNull)
+End Function
+
+Private Function SQLFunctions_Weekday(ByVal str As String) As String
+    SQLFunctions_Weekday = SQLF_Default.Weekday(str)
+End Function
+
+Private Function SQLFunctions_Year(ByVal str As String) As String
+    SQLFunctions_Year = SQLF_Default.Year(str)
+End Function
+
+Private Function SQLFunctions_Month(ByVal str As String) As String
+    SQLFunctions_Month = SQLF_Default.Month(str)
+End Function
+
+Private Function SQLFunctions_Day(ByVal str As String) As String
+    SQLFunctions_Day = SQLF_Default.Day(str)
+End Function
+
+Private Function SQLFunctions_QuoteDB(ByVal str As String, Optional ByVal dbo As Variant) As String
+    SQLFunctions_QuoteDB = SQLF_Default.QuoteDB(str, dbo)
 End Function

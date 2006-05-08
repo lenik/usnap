@@ -13,13 +13,22 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Public Enum BoolBinOpCompMethodConstants
+    boDontCare = 0
+    boAnd
+    boAndNot
+    boOr
+    boOrNot
+    boXor
+End Enum
+
 Private Const LOCATION                  As String = "DBProxy::SQLF_Default"
 
 ' @TAG-CLASS
 ' @DEFAULT-IMPLEMENTATION
 
-Public Function QuoteName(ByVal Name As String) As String
-    QuoteName = "`" & Name & "`"
+Public Function QuoteName(ByVal str As String) As String
+    QuoteName = "`" & str & "`"
 End Function
 
 Public Function QuoteString(ByVal str As String) As String
@@ -49,7 +58,7 @@ Public Function Concat(ParamArray args_()) As String
     l = LBound(args)
     r = UBound(args)
     Assert r > l, "Concat at least 2 arguments", LOCATION
-    Concat = "CONCAT("
+    Concat = "concat("
     For i = l To r
         If i > l Then Concat = Concat & ","
         Concat = Concat & args(i)
@@ -57,29 +66,73 @@ Public Function Concat(ParamArray args_()) As String
     Concat = Concat & ")"
 End Function
 
-Public Function Mid(ByVal Name As String, ByVal start As Integer, Optional ByVal Length) As String
-    Mid = "SUBSTRING(" & Name
+Public Function Mid(ByVal str As String, ByVal start As Integer, Optional ByVal Length) As String
+    Mid = "substring(" & str
     If Not IsMissing(start) Then Mid = Mid & "," & start
     If Not IsMissing(Length) Then Mid = Mid & "," & Length
     Mid = Mid & ")"
 End Function
 
-Public Function Left(ByVal Name As String, ByVal Length As Integer) As String
-    Left = "LEFT(" & Name & "," & Length & ")"
+Public Function Left(ByVal str As String, ByVal Length As Integer) As String
+    Left = "left(" & str & "," & Length & ")"
 End Function
 
-Public Function Right(ByVal Name As String, ByVal Length As Integer) As String
-    Right = "RIGHT(" & Name & "," & Length & ")"
+Public Function Right(ByVal str As String, ByVal Length As Integer) As String
+    Right = "right(" & str & "," & Length & ")"
 End Function
 
-Public Function PadLeft(ByVal Name As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = "0") As String
+Public Function PadLeft(ByVal str As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = "0") As String
     Dim PadTmpl As String
     PadTmpl = String(Length, PadChar)
-    PadLeft = Right(Concat(QuoteString(PadTmpl), Name), Length)
+    PadLeft = Right(Concat(QuoteString(PadTmpl), str), Length)
 End Function
 
-Public Function PadRight(ByVal Name As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = " ") As String
+Public Function PadRight(ByVal str As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = " ") As String
     Dim PadTmpl As String
     PadTmpl = String(Length, PadChar)
-    PadRight = Left(Concat(Name, QuoteString(PadTmpl)), Length)
+    PadRight = Left(Concat(str, QuoteString(PadTmpl)), Length)
+End Function
+
+Public Function LTrim(ByVal str As String) As String
+    LTrim = "ltrim(" & str & ")"
+End Function
+
+Public Function RTrim(ByVal str As String) As String
+    RTrim = "rtrim(" & str & ")"
+End Function
+
+Public Function Trim(ByVal str As String) As String
+    Trim = "trim(" & str & ")"
+End Function
+
+Public Function IsTrue(ByVal str As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
+    IsTrue = BoolBinOpComp(str & "<>0", str & " is null", WhatIfNull)
+End Function
+
+Public Function IsFalse(ByVal str As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
+    IsFalse = BoolBinOpComp(str & "=0", str & " is null", WhatIfNull)
+End Function
+
+Public Function Year(ByVal str As String) As String
+    Year = "year(" & str & ")"
+End Function
+
+Public Function Month(ByVal str As String) As String
+    Month = "month(" & str & ")"
+End Function
+
+Public Function Day(ByVal str As String) As String
+    Day = "day(" & str & ")"
+End Function
+
+' [0-6] for [Sunday-Saturday]
+Public Function Weekday(ByVal str As String) As String
+    Weekday = "weekday(" & str & ")" - 1
+End Function
+
+Public Function QuoteDB(ByVal str As String, Optional ByVal dbo) As String
+    QuoteDB = "[" & str & "]."
+    If Not IsMissing(dbo) Then
+        QuoteDB = QuoteDB & dbo & "."
+    End If
 End Function

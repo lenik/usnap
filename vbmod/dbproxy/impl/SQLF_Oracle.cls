@@ -6,14 +6,14 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "SQLF_Sybase"
+Attribute VB_Name = "SQLF_Oracle"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private Const LOCATION                  As String = "DBProxy::SQLF_Sybase"
+Private Const LOCATION                  As String = "DBProxy::SQLF_Oracle"
 
 Implements SQLFunctions
 
@@ -42,13 +42,15 @@ Private Function SQLFunctions_PadRight(ByVal str As String, Optional ByVal Lengt
 End Function
 
 Private Function SQLFunctions_QuoteDate(ByVal date_ As Date) As String
-    SQLFunctions_QuoteDate = SQLFunctions_QuoteDateTime( _
-        DateSerial(Year(date_), Month(date_), Day(date_)))
+    SQLFunctions_QuoteDate = SQLF_Default.QuoteDate(date_)
 End Function
 
 Private Function SQLFunctions_QuoteDateTime(ByVal date_ As Date) As String
-    ' SQLFunctions_QuoteDateTime = "convert(DATETIME, " & SQLFunctions_QuoteString(date_) & ")"
-    SQLFunctions_QuoteDateTime = SQLFunctions_QuoteString(date_)
+    SQLFunctions_QuoteDateTime = SQLF_Default.QuoteDateTime(date_)
+End Function
+
+Private Function SQLFunctions_QuoteDB(ByVal str As String, Optional ByVal dbo As Variant) As String
+    SQLFunctions_QuoteDB = SQLF_Default.QuoteDB(str, dbo)
 End Function
 
 Private Function SQLFunctions_QuoteName(ByVal str As String) As String
@@ -60,8 +62,7 @@ Private Function SQLFunctions_QuoteString(ByVal str As String) As String
 End Function
 
 Private Function SQLFunctions_QuoteTime(ByVal time_ As Date) As String
-    SQLFunctions_QuoteTime = SQLFunctions_QuoteDateTime( _
-        TimeSerial(Hour(time_), Minute(time_), Second(time_)))
+    SQLFunctions_QuoteTime = SQLF_Default.QuoteTime(time_)
 End Function
 
 Private Function SQLFunctions_Right(ByVal str As String, ByVal Length As Integer) As String
@@ -89,18 +90,13 @@ Private Function SQLFunctions_Weekday(ByVal str As String) As String
 End Function
 
 Private Function SQLFunctions_Year(ByVal str As String) As String
-    SQLFunctions_Year = SQLF_Default.Year(str)
+    SQLFunctions_Year = "to_number(substr(to_char(" & str & ",'YYYY-MM-DD'),1,4))"
 End Function
 
 Private Function SQLFunctions_Month(ByVal str As String) As String
-    SQLFunctions_Month = SQLF_Default.Month(str)
+    SQLFunctions_Month = "to_number(substr(to_char(" & str & ",'YYYY-MM-DD'),6,2))"
 End Function
 
 Private Function SQLFunctions_Day(ByVal str As String) As String
-    SQLFunctions_Day = SQLF_Default.Day(str)
-End Function
-
-Public Function SQLFunctions_QuoteDB(ByVal str As String, Optional ByVal dbo) As String
-    If IsMissing(dbo) Then dbo = ""
-    SQLFunctions_QuoteDB = SQLF_Default.QuoteDB(str, dbo)
+    SQLFunctions_Day = "to_number(substr(to_char(" & str & ",'YYYY-MM-DD'),9,2))"
 End Function
