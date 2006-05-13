@@ -1,8 +1,6 @@
 #ifndef _basetype_umac_n_xWDeY4rY__w7ga_
 #define _basetype_umac_n_xWDeY4rY__w7ga_
 
-#include "config.h"
-
 #define typedef_strict(t, s) \
     typedef struct { t v; } s;
 
@@ -86,6 +84,10 @@ typedef const void *cptr_t;
 
 typedef char *str_t;
 typedef const char *cstr_t;
+
+#ifndef HAVE_WCHAR_T
+typedef unsigned short wchar_t;
+#endif
 
 typedef wchar_t *wstr_t;
 typedef const wchar_t *cwstr_t;

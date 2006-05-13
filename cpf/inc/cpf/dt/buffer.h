@@ -1,5 +1,7 @@
 #ifndef _buffer_utim_c7Q9SKNdrPidPwJP_
-#define _buffer_utim_c7Q9SKNdrPidPwJP_ "$Id: buffer.h,v 1.1 2006-05-03 15:22:47 dansei Exp $"
+#define _buffer_utim_c7Q9SKNdrPidPwJP_ "$Id: buffer.h,v 1.2 2006-05-13 15:29:16 dansei Exp $"
+
+#include "raw.h"
 
 typedef struct _buffer_t buffer_t;
 

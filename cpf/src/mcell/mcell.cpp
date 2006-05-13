@@ -1,5 +1,7 @@
 
-#include "mcell.h"
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+#include <cpf/mcell/mcell.h>
 
 #define FULL            EOF
 

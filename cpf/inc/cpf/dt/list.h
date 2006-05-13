@@ -1,5 +1,7 @@
 #ifndef _list_utim_c6OdoyATHaEjqss5_
-#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.3 2006-05-03 15:22:06 dansei Exp $"
+#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.4 2006-05-13 15:29:16 dansei Exp $"
+
+#include "raw.h"
 
 typedef struct _list_t list_t;
 
@@ -28,10 +30,10 @@ list_t *list_detach(list_t **list);
 list_t *list_remove(list_t *list);
 list_t *list_push(list_t *list, void *data, size_t size);
 list_t *list_unshift(list_t *list, void *data, size_t size);
-list_t *list_pop(list_t *list);
-list_t *list_shift(list_t *list);
+list_t *list_pop(list_t **list);
+list_t *list_shift(list_t **list);
 list_t *list_copy(list_t *list);
-list_t *list_sort(list_t *list, mem_cmpf_t cmpf, void *user);
+list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user);
 list_t *list_add_sorted(list_t *list, void *data, size_t size,
                         mem_cmpf_t cmpf, void *user);
 

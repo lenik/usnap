@@ -1,5 +1,5 @@
 
-#include "bitinfo.h"
+#include <cpf/const/bitinfo.h>
 
 u8_t bitinfo_bits[256] = {
     0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, /* 00-0F */

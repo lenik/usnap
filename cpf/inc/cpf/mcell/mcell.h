@@ -1,7 +1,7 @@
 
-#include <stdio.h>
-#include <sys/types.h>
-#include "bitinfo.h"
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+#include <cpf/const/bitinfo.h>
 
 /* SIMXML PROJECT */
 

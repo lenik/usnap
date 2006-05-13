@@ -1,5 +1,5 @@
-#include <string.h>
-#include <stdarg.h>
+
+#include "stdhdrs.h"
 #include <cpf/string.h>
 
 int
@@ -16,22 +16,25 @@ sprintf_lim(char *buffer, int size, const char *trail,
 int
 vsprintf_lim(char *buffer, int size, const char *trail,
              const char *fmt, va_list args) {
-    int cmax = size - 1;
-    int need = _vscprintf(fmt, args);
-    char *tmp;
+    int cc;
+    int ntrail;
 
-    if (need <= cmax)
-        return vsprintf(buffer, fmt, args);
+    if (size == 0)
+        return 0;
 
-    tmp = (char *)malloc(need + 1);
-    vsprintf(tmp, fmt, args);
-    strncpy(buffer, tmp, cmax);
+    cc = _vsnprintf(buffer, size, fmt, args);
+    if (cc < size)
+        return cc;
 
     if (trail) {
-        int trail_len = strlen(trail);
-        if (trail_len <= cmax)
-            strcpy(buffer + cmax - trail_len,
-                   trail);
+        ntrail = strlen(trail) + 1;
+        if (ntrail <= size)
+            strcpy(buffer + size - ntrail, trail);
+        else
+            strcpy(buffer, trail + ntrail - size);
+    } else {
+        buffer[size - 1] = 0;
     }
-    return cmax;
+
+    return cc;
 }

@@ -1,4 +1,5 @@
 
+#include "stdhdrs.h"
 #include <cpf/alg/sort/qsort_.h>
 
 static qsort_cmpf_t _cmpf_new;

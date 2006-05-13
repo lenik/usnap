@@ -1,6 +1,9 @@
 
+#include "stdhdrs.h"
+
+#include <cpf/assert.h>
 #include <cpf/dt/list.h>
-#include <memory.h>
+#include <cpf/alg/sort/qsort_.h>
 
 list_t *list_first(list_t *list) {
     if (list == 0)
@@ -38,14 +41,15 @@ static list_t *_list_new(void *data, size_t size) {
     if (size == 0) {
         list = (list_t *)malloc(16);
         if (! list) return 0;
-        list->size = 4;
+        list->size = 0;                 /* special size */
         list->p = data;
     } else {
         list = (list_t *)malloc(12 + size);
         if (! list) return 0;
         list->size = size;
-        memcpy(list->data, data);
+        memcpy(list->data, data, size);
     }
+    return list;
 }
 
 list_t *list_insert(list_t *list, void *data, size_t size) {
@@ -73,7 +77,7 @@ list_t *list_append(list_t *list, void *data, size_t size) {
         list->next = after;
     } else {
         after->next = 0;
-        after->perv = 0;
+        after->prev = 0;
     }
     return after;
 }
@@ -81,7 +85,7 @@ list_t *list_append(list_t *list, void *data, size_t size) {
 list_t *list_detach(list_t **list) {
     list_t *d;
     _assert_(list);
-    if (! d = *list)
+    if (! (d = *list))
         return 0;
     if (d->prev) {
         if (d->prev->next = d->next) {
@@ -169,19 +173,29 @@ list_t *list_copy(list_t *list) {
     return copy;
 }
 
-int _cdecl _list_sort_compare(const void *a, const void *b, void *user) {
-    mem_cmpf_t cmpf = (mem_cmpf_t)user;
+struct _list_sort_cmpf_ctx {
+    mem_cmpf_t mcmpf;
+    void *mcmpf_param;
+};
+
+static int _cdecl _list_sort_cmpf(const void *a, const void *b, void *user) {
+    struct _list_sort_cmpf_ctx *ctx =
+        (struct _list_sort_cmpf_ctx *)user;
     const list_t *la = (const list_t *)a;
     const list_t *lb = (const list_t *)b;
-    return cmpf(la->data, la->size, lb->data, lb->size, user);
+    _assert_(ctx);
+    _assert_(ctx->mcmpf);
+    return ctx->mcmpf(la->data, la->size, lb->data, lb->size, ctx->mcmpf_param);
 }
 
-list_t *list_sort(list_t *list, mem_cmpf_t cmpf, void *user) {
-    _assert_(cmp);
+list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
     int n = 1;                          /* ... < list > ... */
     int i = 0;
     list_t *x;
     list_t **tbl;
+    struct _list_sort_cmpf_ctx ctx;
+
+    _assert_(mcmpf);
 
     if (! list)
         return 0;
@@ -203,7 +217,10 @@ list_t *list_sort(list_t *list, mem_cmpf_t cmpf, void *user) {
         tbl[i++] =  x;
         x = x->next;
     }
-    qsort_(tbl, n, sizeof(list_t *), _list_sort_cmp, cmpf, user);
+
+    ctx.mcmpf = mcmpf;
+    ctx.mcmpf_param = user;
+    qsort_(tbl, n, sizeof(list_t *), _list_sort_cmpf, &ctx);
 
     /* re-link the list nodes according to the temp table */
     tbl[0]->prev = 0;
@@ -256,7 +273,7 @@ list_t *list_free(list_t *list) {
     }
     x = list;                           /* ... < list ... > */
     while (x->next) {
-         = x->next;
+        x = x->next;
         free(x->prev);
     }
     free(x);

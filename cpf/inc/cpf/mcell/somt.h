@@ -1,7 +1,4 @@
 
-#include "mcell.h"
-#include <memory.h>
-
 mcell_allocator mcell_1K(0, 1024, 100, 0, 0);
 
 allocator *somt_allocator = &mcell_1K;
