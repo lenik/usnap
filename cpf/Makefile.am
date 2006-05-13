@@ -1,4 +1,5 @@
 
 AUTOMAKE_OPTIONS=foreign
+AM_CPPFLAGS=-Iinc
 
 SUBDIRS=src
