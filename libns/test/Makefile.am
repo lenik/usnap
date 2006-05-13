@@ -1,0 +1,5 @@
+
+AUTOMAKE_OPTIONS=foreign
+AM_CPPFLAGS=-I../inc
+
+SUBDIRS=win32
