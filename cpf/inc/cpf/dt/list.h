@@ -1,5 +1,5 @@
 #ifndef _list_utim_c6OdoyATHaEjqss5_
-#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.4 2006-05-13 15:29:16 dansei Exp $"
+#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.5 2006-05-14 12:04:43 dansei Exp $"
 
 #include "raw.h"
 
@@ -39,4 +39,5 @@ list_t *list_add_sorted(list_t *list, void *data, size_t size,
 
 list_t *list_free(list_t *list);
 
+#define list_insertv(lst, v) list_insert((lst), (
 #endif

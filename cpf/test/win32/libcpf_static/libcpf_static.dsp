@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "../../../config" /I "../../../inc" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x804 /d "NDEBUG"
 # ADD RSC /l 0x804 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -49,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"../../../lib/libcpf.lib"
 
 !ELSEIF  "$(CFG)" == "libcpf_static - Win32 Debug"
 
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../config" /I "../../../inc" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
 # ADD RSC /l 0x804 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -72,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"../../../lib/libcpf_chk.lib"
 
 !ENDIF
 
@@ -87,6 +87,78 @@ LIB32=link.exe -lib
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# End Group
+# Begin Group "src"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\const\bitinfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\dt\buffer.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\getopt.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\dt\list.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\mcell\mcell.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\alg\sort\qsort_.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\string.c
+# End Source File
+# End Group
+# Begin Group "inc"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\const\bitinfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dt\buffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dt\list.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\alg\sort\qsort_.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dt\raw.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\mcell\somt.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\config\stdhdrs.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\string.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dt\tree.h
+# End Source File
 # End Group
 # End Target
 # End Project
