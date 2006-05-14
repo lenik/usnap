@@ -1,7 +1,11 @@
 #ifndef _SIOF_utim_c6bjdE5Hdi55DE5k_
 #define _SIOF_utim_c6bjdE5Hdi55DE5k_
 
-#include <cpf/basetype.h>
+#ifdef WIN32
+#include <winsock.h>
+#endif
+
+#include <cpf/dt/raw.h>
 
 typedef struct _sioctx_t sioctx_t;
 
