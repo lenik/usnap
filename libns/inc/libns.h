@@ -1,3 +1,8 @@
+#ifndef _libns_utim_dem35_3EvRCyfopr_
+#define _libns_utim_dem35_3EvRCyfopr_ "$Header: /mnt/c/.radiko/.miaj/cvs/com/campofrontier/libns/inc/libns.h,v 1.6 2006-05-14 04:59:39 lenik Exp $"
+
+#include <cpf/dt/raw.h>
+#include <cpf/dt/list.h>
 
 typedef struct _nssvc_t nssvc_t;
 typedef struct _nsdrv_t nsdrv_t;
@@ -6,6 +11,8 @@ typedef enum _nstype_t nstype_t;
 typedef struct _nscmd_t nscmd_t;
 typedef struct _nscmdi_t nscmdi_t;
 typedef struct _nsmod_t nsmod_t;
+
+typedef enum _nserr_t nserr_t;
 
 struct _nssvc_t {
     const char *name;
@@ -63,22 +70,24 @@ enum _nstype_t {
     NSTYPE_FLOAT,                       /* float */
     NSTYPE_DOUBLE,                      /* double */
     NSTYPE_BOOL,                        /* char (format: 'true', 'false') */
-    NSTYPE_STRING = 0,                  /* const char * */
+    NSTYPE_STRING,                      /* const char * */
     NSTYPE_BIN,                         /* const void *, size_t */
     NSTYPE_ARRAY = 0x1000,              /* (<type> *) */
     NSTYPE_VT = 0x2000,                 /* (typed_value_t<type> *) */
 };
 
+#define NSCMD_MAXARGS 32
+
 struct _nscmd_t {
     const char *name;
     u32_t flags;
     u32_t (_stdcall *main)(nssvc_t *svc, x32_t *args, int nopts);
-    const nstype_t *args;
-    u32_t nargs;
-    const nstype_t *opts;               /* optional parameters */
-    u32_t nopts;
+    nstype_t args[NSCMD_MAXARGS];
+    i32_t nargs;
+    nstype_t opts[NSCMD_MAXARGS]; /* optional parameters */
+    i32_t nopts;
     nscmd_t *subcmds;                   /* load into sub symbol table */
-    u32_t nsubcmds;
+    i32_t nsubcmds;
     u32_t iextra;                       /* extra bytes to cmd instance */
     const char *help;
     const char *version;
@@ -115,5 +124,13 @@ struct _nsmod_t {
 
 nssvc_t *nsnew(const char *name, int builtin_drv, u32_t builtin_mods);
 nssvc_t *nsfree(nssvc_t *svc);
-void nsinsmod(nssvc_t *svc, nsmod_t *mod);
-void nsrmmod(nssvc_t *svc, nsmod_t *mod);
+int nsinsmod(nssvc_t *svc, nsmod_t *mod);
+int nsrmmod(nssvc_t *svc, nsmod_t *mod);
+
+enum _nserr_t {
+    NSERR_OK = 0,
+    NSERR_FAIL,
+    NSERR_NEXT,
+};
+
+#endif

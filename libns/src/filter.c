@@ -1,4 +1,9 @@
 
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+#include <cpf/dt/buffer.h>
+
+#include "libns.h"
 #include "filter.h"
 
 void _stdcall nsdef_pkt_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
@@ -28,7 +33,7 @@ void _stdcall nsdef_bin_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
         /* foreach block */
         if (blk = list_shift(&svc->pd_bin_in)) {
             blk_p = blk->data;
-            blk_size = size->size;
+            blk_size = blk->size;
         } else if (data) {
             blk_p = data;
             blk_size = size;
@@ -45,7 +50,7 @@ void _stdcall nsdef_bin_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
             case '\\':
                 /* dump blk_mark[] . c */
                 if (blk_markend > blk_markbegin) {
-                    line = buffer_append(line, blk->data + blk_mark_begin,
+                    line = buffer_append(line, blk->data + blk_markbegin,
                                          blk_markend - blk_markbegin);
                     blk_markbegin = blk_markend + 1;
                     blk_markend = blk_markbegin;
@@ -54,7 +59,7 @@ void _stdcall nsdef_bin_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
                 last = -1;
                 break;
             case ';':
-                svc->line_in(svc, sel, buffer->data, buffer->size - 1);
+                svc->line_in(svc, sel, line->data, line->size - 1);
                 buffer_overwrite(line, 0, &c, 1);
                 last = c;
             case -1:
@@ -70,7 +75,7 @@ void _stdcall nsdef_bin_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
 }
 
 void _stdcall nsdef_line_in(nssvc_t *svc, x32_t sel, void *data, size_t size) {
-    nscmd_t *cmd;
+    nscmdi_t *cmd;
     x32_t *args;
     int nopts;
 
@@ -89,7 +94,7 @@ void _stdcall nsdef_cmd_out(nssvc_t *svc, x32_t sel, nscmdi_t *cmd,
     nscmd_t *proto = cmd->proto;
     nstype_t t;
     line = buffer_append(line, proto->name, strlen(proto->name));
-    for (i = 0; i < proto->nargs + nopts; i++) {
+    for (int i = 0; i < proto->nargs + nopts; i++) {
         if (i < proto->nargs)
             t = proto->args[i];
         else
@@ -120,7 +125,7 @@ void _stdcall nsdef_cmd_out(nssvc_t *svc, x32_t sel, nscmdi_t *cmd,
         }
         line = buffer_append(line, 0);
     }
-    svc->line_out(svc, sel, data, size);
+    svc->line_out(svc, sel, line->data, line->size);
 }
 
 void _stdcall nsdef_line_out(nssvc_t *svc, x32_t sel, void *data, size_t size) {

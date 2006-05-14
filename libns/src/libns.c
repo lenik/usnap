@@ -1,5 +1,9 @@
 
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+
 #include "libns.h"
+#include "filter.h"
 #include "builtins.h"
 
 nssvc_t *nsnew(const char *name, int builtin_drv, u32_t builtin_mods) {
@@ -55,7 +59,7 @@ int nsrmmod(nssvc_t *svc, const char *name) {
     list_t *i;
     nsmod_t *mod;
     if (! svc->mods)
-        return;
+        return 0;
     for (i = list_first(svc->mods); i; i = i->next) {
         mod = (nsmod_t *)i->p;
         if (strcmp(mod->name, name) == 0) {

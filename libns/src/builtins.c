@@ -1,27 +1,6 @@
 
-#include "types.h"
-
-typedef struct nscmd_t {
-    const char *name;
-    u32_t flags;
-    u32_t (_stdcall *entry)(void **args);
-    const param_type_t *args;
-    u32_t nargs;
-    const param_type_t *opts;           /* optional parameters */
-    u32_t nopts;
-    nscmd_t *subcmds;                   /* load into sub symbol table */
-    u32_t nsubcmds;
-    const char *help;
-    const char *version;
-} nscmd_t;
-
-typedef struct nsext_t {
-    const nscmd_t *cmds;
-    int ncmds;
-    const char *help;
-    const char *version;
-} nsext_t;
-
+#include "stdhdrs.h"
+#include <cpf/assert.h>
 
 /**
  * TODO

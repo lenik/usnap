@@ -1,4 +1,7 @@
 
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+
 /* e.g. */
 static nsiodrv_t g_drv;
 static nssvc_t *g_svc;

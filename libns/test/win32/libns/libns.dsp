@@ -42,7 +42,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "../../../inc" /I "../../../config" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /YX"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x804 /d "NDEBUG"
@@ -66,8 +66,8 @@ LINK32=link.exe
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /Yu"stdafx.h" /FD /GZ  /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /Yu"stdafx.h" /FD /GZ  /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../../inc" /I "../../../config" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBNS_EXPORTS" /YX"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
@@ -90,7 +90,7 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\libns.cpp
+SOURCE=.\dllmain.cpp
 # End Source File
 # Begin Source File
 
@@ -113,14 +113,70 @@ SOURCE=.\StdAfx.h
 # Begin Group "src"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\builtins.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\drvsio.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\drvstdio.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\ex1.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\filter.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\libns.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\modcore.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\modfs.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\modhack.c
+# End Source File
 # End Group
 # Begin Group "inc"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\inc\builtins.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\filter.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\libns.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\svc.h
+# End Source File
 # End Group
 # Begin Source File
 
 SOURCE=.\ReadMe.txt
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\config\stdhdrs.h
 # End Source File
 # End Target
 # End Project
