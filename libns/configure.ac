@@ -27,7 +27,6 @@ AC_HEADER_STDC
 AC_CHECK_FUNCS([memset mkdir socket])
 
 AC_CONFIG_FILES([Makefile
-                 siof/Makefile
                  src/Makefile
                  test/Makefile
                  test/win32/Makefile])
