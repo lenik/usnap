@@ -227,6 +227,10 @@ SOURCE=..\..\..\..\cpf\inc\cpf\alg\sort\qsort_.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\inc\cpf\dt\raw.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\cpf\inc\cpf\mcell\somt.h
 # End Source File
 # Begin Source File
@@ -236,6 +240,10 @@ SOURCE=..\..\..\..\cpf\config\stdhdrs.h
 # Begin Source File
 
 SOURCE=..\..\..\..\cpf\inc\cpf\string.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dt\tree.h
 # End Source File
 # End Group
 # Begin Source File
