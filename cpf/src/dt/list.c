@@ -36,23 +36,23 @@ list_t *list_sibling(list_t *list, int index) {
     return list;
 }
 
-static list_t *_list_new(void *data, size_t size) {
+static list_t *_list_new(const void *data, size_t size) {
     list_t *list;
     if (size == 0) {
         list = (list_t *)malloc(16);
         if (! list) return 0;
         list->size = 0;                 /* special size */
-        list->p = data;
+        list_setv(list, data);
     } else {
         list = (list_t *)malloc(12 + size);
         if (! list) return 0;
         list->size = size;
-        memcpy(list->data, data, size);
+        memcpy(list_data(list), data, size);
     }
     return list;
 }
 
-list_t *list_insert(list_t *list, void *data, size_t size) {
+list_t *list_insert(list_t *list, const void *data, size_t size) {
     list_t *before = _list_new(data, size);
     if (! before) return 0;
     if (list) {
@@ -67,7 +67,7 @@ list_t *list_insert(list_t *list, void *data, size_t size) {
     return before;
 }
 
-list_t *list_append(list_t *list, void *data, size_t size) {
+list_t *list_append(list_t *list, const void *data, size_t size) {
     list_t *after = _list_new(data, size);
     if (! after) return 0;
     if (list) {
@@ -111,11 +111,11 @@ list_t *list_remove(list_t *list) {
     return list;
 }
 
-list_t *list_push(list_t *list, void *data, size_t size) {
+list_t *list_push(list_t *list, const void *data, size_t size) {
     return list_append(list_last(list), data, size);
 }
 
-list_t *list_unshift(list_t *list, void *data, size_t size) {
+list_t *list_unshift(list_t *list, const void *data, size_t size) {
     return list_insert(list_first(list), data, size);
 }
 
@@ -155,18 +155,18 @@ list_t *list_copy(list_t *list) {
         return 0;
 
     /* ... <list> ... */
-    copy_x = copy = list_insert(0, list->data, list->size);
+    copy_x = copy = list_insert(0, list_data(list), list->size);
 
     if (x = list->prev) {
         while (x) {
-            copy_x = list_insert(copy_x, x->data, x->size);
+            copy_x = list_insert(copy_x, list_data(x), x->size);
             x = x->prev;
         }
         copy_x = copy;
     }
     if (x = list->next) {
         while (x) {
-            copy_x = list_append(copy_x, x->data, x->size);
+            copy_x = list_append(copy_x, list_data(x), x->size);
             x = x->next;
         }
     }
@@ -185,7 +185,8 @@ static int _cdecl _list_sort_cmpf(const void *a, const void *b, void *user) {
     const list_t *lb = (const list_t *)b;
     _assert_(ctx);
     _assert_(ctx->mcmpf);
-    return ctx->mcmpf(la->data, la->size, lb->data, lb->size, ctx->mcmpf_param);
+    return ctx->mcmpf(list_data(la), la->size, list_data(lb), lb->size,
+                      ctx->mcmpf_param);
 }
 
 list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
@@ -234,19 +235,19 @@ list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
     return list;                        /* head */
 }
 
-list_t *list_add_sorted(list_t *list, void *data, size_t size,
+list_t *list_add_sorted(list_t *list, const void *data, size_t size,
                         mem_cmpf_t cmpf, void *user) {
     int d;
     if (! list)
         return list_insert(0, data, size);
-    d = cmpf(data, size, list->data, list->size, user);
+    d = cmpf(data, size, list_data(list), list->size, user);
     if (d > 0) {                        /* list ... > add */
         do {
             if (list->next)
                 list = list->next;
             else
                 return list_append(list, data, size);
-        } while (cmpf(data, size, list->data, list->size, user) > 0);
+        } while (cmpf(data, size, list_data(list), list->size, user) > 0);
         return list_insert(list, data, size);
     } else if (d < 0) {                 /* add > ... list */
         do {
@@ -254,7 +255,7 @@ list_t *list_add_sorted(list_t *list, void *data, size_t size,
                 list = list->prev;
             else
                 return list_insert(list, data, size);
-        } while (cmpf(data, size, list->data, list->size, user) > 0);
+        } while (cmpf(data, size, list_data(list), list->size, user) > 0);
     }
     _assert_(d == 0);
     return list_insert(list, data, size);
