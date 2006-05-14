@@ -96,12 +96,14 @@ typedef union _x8_t {
     i8_t i;
     u8_t u;
     b8_t b;
+    char c;
 } x8_t;
 
 typedef union _x16_t {
     i16_t i;
     u16_t u;
     b16_t b;
+    char c;
     x8_t l;
     x8_t h;
     x8_t x[2];
@@ -112,6 +114,7 @@ typedef union _x32_t {
     u32_t u;
     f32_t f;
     b32_t b;
+    char c;
     ptr_t p;
     cptr_t cp;
     str_t s;
@@ -123,10 +126,18 @@ typedef union _x32_t {
 } x32_t;
 
 typedef union _x64_t {
-    i64_t i;
-    u64_t u;
-    f64_t f;
+    i32_t i;
+    i64_t l;
+    u32_t u;
+    u64_t lu;
+    f32_t f;
+    f64_t lf;
     b64_t b;
+    char c;
+    ptr_t p;
+    cptr_t cp;
+    str_t s;
+    cstr_t cs;
     x32_t l;
     x32_t h;
     x8_t x[8];

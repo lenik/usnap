@@ -1,5 +1,5 @@
 #ifndef _list_utim_c6OdoyATHaEjqss5_
-#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.6 2006-05-14 13:09:18 lenik Exp $"
+#define _list_utim_c6OdoyATHaEjqss5_ "$Id: list.h,v 1.7 2006-05-14 23:38:42 dansei Exp $"
 
 #include "raw.h"
 
@@ -34,7 +34,7 @@ list_t *list_add_sorted(list_t *list, const void *data, size_t size,
 
 list_t *list_free(list_t *list);
 
-#define list_data(l) ((void *)&(((const list_t *)(l))->u))
+#define list_data(l) ((void *)&(((const list_t *)(l))->user))
 #define list_data_(l, t) ((t)list_data(l))
 #define list_getv(l) (((const list_t *)(l))->user.cp)
 #define list_getv_(l, t) ((t)list_getv(l))
