@@ -13,7 +13,8 @@ static int addrlen(const sockaddr *addr) {
     return sizeof(sockaddr);
 }
 
-sioctx_t *siolisten(const sockaddr *addr, int passive, siopktf_t pkt_in) {
+sioctx_t * _cc
+siolisten(const sockaddr *addr, int passive, siopktf_t pkt_in) {
     SOCKET sd;
     sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sd == INVALID_SOCKET)
@@ -29,7 +30,8 @@ sioctx_t *siolisten(const sockaddr *addr, int passive, siopktf_t pkt_in) {
     return sioupon(sd, 1, passive, pkt_in);
 }
 
-sioctx_t *siolistenport(u16_t port, int passive, siopktf_t pkt_in) {
+sioctx_t * _cc
+siolistenport(u16_t port, int passive, siopktf_t pkt_in) {
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
@@ -37,7 +39,8 @@ sioctx_t *siolistenport(u16_t port, int passive, siopktf_t pkt_in) {
     return siolistenport(&addr, passive, pkt_in);
 }
 
-sioctx_t *sioconnect(const sockaddr *addr, int passive, siopktf_t pkt_in) {
+sioctx_t * _cc
+sioconnect(const sockaddr *addr, int passive, siopktf_t pkt_in) {
     SOCKET sd;
     sd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sd == INVALID_SOCKET)
@@ -49,7 +52,8 @@ sioctx_t *sioconnect(const sockaddr *addr, int passive, siopktf_t pkt_in) {
     return sioupon(sd, 0, passive, pkt_in);
 }
 
-sioctx_t *sioupon(SOCKET sd, int server, int passive, siopktf_t pkt_in) {
+sioctx_t * _cc
+sioupon(SOCKET sd, int server, int passive, siopktf_t pkt_in) {
     sioctx_t *ctx;
     ctx = (sioctx_t *)malloc(sizeof(sioctx_t));
     if (ctx == NULL)
@@ -64,7 +68,8 @@ sioctx_t *sioupon(SOCKET sd, int server, int passive, siopktf_t pkt_in) {
     return ctx;
 }
 
-void siofree(sioctx_t *ctx) {
+void _cc
+siofree(sioctx_t *ctx) {
     _assert_(ctx);
     if (ctx->flags & SIOCTXF_SERVER) {
         closesocket(ctx->sd);

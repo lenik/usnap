@@ -1,5 +1,5 @@
 #ifndef _stl_utim_dePCtWbFr8U8faBH_
-#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.2 2006-05-15 05:20:50 dansei Exp $"
+#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.3 2006-05-15 15:14:54 dansei Exp $"
 
 #include <cpf/dt/raw.h>
 
@@ -13,7 +13,7 @@ struct _stl_token_t {
     const char *name;
     /* Int, Long, Float, Double, Char, String */
     const char *args;
-    int (_stdcall *func)(stl_project_t *, x64_t *);
+    int (_cc *func)(stl_project_t *, x64_t *);
 };
 
 struct _stl_project_t {
@@ -40,7 +40,7 @@ struct _stl_project_t {
     /* more user data... */
 };
 
-int stl_test(stl_project_t *project);
-void stl_report(stl_project_t *project);
+int _cc  stl_test(stl_project_t *project);
+void _cc stl_report(stl_project_t *project);
 
 #endif

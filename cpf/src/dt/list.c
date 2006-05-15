@@ -5,7 +5,8 @@
 #include <cpf/dt/list.h>
 #include <cpf/alg/sort/qsort_.h>
 
-size_t list_size(list_t *list) {
+size_t _cc
+list_size(list_t *list) {
     if (list) {
         size_t n = 0;
         list_t *left = list->prev;
@@ -21,7 +22,8 @@ size_t list_size(list_t *list) {
     return 0;
 }
 
-list_t *list_first(list_t *list) {
+list_t * _cc
+list_first(list_t *list) {
     if (list == 0)
         return 0;
     while (list->prev)
@@ -29,7 +31,8 @@ list_t *list_first(list_t *list) {
     return list;
 }
 
-list_t *list_last(list_t *list) {
+list_t * _cc
+list_last(list_t *list) {
     if (list == 0)
         return 0;
     while (list->next)
@@ -37,7 +40,8 @@ list_t *list_last(list_t *list) {
     return list;
 }
 
-list_t *list_sibling(list_t *list, int index) {
+list_t * _cc
+list_sibling(list_t *list, int index) {
     if (list == 0)
         return 0;
     if (index == 0)
@@ -52,7 +56,8 @@ list_t *list_sibling(list_t *list, int index) {
     return list;
 }
 
-static list_t *_list_new(const void *data, size_t size) {
+list_t * _cc
+list_new(const void *data, size_t size) {
     list_t *list;
     if (size == 0) {
         list = (list_t *)malloc(16);
@@ -68,8 +73,9 @@ static list_t *_list_new(const void *data, size_t size) {
     return list;
 }
 
-list_t *list_insert(list_t *list, const void *data, size_t size) {
-    list_t *before = _list_new(data, size);
+list_t * _cc
+list_insert(list_t *list, const void *data, size_t size) {
+    list_t *before = list_new(data, size);
     if (! before) return 0;
     if (list) {
         before->next = list;
@@ -83,8 +89,9 @@ list_t *list_insert(list_t *list, const void *data, size_t size) {
     return before;
 }
 
-list_t *list_append(list_t *list, const void *data, size_t size) {
-    list_t *after = _list_new(data, size);
+list_t * _cc
+list_append(list_t *list, const void *data, size_t size) {
+    list_t *after = list_new(data, size);
     if (! after) return 0;
     if (list) {
         after->prev = list;
@@ -98,7 +105,8 @@ list_t *list_append(list_t *list, const void *data, size_t size) {
     return after;
 }
 
-list_t *list_detach(list_t **list) {
+list_t * _cc
+list_detach(list_t **list) {
     list_t *d;
     _assert_(list);
     if (! (d = *list))
@@ -118,7 +126,8 @@ list_t *list_detach(list_t **list) {
     return d;
 }
 
-list_t *list_delete(list_t *list) {
+list_t * _cc
+list_delete(list_t *list) {
     list_t *d;
     if (! list)
         return 0;
@@ -127,15 +136,18 @@ list_t *list_delete(list_t *list) {
     return list;
 }
 
-list_t *list_push(list_t *list, const void *data, size_t size) {
+list_t * _cc
+list_push(list_t *list, const void *data, size_t size) {
     return list_append(list_last(list), data, size);
 }
 
-list_t *list_unshift(list_t *list, const void *data, size_t size) {
+list_t * _cc
+list_unshift(list_t *list, const void *data, size_t size) {
     return list_insert(list_first(list), data, size);
 }
 
-list_t *list_pop(list_t *list) {
+list_t * _cc
+list_pop(list_t *list) {
     list_t *last;
     if (! list)
         return 0;
@@ -147,7 +159,8 @@ list_t *list_pop(list_t *list) {
     return list;
 }
 
-list_t *list_pop_detached(list_t *list, list_t **detached) {
+list_t * _cc
+list_pop_detached(list_t *list, list_t **detached) {
     list_t *last;
     if (! list)
         return 0;
@@ -161,7 +174,8 @@ list_t *list_pop_detached(list_t *list, list_t **detached) {
     return list;
 }
 
-list_t *list_shift(list_t *list) {
+list_t * _cc
+list_shift(list_t *list) {
     list_t *first;
     if (! list)
         return 0;
@@ -173,7 +187,8 @@ list_t *list_shift(list_t *list) {
     return list;
 }
 
-list_t *list_shift_detached(list_t *list, list_t **detached) {
+list_t * _cc
+list_shift_detached(list_t *list, list_t **detached) {
     list_t *first;
     if (! list)
         return 0;
@@ -187,7 +202,8 @@ list_t *list_shift_detached(list_t *list, list_t **detached) {
     return list;
 }
 
-list_t *list_copy(list_t *list) {
+list_t * _cc
+list_copy(list_t *list) {
     list_t *copy;
     list_t *x;
     list_t *copy_x;
@@ -219,7 +235,8 @@ struct _list_sort_cmpf_ctx {
     void *mcmpf_param;
 };
 
-static int _cdecl _list_sort_cmpf(const void *a, const void *b, void *user) {
+static int _cc
+_list_sort_cmpf(const void *a, const void *b, void *user) {
     struct _list_sort_cmpf_ctx *ctx =
         (struct _list_sort_cmpf_ctx *)user;
     const list_t *la = (const list_t *)a;
@@ -230,7 +247,8 @@ static int _cdecl _list_sort_cmpf(const void *a, const void *b, void *user) {
                       ctx->mcmpf_param);
 }
 
-list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
+list_t * _cc
+list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
     int n = 1;                          /* ... < list > ... */
     int i = 0;
     list_t *x;
@@ -276,8 +294,9 @@ list_t *list_sort(list_t *list, mem_cmpf_t mcmpf, void *user) {
     return list;                        /* head */
 }
 
-list_t *list_add_sorted(list_t *list, const void *data, size_t size,
-                        mem_cmpf_t cmpf, void *user) {
+list_t * _cc
+list_add_sorted(list_t *list, const void *data, size_t size,
+                mem_cmpf_t cmpf, void *user) {
     int d;
     if (! list)
         return list_insert(0, data, size);
@@ -302,7 +321,8 @@ list_t *list_add_sorted(list_t *list, const void *data, size_t size,
     return list_insert(list, data, size);
 }
 
-list_t *list_free(list_t *list) {
+list_t * _cc
+list_free(list_t *list) {
     list_t *x;
     if (! list)
         return 0;

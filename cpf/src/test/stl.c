@@ -18,7 +18,7 @@ static int stl_test1(stl_project_t *project, stl_token_t *token, x64_t *args) {
     return ret;
 }
 
-int stl_test(stl_project_t *project) {
+int _cc stl_test(stl_project_t *project) {
     int i;
     char *pt;
     int c;
@@ -128,7 +128,7 @@ int stl_test(stl_project_t *project) {
     return project->total - project->succeeds;
 }
 
-void stl_report(stl_project_t *project) {
+void _cc stl_report(stl_project_t *project) {
     int i;
     char namebuf[100];
 

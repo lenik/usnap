@@ -1,15 +1,16 @@
 #ifndef _SIOF_utim_c6bjdE5Hdi55DE5k_
 #define _SIOF_utim_c6bjdE5Hdi55DE5k_
 
+#include <cpf/config.h>
+#include <cpf/dt/raw.h>
+
 #ifdef WIN32
 #include <winsock.h>
 #endif
 
-#include <cpf/dt/raw.h>
-
 typedef struct _sioctx_t sioctx_t;
 
-typedef (_stdcall *siopktf_t)(sioctx_t *, size_t, void *);
+typedef (_cc *siopktf_t)(sioctx_t *, size_t, void *);
 
 /* For server, the most parts of sioctx_t are used as a template struct to
  *   create new sioctx(s) when incoming connection request is accepted, and the
@@ -31,14 +32,13 @@ struct _sioctx_t {
     /* stat *statinfo; ... */
 };
 
-sioctx_t *siolisten(const sockaddr *addr, int passive, siopktf_t pkt_in);
-sioctx_t *siolistenport(u16_t port, int passive, siopktf_t pkt_in);
-sioctx_t *sioconnect(const sockaddr *addr, int passive, siopktf_t pkt_in);
-sioctx_t *sioupon(SOCKET sd, int server, int passive, siopktf_t pkt_in);
-void siofree(sioctx_t *ctx);
-
-int siostart();
-int siostop();
-int sioend();
+sioctx_t * _cc siolisten(const sockaddr *addr, int passive, siopktf_t pkt_in);
+sioctx_t * _cc siolistenport(u16_t port, int passive, siopktf_t pkt_in);
+sioctx_t * _cc sioconnect(const sockaddr *addr, int passive, siopktf_t pkt_in);
+sioctx_t * _cc sioupon(SOCKET sd, int server, int passive, siopktf_t pkt_in);
+void       _cc siofree(sioctx_t *ctx);
+int        _cc siostart();
+int        _cc siostop();
+int        _cc sioend();
 
 #endif

@@ -3,7 +3,7 @@
 #include <cpf/assert.h>
 #include <cpf/dt/buffer.h>
 
-buffer_t *
+buffer_t * _cc
 buffer_new(void *data, size_t size, size_t alloc, size_t growth) {
     buffer_t *buffer;
     buffer = (buffer_t *)malloc(sizeof(buffer_t));
@@ -24,7 +24,7 @@ buffer_new(void *data, size_t size, size_t alloc, size_t growth) {
     return buffer;
 }
 
-buffer_t *
+buffer_t * _cc
 buffer_append(buffer_t *buffer, void *data, size_t size) {
     if (! buffer) {
         buffer = buffer_new(data, size, size, 0);
@@ -40,19 +40,19 @@ buffer_append(buffer_t *buffer, void *data, size_t size) {
     return buffer;
 }
 
-void *
+void * _cc
 buffer_dataend(buffer_t *buffer, int offset) {
     _assert_(buffer);
     _assert_(offset <= 0 && offset >= -(int)buffer->size);
     return ((u8_t *)buffer->data) + buffer->size + offset;
 }
 
-buffer_t *
+buffer_t * _cc
 buffer_prepend(buffer_t *buffer, void *data, size_t size) {
     return buffer;
 }
 
-void *
+void * _cc
 buffer_free(buffer_t *buffer, int free_data) {
     void *data;
     if (! buffer)
