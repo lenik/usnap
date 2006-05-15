@@ -129,6 +129,10 @@ SOURCE=..\..\..\..\cpf\inc\cpf\dt\buffer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\net\impl.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\cpf\inc\cpf\dt\list.h
 # End Source File
 # Begin Source File
@@ -186,6 +190,10 @@ SOURCE=..\..\..\src\mcell\mcell.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\alg\sort\qsort_.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\net\siof.h
 # End Source File
 # Begin Source File
 

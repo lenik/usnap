@@ -1,7 +1,10 @@
 
-#include "types.h"
+#include "stdhdrs.h"
+#include <cpf/assert.h>
+#include <cpf/dt/list.h>
+#include <cpf/net/siof.h>
 
-static list_t g_ctxlist;
+static list_t *g_ctxlist;
 
 static int addrlen(const sockaddr *addr) {
     switch (addr->sin_family) {

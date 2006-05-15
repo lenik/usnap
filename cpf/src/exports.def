@@ -41,5 +41,14 @@ EXPORTS
     sprintf_lim
     vsprintf_lim
 
+    siolisten
+    siolistenport
+    sioconnect
+    sioupon
+    siofree
+    siostart
+    siostop
+    sioend
+
     stl_test
     stl_report
