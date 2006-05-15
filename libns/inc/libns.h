@@ -1,5 +1,5 @@
 #ifndef _libns_utim_dem35_3EvRCyfopr_
-#define _libns_utim_dem35_3EvRCyfopr_ "$Header: /mnt/c/.radiko/.miaj/cvs/com/campofrontier/libns/inc/libns.h,v 1.6 2006-05-14 04:59:39 lenik Exp $"
+#define _libns_utim_dem35_3EvRCyfopr_ "$Header: /mnt/c/.radiko/.miaj/cvs/com/campofrontier/libns/inc/libns.h,v 1.7 2006-05-15 15:24:45 lenik Exp $"
 
 #include <cpf/dt/raw.h>
 #include <cpf/dt/list.h>
@@ -122,10 +122,10 @@ struct _nsmod_t {
 #define NSMOD_FS            (1L << 1)
 #define NSMOD_HACK          (1L << 2)
 
-nssvc_t *nsnew(const char *name, int builtin_drv, u32_t builtin_mods);
-nssvc_t *nsfree(nssvc_t *svc);
-int nsinsmod(nssvc_t *svc, nsmod_t *mod);
-int nsrmmod(nssvc_t *svc, nsmod_t *mod);
+nssvc_t * _cc nsnew(const char *name, int builtin_drv, u32_t builtin_mods);
+nssvc_t * _cc nsfree(nssvc_t *svc);
+int       _cc nsinsmod(nssvc_t *svc, nsmod_t *mod);
+int       _cc nsrmmod(nssvc_t *svc, nsmod_t *mod);
 
 enum _nserr_t {
     NSERR_OK = 0,

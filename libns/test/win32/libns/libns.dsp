@@ -94,6 +94,10 @@ SOURCE=.\dllmain.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\exports.def
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
@@ -147,6 +151,10 @@ SOURCE=..\..\..\src\modfs.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\modfs_sh.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\modhack.c
 # End Source File
 # End Group
@@ -159,11 +167,23 @@ SOURCE=..\..\..\inc\builtins.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\config\config.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\inc\filter.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\inc\libns.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\modfs_sh.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\config\stdhdrs.h
 # End Source File
 # Begin Source File
 
@@ -173,10 +193,6 @@ SOURCE=..\..\..\inc\svc.h
 # Begin Source File
 
 SOURCE=.\ReadMe.txt
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\config\stdhdrs.h
 # End Source File
 # End Target
 # End Project

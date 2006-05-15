@@ -1,2 +1,30 @@
 
 EXPORTS
+
+    nsnew
+    nsfree
+    nsinsmod
+    nsrmmod
+
+    nsdef_pkt_in
+    nsdef_bin_in
+    nsdef_line_in
+    nsdef_cmd_in
+    nsdef_cmd_out
+    nsdef_line_out
+    nsdef_bin_out
+    nsdef_pkt_out
+
+    sh_new
+    sh_free
+    sh_using
+    sh_mkdir
+    sh_rmdir
+    sh_chdir
+    sh_cp
+    sh_mv
+    sh_rm
+    sh_crc
+    sh_md5
+    sh_sha1
+    sh_exec
