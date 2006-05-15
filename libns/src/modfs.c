@@ -3,6 +3,7 @@
 #include <cpf/assert.h>
 
 #include "libns.h"
+#include "modfs_sh.h"
 
 /* modfs - File System */
 
@@ -171,7 +172,7 @@ u32_t _stdcall modfs_sha1(nssvc_t *svc, x32_t *args, int notps) {
 
 /* .section.  mod exports */
 
-#define MODFS_VERSION "modfs $Revision: 1.5 $"
+#define MODFS_VERSION "modfs $Revision: 1.6 $"
 #define MODFS_HELPSTR "modfs provides the functionalities to access the remote file system. "
 
 enum MODFS_CMD {

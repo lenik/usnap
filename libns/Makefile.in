@@ -147,7 +147,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = src siof test
+SUBDIRS = src test
 all: all-recursive
 
 .SUFFIXES:

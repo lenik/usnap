@@ -24,6 +24,9 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_HEADER_STDC
+AC_HEADER_DIRENT
+AC_HEADER_TIME
+AC_HEADER_SYS_WAIT
 AC_CHECK_FUNCS([memset mkdir socket])
 
 AC_CONFIG_FILES([Makefile
