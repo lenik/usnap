@@ -1,11 +1,12 @@
 
 #include "stdhdrs.h"
-#include <char.h>
+#include <ctype.h>
+#include <cpf/assert.h>
 #include <cpf/test/stl.h>
 
 static int stl_test1(stl_project_t *project, stl_token_t *token, x64_t *args) {
     int ret;
-    ret = token->func(args);
+    ret = token->func(project, args);
     project->total++;
     project->ttotal[token->cmd]++;
     if (ret) {
@@ -18,13 +19,14 @@ static int stl_test1(stl_project_t *project, stl_token_t *token, x64_t *args) {
 }
 
 int stl_test(stl_project_t *project) {
-    const char *pt;
+    int i;
+    char *pt;
     int c;
-    const char *strend;
-    stl_token_t *token;
-    const char *arg = 0;
+    char *strend;
+    stl_token_t *token = 0;
+    const char *parg = 0;
     x64_t *voidargs = 0;
-    x64_t args[STL_MAX_ARGS];
+    x64_t *xargs;
     x64_t v;
 
     _assert_(project);
@@ -41,21 +43,31 @@ int stl_test(stl_project_t *project) {
     }
 
     /* init token def -> cmap*/
-    for (i = 0; i < 256; i++)
+    for (i = 0; i < 256; i++) {
         project->cmap[i] = 0;
+    }
 
     for (i = 0; i < project->ntokens; i++) {
         token = &project->tokens[i];
         project->cmap[token->cmd] = token;
     }
 
+    /* init stat */
+    project->total = 0;
+    project->succeeds = 0;
+    for (i = 0; i < 256; i++) {
+        project->ttotal[i] = 0;
+        project->tsucceeds[i] = 0;
+    }
+
     /* interpret the script text */
     project->textcpy = strdup(project->text);
     pt = project->textcpy;
+    token = 0;
     while (c = *pt++) {
         if (token) {
-            _assert_(arg && *arg);
-            switch (*arg++) {
+            _assert_(parg && *parg);
+            switch (*parg++) {
             case 'i':
                 v.i = (int)strtol(pt - 1, &pt, 0);
                 if (pt == pt - 1)
@@ -89,21 +101,24 @@ int stl_test(stl_project_t *project) {
             default:
                 project->last_error = "unknown type";
             }
-            args[arg - token->args] = v;
-            if (*arg == 0) {            /* end of arglist */
-                stl_test1(project, token, args);
+            xargs[parg - token->args - 1] = v;
+            if (*parg == 0) {            /* end of arglist */
+                stl_test1(project, token, xargs);
                 token = 0;
-                arg = 0;
+                parg = 0;
+                free(xargs);
             }
         } else {
             if (isspace(c))
                 continue;
             if (token = project->cmap[c]) {
-                arg = token->args;
-                if (arg == 0 || *arg == 0) { /* void */
+                parg = token->args;
+                if (parg == 0 || *parg == 0) { /* void */
                     stl_test1(project, token, voidargs);
                     token = 0;
-                    arg = 0;
+                    parg = 0;
+                } else {
+                    xargs = (x64_t *)malloc(sizeof(x64_t) * strlen(parg));
                 }
                 continue;
             }
@@ -115,19 +130,27 @@ int stl_test(stl_project_t *project) {
 
 void stl_report(stl_project_t *project) {
     int i;
-    for (i = 0; i < project->ntokens; i++) {
-        printf("Function %s (%c%s): %d (%d/%d)\n",
-               project->tokens[i].name,
-               project->tokens[i].cmd,
-               project->tokens[i].args,
-               project->ttotal[i],
-               project->tsucceeds[i],
-               project->ttotal[i] - project->tsucceeds[i]);
-    }
+    char namebuf[100];
 
-    printf("---------------------------------\n");
-    printf("Total: %d (%d/%d)\n",
-           project->total,
-           project->succeeds,
-           project->total - project->succeeds);
+    if (project->total != project->succeeds) {
+        printf("Failure: \n");
+        for (i = 0; i < project->ntokens; i++) {
+            char c = project->tokens[i].cmd;
+            sprintf(namebuf, "%s(%s)",
+                    project->tokens[i].name,
+                    project->tokens[i].args);
+            printf("    %c %-20s %d/%d\n",
+                   project->tokens[i].cmd,
+                   namebuf,
+                   project->ttotal[c] - project->tsucceeds[c],
+                   project->ttotal[c]);
+        }
+
+        printf("    ---------------------------------\n");
+        printf("    Total: %d (%d fails)\n",
+               project->total,
+               project->total - project->succeeds);
+    } else {
+        printf("Succeeded (%d)\n", project->total);
+    }
 }

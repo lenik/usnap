@@ -1,5 +1,7 @@
 #ifndef _stl_utim_dePCtWbFr8U8faBH_
-#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.1 2006-05-14 23:38:42 dansei Exp $"
+#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.2 2006-05-15 05:20:50 dansei Exp $"
+
+#include <cpf/dt/raw.h>
 
 typedef struct _stl_token_t stl_token_t;
 typedef struct _stl_project_t stl_project_t;
@@ -11,7 +13,7 @@ struct _stl_token_t {
     const char *name;
     /* Int, Long, Float, Double, Char, String */
     const char *args;
-    int (_stdcall *func)(x64_t *);
+    int (_stdcall *func)(stl_project_t *, x64_t *);
 };
 
 struct _stl_project_t {
@@ -21,6 +23,12 @@ struct _stl_project_t {
 
     /* text script */
     const char *text;
+    x32_t user;
+
+    /* cache */
+    stl_token_t *cmap[256];              /* ascii -> token */
+
+    /* analyze */
     char *textcpy;
     const char *last_error;
     int total;
@@ -28,11 +36,11 @@ struct _stl_project_t {
     int ttotal[STL_MAX_TOKENS];
     int tsucceeds[STL_MAX_TOKENS];
 
-    /* cache */
-    stl_token_t cmap[256];              /* ascii -> token */
+    size_t extra;                   /* extra bytes allocated to this struct */
+    /* more user data... */
 };
 
 int stl_test(stl_project_t *project);
-int stl_report(stl_project_t *project);
+void stl_report(stl_project_t *project);
 
 #endif

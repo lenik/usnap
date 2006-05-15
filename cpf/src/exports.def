@@ -1,17 +1,20 @@
 
 EXPORTS
 
+    list_size
     list_first
     list_last
     list_sibling
     list_insert
     list_append
     list_detach
-    list_remove
+    list_delete
     list_push
     list_unshift
     list_pop
+    list_pop_detached
     list_shift
+    list_shift_detached
     list_copy
     list_sort
     list_add_sorted
@@ -37,3 +40,6 @@ EXPORTS
 
     sprintf_lim
     vsprintf_lim
+
+    stl_test
+    stl_report

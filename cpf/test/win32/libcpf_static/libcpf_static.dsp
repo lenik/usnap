@@ -63,8 +63,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../config" /I "../../../inc" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../config" /I "../../../inc" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x804 /d "_DEBUG"
 # ADD RSC /l 0x804 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -93,31 +93,35 @@ LIB32=link.exe -lib
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\src\const\bitinfo.cpp
+SOURCE=..\..\..\..\cpf\src\const\bitinfo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\dt\buffer.c
+SOURCE=..\..\..\..\cpf\src\dt\buffer.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\getopt.c
+SOURCE=..\..\..\..\cpf\src\getopt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\dt\list.c
+SOURCE=..\..\..\..\cpf\src\dt\list.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\mcell\mcell.cpp
+SOURCE=..\..\..\..\cpf\src\mcell\mcell.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\alg\sort\qsort_.c
+SOURCE=..\..\..\..\cpf\src\alg\sort\qsort_.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\string.c
+SOURCE=..\..\..\src\test\stl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\cpf\src\string.c
 # End Source File
 # End Group
 # Begin Group "inc"
@@ -150,6 +154,10 @@ SOURCE=..\..\..\inc\cpf\mcell\somt.h
 # Begin Source File
 
 SOURCE=..\..\..\config\stdhdrs.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\test\stl.h
 # End Source File
 # Begin Source File
 

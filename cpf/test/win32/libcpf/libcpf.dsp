@@ -116,38 +116,6 @@ SOURCE=.\StdAfx.h
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
-# Begin Group "src"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\const\bitinfo.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\dt\buffer.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\getopt.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\dt\list.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\mcell\mcell.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\alg\sort\qsort_.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\..\cpf\src\string.c
-# End Source File
-# End Group
 # Begin Group "inc"
 
 # PROP Default_Filter ""
@@ -181,11 +149,51 @@ SOURCE=..\..\..\..\cpf\config\stdhdrs.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\inc\cpf\test\stl.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\cpf\inc\cpf\string.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\inc\cpf\dt\tree.h
+# End Source File
+# End Group
+# Begin Group "src"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\const\bitinfo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\dt\buffer.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\getopt.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\dt\list.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\mcell\mcell.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\alg\sort\qsort_.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\test\stl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\string.c
 # End Source File
 # End Group
 # Begin Source File

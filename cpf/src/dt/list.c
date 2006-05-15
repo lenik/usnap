@@ -5,6 +5,22 @@
 #include <cpf/dt/list.h>
 #include <cpf/alg/sort/qsort_.h>
 
+size_t list_size(list_t *list) {
+    if (list) {
+        size_t n = 0;
+        list_t *left = list->prev;
+        while (left) {
+            n++;
+            left = left->prev;
+        }
+        while (list) {
+            n++;
+            list = list->next;
+        }
+    }
+    return 0;
+}
+
 list_t *list_first(list_t *list) {
     if (list == 0)
         return 0;
@@ -102,7 +118,7 @@ list_t *list_detach(list_t **list) {
     return d;
 }
 
-list_t *list_remove(list_t *list) {
+list_t *list_delete(list_t *list) {
     list_t *d;
     if (! list)
         return 0;
@@ -119,31 +135,56 @@ list_t *list_unshift(list_t *list, const void *data, size_t size) {
     return list_insert(list_first(list), data, size);
 }
 
-list_t *list_pop(list_t **list) {
+list_t *list_pop(list_t *list) {
     list_t *last;
-    _assert_(list);
-    if (! *list)
+    if (! list)
         return 0;
-    last = list_last(*list);
-    if (last)
-        if (*list = last->prev) {
-            (*list)->next = 0;
-            last->prev = 0;
-        }
-    return last;
+    last = list_last(list);
+    _assert_(last);
+    if (list = last->prev)
+        list->next = 0;
+    free(last);
+    return list;
 }
 
-list_t *list_shift(list_t **list) {
-    list_t *first;
-    _assert_(list);
-    if (! *list)
+list_t *list_pop_detached(list_t *list, list_t **detached) {
+    list_t *last;
+    if (! list)
         return 0;
-    first = list_first(*list);
-    if (*list = first->next) {
-        (*list)->prev = 0;
-        first->next = 0;
-    }
-    return first;
+    last = list_last(list);
+    _assert_(last);
+    if (list = last->prev)
+        list->next = 0;
+    _assert_(detached);
+    last->prev = 0;
+    *detached = last;
+    return list;
+}
+
+list_t *list_shift(list_t *list) {
+    list_t *first;
+    if (! list)
+        return 0;
+    first = list_first(list);
+    _assert_(first);
+    if (list = first->next)
+        list->prev = 0;
+    free(first);
+    return list;
+}
+
+list_t *list_shift_detached(list_t *list, list_t **detached) {
+    list_t *first;
+    if (! list)
+        return 0;
+    first = list_first(list);
+    _assert_(first);
+    if (list = first->next)
+        list->prev = 0;
+    _assert_(detached);
+    first->next = 0;
+    *detached = first;
+    return list;
 }
 
 list_t *list_copy(list_t *list) {

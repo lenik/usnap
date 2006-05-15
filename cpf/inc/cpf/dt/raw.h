@@ -104,8 +104,6 @@ typedef union _x16_t {
     u16_t u;
     b16_t b;
     char c;
-    x8_t l;
-    x8_t h;
     x8_t x[2];
 } x16_t;
 
@@ -119,8 +117,6 @@ typedef union _x32_t {
     cptr_t cp;
     str_t s;
     cstr_t cs;
-    x16_t l;
-    x16_t h;
     x8_t x[4];
     x16_t xx[2];
 } x32_t;
@@ -138,8 +134,6 @@ typedef union _x64_t {
     cptr_t cp;
     str_t s;
     cstr_t cs;
-    x32_t l;
-    x32_t h;
     x8_t x[8];
     x16_t xx[4];
     x32_t xxxx[2];
