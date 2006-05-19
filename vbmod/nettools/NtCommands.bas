@@ -1,11 +1,11 @@
 Attribute VB_Name = "NtCommands"
 Option Explicit
 
-' Touch(local-time)
-Public Const NTC_TOUCH                  As String = "NTC"
-
 ' NewSession(sender-name): recver-name/echo
 Public Const NTC_NEWSESSION             As String = "NNS"
+
+' Touch(local-time)
+Public Const NTC_TOUCH                  As String = "NTC"
 
 ' SetKey(sender-key): recver-key/echo
 Public Const NTC_SETKEY                 As String = "NSK"
