@@ -1,22 +1,23 @@
 Attribute VB_Name = "NtCommands"
 Option Explicit
 
-' NewSession(sender-name): recver-name/echo
-Public Const NTC_NEWSESSION             As String = "NNS"
+' SetName(sender-name, 'S'): recver-name/'R'
+Public Const NTC_SETNAME                As String = "NSN"
 
-' Touch(local-time)
-Public Const NTC_TOUCH                  As String = "NTC"
-
-' SetKey(sender-key): recver-key/echo
+' SetKey(sender-key, 'S'): recver-key/'R'
 Public Const NTC_SETKEY                 As String = "NSK"
 
-' Message(message)
+' Touch(sender-time, 'S'): recver-time/'R'
+Public Const NTC_TOUCH                  As String = "NTC"
+
+' Message(message, 'S'): ack-message/'R'
 Public Const NTC_MESSAGE                As String = "NMS"
 
-' EncryptedMessage(encrypted-message)
+' EncryptedMessage(encrypted-message, 'S'): ack-encrypted-message/R
 Public Const NTC_ENCRYPTEDMESSAGE       As String = "NEM"
 
-' VolInfo(vol-guid): vol-info-xml/_R
+' VolInfo(vol-guid): vol-infoo/_R
+' VolInfoR(vol-guid vol-cat vol-name vol-segs)
 Public Const NTC_VOLINFO                As String = "NVI"
 Public Const NTC_VOLINFO_R              As String = "NVIR"
 
@@ -33,8 +34,11 @@ Public Const NTC_ACPTVOL                As String = "NAV"
 Public Const NTC_SCRIPT                 As String = "NSC"
 Public Const NTC_SCRIPT_R               As String = "NSCR"
 
-Public Property Get NtCmd(ByVal Cmd As String, ParamArray Params()) As String
-    NtCmd = Cmd & Join(Params, " ") & ";"
+Public Property Get NtCmd(ByVal Cmd As String, ParamArray params_()) As String
+    Dim params
+    params = ParamArrayToArray(params_)
+
+    NtCmd = Cmd & Join(params, " ") & ";"
 End Property
 
 Public Function ParseCmd(ByVal CmdLine As String) As NtCommand

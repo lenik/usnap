@@ -6,20 +6,21 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "Service"
+Attribute VB_Name = "Server"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private Const LOCATION                  As String = "NetTools::Service"
+Private Const LOCATION                  As String = "NetTools::Server"
+Private Const DEFAULT_PORT              As Integer = 20052
 
 Private m_Name As String
+Private m_addr As New XceedWinsockLib.InetAddress
 
 Private m_sd As XceedWinsockLib.ListeningSocket
 Private m_sd_started As Boolean
-Private m_sd_addr As New InetAddress
 Private WithEvents m_sd_income As XceedWinsockLib.IncomingConnectionEvents
 Attribute m_sd_income.VB_VarHelpID = -1
 Private WithEvents m_sd_conn As XceedWinsockLib.ConnectionEvents
@@ -42,21 +43,27 @@ Public Property Get Name() As String
     Name = m_Name
 End Property
 
+Public Property Let Name(ByVal newval As String)
+    m_Name = newval
+End Property
+
 Public Property Get Port() As Integer
-    Port = m_sd_addr.Port
+    Port = m_addr.Port
 End Property
 
 Public Property Let Port(ByVal newval As Integer)
-    m_sd_addr.Port = newval
+    m_addr.Port = newval
 End Property
 
-Public Function Start(Optional ByVal Name As String) As Boolean
+Public Function Start(Optional ByVal Port As Integer = 0, _
+                      Optional ByVal Name As String) As Boolean
+    If Port <> 0 Then Me.Port = Port
     If Name <> "" Then m_Name = Name
 
     If m_sd_started Then Exit Function
 
     On Error Resume Next
-        m_sd.StartListening m_sd_addr, m_sd_income, wifAdviseAll
+        m_sd.StartListening m_addr, m_sd_income, wifAdviseAll
         If Err.Number <> 0 Then Exit Function
     On Error GoTo 0
 
@@ -119,15 +126,7 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     Set sd = xIncomingSocket
     addr = sd.RemoteAddress.GetAddressString
 
-    ' NETCOMM
-    sd.SendString NtCmd(NTC_NEWSESSION, m_Name), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    sd.SendString NtCmd(NTC_SETKEY, s.Key.PublicKey), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    sd.SendString NtCmd(NTC_TOUCH, CDbl(Date + Time)), wnfAnsiStrings, wsoNone
-
+    s.Initialize sd
     RaiseEvent SessionBegin(s)
 End Sub
 
@@ -136,7 +135,7 @@ Private Sub m_sd_income_OnListeningError(ByVal xListeningSocket As Object, _
     Assert xListeningSocket Is m_sd
     'If m_sd_started Then
     '    m_sd.StopListening
-    '    m_sd.StartListening m_sd_addr, m_sd_income, wifAdviseAll
+    '    m_sd.StartListening m_addr, m_sd_income, wifAdviseAll
     'End If
 End Sub
 

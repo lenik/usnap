@@ -8,7 +8,6 @@ Begin VB.Form ChatStart
    LinkTopic       =   "Form1"
    ScaleHeight     =   3090
    ScaleWidth      =   4680
-   StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton Command2
       Caption         =   "&Client"
       Height          =   735
@@ -34,11 +33,11 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Command1_Click()
-    Hide
+    Unload Me
     ChatServer.Show
 End Sub
 
 Private Sub Command2_Click()
-    Hide
-    ChatCLient.Show
+    Unload Me
+    ChatClient.Show
 End Sub

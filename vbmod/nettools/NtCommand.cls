@@ -8,9 +8,9 @@ BEGIN
 END
 Attribute VB_Name = "NtCommand"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
+Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = True
+Attribute VB_Exposed = False
 Option Explicit
 
 Private Const LOCATION                  As String = "NetTools::NtCommand"
@@ -36,7 +36,10 @@ Public Property Get Name() As String
 End Property
 
 Public Property Get Parameter(ByVal Index As Integer)
-    Assert Index >= 1 And Index <= UBound(m_Params), _
+    Assert Index >= 1, _
            "Invalid parameter index " & Index & " for command [" & m_Name & "]", LOCATION
-    Parameter = m_Params(Index)
+    If Index <= UBound(m_Params) Then
+        Parameter = m_Params(Index)
+    ' Else return empty
+    End If
 End Property
