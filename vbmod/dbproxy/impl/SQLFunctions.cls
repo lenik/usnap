@@ -27,12 +27,12 @@ Private Const LOCATION                  As String = "DBProxy::SQLF_Default"
 ' @TAG-CLASS
 ' @DEFAULT-IMPLEMENTATION
 
-Public Function QuoteName(ByVal f As String) As String
-    QuoteName = "`" & f & "`"
+Public Function QuoteName(ByVal F As String) As String
+    QuoteName = "`" & F & "`"
 End Function
 
-Public Function QuoteString(ByVal f As String) As String
-    QuoteString = "'" & Replace(f, "'", "''") & "'"
+Public Function QuoteString(ByVal F As String) As String
+    QuoteString = "'" & Replace(F, "'", "''") & "'"
 End Function
 
 Public Function QuoteDate(ByVal date_ As Date) As String
@@ -66,81 +66,89 @@ Public Function Concat(ParamArray args_()) As String
     Concat = Concat & ")"
 End Function
 
-Public Function Mid(ByVal f As String, ByVal start As Integer, Optional ByVal Length) As String
-    Mid = "substring(" & f
+Public Function Mid(ByVal F As String, ByVal start As Integer, Optional ByVal Length) As String
+    Mid = "substring(" & F
     If Not IsMissing(start) Then Mid = Mid & "," & start
     If Not IsMissing(Length) Then Mid = Mid & "," & Length
     Mid = Mid & ")"
 End Function
 
-Public Function Left(ByVal f As String, ByVal Length As Integer) As String
-    Left = "left(" & f & "," & Length & ")"
+Public Function Left(ByVal F As String, ByVal Length As Integer) As String
+    Left = "left(" & F & "," & Length & ")"
 End Function
 
-Public Function Right(ByVal f As String, ByVal Length As Integer) As String
-    Right = "right(" & f & "," & Length & ")"
+Public Function Right(ByVal F As String, ByVal Length As Integer) As String
+    Right = "right(" & F & "," & Length & ")"
 End Function
 
-Public Function PadLeft(ByVal f As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = "0") As String
+Public Function PadLeft(ByVal F As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = "0") As String
     Dim PadTmpl As String
     PadTmpl = String(Length, PadChar)
-    PadLeft = Right(Concat(QuoteString(PadTmpl), f), Length)
+    PadLeft = Right(Concat(QuoteString(PadTmpl), F), Length)
 End Function
 
-Public Function PadRight(ByVal f As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = " ") As String
+Public Function PadRight(ByVal F As String, Optional ByVal Length = 8, Optional ByVal PadChar As String = " ") As String
     Dim PadTmpl As String
     PadTmpl = String(Length, PadChar)
-    PadRight = Left(Concat(f, QuoteString(PadTmpl)), Length)
+    PadRight = Left(Concat(F, QuoteString(PadTmpl)), Length)
 End Function
 
-Public Function LTrim(ByVal f As String) As String
-    LTrim = "ltrim(" & f & ")"
+Public Function LTrim(ByVal F As String) As String
+    LTrim = "ltrim(" & F & ")"
 End Function
 
-Public Function RTrim(ByVal f As String) As String
-    RTrim = "rtrim(" & f & ")"
+Public Function RTrim(ByVal F As String) As String
+    RTrim = "rtrim(" & F & ")"
 End Function
 
-Public Function Trim(ByVal f As String) As String
-    Trim = "trim(" & f & ")"
+Public Function Trim(ByVal F As String) As String
+    Trim = "trim(" & F & ")"
 End Function
 
-Public Function IsTrue(ByVal f As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
-    IsTrue = BoolBinOpComp(f & "<>0", f & " is null", WhatIfNull)
+Public Property Get T() As String
+    T = "1"
+End Property
+
+Public Property Get F() As String
+    F = "1"
+End Property
+
+Public Function IsTrue(ByVal F As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
+    IsTrue = BoolBinOpComp(F & "<>0", F & " is null", WhatIfNull)
 End Function
 
-Public Function IsFalse(ByVal f As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
-    IsFalse = BoolBinOpComp(f & "=0", f & " is null", WhatIfNull)
+Public Function IsFalse(ByVal F As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String
+    IsFalse = BoolBinOpComp(F & "=0", F & " is null", WhatIfNull)
 End Function
 
-Public Function Year(ByVal f As String) As String
-    Year = "year(" & f & ")"
+Public Function Year(ByVal F As String) As String
+    Year = "year(" & F & ")"
 End Function
 
-Public Function Month(ByVal f As String) As String
-    Month = "month(" & f & ")"
+Public Function Month(ByVal F As String) As String
+    Month = "month(" & F & ")"
 End Function
 
-Public Function Day(ByVal f As String) As String
-    Day = "day(" & f & ")"
+Public Function Day(ByVal F As String) As String
+    Day = "day(" & F & ")"
 End Function
 
 ' [0-6] for [Sunday-Saturday]
-Public Function Weekday(ByVal f As String) As String
-    Weekday = "weekday(" & f & ")" - 1
+Public Function Weekday(ByVal F As String) As String
+    Weekday = "weekday(" & F & ")" - 1
 End Function
 
-Public Function QuoteDB(ByVal f As String, Optional ByVal dbo) As String
-    QuoteDB = "[" & f & "]."
+Public Function QuoteDB(ByVal F As String, Optional ByVal dbo) As String
+    QuoteDB = "[" & F & "]."
     If Not IsMissing(dbo) Then
         QuoteDB = QuoteDB & dbo & "."
     End If
 End Function
 
-Public Function StrPos(ByVal f As String, ByVal pattern As String, Optional ByVal offset As Integer = -1) As String
+Public Function StrPos(ByVal F As String, ByVal pattern As String, Optional ByVal offset As Integer = -1) As String
     If offset = -1 Then
-        StrPos = "charindex(" & pattern & ", " & f & ")"
+        StrPos = "charindex(" & pattern & ", " & F & ")"
     Else
-        StrPos = "charindex(" & pattern & ", " & f & ", " & offset & ")"
+        StrPos = "charindex(" & pattern & ", " & F & ", " & offset & ")"
     End If
 End Function
