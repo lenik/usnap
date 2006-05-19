@@ -150,7 +150,7 @@ Private Sub xFile_OnFileReceived(ByVal xSocket As Object, ByVal sFilename As Str
 End Sub
 
 Private Sub xFile_OnFileSent(ByVal xSocket As Object, ByVal sFilename As String, ByVal lStartOffset As Long, ByVal lBytesSent As Long, ByVal lBytesTotal As Long, ByVal lUserParam As Long, ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
-    m_sd.SendString m_name & ">sendfile: " & sFilename, wnfAnsiStrings, wsoNone
+    'm_sd.SendString m_name & ">sendfile: " & sFilename, wnfAnsiStrings, wsoNone
 End Sub
 
 Private Sub xString_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, ByVal lUserParam As Long, ByVal lResultCode As Long)
