@@ -1,0 +1,26 @@
+HKCR
+{
+	NetTools.Globals.1 = s 'Globals Class'
+	{
+		CLSID = s '{F3BAD689-A6EF-44D8-93D3-79F50F0C791D}'
+	}
+	NetTools.Globals = s 'Globals Class'
+	{
+		CLSID = s '{F3BAD689-A6EF-44D8-93D3-79F50F0C791D}'
+		CurVer = s 'NetTools.Globals.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F3BAD689-A6EF-44D8-93D3-79F50F0C791D} = s 'Globals Class'
+		{
+			ProgID = s 'NetTools.Globals.1'
+			VersionIndependentProgID = s 'NetTools.Globals'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{D430659F-A6B1-4482-8EF0-31A450E4F268}'
+		}
+	}
+}

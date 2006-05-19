@@ -12,9 +12,49 @@ import "ocidl.idl";
 	version(1.0),
 	helpstring("NetTools 1.0 Type Library")
 ]
-library NETTOOLSLib
+library NetToolsLib
 {
 	importlib("stdole32.tlb");
 	importlib("stdole2.tlb");
+        importlib("scrrun.dll");
 
+	[
+		object,
+		uuid(FA417E17-08CF-4D1D-8E5A-D3BD57964456),
+		dual,
+		helpstring("IGlobals Interface"),
+		pointer_default(unique)
+	]
+	interface IGlobals : IDispatch
+	{
+		[id(1), helpstring("method CreateRemoteFSO")] HRESULT CreateRemoteFSO([in]BSTR Server, [in]int Port, [out, retval]IFileSystem **FSO);
+	};
+	[
+		object,
+		uuid(29138607-9B6E-4128-B137-7D6329029DD4),
+		dual,
+		helpstring("IRemoteFSO Interface"),
+		pointer_default(unique)
+	]
+	interface IRemoteFSO : IDispatch
+	{
+	};
+
+	[
+		uuid(F3BAD689-A6EF-44D8-93D3-79F50F0C791D),
+		helpstring("Globals Class"),
+                appobject
+	]
+	coclass Globals
+	{
+		[default] interface IGlobals;
+	};
+	[
+		uuid(7FFFE503-AC6C-4B17-AB54-7733624BC775),
+		helpstring("RemoteFSO Class")
+	]
+	coclass RemoteFSO
+	{
+		[default] interface IRemoteFSO;
+	};
 };

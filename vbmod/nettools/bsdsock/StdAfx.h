@@ -22,7 +22,7 @@ extern CComModule _Module;
 #include <atlcom.h>
 
 #undef GetFreeSpace
-#import "scrrun.dll"                    // FileSystemObject
+#import "C:\WINDOWS\system32\scrrun.dll" raw_interfaces_only, raw_native_types, no_namespace, named_guids
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

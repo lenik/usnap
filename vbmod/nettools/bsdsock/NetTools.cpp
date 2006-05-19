@@ -11,11 +11,15 @@
 #include "NetTools.h"
 
 #include "NetTools_i.c"
+#include "Globals.h"
+#include "RemoteFSO.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
+OBJECT_ENTRY(CLSID_Globals, CGlobals)
+OBJECT_ENTRY(CLSID_RemoteFSO, CRemoteFSO)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,7 +30,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID /*lpReserved*/)
 {
     if (dwReason == DLL_PROCESS_ATTACH)
     {
-        _Module.Init(ObjectMap, hInstance, &LIBID_NETTOOLSLib);
+        _Module.Init(ObjectMap, hInstance, &LIBID_NetToolsLib);
         DisableThreadLibraryCalls(hInstance);
     }
     else if (dwReason == DLL_PROCESS_DETACH)

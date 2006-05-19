@@ -1,0 +1,26 @@
+HKCR
+{
+	NetTools.RemoteFSO.1 = s 'RemoteFSO Class'
+	{
+		CLSID = s '{7FFFE503-AC6C-4B17-AB54-7733624BC775}'
+	}
+	NetTools.RemoteFSO = s 'RemoteFSO Class'
+	{
+		CLSID = s '{7FFFE503-AC6C-4B17-AB54-7733624BC775}'
+		CurVer = s 'NetTools.RemoteFSO.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7FFFE503-AC6C-4B17-AB54-7733624BC775} = s 'RemoteFSO Class'
+		{
+			ProgID = s 'NetTools.RemoteFSO.1'
+			VersionIndependentProgID = s 'NetTools.RemoteFSO'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{D430659F-A6B1-4482-8EF0-31A450E4F268}'
+		}
+	}
+}
