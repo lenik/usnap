@@ -81,33 +81,19 @@ NoDriver:
     GuessDialect = "unknown"
 End Function
 
-Public Function ParamArrayToArray(ParamArray params_()) As Variant()
-    Dim Params
-    Params = params_(0)
-    Dim l As Integer
-    l = LBound(Params)
-    If l = UBound(Params) Then
-        If TypeName(Params(l)) = "Variant()" Then
-            ParamArrayToArray = Params(l)
-            Exit Function
-        End If
-    End If
-    ParamArrayToArray = Params
-End Function
-
 Private Function SQLParseSQLF(ByVal SqlfExp As String, ByVal VarMap As VBExt.Map, ByVal SQLF As SQLFunctions) As String
     Dim lt As Integer
     Dim gt As Integer
-    Dim name As String
+    Dim Name As String
     Dim Params
 
     lt = InStr(SqlfExp, "<")
     gt = InStr(SqlfExp, ">")
-    name = Mid(SqlfExp, 1, lt - 1)
+    Name = Mid(SqlfExp, 1, lt - 1)
     Params = Mid(SqlfExp, lt + 1, gt - lt - 1)
     Params = Split(Params, ",")
 
-    Select Case LCase(name)
+    Select Case LCase(Name)
     Case "concat"
         SQLParseSQLF = SQLF.Concat(Params)
     Case "left"
@@ -149,7 +135,7 @@ Private Function SQLParseSQLF(ByVal SqlfExp As String, ByVal VarMap As VBExt.Map
     Case "rtrim"
         SQLParseSQLF = SQLF.RTrim(Params(0))
     Case Else
-        SQLParseSQLF = name & "(" & Join(Params, ",") & ")"
+        SQLParseSQLF = Name & "(" & Join(Params, ",") & ")"
     End Select
 End Function
 
