@@ -38,7 +38,7 @@ Public Property Get NtCmd(ByVal Cmd As String, ParamArray params_()) As String
     Dim params
     params = ParamArrayToArray(params_)
 
-    NtCmd = Cmd & Join(params, " ") & ";"
+    NtCmd = Cmd & Join(params, " ") & ";" & vbNewLine
 End Property
 
 Public Function ParseCmd(ByVal CmdLine As String) As NtCommand

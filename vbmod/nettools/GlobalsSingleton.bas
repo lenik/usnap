@@ -38,16 +38,3 @@ Public Function ScriptEval(ByVal lang As String, ByVal script As String) As Stri
     Err.Raise 0, "Not implemented"
 End Function
 
-Public Function ParamArrayToArray(ParamArray params_()) As Variant()
-    Dim params
-    params = params_(0)
-    Dim l As Integer
-    l = LBound(params)
-    If l = UBound(params) Then
-        If TypeName(params(l)) = "Variant()" Then
-            ParamArrayToArray = params(l)
-            Exit Function
-        End If
-    End If
-    ParamArrayToArray = params
-End Function

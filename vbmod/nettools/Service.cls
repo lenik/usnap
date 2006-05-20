@@ -127,6 +127,10 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     addr = sd.RemoteAddress.GetAddressString
 
     s.Initialize sd
+
+    ' Add to sessions list
+    m_sessions(addr) = s
+
     RaiseEvent SessionBegin(s)
 End Sub
 
@@ -149,7 +153,10 @@ Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData
     addr = sd.RemoteAddress.GetAddressString
 
     Assert m_sessions.Contain(addr), "Session Lost", LOCATION
+
     Set s = m_sessions(addr)
+
+    ' Remove from sessions list
     m_sessions.Remove addr
 
     RaiseEvent SessionEnd(s)

@@ -95,7 +95,7 @@ End Sub
 Private Sub SendCmd(ByVal Cmd As String, ParamArray params_())
     Dim params
     params = ParamArrayToArray(params_)
-    SendCmd Cmd, params
+    m_sd.SendString NtCmd(Cmd, params), wnfAnsiStrings, wsoNone
 End Sub
 
 Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
