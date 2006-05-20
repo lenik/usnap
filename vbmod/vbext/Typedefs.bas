@@ -16,18 +16,7 @@ Public LXDefault As New LowXRuntime.PseudoControlSetting
 
 Public FSO As New Scripting.FileSystemObject
 
-Public Function ParseType(typeval) As ConfigEntryTypeConstants
-    On Error GoTo X
-    ParseType = cetText
-    Select Case LCase(typeval)
-    Case "path"
-        ParseType = cetFile
-    Case "sub"
-        ParseType = cetSub
-    End Select
-    Exit Function
-X:
-End Function
+Public FC As New ForceCast
 
 Public Function ParseMap(ByVal str As String) As VBExt.Map
     Set ParseMap = New VBExt.Map
