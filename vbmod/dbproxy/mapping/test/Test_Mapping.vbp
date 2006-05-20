@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{487159B4-4EA2-48A0-AA60-DE05CB2983DC}#1.0#0#..\Debug\mapping.dll#ADO Interface Mapping 1.0 Type Library
+Reference=*\G{487159B4-4EA2-48A0-AA60-DE05CB2983DC}#1.0#0#..\..\..\..\bin\adomap.dll#ADO Interface Mapping 1.0 Type Library
 Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#..\..\..\..\..\..\Program Files\Common Files\system\ado\msado15.dll#Microsoft ActiveX Data Objects 2.8 Library
 Reference=*\G{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}#1.1#0#..\..\..\..\bin\LowX.dll#LowX 1.1 Type Library
 Form=Form1.frm
