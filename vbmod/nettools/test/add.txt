@@ -1,0 +1,11 @@
+
+
+public const SYS_PWD="shape of my heart"
+
+if Type="runtime" Class="progid" [Param] Value=".."
+	Class Security.RSAEncrypted
+		Param PublicId = 'xxx'
+		-> Parse(Value)
+		-> Eval()
+
+Type="runtime" Param="Security.RSAEncrypted:PublicId=..." Value=...

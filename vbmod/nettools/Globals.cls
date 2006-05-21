@@ -30,6 +30,10 @@ Public Property Get AddressManager() As XceedWinsockLib.AddressManager
     Set AddressManager = GlobalsSingleton.AddressManager
 End Property
 
+Public Sub Secret_Randomize(ByVal l As Long)
+    Randomize l
+End Sub
+
 Public Property Get Secret(Optional ByVal MinLen As String = 4, Optional ByVal MaxLen As String = 30) As String
     Dim Consonnants As String
     Dim Vowels As String

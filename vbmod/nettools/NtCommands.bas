@@ -30,7 +30,7 @@ Public Const NTC_REQVOL                 As String = "NRV"
 ' AcptVol(vol-guid, vol-index)
 Public Const NTC_ACPTVOL                As String = "NAV"
 
-' Scripting(lang, script, sign): result/_R
+' Scripting(lang, script, 'S', sign): result/_R
 Public Const NTC_SCRIPT                 As String = "NSC"
 Public Const NTC_SCRIPT_R               As String = "NSCR"
 
@@ -38,10 +38,22 @@ Public Property Get NtCmd(ByVal Cmd As String, ParamArray params_()) As String
     Dim params
     params = ParamArrayToArray(params_)
 
-    NtCmd = Cmd & Join(params, " ") & ";" & vbNewLine
+    NtCmd = Cmd & " " & Join(params, " ") & ";" & vbNewLine
 End Property
 
 Public Function ParseCmd(ByVal CmdLine As String) As NtCommand
+    Dim c As String
+    Do
+        c = Right(CmdLine, 1)
+        If c = vbLf Or c = vbCr Or c = ";" Or c = " " Then
+            CmdLine = Left(CmdLine, Len(CmdLine) - 1)
+        Else
+            Exit Do
+        End If
+    Loop
+    ' Skip, return nothing
+    If CmdLine = "" Then Exit Function
+
     Set ParseCmd = New NtCommand
     ParseCmd.Init CmdLine
 End Function

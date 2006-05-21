@@ -33,6 +33,10 @@ Private m_sd_strings_c As Long
 Private m_sd_conn_c As Long
 
 Private m_session As Session
+Private m_session_events As SessionEvents
+
+Public Event SessionBegin(ByVal s As Session)
+Public Event SessionEnd(ByVal s As Session)
 
 Public Property Get Name() As String
     Name = m_Name
@@ -58,9 +62,19 @@ Public Property Let ServerPort(ByVal newval As Integer)
     m_addr.Port = newval
 End Property
 
+Public Sub SessionAdvise(ByVal sEvents As SessionEvents)
+    Set m_session_events = sEvents
+    If Not m_session Is Nothing Then m_session.Advise m_session_events
+End Sub
+
+Public Sub SessionUnadvise()
+    Set m_session_events = Nothing
+    If Not m_session Is Nothing Then m_session.Unadvise
+End Sub
+
 Public Function Connect(Optional ByVal ServerAddress As String, _
                         Optional ByVal ServerPort As Integer = 0, _
-                        Optional ByVal ClientName As String) As Session
+                        Optional ByVal ClientName As String) As Boolean
     If ServerAddress <> "" Then Me.ServerAddress = ServerAddress
     If ServerPort <> 0 Then Me.ServerPort = ServerPort
     If ClientName <> "" Then m_Name = ClientName
@@ -73,31 +87,31 @@ Public Function Connect(Optional ByVal ServerAddress As String, _
     If Err.Number <> 0 Then Exit Function
 
     Dim s As New Session
+    s.Initialize m_Name, m_sd
+    s.Advise m_session_events
 
-    s.Initialize m_sd
-
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_SETNAME, m_Name), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_SETKEY, s.Key.PublicKey), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_TOUCH, CDbl(Date + Time)), wnfAnsiStrings, wsoNone
-
-    m_sd_connected = True
     Set m_session = s
-    Set Connect = m_session
+    m_sd_connected = True
+
+    RaiseEvent SessionBegin(s)
+
+    ' NETCOMM
+    m_sd.SendString NtCmd(NTC_SETNAME, StringToBase64(m_Name), "S"), wnfAnsiStrings, wsoNone
+
+    ' NETCOMM
+    m_sd.SendString NtCmd(NTC_SETKEY, s.key.PublicKey, "S"), wnfAnsiStrings, wsoNone
+
+    ' NETCOMM
+    m_sd.SendString NtCmd(NTC_TOUCH, CDbl(Date + Time), "S"), wnfAnsiStrings, wsoNone
+
+    Connect = True
 End Function
 
 Public Function Disconnect() As Boolean
-    ' ???
     On Error Resume Next
         m_sd.Disconnect
-        If Err.Number <> 0 Then Exit Function
+        Disconnect = Err.Number = 0
     On Error GoTo 0
-
-    Disconnect = True
 End Function
 
 Private Sub Class_Initialize()
@@ -123,11 +137,23 @@ Private Sub Class_Terminate()
     m_sd.ConnectionUnadvise m_sd_conn_c
 End Sub
 
+Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
+    Dim s As Session
+    Set s = m_session
+    Set m_session = Nothing
+
+    m_sd_connected = False
+
+    RaiseEvent SessionEnd(s)
+End Sub
+
 Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, ByVal lUserParam As Long, ByVal lResultCode As Long)
     Assert xSocket Is m_sd
 
     Dim Cmd As NtCommand
     Set Cmd = ParseCmd(sString)
+    If Cmd Is Nothing Then Exit Sub
+
     m_session.ProcessCommand Cmd
 End Sub
 

@@ -35,6 +35,7 @@ Private m_sd_files_c As Long
 
 ' addr -> sessions
 Private m_sessions As New VBExt.Map
+Private m_session_events As SessionEvents
 
 Public Event SessionBegin(ByVal s As Session)
 Public Event SessionEnd(ByVal s As Session)
@@ -55,6 +56,26 @@ Public Property Let Port(ByVal newval As Integer)
     m_addr.Port = newval
 End Property
 
+Public Sub SessionAdvise(ByVal sEvents As SessionEvents)
+    Set m_session_events = sEvents
+    Dim k
+    Dim s As Session
+    For Each k In m_sessions.KeySet
+        Set s = m_sessions(k)
+        s.Advise m_session_events
+    Next
+End Sub
+
+Public Sub SessionUnadvise()
+    Set m_session_events = Nothing
+    Dim k
+    Dim s As Session
+    For Each k In m_sessions.KeySet
+        Set s = m_sessions(k)
+        s.Unadvise
+    Next
+End Sub
+
 Public Function Start(Optional ByVal Port As Integer = 0, _
                       Optional ByVal Name As String) As Boolean
     If Port <> 0 Then Me.Port = Port
@@ -74,6 +95,10 @@ End Function
 Public Function Stop_() As Boolean
     If Not m_sd_started Then Exit Function
 End Function
+
+Public Property Get Sessions() As VBExt.Map
+    Set Sessions = m_sessions
+End Property
 
 Private Sub Class_Initialize()
     m_Name = G.Secret
@@ -126,7 +151,8 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     Set sd = xIncomingSocket
     addr = sd.RemoteAddress.GetAddressString
 
-    s.Initialize sd
+    s.Initialize m_Name, sd
+    s.Advise m_session_events
 
     ' Add to sessions list
     m_sessions(addr) = s
@@ -145,21 +171,19 @@ End Sub
 
 Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, _
         vaCalleeData As Variant)
-    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
-    Dim addr As String
+    Dim addr
     Dim s As Session
 
-    Set sd = xSocket
-    addr = sd.RemoteAddress.GetAddressString
+    For Each addr In m_sessions.KeySet
+        Set s = m_sessions(addr)
+        If s.sd.CurrentState = wssInvalid Then
+            ' Remote from sessions list
+            m_sessions.Remove addr
+            s.Unadvise
 
-    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
-
-    Set s = m_sessions(addr)
-
-    ' Remove from sessions list
-    m_sessions.Remove addr
-
-    RaiseEvent SessionEnd(s)
+            RaiseEvent SessionEnd(s)
+        End If
+    Next
 End Sub
 
 Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
@@ -176,6 +200,8 @@ Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString
 
     Dim Cmd As NtCommand
     Set Cmd = ParseCmd(sString)
+
+    If Cmd Is Nothing Then Exit Sub
 
     s.ProcessCommand Cmd
 End Sub

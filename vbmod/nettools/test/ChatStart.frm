@@ -10,19 +10,19 @@ Begin VB.Form ChatStart
    ScaleWidth      =   4680
    Begin VB.CommandButton Command2
       Caption         =   "&Client"
-      Height          =   735
-      Left            =   1320
+      Height          =   1095
+      Left            =   1260
       TabIndex        =   1
-      Top             =   1860
+      Top             =   1560
       Width           =   2235
    End
    Begin VB.CommandButton Command1
       Caption         =   "&Server"
-      Height          =   795
-      Left            =   1320
+      Height          =   1035
+      Left            =   1260
       TabIndex        =   0
       Top             =   360
-      Width           =   1875
+      Width           =   2235
    End
 End
 Attribute VB_Name = "ChatStart"

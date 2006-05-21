@@ -11,30 +11,49 @@ Public G As New Globals
 
 Public Null_SessionEvents As New SessionEvents
 
-Public Function Base64ToString(ByVal Base64 As String, _
-                               Optional ByVal RawMode As Boolean = True) As String
-    Dim b64 As New Base64
-    b64.SetBase64 Base64
-    If RawMode Then
-        Base64ToString = b64.GetStringB
+Public Function ScriptEval(ByVal lang As String, ByVal script As String, _
+                           Optional ByVal Ret As Boolean = False) As Variant
+    Dim sc As New ScriptControl
+    sc.Language = lang
+    On Error GoTo x
+    If Ret Then
+        ScriptEval = sc.Eval(script)
     Else
-        Base64ToString = b64.GetString
+        sc.ExecuteStatement script
+    End If
+    On Error GoTo 0
+    Exit Function
+x:
+    Set ScriptEval = Err
+End Function
+
+Public Function MapFind(ByVal Map As VBExt.Map, ByVal ValuePattern As Variant) As Variant
+    ' Assert Not Map Is Nothing
+    If Map Is Nothing Then Exit Function
+
+    Dim finder As New KeyFinder
+
+    LC.Assign finder.ValuePattern, ValuePattern
+
+    Map.Walk finder
+
+    If finder.Found Then
+        LC.Assign MapFind, finder.FoundKey
     End If
 End Function
 
-Public Function StringToBase64(ByVal s, _
-                               Optional ByVal RawMode As Boolean = True) As String
-    Dim b64 As New Base64
-    If RawMode Then
-        b64.SetStringB s
-    Else
-        b64.SetString s
-    End If
-    StringToBase64 = b64.GetBase64
-End Function
+Public Function MapFind_SD(ByVal Map As VBExt.Map, ByVal sd As XceedWinsockLib.ConnectionOrientedSocket) As String
+    ' Assert Not Map Is Nothing
+    If Map Is Nothing Then Exit Function
 
-Public Function ScriptEval(ByVal lang As String, ByVal script As String) As String
-    '
-    Err.Raise 0, "Not implemented"
+    Dim finder As New KeyFinder_SD
+
+    LC.Assign finder.sd, sd
+
+    Map.Walk finder
+
+    If finder.Found Then
+        MapFind_SD = finder.FoundKey
+    End If
 End Function
 

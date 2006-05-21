@@ -31,6 +31,10 @@ Private m_Events As SessionEvents
 Private m_CurrentVolGuid As String
 Private m_CurrentVolInfo As New VolInfo
 
+Friend Property Get sd() As XceedWinsockLib.ConnectionOrientedSocket
+    Set sd = m_sd
+End Property
+
 Property Get PeerAddress() As String
     PeerAddress = m_PeerAddress
 End Property
@@ -47,8 +51,8 @@ Property Get PeerName() As String
     PeerName = m_PeerName
 End Property
 
-Property Get Key() As KeyExchange
-    Set Key = m_Key
+Property Get key() As KeyExchange
+    Set key = m_Key
 End Property
 
 Property Get PeerKey() As KeyExchange
@@ -72,17 +76,25 @@ Public Sub SendMessage(ByVal Message As String, Optional ByVal Encrypted As Bool
         Message = PeerKey.EncryptMessage(Message)
         SendCmd NTC_ENCRYPTEDMESSAGE, Message
     Else
-        Message = StringToBase64(Message, True)
+        Message = StringToBase64(Message)
         SendCmd NTC_MESSAGE, Message
     End If
 End Sub
 
-Public Sub SendFile()
-    '
+Public Sub SendFile(ByVal Path As String, ByVal SegmentSize As Long, Optional ByVal Passphrase As String)
+    Dim Zip As New XceedZipLib.XceedZip
+    Zip.License "ZIP50-JR393-AHS98-HRBA"
+    Zip.SplitSize = SegmentSize
+    'Zip.ZipFilename = tempfile
+    If Passphrase <> "" Then Zip.EncryptionPassword = Passphrase
+    Zip.Zip
+
+    m_CurrentVolInfo = New VolInfo
+    'm_CurrentVolGuid = randomguid
 End Sub
 
-Friend Sub Initialize(ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
-    'Set m_svc =
+Friend Sub Initialize(ByVal Name As String, ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
+    m_Name = Name
     Set m_sd = sd
 
     Dim addr As XceedWinsockLib.InetAddress
@@ -102,12 +114,16 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     Dim Text As String
     Dim AckMessage As String
     Dim VolIndex As Long
+    Dim Cancel As Boolean
+
+    m_Events.OnPreCommand Me, Cmd, Cancel
+    If Cancel Then Exit Sub
 
     Select Case UCase(Cmd.Name)
     Case NTC_SETNAME ' sender : recver
-        m_PeerName = Cmd.Parameter(1)
+        m_PeerName = Base64ToString(Cmd.Parameter(1))
         If Cmd.Parameter(2) = "S" Then
-            SendCmd NTC_SETNAME, m_Name, "R"
+            SendCmd NTC_SETNAME, StringToBase64(m_Name), "R"
         End If
     Case NTC_SETKEY
         m_PeerKey.PublicKey = Cmd.Parameter(1)
@@ -122,10 +138,10 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         End If
         m_Events.OnTouch Me
     Case NTC_MESSAGE
-        Text = Base64ToString(Cmd.Parameter(1), True)
+        Text = Base64ToString(Cmd.Parameter(1))
         m_Events.OnMessage Me, Text, False, AckMessage
         If Cmd.Parameter(2) = "S" Then
-            SendCmd NTC_TOUCH, StringToBase64(AckMessage), "R"
+            SendCmd NTC_MESSAGE, StringToBase64(AckMessage), "R"
         End If
     Case NTC_ENCRYPTEDMESSAGE
         Text = m_Key.DecryptMessage(Cmd.Parameter(1))
@@ -169,17 +185,41 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         ' mark as sent
         ' ...
     Case NTC_SCRIPT     ' lang, script
-        Text = Base64ToString(Cmd.Parameter(2), True)
-        Text = ScriptEval(Cmd.Parameter(1), Text)
-        ' NETCOMM
-        SendCmd NTC_SCRIPT_R, StringToBase64(Text, True)
+        Dim Sign As String
+        Sign = Cmd.Parameter(3)
+        Text = Base64ToString(Cmd.Parameter(2))
+
+        ' Check sign against Text ?
+        ' ...
+
+        Dim Ret As Variant
+        Dim SendRet As Boolean
+        SendRet = Cmd.Parameter(2) = "S"
+
+        LC.Assign Ret, ScriptEval(Cmd.Parameter(1), Text, SendRet)
+
+        If IsObject(Ret) Then
+            If Ret Is Err Then
+                Ret = "Error: " & Err.Number & vbNewLine _
+                    & Err.Source & vbNewLine _
+                    & Err.Description & vbNewLine
+            Else
+                Ret = "Object: " & TypeName(Ret)
+            End If
+        End If
+        If SendRet Then
+            ' NETCOMM
+            SendCmd NTC_SCRIPT_R, StringToBase64(Ret, True)
+        End If
     Case NTC_SCRIPT_R
         Text = Base64ToString(Cmd.Parameter(1), True)
         m_Events.OnScriptResult Me, Text
     End Select
+
+    m_Events.OnCommand Me, Cmd
 End Sub
 
 Private Sub Class_Initialize()
-    Set m_Events = Null_SessionEvents
-    Key.GenerateKeys
+    key.GenerateKeys
+    m_Name = G.Secret
 End Sub
