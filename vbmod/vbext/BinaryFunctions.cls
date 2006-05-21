@@ -14,7 +14,12 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Public Function Base64ToString(ByVal Base64 As String, _
-                               Optional ByVal RawMode As Boolean = True) As String
+                               Optional ByVal RawMode As Boolean = False) As String
+    If Left(Base64, 1) = "'" Then
+        Base64ToString = Mid(Base64, 2)
+        Exit Function
+    End If
+
     Dim b64 As New Base64
     b64.SetBase64 Base64
     If RawMode Then
@@ -25,7 +30,7 @@ Public Function Base64ToString(ByVal Base64 As String, _
 End Function
 
 Public Function StringToBase64(ByVal s, _
-                               Optional ByVal RawMode As Boolean = True) As String
+                               Optional ByVal RawMode As Boolean = False) As String
     Dim b64 As New Base64
     If RawMode Then
         b64.SetStringB s
@@ -36,9 +41,14 @@ Public Function StringToBase64(ByVal s, _
 End Function
 
 Public Function HexToString(ByVal Hex As String, _
-                            Optional ByVal RawMode As Boolean = True) As String
+                            Optional ByVal RawMode As Boolean = False) As String
+    If Left(Hex, 1) = "'" Then
+        HexToString = Mid(Hex, 2)
+        Exit Function
+    End If
+
     Dim b64 As New Base64
-    b64.sethex Hex
+    b64.SetHex Hex
     If RawMode Then
         HexToString = b64.GetStringB
     Else
@@ -47,12 +57,12 @@ Public Function HexToString(ByVal Hex As String, _
 End Function
 
 Public Function StringToHex(ByVal s, _
-                            Optional ByVal RawMode As Boolean = True) As String
+                            Optional ByVal RawMode As Boolean = False) As String
     Dim b64 As New Base64
     If RawMode Then
         b64.SetStringB s
     Else
         b64.SetString s
     End If
-    StringToHex = b64.gethex
+    StringToHex = b64.GetHex
 End Function
