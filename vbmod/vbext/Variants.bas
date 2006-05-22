@@ -7,7 +7,10 @@ Public HC As New Hashcode
 
 ' Common Functions
 
-Public Function Min(arg1, ParamArray args())
+Public Function Min(arg1, ParamArray args_())
+    Dim args
+    args = ParamArrayToArray(args_)
+
     Dim i As Integer
     Min = arg1
     For i = LBound(args) To UBound(args)
@@ -15,7 +18,10 @@ Public Function Min(arg1, ParamArray args())
     Next
 End Function
 
-Public Function Max(arg1, ParamArray args())
+Public Function Max(arg1, ParamArray args_())
+    Dim args
+    args = ParamArrayToArray(args_)
+
     Dim i As Integer
     Max = arg1
     For i = LBound(args) To UBound(args)
@@ -23,7 +29,10 @@ Public Function Max(arg1, ParamArray args())
     Next
 End Function
 
-Public Function Avg(arg1, ParamArray args())
+Public Function Avg(arg1, ParamArray args_())
+    Dim args
+    args = ParamArrayToArray(args_)
+
     Dim i As Integer
     Avg = arg1
     For i = LBound(args) To UBound(args)
@@ -32,7 +41,10 @@ Public Function Avg(arg1, ParamArray args())
     Avg = Avg / (UBound(args) - LBound(args) + 2)
 End Function
 
-Public Function AvgG(arg1, ParamArray args())
+Public Function AvgG(arg1, ParamArray args_())
+    Dim args
+    args = ParamArrayToArray(args_)
+
     Dim i As Integer
     Assert arg1 > 0, "Parameters of AvgG must be positive numbers", LOCATION
     AvgG = Log(arg1)

@@ -83,3 +83,27 @@ Public Function ParamArrayToArray(ParamArray params_()) As Variant()
     End If
     ParamArrayToArray = Params
 End Function
+
+' File System
+
+Public Function DirName(ByVal Path As String) As String
+    Dim pos As Integer
+    pos = Max(InStrRev(Path, "\"), InStrRev(Path, "/"))
+
+    If pos > 0 Then
+        DirName = Left(Path, pos - 1)
+    Else
+        DirName = "."
+    End If
+End Function
+
+Public Function BaseName(ByVal Path As String) As String
+    Dim pos As Integer
+    pos = Max(InStrRev(Path, "\"), InStrRev(Path, "/"))
+
+    If pos > 0 Then
+        BaseName = Mid(Path, pos + 1)
+    Else
+        BaseName = Path
+    End If
+End Function

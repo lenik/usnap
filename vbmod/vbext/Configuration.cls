@@ -20,44 +20,43 @@ Private Const DISPID_BASE = 10001
 
 Private m_Accessor As Object
 Private m_Name As String
-Private m_HomeDirectory As String
+Private m_HomeDir As String
 Private m_EntryName As Map
 Private m_EntryId As Map
 Private m_NextId As Integer
 
+Private m_TempDir As String
+
 Implements IDynamicObject
 
-' IDynamicObject::DynamicIndex
-Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
-    Dim ce
-    LC.Assign ce, m_EntryName(name)
-    If IsNull(ce) Then
-        ' Add null entry for dynamic adding properties
-        Item(name) = Null
-        LC.Assign ce, m_EntryName(name)
+Private Sub Class_Initialize()
+    Dim tempdir As String * 1000
+    Dim l As Long
+    l = GetTempPath(1000, tempdir)
+    TemporaryDirectory = Left(tempdir, l)
+End Sub
+
+Public Property Get TemporaryDirectory() As String
+    TemporaryDirectory = m_TempDir
+End Property
+
+Public Property Let TemporaryDirectory(ByVal newval As String)
+    If Right(newval, 1) = "\" Or Right(newval, 1) = "/" Then
+        newval = Left(newval, Len(newval) - 1)
     End If
-    IDynamicObject_DynamicIndex = ce.Id
-End Function
+    m_TempDir = newval
+End Property
 
-' IDynamicObject::DynamicInvoke
-Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal methodIndex As Long, Parameters As Variant) As Variant
-    Dim ce
-    LC.Assign ce, m_EntryId(methodIndex)
-    Assert Not IsNull(ce)
-
-    Select Case itype
-    Case InvokeMethod
-        ' ??
-    Case InvokePropertyGet
-        IDynamicObject_DynamicInvoke = ce.Value
-    Case InvokePropertyPut
-        ce.Value = Parameters(0)
-    Case InvokePropertyPutRef
-        Set ce.Value = Parameters(0)
-    End Select
-    Exit Function
-NotExist:
-    Unexpected
+Public Function TemporaryPath(Optional ByVal Prefix As String) As String
+    Dim tempfn As String * 1000
+    Dim l As Long
+    l = GetTempFileName(m_TempDir, Prefix, 0, tempfn)
+    l = InStr(tempfn, Chr(0))
+    If l > 0 Then
+        TemporaryPath = Left(tempfn, l - 1)
+    Else
+        TemporaryPath = tempfn
+    End If
 End Function
 
 ' Impl Utilities
@@ -82,17 +81,17 @@ Private Function RemoveEntry(name) As Boolean
 End Function
 
 Private Function AbsolutePath(ByVal SectionPath As String) As String
-    AbsolutePath = m_HomeDirectory & "\" & m_Name & SectionPath & EXTNAME
+    AbsolutePath = m_HomeDir & "\" & m_Name & SectionPath & EXTNAME
 End Function
 
 Private Sub LoadConfig(ByVal Section As String)
-    Dim path As String
+    Dim Path As String
     Dim xmldoc As New DOMDocument
 
-    path = AbsolutePath(Section)
-    If Not xmldoc.Load(path) Then
+    Path = AbsolutePath(Section)
+    If Not xmldoc.Load(Path) Then
         Err.Raise ERR_CANT_LOAD_CONFIG, LOCATION, _
-            "无法装载配置文件: " & path & vbNewLine _
+            "无法装载配置文件: " & Path & vbNewLine _
             & xmldoc.parseError.reason
     End If
 
@@ -142,11 +141,11 @@ Property Let name(ByVal newName As String)
 End Property
 
 Public Property Get HomeDirectory() As String
-    HomeDirectory = m_HomeDirectory
+    HomeDirectory = m_HomeDir
 End Property
 
 Public Property Let HomeDirectory(ByVal newHome As String)
-    m_HomeDirectory = newHome
+    m_HomeDir = newHome
 End Property
 
 Public Sub Reload(Optional ByVal IgnoreErrors As Boolean = False)
@@ -190,4 +189,37 @@ Public Function Accessor() As Object
         Set m_Accessor = LC.ImplementDynamicObject(Me)
     End If
     Set Accessor = m_Accessor
+End Function
+
+' IDynamicObject::DynamicIndex
+Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
+    Dim ce
+    LC.Assign ce, m_EntryName(name)
+    If IsNull(ce) Then
+        ' Add null entry for dynamic adding properties
+        Item(name) = Null
+        LC.Assign ce, m_EntryName(name)
+    End If
+    IDynamicObject_DynamicIndex = ce.Id
+End Function
+
+' IDynamicObject::DynamicInvoke
+Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal methodIndex As Long, Parameters As Variant) As Variant
+    Dim ce
+    LC.Assign ce, m_EntryId(methodIndex)
+    Assert Not IsNull(ce)
+
+    Select Case itype
+    Case InvokeMethod
+        ' ??
+    Case InvokePropertyGet
+        IDynamicObject_DynamicInvoke = ce.Value
+    Case InvokePropertyPut
+        ce.Value = Parameters(0)
+    Case InvokePropertyPutRef
+        Set ce.Value = Parameters(0)
+    End Select
+    Exit Function
+NotExist:
+    Unexpected
 End Function

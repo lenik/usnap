@@ -3,14 +3,14 @@ Option Explicit
 
 Private Const LOCATION = "VBExt::RuntimeControls"
 
-Public Function FindControl(ByVal outer As Object, ByVal key) As Object
+Public Function FindControl(ByVal outer As Object, ByVal Key) As Object
     On Error GoTo NoDef
-    Set FindControl = outer(key)
+    Set FindControl = outer(Key)
     Exit Function
 NoDef:
 
     'On Error GoTo NoControls
-    Set FindControl = CP_Controls_get(outer.Controls, key)
+    Set FindControl = CP_Controls_get(outer.Controls, Key)
     If FindControl Is Nothing Then GoTo NoControls
     Exit Function
 NoControls:
@@ -20,12 +20,12 @@ NoControls:
     For Each obj In outer
         If Not obj Is Nothing Then
             If LC.HasMember(obj, "Name") Then
-                If obj.name = key Then
+                If obj.name = Key Then
                     Set FindControl = obj
                     Exit Function
                 End If
             ElseIf LC.HasMember(obj, "name") Then
-                If obj.name = key Then
+                If obj.name = Key Then
                     Set FindControl = obj
                     Exit Function
                 End If

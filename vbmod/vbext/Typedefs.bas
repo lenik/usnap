@@ -18,6 +18,20 @@ Public FSO As New Scripting.FileSystemObject
 
 Public FC As New ForceCast
 
+Public Function ParamArrayToArray(ParamArray params_()) As Variant()
+    Dim Params
+    Params = params_(0)
+    Dim l As Integer
+    l = LBound(Params)
+    If l = UBound(Params) Then
+        If TypeName(Params(l)) = "Variant()" Then
+            ParamArrayToArray = Params(l)
+            Exit Function
+        End If
+    End If
+    ParamArrayToArray = Params
+End Function
+
 Public Function ParseMap(ByVal str As String) As VBExt.Map
     Set ParseMap = New VBExt.Map
     If str = "" Then Exit Function

@@ -32,7 +32,7 @@ Public Function KeySet() As Collection
     Set KeySet = New Collection
     For Each ent In m_Entries
         ' Assert no duplicated ent.key
-        KeySet.Add ent.key
+        KeySet.Add ent.Key
     Next
 End Function
 
@@ -46,49 +46,49 @@ Public Function Values()
     ReDim vlist(n)
     n = 0
     For Each ent In m_Entries
-        LC.Assign vlist(n), ent.value
+        LC.Assign vlist(n), ent.Value
         n = n + 1
     Next
     Values = vlist
 End Function
 
-Public Property Get Item(key)
+Public Property Get Item(Key)
 Attribute Item.VB_UserMemId = 0
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(key))
-    LC.Assign Item, ent.value
+    Set ent = m_Entries(CStr(Key))
+    LC.Assign Item, ent.Value
     Exit Property
 NotExist:
     Item = Null
 End Property
 
-Public Property Let Item(key, value)
+Public Property Let Item(Key, Value)
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(key))
-    ent.value = value
+    Set ent = m_Entries(CStr(Key))
+    ent.Value = Value
     Exit Property
 NotExist:
     Set ent = New Entry
-    ent.key = key
-    ent.value = value
-    m_Entries.Add ent, CStr(key)
+    ent.Key = Key
+    ent.Value = Value
+    m_Entries.Add ent, CStr(Key)
 End Property
 
-Public Function Contain(key) As Boolean
+Public Function Contain(Key) As Boolean
     Dim ent As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(key))
+    Set ent = m_Entries(CStr(Key))
     Contain = True
 NotExist:
 End Function
 
-Public Function Remove(key) As Boolean
+Public Function Remove(Key) As Boolean
     Dim ent  As Entry
     On Error GoTo NotExist
-    Set ent = m_Entries(CStr(key))
-    m_Entries.Remove CStr(key)
+    Set ent = m_Entries(CStr(Key))
+    m_Entries.Remove CStr(Key)
     Remove = True
 NotExist:
 End Function
@@ -97,7 +97,7 @@ Public Function Walk(it As Iterator) As Long
     Dim ent As Entry
     Walk = 0
     For Each ent In m_Entries
-        If Not it.Iterate(ent.key, ent.value) Then
+        If Not it.Iterate(ent.Key, ent.Value) Then
             Exit Function
         End If
         Walk = Walk + 1
@@ -114,26 +114,26 @@ Private Sub Class_Initialize()
     Clear
 End Sub
 
-Private Function Iterator_Iterate(key As Variant, value As Variant) As Boolean
+Private Function Iterator_Iterate(Key As Variant, Value As Variant) As Boolean
     Dim seg As String
     Dim qq As Boolean
 
     qq = True
-    If InStr(value, "\") > 0 Then       ' \\
-    ElseIf InStr(value, """") > 0 Then  ' \"
-    ElseIf InStr(value, vbNewLine) > 0 Then ' \n
+    If InStr(Value, "\") > 0 Then       ' \\
+    ElseIf InStr(Value, """") > 0 Then  ' \"
+    ElseIf InStr(Value, vbNewLine) > 0 Then ' \n
     Else
         qq = False
     End If
 
     If qq Then
-        value = Replace(value, "\", "\\")
-        value = Replace(value, """", "\""")
-        value = Replace(value, vbNewLine, "\n")
-        value = """" & value & """"
+        Value = Replace(Value, "\", "\\")
+        Value = Replace(Value, """", "\""")
+        Value = Replace(Value, vbNewLine, "\n")
+        Value = """" & Value & """"
     End If
 
-    seg = key & "=" & value
+    seg = Key & "=" & Value
     If m_Serialization <> "" Then m_Serialization = m_Serialization & ":"
     m_Serialization = m_Serialization & seg
 

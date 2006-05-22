@@ -54,7 +54,7 @@ Public Sub Assert(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
+        If IsMissing(loc) Then loc = App.Path
         Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
     End If
 End Sub
@@ -67,7 +67,7 @@ Public Sub Warning(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
+        If IsMissing(loc) Then loc = App.Path
         Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
     End If
 End Sub
@@ -75,12 +75,12 @@ End Sub
 ' COPY GlobalsSingleton.Unexpected
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-    If IsMissing(loc) Then loc = App.path
+    If IsMissing(loc) Then loc = App.Path
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
-Public Function FindControl(ByVal outer As Object, ByVal key) As Object
-    Set FindControl = RuntimeControls.FindControl(outer, key)
+Public Function FindControl(ByVal outer As Object, ByVal Key) As Object
+    Set FindControl = RuntimeControls.FindControl(outer, Key)
 End Function
 
 Public Function FindControls(ByVal outer As Object) As Map
