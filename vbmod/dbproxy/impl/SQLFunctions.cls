@@ -105,12 +105,12 @@ Public Function Trim(ByVal F As String) As String
     Trim = "trim(" & F & ")"
 End Function
 
-Public Property Get T() As String
-    T = "1"
+Public Property Get ConstTrue() As String
+    ConstTrue = "1"
 End Property
 
-Public Property Get F() As String
-    F = "1"
+Public Property Get ConstFalse() As String
+    ConstFalse = "0"
 End Property
 
 Public Function IsTrue(ByVal F As String, Optional ByVal WhatIfNull As BoolBinOpCompMethodConstants = boAndNot) As String

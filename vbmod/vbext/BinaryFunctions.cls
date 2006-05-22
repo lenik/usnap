@@ -57,12 +57,13 @@ Public Function HexToString(ByVal Hex As String, _
 End Function
 
 Public Function StringToHex(ByVal s, _
-                            Optional ByVal RawMode As Boolean = False) As String
+                            Optional ByVal RawMode As Boolean = False, _
+                            Optional ByVal Separator As String = "") As String
     Dim b64 As New Base64
     If RawMode Then
         b64.SetStringB s
     Else
         b64.SetString s
     End If
-    StringToHex = b64.GetHex
+    StringToHex = b64.GetHex(Separator)
 End Function

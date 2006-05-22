@@ -57,7 +57,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\Debug
 TargetPath=.\Debug\binary.dll
@@ -92,7 +92,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # Begin Custom Build - Performing registration
 OutDir=.\DebugU
 TargetPath=.\DebugU\binary.dll
@@ -133,7 +133,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinSize
 TargetPath=\.lokaj\zbmis\bin\binary.dll
@@ -168,7 +168,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseMinDependency
 TargetPath=\.lokaj\zbmis\bin\binary.dll
@@ -203,7 +203,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseUMinSize
 TargetPath=\.lokaj\zbmis\bin\binary.dll
@@ -244,7 +244,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\ReleaseUMinDependency
 TargetPath=\.lokaj\zbmis\bin\binary.dll
@@ -286,7 +286,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_us.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_us.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\binary___Win32_Deploy_US
 TargetPath=\.lokaj\zbmis\module\binary\bin\binary_us.dll
@@ -328,7 +328,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../../bin/binary.dll"
-# ADD LINK32 kernel32.lib uuid.lib iconv.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_ud.dll"
+# ADD LINK32 kernel32.lib uuid.lib iconv.lib comsupp.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../bin/binary_ud.dll"
 # Begin Custom Build - Performing registration
 OutDir=.\binary___Win32_Deploy_UD
 TargetPath=\.lokaj\zbmis\module\binary\bin\binary_ud.dll

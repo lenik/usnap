@@ -113,10 +113,10 @@ Private Function SQLFunctions_StrPos(ByVal F As String, ByVal pattern As String,
     End If
 End Function
 
-Private Property Get SQLFunctions_T() As String
-    SQLFunctions_T = SQLF_Default.T
+Private Property Get SQLFunctions_ConstTrue() As String
+    SQLFunctions_ConstTrue = "-1"
 End Property
 
-Private Property Get SQLFunctions_F() As String
-    SQLFunctions_F = SQLF_Default.F
+Private Property Get SQLFunctions_ConstFalse() As String
+    SQLFunctions_ConstFalse = SQLF_Default.ConstFalse
 End Property

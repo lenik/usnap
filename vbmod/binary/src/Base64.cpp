@@ -218,6 +218,8 @@ STDMETHODIMP CBase64::GetHex(BSTR separator, BSTR *hexes)
     int sep_len = strlen(sep);
 
 	size_t cc = m_RawSize * (2 + sep_len);
+	if (cc > 0) cc -= sep_len;
+
     wchar_t *buf = (wchar_t *)malloc(cc * 2);
     if (buf == NULL)
         return E_OUTOFMEMORY;
