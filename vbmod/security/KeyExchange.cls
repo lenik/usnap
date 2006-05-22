@@ -91,6 +91,8 @@ Public Function Slave_RecvSecret(ByVal EncryptedSecret As String) As String
 End Function
 
 Private Sub Class_Initialize()
+    m_Crypt.License LICENSE_XC_ENCRYPT
+
     m_Seed = CLng(Rnd * &H7FFFFFFF)
     m_RSA.SetRandomKeyPair RSA_KEYSIZE, m_Seed
     Set m_Crypt.EncryptionMethod = m_RSA

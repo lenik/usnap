@@ -28,8 +28,8 @@ Private m_PeerTZOffset As Double
 
 Private m_Events As SessionEvents
 
-Private m_CurrentVolGuid As String
-Private m_CurrentVolInfo As New VolInfo
+Private m_SendFiles As New VBExt.Map
+Private m_TrID As Long
 
 Friend Property Get sd() As XceedWinsockLib.ConnectionOrientedSocket
     Set sd = m_sd
@@ -51,8 +51,8 @@ Property Get PeerName() As String
     PeerName = m_PeerName
 End Property
 
-Property Get key() As KeyExchange
-    Set key = m_Key
+Property Get Key() As KeyExchange
+    Set Key = m_Key
 End Property
 
 Property Get PeerKey() As KeyExchange
@@ -81,16 +81,60 @@ Public Sub SendMessage(ByVal Message As String, Optional ByVal Encrypted As Bool
     End If
 End Sub
 
-Public Sub SendFile(ByVal Path As String, ByVal SegmentSize As Long, Optional ByVal Passphrase As String)
-    Dim Zip As New XceedZipLib.XceedZip
-    Zip.License "ZIP50-JR393-AHS98-HRBA"
-    Zip.SplitSize = SegmentSize
-    'Zip.ZipFilename = tempfile
-    If Passphrase <> "" Then Zip.EncryptionPassword = Passphrase
-    Zip.Zip
+Private Sub SendQueue()
+    Dim TrID
+    Dim pf As PutFile
+    For Each TrID In m_SendFiles.KeySet
+        Set pf = m_SendFiles(TrID)
+        ' PutFile(tr-id, size, [name], [cat], [hash], <size bytes>...>): ack/_R
+        SendCmd NTC_PUTFILE, pf.Size, pf.Category, pf.Hashcode
+        m_sd.SendFile pf.LocalPath, 0, 0, 0
+    Next
+End Sub
 
-    m_CurrentVolInfo = New VolInfo
-    'm_CurrentVolGuid = randomguid
+Public Sub SendFile(ByVal Path As String, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+    Dim pf As New PutFile
+    pf.Category = Category
+    pf.RemoteName = BaseName(Path)
+    If Encrypted Then
+        Dim encfile As String
+        Dim enc As New XceedEncryptionLib.XceedEncryption
+        Dim rsa As New XceedEncryptionLib.XceedRSAEncryptionMethod
+        Dim temppath As String
+        Dim cbRead
+
+        enc.License LICENSE_XC_ENCRYPT
+        rsa.PublicKey = m_PeerKey.PublicKey
+        Set enc.EncryptionMethod = rsa
+        temppath = Application.TemporaryPath
+        enc.ProcessFile pf.LocalPath, 0, 0, efpEncrypt, True, _
+                        temppath, False, cbRead
+
+        pf.SetTemporaryPath temppath
+    Else
+        pf.LocalPath = Path
+    End If
+    pf.UpdateHashcode
+    ' If Not pf.isValid Then ...
+
+    m_TrID = m_TrID + 1
+    Set m_SendFiles(m_TrID) = pf
+
+    SendQueue
+End Sub
+
+Public Sub SendFiles(ByVal Paths As Collection, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+    Dim p
+    For Each p In Paths
+        SendFile p, Category, Encrypted
+    Next
+End Sub
+
+Public Sub SendDirectory(ByVal Directory As String, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+    Dim f
+    For Each f In FSO.GetFolder(Directory).Files
+        SendFile f.Path, Category, Encrypted
+    Next
 End Sub
 
 Friend Sub Initialize(ByVal Name As String, ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
@@ -113,8 +157,13 @@ End Sub
 Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     Dim Text As String
     Dim AckMessage As String
-    Dim VolIndex As Long
+    Dim TrID As Long
+    Dim URI As String
+    Dim Size As Long
     Dim Cancel As Boolean
+    Dim Response
+    Dim pf As PutFile
+    Dim Hashcode As String
 
     m_Events.OnPreCommand Me, Cmd, Cancel
     If Cancel Then Exit Sub
@@ -149,41 +198,47 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         If Cmd.Parameter(2) = "S" Then
             SendCmd NTC_ENCRYPTEDMESSAGE, m_PeerKey.EncryptMessage(AckMessage), "R"
         End If
-    Case NTC_VOLINFO
-        ' send vol-info-xml
-        ' ...
-    Case NTC_VOLINFO_R
-        Dim vi As New VolInfo
-        Dim unsent_index
-        Text = Base64ToString(Cmd.Parameter(1))
-        vi.ParseXML Text
-        Set m_CurrentVolInfo = vi
-        For Each unsent_index In vi.UnsentSegments(True)
-            ' Retry unsent segments
-            SendCmd NTC_REQVOL, m_CurrentVolGuid, unsent_index
-        Next
-    Case NTC_PUTVOL
-        m_Events.OnVolumes Me
-        Assert Cmd.Parameter(1) = m_CurrentVolGuid
-        VolIndex = Val(Cmd.Parameter(2))
-        ' m_sd.ReceiveFile tmpfile, 0, 0, 0
-        If True Then ' checksum ok
-            SendCmd NTC_ACPTVOL, m_CurrentVolGuid, VolIndex
+    Case NTC_GET
+        TrID = CLng(Cmd.Parameter(1))
+        URI = Base64ToString(Cmd.Parameter(2))
+        m_Events.OnGet Me, URI, Response
+        SendCmd NTC_RESPONSE, TrID, Len(Response)
+        m_sd.SendBytes Response, wsoNone
+    Case NTC_RESPONSE
+        TrID = CLng(Cmd.Parameter(1))
+        Size = CLng(Cmd.Parameter(2))
+        m_sd.ReceiveBytes Size, Response, wroWaitForData
+        'URI=uris(TrID)
+        m_Events.OnResponse Me, URI, Response
+    Case NTC_PUTFILE
+        TrID = CLng(Cmd.Parameter(1))
+        Size = CLng(Cmd.Parameter(2))
+
+        pf.RemoteName = Base64ToString(Cmd.Parameter(3))
+        pf.Category = Base64ToString(Cmd.Parameter(4))
+        Hashcode = Cmd.Parameter(5)
+
+        pf.SetTemporaryPath
+
+        m_sd.ReceiveFile pf.LocalPath, 0, 0, 0
+
+        pf.UpdateHashcode
+
+        If Hashcode = pf.Hashcode Then
+            SendCmd NTC_PUTFILE_R, TrID, "A"
         Else
-            SendCmd NTC_REQVOL, m_CurrentVolGuid, VolIndex
+            SendCmd NTC_PUTFILE_R, TrID, "R"
         End If
-    Case NTC_REQVOL
-        ' request to send specified vol-segment
-        ' just do send
-        Assert Cmd.Parameter(1) = m_CurrentVolGuid
-        VolIndex = Val(Cmd.Parameter(2))
-        ' force unmark if already marked
-        ' ...
-        SendCmd NTC_PUTVOL, m_CurrentVolGuid, VolIndex
-    Case NTC_ACPTVOL
-        ' specified vol-segment accepted
-        ' mark as sent
-        ' ...
+    Case NTC_PUTFILE_R
+        TrID = CLng(Cmd.Parameter(1))
+        Text = Cmd.Parameter(2)
+        If Text = "A" Then              ' Acknowledged
+            m_SendFiles.Remove TrID
+        Else                            ' Re-send
+            ' Assert Text = "R"
+            Set pf = m_SendFiles(TrID)
+            ' pf.Send
+        End If
     Case NTC_SCRIPT     ' lang, script
         Dim Sign As String
         Sign = Cmd.Parameter(3)
@@ -220,6 +275,6 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
 End Sub
 
 Private Sub Class_Initialize()
-    key.GenerateKeys
+    Key.GenerateKeys
     m_Name = G.Secret
 End Sub

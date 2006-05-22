@@ -19,11 +19,11 @@ Public Found As Boolean
 Public FoundKey As Variant
 Public ValuePattern As Variant
 
-Private Function Iterator_Iterate(key As Variant, Value As Variant) As Boolean
+Private Function Iterator_Iterate(Key As Variant, Value As Variant) As Boolean
     If IsObject(ValuePattern) Then
         If IsObject(Value) Then
             If ValuePattern Is Value Then
-                LC.Assign FoundKey, key
+                LC.Assign FoundKey, Key
                 Found = True
                 Iterator_Iterate = False
                 Exit Function
@@ -33,7 +33,7 @@ Private Function Iterator_Iterate(key As Variant, Value As Variant) As Boolean
         If Not IsObject(Value) Then
             On Error GoTo NotMatched
             If ValuePattern = Value Then
-                LC.Assign FoundKey, key
+                LC.Assign FoundKey, Key
                 Found = True
                 Iterator_Iterate = False
                 Exit Function

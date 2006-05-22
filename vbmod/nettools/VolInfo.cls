@@ -17,18 +17,26 @@ Private Const LOCATION                  As String = "NetTools::VolInfo"
 
 Private m_Name As String
 Private m_Category As String
-Private m_Segments
+Private m_Segments As New BasTypeLib.Vector
 
 Public Property Get Name() As String
     Name = m_Name
+End Property
+
+Public Property Let Name(ByVal newval As String)
+    m_Name = newval
 End Property
 
 Public Property Get Category() As String
     Category = m_Category
 End Property
 
+Public Property Let Category(ByVal newval As String)
+    m_Category = newval
+End Property
+
 Public Property Get Segments() As Long
-    Segments = m_Segments.Count
+    Segments = m_Segments.Size
 End Property
 
 Public Property Get Segment(ByVal index As Long) As VolSegment
@@ -37,7 +45,7 @@ Public Property Get Segment(ByVal index As Long) As VolSegment
     Set Segment = m_Segments(index)
 End Property
 
-Public Property Get AvailableSegments(Optional ByVal GetCollection As Boolean = False)
+Public Property Get AvailableSegments(Optional ByVal GetCollection As Boolean = False) As Integer
     If GetCollection Then
         Set AvailableSegments = New Collection
     Else
@@ -57,7 +65,7 @@ Public Property Get AvailableSegments(Optional ByVal GetCollection As Boolean = 
     Next
 End Property
 
-Public Property Get UnsentSegments(Optional ByVal GetCollection As Boolean = False)
+Public Property Get UnsentSegments(Optional ByVal GetCollection As Boolean = False) As Integer
     If GetCollection Then
         Set UnsentSegments = New Collection
     Else
@@ -118,4 +126,18 @@ Friend Function ParseXML(ByVal xmldoc As String) As Boolean
     Next
 
     ParseXML = True
+End Function
+
+Friend Function BuildXML() As String
+    Dim segs As String
+
+
+    BuildXML = "<?xml version='1.0' encoding='gb2312'?>" & vbNewLine & _
+               "<volinfo>" & vbNewLine & _
+               "  <name>" & m_Name & "</name>" & vbNewLine & _
+               "  <category>" & m_Category & "</category>" & vbNewLine & _
+               "  <segments>" & vbNewLine & _
+               segs & _
+               "  </segments>" & vbNewLine & _
+               "</volinfo>"
 End Function

@@ -7,6 +7,9 @@ Public SocketFactory As New SocketFactory
 
 Public LicenseManager_WSL As New XceedWinsockLib.LicenseManager
 
+Public HASH_HAVAL As New XceedEncryptionLib.XceedHavalHashingMethod
+Public HASH_SHA1 As New XceedEncryptionLib.XceedSHAHashingMethod
+
 Public G As New Globals
 
 Public Null_SessionEvents As New SessionEvents
@@ -57,3 +60,13 @@ Public Function MapFind_SD(ByVal Map As VBExt.Map, ByVal sd As XceedWinsockLib.C
     End If
 End Function
 
+Public Function FileHash(ByVal Path As String) As String
+    Dim h As New XceedEncryptionLib.XceedHashing
+    Dim sha1 As New XceedEncryptionLib.XceedSHAHashingMethod
+    h.License LICENSE_XC_ENCRYPT
+
+    Set h.HashingMethod = sha1
+    h.ReadFile Path, 0, 0, efpHash, True
+
+    FileHash = Replace(StringToBase64(sha1.HashValue), " ", "")
+End Function

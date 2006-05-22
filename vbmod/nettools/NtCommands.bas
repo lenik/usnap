@@ -16,19 +16,21 @@ Public Const NTC_MESSAGE                As String = "NMS"
 ' EncryptedMessage(encrypted-message, 'S'): ack-encrypted-message/R
 Public Const NTC_ENCRYPTEDMESSAGE       As String = "NEM"
 
-' VolInfo(vol-guid): vol-infoo/_R
-' VolInfoR(vol-guid vol-cat vol-name vol-segs)
-Public Const NTC_VOLINFO                As String = "NVI"
-Public Const NTC_VOLINFO_R              As String = "NVIR"
+' PutFile(tr-id, size, [name], [cat], [hash], <size bytes>...>): ack/_R
+' NPF .... ; \n
+' xxxx...xxx
+Public Const NTC_PUTFILE                As String = "NPF"
 
-' PutVol(vol-guid, vol-index, vol-data)
-Public Const NTC_PUTVOL                 As String = "NPV"
+' PutFileR('A'ck/'R'esend)
+Public Const NTC_PUTFILE_R              As String = "NPFR"
 
-' ReqVol(vol-guid, vol-index): vol-data/PUTVOL
-Public Const NTC_REQVOL                 As String = "NRV"
+' Get(tr-id, uri)
+Public Const NTC_GET                    As String = "NGT"
 
-' AcptVol(vol-guid, vol-index)
-Public Const NTC_ACPTVOL                As String = "NAV"
+' Response(tr-id, size)
+' NRS ... nnn; \n
+' xxxx...xxx
+Public Const NTC_RESPONSE               As String = "NRS"
 
 ' Scripting(lang, script, 'S', sign): result/_R
 Public Const NTC_SCRIPT                 As String = "NSC"
