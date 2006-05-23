@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "Utilities"
+Attribute VB_Name = "BinaryUtilities"
 Attribute VB_GlobalNameSpace = True
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -45,9 +45,10 @@ Public Function BinaryToText(ByVal base64 As String, Optional ByVal encoding As 
 End Function
 
 Public Function BinaryToPicture(ByVal base64 As String, Optional Size, Optional ColorDepth, Optional X, Optional Y) As StdPicture
-    Dim temppath
-    temppath = GetTemp("pic")
+    Dim temppath As String
+    temppath = Application.TemporaryPath("pic")
     m_Base64.SetBase64 base64
     m_Base64.WriteFile temppath
     Set BinaryToPicture = LoadPicture(temppath, Size, ColorDepth, X, Y)
+    FSO.DeleteFile temppath, True
 End Function
