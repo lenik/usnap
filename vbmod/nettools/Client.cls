@@ -99,7 +99,7 @@ Public Function Connect(Optional ByVal ServerAddress As String, _
     m_sd.SendString NtCmd(NTC_SETNAME, StringToBase64(m_Name), "S"), wnfAnsiStrings, wsoNone
 
     ' NETCOMM
-    m_sd.SendString NtCmd(NTC_SETKEY, s.key.PublicKey, "S"), wnfAnsiStrings, wsoNone
+    m_sd.SendString NtCmd(NTC_SETKEY, s.Key.PublicKey, "S"), wnfAnsiStrings, wsoNone
 
     ' NETCOMM
     m_sd.SendString NtCmd(NTC_TOUCH, CDbl(Date + Time), "S"), wnfAnsiStrings, wsoNone
@@ -137,7 +137,9 @@ Private Sub Class_Terminate()
     m_sd.ConnectionUnadvise m_sd_conn_c
 End Sub
 
-Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
+Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, _
+                                     ByVal vaCallerData As Variant, _
+                                     vaCalleeData As Variant)
     Dim s As Session
     Set s = m_session
     Set m_session = Nothing
@@ -147,7 +149,34 @@ Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData
     RaiseEvent SessionEnd(s)
 End Sub
 
-Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, ByVal lUserParam As Long, ByVal lResultCode As Long)
+Private Sub m_sd_files_OnFileReceived(ByVal xSocket As Object, ByVal sFilename As String, _
+                                      ByVal lStartOffset As Long, ByVal lBytesReceived As Long, _
+                                      ByVal lBytesTotal As Long, ByVal lUserParam As Long, _
+                                      ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+    Assert xSocket Is m_sd
+    Assert Not m_session Is Nothing
+    If bTransferCompleted Then
+        m_session.ProcessFileReceived sFilename
+    Else
+        m_session.ProcessFileReceiving sFilename, lStartOffset, lBytesReceived, lBytesTotal
+    End If
+End Sub
+
+Private Sub m_sd_files_OnFileSent(ByVal xSocket As Object, ByVal sFilename As String, _
+                                  ByVal lStartOffset As Long, ByVal lBytesSent As Long, _
+                                  ByVal lBytesTotal As Long, ByVal lUserParam As Long, _
+                                  ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+    Assert xSocket Is m_sd
+    Assert Not m_session Is Nothing
+    If bTransferCompleted Then
+        m_session.ProcessFileSent sFilename
+    Else
+        m_session.ProcessFileSending sFilename, lStartOffset, lBytesSent, lBytesTotal
+    End If
+End Sub
+
+Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
+                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
     Assert xSocket Is m_sd
 
     Dim Cmd As NtCommand
@@ -157,6 +186,7 @@ Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString
     m_session.ProcessCommand Cmd
 End Sub
 
-Private Sub m_sd_strings_OnStringSent(ByVal xSocket As Object, ByVal lUserParam As Long, ByVal lResultCode As Long)
+Private Sub m_sd_strings_OnStringSent(ByVal xSocket As Object, ByVal lUserParam As Long, _
+                                      ByVal lResultCode As Long)
     'm_Session.ProcessCommand
 End Sub

@@ -92,25 +92,22 @@ Private Sub SendQueue()
     Next
 End Sub
 
-Public Sub SendFile(ByVal Path As String, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+Public Sub SendFile(ByVal Path As String, ByVal Category As String, _
+                    Optional ByVal Encrypted As Boolean = False, _
+                    Optional ByVal RemoteName As String)
     Dim pf As New PutFile
     pf.Category = Category
-    pf.RemoteName = BaseName(Path)
+    If RemoteName = "" Then
+        pf.RemoteName = BaseName(Path)
+    Else
+        pf.RemoteName = RemoteName
+    End If
+
     If Encrypted Then
-        Dim encfile As String
-        Dim enc As New XceedEncryptionLib.XceedEncryption
-        Dim rsa As New XceedEncryptionLib.XceedRSAEncryptionMethod
-        Dim temppath As String
-        Dim cbRead
-
-        enc.License LICENSE_XC_ENCRYPT
-        rsa.PublicKey = m_PeerKey.PublicKey
-        Set enc.EncryptionMethod = rsa
-        temppath = Application.TemporaryPath
-        enc.ProcessFile pf.LocalPath, 0, 0, efpEncrypt, True, _
-                        temppath, False, cbRead
-
-        pf.SetTemporaryPath temppath
+        Dim srcpath As String
+        srcpath = pf.LocalPath
+        pf.SetTemporaryPath
+        m_PeerKey.EncryptFile srcpath, pf.LocalPath
     Else
         pf.LocalPath = Path
     End If
@@ -123,14 +120,16 @@ Public Sub SendFile(ByVal Path As String, ByVal Category As String, Optional ByV
     SendQueue
 End Sub
 
-Public Sub SendFiles(ByVal Paths As Collection, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+Public Sub SendFiles(ByVal Paths As Collection, ByVal Category As String, _
+                     Optional ByVal Encrypted As Boolean = False)
     Dim p
     For Each p In Paths
         SendFile p, Category, Encrypted
     Next
 End Sub
 
-Public Sub SendDirectory(ByVal Directory As String, ByVal Category As String, Optional ByVal Encrypted As Boolean = False)
+Public Sub SendDirectory(ByVal Directory As String, ByVal Category As String, _
+                         Optional ByVal Encrypted As Boolean = False)
     Dim f
     For Each f In FSO.GetFolder(Directory).Files
         SendFile f.Path, Category, Encrypted
@@ -272,6 +271,24 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     End Select
 
     m_Events.OnCommand Me, Cmd
+End Sub
+
+Friend Sub ProcessFileSending(ByVal FileName As String, ByVal StartOffset As Long, _
+                              ByVal BytesSent As Long, ByVal BytesTotal As Long)
+
+End Sub
+
+Friend Sub ProcessFileSent(ByVal FileName As String)
+
+End Sub
+
+Friend Sub ProcessFileReceiving(ByVal FileName As String, ByVal StartOffset As Long, _
+                                ByVal BytesReceived As Long, ByVal BytesTotal As Long)
+
+End Sub
+
+Friend Sub ProcessFileReceived(ByVal FileName As String)
+
 End Sub
 
 Private Sub Class_Initialize()

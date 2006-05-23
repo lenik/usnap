@@ -34,25 +34,31 @@ Private m_flags As SocketFlagsConstants
     Event Closed()
     Event Connected()
     Event ConnectionRequest(ByVal requestID As Long)
-    Event DataArrival(ByVal bytesTotal As Long)
-    Event Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    Event DataArrival(ByVal BytesTotal As Long)
+    Event Error(ByVal Number As Integer, Description As String, _
+                ByVal Scode As Long, ByVal Source As String, _
+                ByVal HelpFile As String, ByVal HelpContext As Long, _
+                CancelDisplay As Boolean)
     Event SendComplete()
-    Event SendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    Event SendProgress(ByVal BytesSent As Long, ByVal bytesRemaining As Long)
 
 ' Socket API
 
 Public Tag As String
 
-Public Function Send(Data As Variant, ByVal Size As Long, Optional ByVal Blocked As Boolean) As Long
+Public Function Send(Data As Variant, ByVal Size As Long, _
+                     Optional ByVal Blocked As Boolean) As Long
     ' m_ctrl.SendData pData
     ' Send m_ctrl.SocketHandle
 End Function
 
-Public Function Recv(Data As Variant, ByVal Size As Long, Optional ByVal Blocked As Boolean) As Long
+Public Function Recv(Data As Variant, ByVal Size As Long, _
+                     Optional ByVal Blocked As Boolean) As Long
     '
 End Function
 
-Public Function Peek(Data As Variant, ByVal Size As Long, Optional ByVal Blocked As Boolean) As Long
+Public Function Peek(Data As Variant, ByVal Size As Long, _
+                     Optional ByVal Blocked As Boolean) As Long
     '
 End Function
 
@@ -104,11 +110,14 @@ Friend Sub OnConnectionRequest(ByVal requestID As Long)
     RaiseEvent ConnectionRequest(requestID)
 End Sub
 
-Friend Sub OnDataArrival(ByVal bytesTotal As Long)
-    RaiseEvent DataArrival(bytesTotal)
+Friend Sub OnDataArrival(ByVal BytesTotal As Long)
+    RaiseEvent DataArrival(BytesTotal)
 End Sub
 
-Friend Sub OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+Friend Sub OnError(ByVal Number As Integer, Description As String, _
+                   ByVal Scode As Long, ByVal Source As String, _
+                   ByVal HelpFile As String, ByVal HelpContext As Long, _
+                   CancelDisplay As Boolean)
     If m_servmode And sfAutoRebind Then
         Rebind
     ElseIf Not m_servmode And sfAutoReconnect Then
@@ -123,6 +132,6 @@ Friend Sub OnSendComplete()
     RaiseEvent SendComplete
 End Sub
 
-Friend Sub OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
-    RaiseEvent SendProgress(bytesSent, bytesRemaining)
+Friend Sub OnSendProgress(ByVal BytesSent As Long, ByVal bytesRemaining As Long)
+    RaiseEvent SendProgress(BytesSent, bytesRemaining)
 End Sub

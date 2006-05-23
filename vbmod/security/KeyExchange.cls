@@ -74,6 +74,20 @@ Public Function DecryptMessage(ByVal EncryptedMessage As String) As String
     DecryptMessage = Message
 End Function
 
+Public Function EncryptFile(ByVal DecryptedFile As String, ByVal EncryptedFile As String) As Long
+    Dim cbBytes
+    m_Crypt.ProcessFile DecryptedFile, 0, 0, efpEncrypt, True, _
+                        EncryptedFile, False, cbBytes
+    EncryptedFile = cbBytes
+End Function
+
+Public Function DecryptFile(ByVal EncryptedFile As String, ByVal DecryptedFile As String) As Long
+    Dim cbBytes
+    m_Crypt.ProcessFile EncryptedFile, 0, 0, efpDecrypt, True, _
+                        DecryptedFile, False, cbBytes
+    DecryptedFile = cbBytes
+End Function
+
 Public Function Slave_PrepareForRecvSecret() As String
     GenerateKeys
     Slave_PrepareForRecvSecret = Me.PublicKey

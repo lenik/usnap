@@ -37,6 +37,7 @@ Private m_sd_files_c As Long
 Private m_sessions As New VBExt.Map
 Private m_session_events As SessionEvents
 
+Public Event SessionRequest(ByVal RemoteAddress As String, ByRef Reject As Boolean)
 Public Event SessionBegin(ByVal s As Session)
 Public Event SessionEnd(ByVal s As Session)
 
@@ -131,19 +132,61 @@ Private Sub Class_Terminate()
 End Sub
 
 Private Sub m_sd_files_OnFileReceived(ByVal xSocket As Object, ByVal sFilename As String, _
-        ByVal lStartOffset As Long, ByVal lBytesReceived As Long, ByVal lBytesTotal As Long, _
-        ByVal lUserParam As Long, ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+                                      ByVal lStartOffset As Long, ByVal lBytesReceived As Long, _
+                                      ByVal lBytesTotal As Long, ByVal lUserParam As Long, _
+                                      ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
+    Dim addr As String
+    Dim s As Session
 
+    Set sd = xSocket
+    addr = sd.RemoteAddress.GetAddressString
+
+    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
+    Set s = m_sessions(addr)
+
+    If bTransferCompleted Then
+        s.ProcessFileReceived sFilename
+    Else
+        s.ProcessFileReceiving sFilename, lStartOffset, lBytesReceived, lBytesTotal
+    End If
 End Sub
 
 Private Sub m_sd_files_OnFileSent(ByVal xSocket As Object, ByVal sFilename As String, _
-        ByVal lStartOffset As Long, ByVal lBytesSent As Long, ByVal lBytesTotal As Long, _
-        ByVal lUserParam As Long, ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+                                  ByVal lStartOffset As Long, ByVal lBytesSent As Long, _
+                                  ByVal lBytesTotal As Long, ByVal lUserParam As Long, _
+                                  ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
+    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
+    Dim addr As String
+    Dim s As Session
 
+    Set sd = xSocket
+    addr = sd.RemoteAddress.GetAddressString
+
+    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
+    Set s = m_sessions(addr)
+
+    If bTransferCompleted Then
+        s.ProcessFileSent sFilename
+    Else
+        s.ProcessFileSending sFilename, lStartOffset, lBytesSent, lBytesTotal
+    End If
+End Sub
+
+Private Sub m_sd_income_OnConnection(ByVal xListeningSocket As Object, _
+                                     ByVal xRemoteAddress As Object, _
+                                     ByVal vaCallerData As Variant, _
+                                     ByVal lExpectedCalleeDataSize As Long, _
+                                     vaCalleeData As Variant, _
+                                     xQualityOfService As XceedWinsockLib.IdXWQualityOfServiceInfo, _
+                                     lUserParam As Long, _
+                                     bReject As Boolean)
+    RaiseEvent SessionRequest(xRemoteAddress.GetAddressString, bReject)
 End Sub
 
 Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, _
-        ByVal xIncomingSocket As Object, ByVal lUserParam As Long)
+                                              ByVal xIncomingSocket As Object, _
+                                              ByVal lUserParam As Long)
     Dim sd As XceedWinsockLib.ConnectionOrientedSocket
     Dim addr As String
     Dim s As New Session
@@ -161,7 +204,7 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
 End Sub
 
 Private Sub m_sd_income_OnListeningError(ByVal xListeningSocket As Object, _
-        ByVal lUserParam As Long, ByVal lResultCode As Long)
+                                         ByVal lUserParam As Long, ByVal lResultCode As Long)
     Assert xListeningSocket Is m_sd
     'If m_sd_started Then
     '    m_sd.StopListening
@@ -170,7 +213,7 @@ Private Sub m_sd_income_OnListeningError(ByVal xListeningSocket As Object, _
 End Sub
 
 Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, _
-        vaCalleeData As Variant)
+                                     vaCalleeData As Variant)
     Dim addr
     Dim s As Session
 
@@ -187,7 +230,7 @@ Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData
 End Sub
 
 Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
-        ByVal lUserParam As Long, ByVal lResultCode As Long)
+                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
     Dim sd As XceedWinsockLib.ConnectionOrientedSocket
     Dim addr As String
     Dim s As Session

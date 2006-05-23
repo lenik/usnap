@@ -53,13 +53,16 @@ Private Sub ctrl_ConnectionRequest(Index As Integer, ByVal requestID As Long)
     sd.OnConnectionRequest requestID
 End Sub
 
-Private Sub ctrl_DataArrival(Index As Integer, ByVal bytesTotal As Long)
+Private Sub ctrl_DataArrival(Index As Integer, ByVal BytesTotal As Long)
     Dim sd As Socket
     Set sd = sdmap(Index)
-    sd.OnDataArrival bytesTotal
+    sd.OnDataArrival BytesTotal
 End Sub
 
-Private Sub ctrl_Error(Index As Integer, ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+Private Sub ctrl_Error(Index As Integer, ByVal Number As Integer, _
+                       Description As String, ByVal Scode As Long, _
+                       ByVal Source As String, ByVal HelpFile As String, _
+                       ByVal HelpContext As Long, CancelDisplay As Boolean)
     Dim sd As Socket
     Set sd = sdmap(Index)
     sd.OnError Number, Description, Scode, Source, HelpFile, HelpContext, CancelDisplay
@@ -71,10 +74,10 @@ Private Sub ctrl_SendComplete(Index As Integer)
     sd.OnSendComplete
 End Sub
 
-Private Sub ctrl_SendProgress(Index As Integer, ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+Private Sub ctrl_SendProgress(Index As Integer, ByVal BytesSent As Long, ByVal bytesRemaining As Long)
     Dim sd As Socket
     Set sd = sdmap(Index)
-    sd.OnSendProgress bytesSent, bytesRemaining
+    sd.OnSendProgress BytesSent, bytesRemaining
 End Sub
 
 Private Sub Form_Load()

@@ -9,10 +9,18 @@ Begin VB.Form ChatClient
    ScaleHeight     =   6330
    ScaleWidth      =   8205
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btnSendFile
+      Caption         =   "Send &File"
+      Height          =   435
+      Left            =   6900
+      TabIndex        =   5
+      Top             =   5700
+      Width           =   1155
+   End
    Begin VB.CheckBox chkEncrypt
       Caption         =   "Encrypt"
       Height          =   375
-      Left            =   6240
+      Left            =   4800
       TabIndex        =   4
       Top             =   5760
       Width           =   915
@@ -31,12 +39,12 @@ Begin VB.Form ChatClient
       TabIndex        =   2
       Text            =   "Hello,world"
       Top             =   5700
-      Width           =   5955
+      Width           =   4395
    End
    Begin VB.CommandButton btnSend
       Caption         =   "&Send"
       Height          =   435
-      Left            =   7260
+      Left            =   5940
       TabIndex        =   1
       Top             =   5700
       Width           =   735
@@ -84,6 +92,10 @@ Private Sub btnSend_Click()
     If Not Session Is Nothing Then
         Session.SendMessage txtMessage, chkEncrypt.Value
     End If
+End Sub
+
+Private Sub btnSendFile_Click()
+    Session.SendFile txtMessage, "C_" & Session.Name, chkEncrypt.Value
 End Sub
 
 Private Sub Client_SessionBegin(ByVal s As NetTools.Session)
@@ -173,4 +185,23 @@ Private Sub xSession_OnTouch(ByVal s As NetTools.Session)
     Dim Text As String
     Text = SessionID(s) & "> Touched!"
     AddLog Text
+End Sub
+
+Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal Size As Long, SavePath As String)
+    AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
+End Sub
+Private Sub xSession_OnReceivedFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, SavePath As String)
+    AddLog SessionID(s) & "> Received File " & Category & "/" & Name
+End Sub
+
+Private Sub xSession_OnReceivingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal FileSize As Long, ByVal RecvSize As Long, SavePath As String)
+    AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
+End Sub
+
+Private Sub xSession_OnSendingFile(ByVal s As NetTools.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal FileSize As Long, ByVal SentSize As Long)
+    AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
+End Sub
+
+Private Sub xSession_OnSentFile(ByVal s As NetTools.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean)
+    AddLog SessionID(s) & "> Sent File " & Category & "/" & RemoteName
 End Sub
