@@ -137,7 +137,7 @@ Public Function QueryValue(ByVal SQL As String, Optional ByVal Rows, Optional By
             ' QueryValue(SQL, , COLUMN)
             ' Y-Vector
             Columns = Int(Val(Columns))
-            Assert Columns > 0
+            Assert Columns >= 0
             If Columns >= rs.Fields.Count Then Exit Function
 
             Set vec = New Vector
