@@ -105,15 +105,15 @@ Private Sub cmdQuery_Click()
     Dim v As Variant
     If chkRows Then
         If chkCols Then
-            v = conn.QueryValue(sql.Text, edtRows, edtCols, chkAlwaysMat)
+            v = conn.QueryValue(sql.Text, edtRows, edtCols, chkAlwaysMat.Value)
         Else
-            v = conn.QueryValue(sql.Text, edtRows, , chkAlwaysMat)
+            v = conn.QueryValue(sql.Text, edtRows, , chkAlwaysMat.Value)
         End If
     Else
         If chkCols Then
-            v = conn.QueryValue(sql.Text, , edtCols, chkAlwaysMat)
+            v = conn.QueryValue(sql.Text, , edtCols, chkAlwaysMat.Value)
         Else
-            v = conn.QueryValue(sql.Text, , , chkAlwaysMat)
+            v = conn.QueryValue(sql.Text, , , chkAlwaysMat.Value)
         End If
     End If
     result = DumpVariant(v)

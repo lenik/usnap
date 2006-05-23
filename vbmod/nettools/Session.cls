@@ -51,8 +51,8 @@ Property Get PeerName() As String
     PeerName = m_PeerName
 End Property
 
-Property Get Key() As KeyExchange
-    Set Key = m_Key
+Property Get key() As KeyExchange
+    Set key = m_Key
 End Property
 
 Property Get PeerKey() As KeyExchange
@@ -98,7 +98,7 @@ Public Sub SendFile(ByVal Path As String, ByVal Category As String, _
     Dim pf As New PutFile
     pf.Category = Category
     If RemoteName = "" Then
-        pf.RemoteName = BaseName(Path)
+        pf.RemoteName = baseName(Path)
     Else
         pf.RemoteName = RemoteName
     End If
@@ -292,6 +292,6 @@ Friend Sub ProcessFileReceived(ByVal FileName As String)
 End Sub
 
 Private Sub Class_Initialize()
-    Key.GenerateKeys
+    key.GenerateKeys
     m_Name = G.Secret
 End Sub
