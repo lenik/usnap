@@ -20,44 +20,44 @@ Private m_Seed As Long
 Private m_Crypt As New XceedEncryptionLib.XceedEncryption
 Private m_RSA As New XceedEncryptionLib.XceedRSAEncryptionMethod
 
-Private m_base64 As New BinaryLib.Base64
+Private m_Base64 As New BinaryLib.Base64
 Private m_PublicKey As String           ' Hex
 Private m_PrivateKey As String          ' Hex
 
 Public Sub GenerateKeys()
-    m_base64.SetStringB m_RSA.PublicKey
-    m_PublicKey = m_base64.GetBase64
+    m_Base64.SetStringB m_RSA.PublicKey
+    m_PublicKey = m_Base64.GetBase64
 
-    m_base64.SetStringB m_RSA.PrivateKey
-    m_PrivateKey = m_base64.GetBase64
+    m_Base64.SetStringB m_RSA.PrivateKey
+    m_PrivateKey = m_Base64.GetBase64
 End Sub
 
 Public Property Get PrivateKey() As String
-    m_base64.SetStringB m_RSA.PrivateKey
-    PrivateKey = m_base64.GetBase64
+    m_Base64.SetStringB m_RSA.PrivateKey
+    PrivateKey = m_Base64.GetBase64
 End Property
 
 Public Property Let PrivateKey(ByVal newval As String)
-    m_base64.SetBase64 newval
-    m_RSA.PrivateKey = m_base64.GetStringB
+    m_Base64.SetBase64 newval
+    m_RSA.PrivateKey = m_Base64.GetStringB
 End Property
 
 Public Property Get PublicKey() As String
-    m_base64.SetStringB m_RSA.PublicKey
-    PublicKey = m_base64.GetBase64
+    m_Base64.SetStringB m_RSA.PublicKey
+    PublicKey = m_Base64.GetBase64
 End Property
 
 Public Property Let PublicKey(ByVal newval As String)
-    m_base64.SetBase64 newval
-    m_RSA.PublicKey = m_base64.GetStringB
+    m_Base64.SetBase64 newval
+    m_RSA.PublicKey = m_Base64.GetStringB
 End Property
 
 Public Function EncryptMessage(ByVal DecryptedMessage As String) As String
     Dim Encrypted
     Dim Encrypted_base64 As String
     Encrypted = m_Crypt.Encrypt(DecryptedMessage, True)
-    m_base64.SetStringB Encrypted
-    Encrypted_base64 = m_base64.GetBase64
+    m_Base64.SetStringB Encrypted
+    Encrypted_base64 = m_Base64.GetBase64
     EncryptMessage = Encrypted_base64
 End Function
 
@@ -66,8 +66,8 @@ Public Function DecryptMessage(ByVal EncryptedMessage As String) As String
     Dim Encrypted As String
 
     Encrypted_base64 = EncryptedMessage
-    m_base64.SetBase64 Encrypted_base64
-    Encrypted = m_base64.GetStringB
+    m_Base64.SetBase64 Encrypted_base64
+    Encrypted = m_Base64.GetStringB
 
     Dim Message As String
     Message = m_Crypt.Decrypt(Encrypted, True)
