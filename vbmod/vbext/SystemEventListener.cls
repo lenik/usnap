@@ -15,12 +15,5 @@ Option Explicit
 Option Base 0
 
 ' Tag Class
-
-Public Enum SystemEventConstants
-    vbxMemoryLow = 1
-    vbxNetworkConnected
-    vbxNetworkDisconnected
-End Enum
-
-Public Sub Handler(ByVal e As SystemEventConstants, Parameters)
+Public Sub Handler(ByVal SystemEvent As Long, Parameters)
 End Sub

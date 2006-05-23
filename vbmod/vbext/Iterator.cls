@@ -15,7 +15,7 @@ Option Explicit
 
 ' Tag Class
 
-Public Function Iterate(key, value) As Boolean
+Public Function Iterate(Key, Value) As Boolean
     ' Must implement by derived class
     ' Return false to exit the iteration loop
 End Function

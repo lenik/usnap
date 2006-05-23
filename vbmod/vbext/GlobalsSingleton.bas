@@ -25,8 +25,6 @@ Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal 
 Public g_Ref(MAX_REFTYPE) As Reference
 Public g_IsInitialized As Boolean
 
-Public g_Cached As New Cached
-
 Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
     If g_IsInitialized Then Exit Sub
 
@@ -54,7 +52,7 @@ Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
         base = Mid(path, InStrRev(path, "\") + 1)
     End If
     g_Configuration.HomeDirectory = dir
-    g_Configuration.name = base
+    g_Configuration.Name = base
     g_Configuration.Reload True
 
     Set g_Config = g_Configuration.Accessor
@@ -101,8 +99,8 @@ Public Property Get InstPrefix() As String
     End If
 End Property
 
-Public Function NameSerial(ByVal name As String) As Long
-    g_Digest.MD5_String name, NameSerial
+Public Function NameSerial(ByVal Name As String) As Long
+    g_Digest.MD5_String Name, NameSerial
 End Function
 
 Public Sub Assert(X, Optional msg, Optional loc)
@@ -135,14 +133,14 @@ Public Sub Unexpected(Optional msg, Optional loc)
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
-Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal name As String) As Object
+Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
-    Set GetRef = g_Ref(RefType).Ref(name)
+    Set GetRef = g_Ref(RefType).Ref(Name)
 End Function
 
-Public Function PutRef(ByVal RefType As ReferenceTypeConstants, ByVal name As String, ByVal newval As Object)
+Public Function PutRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
     Assert RefType >= 0 And RefType <= MAX_REFTYPE, "Invalid Reference Type", LOCATION
-    g_Ref(RefType).Ref(name) = newval
+    g_Ref(RefType).Ref(Name) = newval
 End Function
 
 Public Sub GarbageCollect()

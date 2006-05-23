@@ -21,8 +21,8 @@ Private Sub Class_Initialize()
     m_RefCollectLoop = MAX_REFTYPE
 End Sub
 
-Private Sub SystemEventListener_Handler(ByVal e As SystemEventConstants, Parameters As Variant)
-    Select Case e
+Private Sub SystemEventListener_Handler(ByVal SystemEvent As Long, Parameters As Variant)
+    Select Case SystemEvent
     Case vbxMemoryLow
         ' Collect 1 ref, each time.
         g_Ref(m_RefCollectLoop).Collect

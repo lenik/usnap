@@ -54,7 +54,7 @@ Public Sub Assert(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.Path
+        If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
     End If
 End Sub
@@ -67,7 +67,7 @@ Public Sub Warning(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.Path
+        If IsMissing(loc) Then loc = App.path
         Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
     End If
 End Sub
@@ -75,7 +75,7 @@ End Sub
 ' COPY GlobalsSingleton.Unexpected
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-    If IsMissing(loc) Then loc = App.Path
+    If IsMissing(loc) Then loc = App.path
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 
@@ -87,29 +87,25 @@ Public Function FindControls(ByVal outer As Object) As Map
     Set FindControls = RuntimeControls.FindControls(outer)
 End Function
 
-Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal name As String) As Object
-    Set Ref = GlobalsSingleton.GetRef(RefType, name)
+Public Property Get Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object
+    Set Ref = GlobalsSingleton.GetRef(RefType, Name)
 End Property
 
-Public Property Let Ref(ByVal RefType As ReferenceTypeConstants, ByVal name As String, ByVal newval As Object)
-    GlobalsSingleton.PutRef RefType, name, newval
+Public Property Let Ref(ByVal RefType As ReferenceTypeConstants, ByVal Name As String, ByVal newval As Object)
+    GlobalsSingleton.PutRef RefType, Name, newval
 End Property
 
 Public Sub GarbageCollect()
     GlobalsSingleton.GarbageCollect
 End Sub
 
-Public Sub RegisterSystemEventListener(ByVal name As String, ByVal listener As SystemEventListener)
-    SystemEvents.RegisterSystemEventListener name, listener
+Public Sub RegisterSystemEventListener(ByVal Name As String, ByVal listener As SystemEventListener)
+    SystemEvents.RegisterSystemEventListener Name, listener
 End Sub
 
-Public Sub UnregisterSystemEventListener(ByVal name As String)
-    SystemEvents.UnregisterSystemEventListener name
+Public Sub UnregisterSystemEventListener(ByVal Name As String)
+    SystemEvents.UnregisterSystemEventListener Name
 End Sub
-
-Public Property Get Cached() As Cached
-    Set Cached = g_Cached
-End Property
 
 Public Property Get LC() As LowXRuntime.Component
     Set LC = Typedefs.LC
