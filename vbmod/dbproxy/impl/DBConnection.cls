@@ -42,7 +42,7 @@ Private m_Dialect As String
 Private m_SQLF As SQLFunctions
 Private m_Filter As New DBSQLFilter
 
-Private m_Tables As Map
+Private m_DatabaseRestrict(0 To 0)      ' CATALOG_NAME
 Private m_TableRestrict(0 To 3)         ' CATALOG, SCHEMA, NAME, TYPE, GUID
 
 Implements ADOMapping.IConnection
@@ -271,18 +271,27 @@ Private Function IsInSchema(ByVal Schema As SchemaEnum, ByVal Name As String) As
     IsInSchema = Not rs.EOF
 End Function
 
+Public Function IsDatabaseExist(ByVal Name As String) As Boolean
+    Dim rs As New Recordset
+    m_DatabaseRestrict(0) = Name
+
+    On Error Resume Next
+    Set rs = m_Raw.OpenSchema(adSchemaCatalogs, m_DatabaseRestrict)
+    If Err.Number <> 0 Then
+        Set rs = m_Raw.OpenSchema(adSchemaCatalogs)
+        Do Until rs.EOF
+            If rs(0) = Name Then Exit Do
+            rs.MoveNext
+        Loop
+    End If
+    On Error GoTo 0
+
+    IsDatabaseExist = Not rs.EOF
+    rs.Close
+End Function
+
 Public Function IsTableExist(ByVal Name As String) As Boolean
     Dim rs As New Recordset
-    'If m_Tables Is Nothing Then
-    '    Set rs = m_Raw.OpenSchema(adSchemaTables)
-    '    Set m_Tables = New VBExt.Map
-    '    Do Until rs.EOF
-    '        m_Tables.Item(rs(2)) = True
-    '        rs.MoveNext
-    '    Loop
-    'End If
-    'IsTableExist = Not IsNull(m_Tables.Item(Name))
-
     ' 0-CATALOG, 1-SCHEMA, 2-NAME, 3-TYPE, 4-GUID
     m_TableRestrict(2) = Name
     Set rs = m_Raw.OpenSchema(adSchemaTables, m_TableRestrict)
