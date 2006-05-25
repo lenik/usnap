@@ -52,3 +52,80 @@ Public Function BinaryToPicture(ByVal base64 As String, Optional Size, Optional 
     Set BinaryToPicture = LoadPicture(temppath, Size, ColorDepth, X, Y)
     FSO.DeleteFile temppath, True
 End Function
+
+Public Function ArraySize(ByRef a)
+    If IsEmpty(a) Then
+        ArraySize = 0
+    Else
+        ArraySize = UBound(a) - LBound(a) + 1
+    End If
+End Function
+
+Public Function StringToBytes(ByVal s As String) As Byte()
+    s = StrConv(s, vbFromUnicode)
+    StringToBytes = s
+End Function
+
+Public Function StringBToBytes(ByVal s As String) As Byte()
+    StringBToBytes = s
+End Function
+
+Public Function BytesToString(ByVal Bytes) As String
+    BytesToString = StrConv(Bytes, vbUnicode)
+End Function
+
+Public Function BytesToStringB(ByVal Bytes) As String
+    BytesToStringB = Bytes
+End Function
+
+Public Function LeftBytes(ByRef Bytes, ByVal Length As Long)
+    Dim Size As Long
+    Size = ArraySize(Bytes)
+
+    ' Assert Start >= 0 And Start <= Size
+
+    If Length <= 0 Then
+        Exit Function
+    End If
+
+    If Length >= Size Then
+        If VarType(Bytes) = vbArray + vbByte Then
+            LeftBytes = Bytes
+            Exit Function
+        End If
+        Length = Size
+    End If
+
+    ReDim Partial(0 To Length - 1) As Byte
+    Dim i As Long
+    For i = 0 To Length - 1
+        Partial(i) = Bytes(i)
+    Next
+    LeftBytes = Partial
+End Function
+
+Public Function MidBytes(ByRef Bytes, ByVal Start As Long)  ' Start based at 0
+    Dim Size As Long
+    Size = ArraySize(Bytes)
+
+    ' Assert Start >= 0 And Start <= Size
+
+    If Start < 0 Then
+        If VarType(Bytes) = vbArray + vbByte Then
+            MidBytes = Bytes
+            Exit Function
+        End If
+        Start = 0
+    End If
+
+    If Start >= Size Then
+        Exit Function
+    End If
+
+    ReDim Remains(0 To Size - Start - 1) As Byte
+    Dim i As Long
+    For i = Start To Size - 1
+        Remains(i - Start) = Bytes(i)
+    Next
+    MidBytes = Remains
+End Function
