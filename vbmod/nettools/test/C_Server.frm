@@ -9,14 +9,6 @@ Begin VB.Form C_Server
    ScaleHeight     =   3780
    ScaleWidth      =   6720
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton Command1
-      Caption         =   "Command1"
-      Height          =   675
-      Left            =   180
-      TabIndex        =   6
-      Top             =   2460
-      Width           =   495
-   End
    Begin VB.TextBox txtPort
       Height          =   615
       Left            =   540
@@ -35,7 +27,7 @@ Begin VB.Form C_Server
    End
    Begin VB.CommandButton btnSend
       Caption         =   "&Send"
-      Height          =   975
+      Height          =   435
       Left            =   720
       TabIndex        =   3
       Top             =   2520
@@ -84,10 +76,13 @@ Private WithEvents xString As XceedWinsockLib.StringTransferEvents
 Attribute xString.VB_VarHelpID = -1
 Private WithEvents xConn As XceedWinsockLib.ConnectionEvents
 Attribute xConn.VB_VarHelpID = -1
+Private WithEvents xBytes As XceedWinsockLib.ByteTransferEvents
+Attribute xBytes.VB_VarHelpID = -1
 
 Private cFile As Long
 Private cString As Long
 Private cConn As Long
+Private cBytes As Long
 
 Private sdlist As New Collection
 
@@ -111,21 +106,29 @@ Private Sub Form_Load()
     m_addr.SetAddressString "127.0.0.1"
     m_addr.Port = txtPort.Text
 
+    Set xIncome = New XceedWinsockLib.IncomingConnectionEvents
+
     Set xFile = New XceedWinsockLib.FileTransferEvents
     Set xString = New XceedWinsockLib.StringTransferEvents
     Set xConn = New XceedWinsockLib.ConnectionEvents
-    Set xIncome = New XceedWinsockLib.IncomingConnectionEvents
+    Set xBytes = New XceedWinsockLib.ByteTransferEvents
 
     cFile = m_listener.FileTransferAdvise(xFile, wfaAdviseFileReceivedAlways + wfaAdviseFileSentAlways)
-    cString = m_listener.StringTransferAdvise(xString, wsaAdviseReceivedLineAlways, wnfAnsiStrings)
+    'cString = m_listener.StringTransferAdvise(xString, wsaAdviseReceivedLineAlways, wnfAnsiStrings)
     cConn = m_listener.ConnectionAdvise(xConn, wcaAdviseDisconnected)
+    cBytes = m_listener.ByteTransferAdvise(xBytes, wtaAdviseReceivedAlways)
 End Sub
 
 Private Sub Form_Terminate()
     btnStop_Click
+    m_listener.ByteTransferUnadvise cBytes
     m_listener.FileTransferUnadvise cFile
     m_listener.StringTransferUnadvise cString
     m_listener.ConnectionUnadvise cConn
+End Sub
+
+Private Sub xBytes_OnBytesReceived(ByVal xSocket As Object, ByVal vaData As Variant, ByVal lUserParam As Long, ByVal lResultCode As Long)
+    AddLog "(recved bytes)" & Len(vaData)
 End Sub
 
 Private Sub xConn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
@@ -173,6 +176,21 @@ End Sub
 Private Sub xString_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, ByVal lUserParam As Long, ByVal lResultCode As Long)
     Dim sd As XceedWinsockLib.ConnectionOrientedSocket
     Set sd = xSocket
+
+    If Left(sString, 9) = "sendfile:" Then
+        Dim s As Long
+        s = Val(Mid(sString, 10))
+        AddLog "(local) start to receive file"
+        'sd.ReceiveFile "X:\recvfile", 0, s, 0
+
+        Dim va
+        sd.StringTransferUnadvise cString
+        sd.ReceiveBytes s, va, wroNone
+        'sd.ReceiveFile , , , 123
+        AddLog "(local) received ok"
+        Exit Sub
+    End If
+
     AddLog "recv: " & sString
     sd.SendString "recved" & vbLf, wnfAnsiStrings, wsoNone
 

@@ -13,11 +13,15 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Const LOCATION                  As String = "NetTools::PutFile"
+
 Public RemoteName As String
 
 Public Category As String
 
-Public Hashcode As String
+Public HashCode As String
+
+Public IsEncrypted As Boolean
 
 Public Done As Boolean
 
@@ -45,11 +49,13 @@ Public Property Get Size() As Long
     Size = FSO.GetFile(LocalPath).Size
 End Property
 
-Public Function UpdateHashcode() As Boolean
-    Dim h As String
-    h = FileHash(LocalPath)
-    UpdateHashcode = h <> ""
-End Function
+Friend Sub UpdateHashCode()
+    If FSO.FileExists(m_LocalPath) Then
+        HashCode = FileHash(m_LocalPath)
+    Else
+        HashCode = ""
+    End If
+End Sub
 
 Private Sub Class_Terminate()
     If m_DeleteLocalAfterDone Then

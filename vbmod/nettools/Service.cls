@@ -29,9 +29,12 @@ Private WithEvents m_sd_strings As XceedWinsockLib.StringTransferEvents
 Attribute m_sd_strings.VB_VarHelpID = -1
 Private WithEvents m_sd_files As XceedWinsockLib.FileTransferEvents
 Attribute m_sd_files.VB_VarHelpID = -1
+Private WithEvents m_sd_bytes As XceedWinsockLib.ByteTransferEvents
+Attribute m_sd_bytes.VB_VarHelpID = -1
 Private m_sd_conn_c As Long
 Private m_sd_strings_c As Long
 Private m_sd_files_c As Long
+Private m_sd_bytes_c As Long
 
 ' addr -> sessions
 Private m_sessions As New VBExt.Map
@@ -109,17 +112,21 @@ Private Sub Class_Initialize()
     Set m_sd_income = New XceedWinsockLib.IncomingConnectionEvents
     Set m_sd_conn = New XceedWinsockLib.ConnectionEvents
     Set m_sd_strings = New XceedWinsockLib.StringTransferEvents
+    Set m_sd_bytes = New XceedWinsockLib.ByteTransferEvents
     Set m_sd_files = New XceedWinsockLib.FileTransferEvents
 
     m_sd_conn_c = _
         m_sd.ConnectionAdvise(m_sd_conn, wcaAdviseDisconnected)
-    m_sd_strings_c = _
+    'm_sd_strings_c = _
         m_sd.StringTransferAdvise(m_sd_strings, _
                                   wsaAdviseReceivedLineAlways, _
                                   wnfAnsiStrings)
     m_sd_files_c = _
         m_sd.FileTransferAdvise(m_sd_files, _
                                 wfaAdviseFileReceivedAlways + wfaAdviseFileSentAlways)
+    m_sd_bytes_c = _
+        m_sd.ByteTransferAdvise(m_sd_bytes, _
+                                wtaAdviseReceivedAlways)
 End Sub
 
 Private Sub Class_Terminate()
@@ -127,8 +134,24 @@ Private Sub Class_Terminate()
     Stop_
 
     m_sd.ConnectionUnadvise m_sd_conn_c
-    m_sd.StringTransferUnadvise m_sd_strings_c
+    'm_sd.StringTransferUnadvise m_sd_strings_c
+    m_sd.ByteTransferUnadvise m_sd_bytes_c
     m_sd.FileTransferUnadvise m_sd_files_c
+End Sub
+
+Private Sub m_sd_bytes_OnBytesReceived(ByVal xSocket As Object, ByVal vaData As Variant, _
+                                       ByVal lUserParam As Long, ByVal lResultCode As Long)
+    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
+    Dim addr As String
+    Dim s As Session
+
+    Set sd = xSocket
+    addr = sd.RemoteAddress.GetAddressString
+
+    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
+    Set s = m_sessions(addr)
+
+    s.ProcessBytes vaData
 End Sub
 
 Private Sub m_sd_files_OnFileReceived(ByVal xSocket As Object, ByVal sFilename As String, _
@@ -192,13 +215,16 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     Dim s As New Session
 
     Set sd = xIncomingSocket
-    addr = sd.RemoteAddress.GetAddressString
 
-    s.Initialize m_Name, sd
-    s.Advise m_session_events
+    addr = sd.RemoteAddress.GetAddressString
 
     ' Add to sessions list
     m_sessions(addr) = s
+
+    s.Initialize sd
+    s.Advise m_session_events
+
+    s.Name = m_Name
 
     RaiseEvent SessionBegin(s)
 End Sub
@@ -229,22 +255,22 @@ Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData
     Next
 End Sub
 
-Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
-                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
-    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
-    Dim addr As String
-    Dim s As Session
-
-    Set sd = xSocket
-    addr = sd.RemoteAddress.GetAddressString
-
-    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
-    Set s = m_sessions(addr)
-
-    Dim Cmd As NtCommand
-    Set Cmd = ParseCmd(sString)
-
-    If Cmd Is Nothing Then Exit Sub
-
-    s.ProcessCommand Cmd
-End Sub
+'Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
+'                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
+'    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
+'    Dim addr As String
+'    Dim s As Session
+'
+'    Set sd = xSocket
+'    addr = sd.RemoteAddress.GetAddressString
+'
+'    Assert m_sessions.Contain(addr), "Session Lost", LOCATION
+'    Set s = m_sessions(addr)
+'
+'    Dim Cmd As NtCommand
+'    Set Cmd = ParseCmd(sString)
+'
+'    If Cmd Is Nothing Then Exit Sub
+'
+'    s.ProcessCommand Cmd
+'End Sub

@@ -1,5 +1,11 @@
 Attribute VB_Name = "GlobalsSingleton"
 Option Explicit
+Option Base 0
+
+Private Const LOCATION                  As String = "NetTools::GlobalsSingleton"
+
+Private Const FILEHASH_PREFIX           As String = "PReFiX"
+Private Const FILEHASH_SUFFIX           As String = "SuFFiX"
 
 Public Protocols As New Protocols
 Public AddressManager As New AddressManager
@@ -61,12 +67,19 @@ Public Function MapFind_SD(ByVal Map As VBExt.Map, ByVal sd As XceedWinsockLib.C
 End Function
 
 Public Function FileHash(ByVal Path As String) As String
+    If Not FSO.FileExists(Path) Then Exit Function
+
     Dim h As New XceedEncryptionLib.XceedHashing
     Dim sha1 As New XceedEncryptionLib.XceedSHAHashingMethod
     h.License LICENSE_XC_ENCRYPT
 
     Set h.HashingMethod = sha1
-    h.ReadFile Path, 0, 0, efpHash, True
 
-    FileHash = Replace(StringToBase64(sha1.HashValue), " ", "")
+    h.Hash FILEHASH_PREFIX, False
+    If FSO.GetFile(Path).Size > 0 Then
+        h.ReadFile Path, 0, 0, efpHash, True
+    End If
+    h.Hash FILEHASH_SUFFIX, True
+
+    FileHash = Replace(StringToBase64(sha1.HashValue, True), " ", "")
 End Function

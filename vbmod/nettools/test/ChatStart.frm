@@ -32,6 +32,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private m_Layout As New AutoScaleLayout
+
 Private Sub Command1_Click()
     Unload Me
     ChatServer.Show
@@ -40,4 +42,12 @@ End Sub
 Private Sub Command2_Click()
     Unload Me
     ChatClient.Show
+End Sub
+
+Private Sub Form_Load()
+    m_Layout.InitializeCoordinations Me
+End Sub
+
+Private Sub Form_Resize()
+    m_Layout.Relayout
 End Sub

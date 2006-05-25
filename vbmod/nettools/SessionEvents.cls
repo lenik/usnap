@@ -32,16 +32,17 @@ Public Event OnIncomingFile(ByVal s As Session, ByVal Name As String, _
 
 Public Event OnReceivingFile(ByVal s As Session, ByVal Name As String, _
                              ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                             ByVal FileSize As Long, ByVal RecvSize As Long, _
-                             ByRef SavePath As String)
+                             ByVal FileSize As Long, ByVal RecvOffset As Long, _
+                             ByVal RecvSize As Long, ByVal SavePath As String)
 
 Public Event OnReceivedFile(ByVal s As Session, ByVal Name As String, _
                             ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                            ByRef SavePath As String)
+                            ByVal SavePath As String)
 
 Public Event OnSendingFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                            ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                           ByVal FileSize As Long, ByVal SentSize As Long)
+                           ByVal FileSize As Long, ByVal SentOffset As Long, _
+                           ByVal SentSize As Long)
 
 Public Event OnSentFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                         ByVal Category As String, ByVal IsEncrypted As Boolean)
@@ -85,9 +86,10 @@ End Sub
 
 Friend Sub OnReceivingFile(ByVal s As Session, ByVal Name As String, _
                            ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                           ByVal FileSize As Long, ByVal RecvSize As Long, _
-                           ByRef SavePath As String)
-    RaiseEvent OnReceivingFile(s, Name, Category, IsEncrypted, FileSize, RecvSize, SavePath)
+                           ByVal FileSize As Long, ByVal RecvOffset As Long, _
+                           ByVal RecvSize As Long, ByRef SavePath As String)
+    RaiseEvent OnReceivingFile(s, Name, Category, IsEncrypted, FileSize, _
+                               RecvOffset, RecvSize, SavePath)
 End Sub
 
 Friend Sub OnReceivedFile(ByVal s As Session, ByVal Name As String, _
@@ -98,8 +100,10 @@ End Sub
 
 Friend Sub OnSendingFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                            ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                           ByVal FileSize As Long, ByVal SentSize As Long)
-    RaiseEvent OnSendingFile(s, Path, RemoteName, Category, IsEncrypted, FileSize, SentSize)
+                           ByVal FileSize As Long, ByVal SentOffset As Long, _
+                           ByVal SentSize As Long)
+    RaiseEvent OnSendingFile(s, Path, RemoteName, Category, IsEncrypted, _
+                             FileSize, SentOffset, SentSize)
 End Sub
 
 Friend Sub OnSentFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _

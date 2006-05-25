@@ -1,14 +1,27 @@
 VERSION 5.00
+Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "COMCTL32.OCX"
 Begin VB.Form ChatClient
    Caption         =   "Client"
-   ClientHeight    =   6330
+   ClientHeight    =   6660
    ClientLeft      =   165
    ClientTop       =   855
    ClientWidth     =   8205
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6330
+   ScaleHeight     =   6660
    ScaleWidth      =   8205
    StartUpPosition =   3  'Windows Default
+   Begin ComctlLib.ProgressBar prog
+      Align           =   2  'Align Bottom
+      Height          =   270
+      Left            =   0
+      TabIndex        =   6
+      Top             =   6390
+      Width           =   8205
+      _ExtentX        =   14473
+      _ExtentY        =   476
+      _Version        =   327682
+      Appearance      =   1
+   End
    Begin VB.CommandButton btnSendFile
       Caption         =   "Send &File"
       Height          =   435
@@ -37,7 +50,7 @@ Begin VB.Form ChatClient
       Height          =   435
       Left            =   180
       TabIndex        =   2
-      Text            =   "Hello,world"
+      Text            =   "X:\midifan200604_1\midifan200604.pdf"
       Top             =   5700
       Width           =   4395
    End
@@ -71,7 +84,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private m_Layout As New Layout
+Private m_Layout As New AutoScaleLayout
 
 Private WithEvents Client As Client
 Attribute Client.VB_VarHelpID = -1
@@ -81,10 +94,12 @@ Attribute xSession.VB_VarHelpID = -1
 
 Sub AddText(ByVal s As String)
     lst(0).AddItem s, 0
+    DoEvents
 End Sub
 
 Sub AddLog(ByVal s As String)
     lst(1).AddItem s, 0
+    DoEvents
 End Sub
 
 Private Sub btnSend_Click()
@@ -118,6 +133,8 @@ Private Sub Form_Load()
     txtMessage.Text = "Client " & Secret(20, 50)
 
     m_Layout.InitializeCoordinations Me
+
+    mConnect_Click
 End Sub
 
 Private Sub Form_Resize()
@@ -161,7 +178,6 @@ Private Sub xSession_OnCommand(ByVal s As NetTools.Session, ByVal c As NetTools.
     Case "NSN"
         Me.Caption = "Client Session[" & s.Name & " -> " & s.PeerName & "]"
     End Select
-    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
 End Sub
 
 Private Sub xSession_OnMessage(ByVal s As NetTools.Session, ByVal Message As String, ByVal IsEncrypted As Boolean, AckMessage As String)
@@ -173,6 +189,10 @@ Private Sub xSession_OnMessage(ByVal s As NetTools.Session, ByVal Message As Str
     End If
     AddText Text
     ' don't forward server messages.
+End Sub
+
+Private Sub xSession_OnPreCommand(ByVal s As NetTools.Session, ByVal c As NetTools.NtCommand, Cancel As Boolean)
+    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
 End Sub
 
 Private Sub xSession_OnScriptResult(ByVal s As NetTools.Session, ByVal Result As String)
@@ -187,19 +207,35 @@ Private Sub xSession_OnTouch(ByVal s As NetTools.Session)
     AddLog Text
 End Sub
 
-Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal Size As Long, SavePath As String)
+Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, _
+                                    ByVal Name As String, ByVal Category As String, _
+                                    ByVal IsEncrypted As Boolean, _
+                                    ByVal Size As Long, SavePath As String)
+    SavePath = DirName(SavePath) & "\" & Category & "\" & Name
     AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
 End Sub
-Private Sub xSession_OnReceivedFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, SavePath As String)
+
+Private Sub xSession_OnReceivedFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal SavePath As String)
     AddLog SessionID(s) & "> Received File " & Category & "/" & Name
 End Sub
 
-Private Sub xSession_OnReceivingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal FileSize As Long, ByVal RecvSize As Long, SavePath As String)
-    AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
+Private Sub xSession_OnReceivingFile(ByVal s As NetTools.Session, _
+                                     ByVal Name As String, ByVal Category As String, _
+                                     ByVal IsEncrypted As Boolean, _
+                                     ByVal FileSize As Long, ByVal RecvOffset As Long, _
+                                     ByVal RecvSize As Long, ByVal SavePath As String)
+    ' AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
+    Assert FileSize > 0
+    prog.Value = 100 * (RecvOffset + RecvSize) / FileSize
 End Sub
 
-Private Sub xSession_OnSendingFile(ByVal s As NetTools.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal FileSize As Long, ByVal SentSize As Long)
-    AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
+Private Sub xSession_OnSendingFile(ByVal s As NetTools.Session, ByVal Path As String, _
+                                   ByVal RemoteName As String, ByVal Category As String, _
+                                   ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
+                                   ByVal SentOffset As Long, ByVal SentSize As Long)
+    ' AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
+    Assert FileSize > 0
+    prog.Value = 100 * (SentOffset + SentSize) / FileSize
 End Sub
 
 Private Sub xSession_OnSentFile(ByVal s As NetTools.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean)

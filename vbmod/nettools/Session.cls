@@ -13,7 +13,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private Enum ReceivingStateConstants
+    rsCommand = 0
+    rsFileData
+End Enum
+
 Private m_sd As XceedWinsockLib.ConnectionOrientedSocket
+Private m_RecvState As ReceivingStateConstants
 
 Private m_Name As String
 Private m_PeerName As String
@@ -28,8 +34,11 @@ Private m_PeerTZOffset As Double
 
 Private m_Events As SessionEvents
 
-Private m_SendFiles As New VBExt.Map
 Private m_TrID As Long
+Private m_SendFiles As New VBExt.Map
+Private m_SendingFile As PutFile
+
+Private m_ReceivingFile As RecvFile
 
 Friend Property Get sd() As XceedWinsockLib.ConnectionOrientedSocket
     Set sd = m_sd
@@ -45,6 +54,12 @@ End Property
 
 Property Get Name() As String
     Name = m_Name
+End Property
+
+Property Let Name(ByVal newval As String)
+    m_Name = newval
+    ' send name
+    SendCmd NTC_SETNAME, StringToBase64(m_Name)
 End Property
 
 Property Get PeerName() As String
@@ -71,6 +86,18 @@ Public Sub Unadvise()
     Set m_Events = Null_SessionEvents
 End Sub
 
+Public Sub SetName(Optional ByVal Initiative As Boolean = True)
+    SendCmd NTC_SETNAME, StringToBase64(m_Name), IIf(Initiative, "S", "R")
+End Sub
+
+Public Sub SetKey(Optional ByVal Initiative As Boolean = True)
+    SendCmd NTC_SETKEY, m_Key.PublicKey, IIf(Initiative, "S", "R")
+End Sub
+
+Public Sub Touch(Optional ByVal Initiative As Boolean = True)
+    SendCmd NTC_TOUCH, CDbl(Date + Time), IIf(Initiative, "S", "R")
+End Sub
+
 Public Sub SendMessage(ByVal Message As String, Optional ByVal Encrypted As Boolean = False)
     If Encrypted Then
         Message = PeerKey.EncryptMessage(Message)
@@ -84,12 +111,28 @@ End Sub
 Private Sub SendQueue()
     Dim TrID
     Dim pf As PutFile
+
+    ' XXX: does collection support concurrent-r/w ?
     For Each TrID In m_SendFiles.KeySet
         Set pf = m_SendFiles(TrID)
-        ' PutFile(tr-id, size, [name], [cat], [hash], <size bytes>...>): ack/_R
-        SendCmd NTC_PUTFILE, pf.Size, pf.Category, pf.Hashcode
-        m_sd.SendFile pf.LocalPath, 0, 0, 0
+        If Not pf.Done Then
+            SendItem TrID, pf
+        End If
     Next
+End Sub
+
+Private Sub SendItem(ByVal TrID As Long, ByVal pf As PutFile)
+    Set m_SendingFile = pf
+    ' PutFile(tr-id, size, [name], [cat], [hash], <size bytes>...>): ack/_R
+    SendCmd NTC_PUTFILE, TrID, pf.Size, _
+            StringToBase64(pf.RemoteName), StringToBase64(pf.Category), pf.HashCode
+
+    ' This is really the same to send data bytes by hand
+    ' The problem is occurred in receiving
+    m_sd.SendFile pf.LocalPath, 0, pf.Size, 0
+
+    ' To avoid if receiver can't switch to command-mode, correctly
+    Touch
 End Sub
 
 Public Sub SendFile(ByVal Path As String, ByVal Category As String, _
@@ -111,11 +154,12 @@ Public Sub SendFile(ByVal Path As String, ByVal Category As String, _
     Else
         pf.LocalPath = Path
     End If
-    pf.UpdateHashcode
+    pf.UpdateHashCode
+
     ' If Not pf.isValid Then ...
 
     m_TrID = m_TrID + 1
-    Set m_SendFiles(m_TrID) = pf
+    m_SendFiles(m_TrID) = pf
 
     SendQueue
 End Sub
@@ -136,9 +180,10 @@ Public Sub SendDirectory(ByVal Directory As String, ByVal Category As String, _
     Next
 End Sub
 
-Friend Sub Initialize(ByVal Name As String, ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
-    m_Name = Name
+Friend Sub Initialize(ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
     Set m_sd = sd
+    m_sd.SendTimeOut = TIMEOUT_SEND
+    m_sd.ReceiveTimeOut = TIMEOUT_RECEIVE
 
     Dim addr As XceedWinsockLib.InetAddress
     Set addr = sd.RemoteAddress
@@ -153,6 +198,44 @@ Private Sub SendCmd(ByVal Cmd As String, ParamArray params_())
     m_sd.SendString NtCmd(Cmd, params), wnfAnsiStrings, wsoNone
 End Sub
 
+Friend Sub ProcessBytes(ByRef vaData As Variant)
+    Dim Size As Long
+    Dim Bytes() As Byte
+    Bytes = vaData
+    Size = ArraySize(Bytes)
+
+    Select Case m_RecvState
+    Case rsCommand
+        Dim CmdLine As String
+        Dim Cmd As NtCommand
+
+        CmdLine = StrConv(Bytes, vbUnicode)
+        Set Cmd = ParseCmd(CmdLine)
+        If Cmd Is Nothing Then Exit Sub
+
+        ProcessCommand Cmd
+
+    Case rsFileData
+
+        vaData = m_ReceivingFile.Append(Bytes)
+
+        If m_ReceivingFile.EOF Then
+            m_RecvState = rsCommand
+            ProcessFileReceived m_ReceivingFile.LocalPath
+        Else
+            ProcessFileReceiving m_ReceivingFile.LocalPath, _
+                                 m_ReceivingFile.CurrentSize - Size, Size, _
+                                 m_ReceivingFile.ReqFileSize
+        End If
+
+        If Not IsEmpty(vaData) Then
+            ' Rejected
+            ProcessBytes vaData
+        End If
+
+    End Select
+End Sub
+
 Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     Dim Text As String
     Dim AckMessage As String
@@ -162,7 +245,6 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     Dim Cancel As Boolean
     Dim Response
     Dim pf As PutFile
-    Dim Hashcode As String
 
     m_Events.OnPreCommand Me, Cmd, Cancel
     If Cancel Then Exit Sub
@@ -176,13 +258,13 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
     Case NTC_SETKEY
         m_PeerKey.PublicKey = Cmd.Parameter(1)
         If Cmd.Parameter(2) = "S" Then
-            SendCmd NTC_SETKEY, m_Key.PublicKey, "R"
+            SetKey False
         End If
     Case NTC_TOUCH
         ' RemoteTime - LocalTime
         m_PeerTZOffset = CDbl(Cmd.Parameter(1)) - CDbl(Date + Time)
         If Cmd.Parameter(2) = "S" Then
-            SendCmd NTC_TOUCH, CDbl(Date + Time), "R"
+            Touch False
         End If
         m_Events.OnTouch Me
     Case NTC_MESSAGE
@@ -213,21 +295,39 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         TrID = CLng(Cmd.Parameter(1))
         Size = CLng(Cmd.Parameter(2))
 
-        pf.RemoteName = Base64ToString(Cmd.Parameter(3))
-        pf.Category = Base64ToString(Cmd.Parameter(4))
-        Hashcode = Cmd.Parameter(5)
+        Set m_ReceivingFile = New RecvFile
+        With m_ReceivingFile
+            .TrID = TrID
+            .ReqFileSize = Size
+            .ReqHashCode = Cmd.Parameter(5)
+            .RemoteName = Base64ToString(Cmd.Parameter(3))
+            .Category = Base64ToString(Cmd.Parameter(4))
 
-        pf.SetTemporaryPath
+            Dim SavePath As String
+            .SetTemporaryPath
+            SavePath = .LocalPath
+            m_Events.OnIncomingFile Me, .RemoteName, .Category, _
+                                    .IsEncrypted, Size, SavePath
 
-        m_sd.ReceiveFile pf.LocalPath, 0, 0, 0
+            If SavePath <> .LocalPath Then
+                FSO.DeleteFile .LocalPath, True
+                MakeParents SavePath
+                .LocalPath = SavePath
+            End If
 
-        pf.UpdateHashcode
+            m_RecvState = rsFileData
+'            m_sd.ReceiveFile .LocalPath, 0, Size, 0
+'
+'            .UpdateHashCode
+'
+'            If m_ReceivingHashCode = .HashCode Then
+'                SendCmd NTC_PUTFILE_R, m_ReceivingTrID, "A"
+'                m_Events.OnReceivedFile Me, .RemoteName, .Category, .IsEncrypted, .LocalPath
+'            Else
+'                SendCmd NTC_PUTFILE_R, m_ReceivingTrID, "R"
+'            End If
+        End With
 
-        If Hashcode = pf.Hashcode Then
-            SendCmd NTC_PUTFILE_R, TrID, "A"
-        Else
-            SendCmd NTC_PUTFILE_R, TrID, "R"
-        End If
     Case NTC_PUTFILE_R
         TrID = CLng(Cmd.Parameter(1))
         Text = Cmd.Parameter(2)
@@ -236,7 +336,7 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         Else                            ' Re-send
             ' Assert Text = "R"
             Set pf = m_SendFiles(TrID)
-            ' pf.Send
+            SendItem TrID, pf
         End If
     Case NTC_SCRIPT     ' lang, script
         Dim Sign As String
@@ -275,20 +375,47 @@ End Sub
 
 Friend Sub ProcessFileSending(ByVal FileName As String, ByVal StartOffset As Long, _
                               ByVal BytesSent As Long, ByVal BytesTotal As Long)
-
+    Assert Not m_SendingFile Is Nothing
+    With m_SendingFile
+        Assert FileName = .LocalPath
+        Assert BytesTotal = .Size
+        m_Events.OnSendingFile Me, FileName, .RemoteName, .Category, .IsEncrypted, _
+                               .Size, StartOffset, BytesSent
+    End With
 End Sub
 
 Friend Sub ProcessFileSent(ByVal FileName As String)
-
+    Assert Not m_SendingFile Is Nothing
+    With m_SendingFile
+        Assert FileName = .LocalPath
+        m_Events.OnSentFile Me, FileName, .RemoteName, .Category, .IsEncrypted
+    End With
 End Sub
 
 Friend Sub ProcessFileReceiving(ByVal FileName As String, ByVal StartOffset As Long, _
                                 ByVal BytesReceived As Long, ByVal BytesTotal As Long)
-
+    Assert Not m_ReceivingFile Is Nothing
+    With m_ReceivingFile
+        Assert FileName = .LocalPath
+        Assert BytesTotal = .ReqFileSize
+        m_Events.OnReceivingFile Me, .RemoteName, .Category, .IsEncrypted, _
+                                 .ReqFileSize, StartOffset, BytesReceived, FileName
+    End With
 End Sub
 
 Friend Sub ProcessFileReceived(ByVal FileName As String)
+    Assert Not m_ReceivingFile Is Nothing
+    With m_ReceivingFile
+        Assert FileName = .LocalPath
 
+        .UpdateHashCode
+        If .ReqHashCode = .HashCode Then
+            SendCmd NTC_PUTFILE_R, .TrID, "A"
+            m_Events.OnReceivedFile Me, .RemoteName, .Category, .IsEncrypted, FileName
+        Else
+            SendCmd NTC_PUTFILE_R, .TrID, "R"
+        End If
+    End With
 End Sub
 
 Private Sub Class_Initialize()

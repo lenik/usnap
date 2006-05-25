@@ -3,6 +3,7 @@ Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS
 Reference=*\G{9AAA7DC0-B7C5-11D3-8324-005056C78844}#1.2#0#..\..\..\..\..\Program Files\Xceed Components\Xceed Winsock Library 1.2\Bin\XceedWsl.dll#Xceed Winsock Library v1.2
 Reference=*\G{54BD6B8E-EDD7-4358-A1F9-945DBBCF0342}#1.0#0#..\..\..\bin\nettools.dll#Visual Basic 6.0 Network Tools
 Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1c.3#0#..\..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#4.3#0#..\..\..\bin\VBIOExt.dll#Visual Basic 6.0 I/O Extensions
 Form=C_Server.frm
 Form=C_Client.frm
 Form=C_Start.frm

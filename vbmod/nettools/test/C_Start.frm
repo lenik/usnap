@@ -34,11 +34,11 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub btnServer_Click()
-    Me.Hide
     C_Server.Show
+    Unload Me
 End Sub
 
 Private Sub btnClient_Click()
-    Me.Hide
     C_Client.Show
+    Unload Me
 End Sub

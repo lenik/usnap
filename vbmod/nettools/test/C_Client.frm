@@ -60,7 +60,7 @@ Begin VB.Form C_Client
       Height          =   615
       Left            =   1980
       TabIndex        =   1
-      Text            =   "Text1"
+      Text            =   "C:\.lokaj\zbmis\module\nettools\test\txt"
       Top             =   3180
       Width           =   3735
    End
@@ -114,7 +114,11 @@ Private Sub btnSend_Click()
 End Sub
 
 Private Sub btnSendFile_Click()
-    m_sd.SendFile Text1.Text, 0, 0, 0
+    Dim s As Long
+    s = FSO.GetFile(Text1.Text).Size
+    m_sd.SendString "sendfile:" & s & vbNewLine, _
+                    wnfAnsiStrings, wsoNone
+    m_sd.SendFile Text1.Text, 0, s, 0
 End Sub
 
 Private Sub Form_Load()
@@ -142,19 +146,19 @@ End Sub
 
 Private Sub xConn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
     Assert xSocket Is m_sd
-    m_sd.SendString m_name & ">disconnected", wnfAnsiStrings, wsoNone
+    AddLog "(local) " & m_name & ">disconnected"
 End Sub
 
 Private Sub xFile_OnFileReceived(ByVal xSocket As Object, ByVal sFilename As String, ByVal lStartOffset As Long, ByVal lBytesReceived As Long, ByVal lBytesTotal As Long, ByVal lUserParam As Long, ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
-    m_sd.SendString m_name & ">recvfile: " & sFilename, wnfAnsiStrings, wsoNone
+    AddLog "(local) " & m_name & ">recvfile: " & sFilename
 End Sub
 
 Private Sub xFile_OnFileSent(ByVal xSocket As Object, ByVal sFilename As String, ByVal lStartOffset As Long, ByVal lBytesSent As Long, ByVal lBytesTotal As Long, ByVal lUserParam As Long, ByVal bTransferCompleted As Boolean, ByVal lResultCode As Long)
-    'm_sd.SendString m_name & ">sendfile: " & sFilename, wnfAnsiStrings, wsoNone
+    AddLog "(local) " & m_name & ">sendfile: " & sFilename
 End Sub
 
 Private Sub xString_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, ByVal lUserParam As Long, ByVal lResultCode As Long)
-    AddLog "recv: " & sString
+    AddLog "(local) " & "recv: " & sString
 End Sub
 
 Sub AddLog(ByVal s As String)

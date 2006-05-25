@@ -28,9 +28,12 @@ Private WithEvents m_sd_strings As XceedWinsockLib.StringTransferEvents
 Attribute m_sd_strings.VB_VarHelpID = -1
 Private WithEvents m_sd_conn As XceedWinsockLib.ConnectionEvents
 Attribute m_sd_conn.VB_VarHelpID = -1
+Private WithEvents m_sd_bytes As XceedWinsockLib.ByteTransferEvents
+Attribute m_sd_bytes.VB_VarHelpID = -1
 Private m_sd_files_c As Long
 Private m_sd_strings_c As Long
 Private m_sd_conn_c As Long
+Private m_sd_bytes_c As Long
 
 Private m_session As Session
 Private m_session_events As SessionEvents
@@ -86,23 +89,17 @@ Public Function Connect(Optional ByVal ServerAddress As String, _
     m_sd.Connect m_addr
     If Err.Number <> 0 Then Exit Function
 
-    Dim s As New Session
-    s.Initialize m_Name, m_sd
-    s.Advise m_session_events
+    Set m_session = New Session
+    m_session.Advise m_session_events
+    m_session.Initialize m_sd
 
-    Set m_session = s
     m_sd_connected = True
 
-    RaiseEvent SessionBegin(s)
+    RaiseEvent SessionBegin(m_session)
 
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_SETNAME, StringToBase64(m_Name), "S"), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_SETKEY, s.Key.PublicKey, "S"), wnfAnsiStrings, wsoNone
-
-    ' NETCOMM
-    m_sd.SendString NtCmd(NTC_TOUCH, CDbl(Date + Time), "S"), wnfAnsiStrings, wsoNone
+    m_session.Name = m_Name
+    m_session.SetKey
+    m_session.Touch
 
     Connect = True
 End Function
@@ -122,19 +119,28 @@ Private Sub Class_Initialize()
     Set m_sd_files = New XceedWinsockLib.FileTransferEvents
     Set m_sd_strings = New XceedWinsockLib.StringTransferEvents
     Set m_sd_conn = New XceedWinsockLib.ConnectionEvents
+    Set m_sd_bytes = New XceedWinsockLib.ByteTransferEvents
 
-    m_sd_files_c = m_sd.FileTransferAdvise(m_sd_files, wfaAdviseFileReceivedAlways + wfaAdviseFileSentAlways)
-    m_sd_strings_c = m_sd.StringTransferAdvise(m_sd_strings, wsaAdviseReceivedLineAlways, wnfAnsiStrings)
     m_sd_conn_c = m_sd.ConnectionAdvise(m_sd_conn, wcaAdviseDisconnected)
+    'm_sd_strings_c = m_sd.StringTransferAdvise(m_sd_strings, wsaAdviseReceivedLineAlways, wnfAnsiStrings)
+    m_sd_bytes_c = m_sd.ByteTransferAdvise(m_sd_bytes, wtaAdviseReceivedAlways)
+    m_sd_files_c = m_sd.FileTransferAdvise(m_sd_files, wfaAdviseFileReceivedAlways + wfaAdviseFileSentAlways)
 
     m_addr.SetAddressString DEFAULT_ADDRESS
     m_addr.Port = DEFAULT_PORT
 End Sub
 
 Private Sub Class_Terminate()
-    m_sd.FileTransferUnadvise m_sd_files_c
-    m_sd.StringTransferUnadvise m_sd_strings_c
     m_sd.ConnectionUnadvise m_sd_conn_c
+    'm_sd.StringTransferUnadvise m_sd_strings_c
+    m_sd.ByteTransferUnadvise m_sd_bytes_c
+    m_sd.FileTransferUnadvise m_sd_files_c
+End Sub
+
+Private Sub m_sd_bytes_OnBytesReceived(ByVal xSocket As Object, ByVal vaData As Variant, ByVal lUserParam As Long, ByVal lResultCode As Long)
+    Assert xSocket Is m_sd
+
+    m_session.ProcessBytes vaData
 End Sub
 
 Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, _
@@ -175,18 +181,13 @@ Private Sub m_sd_files_OnFileSent(ByVal xSocket As Object, ByVal sFilename As St
     End If
 End Sub
 
-Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
-                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
-    Assert xSocket Is m_sd
-
-    Dim Cmd As NtCommand
-    Set Cmd = ParseCmd(sString)
-    If Cmd Is Nothing Then Exit Sub
-
-    m_session.ProcessCommand Cmd
-End Sub
-
-Private Sub m_sd_strings_OnStringSent(ByVal xSocket As Object, ByVal lUserParam As Long, _
-                                      ByVal lResultCode As Long)
-    'm_Session.ProcessCommand
-End Sub
+'Private Sub m_sd_strings_OnStringReceived(ByVal xSocket As Object, ByVal sString As String, _
+'                                          ByVal lUserParam As Long, ByVal lResultCode As Long)
+'    Assert xSocket Is m_sd
+'
+'    Dim Cmd As NtCommand
+'    Set Cmd = ParseCmd(sString)
+'    If Cmd Is Nothing Then Exit Sub
+'
+'    m_session.ProcessCommand Cmd
+'End Sub
