@@ -209,7 +209,7 @@ Private Sub xSession_OnTouch(ByVal s As NetTools.Session)
     AddLog Text
 End Sub
 
-Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal Size As Long, SavePath As String)
+Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal Size As Long, SavePath As String, Ignore As Boolean)
     SavePath = DirName(SavePath) & "\" & Category & "\" & Name
     AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
 End Sub

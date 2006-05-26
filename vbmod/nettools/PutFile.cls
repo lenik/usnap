@@ -25,6 +25,8 @@ Public IsEncrypted As Boolean
 
 Public Done As Boolean
 
+Public CancelPattern As String
+
 Private m_LocalPath As String
 Private m_DeleteLocalAfterDone As Boolean
 

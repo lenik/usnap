@@ -100,6 +100,7 @@ End Sub
 
 Public Sub SendMessage(ByVal Message As String, Optional ByVal Encrypted As Boolean = False)
     If Encrypted Then
+        If m_PeerKey.PublicKey = "" Then SetKey True
         Message = PeerKey.EncryptMessage(Message)
         SendCmd NTC_ENCRYPTEDMESSAGE, Message
     Else
@@ -150,11 +151,14 @@ Public Sub SendFile(ByVal Path As String, ByVal Category As String, _
         Dim srcpath As String
         srcpath = pf.LocalPath
         pf.SetTemporaryPath
+        If m_PeerKey.PublicKey = "" Then SetKey True
         m_PeerKey.EncryptFile srcpath, pf.LocalPath
     Else
         pf.LocalPath = Path
     End If
     pf.UpdateHashCode
+
+    pf.CancelPattern = NTC_PUTFILE_CANCELPATTERN
 
     ' If Not pf.isValid Then ...
 
@@ -304,10 +308,11 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
             .Category = Base64ToString(Cmd.Parameter(4))
 
             Dim SavePath As String
+            Dim Ignore As Boolean
             .SetTemporaryPath
             SavePath = .LocalPath
             m_Events.OnIncomingFile Me, .RemoteName, .Category, _
-                                    .IsEncrypted, Size, SavePath
+                                    .IsEncrypted, Size, SavePath, Ignore
 
             If SavePath <> .LocalPath Then
                 FSO.DeleteFile .LocalPath, True
@@ -316,28 +321,50 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
             End If
 
             m_RecvState = rsFileData
-'            m_sd.ReceiveFile .LocalPath, 0, Size, 0
-'
-'            .UpdateHashCode
-'
-'            If m_ReceivingHashCode = .HashCode Then
-'                SendCmd NTC_PUTFILE_R, m_ReceivingTrID, "A"
-'                m_Events.OnReceivedFile Me, .RemoteName, .Category, .IsEncrypted, .LocalPath
-'            Else
-'                SendCmd NTC_PUTFILE_R, m_ReceivingTrID, "R"
-'            End If
+
+            If Ignore Then
+                ' Cancel-Sending
+                SendCmd NTC_PUTFILE_R, TrID, "CS"
+            End If
         End With
 
     Case NTC_PUTFILE_R
         TrID = CLng(Cmd.Parameter(1))
         Text = Cmd.Parameter(2)
-        If Text = "A" Then              ' Acknowledged
+
+        Assert m_SendFiles.Contain(TrID)
+        Set pf = m_SendFiles(TrID)
+
+        Select Case Text
+        Case "A"                        ' Acknowledged
             m_SendFiles.Remove TrID
-        Else                            ' Re-send
-            ' Assert Text = "R"
-            Set pf = m_SendFiles(TrID)
-            SendItem TrID, pf
-        End If
+        Case "R"                        ' Re-send
+            m_Events.OnReSend Me, pf.LocalPath, pf.RemoteName, pf.Category, _
+                              pf.IsEncrypted, Cancel
+            If Cancel Then
+                pf.Done = True          ' Maybe "Done = Cancel" is better
+                SendCmd NTC_PUTFILE_R, TrID, "RR"
+            Else
+                SendItem TrID, pf
+            End If
+        Case "CS"                       ' Cancel-Sending
+            ' Cancel m_SD.SendFile
+            m_Events.OnSendingCanceled Me, pf.LocalPath, pf.RemoteName, _
+                                       pf.Category, pf.IsEncrypted
+            SendCmd NTC_PUTFILE_R, TrID, "CR", pf.CancelPattern
+        Case "CR"                       ' Cancel-Receiving
+            If m_ReceivingFile Is Nothing Then
+                ' Skip this command
+            Else
+                With m_ReceivingFile
+                    Assert TrID = .TrID
+                    ' Cancel Receiving...
+                    m_RecvState = rsCommand
+                    m_Events.OnReceivingCanceled Me, .RemoteName, .Category, .IsEncrypted, .LocalPath
+                End With
+                Set m_ReceivingFile = Nothing
+            End If
+        End Select
     Case NTC_SCRIPT     ' lang, script
         Dim Sign As String
         Sign = Cmd.Parameter(3)

@@ -210,7 +210,8 @@ End Sub
 Private Sub xSession_OnIncomingFile(ByVal s As NetTools.Session, _
                                     ByVal Name As String, ByVal Category As String, _
                                     ByVal IsEncrypted As Boolean, _
-                                    ByVal Size As Long, SavePath As String)
+                                    ByVal Size As Long, SavePath As String, _
+                                    Ignore As Boolean)
     SavePath = DirName(SavePath) & "\" & Category & "\" & Name
     AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
 End Sub

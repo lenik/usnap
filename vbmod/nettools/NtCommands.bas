@@ -16,12 +16,19 @@ Public Const NTC_MESSAGE                As String = "NMS"
 ' EncryptedMessage(encrypted-message, 'S'): ack-encrypted-message/R
 Public Const NTC_ENCRYPTEDMESSAGE       As String = "NEM"
 
-' PutFile(tr-id, size, [name], [cat], [hash], <size bytes>...>): ack/_R
+' PutFile(tr-id, size, [name], [cat], [hash], [cancel-pattern], _
+'         <size bytes>...>): ack/_R
 ' NPF .... ; \n
 ' xxxx...xxx
 Public Const NTC_PUTFILE                As String = "NPF"
+Public Const NTC_PUTFILE_CANCELPATTERN  As String = "<CaNCeLPaTTeRN " + "9E515880-3C22-48c7-B300-78E34A048875>"
 
-' PutFileR('A'ck/'R'esend)
+' PutFileR(code), code ::=
+'   A   Acknowledge
+'   R   Resend
+'   RR  Resend-Rejected
+'   CS  Cancel-Sending
+'   CR  Cancel-Receiving
 Public Const NTC_PUTFILE_R              As String = "NPFR"
 
 ' Get(tr-id, uri)

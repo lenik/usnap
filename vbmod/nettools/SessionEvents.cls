@@ -28,24 +28,40 @@ Public Event OnResponse(ByVal s As Session, ByVal URI As String, ByVal Response 
 
 Public Event OnIncomingFile(ByVal s As Session, ByVal Name As String, _
                             ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                            ByVal Size As Long, ByRef SavePath As String)
+                            ByVal Size As Long, ByRef SavePath As String, _
+                            ByRef Ignore As Boolean)
 
 Public Event OnReceivingFile(ByVal s As Session, ByVal Name As String, _
                              ByVal Category As String, ByVal IsEncrypted As Boolean, _
                              ByVal FileSize As Long, ByVal RecvOffset As Long, _
                              ByVal RecvSize As Long, ByVal SavePath As String)
 
+Public Event OnReceivingCanceled(ByVal s As Session, ByVal Name As String, _
+                                 ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                                 ByVal SavePath As String)
+
 Public Event OnReceivedFile(ByVal s As Session, ByVal Name As String, _
                             ByVal Category As String, ByVal IsEncrypted As Boolean, _
                             ByVal SavePath As String)
+
+Public Event OnReReceive(ByVal s As Session, ByVal Name As String, _
+                         ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                         ByVal SavePath As String, ByRef Cancel As Boolean)
 
 Public Event OnSendingFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                            ByVal Category As String, ByVal IsEncrypted As Boolean, _
                            ByVal FileSize As Long, ByVal SentOffset As Long, _
                            ByVal SentSize As Long)
 
+Public Event OnSendingCanceled(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
+                               ByVal Category As String, ByVal IsEncrypted As Boolean)
+
 Public Event OnSentFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                         ByVal Category As String, ByVal IsEncrypted As Boolean)
+
+Public Event OnReSend(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
+                      ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                      ByRef Cancel As Boolean)
 
 Public Event OnScriptResult(ByVal s As Session, ByVal Result As String)
 
@@ -80,8 +96,8 @@ End Sub
 
 Friend Sub OnIncomingFile(ByVal s As Session, ByVal Name As String, _
                           ByVal Category As String, ByVal IsEncrypted As Boolean, _
-                          ByVal Size As Long, ByRef SavePath As String)
-    RaiseEvent OnIncomingFile(s, Name, Category, IsEncrypted, Size, SavePath)
+                          ByVal Size As Long, ByRef SavePath As String, ByRef Ignore As Boolean)
+    RaiseEvent OnIncomingFile(s, Name, Category, IsEncrypted, Size, SavePath, Ignore)
 End Sub
 
 Friend Sub OnReceivingFile(ByVal s As Session, ByVal Name As String, _
@@ -92,10 +108,22 @@ Friend Sub OnReceivingFile(ByVal s As Session, ByVal Name As String, _
                                RecvOffset, RecvSize, SavePath)
 End Sub
 
+Friend Sub OnReceivingCanceled(ByVal s As Session, ByVal Name As String, _
+                               ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                               ByVal SavePath As String)
+    RaiseEvent OnReceivingCanceled(s, Name, Category, IsEncrypted, SavePath)
+End Sub
+
 Friend Sub OnReceivedFile(ByVal s As Session, ByVal Name As String, _
                           ByVal Category As String, ByVal IsEncrypted As Boolean, _
                           ByRef SavePath As String)
     RaiseEvent OnReceivedFile(s, Name, Category, IsEncrypted, SavePath)
+End Sub
+
+Friend Sub OnReReceive(ByVal s As Session, ByVal Name As String, _
+                      ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                      ByVal SavePath As String, ByRef Cancel As Boolean)
+    RaiseEvent OnReReceive(s, Name, Category, IsEncrypted, SavePath, Cancel)
 End Sub
 
 Friend Sub OnSendingFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
@@ -106,19 +134,22 @@ Friend Sub OnSendingFile(ByVal s As Session, ByVal Path As String, ByVal RemoteN
                              FileSize, SentOffset, SentSize)
 End Sub
 
+Friend Sub OnSendingCanceled(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
+                            ByVal Category As String, ByVal IsEncrypted As Boolean)
+    RaiseEvent OnSendingCanceled(s, Path, RemoteName, Category, IsEncrypted)
+End Sub
+
 Friend Sub OnSentFile(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
                         ByVal Category As String, ByVal IsEncrypted As Boolean)
     RaiseEvent OnSentFile(s, Path, RemoteName, Category, IsEncrypted)
 End Sub
 
+Friend Sub OnReSend(ByVal s As Session, ByVal Path As String, ByVal RemoteName As String, _
+                    ByVal Category As String, ByVal IsEncrypted As Boolean, _
+                    ByRef Cancel As Boolean)
+    RaiseEvent OnReSend(s, Path, RemoteName, Category, IsEncrypted, Cancel)
+End Sub
+
 Friend Sub OnScriptResult(ByVal s As Session, ByVal Result As String)
     RaiseEvent OnScriptResult(s, Result)
 End Sub
-
-'Friend Sub OnEnter(ByVal s As Session, ByVal term As String)
-'    RaiseEvent OnEnter(s, term)
-'End Sub
-'
-'Friend Sub OnExit(ByVal s As Session, ByVal term As String)
-'    RaiseEvent OnExit(s, term)
-'End Sub
