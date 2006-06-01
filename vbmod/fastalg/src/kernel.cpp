@@ -231,7 +231,8 @@ int saot::idx_remove(index_type index) {
 int saot::idx_append(int count, int *slots) {
     int start = 0;
     int made = 0;
-    for (int i = 0; i < m_used; i++) {
+	int alloc = m_slot.size();
+    for (int i = 0; i < alloc; i++) {
         if (m_slot[i] >= start)
             start = m_slot[i] + 1;
     }
