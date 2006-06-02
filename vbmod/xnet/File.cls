@@ -225,6 +225,19 @@ Public Function PutPacket(ByVal PacketIndex As Long, PacketData, _
 End Function
 
 Public Property Get RealFileChecksum() As String
-    ' TODO  get checksum by xceed..?
-    ' ...
+    If Not FSO.FileExists(Path) Then Exit Function
+
+    Dim h As New XceedEncryptionLib.XceedHashing
+    Dim sha1 As New XceedEncryptionLib.XceedSHAHashingMethod
+    h.License LICENSE_XC_ENCRYPT
+
+    Set h.HashingMethod = sha1
+
+    h.Hash FILEHASH_PREFIX, False
+    If FSO.GetFile(Path).Size > 0 Then
+        h.ReadFile Path, 0, 0, efpHash, True
+    End If
+    h.Hash FILEHASH_SUFFIX, True
+
+    RealFileChecksum = Replace(StringToBase64(sha1.HashValue, True), " ", "")
 End Property
