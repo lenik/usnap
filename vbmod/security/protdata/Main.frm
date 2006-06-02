@@ -93,9 +93,9 @@ Private Property Get Value() As String
     Case 0  ' Plain Text
         Value = txtDecrypt
     Case 1  ' Base-64
-        Value = base64tostring(txtDecrypt)
+        Value = Base64ToString(txtDecrypt)
     Case 2  ' HEX
-        Value = hextostring(txtDecrypt)
+        Value = HexToString(txtDecrypt)
     Case 3  ' File
         b64.ReadFile txtDecrypt
         Value = b64.GetStringB
@@ -107,13 +107,13 @@ Property Let Value(ByVal newval As String)
     Case 0  ' Plain Text
         txtDecrypt = newval
     Case 1  ' Base-64
-        txtDecrypt = stringtobase64(newval)
+        txtDecrypt = StringToBase64(newval)
     Case 2  ' HEX
-        txtDecrypt = stringtohex(newval)
+        txtDecrypt = StringToHex(newval)
     Case 3  ' File
         ' Force to display in Base-64
         lstType.ListIndex = 1
-        txtDecrypt = stringtobase64(newval)
+        txtDecrypt = StringToBase64(newval)
     End Select
 End Property
 

@@ -25,8 +25,8 @@ End Function
 
 Private Sub RuntimeEntryProvider_Initialize(ByVal ParamMap As VBExt.Map, ByVal Value As Variant)
     Dim PublicId
-    Dim KXClient As New KeyExchange
-    Dim KXData As New KeyExchange
+    Dim KXClient As New AsymCrypto
+    Dim KXData As New AsymCrypto
     Dim Registry As PKIRegistry
 
     PublicId = ParamMap("PublicId")
