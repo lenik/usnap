@@ -141,6 +141,18 @@ Public Sub Close_()
     m_SD.Close
 End Sub
 
+Public Sub SendData(ByVal Data)
+    m_SD.SendData Data
+End Sub
+
+Public Sub SendString(ByVal s As String)
+    m_SD.SendData StringToBytes(s)
+End Sub
+
+Public Sub SendStringB(ByVal s As String)
+    m_SD.SendData StringBToBytes(s)
+End Sub
+
 Public Sub GetData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, _
                    Optional ByVal MaxLen)
     If IsMissing(MaxLen) Then
@@ -150,7 +162,26 @@ Public Sub GetData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, 
     End If
 End Sub
 
-'public function GetString as String
+Public Function GetString(Optional ByVal MaxAsciiChars) As String
+    Dim Data
+    If IsMissing(MaxAsciiChars) Then
+        m_SD.GetData Data, vbArray + vbByte
+    Else
+        m_SD.GetData Data, vbArray + vbByte, MaxAsciiChars
+    End If
+    GetString = BytesToString(Data)
+End Function
+
+Public Function GetStringB(Optional ByVal MaxUnicodeChars) As String
+    Dim Data
+    If IsMissing(MaxUnicodeChars) Then
+        m_SD.GetData Data, vbArray + vbByte
+    Else
+        m_SD.GetData Data, vbArray + vbByte, MaxUnicodeChars * 2
+    End If
+    GetStringB = BytesToStringB(Data)
+End Function
+
 Public Sub PeekData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, _
                     Optional ByVal MaxLen)
     If IsMissing(MaxLen) Then
@@ -160,9 +191,25 @@ Public Sub PeekData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte,
     End If
 End Sub
 
-Public Sub SendData(ByVal Data)
-    m_SD.SendData Data
-End Sub
+Public Function PeekString(Optional ByVal MaxAsciiChars) As String
+    Dim Data
+    If IsMissing(MaxAsciiChars) Then
+        m_SD.PeekData Data, vbArray + vbByte
+    Else
+        m_SD.PeekData Data, vbArray + vbByte, MaxAsciiChars
+    End If
+    PeekString = BytesToString(Data)
+End Function
+
+Public Function PeekStringB(Optional ByVal MaxUnicodeChars) As String
+    Dim Data
+    If IsMissing(MaxUnicodeChars) Then
+        m_SD.PeekData Data, vbArray + vbByte
+    Else
+        m_SD.PeekData Data, vbArray + vbByte, MaxUnicodeChars * 2
+    End If
+    PeekStringB = BytesToStringB(Data)
+End Function
 
 Private Sub Class_Initialize()
     m_Handle = Resources.AllocSocket(Me)

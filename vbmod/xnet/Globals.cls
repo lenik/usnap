@@ -13,17 +13,15 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Public Sub ShowResources(Optional ByVal Hidden As Boolean = False)
+    Resources.Visible = Not Hidden
+End Sub
 
 Public Function XnetConnect(ByVal RemoteHost As String, _
                             Optional ByVal RemotePort As Integer = DEFAULT_PORT) As Client
-    Dim h As Long
-    Dim s As New Socket
-
-    s.Connect
-
-    Dim Client As New Client
-    'client.setsocket h,sd
-
-    Set XnetConnect = Client
-
+    Set XnetConnect = GlobalsSingleton.XnetConnect(RemoteHost, RemotePort)
 End Function
+
+Public Property Get XnetCommands() As CommandsClient
+
+End Property
