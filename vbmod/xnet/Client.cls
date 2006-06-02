@@ -18,11 +18,11 @@ Private Const LOCATION                  As String = "Xnet::Client"
 Private WithEvents m_Connection As Connection
 Attribute m_Connection.VB_VarHelpID = -1
 
-Public Event OnPreSendCommand(ByVal c As Command, ByRef Cancel As Boolean)
-Public Event OnPreRecvCommand(ByVal c As Command, ByRef Cancel As Boolean)
+Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
+Public Event OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 
-Public Event OnSentCommand(ByVal c As Command)
-Public Event OnRecvCommand(ByVal c As Command)
+Public Event OnSentPacket(ByVal Pkt As Packet)
+Public Event OnRecvPacket(ByVal Pkt As Packet)
 
 ' Register-ID is LocalAddress/Port
 Public Event OnRegistered()
@@ -35,84 +35,31 @@ Public Event OnTouch()
 Public Event OnMessage(ByVal Message As String)
 Public Event OnSendProgress(ByVal SentStart As Long, ByVal SentBytes As Long, ByVal TotalBytes As Long)
 Public Event OnSendComplete()
-Public Event OnSystemCommand(ByVal c As Command)
+Public Event OnSystemCommand(ByVal Pkt As Packet)
 Public Event OnGet(ByVal URI As String, ByRef Response As String)
 
-Public Property Get Socket() As Socket
-    Set Socket = m_Connection.Socket
-End Property
-
-Public Property Get LocalIP() As String
-    LocalIP = Socket.LocalIP
-End Property
-
-Public Property Let LocalIP(ByVal newval As String)
-    Assert False, "Not supported", LOCATION
-    'Socket.LocalIP = newval
-End Property
-
-Public Property Get LocalPort() As Long
-    LocalPort = Socket.LocalPort
-End Property
-
-Public Property Let LocalPort(ByVal newval As Long)
-    Socket.LocalPort = newval
-End Property
-
-Public Property Get RemoteHost() As String
-    RemoteHost = Socket.RemoteHost
-End Property
-
-Public Property Get RemoteHostIP() As String
-    RemoteHostIP = Socket.RemoteHostIP
-End Property
-
-Public Property Get RemotePort() As Long
-    RemotePort = Socket.RemotePort
-End Property
-
-Public Property Get User()
-    If IsObject(Socket.User) Then
-        Set User = Socket.User
-    Else
-        User = Socket.User
-    End If
-End Property
-
-Public Property Let User(ByVal newval)
-    Socket.User = newval
-End Property
-
-Public Property Set User(ByVal newval)
-    Set Socket.User = newval
-End Property
-
-Public Property Get Tag() As String
-    Tag = Socket.Tag
-End Property
-
-Public Property Let Tag(ByVal newval As String)
-    Socket.Tag = newval
+Public Property Get Connection() As Connection
+    Set Connection = m_Connection
 End Property
 
 Private Sub Class_Initialize()
     Set m_Connection = New Connection
 End Sub
 
-Private Sub m_Connection_OnPreSendCommand(ByVal c As Command, Cancel As Boolean)
-    RaiseEvent OnPreSendCommand(c, Cancel)
+Private Sub m_Connection_OnPreSendPacket(ByVal Pkt As Packet, Cancel As Boolean)
+    RaiseEvent OnPreSendPacket(Pkt, Cancel)
 End Sub
 
-Private Sub m_Connection_OnRecvCommand(ByVal c As Command)
-    RaiseEvent OnRecvCommand(c)
+Private Sub m_Connection_OnRecvPacket(ByVal Pkt As Packet)
+    RaiseEvent OnRecvPacket(Pkt)
 
-    Select Case c.Name
+    Select Case Pkt.Name
     Case NC_REGISTER                    ' Returned
         RaiseEvent OnRegistered
     Case NC_UNREGISTER                  ' Returned
         RaiseEvent OnUnregistered
     Case NC_SETNAME
-        RaiseEvent OnSetName(c.Parameter(1))
+        RaiseEvent OnSetName(Pkt.Parameter(1))
     Case NC_SETKEY
         RaiseEvent OnSetKey
     Case NC_SETSESSIONKEY
@@ -120,22 +67,22 @@ Private Sub m_Connection_OnRecvCommand(ByVal c As Command)
     Case NC_TOUCH
         RaiseEvent OnTouch
     Case NC_MESSAGE
-        RaiseEvent OnMessage(c.Parameter(1))
+        RaiseEvent OnMessage(Pkt.Parameter(1))
     Case NC_FILEINFO                    ' Returned
         '
     Case NC_FILEPACKET
         '
     Case NC_SYSTEM
-        RaiseEvent OnSystemCommand(c)
+        RaiseEvent OnSystemCommand(Pkt)
     Case Else
-        'RaiseEvent OnUnknownCommand(c)
+        'RaiseEvent OnUnknownPacket(c)
     End Select
 End Sub
 
-Private Sub m_Connection_OnPreRecvCommand(ByVal c As Command, Cancel As Boolean)
-    RaiseEvent OnPreRecvCommand(c, Cancel)
+Private Sub m_Connection_OnPreRecvPacket(ByVal Pkt As Packet, Cancel As Boolean)
+    RaiseEvent OnPreRecvPacket(Pkt, Cancel)
 End Sub
 
-Private Sub m_Connection_OnSentCommand(ByVal c As Command)
-    RaiseEvent OnSentCommand(c)
+Private Sub m_Connection_OnSentPacket(ByVal Pkt As Packet)
+    RaiseEvent OnSentPacket(Pkt)
 End Sub
