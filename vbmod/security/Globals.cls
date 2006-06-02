@@ -16,3 +16,8 @@ Option Explicit
 Public Function ConnectPKIRegistry(ByVal ClientKey As String) As PKIRegistry
     Set ConnectPKIRegistry = GlobalsSingleton.ConnectPKIRegistry(ClientKey)
 End Function
+
+Public Property Get Secret(Optional ByVal MinLen As String = 4, _
+                           Optional ByVal MaxLen As String = 30) As String
+    Secret = GlobalsSingleton.Secret(MinLen, MaxLen)
+End Property

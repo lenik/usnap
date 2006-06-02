@@ -14,15 +14,21 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const RSA_KEYSIZE               As Integer = 1024
+Private Const AES_KEYSIZE               As Integer = 128
 
 Private m_Seed As Long
 
-Private m_Crypt As New XceedEncryptionLib.XceedEncryption
+Private m_EncRSA As New XceedEncryptionLib.XceedEncryption
 Private m_RSA As New XceedEncryptionLib.XceedRSAEncryptionMethod
+
+Private m_EncAES As New XceedEncryptionLib.XceedEncryption
+Private m_AES As New XceedEncryptionLib.XceedRijndaelEncryptionMethod
 
 Private m_Base64 As New BinaryLib.Base64
 Private m_PublicKey As String           ' Hex
 Private m_PrivateKey As String          ' Hex
+
+Private m_SharedKey As String           ' Hex
 
 Public Sub GenerateKeys()
     m_Base64.SetStringB m_RSA.PublicKey
@@ -52,16 +58,33 @@ Public Property Let PublicKey(ByVal newval As String)
     m_RSA.PublicKey = m_Base64.GetStringB
 End Property
 
-Public Function EncryptMessage(ByVal DecryptedMessage As String) As String
+Public Property Get SharedKey() As String
+    SharedKey = m_SharedKey
+End Property
+
+Public Property Let SharedKey(ByVal newval As String)
+    m_SharedKey = newval
+    m_AES.SetSecretKeyFromPassPhrase m_SharedKey, AES_KEYSIZE
+End Property
+
+Public Function EncryptMessage(ByVal DecryptedMessage As String, _
+                               Optional ByVal UsingSharedKey As Boolean = True) As String
     Dim Encrypted
     Dim Encrypted_base64 As String
-    Encrypted = m_Crypt.Encrypt(DecryptedMessage, True)
+
+    If UsingSharedKey Then
+        Encrypted = m_EncAES.Encrypt(DecryptedMessage, True)
+    Else
+        Encrypted = m_EncRSA.Encrypt(DecryptedMessage, True)
+    End If
+
     m_Base64.SetStringB Encrypted
     Encrypted_base64 = m_Base64.GetBase64
     EncryptMessage = Encrypted_base64
 End Function
 
-Public Function DecryptMessage(ByVal EncryptedMessage As String) As String
+Public Function DecryptMessage(ByVal EncryptedMessage As String, _
+                               Optional ByVal UsingSharedKey As Boolean = True) As String
     Dim Encrypted_base64 As String
     Dim Encrypted As String
 
@@ -70,21 +93,45 @@ Public Function DecryptMessage(ByVal EncryptedMessage As String) As String
     Encrypted = m_Base64.GetStringB
 
     Dim Message As String
-    Message = m_Crypt.Decrypt(Encrypted, True)
+
+    If UsingSharedKey Then
+        Message = m_EncAES.Decrypt(Encrypted, True)
+    Else
+        Message = m_EncRSA.Decrypt(Encrypted, True)
+    End If
+
     DecryptMessage = Message
 End Function
 
-Public Function EncryptFile(ByVal DecryptedFile As String, ByVal EncryptedFile As String) As Long
+Public Function EncryptFile(ByVal DecryptedFile As String, _
+                            ByVal EncryptedFile As String, _
+                            Optional ByVal UsingSharedKey As Boolean = True) As Long
     Dim cbBytes
-    m_Crypt.ProcessFile DecryptedFile, 0, 0, efpEncrypt, True, _
-                        EncryptedFile, False, cbBytes
+
+    If UsingSharedKey Then
+        m_EncAES.ProcessFile DecryptedFile, 0, 0, efpEncrypt, True, _
+                             EncryptedFile, False, cbBytes
+    Else
+        m_EncRSA.ProcessFile DecryptedFile, 0, 0, efpEncrypt, True, _
+                             EncryptedFile, False, cbBytes
+    End If
+
     EncryptedFile = cbBytes
 End Function
 
-Public Function DecryptFile(ByVal EncryptedFile As String, ByVal DecryptedFile As String) As Long
+Public Function DecryptFile(ByVal EncryptedFile As String, _
+                            ByVal DecryptedFile As String, _
+                            Optional ByVal UsingSharedKey As Boolean = True) As Long
     Dim cbBytes
-    m_Crypt.ProcessFile EncryptedFile, 0, 0, efpDecrypt, True, _
-                        DecryptedFile, False, cbBytes
+
+    If UsingSharedKey Then
+        m_EncAES.ProcessFile EncryptedFile, 0, 0, efpDecrypt, True, _
+                             DecryptedFile, False, cbBytes
+    Else
+        m_EncRSA.ProcessFile EncryptedFile, 0, 0, efpDecrypt, True, _
+                             DecryptedFile, False, cbBytes
+    End If
+
     DecryptedFile = cbBytes
 End Function
 
@@ -105,9 +152,18 @@ Public Function Slave_RecvSecret(ByVal EncryptedSecret As String) As String
 End Function
 
 Private Sub Class_Initialize()
-    m_Crypt.License LICENSE_XC_ENCRYPT
-
+    m_EncRSA.License LICENSE_XC_ENCRYPT
     m_Seed = CLng(Rnd * &H7FFFFFFF)
     m_RSA.SetRandomKeyPair RSA_KEYSIZE, m_Seed
-    Set m_Crypt.EncryptionMethod = m_RSA
+    Set m_EncRSA.EncryptionMethod = m_RSA
+
+    m_EncAES.License LICENSE_XC_ENCRYPT
+    Set m_AES.HashingMethod = New XceedEncryptionLib.XceedSHAHashingMethod
+    ' m_AES.HashingMethod.HashSize = 128
+    ' m_AES.EncryptionMode = emoChainedBlocks
+    ' m_AES.PaddingMethod = epmFIPS81
+    Set m_EncAES.EncryptionMethod = m_AES
+
+    m_SharedKey = Secret
+    m_AES.SetSecretKeyFromPassPhrase m_SharedKey, AES_KEYSIZE
 End Sub
