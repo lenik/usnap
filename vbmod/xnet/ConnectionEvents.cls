@@ -6,22 +6,29 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "Connection"
+Attribute VB_Name = "ConnectionEvents"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
+Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Private m_Socket As Winsock
-Private m_Name As String
-Private m_Key As KeyExchange
-
-Public Sub SetName(ByVal NewName As String)
-    m_Name = NewName
+Public Sub OnConnect(ByVal c As Connection)
 
 End Sub
 
-Public Sub SetKey(ByVal k As KeyExchange)
-    Set m_Key = k
+Public Sub OnDisconnect(ByVal c As Connection)
+
+End Sub
+
+Public Sub OnMessage(ByVal c As Connection, ByVal Message As String)
+
+End Sub
+
+Public Sub OnTouch(ByVal c As Connection)
+
+End Sub
+
+Public Sub OnSetName()
+
 End Sub

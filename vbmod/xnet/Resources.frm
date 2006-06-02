@@ -51,6 +51,7 @@ Begin VB.Form Resources
       _ExtentX        =   741
       _ExtentY        =   741
       _Version        =   393216
+      Protocol        =   1
    End
    Begin VB.Label Label1
       Appearance      =   0  'Flat
@@ -115,6 +116,10 @@ Private m_Layout As New AutoScaleLayout
 Private WithEvents Core As FastAlgLib.SAOT
 Attribute Core.VB_VarHelpID = -1
 
+Private m_OutgoingEvents As New VBExt.Map
+
+Implements SocketEvents
+
 Property Get CoreState() As String
     Dim Slot As Long
     CoreState = "[" & Core.Size & "]"
@@ -148,7 +153,7 @@ Function IndexToSeq(ByVal Index As Integer) As Long
 End Function
 
 Private Sub btnAdd_Click()
-    AllocSocket
+    AllocSocket Me
 End Sub
 
 Private Sub Core_Add(ByVal Slot As Long, ByVal Seq As Long)
@@ -166,6 +171,7 @@ Private Sub Core_Remove(ByVal Slot As Long, ByVal Seq As Long)
     Index = SlotToIndex(Slot)
     Unload sckinfo(Index)
     Unload sck(Index)
+    m_OutgoingEvents.Remove Index
     Rearrange
 End Sub
 
@@ -217,6 +223,55 @@ Private Sub Refresher_Timer()
     Next
 End Sub
 
+Private Sub sck_Close(Index As Integer)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing, "Outgoing Event Lost", LOCATION
+    sx.OnClose
+End Sub
+
+Private Sub sck_Connect(Index As Integer)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing, "Outgoing Event Lost", LOCATION
+    sx.OnConnect
+End Sub
+
+Private Sub sck_ConnectionRequest(Index As Integer, ByVal requestID As Long)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing
+    sx.OnConnectionRequest requestID
+End Sub
+
+Private Sub sck_DataArrival(Index As Integer, ByVal bytesTotal As Long)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing, "Outgoing Event Lost", LOCATION
+    sx.OnDataArrival bytesTotal
+End Sub
+
+Private Sub sck_Error(Index As Integer, ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing
+    sx.OnError Number, Description, Scode, Source, HelpFile, HelpContext, CancelDisplay
+End Sub
+
+Private Sub sck_SendComplete(Index As Integer)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing, "Outgoing Event Lost", LOCATION
+    sx.OnSendComplete
+End Sub
+
+Private Sub sck_SendProgress(Index As Integer, ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    Dim sx As SocketEvents
+    Set sx = m_OutgoingEvents.Item(Index)
+    Assert Not sx Is Nothing, "Outgoing Event Lost", LOCATION
+    sx.OnSendProgress bytesSent, bytesRemaining
+End Sub
+
 Private Sub sckinfo_OnRemove(Index As Integer)
     Dim Slot As Long
     Dim Seq As Long
@@ -228,23 +283,28 @@ Private Sub sckinfo_OnRemove(Index As Integer)
 End Sub
 
 Public Property Get Socket(ByVal Handle As Long) As Winsock
+    Dim Index As Integer
+    Dim Slot As Long
     Dim Seq As Long
-    Seq = Handle
+    Index = Handle
+    Slot = IndexToSlot(Index)
+    Seq = SlotToSeq(Slot)
+
     Assert Seq >= 0 And Seq < Core.Size, _
         "Invalid Socket Handle", LOCATION
 
-    Dim Index As Long
-    Index = SeqToIndex(Seq)
-    Assert Index >= 1
     Set Socket = sck(Index)
 End Property
 
-Public Function AllocSocket() As Long
+Public Function AllocSocket(ByVal OutgoingEvent As SocketEvents) As Long
+    Assert Not OutgoingEvent Is Nothing, _
+           "OutgoingEvent must be specified", LOCATION
     Dim Seq As Long
     Dim Index As Integer
     Core.Append 1
     Seq = Core.Size - 1
     Index = SeqToIndex(Seq)
+    m_OutgoingEvents.Item(Index) = OutgoingEvent
     AllocSocket = Index
 End Function
 
@@ -260,4 +320,42 @@ Public Sub FreeSocket(ByVal Handle As Long)
         "Invalid Socket Handle", LOCATION
 
     Core.SlotRemove Slot
+End Sub
+
+Public Property Get Status() As String
+    Status = Me.Caption
+End Property
+
+Public Property Let Status(ByVal newval As String)
+    Me.Caption = newval
+End Property
+
+Private Sub SocketEvents_OnClose()
+    Status = "OnClose"
+End Sub
+
+Private Sub SocketEvents_OnConnect()
+    Status = "OnConnect"
+End Sub
+
+Private Sub SocketEvents_OnConnectionRequest(ByVal requestID As Long)
+    Status = "OnConnectionRequest " & requestID
+End Sub
+
+Private Sub SocketEvents_OnDataArrival(ByVal bytesTotal As Long)
+    Status = "OnDataArrival " & bytesTotal
+End Sub
+
+Private Sub SocketEvents_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    Status = "OnError " & Number & "-" & Description _
+           & " Code=" & Scode _
+           & " Source=" & Source
+End Sub
+
+Private Sub SocketEvents_OnSendComplete()
+    Status = "OnSendComplete"
+End Sub
+
+Private Sub SocketEvents_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    Status = "OnSendProgress " & bytesSent & "/" & bytesRemaining
 End Sub

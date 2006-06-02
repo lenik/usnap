@@ -13,30 +13,59 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Name As String
-Public Sequence As Integer
-Public Parameters
+Private Const LOCATION                  As String = "Xnet::Command"
+
+Private m_Name As String
+Private m_Sequence As Integer
+Private m_Parameters
+
 Private m_Encrypted As Boolean
 Private m_Key As KeyExchange
 
-Public Function SetKey(ByVal k As KeyExchange) As Command
-    Set m_Key = k
-    Set SetKey = Me
-End Function
-
-Public Property Get Encrypted() As Boolean
-    Encrypted = Not m_Key Is Nothing
+Public Property Get Name() As String
+    Name = m_Name
 End Property
 
-Private Function Quote(ByVal s As String) As String
-    Quote = Replace(s, "\", "\\")
-    Quote = Replace(Quote, " ", "\_")
-End Function
+Public Property Let Name(ByVal newval As String)
+    m_Name = newval
+End Property
 
-Private Function Dequote(ByVal s As String) As String
-    Dequote = Replace(s, "\_", " ")
-    Dequote = Replace(Dequote, "\\", "\")
-End Function
+Public Property Get Sequence() As Integer
+    Sequence = m_Sequence
+End Property
+
+Public Property Let Sequence(ByVal newval As Integer)
+    m_Sequence = newval
+End Property
+
+Public Property Get Parameter(ByVal Index As Integer)
+    Parameter = m_Parameters(Index)
+End Property
+
+Public Property Let Parameter(ByVal Index As Integer, ByVal newval)
+    m_Parameters(Index) = newval
+End Property
+
+Public Property Get Encrypted() As Boolean
+    Encrypted = m_Encrypted
+End Property
+
+Public Property Let Encrypted(ByVal newval As Boolean)
+    If Not newval Then
+        m_Encrypted = False
+        Exit Property
+    End If
+    Assert m_Key, "Cannot enable encryption without keys. ", LOCATION
+    m_Encrypted = True
+End Property
+
+Public Property Get Key() As KeyExchange
+    Set Key = m_Key
+End Property
+
+Public Property Set Key(ByVal newval As KeyExchange)
+    Set m_Key = newval
+End Property
 
 Public Function Encode(Optional ByVal sep As String = " ") As String
     Dim i As Integer
@@ -46,18 +75,18 @@ Public Function Encode(Optional ByVal sep As String = " ") As String
 
     Encode = IIf(Encrypted, "X", "N") & Name & Sequence
 
-    l = LBound(Parameters)
-    u = UBound(Parameters)
+    l = LBound(m_Parameters)
+    u = UBound(m_Parameters)
     If Encrypted Then
         For i = l To u
-            Encode = Encode & sep & m_Key.EncryptMessage(Parameters(i))
+            Encode = Encode & sep & m_Key.EncryptMessage(m_Parameters(i))
         Next
     Else
         For i = l To u
             If i = u Then
-                Encode = Encode & sep & Parameters(i)
+                Encode = Encode & sep & m_Parameters(i)
             Else
-                Encode = Encode & sep & Quote(Parameters(i))
+                Encode = Encode & sep & Quote(m_Parameters(i))
             End If
         Next
     End If
@@ -85,8 +114,8 @@ Public Function Decode(ByVal s As String, Optional ByVal MaxParams As Integer = 
     Dim l As Integer
     Dim u As Integer
 
-    l = LBound(Parameters)
-    u = UBound(Parameters)
+    l = LBound(m_Parameters)
+    u = UBound(m_Parameters)
 
     Set Decode = Me
 End Function
