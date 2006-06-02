@@ -68,17 +68,25 @@ End Function
 Private Sub Layout_InitializeCoordinations(ObjectsContainer As Object)
     Dim child As Object
     For Each child In ObjectsContainer
-        If LC.HasMember(child, "Container") Then
-            Assert m_Items < MAX_CONTROLS - 1
+        Assert m_Items < MAX_CONTROLS - 1, "Too many controls", LOCATION
+        Assert m_Containers < MAX_CONTROLS - 1, "Too many controls", LOCATION
+
+        If LC.HasMember(child, "Container") = 0 _
+                Or LC.HasMember(child, "Left") = 0 _
+                Or LC.HasMember(child, "Top") = 0 _
+                Or LC.HasMember(child, "Width") = 0 _
+                Or LC.HasMember(child, "Height") = 0 Then
+            GoTo For_Next
+        End If
+
+        'On Error GoTo IgnoreThisControl
             Set m_Item(m_Items, 0) = child
             Set m_Item(m_Items, 1) = child.Container
             m_ItemPos(m_Items).x0 = child.Left
             m_ItemPos(m_Items).y0 = child.Top
             m_ItemPos(m_Items).x1 = child.Left + child.Width
             m_ItemPos(m_Items).y1 = child.Top + child.Height
-            m_Items = m_Items + 1
 
-            Assert m_Containers < MAX_CONTROLS - 1
             Set m_Container(m_Containers) = child.Container
             m_ContainerPos(m_Containers).x0 = child.Container.Left
             m_ContainerPos(m_Containers).y0 = child.Container.Top
@@ -87,8 +95,16 @@ Private Sub Layout_InitializeCoordinations(ObjectsContainer As Object)
             Assert child.Container.Height > MIN_HEIGHT, "原始容器尺寸不能过小", LOCATION
             m_ContainerPos(m_Containers).x1 = child.Container.Left + child.Container.Width
             m_ContainerPos(m_Containers).y1 = child.Container.Top + child.Container.Height
+
+            m_Items = m_Items + 1
             m_Containers = m_Containers + 1
-        End If
+        'On Error GoTo 0
+        GoTo For_Next
+
+IgnoreThisControl:
+        ' Do nothing.
+
+For_Next:
     Next
 End Sub
 
