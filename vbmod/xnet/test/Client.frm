@@ -41,6 +41,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private WithEvents sd As Socket
+Attribute sd.VB_VarHelpID = -1
 
 Private Sub btnSend_Click()
     sd.SendData Text1.Text
@@ -48,7 +49,8 @@ End Sub
 
 Private Sub Form_Load()
     Set sd = New Socket
-    sd.Connect
+    sd.Connect "127.0.0.1", 5103
+    sd.RemotePort = 5103
 End Sub
 
 Private Sub sd_OnDataArrival(ByVal bytesTotal As Long)

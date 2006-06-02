@@ -143,6 +143,46 @@ Public Property Get TransferredRatio() As Single
     TransferredRatio = m_TransferredPackets / m_Packets
 End Property
 
+Public Function GetPacketString(ByVal PacketIndex As Long, _
+                                Optional ByVal RawMode As Boolean = False) As String
+    Assert PacketIndex >= 0 And PacketIndex < m_Packets
+
+    Dim PacketSize As Long
+    If PacketIndex = m_Packets - 1 Then
+        PacketSize = m_Size Mod m_PacketSize
+    Else
+        PacketSize = m_PacketSize
+    End If
+
+    m_File.Open_ m_Path, amRead
+    m_File.SetCurrentPosition m_PacketSize * PacketIndex, prBegin
+    If RawMode Then
+        GetPacketString = m_File.ReadStringB(Int(PacketSize / 2))
+    Else
+        GetPacketString = m_File.ReadString(PacketSize)
+    End If
+    m_File.Close_
+End Function
+
+Public Function GetPacketData(ByVal PacketIndex As Long, _
+                              Optional ByVal RawMode As Boolean = False)
+    Assert PacketIndex >= 0 And PacketIndex < m_Packets
+
+    Dim PacketSize As Long
+    If PacketIndex = m_Packets - 1 Then
+        PacketSize = m_Size Mod m_PacketSize
+    Else
+        PacketSize = m_PacketSize
+    End If
+
+    m_File.Open_ m_Path, amRead
+    m_File.SetCurrentPosition m_PacketSize * PacketIndex, prBegin
+
+    GetPacketData = m_File.Read(PacketSize)
+
+    m_File.Close_
+End Function
+
 ' Returns False if "Packet Checksum Error"
 Public Function PutPacket(ByVal PacketIndex As Long, PacketData, _
                           Optional ByVal RawMode As Boolean = False) As Boolean

@@ -17,13 +17,20 @@ Private m_Handle As Long
 Private m_SD As Winsock
 Attribute m_SD.VB_VarHelpID = -1
 
+Private m_StatSentKBs As Long
+Private m_StatSentPkts As Long
+Private m_StatRecvKBs As Long
+Private m_StatRecvPkts As Long
+
 Public User
 
 Public Event OnClose()
 Public Event OnConnect()
 Public Event OnConnectionRequest(ByVal requestID As Long)
 Public Event OnDataArrival(ByVal bytesTotal As Long)
-Public Event OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+Public Event OnError(ByVal Number As Integer, Description As String, _
+                     ByVal Scode As Long, ByVal Source As String, _
+                     ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
 Public Event OnSendComplete()
 Public Event OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
 
@@ -101,8 +108,8 @@ Public Property Let Tag(ByVal newval As String)
     m_SD.Tag = newval
 End Property
 
-Public Sub Bind(Optional LocalPort As Long = DEFAULT_PORT, _
-                Optional LocalIP As String)
+Public Sub Bind(Optional ByVal LocalPort As Long = DEFAULT_PORT, _
+                Optional ByVal LocalIP As String)
     If IsMissing(LocalIP) Then
         m_SD.Bind LocalPort
     Else
@@ -123,19 +130,34 @@ End Sub
 
 Public Sub Connect(Optional ByVal RemoteHost, _
                    Optional ByVal RemotePort = DEFAULT_PORT)
-    m_SD.Connect RemoteHost, RemotePort
+    If IsMissing(RemoteHost) Then
+        m_SD.Connect , RemotePort
+    Else
+        m_SD.Connect RemoteHost, RemotePort
+    End If
 End Sub
 
 Public Sub Close_()
     m_SD.Close
 End Sub
 
-Public Sub GetData(ByRef Data, Optional ByVal Type_, Optional ByVal MaxLen)
-    m_SD.GetData Data, Type_, MaxLen
+Public Sub GetData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, _
+                   Optional ByVal MaxLen)
+    If IsMissing(MaxLen) Then
+        m_SD.GetData Data, Type_
+    Else
+        m_SD.GetData Data, Type_, MaxLen
+    End If
 End Sub
 
-Public Sub PeekData(ByRef Data, Optional ByVal Type_, Optional ByVal MaxLen)
-    m_SD.PeekData Data, Type_, MaxLen
+'public function GetString as String
+Public Sub PeekData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, _
+                    Optional ByVal MaxLen)
+    If IsMissing(MaxLen) Then
+        m_SD.PeekData Data, Type_
+    Else
+        m_SD.PeekData Data, Type_, MaxLen
+    End If
 End Sub
 
 Public Sub SendData(ByVal Data)
@@ -166,6 +188,8 @@ Private Sub SocketEvents_OnConnectionRequest(ByVal requestID As Long)
 End Sub
 
 Private Sub SocketEvents_OnDataArrival(ByVal bytesTotal As Long)
+    m_StatRecvKBs = m_StatRecvKBs + Round(bytesTotal / 1024)
+    m_StatRecvPkts = m_StatRecvPkts + 1
     RaiseEvent OnDataArrival(bytesTotal)
 End Sub
 
@@ -178,5 +202,7 @@ Private Sub SocketEvents_OnSendComplete()
 End Sub
 
 Private Sub SocketEvents_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    m_StatSentKBs = m_StatSentKBs + Round(bytesSent / 1024)
+    m_StatSentPkts = m_StatSentPkts + 1
     RaiseEvent OnSendProgress(bytesSent, bytesRemaining)
 End Sub
