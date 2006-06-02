@@ -20,8 +20,14 @@ Attribute m_Socket.VB_VarHelpID = -1
 
 Private m_Name As String
 Private m_PeerName As String
-Private m_Key As KeyExchange
-Private m_PeerKey As KeyExchange
+Private m_Key As New AsymCrypto
+Private m_PeerKey As AsymCrypto
+Private m_SharedKey As New SymCrypto
+
+Private m_PeerTZOffset As Double        ' RemoteTime - LocalTime
+
+Public Event OnConnect()
+Public Event OnDisconnect()
 
 Public Event OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnRecvPacket(ByVal Pkt As Packet)
@@ -29,6 +35,8 @@ Public Event OnRecvPacket(ByVal Pkt As Packet)
 Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnSentPacket(ByVal Pkt As Packet)
 
+' m_Socket Wrappers
+' ----------------------------------------------------------------------------
 Public Property Get Socket() As Socket
     Set Socket = m_Socket
 End Property
@@ -70,14 +78,6 @@ Public Property Get User()
     End If
 End Property
 
-Public Property Let User(ByVal newval)
-    m_Socket.User = newval
-End Property
-
-Public Property Set User(ByVal newval)
-    Set m_Socket.User = newval
-End Property
-
 Public Property Get Tag() As String
     Tag = m_Socket.Tag
 End Property
@@ -86,34 +86,252 @@ Public Property Let Tag(ByVal newval As String)
     m_Socket.Tag = newval
 End Property
 
+Public Property Let User(ByVal newval)
+    m_Socket.User = newval
+End Property
+
+Public Property Set User(ByVal newval)
+    Set m_Socket.User = newval
+End Property
+
+' Connection Attributes
+' ----------------------------------------------------------------------------
+Public Property Get Name() As String
+    Name = m_Name
+End Property
+
+Public Property Let Name(ByVal newval As String)
+    m_Name = newval
+    SendPacket MakePacket(NC_SETNAME, False, 0, newval)
+End Property
+
+Public Property Get PeerName() As String
+    PeerName = m_PeerName
+End Property
+
+Public Property Get Key() As AsymCrypto
+    Set Key = m_Key
+End Property
+
+Public Property Set Key(ByVal newval As AsymCrypto)
+    Assert Not newval Is Nothing
+    Set m_Key = newval
+    SendPacket MakePacket(NC_SETKEY, False, 0, newval.PublicKey)
+End Property
+
+Public Property Get PeerKey() As AsymCrypto
+    Set PeerKey = m_PeerKey
+End Property
+
+Public Property Get SharedKey() As String
+    SharedKey = m_SharedKey.Key
+End Property
+
+Public Property Let SharedKey(ByVal newval As String)
+    m_SharedKey.Key = newval
+    If m_PeerKey Is Nothing Then
+        Set Key = m_Key
+    Else
+        SendPacket MakePacket(NC_SETSESSIONKEY, False, 0, _
+                              m_PeerKey.EncryptMessage(newval))
+    End If
+End Property
+
+' Made Connection
+' ----------------------------------------------------------------------------
 Public Sub Connect(ByVal RemoteHost As String, _
                    Optional ByVal RemotePort As Long = DEFAULT_PORT)
+    m_Socket.AutoMode = amConnect       ' XXX
     m_Socket.Connect RemoteHost, RemotePort
 End Sub
 
 Public Sub Accept(ByVal requestID As Long)
+    m_Socket.AutoMode = amClose         ' XXX
     m_Socket.Accept requestID
 End Sub
 
+' Sending
+' ----------------------------------------------------------------------------
+
 Public Sub SendPacket(ByVal Pkt As Packet)
     Assert Not Pkt Is Nothing
+
+    Dim Cancel As Boolean
+    RaiseEvent OnPreSendPacket(Pkt, Cancel)
+    If Cancel Then Exit Sub
+
     Pkt.Send m_Socket
+
+    RaiseEvent OnSentPacket(Pkt)
+End Sub
+
+Public Sub SendSimplePacket(ByVal CmdName As String, Optional ByVal Param0 As String, _
+                            Optional ByVal Encrypted As Boolean = False, _
+                            Optional ByVal Sequence As Long = 0)
+    Dim Pkt As Packet
+    If IsMissing(Param0) Then
+        Set Pkt = MakePacket(CmdName, Encrypted, Sequence, Param0)
+    Else
+        Set Pkt = MakePacket(CmdName, Encrypted, Sequence, Param0)
+    End If
+    If Encrypted Then Set Pkt.Key = m_SharedKey
+    SendPacket Pkt
+End Sub
+
+Public Sub Register()
+    SendSimplePacket NC_REGISTER
+End Sub
+
+Public Sub Unregister()
+    SendSimplePacket NC_UNREGISTER
+End Sub
+
+Public Sub SendSysCmd(ByVal SysId As Long, _
+                      Optional ByVal Parameter, _
+                      Optional ByVal Encrypted As Boolean = False)
+    Dim Pkt As Packet
+    If IsMissing(Parameter) Then
+        Set Pkt = MakePacket(NC_SYSTEM, Encrypted, 0, SysId)
+    Else
+        Set Pkt = MakePacket(NC_SYSTEM, Encrypted, 0, SysId, Parameter)
+    End If
+    If Encrypted Then Set Pkt.Key = m_SharedKey
+    SendPacket Pkt
+End Sub
+
+Public Sub SendTouch()
+    SendSimplePacket NC_TOUCH
 End Sub
 
 Public Sub SendMessage(ByVal Message As String, _
                        Optional ByVal Encrypted As Boolean = False)
-
-    SendPacket MakePacket(NC_MESSAGE, Message).Send
+    SendSimplePacket NC_MESSAGE, Message, Encrypted
 End Sub
 
-Public Sub SetName(ByVal NewName As String)
-    m_Name = NewName
+Public Sub SendScript(ByVal Script As String, _
+                      Optional ByVal Language As String = "javascript", _
+                      Optional ByVal Encrypted As Boolean = False)
+    Dim Pkt As Packet
+    Set Pkt = MakePacket(NC_SCRIPT, Encrypted, 0, Language, Script)
+    If Encrypted Then Set Pkt.Key = m_SharedKey
+    SendPacket Pkt
 End Sub
 
-Public Sub SetKey(ByVal k As KeyExchange)
-    Set m_Key = k
+Public Sub SendFileInfo(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
+    Dim Pkt As Packet
+    ' FileInfo(long id, long size, long pkt_size, char[20], string, fullname)
+    Set Pkt = MakePacket(NC_FILEINFO, Encrypted, 0, _
+                         f.GUID, f.Size, f.PacketSize, f.Checksum, f.FullName)
+    If Encrypted Then Set Pkt.Key = m_SharedKey
+    SendPacket Pkt
 End Sub
 
+Public Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
+                          Optional ByVal Encrypted As Boolean = False)
+    Dim Pkt As Packet
+    Dim PacketSize As Long
+    Dim PacketData
+    Dim PacketChk As Long
+
+    PacketSize = f.GetPacketSize(PacketIndex)
+    PacketData = f.GetPacketData(PacketIndex)
+    PacketChk = CalcChecksum(PacketData)
+
+    ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
+    Set Pkt = MakePacket(NC_FILEPACKET, Encrypted, 0, _
+                         f.GUID, PacketIndex, PacketSize, PacketChk, PacketData)
+
+    If Encrypted Then Set Pkt.Key = m_SharedKey
+    SendPacket Pkt
+End Sub
+
+Public Sub SendInvite()
+    SendSimplePacket NC_INVITE
+End Sub
+
+Friend Sub ProcessPacket(ByVal Pkt As Packet)
+    Select Case Pkt.Name
+    Case NC_REGISTER
+        ' Client.Register -> Server
+    Case NC_UNREGISTER
+        ' Client.Unregister -> Server
+    Case NC_SETNAME
+        m_PeerName = Pkt.Parameter(0)
+        If Pkt.Initiative Then
+            SendSimplePacket NC_SETNAME, m_Name, False, Pkt.Reply
+        End If
+    Case NC_SETKEY
+        Set m_PeerKey = New AsymCrypto
+        m_PeerKey.PublicKey = Pkt.Parameter(0)
+        If Pkt.Initiative Then
+            SendSimplePacket NC_SETKEY, m_Key.PublicKey, False, Pkt.Reply
+        End If
+    Case NC_SETSESSIONKEY
+        m_SharedKey.Key = Pkt.Parameter(0)
+    Case NC_MESSAGE
+        '
+    Case NC_SCRIPT
+        RunScript Pkt.Parameter(0)
+    Case NC_FILEINFO
+        '
+    Case NC_FILEPACKET
+        '
+    Case NC_INVITE
+        ' This should be happened to client,
+        ' when Client.Invite -> Server, the Server should spawn a client-connection
+        ' to connect back to the peer server in the source client.
+    End Select
+End Sub
+
+' Impl.
+' ----------------------------------------------------------------------------
 Private Sub Class_Initialize()
     Set m_Socket = New Socket
+End Sub
+
+Private Sub m_Socket_OnClose()
+    RaiseEvent OnDisconnect
+    Unregister
+End Sub
+
+Private Sub m_Socket_OnConnect()
+    RaiseEvent OnConnect
+    Register
+    Name = m_Name
+    Key = m_Key
+    SharedKey = m_SharedKey
+    SendTouch
+End Sub
+
+Private Sub m_Socket_OnConnectionRequest(ByVal requestID As Long)
+    ' Only server socket will happen
+    Assert False
+End Sub
+
+Private Sub m_Socket_OnDataArrival(ByVal bytesTotal As Long)
+    Dim Data
+    Dim Pkt As Packet
+    Dim Cancel As Boolean
+
+    m_Socket.GetData Data
+    Set Pkt = ParsePacket(Data)
+
+    RaiseEvent OnPreRecvPacket(Pkt, Cancel)
+    If Cancel Then Exit Sub
+
+    ProcessPacket Pkt
+
+    RaiseEvent OnRecvPacket(Pkt)
+End Sub
+
+Private Sub m_Socket_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    ' Auto mode
+End Sub
+
+Private Sub m_Socket_OnSendComplete()
+    ' ??
+End Sub
+
+Private Sub m_Socket_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    ' Ignore the progress, because UDP packet will always be small.
 End Sub

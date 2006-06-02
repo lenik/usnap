@@ -143,16 +143,22 @@ Public Property Get TransferredRatio() As Single
     TransferredRatio = m_TransferredPackets / m_Packets
 End Property
 
+Public Function GetPacketSize(ByVal PacketIndex As Long) As Long
+    Assert PacketIndex >= 0 And PacketIndex < m_Packets
+
+    If PacketIndex = m_Packets - 1 Then
+        GetPacketSize = m_Size Mod m_PacketSize
+    Else
+        GetPacketSize = m_PacketSize
+    End If
+End Function
+
 Public Function GetPacketString(ByVal PacketIndex As Long, _
                                 Optional ByVal RawMode As Boolean = False) As String
     Assert PacketIndex >= 0 And PacketIndex < m_Packets
 
     Dim PacketSize As Long
-    If PacketIndex = m_Packets - 1 Then
-        PacketSize = m_Size Mod m_PacketSize
-    Else
-        PacketSize = m_PacketSize
-    End If
+    PacketSize = GetPacketSize(PacketIndex)
 
     m_File.Open_ m_Path, amRead
     m_File.SetCurrentPosition m_PacketSize * PacketIndex, prBegin
@@ -164,16 +170,11 @@ Public Function GetPacketString(ByVal PacketIndex As Long, _
     m_File.Close_
 End Function
 
-Public Function GetPacketData(ByVal PacketIndex As Long, _
-                              Optional ByVal RawMode As Boolean = False)
+Public Function GetPacketData(ByVal PacketIndex As Long)
     Assert PacketIndex >= 0 And PacketIndex < m_Packets
 
     Dim PacketSize As Long
-    If PacketIndex = m_Packets - 1 Then
-        PacketSize = m_Size Mod m_PacketSize
-    Else
-        PacketSize = m_PacketSize
-    End If
+    PacketSize = GetPacketSize(PacketIndex)
 
     m_File.Open_ m_Path, amRead
     m_File.SetCurrentPosition m_PacketSize * PacketIndex, prBegin

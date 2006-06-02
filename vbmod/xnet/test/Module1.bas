@@ -30,3 +30,13 @@ End Sub
 Public Sub tt3()
     ShowResources
 End Sub
+
+Public Function tt4(ByVal decraw As Boolean, encraw As Boolean)
+    Dim sk As New SymCrypto
+    sk.Key = "123"
+
+    Dim kt As New Packet
+    Set kt.Key = sk
+
+    tt4 = kt.Decode("XMSG 0 Hello, world!", 1, , decraw).Encode(, encraw)
+End Function

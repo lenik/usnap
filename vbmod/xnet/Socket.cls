@@ -13,9 +13,20 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Public Enum AutoModeConstants
+    amNone = 0
+    amBind
+    amListen
+    amConnect
+    amClose
+End Enum
+
 Private m_Handle As Long
 Private m_SD As Winsock
 Attribute m_SD.VB_VarHelpID = -1
+
+Private m_AutoMode As AutoModeConstants
+Private m_SendAtConnect As String
 
 Private m_StatSentKBs As Long
 Private m_StatSentPkts As Long
@@ -106,6 +117,23 @@ End Property
 
 Public Property Let Tag(ByVal newval As String)
     m_SD.Tag = newval
+End Property
+
+Public Property Get AutoMode() As AutoModeConstants
+    AutoMode = m_AutoMode
+End Property
+
+Public Property Let AutoMode(ByVal newval As AutoModeConstants)
+    m_AutoMode = newval
+    AutoWork
+End Property
+
+Public Property Get SendAtConnect() As String
+    SendAtConnect = m_SendAtConnect
+End Property
+
+Public Property Let SendAtConnect(ByVal newval As String)
+    m_SendAtConnect = newval
 End Property
 
 Public Sub Bind(Optional ByVal LocalPort As Long = DEFAULT_PORT, _
@@ -211,6 +239,45 @@ Public Function PeekStringB(Optional ByVal MaxUnicodeChars) As String
     PeekStringB = BytesToStringB(Data)
 End Function
 
+Private Sub AutoWork()
+    If m_AutoMode = amNone Then Exit Sub
+
+    Dim am As AutoModeConstants
+    am = m_AutoMode
+
+    Select Case State
+    Case State = sckClosed
+        If m_AutoMode = amClose Then Exit Sub
+    Case State = sckClosing
+        If am = amClose Then
+            m_SD.Close
+            Exit Sub
+        End If
+    'Case State = sckConnected
+    'Case State = sckConnecting
+    Case State = sckConnectionPending
+        ' ???
+        Exit Sub
+    Case State = sckError
+        m_SD.Close
+    'Case State = sckHostResolved
+    'Case State = sckListening
+    'Case State = sckOpen
+    'Case State = sckResolvingHost
+    Case Else
+        Exit Sub
+    End Select
+
+    Select Case am
+    Case amBind
+        m_SD.Bind
+    Case amListen
+        m_SD.Listen
+    Case amConnect
+        m_SD.Connect
+    End Select
+End Sub
+
 Private Sub Class_Initialize()
     m_Handle = Resources.AllocSocket(Me)
     Set m_SD = Resources.Socket(m_Handle)
@@ -224,9 +291,13 @@ End Sub
 
 Private Sub SocketEvents_OnClose()
     RaiseEvent OnClose
+    AutoWork
 End Sub
 
 Private Sub SocketEvents_OnConnect()
+    If m_SendAtConnect <> "" Then
+        m_SD.SendData m_SendAtConnect
+    End If
     RaiseEvent OnConnect
 End Sub
 
@@ -242,6 +313,7 @@ End Sub
 
 Private Sub SocketEvents_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
     RaiseEvent OnError(Number, Description, Scode, Source, HelpFile, HelpContext, CancelDisplay)
+    AutoWork
 End Sub
 
 Private Sub SocketEvents_OnSendComplete()

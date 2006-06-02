@@ -1,6 +1,6 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{D1572ECA-10B6-4296-B3FD-5EBD51BE0A0E}#8.0#0#..\Xnet.dll#Visual Basic 6.0 eXtreme Networks
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{D1572ECA-10B6-4296-B3FD-5EBD51BE0A0E}#7.1#0#..\Xnet.dll#Visual Basic 6.0 eXtreme Networks
 Form=Server.frm
 Form=Client.frm
 Form=Start.frm

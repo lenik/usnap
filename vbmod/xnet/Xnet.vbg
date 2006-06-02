@@ -1,4 +1,3 @@
 VBGROUP 5.0
-Project=Xnet.vbp
+StartupProject=Xnet.vbp
 Project=test\Test_Xnet1.vbp
-StartupProject=test\Test_Socket.vbp
