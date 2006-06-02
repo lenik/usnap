@@ -17,9 +17,9 @@ Private Const LOCATION                  As String = "VBIOExt::BinaryFile"
 
 Public Enum AccessModeConstants
     amRead = 0
-    amReadWrite
-    amWrite
-    amWriteThrough
+    amEdit                              ' Read/Write, Create if not exist
+    amCreate                            ' Write, Create always
+    amWrite                             ' Write, Create if not exist
     amAppend
 End Enum
 
@@ -66,6 +66,23 @@ Private Declare Function WriteFileS Lib "kernel32" Alias "WriteFile" ( _
         ByVal nNumberOfBytesToWrite As Long, ByRef lpNumberOfBytesWritten As Long, _
         ByVal lpOverlapped As Long) As Boolean
 
+Public Property Get FileName() As String
+    FileName = m_FileName
+End Property
+
+Public Property Let FileName(ByVal newval As String)
+    If IsOpened Then
+        If MoveFile(m_FileName, newval) Then
+            m_FileName = newval
+        Else
+            ' Cannot rename file when opened
+            Err.Raise -1, , "Cannot rename file " & m_FileName & " to " & newval
+        End If
+    Else
+        m_FileName = newval
+    End If
+End Property
+
 Public Property Get LastError() As String
     If m_LastError = "" Then
         m_LastError = GetErrorString(m_LastErrorNum)
@@ -108,12 +125,18 @@ Public Property Get Size() As Long
 End Property
 
 Public Property Let Size(ByVal NewSize As Long)
-    Assert_IsOpened
+    Dim AutoOpen As Boolean
+    AutoOpen = Not IsOpened
+    If AutoOpen Then Open_ m_FileName, amEdit
+    'Assert_IsOpened
+
     Dim l As Long
     If SetCurrentPosition(NewSize) Then
         l = SetEndOfFile(m_Handle)
         If l = 0 Then LastErrorNum = GetLastError
     End If
+
+    If AutoOpen Then Close_
 End Property
 
 Public Function RefreshFileInfo() As Boolean
@@ -162,7 +185,7 @@ Private Sub Assert_IsOpened()
            "File " & m_FileName & " hasn't been opened, yet", LOCATION
 End Sub
 
-Public Function Open_(ByVal FileName As String, _
+Public Function Open_(Optional ByVal FileName, _
                       Optional ByVal AccessMode As AccessModeConstants = 0) As Boolean
     ' If IsOpened Then Close_
     Assert Not IsOpened, "File " & m_FileName & " hasn't been closed, yet", LOCATION
@@ -175,6 +198,8 @@ Public Function Open_(ByVal FileName As String, _
     ShareMode = AM2CFSM(AccessMode)
     CreateDisposition = AM2CFCD(AccessMode)
     FileFlags = AM2CFFF(AccessMode)
+
+    If IsMissing(FileName) Then FileName = m_FileName
 
     Dim h As Long
     h = CreateFile(FileName, DesiredAccess, ShareMode, 0, CreateDisposition, _
@@ -253,8 +278,14 @@ Public Function WriteStringB(ByVal s As String, _
 End Function
 
 Public Function Touch() As Boolean
+    Dim AutoOpen As Boolean
+    AutoOpen = Not IsOpened
+    If AutoOpen Then Open_ m_FileName, amEdit
+
     Touch = WriteFile(m_Handle, Null, 0, Null, Null)
     If Not Touch Then LastErrorNum = GetLastError
+
+    If AutoOpen Then Close_
 End Function
 
 ' Convert AccessModeConstants to CreateFile/DesiredAccess
@@ -262,11 +293,11 @@ Private Function AM2CFDA(ByVal am As AccessModeConstants) As Long
     Select Case am
     Case amRead
         AM2CFDA = GENERIC_READ
-    Case amReadWrite
+    Case amEdit
         AM2CFDA = GENERIC_READ Or GENERIC_WRITE
-    Case amWrite
+    Case amCreate
         AM2CFDA = GENERIC_WRITE
-    Case amWriteThrough
+    Case amWrite
         AM2CFDA = GENERIC_WRITE
     Case amAppend
         AM2CFDA = GENERIC_WRITE
@@ -277,11 +308,11 @@ Private Function AM2CFSM(ByVal am As AccessModeConstants) As Long
     Select Case am
     Case amRead
         AM2CFSM = FILE_SHARE_WRITE
-    Case amReadWrite
+    Case amEdit
         AM2CFSM = 0
-    Case amWrite
+    Case amCreate
         AM2CFSM = FILE_SHARE_READ
-    Case amWriteThrough
+    Case amWrite
         AM2CFSM = FILE_SHARE_READ
     Case amAppend
         AM2CFSM = FILE_SHARE_READ
@@ -292,12 +323,12 @@ Private Function AM2CFCD(ByVal am As AccessModeConstants) As Long
     Select Case am
     Case amRead
         AM2CFCD = OPEN_EXISTING
-    Case amReadWrite
+    Case amEdit
         AM2CFCD = OPEN_ALWAYS
+    Case amCreate
+        AM2CFCD = CREATE_ALWAYS
     Case amWrite
-        AM2CFCD = CREATE_ALWAYS
-    Case amWriteThrough
-        AM2CFCD = CREATE_ALWAYS
+        AM2CFCD = OPEN_ALWAYS
     Case amAppend
         AM2CFCD = OPEN_ALWAYS
     End Select
@@ -305,10 +336,14 @@ End Function
 
 Private Function AM2CFFF(ByVal am As AccessModeConstants) As Long
     Select Case am
+    Case amEdit
+        AM2CFFF = FILE_ATTRIBUTE_NORMAL
+    Case amCreate
+        AM2CFFF = FILE_ATTRIBUTE_NORMAL
     Case amWrite
         AM2CFFF = FILE_ATTRIBUTE_NORMAL
-    Case amWriteThrough
-        AM2CFFF = FILE_ATTRIBUTE_NORMAL Or FILE_FLAG_WRITE_THROUGH
+    'case amWriteThrough
+    '    AM2CFFF = FILE_ATTRIBUTE_NORMAL Or FILE_FLAG_WRITE_THROUGH
     Case amAppend
         AM2CFFF = FILE_ATTRIBUTE_NORMAL
     End Select
