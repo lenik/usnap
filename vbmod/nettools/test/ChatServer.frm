@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "COMCTL32.OCX"
+Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
 Begin VB.Form ChatServer
    Caption         =   "Server"
    ClientHeight    =   6585
@@ -105,9 +105,7 @@ Private Sub btnSend_Click()
     Dim ss, i
     Dim s As Session
     AddText "(echo) > " & txtMessage
-    ss = Server.Sessions.Values
-    For i = LBound(ss) To UBound(ss)
-        Set s = ss(i)
+    For Each s In Server.Sessions.ValueSet
         s.SendMessage txtMessage, chkEncrypt.Value
     Next
 End Sub

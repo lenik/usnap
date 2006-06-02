@@ -10,6 +10,10 @@ Public Const NTC_SETKEY                 As String = "NSK"
 ' Touch(sender-time, 'S'): recver-time/'R'
 Public Const NTC_TOUCH                  As String = "NTC"
 
+' SysEvent(event-name, 'S')
+Public Const NTC_SYSEVENT               As String = "NSE"
+Public Const NTCE_BEGINSESSION          As String = ".bs"
+
 ' Message(message, 'S'): ack-message/'R'
 Public Const NTC_MESSAGE                As String = "NMS"
 

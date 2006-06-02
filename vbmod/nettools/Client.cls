@@ -41,6 +41,8 @@ Private m_session_events As SessionEvents
 Public Event SessionBegin(ByVal s As Session)
 Public Event SessionEnd(ByVal s As Session)
 
+Implements NetTools.SystemEventListener
+
 Public Property Get Name() As String
     Name = m_Name
 End Property
@@ -91,15 +93,15 @@ Public Function Connect(Optional ByVal ServerAddress As String, _
 
     Set m_session = New Session
     m_session.Advise m_session_events
-    m_session.Initialize m_sd
+    m_session.Initialize Me, m_sd
 
     m_sd_connected = True
 
-    RaiseEvent SessionBegin(m_session)
+'    m_session.Name = m_Name
+'    m_session.SetKey
+'    m_session.Touch
 
-    m_session.Name = m_Name
-    m_session.SetKey
-    m_session.Touch
+    RaiseEvent SessionBegin(m_session)
 
     Connect = True
 End Function
@@ -112,7 +114,7 @@ Public Function Disconnect() As Boolean
 End Function
 
 Private Sub Class_Initialize()
-    m_Name = G.Secret
+    m_Name = Secret
 
     Set m_sd = SocketFactory.CreateConnectionOrientedSocket(G.IP_TCP, 0)
 
@@ -141,6 +143,10 @@ Private Sub m_sd_bytes_OnBytesReceived(ByVal xSocket As Object, ByVal vaData As 
     Assert xSocket Is m_sd
 
     m_session.ProcessBytes vaData
+'    Select Case retval
+'    Case ntc_sessionbegin
+'        RaiseEvent SessionBegin(s)
+'    End Select
 End Sub
 
 Private Sub m_sd_conn_OnDisconnected(ByVal xSocket As Object, _
@@ -191,3 +197,10 @@ End Sub
 '
 '    m_session.ProcessCommand Cmd
 'End Sub
+
+Private Sub SystemEventListener_OnSystemEvent(ByVal s As Session, ByVal EventName As String, ByVal Initiative As Boolean, Optional Params As Variant)
+    Select Case EventName
+    Case NTCE_BEGINSESSION
+        RaiseEvent SessionBegin(s)
+    End Select
+End Sub

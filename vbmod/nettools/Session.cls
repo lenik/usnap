@@ -18,6 +18,8 @@ Private Enum ReceivingStateConstants
     rsFileData
 End Enum
 
+Private m_Outer As NetTools.SystemEventListener
+
 Private m_sd As XceedWinsockLib.ConnectionOrientedSocket
 Private m_RecvState As ReceivingStateConstants
 
@@ -96,6 +98,10 @@ End Sub
 
 Public Sub Touch(Optional ByVal Initiative As Boolean = True)
     SendCmd NTC_TOUCH, CDbl(Date + Time), IIf(Initiative, "S", "R")
+End Sub
+
+Public Sub SysEvent(ByVal EventName As String, Optional ByVal Initiative As Boolean = True)
+    SendCmd NTC_SYSEVENT, EventName, IIf(Initiative, "S", "R")
 End Sub
 
 Public Sub SendMessage(ByVal Message As String, Optional ByVal Encrypted As Boolean = False)
@@ -184,7 +190,9 @@ Public Sub SendDirectory(ByVal Directory As String, ByVal Category As String, _
     Next
 End Sub
 
-Friend Sub Initialize(ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
+Friend Sub Initialize(ByVal Outer As NetTools.SystemEventListener, ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
+    Set m_Outer = Outer
+
     Set m_sd = sd
     m_sd.SendTimeOut = TIMEOUT_SEND
     m_sd.ReceiveTimeOut = TIMEOUT_RECEIVE
@@ -196,11 +204,21 @@ Friend Sub Initialize(ByVal sd As XceedWinsockLib.ConnectionOrientedSocket)
     m_PeerPort = addr.Port
 End Sub
 
-Private Sub SendCmd(ByVal Cmd As String, ParamArray params_())
-    Dim params
-    params = ParamArrayToArray(params_)
-    m_sd.SendString NtCmd(Cmd, params), wnfAnsiStrings, wsoNone
-End Sub
+Private Function SendCmd(ByVal Cmd As String, ParamArray params_()) As Boolean
+    Dim Params
+    Params = ParamArrayToArray(params_)
+    SendCmd = SendString(NtCmd(Cmd, Params))
+End Function
+
+Private Function SendString(ByVal str As String) As Boolean
+    On Error GoTo x
+    m_sd.SendString str, wnfAnsiStrings, wsoNone
+    SendString = True
+    Exit Function
+x:
+    ' Timeout?
+    SendString = False
+End Function
 
 Friend Sub ProcessBytes(ByRef vaData As Variant)
     Dim Size As Long
@@ -264,6 +282,9 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         If Cmd.Parameter(2) = "S" Then
             SetKey False
         End If
+    Case NTC_SYSEVENT
+        Text = Cmd.Parameter(1)
+        m_Outer.OnSystemEvent Me, Text, IIf(Cmd.Parameter(2) = "S", True, False)
     Case NTC_TOUCH
         ' RemoteTime - LocalTime
         m_PeerTZOffset = CDbl(Cmd.Parameter(1)) - CDbl(Date + Time)
@@ -447,5 +468,5 @@ End Sub
 
 Private Sub Class_Initialize()
     key.GenerateKeys
-    m_Name = G.Secret
+    m_Name = Secret
 End Sub

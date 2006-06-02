@@ -44,6 +44,8 @@ Public Event SessionRequest(ByVal RemoteAddress As String, ByRef Reject As Boole
 Public Event SessionBegin(ByVal s As Session)
 Public Event SessionEnd(ByVal s As Session)
 
+Implements NetTools.SystemEventListener
+
 Public Property Get Name() As String
     Name = m_Name
 End Property
@@ -105,7 +107,7 @@ Public Property Get Sessions() As VBExt.Map
 End Property
 
 Private Sub Class_Initialize()
-    m_Name = G.Secret
+    m_Name = Secret
 
     Set m_sd = SocketFactory.CreateListeningSocket(G.IP_TCP, 0)
 
@@ -221,12 +223,17 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     ' Add to sessions list
     m_sessions(addr) = s
 
-    s.Initialize sd
+    s.Initialize Me, sd
     s.Advise m_session_events
 
+    ' Now the initial commands are triggered by server.
     s.Name = m_Name
+    s.SetKey
+    s.SysEvent NTCE_BEGINSESSION, True
 
     RaiseEvent SessionBegin(s)
+
+    s.Touch
 End Sub
 
 Private Sub m_sd_income_OnListeningError(ByVal xListeningSocket As Object, _
@@ -274,3 +281,10 @@ End Sub
 '
 '    s.ProcessCommand Cmd
 'End Sub
+
+Private Sub SystemEventListener_OnSystemEvent(ByVal s As Session, ByVal EventName As String, ByVal Initiative As Boolean, Optional Params As Variant)
+    Select Case EventName
+    Case NTCE_BEGINSESSION
+        RaiseEvent SessionBegin(s)
+    End Select
+End Sub
