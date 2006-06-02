@@ -52,6 +52,18 @@ Public Function Values()
     Values = vlist
 End Function
 
+Public Function ValueSet() As Collection
+    Set ValueSet = New Collection
+    Dim ent As Entry
+    For Each ent In m_Entries
+        ValueSet.Add ent.Value
+    Next
+End Function
+
+Public Property Get Entries() As Collection
+    Set Entries = m_Entries
+End Property
+
 Public Property Get Item(Key)
 Attribute Item.VB_UserMemId = 0
     Dim ent As Entry
