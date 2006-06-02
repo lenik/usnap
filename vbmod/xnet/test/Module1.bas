@@ -26,3 +26,7 @@ Public Sub tt2()
     Dim i As Long
     i = f.NextPacketInQueue
 End Sub
+
+Public Sub tt3()
+    ShowResources
+End Sub
