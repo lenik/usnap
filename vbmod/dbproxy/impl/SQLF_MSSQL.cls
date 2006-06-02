@@ -129,3 +129,31 @@ End Property
 Private Property Get SQLFunctions_ConstFalse() As String
     SQLFunctions_ConstFalse = SQLF_Default.ConstFalse
 End Property
+
+Private Function SQLFunctions_Switch(ByVal F As String, ParamArray Cases_() As Variant) As Variant
+    Dim Cases
+    Cases = ParamArrayToArray(Cases_)
+
+    Dim max As Integer
+    Dim i As Integer
+    Dim SQL As String
+
+    max = UBound(Cases)
+    Assert max >= 1, "At least 1 case should be specified", LOCATION
+
+    ' case F
+    '    when C1 then X1
+    '    when C2 then X2
+    ' else Xx end
+    SQL = "case " & F
+    For i = 0 To max - 1 Step 2
+        SQL = SQL & " when " & Cases(i) & " then " & Cases(i + 1)
+    Next
+
+    If Not (max And 1) Then
+        SQL = SQL & " else " & Cases(max)
+    End If
+    SQL = SQL & " end"
+
+    SQLFunctions_Switch = SQL
+End Function

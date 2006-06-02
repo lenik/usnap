@@ -116,3 +116,7 @@ End Property
 Private Property Get SQLFunctions_ConstFalse() As String
     SQLFunctions_ConstFalse = SQLF_Default.ConstFalse
 End Property
+
+Private Function SQLFunctions_Switch(ByVal F As String, ParamArray Cases_() As Variant) As Variant
+    SQLFunctions_Switch = SQLF_Default.Switch(F, Cases_)
+End Function

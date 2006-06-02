@@ -152,3 +152,34 @@ Public Function StrPos(ByVal F As String, ByVal pattern As String, Optional ByVa
         StrPos = "charindex(" & pattern & ", " & F & ", " & offset & ")"
     End If
 End Function
+
+' Swtich("Type", 1, "XX", 2, "XX", "... else ...")
+Public Function Switch(ByVal F As String, ParamArray Cases_())
+    Dim Cases
+    Cases = ParamArrayToArray(Cases_)
+
+    Dim max As Integer
+    Dim i As Integer
+    Dim SQL As String
+    Dim Ends As String
+
+    max = UBound(Cases)
+    Assert max >= 1, "At least 1 case should be specified", LOCATION
+
+    ' iif(F=C1, X1
+    '   ,iif(F=C2, X2,
+    '     ,iif(F=C3, X3
+    '       ,XX
+    '     )))
+    For i = 0 To max - 1 Step 2
+        SQL = SQL & ",iif(" & F & "=" & Cases(i) & ", " & Cases(i + 1)
+        Ends = Ends & ")"
+    Next
+    SQL = Mid(SQL, 2)
+
+    If Not (max And 1) Then
+        SQL = SQL & ", " & Cases(max)
+    End If
+
+    Switch = SQL & Ends
+End Function
