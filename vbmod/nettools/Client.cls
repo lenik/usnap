@@ -97,12 +97,6 @@ Public Function Connect(Optional ByVal ServerAddress As String, _
 
     m_sd_connected = True
 
-'    m_session.Name = m_Name
-'    m_session.SetKey
-'    m_session.Touch
-
-    RaiseEvent SessionBegin(m_session)
-
     Connect = True
 End Function
 

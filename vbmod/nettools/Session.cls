@@ -29,8 +29,8 @@ Private m_PeerName As String
 Private m_PeerAddress As String
 Private m_PeerPort As Integer
 
-Private m_Key As New KeyExchange
-Private m_PeerKey As New KeyExchange
+Private m_Key As New AsymCrypto
+Private m_PeerKey As New AsymCrypto
 
 Private m_PeerTZOffset As Double
 
@@ -68,11 +68,11 @@ Property Get PeerName() As String
     PeerName = m_PeerName
 End Property
 
-Property Get key() As KeyExchange
+Property Get key() As AsymCrypto
     Set key = m_Key
 End Property
 
-Property Get PeerKey() As KeyExchange
+Property Get PeerKey() As AsymCrypto
     Set PeerKey = m_PeerKey
 End Property
 
@@ -212,7 +212,8 @@ End Function
 
 Private Function SendString(ByVal str As String) As Boolean
     On Error GoTo x
-    m_sd.SendString str, wnfAnsiStrings, wsoNone
+    'm_sd.SendString str, wnfAnsiStrings, wsoNone
+    m_sd.AsyncSendString str, wnfAnsiStrings, 0, wsoNone
     SendString = True
     Exit Function
 x:
@@ -284,6 +285,10 @@ Friend Sub ProcessCommand(ByVal Cmd As NtCommand)
         End If
     Case NTC_SYSEVENT
         Text = Cmd.Parameter(1)
+        Select Case Text
+        Case NTCE_BEGINSESSION
+            SysEvent NTCE_BEGINSESSION, False
+        End Select
         m_Outer.OnSystemEvent Me, Text, IIf(Cmd.Parameter(2) = "S", True, False)
     Case NTC_TOUCH
         ' RemoteTime - LocalTime

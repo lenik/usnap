@@ -231,8 +231,6 @@ Private Sub m_sd_income_OnConnectionProcessed(ByVal xListeningSocket As Object, 
     s.SetKey
     s.SysEvent NTCE_BEGINSESSION, True
 
-    RaiseEvent SessionBegin(s)
-
     s.Touch
 End Sub
 
