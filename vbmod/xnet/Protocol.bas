@@ -28,8 +28,11 @@ Public Const NC_MESSAGE                 As String = "MSG"
 ' Script(string lang, string script)
 Public Const NC_SCRIPT                  As String = "PRG"
 
-' FileInfo(long id, long size, long pkt_size, char[20], string, fullname)
-Public Const NC_FILEINFO                As String = "PFI"
+' PutFile(long id, long size, long pkt_size, char[20], string fullname)
+Public Const NC_PUTFILE                 As String = "PUT"
+
+' Cancel(long id)
+Public Const NC_CANCEL                  As String = "CAN"
 
 ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
 '   control:
@@ -41,6 +44,7 @@ Public Const NC_FILEPACKET              As String = "PFK"
 ' Invite([in_addr redirect-to])
 Public Const NC_INVITE                  As String = "INV"
 
+' TODO: Profile
 Public Function MakePacket(ByVal CmdName As String, _
                            Optional ByVal Encrypted As Boolean = False, _
                            Optional ByVal Sequence As Long, _

@@ -1,6 +1,10 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{D1572ECA-10B6-4296-B3FD-5EBD51BE0A0E}#7.1#0#..\Xnet.dll#Visual Basic 6.0 eXtreme Networks
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{B9B33FA1-3F07-4236-9594-63B2AC807511}#2.0#0#..\..\..\bin\vbnet.dll#Visual Basic 6.0 eXtreme Networks
+Reference=*\G{E8017760-AC1B-47E5-919B-DE90C298BBE3}#1.0#0#..\..\binary\bin\binary_ud.dll#Visual Basic 6.0 Binary Process
+Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1d.1#0#..\..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#7.0#0#..\..\..\bin\VBIOExt.dll#Visual Basic 6.0 I/O Extensions
+Reference=*\G{7713AC74-AD1F-4156-A0D8-428A5CB7255A}#2.0#0#..\..\..\bin\security.dll#Visual Basic 6.0 Security Provider
 Form=Server.frm
 Form=Client.frm
 Form=Start.frm

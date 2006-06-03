@@ -26,6 +26,9 @@ Private m_SharedKey As New SymCrypto
 
 Private m_PeerTZOffset As Double        ' RemoteTime - LocalTime
 
+' All files, GUID -> File
+Private m_Files As New VBExt.Map
+
 Public Event OnConnect()
 Public Event OnDisconnect()
 
@@ -217,16 +220,61 @@ Public Sub SendScript(ByVal Script As String, _
     SendPacket Pkt
 End Sub
 
-Public Sub SendFileInfo(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
+Public Sub SendFile(ByVal f As File, _
+                    Optional ByVal Encrypted As Boolean = False)
+    Dim i As Long
+
+    SendPutFile f, Encrypted
+
+    For i = 0 To f.Packets - 1
+        SendFilePacket f, i, Encrypted
+    Next
+End Sub
+
+Public Function ResumeFiles(ByVal SendFilesXML As String) As Boolean
+    Dim Doc As New DOMDocument
+    Dim SessionAttribute As String
+    Dim Segs
+
+    If Not Doc.loadXML(SendFilesXML) Then Exit Function
+
+    Dim elmSendFiles As IXMLDOMElement
+    Set elmSendFiles = Doc.childNodes(0)
+
+    SessionAttribute = elmSendFiles.getAttribute("session")
+    Segs = Split(SessionAttribute, ":")
+    Assert (UBound(Segs) - LBound(Segs) + 1) >= 2, _
+           "session attribute should be in format name:key", LOCATION
+
+    Name = Base64ToString(Segs(0))
+    SharedKey = Base64ToString(Segs(1))
+
+    Dim elmFile As IXMLDOMElement
+    Dim elmStatus As PacketStatusConstants
+    Dim i As Integer
+    For i = 0 To elmSendFiles.childNodes.length - 1
+        Set elmFile = elmSendFiles.childNodes(i)
+        elmStatus = Val(elmFile.getAttribute("status"))
+        If elmStatus <> pktTransferred Then
+            Dim f As New File
+            f.FullName = elmFile.getAttribute("fullname")
+            f.Path = elmFile.getAttribute("path")
+
+            SendFile f
+        End If
+    Next
+End Function
+
+Private Sub SendPutFile(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
     Dim Pkt As Packet
     ' FileInfo(long id, long size, long pkt_size, char[20], string, fullname)
-    Set Pkt = MakePacket(NC_FILEINFO, Encrypted, 0, _
+    Set Pkt = MakePacket(NC_PUTFILE, Encrypted, 0, _
                          f.GUID, f.Size, f.PacketSize, f.Checksum, f.FullName)
     If Encrypted Then Set Pkt.Key = m_SharedKey
     SendPacket Pkt
 End Sub
 
-Public Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
+Private Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
                           Optional ByVal Encrypted As Boolean = False)
     Dim Pkt As Packet
     Dim PacketSize As Long
@@ -250,6 +298,9 @@ Public Sub SendInvite()
 End Sub
 
 Friend Sub ProcessPacket(ByVal Pkt As Packet)
+    Dim fid As String
+    Dim f As File
+
     Select Case Pkt.Name
     Case NC_REGISTER
         ' Client.Register -> Server
@@ -272,9 +323,22 @@ Friend Sub ProcessPacket(ByVal Pkt As Packet)
         '
     Case NC_SCRIPT
         RunScript Pkt.Parameter(0)
-    Case NC_FILEINFO
+    Case NC_PUTFILE
+        ' PutFile(long id, long size, long pkt_size, char[20], string fullname)
+        ' Assert Pkt.ParametersCount >= 5
+        If Pkt.ParametersCount >= 5 Then
+            Set f = New File
+            f.GUID = Pkt.Parameter(0)
+            f.Checksum = Pkt.Parameter(3)
+            f.FullName = Pkt.Parameter(4)
+            ' Size, PacketSize
+            f.Init Val(Pkt.Parameter(1)), Val(Pkt.Parameter(2))
+        End If
+    Case NC_CANCEL
+        ' Cancel(long id)
         '
     Case NC_FILEPACKET
+        ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
         '
     Case NC_INVITE
         ' This should be happened to client,

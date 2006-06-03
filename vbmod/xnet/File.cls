@@ -25,6 +25,7 @@ Private m_PacketSize As Long
 Private m_Checksum As String
 Private m_FullName As String
 
+Private m_Status As PacketStatusConstants
 Private m_Packets As Long
 Private m_TransferredPackets As Long
 Private m_Pkt() As PacketStatusConstants
@@ -97,6 +98,14 @@ End Property
 
 Public Property Let PacketStatus(ByVal Index As Long, ByVal newval As PacketStatusConstants)
     m_Pkt(Index) = newval
+End Property
+
+Public Property Get Status() As PacketStatusConstants
+    Status = m_Status
+End Property
+
+Public Property Let Status(ByVal newval As PacketStatusConstants)
+    m_Status = newval
 End Property
 
 Public Property Get Path() As String
@@ -221,6 +230,10 @@ Public Function PutPacket(ByVal PacketIndex As Long, PacketData, _
 
     m_Pkt(PacketIndex) = pktTransferred
     m_TransferredPackets = m_TransferredPackets + 1
+
+    If m_TransferredPackets = m_Packets Then
+        m_Status = pktTransferred
+    End If
 
     PutPacket = True
 End Function

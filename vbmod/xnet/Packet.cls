@@ -58,6 +58,10 @@ Public Property Let Parameters(ByVal newval)
     m_Parameters = newval
 End Property
 
+Public Property Get ParametersCount() As Long
+    ParametersCount = UBound(m_Parameters) + 1
+End Property
+
 Public Property Get Parameter(ByVal Index As Integer)
     Parameter = m_Parameters(Index)
 End Property

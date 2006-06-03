@@ -2,8 +2,8 @@ VERSION 5.00
 Begin VB.Form Client
    Caption         =   "Client"
    ClientHeight    =   5550
-   ClientLeft      =   60
-   ClientTop       =   450
+   ClientLeft      =   165
+   ClientTop       =   855
    ClientWidth     =   6840
    LinkTopic       =   "Form1"
    ScaleHeight     =   5550
@@ -32,6 +32,9 @@ Begin VB.Form Client
       Top             =   360
       Width           =   4275
    End
+   Begin VB.Menu res
+      Caption         =   "res"
+   End
 End
 Attribute VB_Name = "Client"
 Attribute VB_GlobalNameSpace = False
@@ -49,12 +52,49 @@ End Sub
 
 Private Sub Form_Load()
     Set sd = New Socket
-    sd.Connect "127.0.0.1", 5103
+    sd.Protocol = sckTCPProtocol
+    sd.RemoteHost = "127.0.0.1"
     sd.RemotePort = 5103
+
+    sd.AutoMode = amConnect
+    sd.Connect
+End Sub
+
+Sub AddLog(ByVal s)
+    List1.AddItem s, 0
+End Sub
+
+Private Sub res_Click()
+    ShowResources
+End Sub
+
+Private Sub sd_OnClose()
+    AddLog "sd onclose"
+End Sub
+
+Private Sub sd_OnConnect()
+    AddLog "sd onconnect"
+End Sub
+
+Private Sub sd_OnConnectionRequest(ByVal requestID As Long)
+    AddLog "sd onconnectreq:" & requestID
+End Sub
+
+Private Sub sd_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
+    AddLog "sd onerror:" & Description
+End Sub
+
+Private Sub sd_OnSendComplete()
+    AddLog "sd onsendcompl"
+End Sub
+
+Private Sub sd_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
+    AddLog "sd onsendprog"
 End Sub
 
 Private Sub sd_OnDataArrival(ByVal bytesTotal As Long)
     Dim data
     sd.GetData data
+    data = BytesToString(data)
     List1.AddItem data, 0
 End Sub

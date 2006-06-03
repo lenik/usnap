@@ -38,6 +38,8 @@ Public Event OnSendComplete()
 Public Event OnSystemCommand(ByVal Pkt As Packet)
 Public Event OnGet(ByVal URI As String, ByRef Response As String)
 
+Public Event OnCanceled(ByVal File As File)
+
 Public Property Get Connection() As Connection
     Set Connection = m_Connection
 End Property
@@ -68,8 +70,12 @@ Private Sub m_Connection_OnRecvPacket(ByVal Pkt As Packet)
         RaiseEvent OnTouch
     Case NC_MESSAGE
         RaiseEvent OnMessage(Pkt.Parameter(1))
-    Case NC_FILEINFO                    ' Returned
-        '
+    Case NC_PUTFILE                     ' Returned
+        'RaiseEvent OnPreRecvFile(f, Cancel)
+        'If Cancel Then
+        '    m_Connection.sendcancel (f.id)
+    Case NC_CANCEL
+        RaiseEvent OnCanceled(Pkt.Parameter(0))
     Case NC_FILEPACKET
         '
     Case NC_SYSTEM

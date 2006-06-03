@@ -2,13 +2,13 @@ VERSION 5.00
 Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
 Object = "{79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0"; "VBUserExt.ocx"
 Begin VB.Form Resources
-   Caption         =   "Resources"
-   ClientHeight    =   4140
+   Caption         =   "Socket Status"
+   ClientHeight    =   4410
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   5790
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4140
+   ScaleHeight     =   4410
    ScaleWidth      =   5790
    StartUpPosition =   3  'Windows Default
    Begin VB.Timer Refresher
@@ -47,11 +47,20 @@ Begin VB.Form Resources
    Begin MSWinsockLib.Winsock sck
       Index           =   0
       Left            =   60
+      Tag             =   "(Default)"
       Top             =   60
       _ExtentX        =   741
       _ExtentY        =   741
       _Version        =   393216
-      Protocol        =   1
+      RemoteHost      =   "127.0.0.1"
+   End
+   Begin VB.Label lblStatus
+      Caption         =   "[0]"
+      Height          =   255
+      Left            =   60
+      TabIndex        =   8
+      Top             =   4140
+      Width           =   5655
    End
    Begin VB.Label Label1
       Appearance      =   0  'Flat
@@ -323,11 +332,11 @@ Public Sub FreeSocket(ByVal Handle As Long)
 End Sub
 
 Public Property Get Status() As String
-    Status = Me.Caption
+    Status = lblStatus.Caption
 End Property
 
 Public Property Let Status(ByVal newval As String)
-    Me.Caption = newval
+    lblStatus.Caption = newval
 End Property
 
 Private Sub SocketEvents_OnClose()

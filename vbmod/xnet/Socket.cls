@@ -27,6 +27,7 @@ Attribute m_SD.VB_VarHelpID = -1
 
 Private m_AutoMode As AutoModeConstants
 Private m_SendAtConnect As String
+Private m_ErrorResume As Boolean
 
 Private m_StatSentKBs As Long
 Private m_StatSentPkts As Long
@@ -136,50 +137,90 @@ Public Property Let SendAtConnect(ByVal newval As String)
     m_SendAtConnect = newval
 End Property
 
-Public Sub Bind(Optional ByVal LocalPort As Long = DEFAULT_PORT, _
-                Optional ByVal LocalIP As String)
+Public Function Bind(Optional ByVal LocalPort As Long = DEFAULT_PORT, _
+                     Optional ByVal LocalIP As String) As Boolean
+    If m_ErrorResume Then On Error GoTo x
     If IsMissing(LocalIP) Then
         m_SD.Bind LocalPort
     Else
         m_SD.Bind LocalPort, LocalIP
     End If
-End Sub
+    Bind = True
+x:
+End Function
 
-Public Sub Listen(Optional ByVal LocalPort As Long = DEFAULT_PORT)
+Public Function Listen(Optional ByVal LocalPort As Long = DEFAULT_PORT) As Boolean
+    If m_ErrorResume Then On Error GoTo x
+
+    If m_AutoMode = amListen Then
+        ' If already listening at specified port, then return immediately.
+        If State = sckListening And m_SD.LocalPort = LocalPort Then
+            Listen = True
+            Exit Function
+        End If
+        If State <> sckClosed Then m_SD.Close
+    End If
+
     If m_SD.LocalPort <> LocalPort Then
         m_SD.LocalPort = LocalPort
     End If
     m_SD.Listen
-End Sub
+    Listen = True
+x:
+End Function
 
-Public Sub Accept(ByVal requestID As Long)
+Public Function Accept(ByVal requestID As Long) As Boolean
+    If m_ErrorResume Then On Error GoTo x
     m_SD.Accept requestID
-End Sub
+    Accept = True
+x:
+End Function
 
-Public Sub Connect(Optional ByVal RemoteHost, _
-                   Optional ByVal RemotePort = DEFAULT_PORT)
+Public Function Connect(Optional ByVal RemoteHost, _
+                        Optional ByVal RemotePort = DEFAULT_PORT) As Boolean
+    If m_ErrorResume Then On Error GoTo x
+
+    If m_AutoMode = amConnect Then
+        ' If already listening at specified port, then return immediately.
+        If State = sckConnected _
+                And m_SD.RemoteHost = RemoteHost _
+                And m_SD.RemotePort = RemotePort Then
+            Connect = True
+            Exit Function
+        End If
+        If State <> sckClosed Then m_SD.Close
+    End If
+
     If IsMissing(RemoteHost) Then
         m_SD.Connect , RemotePort
     Else
         m_SD.Connect RemoteHost, RemotePort
     End If
-End Sub
+    Connect = True
+x:
+End Function
 
-Public Sub Close_()
+Public Function Close_() As Boolean
+    If m_ErrorResume Then On Error GoTo x
     m_SD.Close
-End Sub
+    Close_ = True
+x:
+End Function
 
-Public Sub SendData(ByVal Data)
+Public Function SendData(ByVal Data) As Boolean
+    If m_ErrorResume Then On Error GoTo x
     m_SD.SendData Data
-End Sub
+    SendData = True
+x:
+End Function
 
-Public Sub SendString(ByVal s As String)
-    m_SD.SendData StringToBytes(s)
-End Sub
+Public Function SendString(ByVal s As String) As Boolean
+    SendString = SendData(StringToBytes(s))
+End Function
 
-Public Sub SendStringB(ByVal s As String)
-    m_SD.SendData StringBToBytes(s)
-End Sub
+Public Function SendStringB(ByVal s As String) As Boolean
+    SendStringB = SendData(StringBToBytes(s))
+End Function
 
 Public Sub GetData(ByRef Data, Optional ByVal Type_ As Long = vbArray + vbByte, _
                    Optional ByVal MaxLen)
