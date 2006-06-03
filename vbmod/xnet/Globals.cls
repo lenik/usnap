@@ -13,8 +13,22 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Sub ShowResources(Optional ByVal Hidden As Boolean = False)
-    Resources.Visible = Not Hidden
+Private m_RegisteredDrivers As New VBExt.Map
+
+Public Property Get XnetDrivers(ByVal Name As String) As ISocketDriver
+    If m_RegisteredDrivers.Contain(Name) Then
+        Set XnetDrivers = m_RegisteredDrivers(Name)
+    End If
+End Property
+
+Public Sub XnetRegisterDriver(ByVal Name As String, ByVal Driver As ISocketDriver)
+    m_RegisteredDrivers(Name) = Driver
+End Sub
+
+Public Sub XnetUnregisterDriver(ByVal Name As String)
+    If m_RegisteredDrivers.Contain(Name) Then
+        m_RegisteredDrivers.Remove Name
+    End If
 End Sub
 
 Public Function XnetConnect(ByVal RemoteHost As String, _

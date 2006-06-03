@@ -189,6 +189,6 @@ Public Function Decode(ByVal s, Optional ByVal MaxParams As Integer = 1, _
     Set Decode = Me
 End Function
 
-Public Sub Send(ByVal Socket As Socket)
-    Socket.SendStringB Encode
+Public Sub Send(ByVal Socket As iclientSocket)
+'    Socket.SendStringB Encode
 End Sub

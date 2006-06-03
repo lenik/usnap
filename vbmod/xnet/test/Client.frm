@@ -3,12 +3,20 @@ Begin VB.Form Client
    Caption         =   "Client"
    ClientHeight    =   5550
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   555
    ClientWidth     =   6840
    LinkTopic       =   "Form1"
    ScaleHeight     =   5550
    ScaleWidth      =   6840
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btnStart
+      Caption         =   "Start"
+      Height          =   375
+      Left            =   120
+      TabIndex        =   3
+      Top             =   240
+      Width           =   675
+   End
    Begin VB.CommandButton btnSend
       Caption         =   "&Send"
       Height          =   915
@@ -32,9 +40,6 @@ Begin VB.Form Client
       Top             =   360
       Width           =   4275
    End
-   Begin VB.Menu res
-      Caption         =   "res"
-   End
 End
 Attribute VB_Name = "Client"
 Attribute VB_GlobalNameSpace = False
@@ -50,18 +55,26 @@ Private Sub btnSend_Click()
     sd.SendData Text1.Text
 End Sub
 
-Private Sub Form_Load()
+Private Sub btnStart_Click()
     Set sd = New Socket
-    sd.Protocol = sckTCPProtocol
     sd.RemoteHost = "127.0.0.1"
     sd.RemotePort = 5103
+    sd.Tag = "Client Connection"
 
-    sd.AutoMode = amConnect
+    'sd.AutoMode = amConnect
     sd.Connect
+End Sub
+
+Private Sub Form_Load()
+    ShowResources
 End Sub
 
 Sub AddLog(ByVal s)
     List1.AddItem s, 0
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Set sd = Nothing
 End Sub
 
 Private Sub res_Click()
@@ -82,14 +95,6 @@ End Sub
 
 Private Sub sd_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
     AddLog "sd onerror:" & Description
-End Sub
-
-Private Sub sd_OnSendComplete()
-    AddLog "sd onsendcompl"
-End Sub
-
-Private Sub sd_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
-    AddLog "sd onsendprog"
 End Sub
 
 Private Sub sd_OnDataArrival(ByVal bytesTotal As Long)

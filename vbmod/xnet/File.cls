@@ -33,6 +33,7 @@ Private m_PktChecksum() As Long
 
 Private m_Path As String
 Private m_File As New BinaryFile
+Private m_DeleteWhenTransferred As Boolean
 
 Public Property Get GUID() As String
     GUID = m_GUID
@@ -97,7 +98,18 @@ Public Property Get PacketStatus(ByVal Index As Long) As PacketStatusConstants
 End Property
 
 Public Property Let PacketStatus(ByVal Index As Long, ByVal newval As PacketStatusConstants)
-    m_Pkt(Index) = newval
+    If m_Pkt(Index) = newval Then Exit Property
+    If newval = pktTransferred Then
+        m_TransferredPackets = m_TransferredPackets + 1
+    ElseIf m_Pkt(Index) = pktTransferred Then
+        m_TransferredPackets = m_TransferredPackets - 1
+    End If
+
+    If m_DeleteWhenTransferred Then
+        If m_TransferredPackets = m_Packets Then
+            Kill m_Path
+        End If
+    End If
 End Property
 
 Public Property Get Status() As PacketStatusConstants
@@ -116,6 +128,14 @@ Public Property Let Path(ByVal newval As String)
     m_Path = newval
 End Property
 
+Public Property Get DeleteWhenTransferred() As Boolean
+    DeleteWhenTransferred = m_DeleteWhenTransferred
+End Property
+
+Public Property Let DeleteWhenTransferred(ByVal newval As Boolean)
+    m_DeleteWhenTransferred = DeleteWhenTransferred
+End Property
+
 Public Sub Init(ByVal Size As Long, Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
     ' Assert Size >= 0 And PacketSize > 0
     m_Size = Size
@@ -129,9 +149,6 @@ Public Sub Init(ByVal Size As Long, Optional ByVal PacketSize As Long = DEFAULT_
     ReDim m_PktChecksum(-1 To Packets - 1)
 
     m_Packets = Packets
-
-    ' Truncate or Extend the file, if file isn't existed, create then.
-    m_File.Size = Size
 End Sub
 
 ' Returns -1 if not more packet in the queue.
@@ -194,15 +211,17 @@ Public Function GetPacketData(ByVal PacketIndex As Long)
 End Function
 
 ' Returns False if "Packet Checksum Error"
-Public Function PutPacket(ByVal PacketIndex As Long, PacketData, _
+Public Function PutPacket(ByVal PacketIndex As Long, ByVal PacketData As Variant, _
                           Optional ByVal RawMode As Boolean = False) As Boolean
     Assert PacketIndex >= 0 And PacketIndex < m_Packets
 
-    Dim chk As Long
-    ' TODO  calculate the packet checksum -> chk.
-    If chk <> m_PktChecksum(PacketIndex) Then
-        PutPacket = False
-        Exit Function
+    If m_PktChecksum(PacketIndex) <> 0 Then
+        Dim chk As Long
+        chk = CalcChecksum(PacketData)
+        If chk <> m_PktChecksum(PacketIndex) Then
+            PutPacket = False
+            Exit Function
+        End If
     End If
 
     Dim PacketSize As Long
@@ -213,6 +232,10 @@ Public Function PutPacket(ByVal PacketIndex As Long, PacketData, _
     End If
 
     m_File.Open_ m_Path, amWrite
+
+    ' Truncate or Extend the file, if file isn't existed, create then.
+    If m_File.Size <> m_Size Then m_File.Size = m_Size
+
     m_File.SetCurrentPosition m_PacketSize * PacketIndex, prBegin
 
     Select Case VarType(PacketData)

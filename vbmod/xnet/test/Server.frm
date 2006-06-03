@@ -3,12 +3,20 @@ Begin VB.Form Server
    Caption         =   "Server"
    ClientHeight    =   5565
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   555
    ClientWidth     =   6360
    LinkTopic       =   "Form1"
    ScaleHeight     =   5565
    ScaleWidth      =   6360
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btnStart
+      Caption         =   "Start"
+      Height          =   375
+      Left            =   120
+      TabIndex        =   3
+      Top             =   180
+      Width           =   675
+   End
    Begin VB.ListBox List1
       Height          =   3375
       Left            =   1020
@@ -32,9 +40,6 @@ Begin VB.Form Server
       Top             =   4260
       Width           =   1035
    End
-   Begin VB.Menu res
-      Caption         =   "res"
-   End
 End
 Attribute VB_Name = "Server"
 Attribute VB_GlobalNameSpace = False
@@ -52,18 +57,20 @@ Private Sub btnSend_Click()
     sd.SendData Text1.Text
 End Sub
 
-Private Sub Form_Load()
+Private Sub btnStart_Click()
     Set sdserver = New Socket
-    sdserver.Protocol = sckTCPProtocol
     sdserver.Tag = "Server Socket"
     sdserver.LocalPort = 5103
 
     Set sd = New Socket
-    sd.Protocol = sckTCPProtocol
     sd.Tag = "Connection Socket"
 
     sdserver.AutoMode = amListen
     sdserver.Listen
+End Sub
+
+Private Sub Form_Load()
+    ShowResources
 End Sub
 
 Sub AddLog(ByVal s)
@@ -88,14 +95,6 @@ End Sub
 
 Private Sub sd_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
     AddLog "sd onerror:" & Description
-End Sub
-
-Private Sub sd_OnSendComplete()
-    AddLog "sd onsendcompl"
-End Sub
-
-Private Sub sd_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
-    AddLog "sd onsendprog"
 End Sub
 
 Private Sub sdserver_OnClose()
@@ -127,12 +126,4 @@ End Sub
 
 Private Sub sdserver_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
     AddLog "sdserver onerror:" & Description
-End Sub
-
-Private Sub sdserver_OnSendComplete()
-    AddLog "sdserver onsendcompl"
-End Sub
-
-Private Sub sdserver_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
-    AddLog "sdserver onsendprogress"
 End Sub

@@ -19,7 +19,7 @@ Private m_ConnectionEvents As ConnectionEvents
 
 ' m_Connection Wrappers
 ' ----------------------------------------------------------------------------
-Public Property Get Socket() As Socket
+Public Property Get Socket() As iclientSocket
     Set Socket = m_Connection.Socket
 End Property
 

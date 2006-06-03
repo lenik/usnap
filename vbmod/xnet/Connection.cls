@@ -15,7 +15,7 @@ Option Explicit
 
 Private Const LOCATION                  As String = "Xnet::Connection"
 
-Private WithEvents m_Socket As Socket
+Private m_Socket As iclientSocket
 Attribute m_Socket.VB_VarHelpID = -1
 
 Private m_Name As String
@@ -40,12 +40,12 @@ Public Event OnSentPacket(ByVal Pkt As Packet)
 
 ' m_Socket Wrappers
 ' ----------------------------------------------------------------------------
-Public Property Get Socket() As Socket
+Public Property Get Socket() As iclientSocket
     Set Socket = m_Socket
 End Property
 
 Public Property Get LocalIP() As String
-    LocalIP = m_Socket.LocalIP
+    'LocalIP = m_Socket.LocalIP
 End Property
 
 Public Property Let LocalIP(ByVal newval As String)
@@ -54,47 +54,47 @@ Public Property Let LocalIP(ByVal newval As String)
 End Property
 
 Public Property Get LocalPort() As Long
-    LocalPort = m_Socket.LocalPort
+    'LocalPort = m_Socket.LocalPort
 End Property
 
 Public Property Let LocalPort(ByVal newval As Long)
-    m_Socket.LocalPort = newval
+    'm_Socket.LocalPort = newval
 End Property
 
 Public Property Get RemoteHost() As String
-    RemoteHost = m_Socket.RemoteHost
+    'RemoteHost = m_Socket.RemoteHost
 End Property
 
 Public Property Get RemoteHostIP() As String
-    RemoteHostIP = m_Socket.RemoteHostIP
+    'RemoteHostIP = m_Socket.RemoteHostIP
 End Property
 
 Public Property Get RemotePort() As Long
-    RemotePort = m_Socket.RemotePort
+    'RemotePort = m_Socket.RemotePort
 End Property
 
 Public Property Get User()
-    If IsObject(m_Socket.User) Then
-        Set User = m_Socket.User
-    Else
-        User = m_Socket.User
-    End If
+'    If IsObject(m_Socket.User) Then
+'        Set User = m_Socket.User
+'    Else
+'        User = m_Socket.User
+'    End If
 End Property
 
 Public Property Get Tag() As String
-    Tag = m_Socket.Tag
+'    Tag = m_Socket.Tag
 End Property
 
 Public Property Let Tag(ByVal newval As String)
-    m_Socket.Tag = newval
+'    m_Socket.Tag = newval
 End Property
 
 Public Property Let User(ByVal newval)
-    m_Socket.User = newval
+'    m_Socket.User = newval
 End Property
 
 Public Property Set User(ByVal newval)
-    Set m_Socket.User = newval
+'    Set m_Socket.User = newval
 End Property
 
 ' Connection Attributes
@@ -144,13 +144,13 @@ End Property
 ' ----------------------------------------------------------------------------
 Public Sub Connect(ByVal RemoteHost As String, _
                    Optional ByVal RemotePort As Long = DEFAULT_PORT)
-    m_Socket.AutoMode = amConnect       ' XXX
+'    m_Socket.AutoMode = amConnect       ' XXX
     m_Socket.Connect RemoteHost, RemotePort
 End Sub
 
 Public Sub Accept(ByVal requestID As Long)
-    m_Socket.AutoMode = amClose         ' XXX
-    m_Socket.Accept requestID
+'    m_Socket.AutoMode = amClose         ' XXX
+'    m_Socket.Accept requestID
 End Sub
 
 ' Sending
@@ -350,7 +350,7 @@ End Sub
 ' Impl.
 ' ----------------------------------------------------------------------------
 Private Sub Class_Initialize()
-    Set m_Socket = New Socket
+'    Set m_Socket = New Socket
 End Sub
 
 Private Sub m_Socket_OnClose()
@@ -377,7 +377,7 @@ Private Sub m_Socket_OnDataArrival(ByVal bytesTotal As Long)
     Dim Pkt As Packet
     Dim Cancel As Boolean
 
-    m_Socket.GetData Data
+'    m_Socket.GetData Data
     Set Pkt = ParsePacket(Data)
 
     RaiseEvent OnPreRecvPacket(Pkt, Cancel)
