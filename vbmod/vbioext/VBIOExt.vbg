@@ -1,4 +1,4 @@
 VBGROUP 5.0
-StartupProject=VBIOExt.vbp
-Project=test\VBIOExt_Test1.vbp
+Project=VBIOExt.vbp
+StartupProject=test\VBIOExt_Test1.vbp
 Project=test\T_Zip.vbp

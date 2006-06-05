@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private Const LOCATION                  As String = "VBIOExt::BinaryUtilities"
+
 Public m_Base64 As New BinaryLib.base64
 
 Public Function ReadTextFile(ByVal Path As String, Optional ByVal Default As String) As String
@@ -78,33 +80,33 @@ Public Function BytesToStringB(ByVal Bytes) As String
     BytesToStringB = Bytes
 End Function
 
-Public Function LeftBytes(ByRef Bytes, ByVal Length As Long)
+Public Function LeftBytes(ByRef Bytes, ByVal length As Long)
     Dim Size As Long
     Size = ArraySize(Bytes)
 
     ' Assert Start >= 0 And Start <= Size
 
-    If Length <= 0 Then
+    If length <= 0 Then
         Exit Function
     End If
 
-    If Length >= Size Then
+    If length >= Size Then
         If VarType(Bytes) = vbArray + vbByte Then
             LeftBytes = Bytes
             Exit Function
         End If
-        Length = Size
+        length = Size
     End If
 
-    ReDim Partial(0 To Length - 1) As Byte
+    ReDim Partial(0 To length - 1) As Byte
     Dim i As Long
-    For i = 0 To Length - 1
+    For i = 0 To length - 1
         Partial(i) = Bytes(i)
     Next
     LeftBytes = Partial
 End Function
 
-Public Function MidBytes(ByRef Bytes, ByVal Start As Long)  ' Start based at 0
+Public Function MidBytes(ByRef Bytes, ByVal Start As Long) ' Start based at 0
     Dim Size As Long
     Size = ArraySize(Bytes)
 
@@ -122,10 +124,59 @@ Public Function MidBytes(ByRef Bytes, ByVal Start As Long)  ' Start based at 0
         Exit Function
     End If
 
-    ReDim Remains(0 To Size - Start - 1) As Byte
-    Dim i As Long
-    For i = Start To Size - 1
-        Remains(i - Start) = Bytes(i)
-    Next
-    MidBytes = Remains
+    ReDim remains(0 To Size - Start - 1) As Byte
+    varscpy remains, 0, Bytes, Start, Size - Start
+
+    MidBytes = remains
 End Function
+
+Public Sub varscpy(ByRef dst, ByVal dstoff As Long, _
+                   ByRef src, ByVal srcoff As Long, ByVal num As Long)
+    Assert 0 <> (VarType(dst) And vbArray), "dst isn't an array"
+    Assert 0 <> (VarType(src) And vbArray), "src isn't an array"
+    Assert num >= 0, "invalid num of copy items", LOCATION
+    Assert dstoff >= LBound(dst) And dstoff + num < UBound(dst), "dst-range out of bounds", LOCATION
+    Assert srcoff >= LBound(src) And srcoff + num < UBound(src), "src-range out of bounds", LOCATION
+    Dim i As Long
+    For i = 0 To num - 1
+        dst(dstoff + i) = src(srcoff + i)
+    Next
+End Sub
+
+Public Sub objscpy(ByRef dst, ByVal dstoff As Long, _
+                   ByRef src, ByVal srcoff As Long, ByVal num As Long)
+    Assert 0 <> (VarType(dst) And vbArray), "dst isn't an array"
+    Assert 0 <> (VarType(src) And vbArray), "src isn't an array"
+    Assert num >= 0, "invalid num of copy items", LOCATION
+    Assert dstoff >= LBound(dst) And dstoff + num < UBound(dst), "dst-range out of bounds", LOCATION
+    Assert srcoff >= LBound(src) And srcoff + num < UBound(src), "src-range out of bounds", LOCATION
+    Dim i As Long
+    For i = 0 To num - 1
+        Set dst(dstoff + i) = src(srcoff + i)
+    Next
+End Sub
+
+Public Sub bytscpy(ByRef dst() As Byte, ByVal dstoff As Long, _
+                   ByRef src() As Byte, ByVal srcoff As Long, ByVal num As Long)
+    varscpy dst, dstoff, src, srcoff, num
+End Sub
+
+Public Sub intscpy(ByRef dst() As Integer, ByVal dstoff As Long, _
+                   ByRef src() As Integer, ByVal srcoff As Long, ByVal num As Long)
+    varscpy dst, dstoff, src, srcoff, num
+End Sub
+
+Public Sub lngscpy(ByRef dst() As Long, ByVal dstoff As Long, _
+                   ByRef src() As Long, ByVal srcoff As Long, ByVal num As Long)
+    varscpy dst, dstoff, src, srcoff, num
+End Sub
+
+Public Sub sngscpy(ByRef dst() As Single, ByVal dstoff As Long, _
+                   ByRef src() As Single, ByVal srcoff As Long, ByVal num As Long)
+    varscpy dst, dstoff, src, srcoff, num
+End Sub
+
+Public Sub dblscpy(ByRef dst() As Double, ByVal dstoff As Long, _
+                   ByRef src() As Double, ByVal srcoff As Long, ByVal num As Long)
+    varscpy dst, dstoff, src, srcoff, num
+End Sub
