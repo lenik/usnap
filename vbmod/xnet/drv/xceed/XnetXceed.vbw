@@ -1,0 +1,7 @@
+TCPDriver = 34, 93, 746, 499, C
+TCPServerSocket = 50, 188, 762, 594,
+TCPClientSocket = 145, 129, 857, 535, C
+Licenses = 0, 0, 0, 0, C
+GlobalsSingleton = 132, 174, 844, 580, C
+Globals = 75, 124, 799, 549, C
+TCPClientSockets = 101, 65, 825, 490,
