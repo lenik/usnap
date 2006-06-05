@@ -15,8 +15,8 @@ Option Explicit
 
 Private m_Port As Long
 
-Public Property Get Client(ByVal RemoteHost As String) As Client
-    Set Client = XnetConnect(RemoteHost, m_Port)
+Public Property Get Client(ByVal ServerHost As String) As Client
+    Set Client = XnetConnect(ServerHost, m_Port)
 End Property
 
 Public Property Get Port() As Long
@@ -27,8 +27,8 @@ Public Property Let Port(ByVal newval As Long)
     m_Port = newval
 End Property
 
-Public Sub SendMessage(ByVal RemoteHost As String, ByVal Message As String)
-    'Client(RemoteHost).SendMessage Message
+Public Sub SendMessage(ByVal ServerHost As String, ByVal Message As String)
+    'Client(ServerHost).SendMessage Message
 End Sub
 
 'public function

@@ -19,16 +19,16 @@ Private m_ConnectionEvents As ConnectionEvents
 
 ' m_Connection Wrappers
 ' ----------------------------------------------------------------------------
-Public Property Get Socket() As iclientSocket
+Public Property Get Socket() As IClientSocket
     Set Socket = m_Connection.Socket
 End Property
 
-Public Property Get LocalIP() As String
-    LocalIP = m_Connection.LocalIP
+Public Property Get LocalHost() As String
+    LocalHost = m_Connection.LocalHost
 End Property
 
-Public Property Let LocalIP(ByVal newval As String)
-    m_Connection.LocalIP = newval
+Public Property Let LocalHost(ByVal newval As String)
+    m_Connection.LocalHost = newval
 End Property
 
 Public Property Get LocalPort() As Long
@@ -39,16 +39,16 @@ Public Property Let LocalPort(ByVal newval As Long)
     m_Connection.LocalPort = newval
 End Property
 
-Public Property Get RemoteHost() As String
-    RemoteHost = m_Connection.RemoteHost
+Public Property Get ServerHost() As String
+    ServerHost = m_Connection.ServerHost
 End Property
 
-Public Property Get RemoteHostIP() As String
-    RemoteHostIP = m_Connection.RemoteHostIP
+Public Property Get ServerHostIP() As String
+    ServerHostIP = m_Connection.ServerHostIP
 End Property
 
-Public Property Get RemotePort() As Long
-    RemotePort = m_Connection.RemotePort
+Public Property Get ServerPort() As Long
+    ServerPort = m_Connection.ServerPort
 End Property
 
 Public Property Get User()
@@ -111,9 +111,9 @@ End Property
 
 ' Made Connection
 ' ----------------------------------------------------------------------------
-Public Sub Connect(ByVal RemoteHost As String, _
-                   Optional ByVal RemotePort As Long = DEFAULT_PORT)
-    m_Connection.Connect RemoteHost, RemotePort
+Public Sub Connect(ByVal ServerHost As String, _
+                   Optional ByVal ServerPort As Long = DEFAULT_PORT)
+    m_Connection.Connect ServerHost, ServerPort
 End Sub
 
 Public Sub Accept(ByVal requestID As Long)

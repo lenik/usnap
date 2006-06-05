@@ -13,6 +13,10 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Public Property Get LocalAddress() As String
+
+End Property
+
 Public Function Advise(ByVal EventSink As IServerEvents) As Long
 
 End Function
@@ -21,7 +25,7 @@ Public Sub Unadvise(Optional ByVal Cookie As Long = -1)
 
 End Sub
 
-Public Sub Bind(ByVal Port As Long)
+Public Sub Bind(ByVal LocalAddress As String)
 
 End Sub
 
@@ -33,14 +37,10 @@ Public Property Get Clients() As Long
 
 End Property
 
-Public Property Get ClientIP(ByVal Index As Long) As String
+Public Property Get ClientHandle(ByVal Index As Long) As Long
 
 End Property
 
-Public Property Get ClientPort(ByVal Index As Long) As Long
-
-End Property
-
-Public Property Get Client(ByVal Index As Long) As iclientSocket
+Public Property Get Client(ByVal Handle As Long) As IClientSocket
 
 End Property

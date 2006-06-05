@@ -13,15 +13,21 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Sub Request(ByVal RemoteIP As String, ByVal RemotePort As Long, _
+Public Enum DisconnectReasonConstants
+    drClosed
+    drErrored
+End Enum
+
+Public Sub Request(ByVal RemoteAddress As String, _
                    ByRef Reject As Boolean, ByRef EventSink As IClientEvents)
 
 End Sub
 
-Public Sub Connect(ByVal Index As Long)
+Public Sub Connect(ByVal Handle As Long)
 
 End Sub
 
-Public Sub Disconnect(ByVal Index As Long)
+Public Sub Disconnect(ByVal Handle As Long, _
+                      ByVal Reason As DisconnectReasonConstants)
 
 End Sub

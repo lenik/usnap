@@ -13,10 +13,11 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Function Bind(ByVal Port As Long, _
+Public Function Bind(ByVal LocalAddress As String, _
                      ByVal EventSink As IServerEvents) As IServerSocket
 End Function
 
-Public Function Connect(ByVal RemoteHost As String, ByVal RemotePort As Long, _
-                        ByVal EventSink As IClientEvents) As iclientSocket
+Public Function Connect(ByVal RemoteAddress As String, _
+                        ByVal EventSink As IClientEvents, _
+                        Optional ByVal LocalAddress As String) As IClientSocket
 End Function

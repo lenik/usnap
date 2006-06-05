@@ -14,6 +14,14 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0
 
+Public Property Get RemoteAddress() As String
+
+End Property
+
+Public Property Get LocalAddress() As String
+
+End Property
+
 Public Function Advise(ByVal EventSink As IClientEvents) As Long
 
 End Function
@@ -22,7 +30,8 @@ Public Sub Unadvise(Optional ByVal Cookie As Long = -1)
 
 End Sub
 
-Public Sub Connect(ByVal RemoteIP As String, ByVal RemotePort As Long)
+Public Sub Connect(ByVal RemoteAddress As String, _
+                   Optional ByVal LocalAddress As String)
 
 End Sub
 
@@ -30,6 +39,9 @@ Public Sub Disconnect()
 
 End Sub
 
-Public Sub SendBytes(ByRef Bytes() As Byte, Optional ByVal Async As Boolean = False)
+Public Sub SendBytes(ByRef Bytes() As Byte, _
+                     Optional ByVal Offset As Long = 0, _
+                     Optional ByVal Size As Long = -1, _
+                     Optional ByVal Async As Boolean = False)
 
 End Sub

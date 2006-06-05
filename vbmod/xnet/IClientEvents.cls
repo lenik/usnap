@@ -18,7 +18,7 @@ Public Sub Connect()
 
 End Sub
 
-Public Sub Disconnect()
+Public Sub Disconnect(ByVal Reason As DisconnectReasonConstants)
 
 End Sub
 

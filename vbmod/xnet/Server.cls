@@ -15,5 +15,5 @@ Option Explicit
 
 'TCP-mode only
 'Public Event OnIncomingConnection(ByVal RemoteAddr As String, _
-'                                  ByVal RemotePort As Long, _
+'                                  ByVal ServerPort As Long, _
 '                                  ByRef Reject As Boolean)

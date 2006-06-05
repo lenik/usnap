@@ -1,8 +1,10 @@
 Attribute VB_Name = "GlobalsSingleton"
 Option Explicit
 
-Public Function XnetConnect(ByVal RemoteHost As String, _
-                            Optional ByVal RemotePort As Integer = DEFAULT_PORT) As Client
+Public G As New Globals
+
+Public Function XnetConnect(ByVal ServerHost As String, _
+                            Optional ByVal ServerPort As Integer = DEFAULT_PORT) As Client
     Dim h As Long
 '    Dim s As New Socket
 '

@@ -31,11 +31,36 @@ Public Sub XnetUnregisterDriver(ByVal Name As String)
     End If
 End Sub
 
-Public Function XnetConnect(ByVal RemoteHost As String, _
-                            Optional ByVal RemotePort As Integer = DEFAULT_PORT) As Client
-    Set XnetConnect = GlobalsSingleton.XnetConnect(RemoteHost, RemotePort)
+Public Function XnetConnect(ByVal ServerHost As String, _
+                            Optional ByVal ServerPort As Integer = DEFAULT_PORT) As Client
+    Set XnetConnect = GlobalsSingleton.XnetConnect(ServerHost, ServerPort)
 End Function
 
 Public Property Get XnetCommands() As CommandsClient
 
 End Property
+
+Public Function InaddrHost(ByVal Address As String) As String
+    If IsNumeric(Address) Then
+        InaddrHost = "127.0.0.1"
+    ElseIf InStr(Address, ":") Then
+        InaddrHost = Left(Address, InStr(Address, ":") - 1)
+        If InaddrHost = "" Then InaddrHost = "127.0.0.1"
+    Else
+        InaddrHost = Address
+    End If
+End Function
+
+Public Function InaddrPort(ByVal Address As String) As Long
+    If IsNumeric(Address) Then
+        InaddrPort = Val(Address)
+    ElseIf InStr(Address, ":") Then
+        InaddrPort = Val(Mid(Address, InStr(Address, ":") + 1))
+    Else
+        InaddrPort = 0
+    End If
+End Function
+
+Public Function InaddrIP(ByVal Address As String) As String
+    ' InaddrIP = resolve(InaddrHost)
+End Function
