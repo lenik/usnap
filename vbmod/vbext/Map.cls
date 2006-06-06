@@ -88,6 +88,19 @@ NotExist:
     m_Entries.Add ent, CStr(Key)
 End Property
 
+Public Property Set Item(Key, Value)
+    Dim ent As Entry
+    On Error GoTo NotExist
+    Set ent = m_Entries(CStr(Key))
+    Set ent.Value = Value
+    Exit Property
+NotExist:
+    Set ent = New Entry
+    ent.Key = Key
+    Set ent.Value = Value
+    m_Entries.Add ent, CStr(Key)
+End Property
+
 Public Function Contain(Key) As Boolean
     Dim ent As Entry
     On Error GoTo NotExist

@@ -54,8 +54,9 @@ Public Sub Assert(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
-        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
+        If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
+        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg _
+                  & vbNewLine & vbNewLine & "Location: " & loc
     End If
 End Sub
 
@@ -67,15 +68,16 @@ Public Sub Warning(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
-        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
+        If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
+        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg _
+                  & vbNewLine & vbNewLine & "Location: " & loc
     End If
 End Sub
 
 ' COPY GlobalsSingleton.Unexpected
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-    If IsMissing(loc) Then loc = App.path
+    If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
     Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
 End Sub
 

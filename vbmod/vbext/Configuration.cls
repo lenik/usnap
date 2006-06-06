@@ -21,13 +21,19 @@ Private Const DISPID_BASE = 10001
 Private m_Accessor As Object
 Private m_Name As String
 Private m_HomeDir As String
-Private m_EntryName As Map
-Private m_EntryId As Map
+
+' Name => ConfigEntry
+Private m_EntryName As New Map
+
+' Id => ConfigEntry
+Private m_EntryId As New Map
+
 Private m_NextId As Integer
 
 Private m_TempDir As String
 
 Implements IDynamicObject
+Implements Map
 
 Private Sub Class_Initialize()
     Dim tempdir As String * 1000
@@ -61,20 +67,20 @@ End Function
 
 ' Impl Utilities
 
-Private Sub SetEntry(name, ce)
+Private Sub SetEntry(Name, ce)
     If ce.Id = 0 Then
         ce.Id = m_NextId
         m_NextId = m_NextId + 1
     End If
-    m_EntryName(name) = ce
+    m_EntryName(Name) = ce
     m_EntryId(ce.Id) = ce
 End Sub
 
-Private Function RemoveEntry(name) As Boolean
+Private Function RemoveEntry(Name) As Boolean
     Dim ce
-    LC.Assign ce, m_EntryName(name)
+    LC.Assign ce, m_EntryName(Name)
     If Not IsNull(ce) Then
-        m_EntryName.Remove name
+        m_EntryName.Remove Name
         m_EntryId.Remove ce.Id
         RemoveEntry = True
     End If
@@ -85,13 +91,13 @@ Private Function AbsolutePath(ByVal SectionPath As String) As String
 End Function
 
 Private Sub LoadConfig(ByVal Section As String)
-    Dim Path As String
+    Dim path As String
     Dim xmldoc As New DOMDocument
 
-    Path = AbsolutePath(Section)
-    If Not xmldoc.Load(Path) Then
+    path = AbsolutePath(Section)
+    If Not xmldoc.Load(path) Then
         Err.Raise ERR_CANT_LOAD_CONFIG, LOCATION, _
-            "无法装载配置文件: " & Path & vbNewLine _
+            "无法装载配置文件: " & path & vbNewLine _
             & xmldoc.parseError.reason
     End If
 
@@ -102,22 +108,22 @@ Private Sub LoadConfig(ByVal Section As String)
     Dim i As Integer
     For i = 0 To entrylist.length - 1
         Dim elm As IXMLDOMElement
-        Dim name As String
+        Dim Name As String
         Dim vtype As String
         Dim j As Integer
         Dim ce As ConfigEntry
 
         Set elm = entrylist(i)
-        name = elm.getAttribute("Name")
-        Assert name <> "", "Entry/@Name hasn'vtype specified", LOCATION
+        Name = elm.getAttribute("Name")
+        Assert Name <> "", "Entry/@Name hasn'vtype specified", LOCATION
 
         vtype = LCase(FC.StringOf(elm.getAttribute("Type")))
         'Assert vtype = Trim(vtype)
 
         Set ce = New ConfigEntry
         ce.ParseValue elm, vtype
-        ce.InitEntry 0, Section
-        SetEntry name, ce
+        ce.InitEntry 0, Section, Me
+        SetEntry Name, ce
 
         If vtype = "sub" Then
             Dim SubSection As String
@@ -132,11 +138,11 @@ Private Sub LoadConfig(ByVal Section As String)
     Next
 End Sub
 
-Public Property Get name() As String
-    name = m_Name
+Public Property Get Name() As String
+    Name = m_Name
 End Property
 
-Property Let name(ByVal newName As String)
+Property Let Name(ByVal newName As String)
     m_Name = newName
 End Property
 
@@ -149,35 +155,50 @@ Public Property Let HomeDirectory(ByVal newHome As String)
 End Property
 
 Public Sub Reload(Optional ByVal IgnoreErrors As Boolean = False)
-    Set m_EntryId = New Map
-    Set m_EntryName = New Map
-    m_NextId = DISPID_BASE
+    Map_Clear
 
     If IgnoreErrors Then On Error Resume Next
     LoadConfig ""
 End Sub
 
-Public Property Get Item(name)
+Public Property Get Item(Name)
 Attribute Item.VB_UserMemId = 0
     Dim ce
-    LC.Assign ce, m_EntryName(name)
-    If Not IsNull(ce) Then LC.Assign Item, ce.Value
+    LC.Assign ce, m_EntryName(Name)
+    If Not IsNull(ce) Then
+        LC.Assign Item, ce.Value
+    Else
+        Item = Null
+    End If
 End Property
 
-Public Property Let Item(name, Value)
+Public Property Let Item(Name, Value)
     Dim ce
-    LC.Assign ce, m_EntryName(name)
+    LC.Assign ce, m_EntryName(Name)
     If IsNull(ce) Then
         Set ce = New ConfigEntry
-        LC.Assign ce.Value, Value
-        SetEntry name, ce
+        ce.InitEntry 0, "<*>", Me
+        ce.Value = Value
+        SetEntry Name, ce
     Else
         ce.Value = Value
     End If
 End Property
 
-Public Sub Remove(ByVal name As String)
-    RemoveEntry name
+Public Property Set Item(Name, Value)
+    Dim ce
+    LC.Assign ce, m_EntryName(Name)
+    If IsNull(ce) Then
+        Set ce = New ConfigEntry
+        Set ce.Value = Value
+        SetEntry Name, ce
+    Else
+        Set ce.Value = Value
+    End If
+End Property
+
+Public Sub Remove(ByVal Name As String)
+    RemoveEntry Name
 End Sub
 
 Public Property Get Attributes() As Collection
@@ -192,13 +213,13 @@ Public Function Accessor() As Object
 End Function
 
 ' IDynamicObject::DynamicIndex
-Private Function IDynamicObject_DynamicIndex(ByVal name As String) As Long
+Private Function IDynamicObject_DynamicIndex(ByVal Name As String) As Long
     Dim ce
-    LC.Assign ce, m_EntryName(name)
+    LC.Assign ce, m_EntryName(Name)
     If IsNull(ce) Then
         ' Add null entry for dynamic adding properties
-        Item(name) = Null
-        LC.Assign ce, m_EntryName(name)
+        Item(Name) = Null
+        LC.Assign ce, m_EntryName(Name)
     End If
     IDynamicObject_DynamicIndex = ce.Id
 End Function
@@ -222,4 +243,62 @@ Private Function IDynamicObject_DynamicInvoke(ByVal itype As InvokeType, ByVal m
     Exit Function
 NotExist:
     Unexpected
+End Function
+
+Private Sub Map_Clear()
+    Set m_EntryId = New Map
+    Set m_EntryName = New Map
+    m_NextId = DISPID_BASE
+End Sub
+
+Private Function Map_Contain(Key As Variant) As Boolean
+    Map_Contain = m_EntryName.Contain(Key)
+End Function
+
+Private Property Get Map_Entries() As Collection
+    Set Map_Entries = m_EntryName
+End Property
+
+Private Property Set Map_Item(Key As Variant, rhs As Variant)
+    Set Item(Key) = rhs
+End Property
+
+Private Property Let Map_Item(Key As Variant, rhs As Variant)
+    Item(Key) = rhs
+End Property
+
+Private Property Get Map_Item(Key As Variant) As Variant
+    LC.Assign Map_Item, Item(Key)
+End Property
+
+Private Function Map_KeySet() As Collection
+    Set Map_KeySet = m_EntryName.KeySet
+End Function
+
+Private Function Map_Remove(Key As Variant) As Boolean
+    Remove Key
+    Map_Remove = True
+End Function
+
+Private Property Get Map_Serialization() As String
+    ' Map_Serialization
+End Property
+
+Private Function Map_Size() As Long
+    Map_Size = m_EntryName.Size
+End Function
+
+Private Function Map_Values() As Variant
+    Assert False, "Not Supported", LOCATION
+    'Map_Values = m_EntryName.Values
+End Function
+
+Private Function Map_ValueSet() As Collection
+    Assert False, "Not Supported", LOCATION
+    'Set Map_ValueSet = m_EntryName.ValueSet
+End Function
+
+Private Function Map_Walk(it As Iterator) As Long
+    Assert False, "Not Supported", LOCATION
+    'Map_Walk = m_EntryName.Walk(it)
 End Function

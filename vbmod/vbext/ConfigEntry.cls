@@ -25,10 +25,13 @@ Private m_Section As String
 ' Entry Value
 Private m_Value As Variant
 
+' Variable Map
+Private m_VarMap As Map
 
-Sub InitEntry(ByVal Id As Long, ByVal Section As String)
+Sub InitEntry(ByVal Id As Long, ByVal Section As String, ByVal VarMap As Map)
     m_Id = Id
     m_Section = Section
+    Set m_VarMap = VarMap
 End Sub
 
 Public Sub ParseValue(ByVal elm As IXMLDOMElement, ByVal vtype As String)
@@ -79,15 +82,22 @@ Public Property Get Section() As String
 End Property
 
 Public Property Get Value() As Variant
-Attribute Value.VB_UserMemId = 0
     If IsObject(Value) Then
         ' Is Dynamic Property?
         ' <EXT...>
         Exit Property
     End If
-    LC.Assign Value, m_Value
+    If VarType(m_Value) = vbString Then
+        Value = VarEvalMap(m_Value, m_VarMap)
+    Else
+        LC.Assign Value, m_Value
+    End If
 End Property
 
 Public Property Let Value(ByVal newval As Variant)
     LC.Assign m_Value, newval
+End Property
+
+Public Property Set Value(ByVal newval As Variant)
+    Set m_Value = newval
 End Property

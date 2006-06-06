@@ -26,9 +26,17 @@ Public Property Let Key(newKey)
 End Property
 
 Public Property Get Value()
-    LC.Assign Value, m_Value
+    If IsObject(m_Value) Then
+        Set Value = m_Value
+    Else
+        LC.Assign Value, m_Value
+    End If
 End Property
 
 Public Property Let Value(newValue)
     LC.Assign m_Value, newValue
+End Property
+
+Public Property Set Value(newValue)
+    Set m_Value = newValue
 End Property

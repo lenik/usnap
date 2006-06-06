@@ -25,6 +25,8 @@ Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal 
 Public g_Ref(MAX_REFTYPE) As Reference
 Public g_IsInitialized As Boolean
 
+Public g_Patterns As New Patterns
+
 Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
     If g_IsInitialized Then Exit Sub
 
@@ -110,8 +112,9 @@ Public Sub Assert(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
-        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg
+        If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
+        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg _
+                  & vbNewLine & vbNewLine & "Location: " & loc
     End If
 End Sub
 
@@ -122,15 +125,17 @@ Public Sub Warning(X, Optional msg, Optional loc)
     End If
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-        If IsMissing(loc) Then loc = App.path
-        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg
+        If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
+        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg _
+                  & vbNewLine & vbNewLine & "Location: " & loc
     End If
 End Sub
 
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
-    If IsMissing(loc) Then loc = App.path
-    Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
+    If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
+    Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg _
+              & vbNewLine & vbNewLine & "Location: " & loc
 End Sub
 
 Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object

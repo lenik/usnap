@@ -113,3 +113,45 @@ Public Function QQEval(ByVal str As String) As String
         QQEval = QQEval & s
     Next
 End Function
+
+Public Function VarEval(ByVal str As String, ByVal VarDef As String) As String
+    Dim VarMap As VBExt.Map
+    Set VarMap = ParseMap(VarDef)
+    VarEval = VarEvalMap(str, VarMap)
+End Function
+
+Public Function VarEvalMap(ByVal str As String, ByVal VarMap As Map) As String
+    Dim matches As MatchCollection
+    Dim mat As Match
+    Dim i As Integer
+    Dim lastIndex As Long
+    Dim seg As String
+    Dim v
+
+    Set matches = g_Patterns.RE_VAR.Execute(str)
+    lastIndex = 1
+
+    For i = 0 To matches.Count - 1
+        Set mat = matches(i)
+        seg = mat.Value
+        VarEvalMap = VarEvalMap & Mid(str, lastIndex, mat.FirstIndex - lastIndex + 1)
+
+        If Left(seg, 1) = "$" Then
+            Dim Name As String
+            Name = Mid(seg, 2)
+            If Left(Name, 1) = "{" Then Name = Mid(Name, 2, Len(Name) - 2)
+            v = VarMap.Item(Name)
+            If Not IsNull(v) Then
+                seg = v
+            End If
+        Else
+            Unexpected "The regexp should only match $..."
+        End If
+        VarEvalMap = VarEvalMap & seg
+        lastIndex = mat.FirstIndex + 1 + mat.length
+    Next
+
+    If lastIndex < Len((str)) Then
+        VarEvalMap = VarEvalMap & Mid(str, lastIndex)
+    End If
+End Function

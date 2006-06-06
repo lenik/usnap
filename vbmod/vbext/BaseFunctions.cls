@@ -83,3 +83,15 @@ Public Function ParamArrayToArray(ParamArray params_()) As Variant()
     End If
     ParamArrayToArray = Params
 End Function
+
+Public Function QQEval(ByVal str As String) As String
+    QQEval = Typedefs.QQEval(str)
+End Function
+
+Public Function VarEval(ByVal str As String, ByVal VarDef As String) As String
+    VarEval = Typedefs.VarEval(str, VarDef)
+End Function
+
+Public Function VarEvalMap(ByVal str As String, ByVal VarMap As Map) As String
+    VarEvalMap = Typedefs.VarEvalMap(str, VarMap)
+End Function
