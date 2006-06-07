@@ -175,7 +175,7 @@ Public Function Switch(ByVal F As String, ParamArray Cases_())
         SQL = SQL & ",iif(" & F & "=" & Cases(i) & ", " & Cases(i + 1)
         Ends = Ends & ")"
     Next
-    SQL = Mid(SQL, 2)
+    SQL = VBA.Mid(SQL, 2)
 
     If Not (max And 1) Then
         SQL = SQL & ", " & Cases(max)

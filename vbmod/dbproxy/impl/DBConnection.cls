@@ -396,7 +396,36 @@ Public Property Get Mode() As ADODB.ConnectModeEnum
     Mode = m_Raw.Mode
 End Property
 
+Private Sub ParseConnectionString(ByRef ConnectionString As String)
+    Dim segs
+    Dim seg As String
+    Dim i As Integer
+    Dim out As String
+    Dim k As String, v As String
+    Dim Skip As Boolean
+    segs = Split(ConnectionString, ";")
+    For i = LBound(segs) To UBound(segs)
+        Skip = False
+        seg = Trim(segs(i))
+        If InStr(seg, "=") Then
+            k = LCase(Trim(Left(seg, InStr(seg, "=") - 1)))
+            v = Trim(Mid(seg, InStr(seg, "=") + 1))
+            Select Case k
+            Case "dialect"
+                m_Dialect = LCase(v)
+                Skip = True
+            End Select
+        End If
+        If Not Skip Then
+            If out <> "" Then out = out & ";"
+            out = out & seg
+        End If
+    Next
+    ConnectionString = out
+End Sub
+
 Public Sub Connect(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
+    ParseConnectionString ConnectionString
     m_Raw.CursorLocation = adUseClient
     m_Raw.Open ConnectionString, UserID, Password, Options
 End Sub
