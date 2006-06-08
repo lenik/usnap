@@ -1,0 +1,20 @@
+// codec.idl : IDL source for codec.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (codec.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(C4249C87-3E35-46ED-A90F-4905DE37CF38),
+	version(1.0),
+	helpstring("codec 1.0 Type Library")
+]
+library CODECLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};
