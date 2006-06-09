@@ -1,0 +1,26 @@
+HKCR
+{
+	Codec.InputBuffer.1 = s 'InputBuffer Class'
+	{
+		CLSID = s '{42590081-98E7-4C1C-B79B-EC191DD0D893}'
+	}
+	Codec.InputBuffer = s 'InputBuffer Class'
+	{
+		CLSID = s '{42590081-98E7-4C1C-B79B-EC191DD0D893}'
+		CurVer = s 'Codec.InputBuffer.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {42590081-98E7-4C1C-B79B-EC191DD0D893} = s 'InputBuffer Class'
+		{
+			ProgID = s 'Codec.InputBuffer.1'
+			VersionIndependentProgID = s 'Codec.InputBuffer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C4249C87-3E35-46ED-A90F-4905DE37CF38}'
+		}
+	}
+}

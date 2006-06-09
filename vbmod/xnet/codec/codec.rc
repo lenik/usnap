@@ -1,4 +1,4 @@
-//Microsoft Visual C++ generated resource script.
+//Microsoft Developer Studio generated resource script.
 //
 #include "resource.h"
 
@@ -12,11 +12,15 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
-LANGUAGE 4, 2
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
 #endif //_WIN32
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -41,6 +45,7 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -78,11 +83,20 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x0409, 0x04B0
+        VALUE "Translation", 0x409, 1200
     END
 END
 
 #endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_STATEMENT           REGISTRY DISCARDABLE    "Statement.rgs"
+IDR_INPUTBUFFER         REGISTRY DISCARDABLE    "InputBuffer.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -91,13 +105,13 @@ END
 
 STRINGTABLE DISCARDABLE
 BEGIN
-	IDS_PROJNAME					"codec"
+    IDS_PROJNAME            "codec"
 END
 
+#endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
-#endif
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

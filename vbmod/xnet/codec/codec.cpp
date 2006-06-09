@@ -11,11 +11,15 @@
 #include "codec.h"
 
 #include "codec_i.c"
+#include "Statement.h"
+#include "InputBuffer.h"
 
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
+OBJECT_ENTRY(CLSID_Statement, CStatement)
+OBJECT_ENTRY(CLSID_InputBuffer, CInputBuffer)
 END_OBJECT_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,7 +30,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID /*lpReserved*/)
 {
     if (dwReason == DLL_PROCESS_ATTACH)
     {
-        _Module.Init(ObjectMap, hInstance, &LIBID_CODECLib);
+        _Module.Init(ObjectMap, hInstance, &LIBID_XnetCodec);
         DisableThreadLibraryCalls(hInstance);
     }
     else if (dwReason == DLL_PROCESS_DETACH)

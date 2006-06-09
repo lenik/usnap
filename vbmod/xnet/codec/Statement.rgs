@@ -1,0 +1,26 @@
+HKCR
+{
+	Codec.Statement.1 = s 'Statement Class'
+	{
+		CLSID = s '{AA02BE05-8896-49C0-B138-F602F90D331F}'
+	}
+	Codec.Statement = s 'Statement Class'
+	{
+		CLSID = s '{AA02BE05-8896-49C0-B138-F602F90D331F}'
+		CurVer = s 'Codec.Statement.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {AA02BE05-8896-49C0-B138-F602F90D331F} = s 'Statement Class'
+		{
+			ProgID = s 'Codec.Statement.1'
+			VersionIndependentProgID = s 'Codec.Statement'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C4249C87-3E35-46ED-A90F-4905DE37CF38}'
+		}
+	}
+}

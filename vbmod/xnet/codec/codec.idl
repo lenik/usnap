@@ -10,11 +10,73 @@ import "ocidl.idl";
 [
 	uuid(C4249C87-3E35-46ED-A90F-4905DE37CF38),
 	version(1.0),
-	helpstring("codec 1.0 Type Library")
+	helpstring("Xnet codec 1.0 Type Library")
 ]
-library CODECLib
+library XnetCodec
 {
 	importlib("stdole32.tlb");
 	importlib("stdole2.tlb");
 
+	typedef enum StatementItemTypeConstants {
+		sitByte = 0,
+		sitInt,
+		sitLong,
+		sitSingle,
+		sitDouble,
+		sitString,
+		sitBytes,
+	} StatementItemTypeConstants;
+
+	[
+		object,
+		uuid(94567C48-F5B2-4CF4-AFF5-13C8EA17C45C),
+		dual,
+		helpstring("IStatement Interface"),
+		pointer_default(unique)
+	]
+	interface IStatement : IDispatch
+	{
+		[id(1), helpstring("method Add")]
+			HRESULT Add([in]VARIANT *v);
+		[propget, id(2), helpstring("method Item")]
+			HRESULT Item([in]int index, [out, retval]VARIANT *ret);
+		[propput, id(2), helpstring("method Item")]
+			HRESULT Item([in]int index, [in]VARIANT *newval);
+		[propget, id(3), helpstring("method TypedItem")]
+			HRESULT TypedItem([in]int index, [in]StatementItemTypeConstants type, [out, retval]VARIANT *ret);
+		[propget, id(4), helpstring("property Count")]
+			HRESULT Count([out, retval] int *pVal);
+		[id(5), helpstring("method Encode")]
+			HRESULT Encode([out, retval]SAFEARRAY(unsigned char)* ret);
+	};
+	[
+		object,
+		uuid(CC0D8002-81AE-462F-8186-2389A94F57F7),
+		dual,
+		helpstring("IInputBuffer Interface"),
+		pointer_default(unique)
+	]
+	interface IInputBuffer : IDispatch
+	{
+		[id(1), helpstring("method AddBytes")] HRESULT AddBytes([in]SAFEARRAY(unsigned char) *bytes);
+		[id(2), helpstring("method StatementReady")] HRESULT StatementReady([out, retval]VARIANT_BOOL *ret);
+		[id(3), helpstring("method GetStatement")] HRESULT GetStatement([out, retval]IStatement **ppStatement);
+	};
+
+	[
+		uuid(AA02BE05-8896-49C0-B138-F602F90D331F),
+		helpstring("Statement Class")
+	]
+	coclass Statement
+	{
+		[default] interface IStatement;
+	};
+	[
+		uuid(42590081-98E7-4C1C-B79B-EC191DD0D893),
+		helpstring("InputBuffer Class")
+	]
+	coclass InputBuffer
+	{
+		[default] interface IInputBuffer;
+	};
 };
