@@ -61,6 +61,9 @@ library XnetCodec
 		[id(1), helpstring("method AddBytes")] HRESULT AddBytes([in]SAFEARRAY(unsigned char) *bytes);
 		[id(2), helpstring("method StatementReady")] HRESULT StatementReady([out, retval]VARIANT_BOOL *ret);
 		[id(3), helpstring("method GetStatement")] HRESULT GetStatement([out, retval]IStatement **ppStatement);
+		[propget, id(4), helpstring("property AllocatedSize")] HRESULT AllocatedSize([out, retval] long *pVal);
+		[propget, id(5), helpstring("property UsedSize")] HRESULT UsedSize([out, retval] long *pVal);
+		[propget, id(6), helpstring("property UnreadSize")] HRESULT UnreadSize([out, retval] long *pVal);
 	};
 
 	[
