@@ -145,8 +145,8 @@ Private Sub m_Connection_OnConnect()
     m_ConnectionEvents.OnConnect
 End Sub
 
-Private Sub m_Connection_OnDisconnect()
-    m_ConnectionEvents.OnDisconnect
+Private Sub m_Connection_OnDisconnect(ByVal Reason As DisconnectReasonConstants)
+    m_ConnectionEvents.OnDisconnect Reason
 End Sub
 
 Private Sub m_Connection_OnPreRecvPacket(ByVal Pkt As Packet, Cancel As Boolean)

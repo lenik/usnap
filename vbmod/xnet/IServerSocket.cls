@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+' @TAG-CLASS
+
 Public Property Get LocalAddress() As String
 
 End Property

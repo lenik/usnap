@@ -27,10 +27,6 @@ Public Sub tt2()
     i = f.NextPacketInQueue
 End Sub
 
-Public Sub tt3()
-    ShowResources
-End Sub
-
 Public Function tt4(ByVal decraw As Boolean, encraw As Boolean)
     Dim sk As New SymCrypto
     sk.Key = "123"

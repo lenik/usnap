@@ -86,11 +86,8 @@ Option Explicit
 
 Private m_Layout As New AutoScaleLayout
 
-Private WithEvents Client As Client
+Private WithEvents Client As Xnet.Client
 Attribute Client.VB_VarHelpID = -1
-Private Session As Session
-Private WithEvents xSession As SessionEvents
-Attribute xSession.VB_VarHelpID = -1
 
 Sub AddText(ByVal s As String)
     lst(0).AddItem s, 0
@@ -113,15 +110,15 @@ Private Sub btnSendFile_Click()
     Session.SendFile txtMessage, "C_" & Session.Name, chkEncrypt.Value
 End Sub
 
-Private Sub Client_SessionBegin(ByVal s As Xnet.Session)
+Private Sub Client_SessionBegin(ByVal s As Xnet.Connection)
     Set Session = s
     AddLog "(event) > session begin: " & s.PeerName
 End Sub
-
-Private Sub Client_SessionEnd(ByVal s As Xnet.Session)
-    Set Session = Nothing
-    AddLog "(event) > session end: " & s.PeerName
-End Sub
+'
+'Private Sub Client_SessionEnd(ByVal s As Xnet.Session)
+'    Set Session = Nothing
+'    AddLog "(event) > session end: " & s.PeerName
+'End Sub
 
 Private Sub Form_Load()
     Secret_Randomize Timer
@@ -172,73 +169,74 @@ End Sub
 Private Sub mDisconnect_Click()
     Client.Disconnect
 End Sub
+'
+'Private Sub xSession_OnCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand)
+'    Select Case c.Name
+'    Case "NSN"
+'        Me.Caption = "Client Session[" & s.Name & " -> " & s.PeerName & "]"
+'    End Select
+'End Sub
+'
+'Private Sub xSession_OnMessage(ByVal s As Xnet.Session, ByVal Message As String, ByVal IsEncrypted As Boolean, AckMessage As String)
+'    Dim Text As String
+'    If Left(Message, 4) = "Fw: " Then
+'        Text = Mid(Message, 5)
+'    Else
+'        Text = SessionID(s) & "> " & Message
+'    End If
+'    AddText Text
+'    ' don't forward server messages.
+'End Sub
+'
+'Private Sub xSession_OnPreCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand, Cancel As Boolean)
+'    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
+'End Sub
+'
+'Private Sub xSession_OnScriptResult(ByVal s As Xnet.Session, ByVal Result As String)
+'    Dim Text As String
+'    Text = SessionID(s) & "> Script-Result: " & Result
+'    AddText Text
+'End Sub
+'
+'Private Sub xSession_OnTouch(ByVal s As Xnet.Session)
+'    Dim Text As String
+'    Text = SessionID(s) & "> Touched!"
+'    AddLog Text
+'End Sub
+'
+'Private Sub xSession_OnIncomingFile(ByVal s As Xnet.Session, _
+'                                    ByVal Name As String, ByVal Category As String, _
+'                                    ByVal IsEncrypted As Boolean, _
+'                                    ByVal Size As Long, SavePath As String, _
+'                                    Ignore As Boolean)
+'    SavePath = DirName(SavePath) & "\" & Category & "\" & Name
+'    AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
+'End Sub
+'
+'Private Sub xSession_OnReceivedFile(ByVal s As Xnet.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal SavePath As String)
+'    AddLog SessionID(s) & "> Received File " & Category & "/" & Name
+'End Sub
+'
+'Private Sub xSession_OnReceivingFile(ByVal s As Xnet.Session, _
+'                                     ByVal Name As String, ByVal Category As String, _
+'                                     ByVal IsEncrypted As Boolean, _
+'                                     ByVal FileSize As Long, ByVal RecvOffset As Long, _
+'                                     ByVal RecvSize As Long, ByVal SavePath As String)
+'    ' AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
+'    Assert FileSize > 0
+'    prog.Value = 100 * (RecvOffset + RecvSize) / FileSize
+'End Sub
+'
+'Private Sub xSession_OnSendingFile(ByVal s As Xnet.Session, ByVal Path As String, _
+'                                   ByVal RemoteName As String, ByVal Category As String, _
+'                                   ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
+'                                   ByVal SentOffset As Long, ByVal SentSize As Long)
+'    ' AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
+'    Assert FileSize > 0
+'    prog.Value = 100 * (SentOffset + SentSize) / FileSize
+'End Sub
+'
+'Private Sub xSession_OnSentFile(ByVal s As Xnet.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean)
+'    AddLog SessionID(s) & "> Sent File " & Category & "/" & RemoteName
+'End Sub
 
-Private Sub xSession_OnCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand)
-    Select Case c.Name
-    Case "NSN"
-        Me.Caption = "Client Session[" & s.Name & " -> " & s.PeerName & "]"
-    End Select
-End Sub
-
-Private Sub xSession_OnMessage(ByVal s As Xnet.Session, ByVal Message As String, ByVal IsEncrypted As Boolean, AckMessage As String)
-    Dim Text As String
-    If Left(Message, 4) = "Fw: " Then
-        Text = Mid(Message, 5)
-    Else
-        Text = SessionID(s) & "> " & Message
-    End If
-    AddText Text
-    ' don't forward server messages.
-End Sub
-
-Private Sub xSession_OnPreCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand, Cancel As Boolean)
-    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
-End Sub
-
-Private Sub xSession_OnScriptResult(ByVal s As Xnet.Session, ByVal Result As String)
-    Dim Text As String
-    Text = SessionID(s) & "> Script-Result: " & Result
-    AddText Text
-End Sub
-
-Private Sub xSession_OnTouch(ByVal s As Xnet.Session)
-    Dim Text As String
-    Text = SessionID(s) & "> Touched!"
-    AddLog Text
-End Sub
-
-Private Sub xSession_OnIncomingFile(ByVal s As Xnet.Session, _
-                                    ByVal Name As String, ByVal Category As String, _
-                                    ByVal IsEncrypted As Boolean, _
-                                    ByVal Size As Long, SavePath As String, _
-                                    Ignore As Boolean)
-    SavePath = DirName(SavePath) & "\" & Category & "\" & Name
-    AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
-End Sub
-
-Private Sub xSession_OnReceivedFile(ByVal s As Xnet.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal SavePath As String)
-    AddLog SessionID(s) & "> Received File " & Category & "/" & Name
-End Sub
-
-Private Sub xSession_OnReceivingFile(ByVal s As Xnet.Session, _
-                                     ByVal Name As String, ByVal Category As String, _
-                                     ByVal IsEncrypted As Boolean, _
-                                     ByVal FileSize As Long, ByVal RecvOffset As Long, _
-                                     ByVal RecvSize As Long, ByVal SavePath As String)
-    ' AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
-    Assert FileSize > 0
-    prog.Value = 100 * (RecvOffset + RecvSize) / FileSize
-End Sub
-
-Private Sub xSession_OnSendingFile(ByVal s As Xnet.Session, ByVal Path As String, _
-                                   ByVal RemoteName As String, ByVal Category As String, _
-                                   ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
-                                   ByVal SentOffset As Long, ByVal SentSize As Long)
-    ' AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
-    Assert FileSize > 0
-    prog.Value = 100 * (SentOffset + SentSize) / FileSize
-End Sub
-
-Private Sub xSession_OnSentFile(ByVal s As Xnet.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean)
-    AddLog SessionID(s) & "> Sent File " & Category & "/" & RemoteName
-End Sub

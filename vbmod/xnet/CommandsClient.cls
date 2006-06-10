@@ -14,10 +14,10 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private m_Port As Long
-
-Public Property Get Client(ByVal ServerHost As String) As Client
-    Set Client = XnetConnect(ServerHost, m_Port)
-End Property
+'
+'Public Property Get Client(ByVal ServerHost As String) As Client
+'    Set Client = Connect(ServerHost, m_Port)
+'End Property
 
 Public Property Get Port() As Long
     Port = m_Port

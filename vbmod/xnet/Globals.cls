@@ -15,6 +15,10 @@ Option Explicit
 
 Private m_RegisteredDrivers As New VBExt.Map
 
+Public Property Get XnetDriverNames() As Collection
+    Set XnetDriverNames = m_RegisteredDrivers.KeySet
+End Property
+
 Public Property Get XnetDrivers(ByVal Name As String) As ISocketDriver
     If m_RegisteredDrivers.Contain(Name) Then
         Set XnetDrivers = m_RegisteredDrivers(Name)
@@ -31,36 +35,18 @@ Public Sub XnetUnregisterDriver(ByVal Name As String)
     End If
 End Sub
 
-Public Function XnetConnect(ByVal ServerHost As String, _
-                            Optional ByVal ServerPort As Integer = DEFAULT_PORT) As Client
-    Set XnetConnect = GlobalsSingleton.XnetConnect(ServerHost, ServerPort)
-End Function
-
-Public Property Get XnetCommands() As CommandsClient
-
-End Property
-
 Public Function InaddrHost(ByVal Address As String) As String
-    If IsNumeric(Address) Then
-        InaddrHost = "127.0.0.1"
-    ElseIf InStr(Address, ":") Then
-        InaddrHost = Left(Address, InStr(Address, ":") - 1)
-        If InaddrHost = "" Then InaddrHost = "127.0.0.1"
-    Else
-        InaddrHost = Address
-    End If
+    InaddrHost = GlobalsSingleton.InaddrHost(Address)
 End Function
 
 Public Function InaddrPort(ByVal Address As String) As Long
-    If IsNumeric(Address) Then
-        InaddrPort = Val(Address)
-    ElseIf InStr(Address, ":") Then
-        InaddrPort = Val(Mid(Address, InStr(Address, ":") + 1))
-    Else
-        InaddrPort = 0
-    End If
+    InaddrPort = GlobalsSingleton.InaddrPort(Address)
 End Function
 
 Public Function InaddrIP(ByVal Address As String) As String
-    ' InaddrIP = resolve(InaddrHost)
+    InaddrIP = GlobalsSingleton.InaddrIP(Address)
 End Function
+
+Private Sub Class_Initialize()
+    LicenseManager_WSL.License LICENSE_XC_WINSOCK
+End Sub

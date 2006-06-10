@@ -123,10 +123,10 @@ Public Function MakePacket(ByVal CmdName As String, _
     Set MakePacket = Pkt
 End Function
 
-Public Function ParsePacket(ByVal s, Optional ByVal MaxParams As Integer = 1, _
+Public Function ParsePacket(ByRef Bytes() As Byte, Optional ByVal MaxParams As Integer = 1, _
                             Optional Sep As String = " ", _
                             Optional ByVal RawMode As Boolean = True) As Packet
     Dim Pkt As New Packet
-    Pkt.Decode s, MaxParams, Sep, RawMode
+    Pkt.Decode Bytes, MaxParams, Sep, RawMode
     Set ParsePacket = Pkt
 End Function

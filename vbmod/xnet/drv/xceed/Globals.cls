@@ -33,7 +33,7 @@ End Property
 Private Sub Class_Initialize()
     On Error Resume Next
 
-    LicenseManager_WSL.License "WSL12-KW6C3-3X1GE-BWLA"
+    LicenseManager_WSL.License LICENSE_XC_WINSOCK
 
     Set IP_TCP = Protocols.GetProtocol(wafUnspecified, wstUnspecified, wptIP_TCP)
     Assert Not IP_TCP Is Nothing, "IP/TCP isn't supported", LOCATION

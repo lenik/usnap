@@ -22,6 +22,8 @@ Private WithEvents xCConn As XceedWinsockLib.ConnectionEvents
 Attribute xCConn.VB_VarHelpID = -1
 Private WithEvents xByte As XceedWinsockLib.ByteTransferEvents
 Attribute xByte.VB_VarHelpID = -1
+Private lCConn As Long
+Private lByte As Long
 
 Private m_EventSink As IServerEvents
 
@@ -37,6 +39,8 @@ Private Sub Class_Initialize()
     Set xSConn = New XceedWinsockLib.IncomingConnectionEvents
     Set xCConn = New XceedWinsockLib.ConnectionEvents
     Set xByte = New XceedWinsockLib.ByteTransferEvents
+    lCConn = xSocket.ConnectionAdvise(xCConn, wcaAdviseDisconnected)
+    lByte = xSocket.ByteTransferAdvise(xByte, wtaAdviseReceivedAlways)
 End Sub
 
 Private Function IServerSocket_Advise(ByVal EventSink As Xnet.IServerEvents) As Long
@@ -72,6 +76,13 @@ End Sub
 
 Private Sub IServerSocket_Unbind()
     xSocket.StopListening
+End Sub
+
+Private Sub xByte_OnBytesReceived(ByVal xSocket As Object, _
+                                  ByVal vaData As Variant, _
+                                  ByVal lUserParam As Long, _
+                                  ByVal lResultCode As Long)
+
 End Sub
 
 Private Sub xCConn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
@@ -135,7 +146,9 @@ Private Sub xSConn_OnConnectionProcessed(ByVal xListeningSocket As Object, _
     End If
 End Sub
 
-Private Sub xSConn_OnListeningError(ByVal xListeningSocket As Object, ByVal lUserParam As Long, ByVal lResultCode As Long)
+Private Sub xSConn_OnListeningError(ByVal xListeningSocket As Object, _
+                                    ByVal lUserParam As Long, _
+                                    ByVal lResultCode As Long)
     If Not m_EventSink Is Nothing Then
         ' TODO
         ' ??

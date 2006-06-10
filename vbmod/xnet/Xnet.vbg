@@ -1,3 +1,5 @@
 VBGROUP 5.0
 Project=Xnet.vbp
-StartupProject=drv\xceed\XnetXceed.vbp
+Project=drv\xceed\XnetXceed.vbp
+StartupProject=test\Test_Xnet1.vbp
+Project=test\Test_Socket.vbp

@@ -32,5 +32,5 @@ Public Function Str2Inaddr(ByVal Address As String) As InetAddress
 End Function
 
 Public Function Inaddr2Str(ByVal Address As Address) As String
-    Set Inaddr2Str = Addr2Str(Address)
+    Inaddr2Str = Addr2Str(Address)
 End Function

@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+' @TAG-CLASS
+
 Public Function Bind(ByVal LocalAddress As String, _
                      ByVal EventSink As IServerEvents) As IServerSocket
 End Function

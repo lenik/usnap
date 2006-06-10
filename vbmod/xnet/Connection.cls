@@ -30,13 +30,15 @@ Private m_PeerTZOffset As Double        ' RemoteTime - LocalTime
 Private m_Files As New VBExt.Map
 
 Public Event OnConnect()
-Public Event OnDisconnect()
+Public Event OnDisconnect(ByVal Reason As DisconnectReasonConstants)
 
 Public Event OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnRecvPacket(ByVal Pkt As Packet)
 
 Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnSentPacket(ByVal Pkt As Packet)
+
+Implements IClientEvents
 
 ' m_Socket Wrappers
 ' ----------------------------------------------------------------------------
@@ -353,12 +355,7 @@ Private Sub Class_Initialize()
 '    Set m_Socket = New Socket
 End Sub
 
-Private Sub m_Socket_OnClose()
-    RaiseEvent OnDisconnect
-    Unregister
-End Sub
-
-Private Sub m_Socket_OnConnect()
+Private Sub IClientEvents_Connect()
     RaiseEvent OnConnect
     Register
     Name = m_Name
@@ -367,18 +364,17 @@ Private Sub m_Socket_OnConnect()
     SendTouch
 End Sub
 
-Private Sub m_Socket_OnConnectionRequest(ByVal requestID As Long)
-    ' Only server socket will happen
-    Assert False
+Private Sub IClientEvents_Disconnect(ByVal Reason As DisconnectReasonConstants)
+    RaiseEvent OnDisconnect(Reason)
+    ' ??
+    ' Unregister
 End Sub
 
-Private Sub m_Socket_OnDataArrival(ByVal bytesTotal As Long)
-    Dim Data
+Private Sub IClientEvents_RecvBytes(Bytes() As Byte)
     Dim Pkt As Packet
     Dim Cancel As Boolean
 
-'    m_Socket.GetData Data
-    Set Pkt = ParsePacket(Data)
+    Set Pkt = ParsePacket(Bytes)
 
     RaiseEvent OnPreRecvPacket(Pkt, Cancel)
     If Cancel Then Exit Sub
@@ -386,16 +382,4 @@ Private Sub m_Socket_OnDataArrival(ByVal bytesTotal As Long)
     ProcessPacket Pkt
 
     RaiseEvent OnRecvPacket(Pkt)
-End Sub
-
-Private Sub m_Socket_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-    ' Auto mode
-End Sub
-
-Private Sub m_Socket_OnSendComplete()
-    ' ??
-End Sub
-
-Private Sub m_Socket_OnSendProgress(ByVal bytesSent As Long, ByVal bytesRemaining As Long)
-    ' Ignore the progress, because UDP packet will always be small.
 End Sub

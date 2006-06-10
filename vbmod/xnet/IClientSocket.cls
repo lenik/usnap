@@ -14,6 +14,8 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0
 
+' @TAG-CLASS
+
 Public Property Get RemoteAddress() As String
 
 End Property

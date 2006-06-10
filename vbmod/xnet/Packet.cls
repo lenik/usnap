@@ -21,7 +21,7 @@ Private m_Sequence As Integer
 
 ' Variants.
 '   Byte(): Raw Data
-'   String: Using StringToBytes
+'   String: Str/StrB is determined by RawMode
 Private m_Parameters
 
 Private m_SharedKey As SymCrypto
@@ -92,15 +92,17 @@ Public Property Set Key(ByVal newval As SymCrypto)
     Set m_SharedKey = newval
 End Property
 
-Public Function Encode(Optional ByVal Sep As String = " ", _
-                       Optional ByVal RawMode As Boolean = True) As String
+Public Function Encode() As Byte()
     Dim i As Integer
     Dim l As Integer
     Dim u As Integer
     Dim Param As String
+    Dim bb As New ByteBuffer
 
-    Encode = StringToBytes(IIf(Encrypted, "X", "N") & Name & Sep & Sequence)
-    Sep = StringToBytes(Sep)
+    bb.WriteByte IIf(Encrypted, "X", "N")
+    bb.WriteBytes StringToBytes(Name)
+    bb.WriteByte 32 ' SP
+    bb.WriteBytes StringToBytes(Sequence)
 
     u = UBound(m_Parameters)
     For i = 0 To u
@@ -115,18 +117,17 @@ Public Function Encode(Optional ByVal Sep As String = " ", _
             Param = m_SharedKey.EncryptMessage(Param, True)
             Param = StringToBytes(Param)
         End If
-        Encode = Encode & Sep & Param
+        bb.WriteByte 32 'SP
+        bb.WriteBytes StringBToBytes(Param)
     Next
 
-    Sep = StringToBytes(vbNewLine)      ' ";" & vbNewLine
-    Encode = Encode & Sep
-
-    If Not RawMode Then Encode = BytesToString(Encode)
+    bb.WriteByte 10 'LN
+    Encode = bb.getbytes
 End Function
 
-Public Function Decode(ByVal s, Optional ByVal MaxParams As Integer = 1, _
-                       Optional Sep As String = " ", _
-                       Optional RawMode As Boolean = True) As Packet
+Public Function Decode(ByRef Bytes() As Byte, _
+                       Optional ByVal MaxParams As Integer = 10) As Packet
+    Dim s As String
     Dim Segs
     Dim i As Integer
     Dim l As Integer
@@ -135,11 +136,7 @@ Public Function Decode(ByVal s, Optional ByVal MaxParams As Integer = 1, _
     Dim nparams As Integer
     Dim Param As String
 
-    If VarType(s) = vbArray + vbByte Then
-        s = BytesToString(s)
-    ElseIf RawMode Then
-        s = BytesToString(StringBToBytes(s))
-    End If
+    s = Bytes
 
     Do While Len(s) > 0
         Select Case Asc(Right(s, 1))
@@ -186,9 +183,9 @@ Public Function Decode(ByVal s, Optional ByVal MaxParams As Integer = 1, _
         End If
     Next
 
-    Set Decode = Me
+    Set DecodeString = Me
 End Function
 
-Public Sub Send(ByVal Socket As iclientSocket)
-'    Socket.SendStringB Encode
+Public Sub Send(ByVal Socket As IClientSocket)
+    Socket.SendBytes Encode
 End Sub
