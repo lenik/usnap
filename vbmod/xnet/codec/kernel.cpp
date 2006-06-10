@@ -135,86 +135,76 @@ char *decode(char *p, int cb, int *cb_out) {
     return out;
 }
 
-#define START 0
-#define NORMAL 1
-#define ESCAPE 2
-#define TERM 3
+bool Decoder::input(char c) {
+    int sp = isspace(c);
+    index++;
 
-class Decoder {
-    ByteArray buf;
-    int state;
-    int index;
-    int quoted;
-
-public:
-    Decoder() {
-        state = START;
-        index = -1;
-        quoted = 0;
-    }
-
-    char *detach() {
-        char *detached = buf.detached();
-        return detached;
-    }
-
-    inline bool term() {
-        return state == TERM;
-    }
-
-    inline bool input(char c) {
-        int sp = isspace(c);
-        index++;
-
-        switch (state) {
-        case START:
-            if (sp)
+    switch (state) {
+    case START:
+        if (sp)
+            return true;
+        state = NORMAL;
+        index = 0;
+    case NORMAL:
+        if (quoted) {
+            if (c == '\\') {
+                state = ESCAPE;
+                // eat (\).
                 return true;
-            state = NORMAL;
-            index = 0;
-        case NORMAL:
+            }
+        } else {
             if (sp) {
+                // eat (SP)
                 state = TERM;
                 return true;
             }
-            if (quoted) {
-                if (c == '\\') {
-                    state = ESCAPE;
-                    // eat (\).
-                    return true;
-                }
-            }
-            if (sp || c == ';') {
-                // eat (SP | ;)
-                state = TERM;
-                return true;
-            }
-
-            switch (c) {
-            case '"':
-                if (index == 0) {
-                    quoted = 1;
-                    // eat ^(")
-                    return true;
-                }
-                break;
-            }
-            buf.write(c);
-            return true;
-
-        case ESCAPE:
-            switch (c) {
-            case 't':  c = '\t'; break;
-            case 'n':  c = '\n'; break;
-            case 'r':  c = '\r'; break;
-            }
-            buf.write(c);
-            state = NORMAL;
-            return true;
         }
 
-        // TERM, or else unknown.
-        return false;
+        switch (c) {
+        case '"':
+            if (index == 0) {
+                quoted = 1;
+                // eat ^(")
+                return true;
+            }
+            state = TERM;
+            // eat (")$
+            return true;
+        case ';':
+            // eat (;)
+            state = TERM_LINE;
+            return true;
+        }
+        buf.write(c);
+        return true;
+
+    case ESCAPE:
+        switch (c) {
+        case 't':  c = '\t'; break;
+        case 'n':  c = '\n'; break;
+        case 'r':  c = '\r'; break;
+        }
+        buf.write(c);
+        state = NORMAL;
+        return true;
     }
 
-};
+    // TERM, or else unknown.
+    return false;
+}
+
+char *decode_segment(const char *p, int cb, int *cb_out, int *cb_read) {
+    _assert_(p);
+    _assert_(cb >= 0);
+
+    Decoder decoder;
+    const char *pnext = decoder.process(p, cb);
+    if (cb_read)
+        *cb_read = pnext - p;
+
+    if (*cb_out)
+        *cb_out = decoder.buf.getSize();
+
+    void *decoded_seg = decoder.buf.detach();
+    return (char *)decoded_seg;
+}
