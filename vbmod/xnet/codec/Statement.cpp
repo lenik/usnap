@@ -9,6 +9,23 @@
 /////////////////////////////////////////////////////////////////////////////
 // CStatement
 
+STDMETHODIMP CStatement::Add(void *ps, int size) {
+    if (ps == 0)
+        return E_POINTER;
+
+    m_Vars.push_back(_variant_t());
+
+    _variant_t& var = m_Vars.back();
+
+    SAFEARRAY *sa = SafeArrayCreateVector(VT_I1, 0, size);
+    _assert_(sa);
+    memcpy(sa->pvData, ps, size);
+
+    var.vt = VT_ARRAY | VT_I1;
+    var.parray = sa;
+
+    return S_OK;
+}
 
 STDMETHODIMP CStatement::Add(VARIANT *v)
 {
@@ -167,6 +184,8 @@ STDMETHODIMP CStatement::Encode(SAFEARRAY **pVal) {
 
         buf.write((unsigned char *)part_encoded, encoded_size);
 
+        free(part_encoded);
+
         if (i != n - 1) {
             buf.write(' ');
         } else {
@@ -182,8 +201,11 @@ STDMETHODIMP CStatement::Encode(SAFEARRAY **pVal) {
 
     memcpy(saBytes->pvData, buf, cb);
 
-    if (*pVal)
-        SafeArrayDestroy(*pVal);
+    if (*pVal) {
+        // just ignore.
+        // SafeArrayDestroy(*pVal);
+    }
+
     *pVal = saBytes;
 
     return S_OK;

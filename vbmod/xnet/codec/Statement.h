@@ -39,6 +39,8 @@ public:
     STDMETHOD(put_Item)(/*[in]*/int index, /*[in]*/VARIANT *newval);
     STDMETHOD(get_Item)(/*[in]*/int index, /*[out, retval]*/VARIANT *ret);
     STDMETHOD(Add)(/*[in]*/VARIANT *v);
+    STDMETHOD(Add)(void *ps, int size);
+
 };
 
 typedef CComObject<CStatement> CStatementObject;
