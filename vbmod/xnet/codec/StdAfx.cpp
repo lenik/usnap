@@ -10,3 +10,7 @@
 #endif
 
 #include <atlimpl.cpp>
+
+#ifdef _ATL_MIN_CRT
+void main() {}
+#endif
