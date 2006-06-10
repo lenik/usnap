@@ -5,6 +5,11 @@
 
 #include "resource.h"       // main symbols
 
+#include "Statement.h"
+
+#include "array.h"
+#include "kernel.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // CInputBuffer
 class ATL_NO_VTABLE CInputBuffer :
@@ -14,10 +19,23 @@ class ATL_NO_VTABLE CInputBuffer :
 {
 
     ByteArrayInput m_Buf;
+    Decoder *nextParam;
+    CStatementObject *nextStmt;
+    int stmt_ok;
 
 public:
     CInputBuffer()
     {
+        nextParam = 0;
+        nextStmt = 0;
+        stmt_ok = 0;
+    }
+
+    ~CInputBuffer() {
+        if (nextParam)
+            delete nextParam;
+        if (nextStmt)
+            delete nextStmt;
     }
 
 DECLARE_REGISTRY_RESOURCEID(IDR_INPUTBUFFER)
@@ -31,9 +49,12 @@ END_COM_MAP()
 
 // IInputBuffer
 public:
+    STDMETHOD(get_UnreadSize)(/*[out, retval]*/ long *pVal);
+    STDMETHOD(get_UsedSize)(/*[out, retval]*/ long *pVal);
+    STDMETHOD(get_AllocatedSize)(/*[out, retval]*/ long *pVal);
     STDMETHOD(GetStatement)(/*[out, retval]*/IStatement **ppStatement);
     STDMETHOD(StatementReady)(/*[out, retval]*/VARIANT_BOOL *ret);
-    STDMETHOD(AddBytes)(/*[in]*/SAFEARRAY *bytes);
+    STDMETHOD(AddBytes)(/*[in]*/SAFEARRAY **bytes);
 };
 
 #endif //__INPUTBUFFER_H_
