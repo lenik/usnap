@@ -69,7 +69,7 @@ Public Function MakePacket(ByVal CmdName As String, _
     Dim i As Integer
     Assert LBound(Args) = 0
     For i = 0 To UBound(Args)
-        Pkt.XArg(i + 1) = Args(i)
+        Pkt.XArg(i) = Args(i)
     Next
 
     Set MakePacket = Pkt

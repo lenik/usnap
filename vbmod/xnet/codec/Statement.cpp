@@ -65,11 +65,11 @@ STDMETHODIMP CStatement::Add(void *ps, int size) {
 
     _variant_t& var = m_Vars.back();
 
-    SAFEARRAY *sa = SafeArrayCreateVector(VT_I1, 0, size);
+    SAFEARRAY *sa = SafeArrayCreateVector(VT_UI1, 0, size);
     _assert_(sa);
     memcpy(sa->pvData, ps, size);
 
-    var.vt = VT_ARRAY | VT_I1;
+    var.vt = VT_ARRAY | VT_UI1;
     var.parray = sa;
 
     return S_OK;
@@ -155,7 +155,7 @@ STDMETHODIMP CStatement::get_TypedItem(int index, StatementItemTypeConstants typ
 
     switch (type) {
     case sitByte:
-        ret->vt = VT_I1;
+        ret->vt = VT_UI1;
         break;
     case sitInt:
         ret->vt = VT_I2;
@@ -169,25 +169,31 @@ STDMETHODIMP CStatement::get_TypedItem(int index, StatementItemTypeConstants typ
         ret->vt = VT_R8;
         break;
     case sitString:
+        ret->vt = VT_BSTR;
         ret->bstrVal = SysAllocStringByteLen((LPCSTR)part, size);
         break;
     case sitBytes:
-        ret->parray = SafeArrayCreateVector(VT_I1, 0, size);
+        ret->vt = VT_ARRAY | VT_UI1;
+        ret->parray = SafeArrayCreateVector(VT_UI1, 0, size);
         memcpy(ret->parray->pvData, part, size);
         break;
     case sitInts:
+        ret->vt = VT_ARRAY | VT_I2;
         ret->parray = SafeArrayCreateVector(VT_I2, 0, size / 2);
         memcpy(ret->parray->pvData, part, size);
         break;
     case sitLongs:
+        ret->vt = VT_ARRAY | VT_I4;
         ret->parray = SafeArrayCreateVector(VT_I4, 0, size / 4);
         memcpy(ret->parray->pvData, part, size);
         break;
     case sitSingles:
+        ret->vt = VT_ARRAY | VT_R4;
         ret->parray = SafeArrayCreateVector(VT_I2, 0, size / 4);
         memcpy(ret->parray->pvData, part, size);
         break;
     case sitDoubles:
+        ret->vt = VT_ARRAY | VT_R8;
         ret->parray = SafeArrayCreateVector(VT_I4, 0, size / 8);
         memcpy(ret->parray->pvData, part, size);
         break;
@@ -241,7 +247,7 @@ STDMETHODIMP CStatement::Encode(SAFEARRAY **pVal) {
     }
 
     int cb = buf.getSize();
-    SAFEARRAY *saBytes = SafeArrayCreateVector(VT_I1, 0, cb);
+    SAFEARRAY *saBytes = SafeArrayCreateVector(VT_UI1, 0, cb);
     if (saBytes == 0)
         return E_OUTOFMEMORY;
 

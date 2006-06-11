@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
-Begin VB.Form ChatServer
+Begin VB.Form frmServer
    Caption         =   "Server"
    ClientHeight    =   6585
    ClientLeft      =   165
@@ -77,7 +77,7 @@ Begin VB.Form ChatServer
       Caption         =   "St&op"
    End
 End
-Attribute VB_Name = "ChatServer"
+Attribute VB_Name = "frmServer"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -100,34 +100,40 @@ Sub AddLog(ByVal s As String)
 End Sub
 
 Private Sub btnSend_Click()
-    Dim ss, i
-    'Dim s As Session
     AddText "(echo) > " & txtMessage
-    'For Each s In Server.Sessions.ValueSet
-    '    s.SendMessage txtMessage, chkEncrypt.Value
-    'Next
+
+    Dim i As Long
+    Dim Id As Long
+    Dim c As Connection
+    For i = 0 To Server.Connections - 1
+        Id = Server.ConnectionId(i)
+        Set c = Server.Connection(Id)
+
+        c.SendMessage txtMessage, chkEncrypt.Value
+    Next
 End Sub
 
 Private Sub btnSendFile_Click()
-    Dim ss, i
-    'Dim s As Session
     AddText "(send file) > " & txtMessage
-    'ss = Server.Sessions.Values
-    For i = LBound(ss) To UBound(ss)
-        'Set s = ss(i)
-        's.SendFile txtMessage, "S_" & s.Name, chkEncrypt.Value
+
+    Dim i As Long
+    Dim Id As Long
+    Dim c As Connection
+    For i = 0 To Server.Connections - 1
+        Id = Server.ConnectionId(i)
+        Set c = Server.Connection(Id)
+
+        c.SendMessage txtMessage, "S_" & Server.Name, chkEncrypt.Value
     Next
 End Sub
 
 Private Sub Form_Load()
-    'Set Server = Driver.Bind(CHAT_PORT, m_ClientEventTemplate)
-    'Server.Name = "ChatSvr"
-
     txtMessage.Text = "Server " & Secret(20, 50)
 
     m_Layout.InitializeCoordinations Me
 
     mStart_Click
+    Server.Name = "ChatSvr"
 End Sub
 
 Private Sub Form_Resize()
@@ -153,90 +159,97 @@ Private Sub lst_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mStart_Click()
-    'Server.Start CHAT_PORT
+    Set Server = Network.Bind(CHAT_PORT)
 End Sub
 
 Private Sub mStop_Click()
-    'Server.Stop_
+    Server.Shutdown
 End Sub
 
-'Private Sub Server_SessionBegin(ByVal s As Xnet.Session)
-'    'Sessions.Add s, SessionID(s)
-'    AddLog "(event) > session begin: " & s.PeerName
-'End Sub
-'
-'Private Sub Server_SessionEnd(ByVal s As Xnet.Session)
-'    'Sessions.Remove SessionID(s)
-'    AddLog "(event) > session end: " & s.PeerName
-'End Sub
-'
-'Private Sub xSession_OnMessage(ByVal s As Xnet.Session, ByVal Message As String, ByVal IsEncrypted As Boolean, AckMessage As String)
-'    Dim Text As String
-'    Text = SessionID(s) & "> " & Message
-'    AddText Text
-'    ' Fw to all remotes
-'    Dim ss, i
-'    ss = Server.Sessions.Values
-'    For i = LBound(ss) To UBound(ss)
-'        Set s = ss(i)
-'        s.SendMessage "Fw: " & Text, IsEncrypted
-'    Next
-'End Sub
-'
-'Private Sub xSession_OnPreCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand, Cancel As Boolean)
-'    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
-'End Sub
-'
-'Private Sub xSession_OnScriptResult(ByVal s As Xnet.Session, ByVal Result As String)
-'    Dim Text As String
-'    Text = SessionID(s) & "> Script-Result: " & Result
-'    AddLog Text
-'End Sub
-'
-'Private Sub xSession_OnTouch(ByVal s As Xnet.Session)
-'    Dim Text As String
-'    Text = SessionID(s) & "> Touched!"
-'    AddLog Text
-'End Sub
-'
-'Private Sub xSession_OnIncomingFile(ByVal s As Xnet.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal Size As Long, SavePath As String, Ignore As Boolean)
-'    SavePath = DirName(SavePath) & "\" & Category & "\" & Name
-'    AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
-'End Sub
-'
-'Private Sub xSession_OnReceivedFile(ByVal s As Xnet.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal SavePath As String)
-'    AddLog SessionID(s) & "> Received File " & Category & "/" & Name
-'End Sub
-'
-'Private Sub xSession_OnReceivingFile1(ByVal s As Xnet.Session, _
-'                                     ByVal Name As String, ByVal Category As String, _
-'                                     ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
-'                                     ByVal RecvOffset As Long, ByVal RecvSize As Long, _
-'                                     ByVal SavePath As String)
-'
-'End Sub
-'
-'Private Sub xSession_OnReceivingFile(ByVal s As Xnet.Session, _
-'                                     ByVal Name As String, ByVal Category As String, _
-'                                     ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
-'                                     ByVal RecvOffset As Long, ByVal RecvSize As Long, _
-'                                     ByVal SavePath As String)
-'    'AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
-'    Assert FileSize > 0
-'    prog.Value = 100 * (RecvOffset + RecvSize) / FileSize
-'End Sub
-'
-'Private Sub xSession_OnSendingFile(ByVal s As Xnet.Session, ByVal Path As String, _
-'                                   ByVal RemoteName As String, ByVal Category As String, _
-'                                   ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
-'                                   ByVal SentOffset As Long, ByVal SentSize As Long)
-'    'AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
-'    Assert FileSize > 0
-'    prog.Value = 100 * (SentOffset + SentSize) / FileSize
-'End Sub
-'
-'Private Sub xSession_OnSentFile(ByVal s As Xnet.Session, ByVal Path As String, _
-'                                ByVal RemoteName As String, ByVal Category As String, _
-'                                ByVal IsEncrypted As Boolean)
-'    AddLog SessionID(s) & "> Sent File " & Category & "/" & RemoteName
-'End Sub
+Private Sub Server_OnConnect(ByVal c As Xnet.Connection)
+    AddLog "OnConnect: " & c.PeerName
+End Sub
+
+Private Sub Server_OnDisconnect(ByVal c As Xnet.Connection, ByVal Reason As Xnet.DisconnectReasonConstants)
+    AddLog "OnDisconnect: " & Reason
+End Sub
+
+Private Sub Server_OnFileCanceled1(ByVal c As Xnet.Connection, ByVal f As Xnet.File, ByVal ReceiveMode As Boolean)
+    AddLog "OnFileCanceled: " & FileDisp(f) & ReceiveMode
+End Sub
+
+Private Sub Server_OnGet(ByVal c As Xnet.Connection, ByVal URI As String, Response As String)
+    AddLog "OnGet: " & URI
+End Sub
+
+Private Sub Server_OnPreReceiveFile(ByVal c As Xnet.Connection, ByVal f As Xnet.File, Cancel As Boolean)
+    f.Path = "X:\incoming\server\" & c.PeerName & "\" & f.FullName
+    AddLog "OnPreReceiveFile: " & FileDisp(f)
+    If MsgBox("Receiving " & f.Packets, vbYesNo) = vbNo Then
+        Cancel = True
+    End If
+End Sub
+
+Private Sub Server_OnPreRecvPacket(ByVal c As Xnet.Connection, ByVal Pkt As Xnet.Packet, Cancel As Boolean)
+    AddLog CDisp(c) & "OnPreRecvPacket: " & Pkt.Name
+End Sub
+
+Private Sub Server_OnPreSendPacket(ByVal c As Xnet.Connection, ByVal Pkt As Xnet.Packet, Cancel As Boolean)
+    AddLog CDisp(c) & "OnPreSendPacket: " & Pkt.Name
+End Sub
+
+Private Sub Server_OnReceivedFile(ByVal c As Xnet.Connection, ByVal f As Xnet.File)
+    AddLog CDisp(c) & "OnReceivedFile: " & FileDisp(f)
+End Sub
+
+Private Sub Server_OnReceivingFile(ByVal c As Xnet.Connection, ByVal f As Xnet.File, Cancel As Boolean)
+    ' AddLog "OnReceivingFile: " & FileDisp(f)
+    prog.Value = 100 * f.TransferredRatio
+    DoEvents
+End Sub
+
+Private Sub Server_OnRecvPacket(ByVal c As Xnet.Connection, ByVal Pkt As Xnet.Packet)
+    AddLog CDisp(c) & "OnRecvPacket: " & Pkt.Name
+End Sub
+
+Private Sub Server_OnRegistered(ByVal c As Xnet.Connection)
+    AddLog CDisp(c) & "OnRegistered"
+End Sub
+
+Private Sub Server_OnSendingFile(ByVal c As Xnet.Connection, ByVal f As Xnet.File, Cancel As Boolean)
+    ' AddLog "OnSendingFile: " & FileDisp(f)
+    prog.Value = 100 * f.TransferredRatio
+    DoEvents
+End Sub
+
+Private Sub Server_OnSentFile(ByVal c As Xnet.Connection, ByVal f As Xnet.File)
+    AddLog CDisp(c) & "OnSentFile: " & FileDisp(f)
+End Sub
+
+Private Sub Server_OnSentPacket(ByVal c As Xnet.Connection, ByVal Pkt As Xnet.Packet)
+    AddLog CDisp(c) & "OnSentPacket: " & Pkt.Name
+End Sub
+
+Private Sub Server_OnSetKey(ByVal c As Xnet.Connection)
+    AddLog CDisp(c) & "OnSetKey"
+End Sub
+
+Private Sub Server_OnSetName(ByVal c As Xnet.Connection, ByVal PeerName As String)
+    AddLog CDisp(c) & "OnSetName: Peer=" & PeerName
+End Sub
+
+Private Sub Server_OnSetSharedKey(ByVal c As Xnet.Connection)
+    AddLog CDisp(c) & "OnSetSharedKey"
+End Sub
+
+Private Sub Server_OnSystem(ByVal c As Xnet.Connection, ByVal Pkt As Xnet.Packet)
+    AddLog CDisp(c) & "OnSystem: " & Pkt.XArg(0)
+End Sub
+
+Private Sub Server_OnTouch(ByVal c As Xnet.Connection)
+    AddLog CDisp(c) & "OnTouched"
+End Sub
+
+Private Sub Server_OnUnregistered(ByVal c As Xnet.Connection)
+    AddLog CDisp(c) & "OnUnregistered"
+End Sub

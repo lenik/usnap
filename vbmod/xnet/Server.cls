@@ -18,6 +18,8 @@ Private Const LOCATION                  As String = "Xnet::Server"
 Private m_Driver As ISocketDriver
 Private m_ServerSocket As IServerSocket
 
+Private m_Name As String
+
 ' Id => MemberConnection
 Private m_Connections As New VBExt.Map
 
@@ -60,28 +62,60 @@ Public Event OnGet(ByVal c As Connection, ByVal URI As String, ByRef Response As
 Implements IServerEvents
 Implements ConnectionEvents
 
+' Exported
+' ----------------------------------------------------------------------------
+Public Property Get Connections() As Long
+    Connections = m_Connections.Size
+End Property
+
+Public Property Get ConnectionId(ByVal Index As Long) As Long
+    ConnectionId = m_ServerSocket.ClientId(Index)
+End Property
+
+Public Property Get Connection(ByVal Id As Long) As Connection
+    Set Connection = MemberConnection(Id).Delegant
+End Property
+
+Public Property Get Name() As String
+    Name = m_Name
+End Property
+
+Public Property Let Name(ByVal Name As String)
+    m_Name = Name
+End Property
+
+Public Sub Shutdown()
+    Dim i As Long
+    Dim Id As Long
+    For i = m_ServerSocket.Clients - 1 To 0 Step -1
+        Id = m_ServerSocket.ClientId(i)
+        m_ServerSocket.Disconnect Id
+    Next
+    m_ServerSocket.Unbind
+End Sub
+
 ' Friend API
 ' ----------------------------------------------------------------------------
-Property Set Driver(ByVal newval As ISocketDriver)
+Friend Property Set Driver(ByVal newval As ISocketDriver)
     Set m_Driver = newval
 End Property
 
 ' see m_Driver.LastError if connect failed
-Function Bind(ByVal LocalAddress As String) As Boolean
+Friend Function Bind(ByVal LocalAddress As String) As Boolean
     Assert Not m_Driver Is Nothing, "Not Initialized", LOCATION
 
     Set m_ServerSocket = m_Driver.Bind(LocalAddress, Me)
     Bind = Not m_ServerSocket Is Nothing
 End Function
 
-Property Get MemberConnection(ByVal Id As Long) As MemberConnection
-    ' ..
+Friend Property Get MemberConnection(ByVal Id As Long) As MemberConnection
+    If m_Connections.Contain(Id) Then
+        Set MemberConnection = m_Connections.Item(Id)
+    End If
 End Property
 
-Property Get Connection(ByVal Id As Long) As Connection
-    Set Connection = MemberConnection(Id).Delegant
-End Property
-
+' IServerEvents
+' ----------------------------------------------------------------------------
 Private Sub IServerEvents_Request(ByVal RemoteAddress As String, Reject As Boolean)
     RaiseEvent OnPreConnect(RemoteAddress, Reject)
 End Sub
@@ -91,7 +125,8 @@ Private Sub IServerEvents_Connect(ByVal Id As Long, Data As Variant)
     ch.Init m_ServerSocket, Id
 
     Dim c As New Connection
-    Set c.Channel = New ServerChannel
+    Set c.Channel = ch
+    c.Name = m_Name
     c.Address = m_ServerSocket.LocalAddress
     c.PeerAddress = m_ServerSocket.RemoteAddress(Id)
 
@@ -118,10 +153,10 @@ End Sub
 Private Sub PostProcess(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel As Boolean)
     Select Case Pkt.Name
     Case NC_REGISTER
-        Assert Not Pkt.Initiative
+        Assert Pkt.Initiative
         RaiseEvent OnRegistered(c)
     Case NC_UNREGISTER
-        Assert Not Pkt.Initiative
+        Assert Pkt.Initiative
         RaiseEvent OnUnregistered(c)
     Case NC_SETNAME
         RaiseEvent OnSetName(c, c.PeerName)
@@ -132,7 +167,7 @@ Private Sub PostProcess(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel
     Case NC_TOUCH
         RaiseEvent OnTouch(c)
     Case NC_MESSAGE
-        RaiseEvent OnMessage(c, Pkt.XArg(1))
+        RaiseEvent OnMessage(c, Pkt.XArg(0))
     Case NC_SYSTEM
         RaiseEvent OnSystem(c, Pkt)
     End Select
@@ -173,6 +208,8 @@ Private Sub IServerEvents_SentBytes(ByVal Id As Long, ByVal Size As Long, ByVal 
     ' so this progress info is not used.
 End Sub
 
+' ConnectionEvents Wrappers
+' ----------------------------------------------------------------------------
 Private Sub ConnectionEvents_OnPreSendPacket(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel As Boolean)
     RaiseEvent OnPreSendPacket(c, Pkt, Cancel)
 End Sub
@@ -199,4 +236,10 @@ End Sub
 
 Private Sub ConnectionEvents_OnFileCanceled(ByVal c As Connection, ByVal f As File)
     RaiseEvent OnFileCanceled(c, f)
+End Sub
+
+' Class
+' ----------------------------------------------------------------------------
+Private Sub Class_Initialize()
+    m_Name = Secret
 End Sub

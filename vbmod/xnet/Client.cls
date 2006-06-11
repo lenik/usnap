@@ -37,10 +37,10 @@ Public Event OnPreReceiveFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnReceivingFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnReceivedFile(ByVal f As File)
 
-Public Event OnSendingFile(ByVal f As File)
+Public Event OnSendingFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnSentFile(ByVal f As File)
 
-Public Event OnFileCanceled(ByVal f As File, ByVal ReceiveMode As Boolean)
+Public Event OnFileCanceled(ByVal f As File)
 
 ' Protocol Events
 ' ----------------------------------------------------------------------------
@@ -59,14 +59,32 @@ Public Event OnGet(ByVal URI As String, ByRef Response As String)
 
 Implements IClientEvents
 
+' Exported
+' ----------------------------------------------------------------------------
+Public Property Get Connection() As Connection
+    Set Connection = m_Connection
+End Property
+
+Public Sub Disconnect()
+    m_ClientSocket.Disconnect
+End Sub
+
+Public Property Get Name() As String
+    Name = m_Connection.Name
+End Property
+
+Public Property Let Name(ByVal newval As String)
+    m_Connection.Name = newval
+End Property
+
 ' Friend API
 ' ----------------------------------------------------------------------------
-Property Set Driver(ByVal newval As ISocketDriver)
+Friend Property Set Driver(ByVal newval As ISocketDriver)
     Set m_Driver = newval
 End Property
 
 ' see m_Driver.LastError if connect failed
-Function Connect(ByVal RemoteAddress As String) As Boolean
+Friend Function Connect(ByVal RemoteAddress As String) As Boolean
     Assert Not m_Driver Is Nothing, "Not Initialized", LOCATION
 
     Set m_ClientSocket = m_Driver.Connect(RemoteAddress, Me)
@@ -98,12 +116,32 @@ Function Connect(ByVal RemoteAddress As String) As Boolean
     End If
 End Function
 
-Public Property Get Connection() As Connection
-    Set Connection = m_Connection
-End Property
+Private Sub m_Connection_OnFileCanceled(ByVal f As File)
+    RaiseEvent OnFileCanceled(f)
+End Sub
+
+Private Sub m_Connection_OnPreReceiveFile(ByVal f As File, Cancel As Boolean)
+    RaiseEvent OnPreReceiveFile(f, Cancel)
+End Sub
 
 Private Sub m_Connection_OnPreSendPacket(ByVal Pkt As Packet, Cancel As Boolean)
     RaiseEvent OnPreSendPacket(Pkt, Cancel)
+End Sub
+
+Private Sub m_Connection_OnReceivedFile(ByVal f As File)
+    RaiseEvent OnReceivedFile(f)
+End Sub
+
+Private Sub m_Connection_OnReceivingFile(ByVal f As File, Cancel As Boolean)
+    RaiseEvent OnReceivingFile(f, Cancel)
+End Sub
+
+Private Sub m_Connection_OnSendingFile(ByVal f As File, Cancel As Boolean)
+    RaiseEvent OnSendingFile(f, Cancel)
+End Sub
+
+Private Sub m_Connection_OnSentFile(ByVal f As File)
+    RaiseEvent OnSentFile(f)
 End Sub
 
 Private Sub m_Connection_OnSentPacket(ByVal Pkt As Packet)
@@ -138,7 +176,7 @@ Private Sub PostProcess(ByVal Pkt As Packet, ByRef Cancel As Boolean)
     Case NC_TOUCH
         RaiseEvent OnTouch
     Case NC_MESSAGE
-        RaiseEvent OnMessage(Pkt.XArg(1))
+        RaiseEvent OnMessage(Pkt.XArg(0))
     Case NC_SYSTEM
         RaiseEvent OnSystem(Pkt)
     End Select

@@ -47,7 +47,15 @@ Private Property Get IServerSocket_LocalAddress() As String
 End Property
 
 Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
-    m_LocalAddress = Str2Inaddr(LocalAddress)
+    Dim Host As String
+    Dim Port As Long
+    Host = InaddrHost(LocalAddress)
+    Port = InaddrPort(LocalAddress)
+
+    Dim Inaddr As New InetAddress
+    Inaddr.HostName = Host
+    Inaddr.Port = Port
+    Set m_LocalAddress = Inaddr
 
     xSocket.StartListening m_LocalAddress, xSConn, _
         wifAdviseConnection + wifAdviseConnectionProcessed
@@ -98,7 +106,7 @@ Private Property Get IServerSocket_RemoteAddress(ByVal Id As Long) As String
     Set mc = m_Clients.Item(Id)
     Assert Not mc Is Nothing, "Invalid Id", LOCATION
 
-    IServerSocket_RemoteAddress = mc.RemoteAddress
+    IServerSocket_RemoteAddress = mc.RemoteAddress.GetAddressString
 End Property
 
 Private Sub IServerSocket_Disconnect(ByVal Id As Long)
@@ -208,7 +216,7 @@ Private Sub xSConn_OnConnectionProcessed(ByVal xListeningSocket As Object, _
                                          ByVal xIncomingSocket As Object, _
                                          ByVal lUserParam As Long)
     Dim xRemoteAddress As Address
-    Set xRemoteAddress = xIncomingSocket
+    Set xRemoteAddress = xIncomingSocket.RemoteAddress
 
     Dim RemoteAddress As String
     RemoteAddress = Addr2Str(xRemoteAddress)

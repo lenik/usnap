@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form ChatStart
+Begin VB.Form frmStart
    Caption         =   "Start"
    ClientHeight    =   2430
    ClientLeft      =   60
@@ -11,23 +11,23 @@ Begin VB.Form ChatStart
    Begin VB.ComboBox lstDriver
       BeginProperty Font
          Name            =   "MS Sans Serif"
-         Size            =   24
+         Size            =   18
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   675
+      Height          =   555
       ItemData        =   "ChatStart.frx":0000
       Left            =   540
-      List            =   "ChatStart.frx":000A
+      List            =   "ChatStart.frx":0002
       Style           =   2  'Dropdown List
       TabIndex        =   2
       Top             =   240
       Width           =   4935
    End
-   Begin VB.CommandButton Command2
+   Begin VB.CommandButton btnClient
       Caption         =   "&Client"
       Height          =   1035
       Left            =   3180
@@ -35,7 +35,7 @@ Begin VB.Form ChatStart
       Top             =   1080
       Width           =   2235
    End
-   Begin VB.CommandButton Command1
+   Begin VB.CommandButton btnServer
       Caption         =   "&Server"
       Height          =   1035
       Left            =   540
@@ -44,39 +44,31 @@ Begin VB.Form ChatStart
       Width           =   2235
    End
 End
-Attribute VB_Name = "ChatStart"
+Attribute VB_Name = "frmStart"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private m_Layout As New AutoScaleLayout
-
-Private Sub Command1_Click()
+Private Sub btnServer_Click()
+    frmServer.Show
     Unload Me
-    ChatServer.Show
 End Sub
 
-Private Sub Command2_Click()
+Private Sub btnClient_Click()
+    frmClient.Show
     Unload Me
-    ChatClient.Show
 End Sub
 
 Private Sub Form_Load()
-    m_Layout.InitializeCoordinations Me
-    lstDriver.ListIndex = 1
-End Sub
-
-Private Sub Form_Resize()
-    m_Layout.Relayout
+    Dim dn
+    For Each dn In XnetDriverNames
+        lstDriver.AddItem dn
+    Next
+    lstDriver.ListIndex = 0
 End Sub
 
 Private Sub lstDriver_Click()
-    Select Case lstDriver.ListIndex
-    Case 0
-        Set Driver = CreateObject("XnetWinsock.Driver")
-    Case 1
-        'Set Driver = New XnetXceed.TCPDriver
-    End Select
+    Set Network = XnetCreate(lstDriver.Text)
 End Sub

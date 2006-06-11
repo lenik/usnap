@@ -32,12 +32,13 @@ STDMETHODIMP CInputBuffer::StatementReady(VARIANT_BOOL *ret)
     *ret = FALSE;
 
     while (! stmt_ok) {
-        if (! nextParam) {
-            // start new param
+        if (! nextParam)
+            nextParam = new Decoder;
+
+        if (! nextParam->term()) {
             int unread = m_Buf.getUnread();
             if (unread == 0)
                 break;
-            nextParam = new Decoder;
             const char *pStop = nextParam->process(
                 (char *)(unsigned char *)m_Buf, unread);
             int processed = pStop - (char *)(unsigned char *)m_Buf;
@@ -45,21 +46,32 @@ STDMETHODIMP CInputBuffer::StatementReady(VARIANT_BOOL *ret)
                 m_Buf.skip(processed);
         }
 
-        if (nextParam) {
-            if (! nextParam->term())    // stop at non-term param
-                return S_FALSE;
+        if (! nextParam->term())    // stop at non-term param
+            return S_FALSE;
 
-            int size = nextParam->buf.getSize();
-            char *part = (char *)nextParam->buf.detach();
-            stmt_ok = nextParam->termLine();
+        int size = nextParam->buf.getSize();
+        char *part = (char *)nextParam->buf.detach();
 
-            delete nextParam;
-            nextParam = 0;
+        stmt_ok = nextParam->termLine();
 
+        delete nextParam;
+        nextParam = 0;
+
+        int have_segs = 0;
+        if (nextStmt)
+            nextStmt->get_Count(&have_segs);
+
+        if (have_segs == 0 && part == 0)
+            // skip empty stmt.
+            stmt_ok = 0;
+
+        if (part) {
             if (nextStmt == 0)
                 nextStmt = new CStatementObject;
 
             HRESULT hr = nextStmt->Add(part, size);
+            free(part);
+
             _assert_(SUCCEEDED(hr));
         }
     }
@@ -92,6 +104,7 @@ STDMETHODIMP CInputBuffer::GetStatement(IStatement **ppStatement)
 
     *ppStatement = nextStmt;
     nextStmt = 0;
+    _assert_(nextParam == 0);
     stmt_ok = 0;
 
     (*ppStatement)->AddRef();

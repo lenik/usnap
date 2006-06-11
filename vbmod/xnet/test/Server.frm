@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form Server
+Begin VB.Form frmServer
    Caption         =   "Server"
    ClientHeight    =   5565
    ClientLeft      =   165
@@ -9,20 +9,12 @@ Begin VB.Form Server
    ScaleHeight     =   5565
    ScaleWidth      =   6360
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton btnStart
-      Caption         =   "Start"
-      Height          =   375
-      Left            =   120
-      TabIndex        =   3
-      Top             =   180
-      Width           =   675
-   End
    Begin VB.ListBox List1
       Height          =   3375
-      Left            =   1020
+      Left            =   480
       TabIndex        =   2
-      Top             =   540
-      Width           =   4275
+      Top             =   480
+      Width           =   5535
    End
    Begin VB.TextBox Text1
       Height          =   795
@@ -41,89 +33,35 @@ Begin VB.Form Server
       Width           =   1035
    End
 End
-Attribute VB_Name = "Server"
+Attribute VB_Name = "frmServer"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private WithEvents sdserver As Socket
-Attribute sdserver.VB_VarHelpID = -1
-Private WithEvents sd As Socket
-Attribute sd.VB_VarHelpID = -1
+Private WithEvents Server As Server
+Attribute Server.VB_VarHelpID = -1
 
 Private Sub btnSend_Click()
-    sd.SendData Text1.Text
-End Sub
-
-Private Sub btnStart_Click()
-    Set sdserver = New Socket
-    sdserver.Tag = "Server Socket"
-    sdserver.LocalPort = 5103
-
-    Set sd = New Socket
-    sd.Tag = "Connection Socket"
-
-    sdserver.AutoMode = amListen
-    sdserver.Listen
+    Dim i As Long
+    Dim Id As Long
+    Dim c As Connection
+    For i = 0 To Server.Connections - 1
+        Id = Server.ConnectionId(i)
+        Set c = Server.Connection(Id)
+        c.SendMessage Text1.Text
+    Next
 End Sub
 
 Private Sub Form_Load()
-    ShowResources
+    Set Server = Network.Bind(CHAT_PORT)
 End Sub
 
 Sub AddLog(ByVal s)
     List1.AddItem s, 0
 End Sub
 
-Private Sub res_Click()
-    ShowResources
-End Sub
-
-Private Sub sd_OnClose()
-    AddLog "sd onclose"
-End Sub
-
-Private Sub sd_OnConnect()
-    AddLog "sd onconnect"
-End Sub
-
-Private Sub sd_OnConnectionRequest(ByVal requestID As Long)
-    AddLog "sd onconnectreq:" & requestID
-End Sub
-
-Private Sub sd_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-    AddLog "sd onerror:" & Description
-End Sub
-
-Private Sub sdserver_OnClose()
-    AddLog "sdserver onclose"
-End Sub
-
-Private Sub sdserver_OnConnect()
-    AddLog "sdserver onconnect"
-End Sub
-
-Private Sub sdserver_OnConnectionRequest(ByVal requestID As Long)
-    AddLog "sdserver onconnectreq:" & requestID
-    sd.Accept requestID
-End Sub
-
-Private Sub sd_OnDataArrival(ByVal bytesTotal As Long)
-    Dim data
-    sd.GetData data
-    data = BytesToString(data)
-    List1.AddItem data, 0
-End Sub
-
-Private Sub sdserver_OnDataArrival(ByVal bytesTotal As Long)
-    AddLog "sdserver onrecv:" & bytesTotal
-    Dim d
-    sdserver.GetData d
-    AddLog "sdserver getdata:<" & BytesToString(d) & ">"
-End Sub
-
-Private Sub sdserver_OnError(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-    AddLog "sdserver onerror:" & Description
+Private Sub Server_OnMessage(ByVal c As Xnet.Connection, ByVal Message As String)
+    AddLog c.QPeer & " - " & Message
 End Sub

@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "comctl32.ocx"
-Begin VB.Form ChatClient
+Begin VB.Form frmClient
    Caption         =   "Client"
    ClientHeight    =   6660
    ClientLeft      =   165
@@ -77,7 +77,7 @@ Begin VB.Form ChatClient
       Caption         =   "&Disconnect"
    End
 End
-Attribute VB_Name = "ChatClient"
+Attribute VB_Name = "frmClient"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -101,32 +101,102 @@ End Sub
 
 Private Sub btnSend_Click()
     AddLog "(echo) > " & txtMessage.Text
-'    If Not Session Is Nothing Then
-'        Session.SendMessage txtMessage, chkEncrypt.Value
-'    End If
+    Client.Connection.SendMessage txtMessage, chkEncrypt.Value
 End Sub
 
 Private Sub btnSendFile_Click()
-    'Session.SendFile txtMessage, "C_" & Session.Name, chkEncrypt.Value
+    Client.Connection.SendFile txtMessage, "C_" & Client.Name
 End Sub
 
-Private Sub Client_SessionBegin(ByVal s As Xnet.Connection)
-    'Set Session = s
-    'AddLog "(event) > session begin: " & s.PeerName
+Private Sub Client_OnConnect(SecurityEnabled As Boolean)
+    AddLog "OnConnect: " & SecurityEnabled
 End Sub
-'
-'Private Sub Client_SessionEnd(ByVal s As Xnet.Session)
-'    Set Session = Nothing
-'    AddLog "(event) > session end: " & s.PeerName
-'End Sub
+
+Private Sub Client_OnDisconnect(ByVal Reason As Xnet.DisconnectReasonConstants)
+    AddLog "OnDisconnect: " & Reason
+End Sub
+
+Private Sub Client_OnFileCanceled(ByVal f As Xnet.File)
+    AddLog "OnFileCanceled: " & FileDisp(f)
+End Sub
+
+Private Sub Client_OnGet(ByVal URI As String, Response As String)
+    AddLog "OnGet: " & URI
+End Sub
+
+Private Sub Client_OnPreReceiveFile(ByVal f As Xnet.File, Cancel As Boolean)
+    f.Path = "X:\incoming\client\" & Client.Name & "\" & f.FullName
+    AddLog "OnPreReceiveFile: " & FileDisp(f)
+    If MsgBox("Receiving " & f.Packets, vbYesNo) = vbNo Then
+        Cancel = True
+    End If
+End Sub
+
+Private Sub Client_OnPreRecvPacket(ByVal Pkt As Xnet.Packet, Cancel As Boolean)
+    AddLog "OnPreRecvPacket: " & Pkt.Name
+End Sub
+
+Private Sub Client_OnPreSendPacket(ByVal Pkt As Xnet.Packet, Cancel As Boolean)
+    AddLog "OnPreSendPacket: " & Pkt.Name
+End Sub
+
+Private Sub Client_OnReceivedFile(ByVal f As Xnet.File)
+    AddLog "OnReceivedFile: " & FileDisp(f)
+End Sub
+
+Private Sub Client_OnReceivingFile(ByVal f As Xnet.File, Cancel As Boolean)
+    ' AddLog "OnReceivingFile: " & FileDisp(f)
+    prog.Value = 100 * f.TransferredRatio
+    DoEvents
+End Sub
+
+Private Sub Client_OnRecvPacket(ByVal Pkt As Xnet.Packet)
+    AddLog "OnRecvPacket: " & Pkt.Name
+End Sub
+
+Private Sub Client_OnRegistered()
+    AddLog "OnRegistered"
+End Sub
+
+Private Sub Client_OnSendingFile(ByVal f As Xnet.File, ByRef Cancel As Boolean)
+    ' AddLog "OnSendingFile: " & FileDisp(f)
+    prog.Value = 100 * f.TransferredRatio
+    DoEvents
+End Sub
+
+Private Sub Client_OnSentFile(ByVal f As Xnet.File)
+    AddLog "OnSentFile: " & FileDisp(f)
+End Sub
+
+Private Sub Client_OnSentPacket(ByVal Pkt As Xnet.Packet)
+    AddLog "OnSentPacket: " & Pkt.Name
+End Sub
+
+Private Sub Client_OnSetKey()
+    AddLog "OnSetKey"
+End Sub
+
+Private Sub Client_OnSetName(ByVal PeerName As String)
+    AddLog "OnSetName: Peer=" & PeerName
+End Sub
+
+Private Sub Client_OnSetSharedKey()
+    AddLog "OnSetSharedKey"
+End Sub
+
+Private Sub Client_OnSystem(ByVal Pkt As Xnet.Packet)
+    AddLog "OnSystem: " & Pkt.XArg(0)
+End Sub
+
+Private Sub Client_OnTouch()
+    AddLog "OnTouched"
+End Sub
+
+Private Sub Client_OnUnregistered()
+    AddLog "OnUnregistered"
+End Sub
 
 Private Sub Form_Load()
-    'Secret_Randomize Timer
-
-'    Set Client = New Client
-'    Set xSession = New SessionEvents
-'    Client.SessionAdvise xSession
-
     txtMessage.Text = "Client " & Secret(20, 50)
 
     m_Layout.InitializeCoordinations Me
@@ -136,10 +206,6 @@ End Sub
 
 Private Sub Form_Resize()
     m_Layout.Relayout
-End Sub
-
-Private Sub Form_Unload(Cancel As Integer)
-    'Client.SessionUnadvise
 End Sub
 
 Function lstContents(lst As ListBox) As String
@@ -161,82 +227,12 @@ Private Sub lst_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mConnect_Click()
-'    If Not Client.Connect("127.0.0.1", CHAT_PORT) Then
-'        MsgBox "cannot connect"
-'    End If
+    Set Client = Network.Connect(CHAT_PORT)
+    If Client Is Nothing Then
+        MsgBox "cannot connect " & Network.Driver.LastError
+    End If
 End Sub
 
 Private Sub mDisconnect_Click()
-    'Client.Disconnect
+    Client.Disconnect
 End Sub
-'
-'Private Sub xSession_OnCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand)
-'    Select Case c.Name
-'    Case "NSN"
-'        Me.Caption = "Client Session[" & s.Name & " -> " & s.PeerName & "]"
-'    End Select
-'End Sub
-'
-'Private Sub xSession_OnMessage(ByVal s As Xnet.Session, ByVal Message As String, ByVal IsEncrypted As Boolean, AckMessage As String)
-'    Dim Text As String
-'    If Left(Message, 4) = "Fw: " Then
-'        Text = Mid(Message, 5)
-'    Else
-'        Text = SessionID(s) & "> " & Message
-'    End If
-'    AddText Text
-'    ' don't forward server messages.
-'End Sub
-'
-'Private Sub xSession_OnPreCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand, Cancel As Boolean)
-'    AddLog SessionID(s) & ">!" & Join(c.Parameters, " ")
-'End Sub
-'
-'Private Sub xSession_OnScriptResult(ByVal s As Xnet.Session, ByVal Result As String)
-'    Dim Text As String
-'    Text = SessionID(s) & "> Script-Result: " & Result
-'    AddText Text
-'End Sub
-'
-'Private Sub xSession_OnTouch(ByVal s As Xnet.Session)
-'    Dim Text As String
-'    Text = SessionID(s) & "> Touched!"
-'    AddLog Text
-'End Sub
-'
-'Private Sub xSession_OnIncomingFile(ByVal s As Xnet.Session, _
-'                                    ByVal Name As String, ByVal Category As String, _
-'                                    ByVal IsEncrypted As Boolean, _
-'                                    ByVal Size As Long, SavePath As String, _
-'                                    Ignore As Boolean)
-'    SavePath = DirName(SavePath) & "\" & Category & "\" & Name
-'    AddLog SessionID(s) & "> Incoming File " & Category & "/" & Name & " ==> " & SavePath
-'End Sub
-'
-'Private Sub xSession_OnReceivedFile(ByVal s As Xnet.Session, ByVal Name As String, ByVal Category As String, ByVal IsEncrypted As Boolean, ByVal SavePath As String)
-'    AddLog SessionID(s) & "> Received File " & Category & "/" & Name
-'End Sub
-'
-'Private Sub xSession_OnReceivingFile(ByVal s As Xnet.Session, _
-'                                     ByVal Name As String, ByVal Category As String, _
-'                                     ByVal IsEncrypted As Boolean, _
-'                                     ByVal FileSize As Long, ByVal RecvOffset As Long, _
-'                                     ByVal RecvSize As Long, ByVal SavePath As String)
-'    ' AddLog SessionID(s) & "> Receving File " & Category & "/" & Name & " : " & RecvSize & "/" & FileSize
-'    Assert FileSize > 0
-'    prog.Value = 100 * (RecvOffset + RecvSize) / FileSize
-'End Sub
-'
-'Private Sub xSession_OnSendingFile(ByVal s As Xnet.Session, ByVal Path As String, _
-'                                   ByVal RemoteName As String, ByVal Category As String, _
-'                                   ByVal IsEncrypted As Boolean, ByVal FileSize As Long, _
-'                                   ByVal SentOffset As Long, ByVal SentSize As Long)
-'    ' AddLog SessionID(s) & "> Sending File " & Category & "/" & RemoteName & " : " & SentSize & "/" & FileSize
-'    Assert FileSize > 0
-'    prog.Value = 100 * (SentOffset + SentSize) / FileSize
-'End Sub
-'
-'Private Sub xSession_OnSentFile(ByVal s As Xnet.Session, ByVal Path As String, ByVal RemoteName As String, ByVal Category As String, ByVal IsEncrypted As Boolean)
-'    AddLog SessionID(s) & "> Sent File " & Category & "/" & RemoteName
-'End Sub
-

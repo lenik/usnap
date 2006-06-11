@@ -72,14 +72,29 @@ End Property
 
 Private Sub IClientSocket_Connect(ByVal RemoteAddress As String, _
                                   Optional ByVal LocalAddress As String)
-    Dim inaddr As New InetAddress
+    Dim Host As String
+    Dim Port As Long
+    Dim Inaddr As InetAddress
+
     If LocalAddress <> "" Then
-        Set xSocket.LocalAddress = Str2Inaddr(LocalAddress)
+        Host = InaddrHost(LocalAddress)
+        Port = InaddrPort(LocalAddress)
+
+        Set Inaddr = New InetAddress
+        Inaddr.HostName = Host
+        Inaddr.Port = Port
+
+        Set xSocket.LocalAddress = Inaddr
     End If
 
-    Set inaddr = Str2Inaddr(RemoteAddress)
+    Host = InaddrHost(RemoteAddress)
+    Port = InaddrPort(RemoteAddress)
 
-    xSocket.Connect inaddr
+    Set Inaddr = New InetAddress
+    Inaddr.HostName = Host
+    Inaddr.Port = Port
+
+    xSocket.Connect Inaddr
 End Sub
 
 Private Sub IClientSocket_Disconnect()

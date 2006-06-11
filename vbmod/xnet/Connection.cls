@@ -349,12 +349,12 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
         ' Client.Unregister -> Server
 
     Case NC_SETNAME
-        m_PeerName = Pkt.XArg(1)
+        m_PeerName = Pkt.XArg(0)
         If Pkt.Initiative Then SetName Pkt.Reply
 
     Case NC_SETKEY
         Set m_PeerKey = New AsymCrypto
-        m_PeerKey.PublicKey = Pkt.XArg(1)
+        m_PeerKey.PublicKey = Pkt.XArg(0)
         If Pkt.Initiative Then
             SetKey Pkt.Reply
         Else
@@ -364,7 +364,7 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
 
     Case NC_SETSHAREDKEY
         Dim PeerSharedKey As String
-        PeerSharedKey = m_Key.DecryptMessage(Pkt.XArg(1))
+        PeerSharedKey = m_Key.DecryptMessage(Pkt.XArg(0))
         If Pkt.Initiative Then
             m_SharedKey.Key = PeerSharedKey
             SetSharedKey Pkt.Reply
@@ -382,14 +382,14 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
     Case NC_SCRIPT
         Dim ScriptLang As String
         Dim Script As String
-        ScriptLang = Pkt.XArg(1)
-        Script = Pkt.XArg(2)
+        ScriptLang = Pkt.XArg(0)
+        Script = Pkt.XArg(1)
         RunScript Script, ScriptLang
 
     Case NC_PUTFILE
         ' PutFile(long id, long size, long pkt_size, char[20], string fullname)
         ' Receive File
-        Id = Pkt.XArg(1)
+        Id = Pkt.XArg(0)
 
         If Pkt.Initiative Then
             ' I'm receiver
@@ -398,9 +398,9 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
             Set RecvFile = New File
             RecvFile.RecvMode = True
             RecvFile.GUID = Id
-            RecvFile.Checksum = Pkt.XArg(4)
-            RecvFile.FullName = Pkt.XArg(5)
-            RecvFile.Init Val(Pkt.XArg(2)), Val(Pkt.XArg(3))
+            RecvFile.Checksum = Pkt.XArg(3)
+            RecvFile.FullName = Pkt.XArg(4)
+            RecvFile.Init Val(Pkt.XArg(1)), Val(Pkt.XArg(2))
             RecvFile.DeleteWhenCanceled = True
 
             RaiseEvent OnPreReceiveFile(RecvFile, Cancel)
@@ -420,7 +420,7 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
             ' just ignore if the file is no longer be managed
             If Not m_Files.Contain(Id) Then Exit Sub
 
-            Select Case Pkt.XArg(2)
+            Select Case Pkt.XArg(1)
             Case "A"
                 ' Do nothing
             Case "C"
@@ -433,12 +433,12 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
         End If
 
     Case NC_PUTFILE_C
-        Id = Pkt.XArg(1)
+        Id = Pkt.XArg(0)
         If Not m_Files.Contain(Id) Then Exit Sub
 
         If Pkt.Initiative Then
             ' I'm receiver
-            Select Case Pkt.XArg(2)
+            Select Case Pkt.XArg(1)
             Case "C"                    ' Cancel receiving
                 Set RecvFile = m_Files.Item(Id)
                 m_Files.Remove Id
@@ -452,7 +452,7 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
     Case NC_FILEPACKET
         ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
         ' Receive File Packet
-        Id = Pkt.XArg(1)
+        Id = Pkt.XArg(0)
 
         ' Stop the sender if the file is no longer managed.
         If Not m_Files.Contain(Id) Then
@@ -461,18 +461,18 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
         End If
 
         Dim PktIndex As Long
-        PktIndex = Val(Pkt.XArg(2))
+        PktIndex = Val(Pkt.XArg(1))
 
         If Pkt.Initiative Then
             ' I'm receiver
             Set RecvFile = m_Files.Item(Id)
 
             Dim PktData() As Byte
-            PktData = Pkt.BytesArg(5)
-            If CalcChecksum(PktData) = Pkt.XArg(4) Then
+            PktData = Pkt.BytesArg(4)
+            If CalcChecksum(PktData) = Pkt.XArg(3) Then
                 ' Packet OK
                 ' (PktSize is ignored. )
-                B = RecvFile.PutPacket(PktIndex, Pkt.Segment(5))
+                B = RecvFile.PutPacket(PktIndex, Pkt.BytesArg(5))
                 ' Assert b
                 RaiseEvent OnReceivingFile(RecvFile, Cancel)
 
@@ -495,7 +495,7 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
             End If
         Else
             ' I'm sender, process control code.
-            Select Case Pkt.XArg(2)
+            Select Case Pkt.XArg(1)
             Case "A"    ' Packet Sent Completed
                 Set SendFile = m_Files.Item(Id)
                 ' Mark as sent
@@ -534,5 +534,5 @@ End Sub
 ' Class
 ' ----------------------------------------------------------------------------
 Private Sub Class_Initialize()
-    '
+    m_Name = Secret
 End Sub

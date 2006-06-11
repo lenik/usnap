@@ -90,5 +90,7 @@ Private Sub Class_Initialize()
     LicenseManager_WSL.License LICENSE_XC_WINSOCK
 
     Randomize Timer
+    SecretRandomize Timer
+
     g_NextUniqueId = Int(Rnd * 1000000000)
 End Sub

@@ -15,6 +15,10 @@ Option Explicit
 
 Private m_Driver As ISocketDriver
 
+Property Get Driver() As ISocketDriver
+    Set Driver = m_Driver
+End Property
+
 Property Set Driver(ByVal newval As ISocketDriver)
     Assert Not newval Is Nothing
     Set m_Driver = newval
