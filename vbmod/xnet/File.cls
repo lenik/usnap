@@ -21,6 +21,7 @@ Public Enum PacketStatusConstants
     pktTransferred
 End Enum
 
+Private m_RecvMode As Boolean
 Private m_GUID As String
 Private m_Size As Long
 Private m_PacketSize As Long
@@ -37,6 +38,14 @@ Private m_Path As String
 Private m_File As New BinaryFile
 Private m_DeleteWhenTransferred As Boolean
 Private m_DeleteWhenCanceled As Boolean
+
+Public Property Get RecvMode() As Boolean
+    RecvMode = m_RecvMode
+End Property
+
+Public Property Let RecvMode(ByVal newval As Boolean)
+    m_RecvMode = newval
+End Property
 
 Public Property Get GUID() As String
     GUID = m_GUID
@@ -163,7 +172,7 @@ Public Sub Cancel()
     End If
 End Sub
 
-Public Sub Init(Optional ByVal Size As Long = -1, Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
+Public Sub Init(Optional ByVal Size As Long = -1, Optional ByVal PacketSize As Long = Constants.DEFAULT_PKTSIZE)
     If Size = -1 Then
         Assert FSO.FileExists(m_Path), "Can't determine file size, the file isn't existed", LOCATION
         Size = FSO.GetFile(m_Path).Size

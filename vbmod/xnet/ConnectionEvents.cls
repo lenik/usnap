@@ -8,27 +8,35 @@ BEGIN
 END
 Attribute VB_Name = "ConnectionEvents"
 Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
+Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Sub OnConnect(ByVal c As Connection)
+Public Sub OnPreSendPacket(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnSentPacket(ByVal c As Connection, ByVal Pkt As Packet)
 
 End Sub
 
-Public Sub OnDisconnect(ByVal c As Connection)
+Public Sub OnPreReceiveFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnReceivingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnReceivedFile(ByVal c As Connection, ByVal f As File)
 
 End Sub
 
-Public Sub OnMessage(ByVal c As Connection, ByVal Message As String)
+Public Sub OnSendingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnSentFile(ByVal c As Connection, ByVal f As File)
 
 End Sub
 
-Public Sub OnTouch(ByVal c As Connection)
-
-End Sub
-
-Public Sub OnSetName()
+Public Sub OnFileCanceled(ByVal c As Connection, ByVal f As File)
 
 End Sub

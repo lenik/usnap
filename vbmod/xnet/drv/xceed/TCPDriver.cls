@@ -15,7 +15,13 @@ Option Explicit
 
 Private Const LOCATION                  As String = "XnetXceed::TCPDriver"
 
+Private m_LastError As String
+
 Implements ISocketDriver
+
+Private Property Get ISocketDriver_LastError() As String
+    ISocketDriver_LastError = m_LastError
+End Property
 
 Private Function ISocketDriver_Bind(ByVal LocalAddress As String, ByVal EventSink As Xnet.IServerEvents) As Xnet.IServerSocket
     Assert Not EventSink Is Nothing, "Event sink is nothing", LOCATION
@@ -24,8 +30,16 @@ Private Function ISocketDriver_Bind(ByVal LocalAddress As String, ByVal EventSin
     Dim isd As IServerSocket
     Set isd = sd
     isd.Advise EventSink
+
+    On Error GoTo x
     isd.Bind LocalAddress
+    On Error GoTo 0
+
     Set ISocketDriver_Bind = isd
+    Exit Function
+
+x:
+    m_LastError = Err.Description
 End Function
 
 Private Function ISocketDriver_Connect(ByVal RemoteString As String, _
@@ -37,6 +51,14 @@ Private Function ISocketDriver_Connect(ByVal RemoteString As String, _
     Dim isd As IClientSocket
     Set isd = sd
     isd.Advise EventSink
+
+    On Error GoTo x
     isd.Connect RemoteString, LocalAddress
+    On Error GoTo 0
+
     Set ISocketDriver_Connect = isd
+    Exit Function
+
+x:
+    m_LastError = Err.Description
 End Function

@@ -36,6 +36,11 @@ Public Const NC_SCRIPT                  As String = "PRG"
 '       C Cancel the file.
 Public Const NC_PUTFILE                 As String = "PUT"
 
+' PutFileC(long id, char control)
+' control:
+'       C Cancel the file
+Public Const NC_PUTFILE_C               As String = "PUTC"
+
 ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*)
 '     Return(long id, char control)
 ' control:

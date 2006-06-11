@@ -23,6 +23,8 @@ Attribute xByte.VB_VarHelpID = -1
 Private lConn As Long
 Private lByte As Long
 
+Private m_LastError As String
+
 Private m_EventSink As IClientEvents
 Private m_UnrecvBuffer As New ByteArray
 Private m_SendOffset As Long
@@ -76,6 +78,7 @@ Private Sub IClientSocket_Connect(ByVal RemoteAddress As String, _
     End If
 
     Set inaddr = Str2Inaddr(RemoteAddress)
+
     xSocket.Connect inaddr
 End Sub
 

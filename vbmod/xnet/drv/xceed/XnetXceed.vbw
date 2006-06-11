@@ -1,9 +1,9 @@
-TCPDriver = 34, 93, 746, 499, C
+TCPDriver = 69, 112, 781, 518, C
 TCPServerSocket = 31, 34, 775, 542, C
 TCPClientSocket = 133, 27, 845, 522, C
 Licenses = 0, 0, 724, 425, C
 GlobalsSingleton = 132, 174, 844, 580, C
-Globals = 75, 124, 799, 549, C
+Globals = 75, 124, 799, 549,
 MemberClients = 101, 65, 825, 490, C
 MemberClient = 125, 192, 849, 617, C
 Partial = 0, 0, 724, 425, C

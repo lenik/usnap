@@ -18,9 +18,13 @@ Private Const LOCATION                  As String = "Xnet::Connection"
 Private m_Channel As Channel
 
 Private m_Name As String
-Private m_PeerName As String
+Private m_Address As String
 Private m_Key As New AsymCrypto
+
+Private m_PeerName As String
+Private m_PeerAddress As String
 Private m_PeerKey As AsymCrypto
+
 Private m_SharedKey As New SymCrypto
 
 Private m_PeerTZOffset As Double        ' RemoteTime - LocalTime
@@ -35,9 +39,10 @@ Public Event OnPreReceiveFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnReceivingFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnReceivedFile(ByVal f As File)
 
-Public Event OnSendingFile(ByVal f As File)
-Public Event OnSendFileCanceled(ByVal f As File)
+Public Event OnSendingFile(ByVal f As File, ByRef Cancel As Boolean)
 Public Event OnSentFile(ByVal f As File)
+
+Public Event OnFileCanceled(ByVal f As File)
 
 ' Friend API
 ' ----------------------------------------------------------------------------
@@ -47,6 +52,14 @@ End Property
 
 Property Set Channel(ByVal newval As Channel)
     Set m_Channel = newval
+End Property
+
+Property Let Address(ByVal newval As String)
+    m_Address = newval
+End Property
+
+Property Let PeerAddress(ByVal newval As String)
+    m_PeerAddress = newval
 End Property
 
 ' Connection Attributes
@@ -59,8 +72,24 @@ Public Property Let Name(ByVal newval As String)
     m_Name = newval
 End Property
 
+Public Property Get QName() As String
+    QName = m_Name & "@" & m_Address
+End Property
+
+Property Get Address() As String
+    Address = m_Address
+End Property
+
 Public Property Get PeerName() As String
     PeerName = m_PeerName
+End Property
+
+Public Property Get QPeer() As String
+    QPeer = m_PeerName & "@" & m_PeerAddress
+End Property
+
+Property Get PeerAddress() As String
+    PeerAddress = m_PeerAddress
 End Property
 
 Public Property Get Key() As AsymCrypto
@@ -203,10 +232,11 @@ Public Sub SendFile(ByVal Path As String, _
                     Optional ByVal Encrypted As Boolean = False, _
                     Optional ByVal DeleteWhenSent As Boolean = False, _
                     Optional ByVal DeleteWhenCanceled As Boolean = False, _
-                    Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
+                    Optional ByVal PacketSize As Long = Constants.DEFAULT_PKTSIZE)
     If FullName = "" Then FullName = Path
 
     Dim f As New File
+    f.RecvMode = False
     f.Path = Path
     f.FullName = FullName
     f.DeleteWhenTransferred = DeleteWhenSent
@@ -226,16 +256,24 @@ Private Sub SendFileInfo(ByVal f As File, Optional ByVal Encrypted As Boolean = 
 End Sub
 
 Private Sub SendFilePackets(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
+    Dim Id As String
+    Id = f.GUID
+
     Dim i As Long
     For i = 0 To f.Packets - 1
         If f.PacketStatus(i) = pktQueued Then
             SendFilePacket f, i, Encrypted
+            If Not m_Files.Contain(Id) Then
+                ' Canceled
+                RaiseEvent OnFileCanceled(f)
+                Exit Sub
+            End If
         End If
     Next
 End Sub
 
-Private Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
-                           Optional ByVal Encrypted As Boolean = False)
+Private Function SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
+                                Optional ByVal Encrypted As Boolean = False) As Boolean
     Dim Pkt As Packet
     Dim PacketSize As Long
     Dim PacketData() As Byte
@@ -254,9 +292,7 @@ Private Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
     f.PacketStatus(PacketIndex) = pktTransferring
 
     SendPacket Pkt
-
-    RaiseEvent OnSendingFile(f)
-End Sub
+End Function
 
 Public Function ResumeFiles(ByVal SendFilesXML As String) As Boolean
 '    Dim Doc As New DOMDocument
@@ -297,10 +333,11 @@ End Function
 Friend Sub RecvPacket(ByVal Pkt As Packet)
     Dim Cancel As Boolean
     Dim Id As String
-    Dim b As Boolean
+    Dim B As Boolean
 
     Dim RecvFile As File
     Dim SendFile As File
+    Dim f As File
 
     Set Pkt.Key = m_SharedKey
 
@@ -355,9 +392,11 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
         Id = Pkt.XArg(1)
 
         If Pkt.Initiative Then
+            ' I'm receiver
             Assert Pkt.Args >= 6
 
             Set RecvFile = New File
+            RecvFile.RecvMode = True
             RecvFile.GUID = Id
             RecvFile.Checksum = Pkt.XArg(4)
             RecvFile.FullName = Pkt.XArg(5)
@@ -367,26 +406,47 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
             RaiseEvent OnPreReceiveFile(RecvFile, Cancel)
 
             If Cancel Then
+                ' RecvFile hasn't been added to m_Files, yet.
                 RecvFile.Cancel
-                SendCmd2 NC_PUTFILE, RecvFile.GUID, "C", False, Pkt.Reply
+                SendCmd2 NC_PUTFILE, Id, "C", False, Pkt.Reply
+                RaiseEvent OnFileCanceled(RecvFile)
             Else
-                SendCmd2 NC_PUTFILE, RecvFile.GUID, "A", False, Pkt.Reply
+                SendCmd2 NC_PUTFILE, Id, "A", False, Pkt.Reply
                 Set m_Files.Item(RecvFile.GUID) = RecvFile
             End If
-        Else ' Reply: PUTFILE-Control
+        Else
+            ' I'm sender
+
+            ' just ignore if the file is no longer be managed
+            If Not m_Files.Contain(Id) Then Exit Sub
+
             Select Case Pkt.XArg(2)
             Case "A"
                 ' Do nothing
             Case "C"
-                If m_Files.Contain(Id) Then
-                    Set SendFile = m_Files.Item(Id)
-                    m_Files.Remove Id
-                    SendFile.Cancel
-                    RaiseEvent OnSendFileCanceled(SendFile)
-                Else
-                    ' The file is already canceled.
-                End If
+                Set f = m_Files.Item(Id)
+                ' If the sender don't wait to fileinfo/Ack and sending data immediately
+                ' after the fileinfo is sent, then this "entry lost" will notify the
+                ' sender to stop sending the future data.
+                m_Files.Remove Id
             End Select
+        End If
+
+    Case NC_PUTFILE_C
+        Id = Pkt.XArg(1)
+        If Not m_Files.Contain(Id) Then Exit Sub
+
+        If Pkt.Initiative Then
+            ' I'm receiver
+            Select Case Pkt.XArg(2)
+            Case "C"                    ' Cancel receiving
+                Set RecvFile = m_Files.Item(Id)
+                m_Files.Remove Id
+                RecvFile.Cancel
+                RaiseEvent OnFileCanceled(RecvFile)
+            End Select
+        Else
+            ' Receiver send control to sender should using PUTFILE/Return method.
         End If
 
     Case NC_FILEPACKET
@@ -394,70 +454,73 @@ Friend Sub RecvPacket(ByVal Pkt As Packet)
         ' Receive File Packet
         Id = Pkt.XArg(1)
 
+        ' Stop the sender if the file is no longer managed.
+        If Not m_Files.Contain(Id) Then
+            SendCmd2 NC_PUTFILE, Id, "C", False, Pkt.Reply
+            Exit Sub
+        End If
+
         Dim PktIndex As Long
         PktIndex = Val(Pkt.XArg(2))
 
         If Pkt.Initiative Then
-            If m_Files.Contain(Id) Then
-                Set RecvFile = m_Files.Item(Id)
+            ' I'm receiver
+            Set RecvFile = m_Files.Item(Id)
 
-                Dim PktData() As Byte
-                PktData = Pkt.BytesArg(5)
-                If CalcChecksum(PktData) = Pkt.XArg(4) Then
-                    ' Packet OK
-                    ' (PktSize is ignored. )
-                    b = RecvFile.PutPacket(PktIndex, Pkt.Segment(5))
-                    ' Assert b
-                    RaiseEvent OnReceivingFile(RecvFile, Cancel)
+            Dim PktData() As Byte
+            PktData = Pkt.BytesArg(5)
+            If CalcChecksum(PktData) = Pkt.XArg(4) Then
+                ' Packet OK
+                ' (PktSize is ignored. )
+                B = RecvFile.PutPacket(PktIndex, Pkt.Segment(5))
+                ' Assert b
+                RaiseEvent OnReceivingFile(RecvFile, Cancel)
 
-                    If Cancel Then
-                        ' User canceled receiving
-                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
-                    End If
-                Else
-                    ' Packet Checksum Error
-                    ' RecvFile.PacketStatus = pktReTransfer
-                    RaiseEvent OnReceivingFile(RecvFile, Cancel)
-
-                    If Cancel Then
-                        ' User canceled receiving
-                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
-                    Else
-                        ' Ask for Re-send this packet
-                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "R", False, Pkt.Reply
-                    End If
+                If Cancel Then
+                    ' User canceled receiving, when packet ok
+                    SendCmd2 NC_PUTFILE, Id, "C", False, Pkt.Reply
                 End If
             Else
-                ' File doesn't exist, maybe already canceled.
-                SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
+                ' Packet Checksum Error
+                ' RecvFile.PacketStatus = pktReTransfer
+                RaiseEvent OnReceivingFile(RecvFile, Cancel)
+
+                If Cancel Then
+                    ' User canceled receiving, when packet fail
+                    SendCmd2 NC_PUTFILE, Id, "C", False, Pkt.Reply
+                Else
+                    ' Ask for Re-send this packet
+                    SendCmd3 NC_FILEPACKET, Id, PktIndex, "R", False, Pkt.Reply
+                End If
             End If
         Else
-            ' File Sending-Control, just ignore if the file is no longer in the queue
-            If m_Files.Contain(Id) Then
-                Select Case Pkt.XArg(2)
-                Case "A"    ' Packet Sent Completed
-                    Set SendFile = m_Files.Item(Id)
-                    ' Mark as sent
-                    SendFile.PacketStatus(PktIndex) = pktTransferred
-                    RaiseEvent OnSendingFile(SendFile)
+            ' I'm sender, process control code.
+            Select Case Pkt.XArg(2)
+            Case "A"    ' Packet Sent Completed
+                Set SendFile = m_Files.Item(Id)
+                ' Mark as sent
+                SendFile.PacketStatus(PktIndex) = pktTransferred
 
-                    If SendFile.Status = pktTransferred Then
-                        m_Files.Remove Id
-                        RaiseEvent OnSentFile(SendFile)
-                    End If
+                RaiseEvent OnSendingFile(SendFile, Cancel)
 
-                Case "C"    ' Cancel The Entire File
-                    Set SendFile = m_Files.Item(Id)
+                If SendFile.Status = pktTransferred Then
                     m_Files.Remove Id
-                    SendFile.Cancel
-                    RaiseEvent OnSendFileCanceled(SendFile)
+                    RaiseEvent OnSentFile(SendFile)
+                End If
 
-                Case "R"    ' Packet Failed, Re-Send
-                    Set SendFile = m_Files.Item(Id)
-                    ' Mark to re-send
-                    SendFile.PacketStatus(PktIndex) = pktQueued
-                    SendFilePackets SendFile
-                End Select
+            Case "R"    ' Packet Failed, Re-Send
+                Set SendFile = m_Files.Item(Id)
+                ' Mark to re-send
+                SendFile.PacketStatus(PktIndex) = pktQueued
+
+                SendFilePackets SendFile
+
+                RaiseEvent OnSendingFile(SendFile, Cancel)
+            End Select
+
+            If Cancel Then
+                m_Files.Remove Id       ' The sending-loop may discover "entry lost"
+                SendCmd2 NC_PUTFILE_C, Id, "C"
             End If
         End If
 

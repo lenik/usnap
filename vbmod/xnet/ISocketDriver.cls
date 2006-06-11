@@ -15,6 +15,9 @@ Option Explicit
 
 ' @TAG-CLASS
 
+Public Property Get LastError() As String
+End Property
+
 Public Function Bind(ByVal LocalAddress As String, _
                      ByVal EventSink As IServerEvents) As IServerSocket
 End Function

@@ -88,5 +88,7 @@ End Property
 
 Private Sub Class_Initialize()
     LicenseManager_WSL.License LICENSE_XC_WINSOCK
-    g_NextUniqueId = Int(Rnd * 100000000)
+
+    Randomize Timer
+    g_NextUniqueId = Int(Rnd * 1000000000)
 End Sub

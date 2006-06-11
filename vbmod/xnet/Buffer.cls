@@ -10,13 +10,13 @@ Attribute VB_Name = "Buffer"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 Option Explicit
 
 Private m_InputBuffer As New InputBuffer
 
-Public Sub AddBytes(ByRef b() As Byte)
-    m_InputBuffer.AddBytes b
+Public Sub AddBytes(ByRef B() As Byte)
+    m_InputBuffer.AddBytes B
 End Sub
 
 Public Property Get PacketReady() As Boolean

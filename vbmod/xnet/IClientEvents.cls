@@ -16,9 +16,6 @@ Option Base 0
 
 ' @TAG-CLASS
 
-Public Sub Connect()
-End Sub
-
 Public Sub Disconnect(ByVal Reason As DisconnectReasonConstants)
 End Sub
 
