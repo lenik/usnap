@@ -15,73 +15,194 @@ Option Explicit
 
 Private Const LOCATION                  As String = "Xnet::Packet"
 
+Private m_Segs As XnetCodec.Statement
+
 Private m_Name As String
 Private m_Encrypted As Boolean
 Private m_Sequence As Integer
 
-' Variants.
-'   Byte(): Raw Data
-'   String: Str/StrB is determined by RawMode
-Private m_Parameters
-
 Private m_SharedKey As SymCrypto
 
-Public Property Get Name() As String
-    Name = m_Name
+' Raw Statement
+' ----------------------------------------------------------------------------
+
+Property Get Statement() As Statement
+    Set Statement = m_Segs
 End Property
 
-Public Property Let Name(ByVal newval As String)
-    m_Name = newval
+Property Set Statement(ByVal st As Statement)
+    Set m_Segs = st
 End Property
 
-Public Property Get Sequence() As Integer
-    Sequence = m_Sequence
+Public Property Get Segment(ByVal Index As Long) As Variant
+    AssertGE Index + 1
+    Segment = m_Segs.Item(Index)
 End Property
 
-Public Property Let Sequence(ByVal newval As Integer)
-    m_Sequence = newval
+Public Property Let Segment(ByVal Index As Long, ByVal newval As Variant)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
 End Property
 
-Public Property Get Initiative() As Boolean
-    Initiative = m_Sequence Mod 2 = 0
+Public Property Get Args() As Long
+    Args = m_Segs.Count
 End Property
 
-Public Property Get Reply() As Long
-    Reply = m_Sequence + 1
+Public Property Let Args(ByVal newval As Long)
+    MakeEQ newval
 End Property
 
-Public Property Get Parameters()
-    Parameters = m_Parameters
+Public Property Get ArgOf(ByVal Index As Integer, _
+                          Optional ByVal AsType As StatementItemTypeConstants = 0) As Variant
+    ArgOf = m_Segs.TypedItem(Index, AsType)
 End Property
 
-Public Property Let Parameters(ByVal newval)
-    m_Parameters = newval
+Public Property Get Arg(ByVal Index As Long) As String
+    AssertGE Index + 1
+    Arg = m_Segs.TypedItem(Index, sitString)
 End Property
 
-Public Property Get ParametersCount() As Long
-    ParametersCount = UBound(m_Parameters) + 1
+Public Property Let Arg(ByVal Index As Long, ByVal newval As String)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
 End Property
 
-Public Property Get Parameter(ByVal Index As Integer)
-    Parameter = m_Parameters(Index)
+Public Property Get ByteArg(ByVal Index As Long) As Byte
+    AssertGE Index + 1
+    ByteArg = m_Segs.TypedItem(Index, sitByte)
 End Property
 
-Public Property Let Parameter(ByVal Index As Integer, ByVal newval)
-    m_Parameters(Index) = newval
+Public Property Let ByteArg(ByVal Index As Long, ByVal newval As Byte)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
 End Property
 
+Public Property Get IntArg(ByVal Index As Long) As Integer
+    AssertGE Index + 1
+    IntArg = m_Segs.TypedItem(Index, sitInt)
+End Property
+
+Public Property Let IntArg(ByVal Index As Long, ByVal newval As Integer)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get LongArg(ByVal Index As Long) As Long
+    AssertGE Index + 1
+    LongArg = m_Segs.TypedItem(Index, sitLong)
+End Property
+
+Public Property Let LongArg(ByVal Index As Long, ByVal newval As Long)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get SingleArg(ByVal Index As Long) As Single
+    AssertGE Index + 1
+    SingleArg = m_Segs.TypedItem(Index, sitSingle)
+End Property
+
+Public Property Let SingleArg(ByVal Index As Long, ByVal newval As Single)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get DoubleArg(ByVal Index As Long) As Double
+    AssertGE Index + 1
+    DoubleArg = m_Segs.TypedItem(Index, sitDouble)
+End Property
+
+Public Property Let DoubleArg(ByVal Index As Long, ByVal newval As Double)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get BytesArg(ByVal Index As Long) As Byte()
+    AssertGE Index + 1
+    BytesArg = m_Segs.TypedItem(Index, sitBytes)
+End Property
+
+Public Property Let BytesArg(ByVal Index As Long, ByRef newval() As Byte)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get IntsArg(ByVal Index As Long) As Integer()
+    AssertGE Index + 1
+    IntsArg = m_Segs.TypedItem(Index, sitInts)
+End Property
+
+Public Property Let IntsArg(ByVal Index As Long, ByRef newval() As Integer)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get LongsArg(ByVal Index As Long) As Long()
+    AssertGE Index + 1
+    LongsArg = m_Segs.TypedItem(Index, sitLongs)
+End Property
+
+Public Property Let LongsArg(ByVal Index As Long, ByRef newval() As Long)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get SinglesArg(ByVal Index As Long) As Single()
+    AssertGE Index + 1
+    SinglesArg = m_Segs.TypedItem(Index, sitSingles)
+End Property
+
+Public Property Let SinglesArg(ByVal Index As Long, ByRef newval() As Single)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+Public Property Get DoublesArg(ByVal Index As Long) As Double()
+    AssertGE Index + 1
+    DoublesArg = m_Segs.TypedItem(Index, sitDoubles)
+End Property
+
+Public Property Let DoublesArg(ByVal Index As Long, ByRef newval() As Double)
+    MakeGE Index + 1
+    m_Segs.Item(Index) = newval
+End Property
+
+' Xnet Std Protocol / String-Ver
+' ----------------------------------------------------------------------------
 Public Property Get Encrypted() As Boolean
-    Encrypted = m_Encrypted
+    Encrypted = Left(Arg(0), 1) = "X"
 End Property
 
 Public Property Let Encrypted(ByVal newval As Boolean)
-    If Not newval Then
-        m_Encrypted = False
-        Exit Property
+    If newval Then
+        Assert Not m_SharedKey Is Nothing, _
+            "Cannot enable encryption without session key. ", LOCATION
     End If
-    Assert Not m_SharedKey Is Nothing, _
-        "Cannot enable encryption without session key. ", LOCATION
-    m_Encrypted = True
+    Arg(0) = IIf(newval, "X", "N") & Mid(Arg(0), 2)
+End Property
+
+Public Property Get Name() As String
+    Name = Mid(Arg(0), 2)
+End Property
+
+Public Property Let Name(ByVal newval As String)
+    Arg(0) = IIf(Encrypted, "X", "N") & newval
+End Property
+
+Public Property Get Sequence() As Long
+    Sequence = Val(Arg(1))
+End Property
+
+Public Property Let Sequence(ByVal newval As Long)
+    Arg(1) = newval
+End Property
+
+Public Property Get Initiative() As Boolean
+    Initiative = Sequence Mod 2 = 0
+End Property
+
+Public Property Get Reply() As Long
+    Reply = Sequence + 1
 End Property
 
 Public Property Get Key() As SymCrypto
@@ -92,100 +213,48 @@ Public Property Set Key(ByVal newval As SymCrypto)
     Set m_SharedKey = newval
 End Property
 
+' Encoding
+' ----------------------------------------------------------------------------
 Public Function Encode() As Byte()
-    Dim i As Integer
-    Dim l As Integer
-    Dim u As Integer
-    Dim Param As String
-    Dim bb As New ByteBuffer
-
-    bb.WriteByte IIf(Encrypted, "X", "N")
-    bb.WriteBytes StringToBytes(Name)
-    bb.WriteByte 32 ' SP
-    bb.WriteBytes StringToBytes(Sequence)
-
-    u = UBound(m_Parameters)
-    For i = 0 To u
-        If VarType(m_Parameters(i)) = vbArray + vbByte Then
-            Param = BytesToStringB(m_Parameters(i))
-        Else
-            Param = m_Parameters(i)
-            If Not m_Encrypted Then Param = Quote(Param)
-            Param = StringToBytes(Param)
-        End If
-        If m_Encrypted Then
-            Param = m_SharedKey.EncryptMessage(Param, True)
-            Param = StringToBytes(Param)
-        End If
-        bb.WriteByte 32 'SP
-        bb.WriteBytes StringBToBytes(Param)
-    Next
-
-    bb.WriteByte 10 'LN
-    Encode = bb.getbytes
+    Encode = m_Segs.Encode
 End Function
 
-Public Function Decode(ByRef Bytes() As Byte, _
-                       Optional ByVal MaxParams As Integer = 10) As Packet
-    Dim s As String
-    Dim Segs
-    Dim i As Integer
-    Dim l As Integer
-    Dim u As Integer
-    Dim nsegs As Integer
-    Dim nparams As Integer
-    Dim Param As String
-
-    s = Bytes
-
-    Do While Len(s) > 0
-        Select Case Asc(Right(s, 1))
-        Case 13     ' \r
-        Case 10     ' \n
-        Case 9      ' \t
-        Case 32     ' SP
-        Case 59     ' ; (not in Base64)
-        Case Else
-            Exit Do
-        End Select
-        s = Left(s, Len(s) - 1)
-    Loop
-
-    ' CmdName Seq P0 P1 .. Pn
-    Segs = Split(s, Sep, MaxParams + 2)
-
-    l = LBound(Segs)
-    u = UBound(Segs)
-    nsegs = u - l + 1
-
-    Select Case Left(Segs(l), 1)
-    Case "X"
-        m_Encrypted = True
-    Case "N"
-        ' normal
-        m_Encrypted = False
-    End Select
-    m_Name = Mid(Segs(l), 2)
-
-    If nsegs > 1 Then m_Sequence = Val(Segs(l + 1))
-
-    nparams = nsegs - 2
-    ' Assert nparams >= 0
-    If nparams < 0 Then nparams = 0
-
-    ReDim m_Parameters(-1 To nparams - 1)
-    For i = l + 2 To u
-        Param = Segs(i)
-        If m_Encrypted Then
-            m_Parameters(i - l - 2) = m_SharedKey.DecryptMessage(Param)
-        Else
-            m_Parameters(i - l - 2) = Param
-        End If
-    Next
-
-    Set DecodeString = Me
+' Returns count of bytes has been decoded.
+Public Function Decode(ByRef Bytes() As Byte) As Long
+    Dim ib As New InputBuffer
+    Dim InitSize As Long
+    InitSize = UBound(Bytes) - LBound(Bytes) + 1
+    ib.AddBytes Bytes
+    If ib.StatementReady Then
+        Set m_Segs = ib.GetStatement
+    End If
+    Decode = InitSize - ib.UnreadSize
 End Function
 
 Public Sub Send(ByVal Socket As IClientSocket)
     Socket.SendBytes Encode
+End Sub
+
+' Internals
+' ----------------------------------------------------------------------------
+
+Sub AssertGE(ByVal c As Long)
+    Assert m_Segs.Count >= c, _
+           "Internal state not fulfilled, the segments count is less than " & c, _
+           LOCATION
+End Sub
+
+Sub MakeGE(ByVal c As Long)
+    While m_Segs.Count < c
+        m_Segs.Add 0&
+    Wend
+End Sub
+
+Sub MakeEQ(ByVal c As Long)
+    While m_Segs.Count < c
+        m_Segs.Add 0&
+    Wend
+    While m_Segs.Count > c
+        m_Segs.Remove m_Segs.Count - 1
+    Wend
 End Sub

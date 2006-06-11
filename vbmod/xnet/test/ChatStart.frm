@@ -77,6 +77,6 @@ Private Sub lstDriver_Click()
     Case 0
         Set Driver = CreateObject("XnetWinsock.Driver")
     Case 1
-        Set Driver = New XnetXceed.TCPDriver
+        'Set Driver = New XnetXceed.TCPDriver
     End Select
 End Sub

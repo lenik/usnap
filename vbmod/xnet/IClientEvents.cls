@@ -17,13 +17,17 @@ Option Base 0
 ' @TAG-CLASS
 
 Public Sub Connect()
-
 End Sub
 
 Public Sub Disconnect(ByVal Reason As DisconnectReasonConstants)
-
 End Sub
 
-Public Sub RecvBytes(ByRef Bytes() As Byte)
+Public Sub RecvBytes(ByRef Bytes() As Byte, _
+                     ByRef UnrecvBytes As Long)
+End Sub
 
+Public Sub SentBytes(ByVal Size As Long, _
+                     ByVal PartialId As Long, _
+                     ByVal PartialOffset As Long, _
+                     ByVal PartialRemain As Long)
 End Sub

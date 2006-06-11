@@ -119,7 +119,7 @@ Public Function MakePacket(ByVal CmdName As String, _
     Pkt.Name = CmdName
     Pkt.Encrypted = Encrypted
     Pkt.Sequence = Sequence
-    Pkt.Parameters = Params
+    'Pkt.Args = Params
     Set MakePacket = Pkt
 End Function
 
@@ -127,6 +127,6 @@ Public Function ParsePacket(ByRef Bytes() As Byte, Optional ByVal MaxParams As I
                             Optional Sep As String = " ", _
                             Optional ByVal RawMode As Boolean = True) As Packet
     Dim Pkt As New Packet
-    Pkt.Decode Bytes, MaxParams, Sep, RawMode
+    'Pkt.Decode Bytes, MaxParams, Sep, RawMode
     Set ParsePacket = Pkt
 End Function

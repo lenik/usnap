@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Const LOCATION                  As String = "XnetXceed::TCPServerSocket"
+
 Private m_LocalAddress As InetAddress
 
 Private xSocket As XceedWinsockLib.ListeningSocket
@@ -25,27 +27,24 @@ Attribute xByte.VB_VarHelpID = -1
 Private lCConn As Long
 Private lByte As Long
 
+Private m_Clients As New MemberClients
+Private m_AddressId As New VBExt.Map    ' Address (string) -> Id (long)
+
 Private m_EventSink As IServerEvents
 
-Private m_Clients As New TCPClientSockets
-
-' Address => IClientEvent
-Private m_ClientEventSinkTemplate As New VBExt.Map
-
 Implements IServerSocket
-
-Private Sub Class_Initialize()
-    Set xSocket = SocketFactory.CreateListeningSocket(G.IP_TCP, 0)
-    Set xSConn = New XceedWinsockLib.IncomingConnectionEvents
-    Set xCConn = New XceedWinsockLib.ConnectionEvents
-    Set xByte = New XceedWinsockLib.ByteTransferEvents
-    lCConn = xSocket.ConnectionAdvise(xCConn, wcaAdviseDisconnected)
-    lByte = xSocket.ByteTransferAdvise(xByte, wtaAdviseReceivedAlways)
-End Sub
 
 Private Function IServerSocket_Advise(ByVal EventSink As Xnet.IServerEvents) As Long
     Set m_EventSink = EventSink
 End Function
+
+Private Sub IServerSocket_Unadvise(Optional ByVal Cookie As Long = -1&)
+    Set m_EventSink = Nothing
+End Sub
+
+Private Property Get IServerSocket_LocalAddress() As String
+    IServerSocket_LocalAddress = Inaddr2Str(m_LocalAddress)
+End Property
 
 Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
     m_LocalAddress = Str2Inaddr(LocalAddress)
@@ -54,48 +53,143 @@ Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
         wifAdviseConnection + wifAdviseConnectionProcessed
 End Sub
 
-Private Property Get IServerSocket_Client(ByVal Handle As Long) As Xnet.IClientSocket
-    Set IServerSocket_Client = m_Clients.Slot(Handle)
-End Property
-
-Private Property Get IServerSocket_ClientHandle(ByVal Index As Long) As Long
-    IServerSocket_ClientHandle = m_Clients.Index2Slot(Index)
-End Property
+Private Sub IServerSocket_Unbind()
+    xSocket.StopListening
+End Sub
 
 Private Property Get IServerSocket_Clients() As Long
     IServerSocket_Clients = m_Clients.Size
 End Property
 
-Private Property Get IServerSocket_LocalAddress() As String
-    IServerSocket_LocalAddress = Inaddr2Str(m_LocalAddress)
+Private Property Get IServerSocket_ClientId(ByVal Index As Long) As Long
+    IServerSocket_ClientId = m_Clients.Id(Index)
 End Property
 
-Private Sub IServerSocket_Unadvise(Optional ByVal Cookie As Long = -1&)
-    Set m_EventSink = Nothing
+Private Property Set IServerSocket_ClientData(ByVal Id As Long, ByVal RHS As Variant)
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    Set mc.UserData = RHS
+End Property
+
+Private Property Let IServerSocket_ClientData(ByVal Id As Long, ByVal RHS As Variant)
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    mc.UserData = RHS
+End Property
+
+Private Property Get IServerSocket_ClientData(ByVal Id As Long) As Variant
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    If IsObject(mc.UserData) Then
+        Set IServerSocket_ClientData = mc.UserData
+    Else
+        IServerSocket_ClientData = mc.UserData
+    End If
+End Property
+
+Private Property Get IServerSocket_RemoteAddress(ByVal Id As Long) As String
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    IServerSocket_RemoteAddress = mc.RemoteAddress
+End Property
+
+Private Sub IServerSocket_Disconnect(ByVal Id As Long)
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    mc.Disconnect
 End Sub
 
-Private Sub IServerSocket_Unbind()
-    xSocket.StopListening
+Private Sub IServerSocket_SendBytes(ByVal Id As Long, _
+                                    Bytes() As Byte, _
+                                    Optional ByVal Offset As Long = 0&, _
+                                    Optional ByVal Size As Long = -1&, _
+                                    Optional ByVal PartialId As Long = -1&, _
+                                    Optional ByVal Async As Boolean = False)
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    mc.SendBytes Bytes, Offset, Size, PartialId, Async
 End Sub
+
+Private Property Get IServerSocket_SentBytes(ByVal Id As Long) As Long
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    IServerSocket_SentBytes = mc.SentBytes
+End Property
+
+Private Property Get IServerSocket_UnsentBytes(ByVal Id As Long) As Long
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    IServerSocket_UnsentBytes = mc.UnsentBytes
+End Property
+
+Private Sub IServerSocket_ForgetSent(ByVal Id As Long)
+    Dim mc As MemberClient
+    Set mc = m_Clients.Item(Id)
+    Assert Not mc Is Nothing, "Invalid Id", LOCATION
+
+    mc.ForgetSent
+End Sub
+
+' Server/xCOS Events Impl.
+'   Adapter to IServerSocket
+' ----------------------------------------------------------------------------
+Function FindClient(ByVal xSocket As Object, ByRef Id As Long) As MemberClient
+    Dim xClient As XceedWinsockLib.ConnectionOrientedSocket
+    Set xClient = xSocket
+    Assert Not xClient Is Nothing
+
+    Dim xRemoteAddress As Address
+    Set xRemoteAddress = xClient.RemoteAddress
+
+    Dim RemoteAddress As String
+    RemoteAddress = Addr2Str(xRemoteAddress)
+
+    Assert m_AddressId.Contain(RemoteAddress)
+    Id = m_AddressId.Item(RemoteAddress)
+
+    Set FindClient = m_Clients.Item(Id)
+    Assert Not FindClient Is Nothing
+End Function
 
 Private Sub xByte_OnBytesReceived(ByVal xSocket As Object, _
                                   ByVal vaData As Variant, _
                                   ByVal lUserParam As Long, _
                                   ByVal lResultCode As Long)
+    Dim Id As Long
+    Dim mc As MemberClient
+    Set mc = FindClient(xSocket, Id)
 
+    mc.xByte_OnBytesReceived m_EventSink, xSocket, vaData, lUserParam, lResultCode
 End Sub
 
-Private Sub xCConn_OnDisconnected(ByVal xSocket As Object, ByVal vaCallerData As Variant, vaCalleeData As Variant)
-    Dim sd As XceedWinsockLib.ConnectionOrientedSocket
-    ' Ignore this socket.
-    ' Set sd = xSocket
+Private Sub xByte_OnBytesSent(ByVal xSocket As Object, _
+                              ByVal lBytesSent As Long, _
+                              ByVal lUserParam As Long, _
+                              ByVal lResultCode As Long)
+    Dim Id As Long
+    Dim mc As MemberClient
+    Set mc = FindClient(xSocket, Id)
 
-    Dim c As TCPClientSocket
-    For Each c In m_Clients
-        'm_EventSink.Disconnect c.Index
-    Next
+    mc.xByte_OnBytesSent m_EventSink, xSocket, lBytesSent, lUserParam, lResultCode
 End Sub
 
+' Incoming Connection Request
 Private Sub xSConn_OnConnection(ByVal xListeningSocket As Object, _
                                 ByVal xRemoteAddress As Object, _
                                 ByVal vaCallerData As Variant, _
@@ -104,16 +198,10 @@ Private Sub xSConn_OnConnection(ByVal xListeningSocket As Object, _
                                 xQualityOfService As XceedWinsockLib.IdXWQualityOfServiceInfo, _
                                 lUserParam As Long, _
                                 bReject As Boolean)
-    If Not m_EventSink Is Nothing Then
-        Dim UsingWhatEventSink As IClientEvents
-        Dim RemoteAddress As String
+    Dim RemoteAddress As String
+    RemoteAddress = Addr2Str(xRemoteAddress)
 
-        RemoteAddress = Addr2Str(xRemoteAddress)
-        m_EventSink.Request RemoteAddress, bReject, UsingWhatEventSink
-        If bReject Then Exit Sub
-
-        m_ClientEventSinkTemplate(RemoteAddress) = UsingWhatEventSink
-    End If
+    m_EventSink.Request RemoteAddress, bReject
 End Sub
 
 Private Sub xSConn_OnConnectionProcessed(ByVal xListeningSocket As Object, _
@@ -125,32 +213,58 @@ Private Sub xSConn_OnConnectionProcessed(ByVal xListeningSocket As Object, _
     Dim RemoteAddress As String
     RemoteAddress = Addr2Str(xRemoteAddress)
 
-    Dim ClientEventSink As IClientEvents
-    If m_ClientEventSinkTemplate.Contain(RemoteAddress) Then
-        Set ClientEventSink = m_ClientEventSinkTemplate(RemoteAddress)
-    End If
+    Dim mc As New MemberClient
+    Set mc.xSocket = xIncomingSocket
 
-    Dim sd As New TCPClientSocket
-    Dim isd As IClientSocket
-    Set isd = sd
+    Dim Id As Long
+    Id = m_Clients.Add(mc)
+    mc.Id = Id
 
-    Set sd.Socket = xIncomingSocket
-    If Not ClientEventSink Is Nothing Then
-        isd.Advise ClientEventSink
-    End If
+    m_AddressId.Item(RemoteAddress) = Id
 
-    Dim Handle As Long
-    Handle = m_Clients.Add(sd)
-    If Not m_EventSink Is Nothing Then
-        m_EventSink.Connect Handle
-    End If
+    m_EventSink.Connect Id, mc.UserData
+End Sub
+
+Private Sub xCConn_OnDisconnected(ByVal xObject As Object, _
+                                  ByVal vaCallerData As Variant, _
+                                  vaCalleeData As Variant)
+    ' This xObject is in invalid-state.
+    ' Dim xClient As XceedWinsockLib.ConnectionOrientedSocket
+    ' Set xClient = xObject
+
+    Dim mc As MemberClient
+    Dim i As Long
+    Dim Id As Long
+    For i = 0 To m_Clients.Size - 1
+        Id = m_Clients.Id(i)
+        Set mc = m_Clients.Item(i)
+        If mc.xSocket.CurrentState = wssInvalid Then
+            m_EventSink.Disconnect Id, drClosed, mc.UserData
+            m_Clients.Remove Id
+        End If
+    Next
 End Sub
 
 Private Sub xSConn_OnListeningError(ByVal xListeningSocket As Object, _
                                     ByVal lUserParam As Long, _
                                     ByVal lResultCode As Long)
-    If Not m_EventSink Is Nothing Then
-        ' TODO
-        ' ??
-    End If
+    ' Not Implemented.
+End Sub
+
+' Class
+' ----------------------------------------------------------------------------
+Private Sub Class_Initialize()
+    Set xSocket = SocketFactory.CreateListeningSocket(G.IP_TCP, 0)
+    Set xSConn = New XceedWinsockLib.IncomingConnectionEvents
+    Set xCConn = New XceedWinsockLib.ConnectionEvents
+    Set xByte = New XceedWinsockLib.ByteTransferEvents
+    lCConn = xSocket.ConnectionAdvise(xCConn, _
+        wcaAdviseDisconnected)
+    lByte = xSocket.ByteTransferAdvise(xByte, _
+        wtaAdviseReceivedAlways + wtaAdviseSent)
+End Sub
+
+Private Sub Class_Terminate()
+    xSocket.ConnectionUnadvise lCConn
+    xSocket.ByteTransferUnadvise lByte
 End Sub

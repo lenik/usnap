@@ -101,27 +101,27 @@ End Sub
 
 Private Sub btnSend_Click()
     Dim ss, i
-    Dim s As Session
+    'Dim s As Session
     AddText "(echo) > " & txtMessage
-    For Each s In Server.Sessions.ValueSet
-        s.SendMessage txtMessage, chkEncrypt.Value
-    Next
+    'For Each s In Server.Sessions.ValueSet
+    '    s.SendMessage txtMessage, chkEncrypt.Value
+    'Next
 End Sub
 
 Private Sub btnSendFile_Click()
     Dim ss, i
-    Dim s As Session
+    'Dim s As Session
     AddText "(send file) > " & txtMessage
-    ss = Server.Sessions.Values
+    'ss = Server.Sessions.Values
     For i = LBound(ss) To UBound(ss)
-        Set s = ss(i)
-        s.SendFile txtMessage, "S_" & s.Name, chkEncrypt.Value
+        'Set s = ss(i)
+        's.SendFile txtMessage, "S_" & s.Name, chkEncrypt.Value
     Next
 End Sub
 
 Private Sub Form_Load()
-    Set Server = Driver.Bind(CHAT_PORT, m_ClientEventTemplate)
-    Server.Name = "ChatSvr"
+    'Set Server = Driver.Bind(CHAT_PORT, m_ClientEventTemplate)
+    'Server.Name = "ChatSvr"
 
     txtMessage.Text = "Server " & Secret(20, 50)
 
@@ -153,11 +153,11 @@ Private Sub lst_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mStart_Click()
-    Server.Start CHAT_PORT
+    'Server.Start CHAT_PORT
 End Sub
 
 Private Sub mStop_Click()
-    Server.Stop_
+    'Server.Stop_
 End Sub
 
 'Private Sub Server_SessionBegin(ByVal s As Xnet.Session)

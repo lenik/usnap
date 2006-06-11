@@ -16,14 +16,6 @@ Option Base 0
 
 ' @TAG-CLASS
 
-Public Property Get RemoteAddress() As String
-
-End Property
-
-Public Property Get LocalAddress() As String
-
-End Property
-
 Public Function Advise(ByVal EventSink As IClientEvents) As Long
 
 End Function
@@ -31,6 +23,14 @@ End Function
 Public Sub Unadvise(Optional ByVal Cookie As Long = -1)
 
 End Sub
+
+Public Property Get LocalAddress() As String
+
+End Property
+
+Public Property Get RemoteAddress() As String
+
+End Property
 
 Public Sub Connect(ByVal RemoteAddress As String, _
                    Optional ByVal LocalAddress As String)
@@ -44,6 +44,15 @@ End Sub
 Public Sub SendBytes(ByRef Bytes() As Byte, _
                      Optional ByVal Offset As Long = 0, _
                      Optional ByVal Size As Long = -1, _
+                     Optional ByVal PartialId As Long = -1, _
                      Optional ByVal Async As Boolean = False)
+End Sub
 
+Public Property Get SentBytes() As Long
+End Property
+
+Public Property Get UnsentBytes() As Long
+End Property
+
+Public Sub ForgetSent()
 End Sub

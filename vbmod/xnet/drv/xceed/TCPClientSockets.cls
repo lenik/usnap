@@ -6,82 +6,59 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "TCPClientSockets"
+Attribute VB_Name = "MemberClients"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Const LOCATION                  As String = "XnetXceed::Clients"
+Private Const LOCATION                  As String = "XnetXceed::Connections"
 
-Private WithEvents m_Slots As slots
+' Slot<ConnectionId>
+Private WithEvents m_Slots As VBIOExt.Slots
 Attribute m_Slots.VB_VarHelpID = -1
 
 Public Property Get Size() As Long
     Size = m_Slots.Size
 End Property
 
-Public Function Index2Slot(ByVal Index As Long) As Long
-    Index2Slot = m_Slots.Index2Slot(Index)
-End Function
-
-Public Property Get FindClient(ByVal c As TCPClientSocket) As Long
-    Dim i As Long
-    Dim slots As Vector
-    Dim Slot As Long
-    Set slots = m_Slots.SortSlots
-    For i = 0 To slots.Size - 1
-        Slot = slots(i)
-        If m_Slots.Slot(Slot) Is c Then
-            FindClient = Slot
-            Exit Property
-        End If
-    Next
-    FindClient = -1
+Public Property Get Id(ByVal Index As Long) As Long
+    Id = m_Slots.Index2Slot(Index)
 End Property
 
-Public Property Get FindSocket(ByVal s As XceedWinsockLib.ConnectionOrientedSocket) As Long
-    Dim c As TCPClientSocket
+' xCOS -> Connection Id
+Public Property Get FindSocket(ByVal xCOS As XceedWinsockLib.ConnectionOrientedSocket) As Long
+    Dim mc As MemberClient
     Dim i As Long
-    Dim slots As Vector
-    Dim Slot As Long
-    Set slots = m_Slots.SortSlots
-    For i = 0 To slots.Size - 1
-        Slot = slots(i)
-        Set c = m_Slots.Slot(Slot)
-        If Not c Is Nothing Then
-            If c.Socket Is s Then
-                FindSocket = Slot
+    Dim mcIndexed As Vector
+    Dim mcSlot As Long
+    Set mcIndexed = m_Slots.SortSlots
+    For i = 0 To mcIndexed.Size - 1
+        mcSlot = mcIndexed(i)
+        Set mc = m_Slots.Slot(mcSlot)
+        If Not mc Is Nothing Then
+            'If mc.Socket Is xCOS Then
+                FindSocket = mcSlot
                 Exit Property
-            End If
+            'End If
         End If
     Next
     FindSocket = -1
 End Property
 
-Public Property Get Slot(ByVal s As Long) As TCPClientSocket
-    Assert s >= 0 And s < m_Slots.slots, "index out of bound", LOCATION
-    Set Slot = m_Slots.Slot(s)
+Public Property Get Item(ByVal Id As Long) As MemberClient
+    Assert Id >= 0 And Id < m_Slots.Slots, "Invalid Id", LOCATION
+    Set Item = m_Slots.Slot(Id)
 End Property
 
-Public Property Set Slot(ByVal s As Long, ByVal newval As TCPClientSocket)
-    Assert s >= 0 And s < m_Slots.slots, "index out of bound", LOCATION
-    Set m_Slots.Slot(s) = newval
+Public Property Set Item(ByVal Id As Long, ByVal newval As MemberClient)
+    Assert Id >= 0 And Id < m_Slots.Slots, "Invalid Id", LOCATION
+    Set m_Slots.Slot(Id) = newval
 End Property
 
-Public Property Get Item(ByVal Index As Long) As TCPClientSocket
-    Assert Index >= 0 And Index < m_Slots.Size, "index out of bound", LOCATION
-    Set Item = m_Slots.Item(Index)
-End Property
-
-Public Property Set Item(ByVal Index As Long, ByVal newval As TCPClientSocket)
-    Assert Index >= 0 And Index < m_Slots.Size, "index out of bound", LOCATION
-    Set m_Slots.Item(Index) = newval
-End Property
-
-Public Function Add(ByVal c As TCPClientSocket) As Long
-    Add = m_Slots.Add(c)
+Public Function Add(ByVal mc As MemberClient) As Long
+    Add = m_Slots.Add(mc)
 End Function
 
 Public Sub Remove(ByVal Slot As Long)
@@ -89,10 +66,12 @@ Public Sub Remove(ByVal Slot As Long)
 End Sub
 
 Private Sub Class_Initialize()
-    Set m_Slots = New slots
+    Set m_Slots = New Slots
 End Sub
 
 Private Sub m_Slots_Create(ByVal Slot As Long, ByVal Param As Variant, NewVar As Variant)
+    ' Assert IsObject(Param)
+    ' Assert Param instanceof MemberClient
     Set NewVar = Param
 End Sub
 

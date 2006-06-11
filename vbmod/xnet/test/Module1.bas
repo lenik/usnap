@@ -34,5 +34,5 @@ Public Function tt4(ByVal decraw As Boolean, encraw As Boolean)
     Dim kt As New Packet
     Set kt.Key = sk
 
-    tt4 = kt.Decode("XMSG 0 Hello, world!", 1, , decraw).Encode(, encraw)
+    'tt4 = kt.Decode("XMSG 0 Hello, world!", 1, , decraw).Encode(, encraw)
 End Function

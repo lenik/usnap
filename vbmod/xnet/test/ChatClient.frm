@@ -101,18 +101,18 @@ End Sub
 
 Private Sub btnSend_Click()
     AddLog "(echo) > " & txtMessage.Text
-    If Not Session Is Nothing Then
-        Session.SendMessage txtMessage, chkEncrypt.Value
-    End If
+'    If Not Session Is Nothing Then
+'        Session.SendMessage txtMessage, chkEncrypt.Value
+'    End If
 End Sub
 
 Private Sub btnSendFile_Click()
-    Session.SendFile txtMessage, "C_" & Session.Name, chkEncrypt.Value
+    'Session.SendFile txtMessage, "C_" & Session.Name, chkEncrypt.Value
 End Sub
 
 Private Sub Client_SessionBegin(ByVal s As Xnet.Connection)
-    Set Session = s
-    AddLog "(event) > session begin: " & s.PeerName
+    'Set Session = s
+    'AddLog "(event) > session begin: " & s.PeerName
 End Sub
 '
 'Private Sub Client_SessionEnd(ByVal s As Xnet.Session)
@@ -121,11 +121,11 @@ End Sub
 'End Sub
 
 Private Sub Form_Load()
-    Secret_Randomize Timer
+    'Secret_Randomize Timer
 
-    Set Client = New Client
-    Set xSession = New SessionEvents
-    Client.SessionAdvise xSession
+'    Set Client = New Client
+'    Set xSession = New SessionEvents
+'    Client.SessionAdvise xSession
 
     txtMessage.Text = "Client " & Secret(20, 50)
 
@@ -139,7 +139,7 @@ Private Sub Form_Resize()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-    Client.SessionUnadvise
+    'Client.SessionUnadvise
 End Sub
 
 Function lstContents(lst As ListBox) As String
@@ -161,13 +161,13 @@ Private Sub lst_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mConnect_Click()
-    If Not Client.Connect("127.0.0.1", CHAT_PORT) Then
-        MsgBox "cannot connect"
-    End If
+'    If Not Client.Connect("127.0.0.1", CHAT_PORT) Then
+'        MsgBox "cannot connect"
+'    End If
 End Sub
 
 Private Sub mDisconnect_Click()
-    Client.Disconnect
+    'Client.Disconnect
 End Sub
 '
 'Private Sub xSession_OnCommand(ByVal s As Xnet.Session, ByVal c As Xnet.NtCommand)

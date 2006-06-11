@@ -21,15 +21,25 @@ Public Enum DisconnectReasonConstants
 End Enum
 
 Public Sub Request(ByVal RemoteAddress As String, _
-                   ByRef Reject As Boolean, ByRef EventSink As IClientEvents)
-
+                   ByRef Reject As Boolean)
 End Sub
 
-Public Sub Connect(ByVal Handle As Long)
-
+Public Sub Connect(ByVal Id As Long, ByRef Data As Variant)
 End Sub
 
-Public Sub Disconnect(ByVal Handle As Long, _
-                      ByVal Reason As DisconnectReasonConstants)
+Public Sub Disconnect(ByVal Id As Long, _
+                      ByVal Reason As DisconnectReasonConstants, _
+                      ByRef Data As Variant)
+End Sub
 
+Public Sub RecvBytes(ByVal Id As Long, _
+                     ByRef Bytes() As Byte, _
+                     ByRef UnrecvBytes As Long)
+End Sub
+
+Public Sub SentBytes(ByVal Id As Long, _
+                     ByVal Size As Long, _
+                     ByVal PartialId As Long, _
+                     ByVal PartialOffset As Long, _
+                     ByVal PartialRemain As Long)
 End Sub

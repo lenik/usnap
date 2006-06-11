@@ -13,9 +13,13 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private Const LOCATION                  As String = "XnetXceed::TCPDriver"
+
 Implements ISocketDriver
 
 Private Function ISocketDriver_Bind(ByVal LocalAddress As String, ByVal EventSink As Xnet.IServerEvents) As Xnet.IServerSocket
+    Assert Not EventSink Is Nothing, "Event sink is nothing", LOCATION
+
     Dim sd As New TCPServerSocket
     Dim isd As IServerSocket
     Set isd = sd
@@ -27,6 +31,8 @@ End Function
 Private Function ISocketDriver_Connect(ByVal RemoteString As String, _
                                        ByVal EventSink As Xnet.IClientEvents, _
                                        Optional ByVal LocalAddress As String) As Xnet.IClientSocket
+    Assert Not EventSink Is Nothing, "Event sink is nothing", LOCATION
+
     Dim sd As New TCPClientSocket
     Dim isd As IClientSocket
     Set isd = sd

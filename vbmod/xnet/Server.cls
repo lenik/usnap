@@ -62,7 +62,7 @@ Private Sub m_Connection_OnRecvPacket(ByVal Pkt As Packet)
     Case NC_UNREGISTER                  ' Returned
         RaiseEvent OnUnregistered
     Case NC_SETNAME
-        RaiseEvent OnSetName(Pkt.Parameter(1))
+        RaiseEvent OnSetName(Pkt.Arg(1))
     Case NC_SETKEY
         RaiseEvent OnSetKey
     Case NC_SETSESSIONKEY
@@ -70,13 +70,13 @@ Private Sub m_Connection_OnRecvPacket(ByVal Pkt As Packet)
     Case NC_TOUCH
         RaiseEvent OnTouch
     Case NC_MESSAGE
-        RaiseEvent OnMessage(Pkt.Parameter(1))
+        RaiseEvent OnMessage(Pkt.Arg(1))
     Case NC_PUTFILE                     ' Returned
         'RaiseEvent OnPreRecvFile(f, Cancel)
         'If Cancel Then
         '    m_Connection.sendcancel (f.id)
     Case NC_CANCEL
-        RaiseEvent OnCanceled(Pkt.Parameter(0))
+        'RaiseEvent OnCanceled(Pkt.Arg(0))
     Case NC_FILEPACKET
         '
     Case NC_SYSTEM

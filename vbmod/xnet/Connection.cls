@@ -38,7 +38,7 @@ Public Event OnRecvPacket(ByVal Pkt As Packet)
 Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnSentPacket(ByVal Pkt As Packet)
 
-Implements IClientEvents
+'Implements IClientEvents
 
 ' m_Socket Wrappers
 ' ----------------------------------------------------------------------------
@@ -309,32 +309,32 @@ Friend Sub ProcessPacket(ByVal Pkt As Packet)
     Case NC_UNREGISTER
         ' Client.Unregister -> Server
     Case NC_SETNAME
-        m_PeerName = Pkt.Parameter(0)
+        m_PeerName = Pkt.Arg(0)
         If Pkt.Initiative Then
             SendSimplePacket NC_SETNAME, m_Name, False, Pkt.Reply
         End If
     Case NC_SETKEY
         Set m_PeerKey = New AsymCrypto
-        m_PeerKey.PublicKey = Pkt.Parameter(0)
+        m_PeerKey.PublicKey = Pkt.Arg(1)
         If Pkt.Initiative Then
             SendSimplePacket NC_SETKEY, m_Key.PublicKey, False, Pkt.Reply
         End If
     Case NC_SETSESSIONKEY
-        m_SharedKey.Key = Pkt.Parameter(0)
+        m_SharedKey.Key = Pkt.Arg(1)
     Case NC_MESSAGE
         '
     Case NC_SCRIPT
-        RunScript Pkt.Parameter(0)
+        RunScript Pkt.Arg(1)
     Case NC_PUTFILE
         ' PutFile(long id, long size, long pkt_size, char[20], string fullname)
         ' Assert Pkt.ParametersCount >= 5
-        If Pkt.ParametersCount >= 5 Then
+        If Pkt.Args >= 5 Then
             Set f = New File
-            f.GUID = Pkt.Parameter(0)
-            f.Checksum = Pkt.Parameter(3)
-            f.FullName = Pkt.Parameter(4)
+           ' f.GUID = Pkt.Parameter(0)
+           ' f.Checksum = Pkt.Parameter(3)
+           ' f.FullName = Pkt.Parameter(4)
             ' Size, PacketSize
-            f.Init Val(Pkt.Parameter(1)), Val(Pkt.Parameter(2))
+           ' f.Init Val(Pkt.Parameter(1)), Val(Pkt.Parameter(2))
         End If
     Case NC_CANCEL
         ' Cancel(long id)
@@ -370,7 +370,7 @@ Private Sub IClientEvents_Disconnect(ByVal Reason As DisconnectReasonConstants)
     ' Unregister
 End Sub
 
-Private Sub IClientEvents_RecvBytes(Bytes() As Byte)
+Private Sub IClientEvents_RecvBytes(Bytes() As Byte, UnrecvBytes As Long)
     Dim Pkt As Packet
     Dim Cancel As Boolean
 
@@ -383,3 +383,6 @@ Private Sub IClientEvents_RecvBytes(Bytes() As Byte)
 
     RaiseEvent OnRecvPacket(Pkt)
 End Sub
+
+'Private Sub IClientEvents_SentBytes(Bytes() As Byte, ByVal PartialId As Long, ByVal PartialStart As Long, ByVal PartialSize As Long)
+'End Sub
