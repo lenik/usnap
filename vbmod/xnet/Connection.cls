@@ -15,8 +15,7 @@ Option Explicit
 
 Private Const LOCATION                  As String = "Xnet::Connection"
 
-Private m_Socket As IClientSocket
-Attribute m_Socket.VB_VarHelpID = -1
+Private m_Channel As Channel
 
 Private m_Name As String
 Private m_PeerName As String
@@ -29,74 +28,25 @@ Private m_PeerTZOffset As Double        ' RemoteTime - LocalTime
 ' All files, GUID -> File
 Private m_Files As New VBExt.Map
 
-Public Event OnConnect()
-Public Event OnDisconnect(ByVal Reason As DisconnectReasonConstants)
-
-Public Event OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
-Public Event OnRecvPacket(ByVal Pkt As Packet)
-
 Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnSentPacket(ByVal Pkt As Packet)
 
-'Implements IClientEvents
+Public Event OnPreReceiveFile(ByVal f As File, ByRef Cancel As Boolean)
+Public Event OnReceivingFile(ByVal f As File, ByRef Cancel As Boolean)
+Public Event OnReceivedFile(ByVal f As File)
 
-' m_Socket Wrappers
+Public Event OnSendingFile(ByVal f As File)
+Public Event OnSendFileCanceled(ByVal f As File)
+Public Event OnSentFile(ByVal f As File)
+
+' Friend API
 ' ----------------------------------------------------------------------------
-Public Property Get Socket() As IClientSocket
-    Set Socket = m_Socket
+Property Get Channel() As Channel
+    Set Channel = m_Channel
 End Property
 
-Public Property Get LocalHost() As String
-    'LocalHost = m_Socket.LocalHost
-End Property
-
-Public Property Let LocalHost(ByVal newval As String)
-    Assert False, "Not supported", LOCATION
-    'm_Socket.LocalHost = newval
-End Property
-
-Public Property Get LocalPort() As Long
-    'LocalPort = m_Socket.LocalPort
-End Property
-
-Public Property Let LocalPort(ByVal newval As Long)
-    'm_Socket.LocalPort = newval
-End Property
-
-Public Property Get ServerHost() As String
-    'ServerHost = m_Socket.ServerHost
-End Property
-
-Public Property Get ServerHostIP() As String
-    'ServerHostIP = m_Socket.ServerHostIP
-End Property
-
-Public Property Get ServerPort() As Long
-    'ServerPort = m_Socket.ServerPort
-End Property
-
-Public Property Get User()
-'    If IsObject(m_Socket.User) Then
-'        Set User = m_Socket.User
-'    Else
-'        User = m_Socket.User
-'    End If
-End Property
-
-Public Property Get Tag() As String
-'    Tag = m_Socket.Tag
-End Property
-
-Public Property Let Tag(ByVal newval As String)
-'    m_Socket.Tag = newval
-End Property
-
-Public Property Let User(ByVal newval)
-'    m_Socket.User = newval
-End Property
-
-Public Property Set User(ByVal newval)
-'    Set m_Socket.User = newval
+Property Set Channel(ByVal newval As Channel)
+    Set m_Channel = newval
 End Property
 
 ' Connection Attributes
@@ -107,7 +57,6 @@ End Property
 
 Public Property Let Name(ByVal newval As String)
     m_Name = newval
-    SendPacket MakePacket(NC_SETNAME, False, 0, newval)
 End Property
 
 Public Property Get PeerName() As String
@@ -121,7 +70,7 @@ End Property
 Public Property Set Key(ByVal newval As AsymCrypto)
     Assert Not newval Is Nothing
     Set m_Key = newval
-    SendPacket MakePacket(NC_SETKEY, False, 0, newval.PublicKey)
+    SendPacket MakePacket(NC_SETKEY, False, Nothing, newval.PublicKey)
 End Property
 
 Public Property Get PeerKey() As AsymCrypto
@@ -134,153 +83,162 @@ End Property
 
 Public Property Let SharedKey(ByVal newval As String)
     m_SharedKey.Key = newval
-    If m_PeerKey Is Nothing Then
-        Set Key = m_Key
-    Else
-        SendPacket MakePacket(NC_SETSESSIONKEY, False, 0, _
-                              m_PeerKey.EncryptMessage(newval))
-    End If
 End Property
-
-' Made Connection
-' ----------------------------------------------------------------------------
-Public Sub Connect(ByVal ServerHost As String, _
-                   Optional ByVal ServerPort As Long = DEFAULT_PORT)
-'    m_Socket.AutoMode = amConnect       ' XXX
-    m_Socket.Connect ServerHost, ServerPort
-End Sub
-
-Public Sub Accept(ByVal requestID As Long)
-'    m_Socket.AutoMode = amClose         ' XXX
-'    m_Socket.Accept requestID
-End Sub
 
 ' Sending
 ' ----------------------------------------------------------------------------
-
-Public Sub SendPacket(ByVal Pkt As Packet)
+Public Sub SendPacket(ByVal Pkt As Packet, _
+                      Optional ByVal Async As Boolean = False)
     Assert Not Pkt Is Nothing
 
     Dim Cancel As Boolean
     RaiseEvent OnPreSendPacket(Pkt, Cancel)
     If Cancel Then Exit Sub
 
-    Pkt.Send m_Socket
-
-    RaiseEvent OnSentPacket(Pkt)
-End Sub
-
-Public Sub SendSimplePacket(ByVal CmdName As String, Optional ByVal Param0 As String, _
-                            Optional ByVal Encrypted As Boolean = False, _
-                            Optional ByVal Sequence As Long = 0)
-    Dim Pkt As Packet
-    If IsMissing(Param0) Then
-        Set Pkt = MakePacket(CmdName, Encrypted, Sequence, Param0)
+    If Async Then
+        Assert False, "Not Implemented", LOCATION
+        ' m_Channel.SendBytes Pkt.Encode, , , Pkt.PartialId, True
+        ' When SentBytes:
+        '   RaiseEvent OnSentPacket(Pkt)
     Else
-        Set Pkt = MakePacket(CmdName, Encrypted, Sequence, Param0)
+        m_Channel.SendBytes Pkt.Encode
+        RaiseEvent OnSentPacket(Pkt)
     End If
-    If Encrypted Then Set Pkt.Key = m_SharedKey
-    SendPacket Pkt
 End Sub
 
-Public Sub Register()
-    SendSimplePacket NC_REGISTER
+Public Sub SendCmd0(ByVal CmdName As String, _
+                    Optional ByVal Sequence As Long = 0)
+    SendPacket MakePacket(CmdName, False, Nothing, Sequence)
 End Sub
 
-Public Sub Unregister()
-    SendSimplePacket NC_UNREGISTER
+Public Sub SendCmd1(ByVal CmdName As String, _
+                    ByVal Arg1 As String, _
+                    Optional ByVal Encrypted As Boolean = False, _
+                    Optional ByVal Sequence As Long = 0)
+    SendPacket MakePacket(CmdName, Encrypted, m_SharedKey, Sequence, Arg1)
 End Sub
 
-Public Sub SendSysCmd(ByVal SysId As Long, _
-                      Optional ByVal Parameter, _
-                      Optional ByVal Encrypted As Boolean = False)
-    Dim Pkt As Packet
-    If IsMissing(Parameter) Then
-        Set Pkt = MakePacket(NC_SYSTEM, Encrypted, 0, SysId)
+Public Sub SendCmd2(ByVal CmdName As String, _
+                    ByVal Arg1 As String, _
+                    ByVal Arg2 As String, _
+                    Optional ByVal Encrypted As Boolean = False, _
+                    Optional ByVal Sequence As Long = 0)
+    SendPacket MakePacket(CmdName, Encrypted, m_SharedKey, Sequence, Arg1, Arg2)
+End Sub
+
+Public Sub SendCmd3(ByVal CmdName As String, _
+                    ByVal Arg1 As String, _
+                    ByVal Arg2 As String, _
+                    ByVal Arg3 As String, _
+                    Optional ByVal Encrypted As Boolean = False, _
+                    Optional ByVal Sequence As Long = 0)
+    SendPacket MakePacket(CmdName, Encrypted, m_SharedKey, Sequence, Arg1, Arg2, Arg3)
+End Sub
+
+Public Sub SendSysCmd0(ByVal SysId As Long, _
+                       Optional ByVal Sequence As Long = 0)
+    SendCmd1 NC_SYSTEM, SysId, False, Sequence
+End Sub
+
+Public Sub SendSysCmd1(ByVal SysId As Long, _
+                       ByVal Arg1 As String, _
+                       Optional ByVal Encrypted As Boolean = False, _
+                       Optional ByVal Sequence As Long = 0)
+    SendCmd2 NC_SYSTEM, SysId, Arg1, Encrypted, Sequence
+End Sub
+
+' Basic Protocol
+' ----------------------------------------------------------------------------
+Public Sub Register(Optional ByVal Sequence As Long = 0)
+    SendCmd0 NC_REGISTER, Sequence
+End Sub
+
+Public Sub Unregister(Optional ByVal Sequence As Long = 0)
+    SendCmd0 NC_UNREGISTER, Sequence
+End Sub
+
+Public Sub SetName(Optional ByVal Sequence As Long = 0)
+    SendCmd1 NC_SETNAME, m_Name, , Sequence
+End Sub
+
+Public Sub SetKey(Optional ByVal Sequence As Long = 0)
+    SendCmd1 NC_SETKEY, m_Key.PublicKey, , Sequence
+End Sub
+
+Public Sub SetSharedKey(Optional ByVal Sequence As Long = 0)
+    If m_PeerKey Is Nothing Then
+        SetKey Sequence
+        ' The shared key will be set again, when SetKey/ACK is received.
     Else
-        Set Pkt = MakePacket(NC_SYSTEM, Encrypted, 0, SysId, Parameter)
+        SendCmd1 NC_SETSHAREDKEY, _
+            m_PeerKey.EncryptMessage(m_SharedKey.Key), , Sequence
     End If
-    If Encrypted Then Set Pkt.Key = m_SharedKey
-    SendPacket Pkt
 End Sub
 
-Public Sub SendTouch()
-    SendSimplePacket NC_TOUCH
+Public Sub SendTouch(Optional ByVal Sequence As Long = 0)
+    SendCmd1 NC_TOUCH, CDbl(Date + Time), False, Sequence
 End Sub
 
 Public Sub SendMessage(ByVal Message As String, _
-                       Optional ByVal Encrypted As Boolean = False)
-    SendSimplePacket NC_MESSAGE, Message, Encrypted
+                       Optional ByVal Encrypted As Boolean = False, _
+                       Optional ByVal Sequence As Long = 0)
+    SendCmd1 NC_MESSAGE, Message, Encrypted, Sequence
 End Sub
 
 Public Sub SendScript(ByVal Script As String, _
                       Optional ByVal Language As String = "javascript", _
-                      Optional ByVal Encrypted As Boolean = False)
-    Dim Pkt As Packet
-    Set Pkt = MakePacket(NC_SCRIPT, Encrypted, 0, Language, Script)
-    If Encrypted Then Set Pkt.Key = m_SharedKey
-    SendPacket Pkt
+                      Optional ByVal Encrypted As Boolean = False, _
+                      Optional ByVal Sequence As Long = 0)
+    SendCmd2 NC_SCRIPT, Language, Script, Encrypted, Sequence
 End Sub
 
-Public Sub SendFile(ByVal f As File, _
-                    Optional ByVal Encrypted As Boolean = False)
-    Dim i As Long
-
-    SendPutFile f, Encrypted
-
-    For i = 0 To f.Packets - 1
-        SendFilePacket f, i, Encrypted
-    Next
+Public Sub SendInvite(Optional ByVal Sequence As Long = 0)
+    SendCmd0 NC_INVITE, Sequence
 End Sub
 
-Public Function ResumeFiles(ByVal SendFilesXML As String) As Boolean
-    Dim Doc As New DOMDocument
-    Dim SessionAttribute As String
-    Dim Segs
+' Send File
+' ----------------------------------------------------------------------------
+Public Sub SendFile(ByVal Path As String, _
+                    Optional ByVal FullName As String, _
+                    Optional ByVal Encrypted As Boolean = False, _
+                    Optional ByVal DeleteWhenSent As Boolean = False, _
+                    Optional ByVal DeleteWhenCanceled As Boolean = False, _
+                    Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
+    If FullName = "" Then FullName = Path
 
-    If Not Doc.loadXML(SendFilesXML) Then Exit Function
+    Dim f As New File
+    f.Path = Path
+    f.FullName = FullName
+    f.DeleteWhenTransferred = DeleteWhenSent
+    f.DeleteWhenCanceled = DeleteWhenCanceled
+    f.Init -1, PacketSize
 
-    Dim elmSendFiles As IXMLDOMElement
-    Set elmSendFiles = Doc.childNodes(0)
+    SendFileInfo f, Encrypted
+    SendFilePackets f, Encrypted
+End Sub
 
-    SessionAttribute = elmSendFiles.getAttribute("session")
-    Segs = Split(SessionAttribute, ":")
-    Assert (UBound(Segs) - LBound(Segs) + 1) >= 2, _
-           "session attribute should be in format name:key", LOCATION
-
-    Name = Base64ToString(Segs(0))
-    SharedKey = Base64ToString(Segs(1))
-
-    Dim elmFile As IXMLDOMElement
-    Dim elmStatus As PacketStatusConstants
-    Dim i As Integer
-    For i = 0 To elmSendFiles.childNodes.length - 1
-        Set elmFile = elmSendFiles.childNodes(i)
-        elmStatus = Val(elmFile.getAttribute("status"))
-        If elmStatus <> pktTransferred Then
-            Dim f As New File
-            f.FullName = elmFile.getAttribute("fullname")
-            f.Path = elmFile.getAttribute("path")
-
-            SendFile f
-        End If
-    Next
-End Function
-
-Private Sub SendPutFile(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
+Private Sub SendFileInfo(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
     Dim Pkt As Packet
     ' FileInfo(long id, long size, long pkt_size, char[20], string, fullname)
-    Set Pkt = MakePacket(NC_PUTFILE, Encrypted, 0, _
+    Set Pkt = MakePacket(NC_PUTFILE, Encrypted, m_SharedKey, 0, _
                          f.GUID, f.Size, f.PacketSize, f.Checksum, f.FullName)
-    If Encrypted Then Set Pkt.Key = m_SharedKey
     SendPacket Pkt
+End Sub
+
+Private Sub SendFilePackets(ByVal f As File, Optional ByVal Encrypted As Boolean = False)
+    Dim i As Long
+    For i = 0 To f.Packets - 1
+        If f.PacketStatus(i) = pktQueued Then
+            SendFilePacket f, i, Encrypted
+        End If
+    Next
 End Sub
 
 Private Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
-                          Optional ByVal Encrypted As Boolean = False)
+                           Optional ByVal Encrypted As Boolean = False)
     Dim Pkt As Packet
     Dim PacketSize As Long
-    Dim PacketData
+    Dim PacketData() As Byte
     Dim PacketChk As Long
 
     PacketSize = f.GetPacketSize(PacketIndex)
@@ -288,60 +246,221 @@ Private Sub SendFilePacket(ByVal f As File, ByVal PacketIndex As Long, _
     PacketChk = CalcChecksum(PacketData)
 
     ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
-    Set Pkt = MakePacket(NC_FILEPACKET, Encrypted, 0, _
+    Set Pkt = MakePacket(NC_FILEPACKET, Encrypted, m_SharedKey, _
                          f.GUID, PacketIndex, PacketSize, PacketChk, PacketData)
 
     If Encrypted Then Set Pkt.Key = m_SharedKey
+
+    f.PacketStatus(PacketIndex) = pktTransferring
+
     SendPacket Pkt
+
+    RaiseEvent OnSendingFile(f)
 End Sub
 
-Public Sub SendInvite()
-    SendSimplePacket NC_INVITE
-End Sub
+Public Function ResumeFiles(ByVal SendFilesXML As String) As Boolean
+'    Dim Doc As New DOMDocument
+'    Dim SessionAttribute As String
+'    Dim Segs
+'
+'    If Not Doc.loadXML(SendFilesXML) Then Exit Function
+'
+'    Dim elmSendFiles As IXMLDOMElement
+'    Set elmSendFiles = Doc.childNodes(0)
+'
+'    SessionAttribute = elmSendFiles.getAttribute("session")
+'    Segs = Split(SessionAttribute, ":")
+'    Assert (UBound(Segs) - LBound(Segs) + 1) >= 2, _
+'           "session attribute should be in format name:key", LOCATION
+'
+'    Name = Base64ToString(Segs(0))
+'    SharedKey = Base64ToString(Segs(1))
+'
+'    Dim elmFile As IXMLDOMElement
+'    Dim elmStatus As PacketStatusConstants
+'    Dim i As Integer
+'    For i = 0 To elmSendFiles.childNodes.length - 1
+'        Set elmFile = elmSendFiles.childNodes(i)
+'        elmStatus = Val(elmFile.getAttribute("status"))
+'        If elmStatus <> pktTransferred Then
+'            Dim f As New File
+'            f.FullName = elmFile.getAttribute("fullname")
+'            f.Path = elmFile.getAttribute("path")
+'
+'            SendFile f
+'        End If
+'    Next
+End Function
 
-Friend Sub ProcessPacket(ByVal Pkt As Packet)
-    Dim fid As String
-    Dim f As File
+' Packet Process
+' ----------------------------------------------------------------------------
+Friend Sub RecvPacket(ByVal Pkt As Packet)
+    Dim Cancel As Boolean
+    Dim Id As String
+    Dim b As Boolean
+
+    Dim RecvFile As File
+    Dim SendFile As File
+
+    Set Pkt.Key = m_SharedKey
 
     Select Case Pkt.Name
     Case NC_REGISTER
         ' Client.Register -> Server
+
     Case NC_UNREGISTER
         ' Client.Unregister -> Server
+
     Case NC_SETNAME
-        m_PeerName = Pkt.Arg(0)
-        If Pkt.Initiative Then
-            SendSimplePacket NC_SETNAME, m_Name, False, Pkt.Reply
-        End If
+        m_PeerName = Pkt.XArg(1)
+        If Pkt.Initiative Then SetName Pkt.Reply
+
     Case NC_SETKEY
         Set m_PeerKey = New AsymCrypto
-        m_PeerKey.PublicKey = Pkt.Arg(1)
+        m_PeerKey.PublicKey = Pkt.XArg(1)
         If Pkt.Initiative Then
-            SendSimplePacket NC_SETKEY, m_Key.PublicKey, False, Pkt.Reply
+            SetKey Pkt.Reply
+        Else
+            ' When SetKey/Ack is received, set shared key
+            SetSharedKey
         End If
-    Case NC_SETSESSIONKEY
-        m_SharedKey.Key = Pkt.Arg(1)
+
+    Case NC_SETSHAREDKEY
+        Dim PeerSharedKey As String
+        PeerSharedKey = m_Key.DecryptMessage(Pkt.XArg(1))
+        If Pkt.Initiative Then
+            m_SharedKey.Key = PeerSharedKey
+            SetSharedKey Pkt.Reply
+        Else
+            ' Assert m_SharedKey.Key = PeerSharedKey
+            ' Set again if something is wrong. maybe transfer not correct?
+            If m_SharedKey.Key <> PeerSharedKey Then
+                SetSharedKey Pkt.Reply
+            End If
+        End If
+
     Case NC_MESSAGE
-        '
+        ' Do nothing in connection.
+
     Case NC_SCRIPT
-        RunScript Pkt.Arg(1)
+        Dim ScriptLang As String
+        Dim Script As String
+        ScriptLang = Pkt.XArg(1)
+        Script = Pkt.XArg(2)
+        RunScript Script, ScriptLang
+
     Case NC_PUTFILE
         ' PutFile(long id, long size, long pkt_size, char[20], string fullname)
-        ' Assert Pkt.ParametersCount >= 5
-        If Pkt.Args >= 5 Then
-            Set f = New File
-           ' f.GUID = Pkt.Parameter(0)
-           ' f.Checksum = Pkt.Parameter(3)
-           ' f.FullName = Pkt.Parameter(4)
-            ' Size, PacketSize
-           ' f.Init Val(Pkt.Parameter(1)), Val(Pkt.Parameter(2))
+        ' Receive File
+        Id = Pkt.XArg(1)
+
+        If Pkt.Initiative Then
+            Assert Pkt.Args >= 6
+
+            Set RecvFile = New File
+            RecvFile.GUID = Id
+            RecvFile.Checksum = Pkt.XArg(4)
+            RecvFile.FullName = Pkt.XArg(5)
+            RecvFile.Init Val(Pkt.XArg(2)), Val(Pkt.XArg(3))
+            RecvFile.DeleteWhenCanceled = True
+
+            RaiseEvent OnPreReceiveFile(RecvFile, Cancel)
+
+            If Cancel Then
+                RecvFile.Cancel
+                SendCmd2 NC_PUTFILE, RecvFile.GUID, "C", False, Pkt.Reply
+            Else
+                SendCmd2 NC_PUTFILE, RecvFile.GUID, "A", False, Pkt.Reply
+                Set m_Files.Item(RecvFile.GUID) = RecvFile
+            End If
+        Else ' Reply: PUTFILE-Control
+            Select Case Pkt.XArg(2)
+            Case "A"
+                ' Do nothing
+            Case "C"
+                If m_Files.Contain(Id) Then
+                    Set SendFile = m_Files.Item(Id)
+                    m_Files.Remove Id
+                    SendFile.Cancel
+                    RaiseEvent OnSendFileCanceled(SendFile)
+                Else
+                    ' The file is already canceled.
+                End If
+            End Select
         End If
-    Case NC_CANCEL
-        ' Cancel(long id)
-        '
+
     Case NC_FILEPACKET
         ' FilePacket(long id, long pkt_index, long pkt_size, char[20], string*): control
-        '
+        ' Receive File Packet
+        Id = Pkt.XArg(1)
+
+        Dim PktIndex As Long
+        PktIndex = Val(Pkt.XArg(2))
+
+        If Pkt.Initiative Then
+            If m_Files.Contain(Id) Then
+                Set RecvFile = m_Files.Item(Id)
+
+                Dim PktData() As Byte
+                PktData = Pkt.BytesArg(5)
+                If CalcChecksum(PktData) = Pkt.XArg(4) Then
+                    ' Packet OK
+                    ' (PktSize is ignored. )
+                    b = RecvFile.PutPacket(PktIndex, Pkt.Segment(5))
+                    ' Assert b
+                    RaiseEvent OnReceivingFile(RecvFile, Cancel)
+
+                    If Cancel Then
+                        ' User canceled receiving
+                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
+                    End If
+                Else
+                    ' Packet Checksum Error
+                    ' RecvFile.PacketStatus = pktReTransfer
+                    RaiseEvent OnReceivingFile(RecvFile, Cancel)
+
+                    If Cancel Then
+                        ' User canceled receiving
+                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
+                    Else
+                        ' Ask for Re-send this packet
+                        SendCmd3 NC_FILEPACKET, Id, PktIndex, "R", False, Pkt.Reply
+                    End If
+                End If
+            Else
+                ' File doesn't exist, maybe already canceled.
+                SendCmd3 NC_FILEPACKET, Id, PktIndex, "C", False, Pkt.Reply
+            End If
+        Else
+            ' File Sending-Control, just ignore if the file is no longer in the queue
+            If m_Files.Contain(Id) Then
+                Select Case Pkt.XArg(2)
+                Case "A"    ' Packet Sent Completed
+                    Set SendFile = m_Files.Item(Id)
+                    ' Mark as sent
+                    SendFile.PacketStatus(PktIndex) = pktTransferred
+                    RaiseEvent OnSendingFile(SendFile)
+
+                    If SendFile.Status = pktTransferred Then
+                        m_Files.Remove Id
+                        RaiseEvent OnSentFile(SendFile)
+                    End If
+
+                Case "C"    ' Cancel The Entire File
+                    Set SendFile = m_Files.Item(Id)
+                    m_Files.Remove Id
+                    SendFile.Cancel
+                    RaiseEvent OnSendFileCanceled(SendFile)
+
+                Case "R"    ' Packet Failed, Re-Send
+                    Set SendFile = m_Files.Item(Id)
+                    ' Mark to re-send
+                    SendFile.PacketStatus(PktIndex) = pktQueued
+                    SendFilePackets SendFile
+                End Select
+            End If
+        End If
+
     Case NC_INVITE
         ' This should be happened to client,
         ' when Client.Invite -> Server, the Server should spawn a client-connection
@@ -349,40 +468,8 @@ Friend Sub ProcessPacket(ByVal Pkt As Packet)
     End Select
 End Sub
 
-' Impl.
+' Class
 ' ----------------------------------------------------------------------------
 Private Sub Class_Initialize()
-'    Set m_Socket = New Socket
+    '
 End Sub
-
-Private Sub IClientEvents_Connect()
-    RaiseEvent OnConnect
-    Register
-    Name = m_Name
-    Key = m_Key
-    SharedKey = m_SharedKey
-    SendTouch
-End Sub
-
-Private Sub IClientEvents_Disconnect(ByVal Reason As DisconnectReasonConstants)
-    RaiseEvent OnDisconnect(Reason)
-    ' ??
-    ' Unregister
-End Sub
-
-Private Sub IClientEvents_RecvBytes(Bytes() As Byte, UnrecvBytes As Long)
-    Dim Pkt As Packet
-    Dim Cancel As Boolean
-
-    Set Pkt = ParsePacket(Bytes)
-
-    RaiseEvent OnPreRecvPacket(Pkt, Cancel)
-    If Cancel Then Exit Sub
-
-    ProcessPacket Pkt
-
-    RaiseEvent OnRecvPacket(Pkt)
-End Sub
-
-'Private Sub IClientEvents_SentBytes(Bytes() As Byte, ByVal PartialId As Long, ByVal PartialStart As Long, ByVal PartialSize As Long)
-'End Sub

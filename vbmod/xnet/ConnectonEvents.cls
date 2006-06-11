@@ -13,23 +13,14 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
-Public Sub OnConnect()
-
-End Sub
-Public Sub OnDisconnect()
-
-End Sub
-
 Public Sub OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
-
 End Sub
-Public Sub OnRecvPacket(ByVal Pkt As Packet)
 
+Public Sub OnRecvPacket(ByVal Pkt As Packet)
 End Sub
 
 Public Sub OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
-
 End Sub
-Public Sub OnSentPacket(ByVal Pkt As Packet)
 
+Public Sub OnSentPacket(ByVal Pkt As Packet)
 End Sub

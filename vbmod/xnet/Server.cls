@@ -15,81 +15,42 @@ Option Explicit
 
 Private Const LOCATION                  As String = "Xnet::Server"
 
-Private WithEvents m_Connection As Connection
-Attribute m_Connection.VB_VarHelpID = -1
+Private m_Driver As ISocketDriver
+Private m_ServerSocket As IServerSocket
 
-Public Event OnPreSendPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
-Public Event OnPreRecvPacket(ByVal Pkt As Packet, ByRef Cancel As Boolean)
+Public Event OnPreConnect(ByVal RemoteAddress As String, ByRef Reject As Boolean)
+Public Event OnConnect()
+Public Event OnDisconnect(ByVal Reason As DisconnectReasonConstants)
 
-Public Event OnSentPacket(ByVal Pkt As Packet)
-Public Event OnRecvPacket(ByVal Pkt As Packet)
+Implements IServerEvents
 
-' Register-ID is LocalAddress/Port
-Public Event OnRegistered()
-Public Event OnUnregistered()
-
-Public Event OnSetName(ByVal PeerName As String)
-Public Event OnSetKey()
-Public Event OnSetSessionKey()
-Public Event OnTouch()
-Public Event OnMessage(ByVal Message As String)
-Public Event OnSendProgress(ByVal SentStart As Long, ByVal SentBytes As Long, ByVal TotalBytes As Long)
-Public Event OnSendComplete()
-Public Event OnSystemCommand(ByVal Pkt As Packet)
-Public Event OnGet(ByVal URI As String, ByRef Response As String)
-
-Public Event OnCanceled(ByVal File As File)
-
-
-Public Property Get Connection() As Connection
-    Set Connection = m_Connection
+Property Set Driver(ByVal newval As ISocketDriver)
+    Set m_Driver = newval
 End Property
 
-Private Sub Class_Initialize()
-    Set m_Connection = New Connection
+Function Bind(ByVal LocalAddress As String) As Boolean
+    Assert Not m_Driver Is Nothing, "Not Initialized", LOCATION
+
+    Set m_ServerSocket = m_Driver.Bind(LocalAddress, Me)
+    Bind = Not m_ServerSocket Is Nothing
+End Function
+
+Private Sub IServerEvents_Request(ByVal RemoteAddress As String, Reject As Boolean)
+    RaiseEvent OnPreConnect(RemoteAddress, Reject)
 End Sub
 
-Private Sub m_Connection_OnPreSendPacket(ByVal Pkt As Packet, Cancel As Boolean)
-    RaiseEvent OnPreSendPacket(Pkt, Cancel)
+Private Sub IServerEvents_Connect(ByVal Id As Long, Data As Variant)
+
 End Sub
 
-Private Sub m_Connection_OnRecvPacket(ByVal Pkt As Packet)
-    RaiseEvent OnRecvPacket(Pkt)
+Private Sub IServerEvents_Disconnect(ByVal Id As Long, ByVal Reason As DisconnectReasonConstants, Data As Variant)
 
-    Select Case Pkt.Name
-    Case NC_REGISTER                    ' Returned
-        RaiseEvent OnRegistered
-    Case NC_UNREGISTER                  ' Returned
-        RaiseEvent OnUnregistered
-    Case NC_SETNAME
-        RaiseEvent OnSetName(Pkt.Arg(1))
-    Case NC_SETKEY
-        RaiseEvent OnSetKey
-    Case NC_SETSESSIONKEY
-        RaiseEvent OnSetSessionKey
-    Case NC_TOUCH
-        RaiseEvent OnTouch
-    Case NC_MESSAGE
-        RaiseEvent OnMessage(Pkt.Arg(1))
-    Case NC_PUTFILE                     ' Returned
-        'RaiseEvent OnPreRecvFile(f, Cancel)
-        'If Cancel Then
-        '    m_Connection.sendcancel (f.id)
-    Case NC_CANCEL
-        'RaiseEvent OnCanceled(Pkt.Arg(0))
-    Case NC_FILEPACKET
-        '
-    Case NC_SYSTEM
-        RaiseEvent OnSystemCommand(Pkt)
-    Case Else
-        'RaiseEvent OnUnknownPacket(c)
-    End Select
 End Sub
 
-Private Sub m_Connection_OnPreRecvPacket(ByVal Pkt As Packet, Cancel As Boolean)
-    RaiseEvent OnPreRecvPacket(Pkt, Cancel)
+Private Sub IServerEvents_RecvBytes(ByVal Id As Long, Bytes() As Byte, UnrecvBytes As Long)
+
 End Sub
 
-Private Sub m_Connection_OnSentPacket(ByVal Pkt As Packet)
-    RaiseEvent OnSentPacket(Pkt)
+Private Sub IServerEvents_SentBytes(ByVal Id As Long, ByVal Size As Long, ByVal PartialId As Long, ByVal PartialOffset As Long, ByVal PartialRemain As Long)
+
 End Sub

@@ -15,19 +15,27 @@ Option Explicit
 
 Private m_Driver As ISocketDriver
 
-Public Property Get Commands() As CommandsClient
-    ' Not impl.
+Property Set Driver(ByVal newval As ISocketDriver)
+    Assert Not newval Is Nothing
+    Set m_Driver = newval
 End Property
 
-Public Function Connect(ByVal RemoteAddress As String) As Client
-    Dim h As Long
-    Dim s As IClientSocket
-
-    'set s=m_Driver
-    's.Connect
-
-    Dim Client As New Client
-    'client.setsocket h,sd
-
-    Set Connect = Client
+Public Function Bind(ByVal LocalAddress As String) As Server
+    Dim s As New Server
+    Set s.Driver = m_Driver
+    If s.Bind(LocalAddress) Then
+        Set Bind = s
+    End If
 End Function
+
+Public Function Connect(ByVal RemoteAddress As String) As Client
+    Dim c As New Client
+    Set c.Driver = m_Driver
+    If c.Connect(RemoteAddress) Then
+        Set Connect = c
+    End If
+End Function
+
+'Public Property Get Commands() As CommandsClient
+    ' Not impl.
+'End Property

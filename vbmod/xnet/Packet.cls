@@ -15,7 +15,7 @@ Option Explicit
 
 Private Const LOCATION                  As String = "Xnet::Packet"
 
-Private m_Segs As XnetCodec.Statement
+Private m_Segs As New XnetCodec.Statement
 
 Private m_Name As String
 Private m_Encrypted As Boolean
@@ -213,6 +213,24 @@ Public Property Set Key(ByVal newval As SymCrypto)
     Set m_SharedKey = newval
 End Property
 
+Public Property Get XArg(ByVal Index As Long) As String
+    AssertGE Index + 1
+    XArg = m_Segs.TypedItem(Index, sitString)
+    If m_Encrypted Then
+        Assert Not m_SharedKey Is Nothing, "Key not set", LOCATION
+        XArg = m_SharedKey.DecryptMessage(XArg, False)
+    End If
+End Property
+
+Public Property Let XArg(ByVal Index As Long, ByVal newval As String)
+    MakeGE Index + 1
+    If m_Encrypted Then
+        Assert Not m_SharedKey Is Nothing, "Key not set", LOCATION
+        newval = m_SharedKey.EncryptMessage(newval, False)
+    End If
+    m_Segs.Item(Index) = newval
+End Property
+
 ' Encoding
 ' ----------------------------------------------------------------------------
 Public Function Encode() As Byte()
@@ -231,13 +249,8 @@ Public Function Decode(ByRef Bytes() As Byte) As Long
     Decode = InitSize - ib.UnreadSize
 End Function
 
-Public Sub Send(ByVal Socket As IClientSocket)
-    Socket.SendBytes Encode
-End Sub
-
 ' Internals
 ' ----------------------------------------------------------------------------
-
 Sub AssertGE(ByVal c As Long)
     Assert m_Segs.Count >= c, _
            "Internal state not fulfilled, the segments count is less than " & c, _

@@ -27,8 +27,6 @@ Public Const MTU_MIN                    As Long = 68
 '
 Public Const DEFAULT_PKTSIZE            As Long = (MTU_ETH - MTU_MIN - 50)
 
-Public Const DEFAULT_PORT               As Long = 5103
-
 Public Const FILEHASH_PREFIX            As String = "FiLeHaSHPReFiX"
 Public Const FILEHASH_SUFFIX            As String = "fIlEhAshsUffIx"
 

@@ -112,7 +112,7 @@ End Property
 ' Made Connection
 ' ----------------------------------------------------------------------------
 Public Sub Connect(ByVal ServerHost As String, _
-                   Optional ByVal ServerPort As Long = DEFAULT_PORT)
+                   ByVal ServerPort As Long)
     m_Connection.Connect ServerHost, ServerPort
 End Sub
 

@@ -13,10 +13,7 @@ Public Function Dequote(ByVal s As String) As String
     Dequote = Replace(Dequote, "\\", "\")
 End Function
 
-Public Function CalcChecksum(ByVal Data) As Long
-    Dim b() As Byte
-    b = Data
-
+Public Function CalcChecksum(ByVal Data As Variant) As String
     Dim h As New XceedEncryptionLib.XceedHashing
     h.License LICENSE_XC_ENCRYPT
 
@@ -24,10 +21,9 @@ Public Function CalcChecksum(ByVal Data) As Long
     'sha1.HashSize = 160
     Set h.HashingMethod = sha1
 
-    h.Hash b, True
-    b = StringBToBytes(sha1.HashValue)
+    h.Hash Data, True
 
-    CalcChecksum = (b(0) And &H7F) * &H1000000 + b(1) * &H10000 + b(2) * &H100& + b(3)
+    CalcChecksum = sha1.HashValue
 End Function
 
 Public Sub RunScript(ByVal Script As String, _

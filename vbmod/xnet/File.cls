@@ -13,6 +13,8 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private Const LOCATION                  As String = "Xnet::File"
+
 Public Enum PacketStatusConstants
     pktQueued = 0
     pktTransferring
@@ -34,6 +36,7 @@ Private m_PktChecksum() As Long
 Private m_Path As String
 Private m_File As New BinaryFile
 Private m_DeleteWhenTransferred As Boolean
+Private m_DeleteWhenCanceled As Boolean
 
 Public Property Get GUID() As String
     GUID = m_GUID
@@ -99,20 +102,29 @@ End Property
 
 Public Property Let PacketStatus(ByVal Index As Long, ByVal newval As PacketStatusConstants)
     If m_Pkt(Index) = newval Then Exit Property
+
     If newval = pktTransferred Then
         m_TransferredPackets = m_TransferredPackets + 1
     ElseIf m_Pkt(Index) = pktTransferred Then
         m_TransferredPackets = m_TransferredPackets - 1
     End If
 
-    If m_DeleteWhenTransferred Then
-        If m_TransferredPackets = m_Packets Then
+    m_Pkt(Index) = newval
+
+    If m_TransferredPackets = m_Packets Then
+        m_Status = pktTransferred
+        If m_DeleteWhenTransferred Then
             Kill m_Path
         End If
+    ElseIf m_TransferredPackets = 0 Then
+        m_Status = pktQueued
+    Else
+        m_Status = pktTransferring
     End If
 End Property
 
 Public Property Get Status() As PacketStatusConstants
+
     Status = m_Status
 End Property
 
@@ -136,8 +148,28 @@ Public Property Let DeleteWhenTransferred(ByVal newval As Boolean)
     m_DeleteWhenTransferred = DeleteWhenTransferred
 End Property
 
-Public Sub Init(ByVal Size As Long, Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
-    ' Assert Size >= 0 And PacketSize > 0
+Public Property Get DeleteWhenCanceled() As Boolean
+    DeleteWhenCanceled = m_DeleteWhenCanceled
+End Property
+
+Public Property Let DeleteWhenCanceled(ByVal newval As Boolean)
+    m_DeleteWhenCanceled = DeleteWhenCanceled
+End Property
+
+Public Sub Cancel()
+    If m_DeleteWhenCanceled Then
+        Set m_File = Nothing
+        Kill m_Path
+    End If
+End Sub
+
+Public Sub Init(Optional ByVal Size As Long = -1, Optional ByVal PacketSize As Long = DEFAULT_PKTSIZE)
+    If Size = -1 Then
+        Assert FSO.FileExists(m_Path), "Can't determine file size, the file isn't existed", LOCATION
+        Size = FSO.GetFile(m_Path).Size
+    End If
+
+    Assert Size >= 0 And PacketSize > 0, "Invalid arguments", LOCATION
     m_Size = Size
     m_PacketSize = PacketSize
 
@@ -196,7 +228,7 @@ Public Function GetPacketString(ByVal PacketIndex As Long, _
     m_File.Close_
 End Function
 
-Public Function GetPacketData(ByVal PacketIndex As Long)
+Public Function GetPacketData(ByVal PacketIndex As Long) As Byte()
     Assert PacketIndex >= 0 And PacketIndex < m_Packets
 
     Dim PacketSize As Long
@@ -251,12 +283,7 @@ Public Function PutPacket(ByVal PacketIndex As Long, ByVal PacketData As Variant
 
     m_File.Close_
 
-    m_Pkt(PacketIndex) = pktTransferred
-    m_TransferredPackets = m_TransferredPackets + 1
-
-    If m_TransferredPackets = m_Packets Then
-        m_Status = pktTransferred
-    End If
+    PacketStatus(PacketIndex) = pktTransferred
 
     PutPacket = True
 End Function
@@ -278,3 +305,7 @@ Public Property Get RealFileChecksum() As String
 
     RealFileChecksum = Replace(StringToBase64(sha1.HashValue, True), " ", "")
 End Property
+
+Private Sub Class_Initialize()
+    m_GUID = ":" & G.NextUniqueId
+End Sub

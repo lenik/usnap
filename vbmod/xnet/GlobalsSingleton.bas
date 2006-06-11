@@ -6,6 +6,8 @@ Public G As New Globals
 Public LicenseManager_WSL As New XceedWinsockLib.LicenseManager
 Public AddressManager As New XceedWinsockLib.AddressManager
 
+Public g_NextUniqueId As Long
+
 Public Function InaddrHost(ByVal Address As String) As String
     If IsNumeric(Address) Then
         InaddrHost = "127.0.0.1"
