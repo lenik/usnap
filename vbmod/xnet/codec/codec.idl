@@ -25,6 +25,10 @@ library XnetCodec
 		sitDouble,
 		sitString,
 		sitBytes,
+                sitInts,
+		sitLongs,
+		sitSingles,
+		sitDoubles,
 	} StatementItemTypeConstants;
 
 	[
@@ -48,6 +52,7 @@ library XnetCodec
 			HRESULT Count([out, retval] int *pVal);
 		[id(5), helpstring("method Encode")]
 			HRESULT Encode([out, retval]SAFEARRAY(unsigned char)* ret);
+		[id(6), helpstring("method Remove")] HRESULT Remove([in]int index);
 	};
 	[
 		object,

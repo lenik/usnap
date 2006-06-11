@@ -9,6 +9,54 @@
 /////////////////////////////////////////////////////////////////////////////
 // CStatement
 
+void *var_data(VARIANT *v, int *pSize) {
+    _assert_(v);
+
+    void *part = &v->lVal;
+    int size = 0;
+
+    if (v->vt & VT_ARRAY) {
+        size = 1;
+        for (int i = 0; i < v->parray->cDims; i++)
+            size *= v->parray->rgsabound[i].cElements;
+        size *= v->parray->cbElements;
+        part = v->parray->pvData;
+    } else {
+        switch (v->vt & VT_TYPEMASK) {
+        case VT_EMPTY:
+        case VT_NULL:
+            size = 0; break;
+        case VT_I1:
+        case VT_UI1:
+            size = 1; break;
+        case VT_I2:
+        case VT_UI2:
+            size = 2; break;
+        case VT_I4:
+        case VT_UI4:
+        case VT_R4:
+            size = 4; break;
+        case VT_I8:
+        case VT_UI8:
+        case VT_R8:
+        case VT_CY:         // INT64
+        case VT_DATE:       // double
+            size = 8; break;
+        case VT_BSTR:
+            part = v->bstrVal; size = ((int *)v->bstrVal)[-1]; break;
+        case VT_BOOL:
+            size = 1; break;
+        case VT_DECIMAL:    // 96-bit num, 32-bit ext
+            size = 16; break;
+        default:
+            return 0;
+        }
+    }
+    if (pSize)
+        *pSize = size;
+    return part;
+}
+
 STDMETHODIMP CStatement::Add(void *ps, int size) {
     if (ps == 0)
         return E_POINTER;
@@ -95,18 +143,54 @@ STDMETHODIMP CStatement::get_TypedItem(int index, StatementItemTypeConstants typ
         return E_POINTER;
 
     _variant_t& var = m_Vars[index];
-    _variant_t out;
+
+    int size;
+    void *part = var_data(&var, &size);
+    if (part == 0)
+        return E_UNEXPECTED;      // unexpected m_Vars[index].vt
+
+    VariantInit(ret);
+
+    memcpy(&ret->iVal, part, 8);
 
     switch (type) {
     case sitByte:
-
+        ret->vt = VT_I1;
         break;
     case sitInt:
+        ret->vt = VT_I2;
+        break;
     case sitLong:
+        ret->vt = VT_I4;
     case sitSingle:
+        ret->vt = VT_R4;
+        break;
     case sitDouble:
+        ret->vt = VT_R8;
+        break;
     case sitString:
+        ret->bstrVal = SysAllocStringByteLen((LPCSTR)part, size);
+        break;
     case sitBytes:
+        ret->parray = SafeArrayCreateVector(VT_I1, 0, size);
+        memcpy(ret->parray->pvData, part, size);
+        break;
+    case sitInts:
+        ret->parray = SafeArrayCreateVector(VT_I2, 0, size / 2);
+        memcpy(ret->parray->pvData, part, size);
+        break;
+    case sitLongs:
+        ret->parray = SafeArrayCreateVector(VT_I4, 0, size / 4);
+        memcpy(ret->parray->pvData, part, size);
+        break;
+    case sitSingles:
+        ret->parray = SafeArrayCreateVector(VT_I2, 0, size / 4);
+        memcpy(ret->parray->pvData, part, size);
+        break;
+    case sitDoubles:
+        ret->parray = SafeArrayCreateVector(VT_I4, 0, size / 8);
+        memcpy(ret->parray->pvData, part, size);
+        break;
     default:
         return E_INVALIDARG;
     }
@@ -134,49 +218,11 @@ STDMETHODIMP CStatement::Encode(SAFEARRAY **pVal) {
 
     for (int i = 0; i < n; i++) {
         _variant_t& v = m_Vars[i];
-        part = &v.lVal;
 
         if (v.vt & VT_BYREF)
             return E_INVALIDARG;
 
-
-        if (v.vt & VT_ARRAY) {
-            size = 1;
-            for (int i = 0; i < v.parray->cDims; i++)
-                size *= v.parray->rgsabound[i].cElements;
-            size *= v.parray->cbElements;
-            part = v.parray->pvData;
-        } else {
-            switch (v.vt & VT_TYPEMASK) {
-            case VT_EMPTY:
-            case VT_NULL:
-                size = 0; break;
-            case VT_I1:
-            case VT_UI1:
-                size = 1; break;
-            case VT_I2:
-            case VT_UI2:
-                size = 2; break;
-            case VT_I4:
-            case VT_UI4:
-            case VT_R4:
-                size = 4; break;
-            case VT_I8:
-            case VT_UI8:
-            case VT_R8:
-            case VT_CY:         // INT64
-            case VT_DATE:       // double
-                size = 8; break;
-            case VT_BSTR:
-                part = v.bstrVal; size = ((int *)v.bstrVal)[-1]; break;
-            case VT_BOOL:
-                size = 1; break;
-            case VT_DECIMAL:    // 96-bit num, 32-bit ext
-                size = 16; break;
-            default:
-                return E_FAIL;
-            }
-        }
+        part = var_data(&v, &size);
 
         int encoded_size = 0;
         char *part_encoded = encode((char *)part, size, &encoded_size);
@@ -208,5 +254,13 @@ STDMETHODIMP CStatement::Encode(SAFEARRAY **pVal) {
 
     *pVal = saBytes;
 
+    return S_OK;
+}
+
+STDMETHODIMP CStatement::Remove(int index)
+{
+    if (index < 0 || index >= m_Vars.size())
+        return E_INVALIDARG;
+    m_Vars.erase(m_Vars.begin() + index);
     return S_OK;
 }

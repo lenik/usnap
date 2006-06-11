@@ -2,7 +2,7 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Fri Jun 09 14:54:52 2006
+/* at Sun Jun 11 08:40:18 2006
  */
 /* Compiler settings for C:\.lokaj\zbmis\module\xnet\codec\codec.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
@@ -86,7 +86,11 @@ enum StatementItemTypeConstants
 	sitSingle	= sitLong + 1,
 	sitDouble	= sitSingle + 1,
 	sitString	= sitDouble + 1,
-	sitBytes	= sitString + 1
+	sitBytes	= sitString + 1,
+	sitInts	= sitBytes + 1,
+	sitLongs	= sitInts + 1,
+	sitSingles	= sitLongs + 1,
+	sitDoubles	= sitSingles + 1
     }	StatementItemTypeConstants;
 
 
@@ -128,6 +132,9 @@ EXTERN_C const IID IID_IStatement;
 
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Encode(
             /* [retval][out] */ SAFEARRAY __RPC_FAR * __RPC_FAR *ret) = 0;
+
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Remove(
+            /* [in] */ int index) = 0;
 
     };
 
@@ -205,6 +212,10 @@ EXTERN_C const IID IID_IStatement;
             IStatement __RPC_FAR * This,
             /* [retval][out] */ SAFEARRAY __RPC_FAR * __RPC_FAR *ret);
 
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE __RPC_FAR *Remove )(
+            IStatement __RPC_FAR * This,
+            /* [in] */ int index);
+
         END_INTERFACE
     } IStatementVtbl;
 
@@ -258,6 +269,9 @@ EXTERN_C const IID IID_IStatement;
 
 #define IStatement_Encode(This,ret)	\
     (This)->lpVtbl -> Encode(This,ret)
+
+#define IStatement_Remove(This,index)	\
+    (This)->lpVtbl -> Remove(This,index)
 
 #endif /* COBJMACROS */
 
@@ -336,6 +350,18 @@ void __RPC_STUB IStatement_get_Count_Stub(
 
 
 void __RPC_STUB IStatement_Encode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IStatement_Remove_Proxy(
+    IStatement __RPC_FAR * This,
+    /* [in] */ int index);
+
+
+void __RPC_STUB IStatement_Remove_Stub(
     IRpcStubBuffer *This,
     IRpcChannelBuffer *_pRpcChannelBuffer,
     PRPC_MESSAGE _pRpcMessage,

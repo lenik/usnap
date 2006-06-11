@@ -33,6 +33,7 @@ END_COM_MAP()
 
 // IStatement
 public:
+	STDMETHOD(Remove)(/*[in]*/int index);
     STDMETHOD(Encode)(/*[out, retval]*/ SAFEARRAY **pVal);
     STDMETHOD(get_Count)(/*[out, retval]*/ int *pVal);
     STDMETHOD(get_TypedItem)(/*[in]*/int index, /*[in]*/StatementItemTypeConstants type, /*[out, retval]*/VARIANT *ret);
