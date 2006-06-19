@@ -59,3 +59,14 @@ Public Function DumpVariant(v As Variant, Optional ByVal indent As Integer = 0) 
     End If
     DumpVariant = DumpVariant & buf
 End Function
+
+Public Sub mdbtbls()
+    Dim conn As DBConnection
+    Set conn = DBConnect("DRIVER={Microsoft Access Driver (*.mdb)};" _
+                        & "DBQ=C:\.radiko\.miaj\sandbox\mydoc\1.mdb")
+    'MsgBox conn.IsTableExist("ROW")
+    'Set conn = DBConnect("Provider=Microsoft.Jet.OLEDB.4.0;" _
+                       & "Data Source='C:\.radiko\.miaj\sandbox\mydoc\1.mdb';" _
+                       & "Persist Security Info=False")
+    MsgBox conn.IsDatabaseExist("C:\.radiko\.miaj\sandbox\mydoc\anydata.mdb")
+End Sub

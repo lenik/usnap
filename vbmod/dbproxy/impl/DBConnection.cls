@@ -14,6 +14,8 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0
 
+Private Const LOCATION                  As String = "DBProxy::DBConnection"
+
 Public Enum QueryTypeConstants
     qtRead = 0                          ' openForwardOnly,  lockReadOnly
     qtEdit                              ' openForwardOnly,  lockPessimistic
@@ -277,17 +279,43 @@ Public Function IsDatabaseExist(ByVal Name As String) As Boolean
 
     On Error Resume Next
     Set rs = m_Raw.OpenSchema(adSchemaCatalogs, m_DatabaseRestrict)
-    If Err.Number <> 0 Then
-        Set rs = m_Raw.OpenSchema(adSchemaCatalogs)
+
+    If Err.Number = 0 Then
+        IsDatabaseExist = Not rs.EOF
+        rs.Close
+        Exit Function
+    End If
+
+    ' Try not use Restrict
+    Set rs = m_Raw.OpenSchema(adSchemaCatalogs)
+
+    If Err.Number = 0 Then
         Do Until rs.EOF
             If rs(0) = Name Then Exit Do
             rs.MoveNext
         Loop
+        IsDatabaseExist = Not rs.EOF
+        rs.Close
+        Exit Function
     End If
-    On Error GoTo 0
 
-    IsDatabaseExist = Not rs.EOF
-    rs.Close
+    ' Opertion isn't supported
+
+    ' Try connection string
+    Dim CS As String
+    Dim c As New ADODB.Connection
+    Dim e As Long
+    CS = Patterns.ReplaceDBName(ConnectionString, Name)
+    On Error Resume Next
+    'On Error GoTo 0
+    c.Open CS
+    e = Err.Number
+    c.Close
+
+    Select Case e
+    Case 0, 3705 ' Already opened
+        IsDatabaseExist = True
+    End Select
 End Function
 
 Public Function IsTableExist(ByVal Name As String) As Boolean
@@ -424,10 +452,15 @@ Private Sub ParseConnectionString(ByRef ConnectionString As String)
     ConnectionString = out
 End Sub
 
-Public Sub Connect(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
+Friend Sub Connect_(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
     ParseConnectionString ConnectionString
     m_Raw.CursorLocation = adUseClient
     m_Raw.Open ConnectionString, UserID, Password, Options
+End Sub
+
+Public Sub Connect(Optional ByVal ConnectionString As String = "", Optional ByVal UserID As String = "", Optional ByVal Password As String = "", Optional ByVal Options As Long = -1&)
+    Warning False, "Deprecated: Please call DBConnect instead. ", LOCATION
+    Connect_ ConnectionString, UserID, Password, Options
 End Sub
 
 Public Function OpenSchema(ByVal Schema As ADODB.SchemaEnum, Optional ByVal Restrictions As Variant, Optional ByVal SchemaID As Variant) As ADODB.Recordset

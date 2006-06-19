@@ -139,6 +139,11 @@ Private Sub Form_Load()
         Application.HomeDirectory = App.Path
         Application.Reload
     End If
-    Set conn = DBConnect("DRIVER={SQL Server};SERVER=192.168.0.253;UID=sa;PWD=kelingbarcode;Database=ZBGZGLXT")
+    'Set conn = DBConnect("DRIVER={SQL Server};SERVER=192.168.0.253;UID=sa;PWD=kelingbarcode;Database=ZBGZGLXT")
+    'Set conn = DBConnect("DRIVER={Microsoft Access Driver (*.mdb)};" _
+                        & "DBQ=C:\.radiko\.miaj\sandbox\mydoc\1.mdb")
 
+    Set conn = DBConnect("Provider=Microsoft.Jet.OLEDB.4.0;" _
+                       & "Data Source='C:\.radiko\.miaj\sandbox\mydoc\1.mdb';" _
+                       & "Persist Security Info=False")
 End Sub

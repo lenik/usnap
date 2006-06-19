@@ -56,9 +56,9 @@ Public Function DBConnect(Optional ByVal ConnectionString, Optional ByVal Name) 
     If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
     If ConnectionString = "" Then
-        DBConnect.Connect
+        DBConnect.Connect_
     Else
-        DBConnect.Connect ConnectionString
+        DBConnect.Connect_ ConnectionString
     End If
 
     If Not IsMissing(Name) Then DBConnect.Name = Name
@@ -76,9 +76,9 @@ Public Function DBConnectAsync(Optional ByVal ConnectionString, Optional ByVal N
     If i > 0 Then ConnectionString = Mid(ConnectionString, i + 2)
 
     If ConnectionString = "" Then
-        DBConnectAsync.Connect , , , adAsyncConnect
+        DBConnectAsync.Connect_ , , , adAsyncConnect
     Else
-        DBConnectAsync.Connect ConnectionString, , , adAsyncConnect
+        DBConnectAsync.Connect_ ConnectionString, , , adAsyncConnect
     End If
 
     If Not IsMissing(Name) Then DBConnectAsync.Name = Name
