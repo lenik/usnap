@@ -102,7 +102,7 @@ Private Function SQLFunctions_Day(ByVal F As String) As String
 End Function
 
 Private Function SQLFunctions_QuoteDB(ByVal F As String, Optional ByVal dbo) As String
-    SQLFunctions_QuoteDB = "[" & F & "]"
+    SQLFunctions_QuoteDB = "[" & F & "]."
 End Function
 
 Private Function SQLFunctions_StrPos(ByVal F As String, ByVal pattern As String, Optional ByVal offset As Integer = -1) As String
