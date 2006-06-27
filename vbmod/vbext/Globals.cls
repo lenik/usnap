@@ -14,12 +14,18 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0
 
-Private Const LOCATION = "VBExt::Globals"
+Private Const LOCATION                  As String = "VBExt::Globals"
 
 Public Enum ReferenceTypeConstants
     vbxStrongReference = 0              ' Place-holder, por faciligi
     vbxSoftReference                    ' Used for memory-sensitive caches
     vbxWeakReference                    ' Used for canonicalizing mappings
+End Enum
+
+Public Enum ErrorOptionConstants
+    vbxNonThrow = 1
+    'vbxResumable = 2
+    vbxAbortable = 4
 End Enum
 
 Private Sub Class_Initialize()
@@ -55,8 +61,8 @@ Public Sub Assert(X, Optional msg, Optional loc)
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg _
-                  & vbNewLine & vbNewLine & "Location: " & loc
+        Err.Raise ERR_ASSERT, loc, STR_ASSERT_FAILURE & msg _
+                  & vbNewLine & vbNewLine & STR_LOCATION & ": " & loc
     End If
 End Sub
 
@@ -69,8 +75,8 @@ Public Sub Warning(X, Optional msg, Optional loc)
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg _
-                  & vbNewLine & vbNewLine & "Location: " & loc
+        Err.Raise ERR_WARNING, loc, STR_WARNING & msg _
+                  & vbNewLine & vbNewLine & STR_LOCATION & ": " & loc
     End If
 End Sub
 
@@ -78,7 +84,52 @@ End Sub
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
     If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-    Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg
+    Err.Raise ERR_UNEXPECTED, loc, STR_UNEXPECTED & msg
+End Sub
+
+Public Function Fatal(ByVal ErrID As Long, _
+                      Optional ByVal msg As String, _
+                      Optional ByVal loc As String, _
+                      Optional ByVal Options As ErrorOptionConstants, _
+                      Optional HelpFile, _
+                      Optional HelpContext) As VbMsgBoxResult
+    If msg <> "" Then msg = ": " & msg
+    If loc = "" Then loc = "Unknown (" & App.path & ")"
+
+    If Options And vbxNonThrow Then
+        Dim buttons As Long
+        If Options And vbxAbortable Then
+            buttons = vbAbortRetryIgnore
+            buttons = buttons Or vbCritical
+        Else
+            buttons = vbRetryCancel
+            buttons = buttons Or vbExclamation
+        End If
+
+        Fatal = MsgBox(STR_FATAL_ERROR & ": " & ErrID & vbNewLine _
+                        & vbNewLine _
+                        & STR_DESCRIPTION & msg & vbNewLine _
+                        & vbNewLine _
+                        & STR_LOCATION & ": " & loc, _
+                       buttons, STR_FATAL_ERROR, HelpFile, HelpContext)
+
+        If Fatal = vbAbort Then
+            ' DispatchSystemEvent SystemEvents.TERM
+            ' End
+        End If
+    Else
+        Err.Raise ErrID, loc, STR_FATAL_ERROR & msg _
+                  & vbNewLine & vbNewLine & STR_LOCATION & ": " & loc, _
+                  HelpFile, HelpContext
+    End If
+End Function
+
+Public Sub FatalIf(X)
+    If IsObject(X) Then
+        If Not X Is Nothing Then Exit Sub
+    Else
+        If X Then Exit Sub
+    End If
 End Sub
 
 Public Function FindControl(ByVal outer As Object, ByVal Key) As Object
