@@ -35,9 +35,9 @@ public:
         return state == TERM_LINE;
     }
 
-    bool input(char c);
+    bool input(BYTE c);
 
-    inline const char *process(const char *str, int size) {
+    inline const BYTE *process(const BYTE *str, int size) {
         _assert_(str);
         _assert_(size >= 0);
 
