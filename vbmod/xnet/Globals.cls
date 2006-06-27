@@ -37,7 +37,7 @@ Public Sub XnetUnregisterDriver(ByVal Name As String)
     End If
 End Sub
 
-Public Property Get XnetCreate(Optional ByVal Driver As Variant) As Network
+Public Function XnetCreate(Optional ByVal Driver As Variant) As Network
     ' DriverName or DriverClass
     If VarType(Driver) = vbString Then
         If m_RegisteredDrivers.Contain(Driver) Then
@@ -65,7 +65,7 @@ Public Property Get XnetCreate(Optional ByVal Driver As Variant) As Network
         Set XnetCreate = New Network
         Set XnetCreate.Driver = Driver
     End If
-End Property
+End Function
 
 ' Tools
 ' ----------------------------------------------------------------------------
