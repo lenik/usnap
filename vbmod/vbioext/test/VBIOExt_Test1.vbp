@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#d.0#0#..\..\..\bin\VBIOExt.dll#Visual Basic 6.0 I/O Extensions
+Reference=*\G{8000599D-C29D-4569-9F28-165852ED68E4}#e.1#0#..\..\..\bin\VBIOExt.dll#Visual Basic 6.0 I/O Extensions
 Form=Base64Pic.frm
 Class=FunctionProfile; FunctionProfile.cls
 Module=Module1; Module1.bas
