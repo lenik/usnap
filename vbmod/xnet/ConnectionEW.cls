@@ -36,34 +36,50 @@ Property Set EventSink(ByVal newval As ConnectionEvents)
     Set m_EventSink = newval
 End Property
 
-Private Sub m_Delegant_OnPreReceiveFile(ByVal f As File, Cancel As Boolean)
-    Call m_EventSink.OnPreReceiveFile(m_Delegant, f, Cancel)
-End Sub
-
 Private Sub m_Delegant_OnPreSendPacket(ByVal Pkt As Packet, Cancel As Boolean)
     Call m_EventSink.OnPreSendPacket(m_Delegant, Pkt, Cancel)
 End Sub
 
-Private Sub m_Delegant_OnReceivedFile(ByVal f As File)
-    Call m_EventSink.OnReceivedFile(m_Delegant, f)
+Private Sub m_Delegant_OnSentPacket(ByVal Pkt As Packet)
+    Call m_EventSink.OnSentPacket(m_Delegant, Pkt)
 End Sub
 
-Private Sub m_Delegant_OnReceivingFile(ByVal f As File, Cancel As Boolean)
+Private Sub m_Delegant_OnUnknownPacket(ByVal Pkt As Packet)
+    Call m_EventSink.OnUnknownPacket(m_Delegant, Pkt)
+End Sub
+
+Private Sub m_Delegant_OnPreReceiveFile(ByVal f As Xnet.File, Cancel As Boolean)
+    Call m_EventSink.OnPreReceiveFile(m_Delegant, f, Cancel)
+End Sub
+
+Private Sub m_Delegant_OnReceivingFile(ByVal f As Xnet.File, Cancel As Boolean)
     Call m_EventSink.OnReceivingFile(m_Delegant, f, Cancel)
 End Sub
 
-Private Sub m_Delegant_OnFileCanceled(ByVal f As File)
-    Call m_EventSink.OnFileCanceled(m_Delegant, f)
+Private Sub m_Delegant_OnReceivingFileError(ByVal f As Xnet.File, ByVal ErrId As Long, Cancel As Boolean)
+    Call m_EventSink.OnReceivingFileError(m_Delegant, f, ErrId, Cancel)
 End Sub
 
-Private Sub m_Delegant_OnSendingFile(ByVal f As File, ByRef Cancel As Boolean)
+Private Sub m_Delegant_OnReceivedFile(ByVal f As Xnet.File)
+    Call m_EventSink.OnReceivedFile(m_Delegant, f)
+End Sub
+
+Private Sub m_Delegant_OnSendingFile(ByVal f As Xnet.File, ByRef Cancel As Boolean)
     Call m_EventSink.OnSendingFile(m_Delegant, f, Cancel)
 End Sub
 
-Private Sub m_Delegant_OnSentFile(ByVal f As File)
+Private Sub m_Delegant_OnSendingFileError(ByVal f As Xnet.File, ByVal ErrId As Long, Cancel As Boolean)
+    Call m_EventSink.OnSendingFileError(m_Delegant, f, ErrId, Cancel)
+End Sub
+
+Private Sub m_Delegant_OnSentFile(ByVal f As Xnet.File)
     Call m_EventSink.OnSentFile(m_Delegant, f)
 End Sub
 
-Private Sub m_Delegant_OnSentPacket(ByVal Pkt As Packet)
-    Call m_EventSink.OnSentPacket(m_Delegant, Pkt)
+Private Sub m_Delegant_OnFileHashing(ByVal f As Xnet.File, ByVal ProcessedSize As Long)
+    Call m_EventSink.OnFileHashing(m_Delegant, f, ProcessedSize)
+End Sub
+
+Private Sub m_Delegant_OnFileCanceled(ByVal f As Xnet.File)
+    Call m_EventSink.OnFileCanceled(m_Delegant, f)
 End Sub

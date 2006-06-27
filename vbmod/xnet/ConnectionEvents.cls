@@ -19,24 +19,36 @@ End Sub
 Public Sub OnSentPacket(ByVal c As Connection, ByVal Pkt As Packet)
 
 End Sub
-
-Public Sub OnPreReceiveFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
-
-End Sub
-Public Sub OnReceivingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
-
-End Sub
-Public Sub OnReceivedFile(ByVal c As Connection, ByVal f As File)
+Public Sub OnUnknownPacket(ByVal c As Connection, ByVal Pkt As Packet)
 
 End Sub
 
-Public Sub OnSendingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+Public Sub OnPreReceiveFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
 
 End Sub
-Public Sub OnSentFile(ByVal c As Connection, ByVal f As File)
+Public Sub OnReceivingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnReceivingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnReceivedFile(ByVal c As Connection, ByVal f As Xnet.File)
 
 End Sub
 
-Public Sub OnFileCanceled(ByVal c As Connection, ByVal f As File)
+Public Sub OnSendingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnSendingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, ByRef Cancel As Boolean)
+
+End Sub
+Public Sub OnSentFile(ByVal c As Connection, ByVal f As Xnet.File)
+
+End Sub
+
+Public Sub OnFileHashing(ByVal c As Connection, ByVal f As Xnet.File, ByVal ProcessedSize As Long)
+
+End Sub
+Public Sub OnFileCanceled(ByVal c As Connection, ByVal f As Xnet.File)
 
 End Sub
