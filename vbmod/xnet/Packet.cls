@@ -65,117 +65,117 @@ End Property
 
 Public Property Get ArgOf(ByVal Index As Integer, _
                           Optional ByVal AsType As StatementItemTypeConstants = 0) As Variant
-    ArgOf = m_Segs.TypedItem(Index + KSEGS, AsType)
+    ArgOf = m_Segs.TypedItem(KSEGS + Index, AsType)
 End Property
 
 Public Property Get Arg(ByVal Index As Long) As String
     CheckArg Index
-    Arg = m_Segs.TypedItem(Index + KSEGS, sitString)
+    Arg = m_Segs.TypedItem(KSEGS + Index, sitString)
 End Property
 
 Public Property Let Arg(ByVal Index As Long, ByVal newval As String)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get ByteArg(ByVal Index As Long) As Byte
     CheckArg Index
-    ByteArg = m_Segs.TypedItem(Index + KSEGS, sitByte)
+    ByteArg = m_Segs.TypedItem(KSEGS + Index, sitByte)
 End Property
 
 Public Property Let ByteArg(ByVal Index As Long, ByVal newval As Byte)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get IntArg(ByVal Index As Long) As Integer
     CheckArg Index
-    IntArg = m_Segs.TypedItem(Index + KSEGS, sitInt)
+    IntArg = m_Segs.TypedItem(KSEGS + Index, sitInt)
 End Property
 
 Public Property Let IntArg(ByVal Index As Long, ByVal newval As Integer)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get LongArg(ByVal Index As Long) As Long
     CheckArg Index
-    LongArg = m_Segs.TypedItem(Index + KSEGS, sitLong)
+    LongArg = m_Segs.TypedItem(KSEGS + Index, sitLong)
 End Property
 
 Public Property Let LongArg(ByVal Index As Long, ByVal newval As Long)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get SingleArg(ByVal Index As Long) As Single
     CheckArg Index
-    SingleArg = m_Segs.TypedItem(Index + KSEGS, sitSingle)
+    SingleArg = m_Segs.TypedItem(KSEGS + Index, sitSingle)
 End Property
 
 Public Property Let SingleArg(ByVal Index As Long, ByVal newval As Single)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get DoubleArg(ByVal Index As Long) As Double
     CheckArg Index
-    DoubleArg = m_Segs.TypedItem(Index + KSEGS, sitDouble)
+    DoubleArg = m_Segs.TypedItem(KSEGS + Index, sitDouble)
 End Property
 
 Public Property Let DoubleArg(ByVal Index As Long, ByVal newval As Double)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get BytesArg(ByVal Index As Long) As Byte()
     CheckArg Index
-    BytesArg = m_Segs.TypedItem(Index + KSEGS, sitBytes)
+    BytesArg = m_Segs.TypedItem(KSEGS + Index, sitBytes)
 End Property
 
 Public Property Let BytesArg(ByVal Index As Long, ByRef newval() As Byte)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get IntsArg(ByVal Index As Long) As Integer()
     CheckArg Index
-    IntsArg = m_Segs.TypedItem(Index + KSEGS, sitInts)
+    IntsArg = m_Segs.TypedItem(KSEGS + Index, sitInts)
 End Property
 
 Public Property Let IntsArg(ByVal Index As Long, ByRef newval() As Integer)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get LongsArg(ByVal Index As Long) As Long()
     CheckArg Index
-    LongsArg = m_Segs.TypedItem(Index + KSEGS, sitLongs)
+    LongsArg = m_Segs.TypedItem(KSEGS + Index, sitLongs)
 End Property
 
 Public Property Let LongsArg(ByVal Index As Long, ByRef newval() As Long)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get SinglesArg(ByVal Index As Long) As Single()
     CheckArg Index
-    SinglesArg = m_Segs.TypedItem(Index + KSEGS, sitSingles)
+    SinglesArg = m_Segs.TypedItem(KSEGS + Index, sitSingles)
 End Property
 
 Public Property Let SinglesArg(ByVal Index As Long, ByRef newval() As Single)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 Public Property Get DoublesArg(ByVal Index As Long) As Double()
     CheckArg Index
-    DoublesArg = m_Segs.TypedItem(Index + KSEGS, sitDoubles)
+    DoublesArg = m_Segs.TypedItem(KSEGS + Index, sitDoubles)
 End Property
 
 Public Property Let DoublesArg(ByVal Index As Long, ByRef newval() As Double)
     MakeArg Index
-    m_Segs.Item(Index + KSEGS) = newval
+    m_Segs.Item(KSEGS + Index) = newval
 End Property
 
 ' Xnet Std Protocol / String-Ver
@@ -198,9 +198,9 @@ Public Property Get Name() As String
     CheckArg -2
     Name = Mid(StringSegment(0), 2)
 End Property
-
 Public Property Let Name(ByVal newval As String)
     MakeArg -2
+
     StringSegment(0) = IIf(Encrypted, "X", "N") & newval
 End Property
 
@@ -232,7 +232,7 @@ End Property
 
 Public Property Get XArg(ByVal Index As Long) As String
     MakeArg Index
-    XArg = BytesToString(m_Segs.TypedItem(Index + KSEGS, sitBytes))
+    XArg = BytesToString(m_Segs.TypedItem(KSEGS + Index, sitBytes))
     If m_Encrypted Then
         Assert Not m_SharedKey Is Nothing, "Key not set", LOCATION
         XArg = m_SharedKey.DecryptMessage(XArg, False)
@@ -245,13 +245,21 @@ Public Property Let XArg(ByVal Index As Long, ByVal newval As String)
         Assert Not m_SharedKey Is Nothing, "Key not set", LOCATION
         newval = m_SharedKey.EncryptMessage(newval, False)
     End If
-    m_Segs.Item(Index + KSEGS) = StringToBytes(newval)
+    m_Segs.Item(KSEGS + Index) = StringToBytes(newval)
 End Property
 
 ' Encoding
 ' ----------------------------------------------------------------------------
 Public Function Encode() As Byte()
     Encode = m_Segs.Encode
+End Function
+
+Public Function EncodeString() As String
+    EncodeString = BytesToString(Encode)
+End Function
+
+Public Function EncodeStringB() As String
+    EncodeStringB = BytesToStringB(Encode)
 End Function
 
 ' Returns count of bytes has been decoded.
@@ -266,11 +274,16 @@ Public Function Decode(ByRef Bytes() As Byte) As Long
     Decode = InitSize - ib.UnreadSize
 End Function
 
+Public Sub DropArg(ByVal Index As Long)
+    CheckArg Index
+    m_Segs.Remove KSEGS + Index
+End Sub
+
 ' Internals
 ' ----------------------------------------------------------------------------
 Private Sub CheckArg(ByVal Index As Long)
     Dim c As Long
-    c = Index + 1 + KSEGS
+    c = KSEGS + Index + 1
     Assert m_Segs.Count >= c, _
            "Internal state not fulfilled, the segments count is less than " & c, _
            LOCATION
@@ -278,7 +291,7 @@ End Sub
 
 Private Sub MakeArg(ByVal Index As Long)
     Dim c As Long
-    c = Index + 1 + KSEGS
+    c = KSEGS + Index + 1
     While m_Segs.Count < c
         m_Segs.Add CByte(0)
     Wend
