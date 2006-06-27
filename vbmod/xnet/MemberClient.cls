@@ -32,6 +32,10 @@ Property Get LocalAddress() As XceedWinsockLib.Address
     Set LocalAddress = xSocket.LocalAddress
 End Property
 
+Property Get Id() As Long
+    Id = m_Id
+End Property
+
 Property Let Id(ByVal newval As Long)
     m_Id = newval
 End Property
