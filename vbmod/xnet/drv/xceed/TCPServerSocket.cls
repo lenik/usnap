@@ -46,6 +46,15 @@ Private Property Get IServerSocket_LocalAddress() As String
     IServerSocket_LocalAddress = Inaddr2Str(m_LocalAddress)
 End Property
 
+Private Sub xStart()
+    xSocket.StartListening m_LocalAddress, xSConn, _
+        wifAdviseConnection + wifAdviseConnectionProcessed
+End Sub
+
+Private Sub xStop()
+    xSocket.StopListening
+End Sub
+
 Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
     Dim Host As String
     Dim Port As Long
@@ -57,12 +66,11 @@ Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
     Inaddr.Port = Port
     Set m_LocalAddress = Inaddr
 
-    xSocket.StartListening m_LocalAddress, xSConn, _
-        wifAdviseConnection + wifAdviseConnectionProcessed
+    xStart
 End Sub
 
 Private Sub IServerSocket_Unbind()
-    xSocket.StopListening
+    xStop
 End Sub
 
 Private Property Get IServerSocket_Clients() As Long
@@ -109,12 +117,19 @@ Private Property Get IServerSocket_RemoteAddress(ByVal Id As Long) As String
     IServerSocket_RemoteAddress = mc.RemoteAddress.GetAddressString
 End Property
 
+Private Sub RemoveClient(ByVal mc As MemberClient)
+    m_EventSink.Disconnect mc.Id, drClosed, mc.UserData
+    m_Clients.Remove mc.Id
+    Set mc.xSocket = Nothing            ' (useful??)
+End Sub
+
 Private Sub IServerSocket_Disconnect(ByVal Id As Long)
     Dim mc As MemberClient
     Set mc = m_Clients.Item(Id)
     Assert Not mc Is Nothing, "Invalid Id", LOCATION
 
     mc.Disconnect
+    RemoveClient mc
 End Sub
 
 Private Sub IServerSocket_SendBytes(ByVal Id As Long, _
@@ -183,6 +198,9 @@ Private Sub xByte_OnBytesReceived(ByVal xSocket As Object, _
     Dim mc As MemberClient
     Set mc = FindClient(xSocket, Id)
 
+    ' Event may happen during disconnecting
+    If mc Is Nothing Then Exit Sub
+
     mc.xByte_OnBytesReceived m_EventSink, xSocket, vaData, lUserParam, lResultCode
 End Sub
 
@@ -193,6 +211,9 @@ Private Sub xByte_OnBytesSent(ByVal xSocket As Object, _
     Dim Id As Long
     Dim mc As MemberClient
     Set mc = FindClient(xSocket, Id)
+
+    ' Event may happen during disconnecting
+    If mc Is Nothing Then Exit Sub
 
     mc.xByte_OnBytesSent m_EventSink, xSocket, lBytesSent, lUserParam, lResultCode
 End Sub
@@ -233,6 +254,7 @@ Private Sub xSConn_OnConnectionProcessed(ByVal xListeningSocket As Object, _
     m_EventSink.Connect Id, mc.UserData
 End Sub
 
+' Disconnected by remote
 Private Sub xCConn_OnDisconnected(ByVal xObject As Object, _
                                   ByVal vaCallerData As Variant, _
                                   vaCalleeData As Variant)
@@ -245,10 +267,9 @@ Private Sub xCConn_OnDisconnected(ByVal xObject As Object, _
     Dim Id As Long
     For i = 0 To m_Clients.Size - 1
         Id = m_Clients.Id(i)
-        Set mc = m_Clients.Item(i)
+        Set mc = m_Clients.Item(Id)
         If mc.xSocket.CurrentState = wssInvalid Then
-            m_EventSink.Disconnect Id, drClosed, mc.UserData
-            m_Clients.Remove Id
+            RemoveClient mc
         End If
     Next
 End Sub
@@ -257,6 +278,13 @@ Private Sub xSConn_OnListeningError(ByVal xListeningSocket As Object, _
                                     ByVal lUserParam As Long, _
                                     ByVal lResultCode As Long)
     ' Not Implemented.
+    Assert xListeningSocket Is xSocket, _
+           "Unexpected xListeningSocket when ListeningError", LOCATION
+
+    On Error Resume Next
+        xStop
+        xStart
+    On Error GoTo 0
 End Sub
 
 ' Class
