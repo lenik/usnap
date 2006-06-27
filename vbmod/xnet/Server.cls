@@ -21,7 +21,7 @@ Private m_ServerSocket As IServerSocket
 Private m_Name As String
 
 ' Id => MemberConnection
-Private m_Connections As New VBExt.Map
+Private m_MC As New VBExt.Map
 
 ' Base Events
 ' ----------------------------------------------------------------------------
@@ -31,18 +31,21 @@ Public Event OnDisconnect(ByVal c As Connection, ByVal Reason As DisconnectReaso
 
 Public Event OnPreSendPacket(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnSentPacket(ByVal c As Connection, ByVal Pkt As Packet)
-
 Public Event OnPreRecvPacket(ByVal c As Connection, ByVal Pkt As Packet, ByRef Cancel As Boolean)
 Public Event OnRecvPacket(ByVal c As Connection, ByVal Pkt As Packet)
+Public Event OnUnknownPacket(ByVal c As Connection, ByVal Pkt As Packet)
 
-Public Event OnPreReceiveFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
-Public Event OnReceivingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
-Public Event OnReceivedFile(ByVal c As Connection, ByVal f As File)
+Public Event OnPreReceiveFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
+Public Event OnReceivingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
+Public Event OnReceivingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, ByRef Cancel As Boolean)
+Public Event OnReceivedFile(ByVal c As Connection, ByVal f As Xnet.File)
 
-Public Event OnSendingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
-Public Event OnSentFile(ByVal c As Connection, ByVal f As File)
+Public Event OnSendingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
+Public Event OnSendingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, ByRef Cancel As Boolean)
+Public Event OnSentFile(ByVal c As Connection, ByVal f As Xnet.File)
 
-Public Event OnFileCanceled(ByVal c As Connection, ByVal f As File)
+Public Event OnFileHashing(ByVal c As Connection, ByVal f As Xnet.File, ByVal ProcessedSize As Long)
+Public Event OnFileCanceled(ByVal c As Connection, ByVal f As Xnet.File)
 
 ' Protocol Events
 ' ----------------------------------------------------------------------------
@@ -65,15 +68,27 @@ Implements ConnectionEvents
 ' Exported
 ' ----------------------------------------------------------------------------
 Public Property Get Connections() As Long
-    Connections = m_Connections.Size
+    Connections = m_ServerSocket.Clients
 End Property
 
 Public Property Get ConnectionId(ByVal Index As Long) As Long
-    ConnectionId = m_ServerSocket.ClientId(Index)
+    Dim Id As Long
+    Id = m_ServerSocket.ClientId(Index)
+
+    ' The client is removed, the member-connection should be removed, too
+    ' Assert Not m_MC.Contain(Id)
+    If Not m_MC.Contain(Id) Then Id = -1
+
+    ConnectionId = Id
 End Property
 
 Public Property Get Connection(ByVal Id As Long) As Connection
-    Set Connection = MemberConnection(Id).Delegant
+    Assert Id >= 0, "Invalid Client Id", LOCATION
+    Dim mc As MemberConnection
+    Set mc = m_MC.Item(Id)
+    If Not mc Is Nothing Then
+        Set Connection = mc.Delegant
+    End If
 End Property
 
 Public Property Get Name() As String
@@ -109,8 +124,11 @@ Friend Function Bind(ByVal LocalAddress As String) As Boolean
 End Function
 
 Friend Property Get MemberConnection(ByVal Id As Long) As MemberConnection
-    If m_Connections.Contain(Id) Then
-        Set MemberConnection = m_Connections.Item(Id)
+    ' Assert m_ServerSocket.ClientId(Id) <> -1
+    If m_ServerSocket.ClientId(Id) = -1 Then Exit Property
+
+    If m_MC.Contain(Id) Then
+        Set MemberConnection = m_MC.Item(Id)
     End If
 End Property
 
@@ -134,7 +152,7 @@ Private Sub IServerEvents_Connect(ByVal Id As Long, Data As Variant)
     Set mc.Delegant = c
     Set mc.EventSink = Me
 
-    Set m_Connections(Id) = mc
+    Set m_MC(Id) = mc
 
     RaiseEvent OnConnect(c)
 End Sub
@@ -176,7 +194,10 @@ End Sub
 Private Sub IServerEvents_RecvBytes(ByVal Id As Long, Bytes() As Byte, UnrecvBytes As Long)
     Dim mc As MemberConnection
     Set mc = MemberConnection(Id)
-    Assert Not mc Is Nothing, "Connection Lost", LOCATION
+
+    ' Just break the communication if the mc is removed.
+    ' Assert Not mc Is Nothing, "Connection Lost", LOCATION
+    If mc Is Nothing Then Exit Sub
 
     Dim c As Connection
     Set c = mc.Delegant
@@ -216,25 +237,37 @@ End Sub
 Private Sub ConnectionEvents_OnSentPacket(ByVal c As Connection, ByVal Pkt As Packet)
     RaiseEvent OnSentPacket(c, Pkt)
 End Sub
+Private Sub ConnectionEvents_OnUnknownPacket(ByVal c As Connection, ByVal Pkt As Packet)
+    RaiseEvent OnUnknownPacket(c, Pkt)
+End Sub
 
-Private Sub ConnectionEvents_OnPreReceiveFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+Private Sub ConnectionEvents_OnPreReceiveFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
     RaiseEvent OnPreReceiveFile(c, f, Cancel)
 End Sub
-Private Sub ConnectionEvents_OnReceivingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+Private Sub ConnectionEvents_OnReceivingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
     RaiseEvent OnReceivingFile(c, f, Cancel)
 End Sub
-Private Sub ConnectionEvents_OnReceivedFile(ByVal c As Connection, ByVal f As File)
+Private Sub ConnectionEvents_OnReceivingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, ByRef Cancel As Boolean)
+    RaiseEvent OnReceivingFileError(c, f, ErrId, Cancel)
+End Sub
+Private Sub ConnectionEvents_OnReceivedFile(ByVal c As Connection, ByVal f As Xnet.File)
     RaiseEvent OnReceivedFile(c, f)
 End Sub
 
-Private Sub ConnectionEvents_OnSendingFile(ByVal c As Connection, ByVal f As File, ByRef Cancel As Boolean)
+Private Sub ConnectionEvents_OnSendingFile(ByVal c As Connection, ByVal f As Xnet.File, ByRef Cancel As Boolean)
     RaiseEvent OnSendingFile(c, f, Cancel)
 End Sub
-Private Sub ConnectionEvents_OnSentFile(ByVal c As Connection, ByVal f As File)
+Private Sub ConnectionEvents_OnSendingFileError(ByVal c As Connection, ByVal f As Xnet.File, ByVal ErrId As Long, Cancel As Boolean)
+    RaiseEvent OnSendingFileError(c, f, ErrId, Cancel)
+End Sub
+Private Sub ConnectionEvents_OnSentFile(ByVal c As Connection, ByVal f As Xnet.File)
     RaiseEvent OnSentFile(c, f)
 End Sub
 
-Private Sub ConnectionEvents_OnFileCanceled(ByVal c As Connection, ByVal f As File)
+Private Sub ConnectionEvents_OnFileHashing(ByVal c As Connection, ByVal f As Xnet.File, ByVal ProcessedSize As Long)
+    RaiseEvent OnFileHashing(c, f, ProcessedSize)
+End Sub
+Private Sub ConnectionEvents_OnFileCanceled(ByVal c As Connection, ByVal f As Xnet.File)
     RaiseEvent OnFileCanceled(c, f)
 End Sub
 
