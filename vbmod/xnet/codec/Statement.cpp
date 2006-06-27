@@ -58,19 +58,23 @@ void *var_data(VARIANT *v, int *pSize) {
 }
 
 STDMETHODIMP CStatement::Add(void *ps, int size) {
-    if (ps == 0)
-        return E_POINTER;
-
     m_Vars.push_back(_variant_t());
 
     _variant_t& var = m_Vars.back();
 
-    SAFEARRAY *sa = SafeArrayCreateVector(VT_UI1, 0, size);
-    _assert_(sa);
-    memcpy(sa->pvData, ps, size);
-
-    var.vt = VT_ARRAY | VT_UI1;
-    var.parray = sa;
+    /*
+    if (ps && size) {
+        _assert_(ps);
+        SAFEARRAY *sa = SafeArrayCreateVector(VT_UI1, 0, size);
+        _assert_(sa);
+        memcpy(sa->pvData, ps, size);
+        var.vt = VT_ARRAY | VT_UI1;
+        var.parray = sa;
+    }
+    */
+    if (ps == 0) ps = "";
+    var.vt = VT_BSTR;
+    var.bstrVal = SysAllocStringByteLen((LPCSTR)ps, size);
 
     return S_OK;
 }
