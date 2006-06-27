@@ -67,6 +67,10 @@ Private Sub Form_Load()
         lstDriver.AddItem dn
     Next
     lstDriver.ListIndex = 0
+
+    If DebugMode Then
+        Caption = Caption & " [Debug]"
+    End If
 End Sub
 
 Private Sub lstDriver_Click()

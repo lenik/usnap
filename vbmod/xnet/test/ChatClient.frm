@@ -10,6 +10,14 @@ Begin VB.Form frmClient
    ScaleHeight     =   6660
    ScaleWidth      =   8205
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btnTouch
+      Caption         =   "&Touch"
+      Height          =   435
+      Left            =   7380
+      TabIndex        =   7
+      Top             =   5700
+      Width           =   675
+   End
    Begin ComctlLib.ProgressBar prog
       Align           =   2  'Align Bottom
       Height          =   270
@@ -20,20 +28,20 @@ Begin VB.Form frmClient
       _ExtentX        =   14473
       _ExtentY        =   476
       _Version        =   327682
-      Appearance      =   1
+      Appearance      =   0
    End
    Begin VB.CommandButton btnSendFile
       Caption         =   "Send &File"
       Height          =   435
-      Left            =   6900
+      Left            =   6420
       TabIndex        =   5
       Top             =   5700
-      Width           =   1155
+      Width           =   975
    End
    Begin VB.CheckBox chkEncrypt
       Caption         =   "Encrypt"
       Height          =   375
-      Left            =   4800
+      Left            =   4680
       TabIndex        =   4
       Top             =   5760
       Width           =   915
@@ -50,14 +58,14 @@ Begin VB.Form frmClient
       Height          =   435
       Left            =   180
       TabIndex        =   2
-      Text            =   "X:\midifan200604_1\midifan200604.pdf"
+      Text            =   "X:\unused\LibCON一个小图形库.rar"
       Top             =   5700
       Width           =   4395
    End
    Begin VB.CommandButton btnSend
       Caption         =   "&Send"
       Height          =   435
-      Left            =   5940
+      Left            =   5700
       TabIndex        =   1
       Top             =   5700
       Width           =   735
@@ -100,12 +108,21 @@ Sub AddLog(ByVal s As String)
 End Sub
 
 Private Sub btnSend_Click()
+    If Client Is Nothing Then Exit Sub
     AddLog "(echo) > " & txtMessage.Text
     Client.Connection.SendMessage txtMessage, chkEncrypt.Value
 End Sub
 
 Private Sub btnSendFile_Click()
-    Client.Connection.SendFile txtMessage, "C_" & Client.Name
+    If Client Is Nothing Then Exit Sub
+    Client.Connection.SendFile txtMessage, _
+        BaseName(txtMessage), chkEncrypt.Value
+End Sub
+
+Private Sub btnTouch_Click()
+    If Client Is Nothing Then Exit Sub
+    AddLog "(touch)"
+    Client.Connection.Sendtouch
 End Sub
 
 Private Sub Client_OnConnect(SecurityEnabled As Boolean)
@@ -114,30 +131,53 @@ End Sub
 
 Private Sub Client_OnDisconnect(ByVal Reason As Xnet.DisconnectReasonConstants)
     AddLog "OnDisconnect: " & Reason
+    Set Client = Nothing
 End Sub
 
 Private Sub Client_OnFileCanceled(ByVal f As Xnet.File)
     AddLog "OnFileCanceled: " & FileDisp(f)
 End Sub
 
+Private Sub Client_OnFileHashing(ByVal f As Xnet.File, ByVal ProcessedSize As Long)
+    frmProgress.Visible = True
+    frmProgress.NItem = ProcessedSize / f.Size
+    DoEvents
+    If ProcessedSize >= f.Size Then
+        Unload frmProgress
+    End If
+End Sub
+
 Private Sub Client_OnGet(ByVal URI As String, Response As String)
     AddLog "OnGet: " & URI
 End Sub
 
+Private Sub Client_OnMessage(ByVal Message As String)
+    Dim l As Long
+    l = InStr(Message, "*Redirect*")
+    If l > 0 Then
+        AddText Mid(Message, l + Len("*Redirect*"))
+    Else
+        AddText Client.Connection.QPeer & "> " & Message
+    End If
+End Sub
+
 Private Sub Client_OnPreReceiveFile(ByVal f As Xnet.File, Cancel As Boolean)
-    f.Path = "X:\incoming\client\" & Client.Name & "\" & f.FullName
+    f.Path = "X:\incoming\client\" & Client.Connection.PeerName _
+           & "\" & f.FullName
     AddLog "OnPreReceiveFile: " & FileDisp(f)
-    If MsgBox("Receiving " & f.Packets, vbYesNo) = vbNo Then
+    If MsgBox("Receiving " & FileDisp(f), vbYesNo) = vbNo Then
         Cancel = True
     End If
 End Sub
 
 Private Sub Client_OnPreRecvPacket(ByVal Pkt As Xnet.Packet, Cancel As Boolean)
-    AddLog "OnPreRecvPacket: " & Pkt.Name
+    If IgnorePkt(Pkt) Then Exit Sub
+    AddLog "OnPreRecvPacket: " & PktDisp(Pkt)
 End Sub
 
 Private Sub Client_OnPreSendPacket(ByVal Pkt As Xnet.Packet, Cancel As Boolean)
-    AddLog "OnPreSendPacket: " & Pkt.Name
+    If IgnorePkt(Pkt) Then Exit Sub
+    AddLog "OnPreSendPacket: " & PktDisp(Pkt)
 End Sub
 
 Private Sub Client_OnReceivedFile(ByVal f As Xnet.File)
@@ -150,8 +190,16 @@ Private Sub Client_OnReceivingFile(ByVal f As Xnet.File, Cancel As Boolean)
     DoEvents
 End Sub
 
+Private Sub Client_OnReceivingFileError(ByVal f As Xnet.File, ByVal ErrId As Long, Cancel As Boolean)
+    AddLog "OnReceivingFileError: " & ErrId & " -- " & FileDisp(f)
+    If vbCancel = MsgBox("接受文件错: " & ErrId, vbRetryCancel) Then
+        Cancel = True
+    End If
+End Sub
+
 Private Sub Client_OnRecvPacket(ByVal Pkt As Xnet.Packet)
-    AddLog "OnRecvPacket: " & Pkt.Name
+    If IgnorePkt(Pkt) Then Exit Sub
+    AddLog "OnRecvPacket: " & PktDisp(Pkt)
 End Sub
 
 Private Sub Client_OnRegistered()
@@ -164,12 +212,17 @@ Private Sub Client_OnSendingFile(ByVal f As Xnet.File, ByRef Cancel As Boolean)
     DoEvents
 End Sub
 
+Private Sub Client_OnSendingFileError(ByVal f As Xnet.File, ByVal ErrId As Long, Cancel As Boolean)
+    AddLog "OnSendingFileError: " & FileDisp(f) & ", " & ErrId
+End Sub
+
 Private Sub Client_OnSentFile(ByVal f As Xnet.File)
     AddLog "OnSentFile: " & FileDisp(f)
 End Sub
 
 Private Sub Client_OnSentPacket(ByVal Pkt As Xnet.Packet)
-    AddLog "OnSentPacket: " & Pkt.Name
+    If IgnorePkt(Pkt) Then Exit Sub
+    AddLog "OnSentPacket: " & PktDisp(Pkt)
 End Sub
 
 Private Sub Client_OnSetKey()
@@ -178,6 +231,7 @@ End Sub
 
 Private Sub Client_OnSetName(ByVal PeerName As String)
     AddLog "OnSetName: Peer=" & PeerName
+    Me.Caption = Client.Name & " -> " & PeerName
 End Sub
 
 Private Sub Client_OnSetSharedKey()
@@ -192,12 +246,16 @@ Private Sub Client_OnTouch()
     AddLog "OnTouched"
 End Sub
 
+Private Sub Client_OnUnknownPacket(ByVal Pkt As Xnet.Packet)
+    AddLog "OnUnknownPacket: " & PktDisp(Pkt)
+End Sub
+
 Private Sub Client_OnUnregistered()
     AddLog "OnUnregistered"
 End Sub
 
 Private Sub Form_Load()
-    txtMessage.Text = "Client " & Secret(20, 50)
+    ' txtMessage.Text = "Client " & Secret(20, 50)
 
     m_Layout.InitializeCoordinations Me
 
@@ -227,7 +285,7 @@ Private Sub lst_KeyUp(Index As Integer, KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub mConnect_Click()
-    Set Client = Network.Connect(CHAT_PORT)
+    Set Client = Network.Connect(C_REMOTE)
     If Client Is Nothing Then
         MsgBox "cannot connect " & Network.Driver.LastError
     End If
