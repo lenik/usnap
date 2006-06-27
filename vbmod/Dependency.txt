@@ -1,0 +1,55 @@
+
+CritPatches
+
+DBProxy
+	*BasType
+	*ADOMapping
+	*LowX
+	VBExt
+MVCArch
+	*BasType
+	*FastAlg
+	*Glyphs
+	*LowX
+	VBExt
+	VBUserExt
+NetTools
+	*BasType
+	*Binary
+	*FastAlg
+	Security
+	VBExt
+	VBIOExt
+	Xnet
+Security
+	*Binary
+	Security
+	VBExt
+	VBIOExt
+VBExt
+	*Binary
+	CritPatches
+	Crypt
+	*FastAlg
+	*LowX
+VBIOExt
+	*BasType
+	*Binary
+	*FastAlg
+	VBExt
+VBMemExt
+	*Binary
+	VBExt
+VBUserExt
+	*BasType
+	*LowX
+	VBExt
+XNet
+	*Binary
+	*FastAlg
+	Security
+	VBExt
+	VBIOExt
+	VBMemExt
+	VBUserExt
+	XnetCodec

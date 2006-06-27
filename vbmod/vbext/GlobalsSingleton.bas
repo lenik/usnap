@@ -7,10 +7,18 @@ Option Base 0
 '
 
 Private Const LOCATION = "VBExt::Globals"
+Private Const APPNAME = "Q"
 
 Public Const ERR_ASSERT = -1
 Public Const ERR_WARNING = -2
 Public Const ERR_UNEXPECTED = -3
+
+Public STR_ASSERT_FAILURE          As String
+Public STR_WARNING                 As String
+Public STR_UNEXPECTED              As String
+Public STR_FATAL_ERROR             As String
+Public STR_DESCRIPTION             As String
+Public STR_LOCATION                As String
 
 Public Const MAX_REFTYPE = 2
 
@@ -29,6 +37,25 @@ Public g_Patterns As New Patterns
 
 Public Sub InitializeGlobals()          ' SHOULD BE synchronized.
     If g_IsInitialized Then Exit Sub
+
+    ' Init Constants
+    STR_ASSERT_FAILURE = GetSetting(APPNAME, LOCATION, _
+   "STR_ASSERT_FAILURE", "Assert Failure")
+
+    STR_WARNING = GetSetting(APPNAME, LOCATION, _
+   "STR_WARNING", "Warning")
+
+    STR_UNEXPECTED = GetSetting(APPNAME, LOCATION, _
+   "STR_UNEXPECTED", "Unexpected")
+
+    STR_FATAL_ERROR = GetSetting(APPNAME, LOCATION, _
+   "STR_FATAL_ERROR", "Fatal Error")
+
+    STR_DESCRIPTION = GetSetting(APPNAME, LOCATION, _
+   "STR_DESCRIPTION", "Description")
+
+    STR_LOCATION = GetSetting(APPNAME, LOCATION, _
+   "STR_LOCATION", "Location")
 
     ' ASSERT following
     g_DebugMode = CheckIDE
@@ -113,8 +140,8 @@ Public Sub Assert(X, Optional msg, Optional loc)
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-        Err.Raise ERR_ASSERT, loc, "Assert Failure" & msg _
-                  & vbNewLine & vbNewLine & "Location: " & loc
+        Err.Raise ERR_ASSERT, loc, STR_ASSERT_FAILURE & msg _
+                  & vbNewLine & vbNewLine & STR_LOCATION & loc
     End If
 End Sub
 
@@ -126,16 +153,16 @@ Public Sub Warning(X, Optional msg, Optional loc)
     If Not X Then
         If IsMissing(msg) Then msg = "" Else msg = ": " & msg
         If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-        Err.Raise ERR_WARNING, loc, "Assert Failure" & msg _
-                  & vbNewLine & vbNewLine & "Location: " & loc
+        Err.Raise ERR_WARNING, loc, STR_ASSERT_FAILURE & msg _
+                  & vbNewLine & vbNewLine & STR_LOCATION & loc
     End If
 End Sub
 
 Public Sub Unexpected(Optional msg, Optional loc)
     If IsMissing(msg) Then msg = "" Else msg = ": " & msg
     If IsMissing(loc) Then loc = "Unknown (" & App.path & ")"
-    Err.Raise ERR_UNEXPECTED, loc, "Unexpected" & msg _
-              & vbNewLine & vbNewLine & "Location: " & loc
+    Err.Raise ERR_UNEXPECTED, loc, STR_UNEXPECTED & msg _
+              & vbNewLine & vbNewLine & STR_LOCATION & loc
 End Sub
 
 Public Function GetRef(ByVal RefType As ReferenceTypeConstants, ByVal Name As String) As Object

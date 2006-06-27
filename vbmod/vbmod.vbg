@@ -5,3 +5,7 @@ Project=mvcarch\MVCArch.vbp
 Project=dbproxy\impl\DBProxy.vbp
 StartupProject=critpatches\CritPatches.vbp
 Project=vbioext\VBIOExt.vbp
+Project=vbmemext\VBMemExt.vbp
+Project=security\Security.vbp
+Project=xnet\Xnet.vbp
+Project=nettools\NetTools.vbp
