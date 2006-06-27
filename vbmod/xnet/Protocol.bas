@@ -15,7 +15,7 @@ Public Const NC_SETNAME                 As String = "STN"
 Public Const NC_SETKEY                  As String = "STK"
 
 ' SetSessionKey(string): string
-Public Const NC_SETSHAREDKEY           As String = "SSK"
+Public Const NC_SETSHAREDKEY            As String = "SSK"
 
 ' System(char[4], string): string
 Public Const NC_SYSTEM                  As String = "SYS"
@@ -51,6 +51,7 @@ Public Const NC_FILEPACKET              As String = "PFK"
 
 ' Invite([in_addr redirect-to])
 Public Const NC_INVITE                  As String = "INV"
+
 
 ' TODO: Profile
 Public Function MakePacket(ByVal CmdName As String, _
