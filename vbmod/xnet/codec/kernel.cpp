@@ -135,7 +135,7 @@ char *decode(char *p, int cb, int *cb_out) {
     return out;
 }
 
-bool Decoder::input(char c) {
+bool Decoder::input(unsigned char c) {
     int sp = isspace(c);
     index++;
 
@@ -145,11 +145,15 @@ bool Decoder::input(char c) {
             return true;
         state = NORMAL;
         index = 0;
+
     case NORMAL:
         if (quoted) {
-            if (c == '\\') {
+            switch (c) {
+            case '\\':              // eat (\).
                 state = ESCAPE;
-                // eat (\).
+                return true;
+            case '"':               // eat (")$
+                state = TERM;
                 return true;
             }
         } else {
@@ -158,22 +162,17 @@ bool Decoder::input(char c) {
                 state = TERM;
                 return true;
             }
-        }
-
-        switch (c) {
-        case '"':
-            if (index == 0) {
-                quoted = 1;
-                // eat ^(")
+            switch (c) {
+            case '"':
+                if (index == 0) {   // eat ^(")
+                    quoted = 1;
+                    return true;
+                }
+                break;
+            case ';':               // eat (;)
+                state = TERM_LINE;
                 return true;
             }
-            state = TERM;
-            // eat (")$
-            return true;
-        case ';':
-            // eat (;)
-            state = TERM_LINE;
-            return true;
         }
         buf.write(c);
         return true;
@@ -193,12 +192,12 @@ bool Decoder::input(char c) {
     return false;
 }
 
-char *decode_segment(const char *p, int cb, int *cb_out, int *cb_read) {
+BYTE *decode_segment(const BYTE *p, int cb, int *cb_out, int *cb_read) {
     _assert_(p);
     _assert_(cb >= 0);
 
     Decoder decoder;
-    const char *pnext = decoder.process(p, cb);
+    const BYTE *pnext = decoder.process(p, cb);
     if (cb_read)
         *cb_read = pnext - p;
 
@@ -206,5 +205,5 @@ char *decode_segment(const char *p, int cb, int *cb_out, int *cb_read) {
         *cb_out = decoder.buf.getSize();
 
     void *decoded_seg = decoder.buf.detach();
-    return (char *)decoded_seg;
+    return (BYTE *)decoded_seg;
 }
