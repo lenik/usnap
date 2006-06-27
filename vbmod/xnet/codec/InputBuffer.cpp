@@ -20,7 +20,7 @@ STDMETHODIMP CInputBuffer::AddBytes(SAFEARRAY **bytes)
     for (int i = 0; i < sa->cDims; i++)
         cb *= sa->rgsabound[i].cElements;
 
-    m_Buf.write((unsigned char *)sa->pvData, cb);
+    m_Buf.write((BYTE *)sa->pvData, cb);
     return S_OK;
 }
 
@@ -39,9 +39,9 @@ STDMETHODIMP CInputBuffer::StatementReady(VARIANT_BOOL *ret)
             int unread = m_Buf.getUnread();
             if (unread == 0)
                 break;
-            const char *pStop = nextParam->process(
-                (char *)(unsigned char *)m_Buf, unread);
-            int processed = pStop - (char *)(unsigned char *)m_Buf;
+            const BYTE *pStop = nextParam->process(
+                (BYTE *)m_Buf, unread);
+            int processed = pStop - m_Buf;
             if (processed > 0)
                 m_Buf.skip(processed);
         }
@@ -50,8 +50,8 @@ STDMETHODIMP CInputBuffer::StatementReady(VARIANT_BOOL *ret)
             return S_FALSE;
 
         int size = nextParam->buf.getSize();
-        char *part = (char *)nextParam->buf.detach();
-
+        BYTE *part = (BYTE *)nextParam->buf.detach();
+        int quoted = nextParam->quoted;
         stmt_ok = nextParam->termLine();
 
         delete nextParam;
@@ -65,15 +65,18 @@ STDMETHODIMP CInputBuffer::StatementReady(VARIANT_BOOL *ret)
             // skip empty stmt.
             stmt_ok = 0;
 
+        if (nextStmt == 0)
+            nextStmt = new CStatementObject;
+
+        HRESULT hr;
         if (part) {
-            if (nextStmt == 0)
-                nextStmt = new CStatementObject;
-
-            HRESULT hr = nextStmt->Add(part, size);
+            hr = nextStmt->Add(part, size);
             free(part);
-
-            _assert_(SUCCEEDED(hr));
+        } else if (quoted) {
+            hr = nextStmt->Add(0, 0);
         }
+
+        _assert_(SUCCEEDED(hr));
     }
 
     if (stmt_ok) {
