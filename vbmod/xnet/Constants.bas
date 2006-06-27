@@ -1,7 +1,8 @@
 Attribute VB_Name = "Constants"
 Option Explicit
 
-
+' Common MTUs
+' ----------------------------------------------------------------------------
 Public Const MTU_MAX                    As Long = 65535
 Public Const MTU_HYPERCHANNEL           As Long = 65535
 Public Const MTU_IBM_TOKEN_RING         As Long = 17914
@@ -25,7 +26,8 @@ Public Const MTU_MIN                    As Long = 68
 
 ' TCP/IP Packet Size
 '
-Public Const DEFAULT_PKTSIZE            As Long = (MTU_ETH - MTU_MIN - 50)
+'Public Const DEFAULT_PKTSIZE            As Long = (MTU_ETH - MTU_MIN - 50)
+Public Const DEFAULT_PKTSIZE            As Long = 100000
 
 Public Const FILEHASH_PREFIX            As String = "FiLeHaSHPReFiX"
 Public Const FILEHASH_SUFFIX            As String = "fIlEhAshsUffIx"
