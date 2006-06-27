@@ -62,7 +62,9 @@ Private Sub IServerSocket_Bind(ByVal LocalAddress As String)
     Port = InaddrPort(LocalAddress)
 
     Dim Inaddr As New InetAddress
-    Inaddr.HostName = Host
+    If Host <> "*" Then
+        Inaddr.HostName = Host
+    End If
     Inaddr.Port = Port
     Set m_LocalAddress = Inaddr
 
