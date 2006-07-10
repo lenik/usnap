@@ -55,6 +55,9 @@ Public Function StringBToBytes(ByVal s As String) As Byte()
 End Function
 
 Public Function BytesToString(ByVal Bytes) As String
+    If IsArray(Bytes) Then
+        If UBound(Bytes) < LBound(Bytes) Then Exit Function
+    End If
     BytesToString = StrConv(Bytes, vbUnicode)
 End Function
 
