@@ -2,6 +2,7 @@
 #define _stdhdrs_utim_ddT3F0l44OzFe1hn_ 1
 
 #include "config.h"
+#include <cpf/config.h>
 
 /* do real include */
 
