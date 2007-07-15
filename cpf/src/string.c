@@ -2,7 +2,7 @@
 #include "stdhdrs.h"
 #include <cpf/string.h>
 
-int
+int _cc
 sprintf_lim(char *buffer, int size, const char *trail,
             const char *fmt, ...) {
     va_list args;
@@ -13,7 +13,7 @@ sprintf_lim(char *buffer, int size, const char *trail,
     return ret;
 }
 
-int
+int _cc
 vsprintf_lim(char *buffer, int size, const char *trail,
              const char *fmt, va_list args) {
     int cc;

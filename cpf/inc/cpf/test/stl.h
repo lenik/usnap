@@ -1,5 +1,5 @@
 #ifndef _stl_utim_dePCtWbFr8U8faBH_
-#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.3 2006-05-15 15:14:54 dansei Exp $"
+#define _stl_utim_dePCtWbFr8U8faBH_ "$Header: /mnt/c/.radiko/.miaj/cvs/usnap/cpf/inc/cpf/test/stl.h,v 1.4 2007-07-15 10:52:56 dansei Exp $"
 
 #include <cpf/dt/raw.h>
 
@@ -40,7 +40,10 @@ struct _stl_project_t {
     /* more user data... */
 };
 
-int _cc  stl_test(stl_project_t *project);
-void _cc stl_report(stl_project_t *project);
+int _cc
+stl_test(stl_project_t *project);
+
+void _cc
+stl_report(stl_project_t *project);
 
 #endif
