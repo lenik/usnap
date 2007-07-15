@@ -1,0 +1,135 @@
+
+2007-07-15
+  * inc/cpf/test/stl.h, src/string.c, src/test/stl.c:
+	code review
+
+  * config/stdhdrs.h, inc/cpf/dynasub.h, lib/cpf/libcpf.lib, e.t.c...
+	add dynasub/dynacall
+
+  * test/: t-dynasub.c, t-list.c:
+	add dynasub test.
+	change main() to different names, enable by define -Dmy_main=main
+
+  * inc/cpf/cpputil.h:
+	add #Quote
+
+2006-05-15
+  * src/exports.def, src/net/impl.c, test/win32/libcpf/libcpf.dsp:
+	import siof into project
+
+  * inc/compat/: dirent.h, strings.h, sys/time.h:
+	for pass compile
+
+  * inc/cpf/config.h, inc/cpf/string.h, inc/cpf/alg/sort/qsort_.h, e.t.c...
+	add cpf/config.h which defines common cpf macros,
+	now only _cc call-convention is defined
+
+  * inc/cpf/dt/tree.h:
+	clear coding style, after add _cc (cpf calling convention)
+
+  * inc/cpf/dt/tree.h:
+	compact coding style
+
+  * bin/libcpf.dll, bin/libcpf_chk.dll, inc/cpf/dt/list.h, e.t.c...
+	stl (simple/scripting test language) test passed
+	(using test case of list_t)
+
+  * bin/libcpf.dll, bin/libcpf_chk.dll, inc/cpf/dt/list.h, e.t.c...
+	automate test initial
+
+2006-05-14
+  * inc/cpf/dt/buffer.h, src/dt/buffer.c:
+	code format
+
+  * inc/cpf/dt/list.h, src/dt/list.c:
+	add list_xxx_v (simple value instead of data/size block) funcs
+
+  * inc/cpf/net/siof.h:
+	include socket defs (only for win32)
+
+  * inc/cpf/dt/buffer.h:
+	add const modifiers
+
+2006-05-13
+  * src/net/: Makefile, Makefile.am, Makefile.in:
+	automake initial
+
+  * config/config.h:
+	temporary remove strings.h, for compile in win32
+
+  * config/stdhdrs.h:
+	initial
+
+  * extern/depcomp, extern/install-sh, extern/missing, e.t.c...
+	automake initial
+
+  * inc/cpf/alg/sort/qsort_.h, inc/cpf/const/bitinfo.h, e.t.c...
+	first test (passed) since the last cpf re-design
+
+  * .cvsignore, Makefile, Makefile.am, Makefile.in, aclocal.m4, e.t.c...
+	automake initial
+
+2006-05-03
+  * inc/cpf/dt/buffer.h, src/dt/buffer.c:
+	initial
+
+  * inc/cpf/dt/list.h, src/dt/list.c:
+	add _detach function
+
+  * inc/cpf/: config.h, start.h, start.hh, config/platform/choose.h:
+	add $Id: ChangeLog,v 1.1 2007-07-15 10:53:47 dansei Exp $ in include-once defines
+
+  * inc/cpf/alg/sort/qsort_.h, src/dt/list.c:
+	qsort2 is renamed to qsort_
+
+2006-05-02
+  * src/: alg/sort/qsort_.c, dt/list.c:
+	initial
+
+  * inc/cpf/config/: compiler/choose.h, platform/choose.h:
+	add const #defines
+
+  * inc/cpf/: start.h, start.hh:
+	auto choose platform
+
+  * inc/cpf/alg/sort/qsort_.h:
+	initial
+
+  * inc/cpf/dt/node.hh:
+	add new virtual base user_t (testing)
+
+  * inc/cpf/dt/list.h:
+	added void *user to the comparator api
+	moved impl. to list.c file
+
+  * inc/cpf/mcell/mcell.h, inc/cpf/mcell/somt.h, src/mcell/mcell.cpp, e.t.c...
+	initial
+
+  * inc/cpf/dt/list.h:
+	simple list type in ANSI C
+
+  * inc/cpf/dt/raw.h:
+	add x??_t union types
+
+  * inc/cpf/assert.h:
+	add bracket to _debug_/_verify_(x) => (x)
+
+2006-05-01
+  * inc/cpf/net/siof.h, src/net/design.h, src/net/impl.c, e.t.c...
+	dev
+
+2006-04-11
+  * inc/cpf/safeproc.h, inc/cpf/dt/node.hh, inc/cpf/dt/raw.h, e.t.c...
+	all cvs merged
+
+2006-02-09
+  * inc/cpf/start/win32.h, inc/cpf/assert.h, inc/cpf/config.h, e.t.c...
+	new style
+
+2004-12-01
+  * inc/cpf/start/win32.h:
+	renamed STARTINC to CPF
+
+2004-08-23
+  * inc/: compat/FlexLexer.h, compat/Hi.mak, compat/unistd.h, e.t.c...
+	merged into usnap

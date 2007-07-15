@@ -49,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../lib/libcpf.lib"
+# ADD LIB32 /nologo /out:"../../../lib/cpf/libcpf.lib"
 
 !ELSEIF  "$(CFG)" == "libcpf_static - Win32 Debug"
 
@@ -72,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"../../../lib/libcpf_chk.lib"
+# ADD LIB32 /nologo /out:"../../../lib/cpf/libcpf_chk.lib"
 
 !ENDIF
 
@@ -80,14 +80,6 @@ LIB32=link.exe -lib
 
 # Name "libcpf_static - Win32 Release"
 # Name "libcpf_static - Win32 Debug"
-# Begin Group "Source Files"
-
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-# End Group
-# Begin Group "Header Files"
-
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
-# End Group
 # Begin Group "src"
 
 # PROP Default_Filter ""
@@ -98,6 +90,10 @@ SOURCE=..\..\..\..\cpf\src\const\bitinfo.cpp
 # Begin Source File
 
 SOURCE=..\..\..\..\cpf\src\dt\buffer.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\libcall\dynasub.c
 # End Source File
 # Begin Source File
 
@@ -134,6 +130,10 @@ SOURCE=..\..\..\inc\cpf\const\bitinfo.h
 # Begin Source File
 
 SOURCE=..\..\..\inc\cpf\dt\buffer.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\inc\cpf\dynasub.h
 # End Source File
 # Begin Source File
 
