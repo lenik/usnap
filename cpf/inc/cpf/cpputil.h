@@ -3,11 +3,8 @@
 
 #include "config.h"
 
-/* TODO: move ==> start.h */
-
-#ifdef _cplusplus
-
-
-#endif /* _cplusplus */
+#ifndef QUOTE
+#   define QUOTE(x) #x
+#endif
 
 #endif
