@@ -77,8 +77,9 @@ stl_project_t t_list = {
     ",
 };
 
-int main() {
+int test_list() {
     t_list.user.p = 0;
     stl_test(&t_list);
     stl_report(&t_list);
+    return 0;
 }
