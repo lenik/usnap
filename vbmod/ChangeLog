@@ -1,0 +1,645 @@
+
+2006-07-10
+  * vbioext/: GlobalsSingleton.bas, Utilities.cls, VBIOExt.vbp:
+	strconv can't convert empty array.
+
+2006-06-27
+  * xnet/: Xnet.vbp, drv/xceed/TCPServerSocket.cls, e.t.c...
+	bind at *:port to accept remote connections
+
+  * vbext/Globals.cls:
+	add fatal. (the err process should be improved.)
+
+  * inc/Validators.bas:
+	validators initial
+
+  * inc/ErrorConstants.bas:
+	add xnet errors (#2001 often occur)
+
+  * security/: Globals.cls, GlobalsSingleton.bas, Security.vbp, e.t.c...
+	add secret-randomize
+
+  * xnet/: InternalTest.bas, Xnet.vbp, test/ChatClient.frm, e.t.c...
+	lot of changes
+
+  * xnet/: ConnectionEW.cls, ConnectionEvents.cls:
+	interface adapter
+
+  * xnet/Utilities.bas:
+	calcchecksum in decimal string.
+	system256todecimal do system-convert very fast, and calcchecksum convert the hexstring to sys256 decimal numerics.
+
+  * xnet/Globals.cls:
+	change xnetcreate in function rather than in property
+
+  * xnet/MemberClient.cls:
+	copy id info
+
+  * xnet/Packet.cls:
+	apply code style.
+	add EncodeString/EncodeStringB
+	add DropArg
+
+  * xnet/File.cls:
+	add more stat info.
+	add hashing progress callback.
+	don't checksum packet hash in put-packet.  checksum in somewhere else.
+
+  * xnet/: Client.cls, Server.cls:
+	add outgoing events.
+	full support of canceling transferring
+
+  * xnet/Connection.cls:
+	Implemented the file transference. Async-mode seems very necessary when long-running.
+
+  * xnet/Constants.bas:
+	use large packet (temporary) for unknown reason which cause the transferring very slow.
+
+  * xnet/drv/xceed/: TCPServerSocket.cls, XnetXceed.vbp, e.t.c...
+	removeclient when Disconnected.
+	otherwise, the dangling client-entry in Xnet.server.
+	cut down events if already disconnected.
+
+  * xnet/codec/: codec.h, codec_i.c, kernel.h, regen-1/.cvsignore, e.t.c...
+	seems stable.
+
+  * xnet/codec/kernel.cpp:
+	fixed parsing of quoted string
+
+  * xnet/codec/Statement.cpp:
+	Add(void *, int) now support null-ptr, which means empty-string.
+	the added data now allocated by SysAllocString rather than SafeArrayCreate, for faster.  the raw data stored in memory is compat.
+
+  * xnet/codec/InputBuffer.cpp:
+	something UNKNOWN happenes when the char scanner parse the unsigned char string.  Now only typing unsigned chars, to solve this problem.
+	exported "quoted" state, to support empty-arg.
+	so if an arg is empty, it must be quoted as "".
+	the "simple part" returned by parser may be null, because the membuf is lazy-created, and may be null if it's empty.
+
+  * vbioext/GlobalsSingleton.bas:
+	moved impl. to globalssingleton file.
+	add BrowseForFolder.
+
+  * vbioext/: Utilities.cls, PathFunctions.cls:
+	moved impl. to globalssingleton file.
+
+  * vbioext/BinaryFile.cls:
+	all functions support auto mode now enclosed in autoopen/autoclose pairs. now more functions support auto mode.
+	add CreateDirectoryStructure support.
+	R/W functions now implemented only in bytes format.
+
+2006-06-19
+  * dbproxy/: impl/DBConnection.cls, impl/DBProxy.vbp, e.t.c...
+	add RE_DBName for support finding database while the connection is in single-database mode.
+	popup warning message if call DBConnection::Connect directly.
+
+2006-06-11
+  * xnet/: Client.cls, Connection.cls, Globals.cls, Network.cls, e.t.c...
+	under test.
+
+  * xnet/: Buffer.cls, Client.cls, Connection.cls, ConnectionEW.cls, e.t.c...
+	implemented the new file protocol with cancel support.
+
+  * xnet/: Client.cls, Connection.cls, ConnectionEW.cls, e.t.c...
+	implemented the new protocol version based on codec. GOOD JOB !
+
+  * xnet/: Client.cls, Connection.cls, IClientEvents.cls, e.t.c...
+	lots changes in socket interface.
+	now the socket interface is really pretty, with position-marker supported (send/recv partials), the server and client is rewritten to be fully separated.
+	the new version of xnetxceed driver is rewritten / initial completed.
+	TODO: impl the winsock version
+
+  * xnet/codec/: Statement.cpp, Statement.h, codec.h, codec.idl, e.t.c...
+	implemented get_typeditem, and wrappers in Packet class.
+
+2006-06-10
+  * include/array.h:
+	add support for auto-extend buffer
+
+  * xnet/: CommandsClient.cls, Connection.cls, ConnectionEW.cls, e.t.c...
+	in dev. commit for converting to Codec-Based packet transfer.
+
+  * xnet/Network.cls:
+	abstract of driver provider.
+
+  * xnet/codec/: StdAfx.cpp, codec.dsp, codec.dsw, codec.h, e.t.c...
+	initial test passed.
+	(cannot profiling over activex dll)
+
+  * xnet/codec/: InputBuffer.cpp, InputBuffer.h:
+	implemented input buffer.
+
+  * xnet/codec/: Statement.cpp, Statement.h:
+	add AddBytes(void *) to jump over safearray in param.
+
+  * xnet/codec/codec.idl:
+	add size properties for debugging purpose
+
+  * xnet/codec/: kernel.cpp, kernel.h:
+	add incremental decoder
+
+2006-06-09
+  * xnet/codec/: Resource.h, InputBuffer.cpp, InputBuffer.h, e.t.c...
+	the new statement object encapsulates vb variant/bytes to an explicit encoded statement item.
+	add decoder object to compose a decoded buffer in incremental way.
+	inputbuffer will replace the bytebuffer in vbmemext project.
+
+2006-06-08
+  * xnet/codec/: .cvsignore, Resource.h, StdAfx.cpp, StdAfx.h, e.t.c...
+	implemented new codec for binary coding:
+	- faster than ever.
+	- the bin-packet encoding/decoding algorithm is explicit, no different meanings.
+	- statement now must end with ';', and space, newlines are ignored.
+	- empty item must be quoted with "".
+
+2006-06-07
+  * inc/Licenses.bas:
+	add consts for xceed 2
+
+  * vbmemext/: .cvsignore, ByteArray.cls, ByteBuffer.cls, e.t.c...
+	initial
+
+  * dbproxy/: impl/DBConnection.cls, impl/DBProxy.vbp, e.t.c...
+	add internal properties in connectstring
+	fixed Mid call of VBA lib.
+
+2006-06-06
+  * vbext/: BaseFunctions.cls, ConfigEntry.cls, Configuration.cls, e.t.c...
+	map reviewed.
+	config.item = null if item not existed, thus consist to map object, with the null entry means "Not Exist", but empty entry means "Empty value".
+	vareval (interpret $var) for entry value.
+	(TODO: the vareval should be recursive processed)
+
+2006-06-05
+  * xnet/: CommandsClient.cls, Connection.cls, ConnectionEW.cls, e.t.c...
+	Lots of changes.
+
+  * vbioext/: Slots.cls, Utilities.cls, VBIOExt.vbg, VBIOExt.vbp, e.t.c...
+	add slots object to simplifize slot/index conversions.
+
+  * xnet/drv/: winsock/ClientSocket.cls, winsock/Driver.cls, e.t.c...
+	the two drivers are nearly completed. hu~~ heavy codings!
+
+2006-06-03
+  * nettools/: Client.cls, NetTools.vbp, Service.cls, Session.cls, e.t.c...
+	restarted.  planned to use xnet files instead of put/recvfiles.
+
+  * xnet/: Connection.cls, ConnectionEW.cls, File.cls, Globals.cls, e.t.c...
+	separated low-level socket comm. into driver interface.
+	added winsock (usercontrol/object adapter thru saot) as the first driver.
+	(this is for detecting socket deadlocks)
+
+  * xnet/: Client.cls, Connection.cls, Constants.bas, File.cls, e.t.c...
+	xnet dev.
+
+  * xnet/: Connection.cls, Constants.bas, ConnectionEW.cls, e.t.c...
+	add packetsize and a small checksum for byte[]. (the hasher may be changed to CRC or even more faster algorithms in futuer)
+	implemented the packet and connection object. the outgoing events must be wrapped in an interface, whenever a single linstener to multiple event sources is needed. (so make the _Events and _EW classes)
+	enable automode on socket, so a server socket will never die.
+
+  * vbuserext/: AutoScaleLayout.cls, VBUserExt.vbg, VBUserExt.vbp, e.t.c...
+	auto ignore non-sizable controls when init layout coords. (e.g. winsock)
+
+  * security/: AsymCrypto.cls, PKIRegistry.cls, RSAEncrypt.cls, e.t.c...
+	split keyexchange to asym/sym crypto types.
+	so a sharedkey may be created without rsa keypairs.
+	the message to be encrypt/decrypt now is accuracy in both str/strb mode. with less result bytes introduced.
+
+2006-06-02
+  * xnet/: Constants.bas, GlobalsSingleton.bas, Xnet.vbp, e.t.c...
+	xnet dev.
+
+  * xnet/: Client.cls, Connection.cls:
+	moved user api into connection object.
+	to simplifize the implementation of symmentric client/server architecture.
+
+  * xnet/File.cls:
+	add file checksum using xceed. (from nettools.putfile)
+
+  * xnet/: Packet.cls, Protocol.bas:
+	rename Command/Packet, NcCommands/Protocol
+
+  * xnet/CommandsClient.cls:
+	simple commands client, without connection context.
+
+  * xnet/: Globals.cls, Socket.cls:
+	add string/stringb wrappers to data methods
+
+  * xnet/: Client.cls, Connection.cls, File.cls, Server.cls, e.t.c...
+	reduced events/exchange between server/client and connection objects, so the detail events branches now directly come out from server/client objects.
+
+  * dbproxy/: impl/DBProxy.vbp, impl/SQLF_Access.cls, e.t.c...
+	add Switch sqlf.
+
+  * nettools/: Client.cls, Globals.cls, NetTools.vbp, NtCommands.bas, e.t.c...
+	changed order of sending initial commands (not tested)
+	add systemevents to notify peer of session-begin, with fully keys exchanged.
+
+  * vbext/: Map.cls, VBExt.vbp, test/Test_Config.vbp, e.t.c...
+	add ValueSet/Entries properties in colllection type.
+
+  * xnet/: Client.cls, Command.cls, Connection.cls, e.t.c...
+	rewrite since nettools.
+
+  * security/: Globals.cls, GlobalsSingleton.bas, KeyExchange.cls, e.t.c...
+	moved secret() from nettools to security mod.
+	add shared-key encryption mode, for more efficient
+
+  * vbioext/: BinaryFile.cls, VBIOExt.vbp, test/T_Zip.vbp, e.t.c...
+	rename Read/Write mode to Edit mode
+	add Create mode
+	autoopen file in some methods to reduce coding.
+
+2006-06-01
+  * xnet/: .cvsignore, Client.cls, Command.cls, Commands.bas, e.t.c...
+	rewrite.
+
+  * fastalg/src/: fastalg.h, fastalg_i.c, fastalg_p.c, kernel.cpp:
+	m_used -> m_alloc, the start-index of new appended items is incorrect.
+
+2006-05-26
+  * nettools/: NetTools.vbp, NtCommands.bas, PutFile.cls, e.t.c...
+	add cancel support (under development)
+
+2006-05-25
+  * dbproxy/impl/: DBConnection.cls, DBProxy.vbp:
+	add isdatabaseexists, using both schema/restrict and foreach loop
+
+  * inc/: Licenses.bas, SystemConstants.bas:
+	add licenses for xceed controls
+	externalized system constants for easing compilation
+
+  * vbioext/: BinaryFile.cls, GlobalsSingleton.bas, e.t.c...
+	implmented binaryfile access, and test passed
+
+  * vbuserext/: VBUserExt.vbp, test/Test_Render.vbp:
+	recompiled
+
+  * nettools/: Client.cls, Constants.bas, GlobalsSingleton.bas, e.t.c...
+	using binaryfile instead of basic/"file for binary".
+	visualize the sending/recving progress bar
+	modalized setname/synckey/touch to functions
+
+2006-05-23
+  * dbproxy/impl/DBConnection.cls:
+	assert queryvalue with column-index != 0
+
+  * vbioext/: Globals.cls, GlobalsSingleton.bas, Packer.cls, e.t.c...
+	moved packer from zbcomm to vbioext.
+	auto make parents when doing zipping.
+	rename utilities to binaryutilities.
+
+  * vbext/: BaseFunctions.cls, DefaultSystemEventListener.cls, e.t.c...
+	using include file (systemconstants.bas) to define system events, so extension system event sources may define its event codes in the include file and don't need to re-compile the vbext project.
+
+  * security/: KeyExchange.cls, Security.vbp, e.t.c...
+	moved keyexchange from nettools -> security
+
+  * nettools/Service.cls, vbioext/Packer.cls, e.t.c...
+	add packer and test
+
+  * nettools/Client.cls, nettools/Ctrls.frm, nettools/Globals.cls, e.t.c...
+	the file operation is installed and linked to session.
+
+2006-05-22
+  * vbext/: BaseFunctions.cls, Configuration.cls, Globals.cls, e.t.c...
+	add basename/dirname global funcs
+	add temporary paths in application
+	fixed the letter case problem of 'key'
+	fixed paramarray bugs in min/max
+
+  * nettools/GlobalsSingleton.bas, nettools/KeyFinder.cls, e.t.c...
+	the "key" is forced to lower case, because auto case doesn't affect dirty flags, when doing save project.
+	using new simplified simple-file based files exchange. delay the responsiblity of packing integrity to the nettools user application.
+	the vol-info-xml is not used anymore.
+	add new get/response protocol commmand, to simplified the caller-pull method of data exchange. so if get file is request, using client-side GET command, which is similar to http get command.
+
+  * binary/bin/binary_ud.dll, binary/src/Base64.cpp, e.t.c...
+	sqlf.t/f => sqlf.consttrue/constfalse
+	add separator to string2hex, fixed sysallocstring length
+
+2006-05-21
+  * nettools/: Client.cls, Globals.cls, GlobalsSingleton.bas, e.t.c...
+	lots of chagnes, chat test passed
+
+  * vbext/: BinaryFunctions.cls, VBExt.vbp:
+	set default rawmode=false, and add 'simple-word for easy debugging
+
+2006-05-20
+  * .cvsignore, base64com/.cvsignore, base64com/src/.cvsignore, e.t.c...
+	ignore '_win32_'s
+
+  * dbproxy/impl/Utils.bas:
+	moved paramarray from dbproxy to vbext
+
+  * vbext/: .cvsignore, BaseFunctions.cls, ConfigEntry.cls, e.t.c...
+	moved paramarray from dbproxy to vbext
+	add runtime-type of config entries
+	add hex/base64/string apis
+
+  * nettools/: .cvsignore, GlobalsSingleton.bas, NetTools.vbp, e.t.c...
+	didn't add new session to session list
+	sendcmd reentrant
+
+  * dbproxy/impl/: DBProxy.vbp, SQLF_Access.cls, SQLF_MSSQL.cls, e.t.c...
+	add T/F boolean const
+
+  * nettools/: Client.cls, GlobalsSingleton.bas, NetTools.vbp, e.t.c...
+	the same structure goes into session object
+
+2006-05-19
+  * nettools/Globals.cls, nettools/NetTools.vbp, e.t.c...
+	dev for nettools re-designed
+
+  * nettools/: Globals.cls, GlobalsSingleton.bas, NetTools.vbp, e.t.c...
+	dev for nettools re-designed
+
+  * nettools/test/C_Client.frm:
+	cannot do send while pending operations.
+
+  * nettools/test/: C_Client.frm, C_Server.frm, C_Start.frm, e.t.c...
+	nettools re-designed
+	add test for xw
+
+2006-05-12
+  * dbproxy/: impl/DBProxy.vbp, impl/SQLF_Access.cls, e.t.c...
+	add sqlf.strpos
+
+2006-05-08
+  * vbext/: BaseFunctions.cls, Map.cls, Typedefs.bas, VBExt.vbp, e.t.c...
+	add parsemap
+	add qqeval which evaluates literal text \xx to actual chars
+
+  * vbext/: ConfigEntry.cls, Configuration.cls:
+	impl. type="path"
+
+  * dbproxy/impl/Patterns.cls:
+	all regexp are prefixing with RE_
+	add QSQL for sqlparse with embedded func<...>
+	add OnlyWord/InParenthesis to add (parenthese) automatically
+
+  * dbproxy/impl/DBConnection.cls:
+	add sqlparse
+	the openscheme for table using an array to filter constraints
+
+  * dbproxy/impl/Globals.cls:
+	add varreplace: it's not convinient to do dbconnect when only sqlparse is used
+
+  * dbproxy/impl/Utils.bas:
+	add boolbinopcomp, addparenthesis (for sqlf:istrue/isfalse)
+	add sqlparse
+	add varreplace: it's not convinient to do dbconnect when only sqlparse is used
+
+  * dbproxy/impl/: SQLF_Access.cls, SQLF_MSSQL.cls, SQLF_MySQL.cls, e.t.c...
+	oracle doesn't have year, month, day functions
+	add QuoteDB for operate multi-db in single connection
+	add istrue/isfalse, where access using -1 for true, and mssql using 1
+
+2006-05-02
+  * nettools/: .cvsignore, bsdsock/NetTools.cpp, e.t.c...
+	initial
+
+2006-04-21
+  * dbproxy/: impl/DBProxy.vbg, impl/DBProxy.vbp, impl/Globals.cls, e.t.c...
+	fixed the parameters' type of dbconnect
+	mssql using string + instead of concat()
+	paramarray cannot be passed down to another paramarray-func, (in sqlfunctions.concat)
+
+2006-04-19
+  * Modules.vbg, bastype/src/StdAfx.h, binary/src/StdAfx.h, e.t.c...
+	create makefile
+
+  * dbproxy/.cvsignore, dbproxy/bin/.cvsignore, e.t.c...
+	create makefile
+
+  * vbext/: Globals.cls, Makefile, Map.cls, VBExt.vbp, e.t.c...
+	create makefile
+
+2006-04-18
+  * vbioext/test/: Base64Pic.frm, Base64Pic.frx, VBIOExt_Test1.vbp, e.t.c...
+	version update
+
+  * dbproxy/: impl/DBConnection.cls, impl/DBProxy.vbp, e.t.c...
+	rename dbconnection.allocate -> .connect
+	add sybase dialect
+	add SQLF of context mode in dbconnection
+
+  * drawings/.cvsignore, drawings/glyphs/.cvsignore, e.t.c...
+	deploy build
+
+  * binary/src/: .cvsignore, Base64.cpp:
+	deploy build
+
+  * CVSROOT/: checkoutlist, commit_email, commitinfo, config, cvsrc, e.t.c...
+	initial checkin
+
+2006-04-14
+  * vbext/: Globals.cls, GlobalsSingleton.bas, RuntimeProperties.cls, e.t.c...
+	add lowx global variables
+
+  * dbproxy/: impl/DBConnection.cls, impl/DBProxy.vbg, e.t.c...
+	add connection name for debugging purpose
+	rename connectfast -> connectasync which is more suitable
+	change ADODB.Connection -> DBProxy.DBConnection in event prototyeps
+
+  * binary/src/: Base64.cpp, Base64.h, binary.h, binary.idl, e.t.c...
+	add read/write file support, for easier binary processing
+
+  * vbioext/: .cvsignore, File.cls, Startup.cls, Utilities.cls, e.t.c...
+	new i/o ext progmode
+
+2006-04-07
+  * dbproxy/impl/DBProxy.vbp, mvcarch/MVCArch.vbp, e.t.c...
+	add TypexxxOf() functions for force cast.
+
+  * vbext/: LinkedList.cls, LinkedListNode.cls, VBExt.vbp, e.t.c...
+	linkedlist in wrong directory
+
+  * fastalg/test/: Test_SAOT.vbp, Test_SAOT.exe:
+	compile
+
+2006-03-31
+  * vbuserext/: ScrollableContainer.ctl, VBUserExt.vbg, e.t.c...
+	take account of the recursion affects of the scrollbar itself
+
+2006-03-29
+  * dbproxy/impl/: DBConnection.cls, DBProxy.vbp:
+	using client cursor to provide RecordCount.
+
+  * dbproxy/impl/DBConnection.cls, dbproxy/impl/DBPagination.cls, e.t.c...
+	add dialect support (not ready)
+	config review, the SEH of vb is really a shit
+	add dbconfig/dbapplication to dbproxy, for debug purpose. (it seems the globalmultiuse is born into mulitple instances when the ActiveX Version is different in different projects)
+	add pagination support (not ready)
+	fixed a bug in ConfigEntry.
+	add property clousure support, for more complex config property, in future
+
+2006-03-28
+  * dbproxy/impl/: DBConnection.cls, DBProxy.vbp, Globals.cls, e.t.c...
+	changed initialization model of presets to gain better efficient
+	add pagination support (not ready)
+	add database dialects
+
+2006-03-27
+  * binary/src/Base64.cpp, binary/src/Base64.h, binary/src/binary.h, e.t.c...
+	add get/setHex
+	fix base64 bstr-length
+	fixed m_active bug... see history?
+
+2006-03-21
+  * binary/src/binary.dsp:
+	no quote `table name` for compat.
+
+2006-03-20
+  * binary/test/: Form1.frx, charsets.txt, iconv/.cvsignore, e.t.c...
+	initial
+
+  * base64com/src/Binaries.dsw, binary/src/Base64.cpp, e.t.c...
+	add setBase64, test passed!
+
+  * binary/: .cvsignore, src/.cvsignore, src/Base64.cpp, e.t.c...
+	initial
+
+2006-03-17
+  * dbproxy/impl/DBProxy.vbp, vbuserext/AutoScaleLayout.cls, e.t.c...
+	initial write functionality
+
+  * crypt/src/Crypt.h, crypt/src/Crypt_i.c, crypt/src/Crypt_p.c, e.t.c...
+	(modelgen) read/scroll test passed
+
+2006-03-16
+  * crypt/src/Crypt.h, crypt/src/Crypt.idl, crypt/src/Crypt_i.c, e.t.c...
+	flexible config property, for lazy- connection string
+
+  * fastalg/test_hc/.cvsignore, fastalg/test_hc/ReadMe.txt, e.t.c...
+	modelgen dev.
+
+  * crypt/src/Crypt.cpp, crypt/src/Crypt.dsp, crypt/src/Crypt.h, e.t.c...
+	modelgen dev.
+
+2006-03-13
+  * dbproxy/impl/DBProxy.vbp:
+	recompile
+
+2006-03-06
+  * mvcarch/BasicCO.cls, mvcarch/ControllerObject.cls, e.t.c...
+	impl status-bar for mvcarch (not ready, yet)
+
+  * mvcarch/MVCArch.vbp, vbext/Globals.cls, e.t.c...
+	add animate image for display animate icon in status bar
+
+2006-03-03
+  * crypt/: src/.cvsignore, src/Crypt.cpp, src/Crypt.def, e.t.c...
+	re-initial
+
+2006-03-02
+  * dbproxy/impl/DBConnection.cls, dbproxy/impl/DBProxy.vbg, e.t.c...
+	connection with defaults (thru Config) test passed!
+
+  * dbproxy/test/: Test_Link.cfg, Test_Link_debug.cfg, e.t.c...
+	add config entries for dbproxy
+
+  * dbproxy/: impl/.cvsignore, impl/DBConnection.cls, e.t.c...
+	wrapped connection test succeeded!
+
+2006-03-01
+  * dbproxy/: impl/DBProxy.vbp, mapping/.cvsignore, e.t.c...
+	initial
+
+2006-02-28
+  * critpatches/CritPatches.vbp, mvcarch/GraphCO.ctl, e.t.c...
+	in dev.
+
+2006-02-27
+  * mvcarch/BasicCO.cls, mvcarch/ControllerObject.cls, e.t.c...
+	mvc re-design (1)
+
+2006-02-26
+  * dbproxy/: impl/DBConnection.cls, impl/DBDict.cls, e.t.c...
+	initial
+
+2006-02-24
+  * bastype/src/List.cpp, bastype/src/List.h, e.t.c...
+	mvc re-design (1)
+
+  * bastype/: src/List.cpp, src/List.h, src/List.rgs, test/Form1.frm, e.t.c...
+	initial
+
+  * bastype/src/StdAfx.h, bastype/src/bastype.cpp, e.t.c...
+	state graph dev. (prop page start to run!)
+
+2006-02-23
+  * drawings/drawings.dsw, drawings/glyphs/glyphs.cpp, e.t.c...
+	state graph dev
+
+  * inc/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
+	set binary compatible (don't generate typelib guid every time)
+	saot with events
+	dev drawings
+
+2006-02-22
+  * vbuserext/: EventFilter.gif, EventFilter.ico:
+	moved to mat/icon/
+
+  * vbuserext/: ScrollableContainer.ctl, AuxiliaryShape.ctl, e.t.c...
+	scrollable container initial test ok!
+
+  * inc/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
+	add uppercase extnames
+
+  * mvcarch/MVCArch.vbp, mvcarch/test/Person.vbp, e.t.c...
+	rebuild
+
+  * mvcarch/MVCArch.vbp, mvcarch/GraphSO.ctl, e.t.c...
+	scrolling dev.
+
+2006-02-20
+  * fastalg/src/DRIA.h, fastalg/src/SAOT.cpp, fastalg/src/SAOT.h, e.t.c...
+	user interface dev.
+
+  * vbext/: VBExt.vbg, VBExt.vbp, Layout.cls, test/Form1.frm, e.t.c...
+	moved layout to vbuserext
+
+  * base64com/src/.cvsignore, base64com/test/.cvsignore, e.t.c...
+	fastalg dev.
+	ignored some files
+
+  * mvcarch/GraphCO_Bar.ctl, mvcarch/GraphSO.ctl, e.t.c...
+	add icons
+
+  * bastype/.cvsignore, bastype/bastype.dsw, bastype/src/.cvsignore, e.t.c...
+	initial
+
+  * Modules.vbg, crypt/Crypt.vbp, mvcarch/ContainerObjects.cls, e.t.c...
+	state dev.
+
+2006-02-17
+  * mvcarch/BusinessObject.cls, mvcarch/MVCArch.vbg, e.t.c...
+	single "Application" instead of Configuration,
+	MVC init
+
+  * mvcarch/BusinessObjectAdapter.cls, e.t.c...
+	ref fix.
+
+  * vbext/ConfigEntry.cls, vbext/Iterator.cls, vbext/Map.cls, e.t.c...
+	Impl Map abstraction
+
+  * vbext/Globals.cls, vbext/VBExt.vbg, vbext/VBExt.vbp, e.t.c...
+	add sizing hook.
+	when debug with hook-enabled, may crash.
+
+  * inc/Commons.bas, inc/ErrorConstants.bas, vbext/Configuration.cls, e.t.c...
+	using global class instead of module
+
+  * vbext/: Globals.cls, VBExt.vbp, test/.cvsignore, test/Form3.frm, e.t.c...
+	using LE.commandline instead of API version.
+
+2006-02-16
+  * inc/ErrorConstants.bas, vbext/Configuration.cls, e.t.c...
+	add configuration
+
+  * vbext/: Layout.cls, VBExt.vbp:
+	layout test ok #1
+
+  * inc/Commons.bas, inc/ErrorConstants.bas, Modules.vbg, e.t.c...
+	initial
