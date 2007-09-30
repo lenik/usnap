@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.Call.1 = s 'Call Class'
+	{
+		CLSID = s '{5AFD4512-5609-49A1-AD89-80F88D4464FC}'
+	}
+	LowX.Call = s 'Call Class'
+	{
+		CLSID = s '{5AFD4512-5609-49A1-AD89-80F88D4464FC}'
+		CurVer = s 'LowX.Call.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5AFD4512-5609-49A1-AD89-80F88D4464FC} = s 'Call Class'
+		{
+			ProgID = s 'LowX.Call.1'
+			VersionIndependentProgID = s 'LowX.Call'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

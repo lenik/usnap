@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.Memory.1 = s 'Memory Class'
+	{
+		CLSID = s '{BF70DC19-CECB-45A9-B79F-0590E5449B73}'
+	}
+	LowX.Memory = s 'Memory Class'
+	{
+		CLSID = s '{BF70DC19-CECB-45A9-B79F-0590E5449B73}'
+		CurVer = s 'LowX.Memory.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {BF70DC19-CECB-45A9-B79F-0590E5449B73} = s 'Memory Class'
+		{
+			ProgID = s 'LowX.Memory.1'
+			VersionIndependentProgID = s 'LowX.Memory'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.Execute.1 = s 'Execute Class'
+	{
+		CLSID = s '{ED472E8C-54B5-4408-9663-1D970E1F408A}'
+	}
+	LowX.Execute = s 'Execute Class'
+	{
+		CLSID = s '{ED472E8C-54B5-4408-9663-1D970E1F408A}'
+		CurVer = s 'LowX.Execute.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {ED472E8C-54B5-4408-9663-1D970E1F408A} = s 'Execute Class'
+		{
+			ProgID = s 'LowX.Execute.1'
+			VersionIndependentProgID = s 'LowX.Execute'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

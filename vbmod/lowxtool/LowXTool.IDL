@@ -1,0 +1,522 @@
+// Generated .IDL file (by the OLE/COM Object Viewer)
+//
+// typelib filename: LowXTool.dll
+
+[
+  uuid(6FF8C54A-CF6A-432C-AA13-FFAB08BB2F37),
+  version(7.0)
+]
+library LowXTool
+{
+    // TLib :     // TLib : OLE Automation : {00020430-0000-0000-C000-000000000046}
+    importlib("stdole2.tlb");
+
+    // Forward declare all types defined in this typelib
+    interface _String;
+    interface _Array;
+    interface _Pointer;
+    interface _Executable;
+    interface _Debugger;
+
+    [
+      odl,
+      uuid(E82F7F94-0B17-4120-9F97-97B60780713B),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _String : IDispatch {
+        [id(0x60030000)]
+        HRESULT saveAscizString(
+                        [in] long addrAscizString,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL Mbcs,
+                        [out, retval] BSTR* );
+        [id(0x60030001)]
+        HRESULT saveUnicodeString(
+                        [in] long addrUnicodeString,
+                        [out, retval] BSTR* );
+        [id(0x60030002)]
+        HRESULT quoteString(
+                        [in] BSTR literalstring,
+                        [out, retval] BSTR* );
+        [id(0x60030003)]
+        HRESULT encodePart(
+                        [in] BSTR Part,
+                        [in, optional, defaultvalue("#")] BSTR partChar,
+                        [out, retval] BSTR* );
+        [id(0x60030004)]
+        HRESULT decodePart(
+                        [in] BSTR info,
+                        [in] short Index,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL decodeOffset,
+                        [in, optional, defaultvalue("#")] BSTR partChar,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL ignoreNumber,
+                        [out, retval] BSTR* );
+        [id(0x60030005)]
+        HRESULT departPart(
+                        [in, out] BSTR* info,
+                        [in] short Index,
+                        [in, optional, defaultvalue("#")] BSTR partChar,
+                        [out, retval] BSTR* );
+        [id(0x60030006)]
+        HRESULT encodeLisp(
+                        [in] BSTR Lisp,
+                        [in, optional, defaultvalue("(")] BSTR leftclose,
+                        [in, optional, defaultvalue(")")] BSTR rightclose,
+                        [out, retval] BSTR* );
+        [id(0x60030007)]
+        HRESULT decodeLisp(
+                        [in] BSTR info,
+                        [in] short Index,
+                        [in, optional, defaultvalue(0)] VARIANT_BOOL decodeOffset,
+                        [in, optional, defaultvalue("(")] BSTR leftclose,
+                        [in, optional, defaultvalue(")")] BSTR rightclose,
+                        [out, retval] BSTR* );
+        [id(0x60030008)]
+        HRESULT deLispLisp(
+                        [in, out] BSTR* info,
+                        [in] short Index,
+                        [in, optional, defaultvalue("#")] BSTR LispChar,
+                        [out, retval] BSTR* );
+        [id(0x60030009)]
+        HRESULT partcode_to_lispcode(
+                        [in] BSTR partcode,
+                        [in, optional, defaultvalue("#")] BSTR partChar,
+                        [in, optional, defaultvalue("(")] BSTR leftclose,
+                        [in, optional, defaultvalue(")")] BSTR rightclose,
+                        [out, retval] BSTR* );
+        [id(0x6003000a)]
+        HRESULT lispcode_to_partcode(
+                        [in] BSTR lispcode,
+                        [in, optional, defaultvalue("#")] BSTR partChar,
+                        [in, optional, defaultvalue("(")] BSTR leftclose,
+                        [in, optional, defaultvalue(")")] BSTR rightclose,
+                        [out, retval] BSTR* );
+        [id(0x6003000b)]
+        HRESULT Hash2(
+                        [in] BSTR Key,
+                        [in] BSTR value,
+                        [out, retval] BSTR* );
+        [id(0x6003000c)]
+        HRESULT Hash(
+                        [in] BSTR key_value,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL TrimSpace,
+                        [out, retval] BSTR* );
+        [id(0x6003000d)]
+        HRESULT Hashs(
+                        [in] BSTR key_values,
+                        [in, optional, defaultvalue(",")] BSTR seperator,
+                        [out, retval] VARIANT* );
+        [id(0x6003000e)]
+        HRESULT HashKey(
+                        [in] BSTR hashed,
+                        [out, retval] BSTR* );
+        [id(0x6003000f)]
+        HRESULT HashValue(
+                        [in] BSTR hashed,
+                        [out, retval] BSTR* );
+        [id(0x60030010)]
+        HRESULT HashKeyi(
+                        [in] BSTR hashed_s,
+                        [in] long Index,
+                        [out, retval] BSTR* );
+        [id(0x60030011)]
+        HRESULT HashValuei(
+                        [in] BSTR hashed_s,
+                        [in] long Index,
+                        [out, retval] BSTR* );
+        [id(0x60030012)]
+        HRESULT HashQuery(
+                        [in] BSTR hashed_s,
+                        [in] BSTR Key,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL IgnoreCase,
+                        [in, optional, defaultvalue("")] BSTR DefaultValue,
+                        [out, retval] BSTR* );
+        [id(0x60030013)]
+        HRESULT HashRemove(
+                        [in] BSTR hashed_s,
+                        [in] BSTR Key,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL IgnoreCase,
+                        [out, retval] BSTR* );
+        [id(0x60030014)]
+        HRESULT SymbolReplace(
+                        [in] BSTR text,
+                        [in] BSTR Key,
+                        [in] BSTR value,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL IgnoreCase,
+                        [in, optional, defaultvalue("$")] BSTR SymbolID,
+                        [out, retval] BSTR* );
+        [id(0x60030015)]
+        HRESULT InterpreteByHashes(
+                        [in] BSTR text,
+                        [in] BSTR hashed_s,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL IgnoreCase,
+                        [in, optional, defaultvalue("$")] BSTR SymbolID,
+                        [out, retval] VARIANT* );
+        [id(0x60030016)]
+        HRESULT InterpreteControlChars(
+                        [in] BSTR text,
+                        [in, optional, defaultvalue("\")] BSTR ControlCharID,
+                        [out, retval] BSTR* );
+    };
+
+    [
+      uuid(4C08CBC8-DA3C-4DE4-BE08-EA70B0D51665),
+      version(1.0)
+    ]
+    coclass String {
+        [default] interface _String;
+    };
+
+    [
+      odl,
+      uuid(D1FD55B2-8B94-40A7-A04D-49EC21FC0A7F),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _Array : IDispatch {
+        [id(0x60030000)]
+        HRESULT InitArray1i(
+                        [in, out] SAFEARRAY(short)* array1,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+        [id(0x60030001)]
+        HRESULT InitArray1l(
+                        [in, out] SAFEARRAY(long)* array1,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+        [id(0x60030002)]
+        HRESULT InitArray1f(
+                        [in, out] SAFEARRAY(single)* array1,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+        [id(0x60030003)]
+        HRESULT InitArray1d(
+                        [in, out] SAFEARRAY(double)* array1,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+        [id(0x60030004)]
+        HRESULT InitArray2i(
+                        [in, out] SAFEARRAY(short)* xarray,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+        [id(0x60030005)]
+        HRESULT InitArray2f(
+                        [in, out] SAFEARRAY(single)* xarray,
+                        [in] BSTR strInitialize,
+                        [in, optional, defaultvalue(-1)] long initNum,
+                        [in, optional, defaultvalue(0)] long optionBase,
+                        [out, retval] long* );
+    };
+
+    [
+      uuid(61DFA299-1E2B-4F63-8D99-04C747DF150C),
+      version(1.0)
+    ]
+    coclass Array {
+        [default] interface _Array;
+    };
+
+    [
+      odl,
+      uuid(BEB6D8C9-2051-4E4F-B6A0-1C44BFB4D085),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _Pointer : IDispatch {
+        [id(0x60030000)]
+        HRESULT VreturnIDFunc([out, retval] long* );
+        [id(0x60030001)]
+        HRESULT VreturnHandle([out, retval] long* );
+        [id(0x60030002)]
+        HRESULT VtoByte(
+                        [in] long valData,
+                        [out, retval] unsigned char* );
+        [id(0x60030003)]
+        HRESULT VtoWord(
+                        [in] long valData,
+                        [out, retval] short* );
+        [id(0x60030004)]
+        HRESULT VtoLong(
+                        [in] long valData,
+                        [out, retval] long* );
+        [id(0x60030005)]
+        HRESULT VtoStr(
+                        [in] long valData,
+                        [out, retval] BSTR* );
+        [id(0x60030006)]
+        HRESULT Vpv(
+                        [in, out] VARIANT* refData,
+                        [out, retval] long* );
+        [id(0x60030007)]
+        HRESULT Vpstr(
+                        [in] BSTR lpString,
+                        [out, retval] long* );
+        [id(0x60030008)]
+        HRESULT VpstrRef(
+                        [in, out] BSTR* refString,
+                        [out, retval] long* );
+        [id(0x60030009)]
+        HRESULT Vpf(
+                        [in] long lpPointer,
+                        [out, retval] long* );
+        [id(0x6003000a)]
+        HRESULT VreturnByte(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] unsigned char* );
+        [id(0x6003000b)]
+        HRESULT VreturnWord(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] short* );
+        [id(0x6003000c)]
+        HRESULT VreturnLong(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] long* );
+        [id(0x6003000d)]
+        HRESULT VreturnNByte(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] unsigned char* );
+        [id(0x6003000e)]
+        HRESULT VreturnNWord(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] short* );
+        [id(0x6003000f)]
+        HRESULT VreturnNLong(
+                        [in] long base,
+                        [in] long offset,
+                        [out, retval] long* );
+        [id(0x60030010)]
+        HRESULT VforceByte(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] unsigned char vByte,
+                        [out, retval] unsigned char* );
+        [id(0x60030011)]
+        HRESULT VforceWord(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] short vWord,
+                        [out, retval] short* );
+        [id(0x60030012)]
+        HRESULT VforceLong(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] long vLong,
+                        [out, retval] long* );
+        [id(0x60030013)]
+        HRESULT VforceNByte(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] unsigned char vByte,
+                        [out, retval] unsigned char* );
+        [id(0x60030014)]
+        HRESULT VforceNWord(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] short vWord,
+                        [out, retval] short* );
+        [id(0x60030015)]
+        HRESULT VforceNLong(
+                        [in] long base,
+                        [in] long offforce,
+                        [in] long vLong,
+                        [out, retval] long* );
+        [id(0x60030016)]
+        HRESULT VgetStringLengthA(
+                        [in] BSTR lpString,
+                        [out, retval] long* );
+        [id(0x60030017)]
+        HRESULT VgetStringLengthW(
+                        [in] BSTR lpString,
+                        [out, retval] long* );
+        [id(0x60030018)]
+        HRESULT VgetStringLengthM(
+                        [in] BSTR lpString,
+                        [out, retval] long* );
+        [id(0x60030019)]
+        HRESULT VcopyBytes(
+                        [in] long pSrc,
+                        [in] long pDest,
+                        [in, optional, defaultvalue(1)] long nCount,
+                        [out, retval] long* );
+        [id(0x6003001a)]
+        HRESULT VcallFunction0(
+                        [in] long lpCallback,
+                        [out, retval] long* );
+        [id(0x6003001b)]
+        HRESULT VcallFunction1(
+                        [in] long lpCallback,
+                        [in] long parameter,
+                        [out, retval] long* );
+        [id(0x6003001c)]
+        HRESULT VcallProcedure0([in] long lpCallback);
+        [id(0x6003001d)]
+        HRESULT VcallProcedure1(
+                        [in] long lpCallback,
+                        [in] long parameter);
+        [id(0x6003001e)]
+        HRESULT VvbtString(
+                        [in] short Index,
+                        [out, retval] BSTR* );
+        [id(0x6003001f)]
+        HRESULT VvbtString2(
+                        [in] short Index,
+                        [out, retval] long* );
+        [id(0x60030020)]
+        HRESULT Vlower([in] BSTR str);
+        [id(0x60030021)]
+        HRESULT Active([out, retval] VARIANT* );
+        [id(0x60030022)]
+        HRESULT active2([out, retval] VARIANT* );
+        [id(0x60030023)]
+        HRESULT About();
+    };
+
+    [
+      uuid(F95DF2A5-A33A-4504-B625-06ADDF5C0ACC),
+      version(1.0)
+    ]
+    coclass Pointer {
+        [default] interface _Pointer;
+    };
+
+    [
+      odl,
+      uuid(41F63FE7-73BF-4D67-9441-24B778F26DB0),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _Executable : IDispatch {
+        [id(0x60030000)]
+        HRESULT VLoadLibrary(
+                        [in] BSTR lpLibFileName,
+                        [out, retval] long* );
+        [id(0x60030001)]
+        HRESULT VLoadLibraryEx(
+                        [in] BSTR lpLibFileName,
+                        [in] long hFile,
+                        [in] long dwFlags,
+                        [out, retval] VARIANT* );
+        [id(0x60030002)]
+        HRESULT VLoadModule(
+                        [in] BSTR lpModuleName,
+                        [in, out] VARIANT* lpParameterBlock,
+                        [out, retval] long* );
+        [id(0x60030003)]
+        HRESULT VGetProcAddress(
+                        [in] long hModule,
+                        [in] BSTR lpProcName,
+                        [out, retval] long* );
+        [id(0x60030004)]
+        HRESULT VFreeLibrary(
+                        [in] long hLibModule,
+                        [out, retval] VARIANT* );
+        [id(0x60030005)]
+        HRESULT VWinExec(
+                        [in] BSTR lpCmdLine,
+                        [in] long nCmdShow,
+                        [out, retval] long* );
+        [id(0x60030006)]
+        HRESULT VGetCommandLine([out, retval] BSTR* );
+    };
+
+    [
+      uuid(A8F3AB4D-6B0F-45F5-B1D1-49196C81CF4F),
+      version(1.0)
+    ]
+    coclass Executable {
+        [default] interface _Executable;
+    };
+
+    [
+      odl,
+      uuid(7DC94EAC-5B2A-4646-B82B-321BFBD8EB28),
+      version(1.0),
+      hidden,
+      dual,
+      nonextensible,
+      oleautomation
+    ]
+    interface _Debugger : IDispatch {
+        [id(0x60030000)]
+        HRESULT VDebugBreak();
+        [id(0x60030001)]
+        HRESULT VContinueDebugEvent(
+                        [in] long dwProcessId,
+                        [in] long dwThreadId,
+                        [in] long dwContinueStatus,
+                        [out, retval] long* );
+        [id(0x60030002)]
+        HRESULT VDebugActiveProcess(
+                        [in] long dwProcessId,
+                        [out, retval] long* );
+        [id(0x60030004)]
+        HRESULT debugDumpMem(
+                        [in] long memaddr,
+                        [in] long Length,
+                        [in, optional, defaultvalue(0)] ShowType dumpType,
+                        [in, optional, defaultvalue(16)] short numPerLine,
+                        [in, out, optional, defaultvalue(2)] short* FixedWidth,
+                        [out, retval] BSTR* );
+        [id(0x60030005)]
+        HRESULT debugDumpString(
+                        [in] BSTR str_,
+                        [in, optional, defaultvalue(0)] ShowType dumpType,
+                        [in, optional, defaultvalue(16)] short numPerLine,
+                        [in, out, optional, defaultvalue(2)] short* FixedWidth,
+                        [out, retval] BSTR* );
+        [id(0x60030006)]
+        HRESULT debugDumpString2(
+                        [in] BSTR str_,
+                        [in, optional, defaultvalue(0)] ShowType dumpType,
+                        [in, optional, defaultvalue(16)] short numPerLine,
+                        [in, out, optional, defaultvalue(2)] short* FixedWidth,
+                        [out, retval] BSTR* );
+        [id(0x60030007)]
+        HRESULT saveAscizString(
+                        [in] long addrAscizString,
+                        [in, optional, defaultvalue(-1)] VARIANT_BOOL Mbcs,
+                        [out, retval] BSTR* );
+    };
+
+    [
+      uuid(571F8639-7CF0-451B-B462-F9A7D59FC59B),
+      version(1.0)
+    ]
+    coclass Debugger {
+        [default] interface _Debugger;
+    };
+
+    typedef [uuid(D8E1A47D-63A8-4CF2-9C44-445F93CD23E1), version(1.0)]
+    enum {
+        asHex = 0,
+        asDec = 1,
+        asStr = 2
+    } ShowType;
+};

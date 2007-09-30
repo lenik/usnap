@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.String.1 = s 'String Class'
+	{
+		CLSID = s '{955CE7C6-615A-4798-AD8A-9A2497D65D62}'
+	}
+	LowX.String = s 'String Class'
+	{
+		CLSID = s '{955CE7C6-615A-4798-AD8A-9A2497D65D62}'
+		CurVer = s 'LowX.String.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {955CE7C6-615A-4798-AD8A-9A2497D65D62} = s 'String Class'
+		{
+			ProgID = s 'LowX.String.1'
+			VersionIndependentProgID = s 'LowX.String'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

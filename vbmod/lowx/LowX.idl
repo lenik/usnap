@@ -1,0 +1,490 @@
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(36BC9BEB-BB9A-4AD0-9F70-17349FCDE141),
+	version(1.1),
+	helpstring("LowX 1.1 Type Library")
+]
+library LowXRuntime
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		object,
+		uuid(8D38C0E7-D874-4CA7-8C3D-10A73AFE09FE),
+		dual,
+		helpstring("IVtbl Interface"),
+		pointer_default(unique)
+	]
+	interface IVtbl : IDispatch
+	{
+		// IUnknown
+		const int V_QueryInterface	= 0;
+		const int V_AddRef		= 1;
+		const int V_Release		= 2;
+		// IDispatch
+		const int V_GetTypeInfoCount	= 3;
+		const int V_GetTypeInfo		= 4;
+		const int V_GetIDsOfNames	= 5;
+		const int V_Invoke		= 6;
+		// IMarshal
+		const int V_GetUnmarshalClass	= 3;
+		const int V_GetMarshalSizeMax	= 4;
+		const int V_MarshalInterface	= 5;
+		const int V_UnmarshalInterface	= 6;
+		const int V_ReleaseMarshalData	= 7;
+		const int V_DisconnectObject	= 8;
+		// IPersist
+		const int V_GetClassID		= 3;
+		// IPersistStream, IPersistFile
+		const int V_IsDirty		= 4;
+		const int V_Load		= 5;
+		const int V_Save		= 6;
+		const int V_GetSizeMax		= 7;
+		const int V_SaveCompleted	= 8;
+		// IMoniker
+		const int V_BindToObject	= 8;
+		const int V_BindToStorage	= 9;
+		const int V_Reduce		= 10;
+		const int V_ComposeWith		= 11;
+		const int V_Enum		= 12;
+		const int V_IsEqual		= 13;
+		const int V_Hash		= 14;
+		const int V_IsRunning		= 15;
+		const int V_GetTimeOfLastChange	= 16;
+		const int V_Inverse		= 17;
+		const int V_CommonPrefixWith	= 18;
+		const int V_RelativePathTo	= 19;
+		const int V_GetDisplayName	= 20;
+		const int V_ParseDisplayName	= 21;
+		const int V_IsSystemMoniker	= 22;
+
+		typedef long POINTER_TYPE;
+
+		[id(1), propget]HRESULT Item([in]int Index, [out, retval]POINTER_TYPE *ret);
+		[id(1), propput]HRESULT Item([in]int Index, [in]POINTER_TYPE newVal);
+		[id(2), helpstring("method Bind")]
+		HRESULT Bind([in]POINTER_TYPE pObject,
+				[in,defaultvalue(V_AddRef)]int BindActionIndex,
+				[in,defaultvalue(V_Release)]int UnbindActionIndex);
+		[id(3), helpstring("method Unbind")]
+		HRESULT Unbind();
+
+		//
+	};
+	[
+		object,
+		uuid(C962462E-72F9-4EDB-83F8-CACA71879D4A),
+		dual,
+		helpstring("IPseudoControl Interface"),
+		pointer_default(unique)
+	]
+	interface IPseudoControl : IDispatch
+	{
+		[id(1)] HRESULT If(long pCondition, long pTrue, long pFalse, [out, retval]long *pRet);
+		[id(2)] HRESULT Switch(long pProc, long nCases, long aVals, long apActions, long apJudgements, [out, retval]long *pRet);
+		[id(3)] HRESULT For(long pStart, long pCondition, long pStep, long pAction);
+		[id(4)] HRESULT Break();
+		[id(5)] HRESULT Continue();
+		[id(6)] HRESULT While(long pCondition, long pAction);
+		[id(7)] HRESULT ForNumeric(long nFrom, long nTo, long nStep, long pAction);
+		[id(8)] HRESULT ForItem(long pIteration, long pContainer, long pAction);
+	};
+	[
+		object,
+		uuid(65A27F5B-0458-4708-B7EE-1892E337DA40),
+		dual,
+		helpstring("IPseudoControlSetting Interface"),
+		pointer_default(unique)
+	]
+	interface IPseudoControlSetting : IDispatch
+	{
+		[propget, id(1)] HRESULT DefaultCondition([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(1)] HRESULT DefaultCondition([in] VARIANT_BOOL newVal);
+		[propget, id(2)] HRESULT DefaultSwitchCondition([out, retval] long *pVal);
+		[propput, id(2)] HRESULT DefaultSwitchCondition([in] long newVal);
+		[propget, id(3)] HRESULT DefaultFrom([out, retval] long *pVal);
+		[propput, id(3)] HRESULT DefaultFrom([in] long newVal);
+		[propget, id(4)] HRESULT DefaultTo([out, retval] long *pVal);
+		[propput, id(4)] HRESULT DefaultTo([in] long newVal);
+		[propget, id(5)] HRESULT DefaultStep([out, retval] long *pVal);
+		[propput, id(5)] HRESULT DefaultStep([in] long newVal);
+		[propget, id(6)] HRESULT DefaultContainer([out, retval] long *pVal);
+		[propput, id(6)] HRESULT DefaultContainer([in] long newVal);
+		[propget, id(7)] HRESULT pDefaultIfCondition([out, retval] long *pVal);
+		[propget, id(8)] HRESULT pDefaultIfTrue([out, retval] long *pVal);
+		[propget, id(9)] HRESULT pDefaultIfFalse([out, retval] long *pVal);
+		[propget, id(10)] HRESULT pDefaultSwitchCondition([out, retval] long *pVal);
+		[propget, id(11)] HRESULT pDefaultCaseValue([out, retval] long *pVal);
+		[propget, id(12)] HRESULT pDefaultCaseAction([out, retval] long *pVal);
+		[propget, id(13)] HRESULT pDefaultCaseJudgement([out, retval] long *pVal);
+		[propget, id(14)] HRESULT pDefaultCaseDefaultJudgement([out, retval] long *pVal);
+		[propget, id(15)] HRESULT pDefaultForStart([out, retval] long *pVal);
+		[propget, id(16)] HRESULT pDefaultForCondition([out, retval] long *pVal);
+		[propget, id(17)] HRESULT pDefaultForStep([out, retval] long *pVal);
+		[propget, id(18)] HRESULT pDefaultForContainer([out, retval] long *pVal);
+		[propget, id(19)] HRESULT pDefaultForIteration([out, retval] long *pVal);
+	};
+	[
+		object,
+		uuid(A17F4A94-F191-4FE6-AA97-2AC19236FA4A),
+		dual,
+		helpstring("IRawDataType Interface"),
+		pointer_default(unique)
+	]
+	interface IRawDataType : IDispatch
+	{
+		[id(1), helpstring("method Add")] HRESULT Add(long a, long b, [out, retval]long *pRet);
+		[id(2), helpstring("method Sub")] HRESULT Sub(long a, long b, [out, retval]long *pRet);
+		[id(3), helpstring("method Mul")] HRESULT Mul(long a, long b, [out, retval]long *pRet);
+		[id(4), helpstring("method Div")] HRESULT Div(long a, long b, [out, retval]long *pRet);
+		[id(5), helpstring("method Pow")] HRESULT Pow(long a, long b, [out, retval]long *pRet);
+		[id(6), helpstring("method Shift")] HRESULT Shift(long a, long b, [out, retval]long *pRet);
+		[id(7), helpstring("method And")] HRESULT And(long a, long b, [out, retval]long *pRet);
+		[id(8), helpstring("method Or")] HRESULT Or(long a, long b, [out, retval]long *pRet);
+		[id(9), helpstring("method Xor")] HRESULT Xor(long a, long b, [out, retval]long *pRet);
+		[id(10), helpstring("method Not")] HRESULT Not(long a, [out, retval]long *pRet);
+		[id(11), helpstring("method fAdd")] HRESULT fAdd(double a, double b, [out, retval]double *pRet);
+		[id(12), helpstring("method fSub")] HRESULT fSub(double a, double b, [out, retval]double *pRet);
+		[id(13), helpstring("method fMul")] HRESULT fMul(double a, double b, [out, retval]double *pRet);
+		[id(14), helpstring("method fDiv")] HRESULT fDiv(double a, double b, [out, retval]double *pRet);
+		[id(15), helpstring("method fPow")] HRESULT fPow(double a, double b, [out, retval]double *pRet);
+	};
+	[
+		object,
+		uuid(D6AD9A66-C2AD-430C-BDCA-7E2987F2E379),
+		dual,
+		helpstring("IPointer Interface"),
+		pointer_default(unique)
+	]
+	interface IPointer : IDispatch
+	{
+		[propget, id(1), helpstring("property Base")] HRESULT Base([out, retval] long *pVal);
+		[propput, id(1), helpstring("property Base")] HRESULT Base([in] long newVal);
+		[id(2), helpstring("method Eval")] HRESULT Eval(long val, [out, retval]long *pRet);
+		[propget, id(3), helpstring("property Byte")] HRESULT Byte(long lOffset, [out, retval] BYTE *pVal);
+		[propput, id(3), helpstring("property Byte")] HRESULT Byte(long lOffset, [in] BYTE newVal);
+		[propget, id(4), helpstring("property Word")] HRESULT Word(long lOffset, [out, retval] short *pVal);
+		[propput, id(4), helpstring("property Word")] HRESULT Word(long lOffset, [in] short newVal);
+		[propget, id(5), helpstring("property Dword")] HRESULT Dword(long lOffset, [out, retval] long *pVal);
+		[propput, id(5), helpstring("property Dword")] HRESULT Dword(long lOffset, [in] long newVal);
+		[propget, id(6), helpstring("property TestValid")] HRESULT TestValid([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(6), helpstring("property TestValid")] HRESULT TestValid([in] VARIANT_BOOL newVal);
+		[id(7), helpstring("method pAny")] HRESULT pAny(VARIANT *refData, [out, retval]long *pRet);
+		[id(8), helpstring("method pByte")] HRESULT pByte(BYTE *refByte, [out, retval]long *pRet);
+		[id(9), helpstring("method pWord")] HRESULT pWord(short *refWord, [out, retval]long *pRet);
+		[id(10), helpstring("method pDword")] HRESULT pDword(long *refDword, [out, retval]long *pRet);
+		[id(11), helpstring("method pStr")] HRESULT pStr(BSTR lpString, [out, retval]long *pRet);
+		[id(12), helpstring("method ppStr")] HRESULT ppStr(BSTR *refString, [out, retval]long *pRet);
+		[id(13), helpstring("method pFunc")] HRESULT pFunc(long lpPointer, [out, retval]long *pRet);
+		[id(14), helpstring("method pUnk")] HRESULT pUnk(LPUNKNOWN refData, [out, retval]long *pRet);
+		[id(15), helpstring("method ppUnk")] HRESULT ppUnk(LPUNKNOWN *refData, [out, retval]long *pRet);
+		[id(16), helpstring("method pDisp")] HRESULT pDisp(LPDISPATCH refData, [out, retval]long *pRet);
+		[id(17), helpstring("method ppDisp")] HRESULT ppDisp(LPDISPATCH *refData, [out, retval]long *pRet);
+		[propget, id(18), helpstring("property Float")] HRESULT Float(long lOffset, [out, retval] float *pVal);
+		[propput, id(18), helpstring("property Float")] HRESULT Float(long lOffset, [in] float newVal);
+		[propget, id(19), helpstring("property Double")] HRESULT Double(long lOffset, [out, retval] double *pVal);
+		[propput, id(19), helpstring("property Double")] HRESULT Double(long lOffset, [in] double newVal);
+		[propget, id(20), helpstring("property Unk")] HRESULT Unk(long lOffset, [out, retval] LPUNKNOWN *pVal);
+		[propput, id(20), helpstring("property Unk")] HRESULT Unk(long lOffset, [in] LPUNKNOWN newVal);
+		[propget, id(21), helpstring("property Disp")] HRESULT Disp(long lOffset, [out, retval] LPDISPATCH *pVal);
+		[propput, id(21), helpstring("property Disp")] HRESULT Disp(long lOffset, [in] LPDISPATCH newVal);
+		[propget, id(22), helpstring("property AutoReferenceManagement")] HRESULT AutoReferenceManagement([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(22), helpstring("property AutoReferenceManagement")] HRESULT AutoReferenceManagement([in] VARIANT_BOOL newVal);
+	};
+	[
+		object,
+		uuid(540EF1A7-3138-4CEA-B687-70232BE4104B),
+		dual,
+		helpstring("ICall Interface"),
+		pointer_default(unique)
+	]
+	interface ICall : IDispatch
+	{
+		[id(1), helpstring("method Call0")] HRESULT Call0(long pCallback, [out, retval]long *pRet);
+		[id(2), helpstring("method Call1")] HRESULT Call1(long pCallback, long lParam1, [out, retval]long *pRet);
+		[id(3), helpstring("method Call2")] HRESULT Call2(long pCallback, long lParam1, long lParam2, [out, retval]long *pRet);
+		[id(4), helpstring("method Call3")] HRESULT Call3(long pCallback, long lParam1, long lParam2, long lParam3, [out, retval]long *pRet);
+		[id(5), helpstring("method Call4")] HRESULT Call4(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, [out, retval]long *pRet);
+		[id(6), helpstring("method Call5")] HRESULT Call5(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, [out, retval]long *pRet);
+		[id(7), helpstring("method Call6")] HRESULT Call6(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, [out, retval]long *pRet);
+		[id(8), helpstring("method Call7")] HRESULT Call7(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, [out, retval]long *pRet);
+		[id(9), helpstring("method Call8")] HRESULT Call8(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, [out, retval]long *pRet);
+		[id(10), helpstring("method Call9")] HRESULT Call9(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, [out, retval]long *pRet);
+		[id(11), helpstring("method Call10")] HRESULT Call10(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, [out, retval]long *pRet);
+		[id(12), helpstring("method Call11")] HRESULT Call11(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, [out, retval]long *pRet);
+		[id(13), helpstring("method Call12")] HRESULT Call12(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, long lParam12, [out, retval]long *pRet);
+		[id(14), helpstring("method Call13")] HRESULT Call13(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, long lParam12, long lParam13, [out, retval]long *pRet);
+		[id(15), helpstring("method Call14")] HRESULT Call14(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, long lParam12, long lParam13, long lParam14, [out, retval]long *pRet);
+		[id(16), helpstring("method Call15")] HRESULT Call15(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, long lParam12, long lParam13, long lParam14, long lParam15, [out, retval]long *pRet);
+		[id(17), helpstring("method Call16")] HRESULT Call16(long pCallback, long lParam1, long lParam2, long lParam3, long lParam4, long lParam5, long lParam6, long lParam7, long lParam8, long lParam9, long lParam10, long lParam11, long lParam12, long lParam13, long lParam14, long lParam15, long lParam16, [out, retval]long *pRet);
+		[id(18), helpstring("method Pascal")] HRESULT Pascal(long pCallback, long cParameters, long cExtraReleases, long pParameters, [out, retval]long *pRet);
+		[id(19), helpstring("method C")] HRESULT C(long pCallback, long cParameters, long cExtraReleases, long pParameters, [out, retval]long *pRet);
+		[id(20), helpstring("method ThisPascal")] HRESULT ThisPascal(long pCallback, long pThis, long cParameters, long cExtraReleases, long pParameters, [out, retval]long *pRet);
+		[id(21), helpstring("method ThisC")] HRESULT ThisC(long pCallback, long pThis, long cParameters, long cExtraReleases, long pParameters, [out, retval]long *pRet);
+		[id(22), helpstring("method Dispatch")] HRESULT Dispatch(IDispatch *pObject, BSTR method, SAFEARRAY *pParams, VARIANT *pRetVal);
+	};
+	[
+		object,
+		uuid(BCF5F099-E368-4A58-BE7E-A5ADE42BD06A),
+		dual,
+		helpstring("IExecute Interface"),
+		pointer_default(unique)
+	]
+	interface IExecute : IDispatch
+	{
+		[propget, id(1), helpstring("property Version")] HRESULT Version([out, retval] long *pVal);
+	};
+	[
+		object,
+		uuid(1BCC83D3-1109-4E67-808D-B22E681DB712),
+		dual,
+		helpstring("IDebugger Interface"),
+		pointer_default(unique)
+	]
+	interface IDebugger : IDispatch
+	{
+		[id(1), helpstring("method Break")] HRESULT Break();
+		[propget, id(2), helpstring("property Enabled")] HRESULT Enabled([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(2), helpstring("property Enabled")] HRESULT Enabled([in] VARIANT_BOOL newVal);
+	};
+	[
+		object,
+		uuid(1BCC8400-1109-4E67-808D-B22E681DB712),
+		dual,
+		helpstring("ICpu_x86 Interface"),
+		pointer_default(unique)
+	]
+	interface ICpu_x86 : IDispatch
+	{
+		[propget, id(1), helpstring("property EAX")] HRESULT EAX([out, retval] long *pVal);
+		[propput, id(1), helpstring("property EAX")] HRESULT EAX([in] long newVal);
+		[propget, id(2), helpstring("property EBX")] HRESULT EBX([out, retval] long *pVal);
+		[propput, id(2), helpstring("property EBX")] HRESULT EBX([in] long newVal);
+		[propget, id(3), helpstring("property ECX")] HRESULT ECX([out, retval] long *pVal);
+		[propput, id(3), helpstring("property ECX")] HRESULT ECX([in] long newVal);
+		[propget, id(4), helpstring("property EDX")] HRESULT EDX([out, retval] long *pVal);
+		[propput, id(4), helpstring("property EDX")] HRESULT EDX([in] long newVal);
+		[propget, id(5), helpstring("property ESI")] HRESULT ESI([out, retval] long *pVal);
+		[propput, id(5), helpstring("property ESI")] HRESULT ESI([in] long newVal);
+		[propget, id(6), helpstring("property EDI")] HRESULT EDI([out, retval] long *pVal);
+		[propput, id(6), helpstring("property EDI")] HRESULT EDI([in] long newVal);
+		[propget, id(7), helpstring("property ESP")] HRESULT ESP([out, retval] long *pVal);
+		[propput, id(7), helpstring("property ESP")] HRESULT ESP([in] long newVal);
+		[propget, id(8), helpstring("property EBP")] HRESULT EBP([out, retval] long *pVal);
+		[propput, id(8), helpstring("property EBP")] HRESULT EBP([in] long newVal);
+		[propget, id(9), helpstring("property EF")] HRESULT EF([out, retval] long *pVal);
+		[propput, id(9), helpstring("property EF")] HRESULT EF([in] long newVal);
+		[propget, id(10), helpstring("property CR0")] HRESULT CR0([out, retval] long *pVal);
+		[propput, id(10), helpstring("property CR0")] HRESULT CR0([in] long newVal);
+		[propget, id(11), helpstring("property CR1")] HRESULT CR1([out, retval] long *pVal);
+		[propput, id(11), helpstring("property CR1")] HRESULT CR1([in] long newVal);
+		[propget, id(12), helpstring("property CR2")] HRESULT CR2([out, retval] long *pVal);
+		[propput, id(12), helpstring("property CR2")] HRESULT CR2([in] long newVal);
+		[propget, id(13), helpstring("property CR3")] HRESULT CR3([out, retval] long *pVal);
+		[propput, id(13), helpstring("property CR3")] HRESULT CR3([in] long newVal);
+		[propget, id(14), helpstring("property TR4")] HRESULT TR4([out, retval] long *pVal);
+		[propput, id(14), helpstring("property TR4")] HRESULT TR4([in] long newVal);
+		[propget, id(15), helpstring("property TR5")] HRESULT TR5([out, retval] long *pVal);
+		[propput, id(15), helpstring("property TR5")] HRESULT TR5([in] long newVal);
+		[propget, id(16), helpstring("property TR6")] HRESULT TR6([out, retval] long *pVal);
+		[propput, id(16), helpstring("property TR6")] HRESULT TR6([in] long newVal);
+		[propget, id(17), helpstring("property TR7")] HRESULT TR7([out, retval] long *pVal);
+		[propput, id(17), helpstring("property TR7")] HRESULT TR7([in] long newVal);
+		[propget, id(18), helpstring("property DR0")] HRESULT DR0([out, retval] long *pVal);
+		[propput, id(18), helpstring("property DR0")] HRESULT DR0([in] long newVal);
+		[propget, id(19), helpstring("property DR1")] HRESULT DR1([out, retval] long *pVal);
+		[propput, id(19), helpstring("property DR1")] HRESULT DR1([in] long newVal);
+		[propget, id(20), helpstring("property DR2")] HRESULT DR2([out, retval] long *pVal);
+		[propput, id(20), helpstring("property DR2")] HRESULT DR2([in] long newVal);
+		[propget, id(21), helpstring("property DR3")] HRESULT DR3([out, retval] long *pVal);
+		[propput, id(21), helpstring("property DR3")] HRESULT DR3([in] long newVal);
+		[propget, id(22), helpstring("property DR4")] HRESULT DR4([out, retval] long *pVal);
+		[propput, id(22), helpstring("property DR4")] HRESULT DR4([in] long newVal);
+		[propget, id(23), helpstring("property DR6")] HRESULT DR5([out, retval] long *pVal);
+		[propput, id(23), helpstring("property DR6")] HRESULT DR5([in] long newVal);
+		[propget, id(24), helpstring("property DR6")] HRESULT DR6([out, retval] long *pVal);
+		[propput, id(24), helpstring("property DR6")] HRESULT DR6([in] long newVal);
+		[propget, id(25), helpstring("property DR7")] HRESULT DR7([out, retval] long *pVal);
+		[propput, id(25), helpstring("property DR7")] HRESULT DR7([in] long newVal);
+		[propget, id(26), helpstring("property CS")] HRESULT CS([out, retval] long *pVal);
+		[propput, id(26), helpstring("property CS")] HRESULT CS([in] long newVal);
+		[propget, id(27), helpstring("property DS")] HRESULT DS([out, retval] long *pVal);
+		[propput, id(27), helpstring("property DS")] HRESULT DS([in] long newVal);
+		[propget, id(28), helpstring("property ES")] HRESULT ES([out, retval] long *pVal);
+		[propput, id(28), helpstring("property ES")] HRESULT ES([in] long newVal);
+		[propget, id(29), helpstring("property SS")] HRESULT SS([out, retval] long *pVal);
+		[propput, id(29), helpstring("property SS")] HRESULT SS([in] long newVal);
+		[propget, id(30), helpstring("property FS")] HRESULT FS([out, retval] long *pVal);
+		[propput, id(30), helpstring("property FS")] HRESULT FS([in] long newVal);
+		[propget, id(31), helpstring("property GS")] HRESULT GS([out, retval] long *pVal);
+		[propput, id(31), helpstring("property GS")] HRESULT GS([in] long newVal);
+		[propget, id(32), helpstring("property EIP")] HRESULT EIP([out, retval] long *pVal);
+		[propput, id(32), helpstring("property EIP")] HRESULT EIP([in] long newVal);
+		[id(33), helpstring("method SaveRegisters")] HRESULT SaveRegisters(long pBuf);
+		[id(34), helpstring("method LoadRegisters")] HRESULT LoadRegisters(long pBuf);
+		[propget, id(35), helpstring("property ST0")] HRESULT ST0([out, retval] double *pVal);
+		[propput, id(35), helpstring("property ST0")] HRESULT ST0([in] double newVal);
+		[propget, id(36), helpstring("property ST1")] HRESULT ST1([out, retval] double *pVal);
+		[propput, id(36), helpstring("property ST1")] HRESULT ST1([in] double newVal);
+		[propget, id(37), helpstring("property ST2")] HRESULT ST2([out, retval] double *pVal);
+		[propput, id(37), helpstring("property ST2")] HRESULT ST2([in] double newVal);
+		[propget, id(38), helpstring("property ST3")] HRESULT ST3([out, retval] double *pVal);
+		[propput, id(38), helpstring("property ST3")] HRESULT ST3([in] double newVal);
+		[propget, id(39), helpstring("property ST4")] HRESULT ST4([out, retval] double *pVal);
+		[propput, id(39), helpstring("property ST4")] HRESULT ST4([in] double newVal);
+		[propget, id(40), helpstring("property ST5")] HRESULT ST5([out, retval] double *pVal);
+		[propput, id(40), helpstring("property ST5")] HRESULT ST5([in] double newVal);
+		[propget, id(41), helpstring("property ST6")] HRESULT ST6([out, retval] double *pVal);
+		[propput, id(41), helpstring("property ST6")] HRESULT ST6([in] double newVal);
+		[propget, id(42), helpstring("property ST7")] HRESULT ST7([out, retval] double *pVal);
+		[propput, id(42), helpstring("property ST7")] HRESULT ST7([in] double newVal);
+		[propget, id(43), helpstring("property MM0_H")] HRESULT MM0_H([out, retval] long *pVal);
+		[propput, id(43), helpstring("property MM0_H")] HRESULT MM0_H([in] long newVal);
+		[propget, id(44), helpstring("property MM0_L")] HRESULT MM0_L([out, retval] long *pVal);
+		[propput, id(44), helpstring("property MM0_L")] HRESULT MM0_L([in] long newVal);
+		[propget, id(45), helpstring("property MM1_H")] HRESULT MM1_H([out, retval] long *pVal);
+		[propput, id(45), helpstring("property MM1_H")] HRESULT MM1_H([in] long newVal);
+		[propget, id(46), helpstring("property MM1_L")] HRESULT MM1_L([out, retval] long *pVal);
+		[propput, id(46), helpstring("property MM1_L")] HRESULT MM1_L([in] long newVal);
+		[propget, id(47), helpstring("property MM2_H")] HRESULT MM2_H([out, retval] long *pVal);
+		[propput, id(47), helpstring("property MM2_H")] HRESULT MM2_H([in] long newVal);
+		[propget, id(48), helpstring("property MM2_L")] HRESULT MM2_L([out, retval] long *pVal);
+		[propput, id(48), helpstring("property MM2_L")] HRESULT MM2_L([in] long newVal);
+		[propget, id(49), helpstring("property MM3_H")] HRESULT MM3_H([out, retval] long *pVal);
+		[propput, id(49), helpstring("property MM3_H")] HRESULT MM3_H([in] long newVal);
+		[propget, id(50), helpstring("property MM3_L")] HRESULT MM3_L([out, retval] long *pVal);
+		[propput, id(50), helpstring("property MM3_L")] HRESULT MM3_L([in] long newVal);
+		[propget, id(51), helpstring("property MM4_H")] HRESULT MM4_H([out, retval] long *pVal);
+		[propput, id(51), helpstring("property MM4_H")] HRESULT MM4_H([in] long newVal);
+		[propget, id(52), helpstring("property MM4_L")] HRESULT MM4_L([out, retval] long *pVal);
+		[propput, id(52), helpstring("property MM4_L")] HRESULT MM4_L([in] long newVal);
+		[propget, id(53), helpstring("property MM5_H")] HRESULT MM5_H([out, retval] long *pVal);
+		[propput, id(53), helpstring("property MM5_H")] HRESULT MM5_H([in] long newVal);
+		[propget, id(54), helpstring("property MM5_L")] HRESULT MM5_L([out, retval] long *pVal);
+		[propput, id(54), helpstring("property MM5_L")] HRESULT MM5_L([in] long newVal);
+		[propget, id(55), helpstring("property MM6_H")] HRESULT MM6_H([out, retval] long *pVal);
+		[propput, id(55), helpstring("property MM6_H")] HRESULT MM6_H([in] long newVal);
+		[propget, id(56), helpstring("property MM6_L")] HRESULT MM6_L([out, retval] long *pVal);
+		[propput, id(56), helpstring("property MM6_L")] HRESULT MM6_L([in] long newVal);
+		[propget, id(57), helpstring("property MM7_H")] HRESULT MM7_H([out, retval] long *pVal);
+		[propput, id(57), helpstring("property MM7_H")] HRESULT MM7_H([in] long newVal);
+		[propget, id(58), helpstring("property MM7_L")] HRESULT MM7_L([out, retval] long *pVal);
+		[propput, id(58), helpstring("property MM7_L")] HRESULT MM7_L([in] long newVal);
+	};
+
+	[
+		object,
+		uuid(A6AD47FE-D7D6-4C93-8B44-5039434DF903),
+		dual,
+		helpstring("IString Interface"),
+		pointer_default(unique)
+	]
+	interface IString : IDispatch
+	{
+		[id(1), helpstring("method LenA")] HRESULT LenA(long pStr, [out, retval]long *pRet);
+		[id(2), helpstring("method LenW")] HRESULT LenW(long pStr, [out, retval]long *pRet);
+		[id(3), helpstring("method LenM")] HRESULT LenM(long pStr, [out, retval]long *pRet);
+		[propget, id(4), helpstring("property TestValid")] HRESULT TestValid([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(4), helpstring("property TestValid")] HRESULT TestValid([in] VARIANT_BOOL newVal);
+	};
+	[
+		object,
+		uuid(EEA54CDA-4E5D-43EE-A363-72EFAB0CBC19),
+		dual,
+		helpstring("IMemory Interface"),
+		pointer_default(unique)
+	]
+	interface IMemory : IDispatch
+	{
+		[id(1), helpstring("method CopyBytes")] HRESULT CopyBytes(long pDest, long pSrc, long cBytes);
+		[propget, id(2), helpstring("property TestValid")] HRESULT TestValid([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(2), helpstring("property TestValid")] HRESULT TestValid([in] VARIANT_BOOL newVal);
+	};
+
+	[
+		uuid(A2D85E1C-5085-4F25-BB95-B420451008F9),
+		helpstring("Vtbl Class")
+	]
+	coclass Vtbl
+	{
+		[default] interface IVtbl;
+	};
+	[
+		uuid(3579734B-194A-4C23-84A2-B8615E292094),
+		helpstring("PseudoControl Class")
+	]
+	coclass PseudoControl
+	{
+		[default] interface IPseudoControl;
+	};
+	[
+		uuid(21E39224-A960-48CD-A076-D5D423E03584),
+		helpstring("PseudoControlSetting Class")
+	]
+	coclass PseudoControlSetting
+	{
+		[default] interface IPseudoControlSetting;
+	};
+	[
+		uuid(913916A2-4868-4CC0-BF09-78A6AD5B9083),
+		helpstring("RawDataType Class")
+	]
+	coclass RawDataType
+	{
+		[default] interface IRawDataType;
+	};
+	[
+		uuid(6B3EFF6B-7EB4-4E08-A690-1BC38D31F53C),
+		helpstring("Pointer Class")
+	]
+	coclass Pointer
+	{
+		[default] interface IPointer;
+	};
+	[
+		uuid(5AFD4512-5609-49A1-AD89-80F88D4464FC),
+		helpstring("Call Class")
+	]
+	coclass Call
+	{
+		[default] interface ICall;
+	};
+	[
+		uuid(ED472E8C-54B5-4408-9663-1D970E1F408A),
+		helpstring("Execute Class")
+	]
+	coclass Execute
+	{
+		[default] interface IExecute;
+	};
+	[
+		uuid(375066FE-8E0F-4A0B-AFDE-615EE79EC2D1),
+		helpstring("Debugger Class")
+	]
+	coclass Debugger
+	{
+		[default] interface IDebugger;
+		interface ICpu_x86;
+	};
+	[
+		uuid(955CE7C6-615A-4798-AD8A-9A2497D65D62),
+		helpstring("String Class")
+	]
+	coclass String
+	{
+		[default] interface IString;
+	};
+	[
+		uuid(BF70DC19-CECB-45A9-B79F-0590E5449B73),
+		helpstring("Memory Class")
+	]
+	coclass Memory
+	{
+		[default] interface IMemory;
+	};
+};

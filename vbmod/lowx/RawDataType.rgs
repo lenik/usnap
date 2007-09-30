@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.RawDataType.1 = s 'RawDataType Class'
+	{
+		CLSID = s '{913916A2-4868-4CC0-BF09-78A6AD5B9083}'
+	}
+	LowX.RawDataType = s 'RawDataType Class'
+	{
+		CLSID = s '{913916A2-4868-4CC0-BF09-78A6AD5B9083}'
+		CurVer = s 'LowX.RawDataType.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {913916A2-4868-4CC0-BF09-78A6AD5B9083} = s 'RawDataType Class'
+		{
+			ProgID = s 'LowX.RawDataType.1'
+			VersionIndependentProgID = s 'LowX.RawDataType'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

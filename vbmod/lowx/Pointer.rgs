@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.Pointer.1 = s 'Pointer Class'
+	{
+		CLSID = s '{6B3EFF6B-7EB4-4E08-A690-1BC38D31F53C}'
+	}
+	LowX.Pointer = s 'Pointer Class'
+	{
+		CLSID = s '{6B3EFF6B-7EB4-4E08-A690-1BC38D31F53C}'
+		CurVer = s 'LowX.Pointer.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6B3EFF6B-7EB4-4E08-A690-1BC38D31F53C} = s 'Pointer Class'
+		{
+			ProgID = s 'LowX.Pointer.1'
+			VersionIndependentProgID = s 'LowX.Pointer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

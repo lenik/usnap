@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.PseudoControl.1 = s 'PseudoControl Class'
+	{
+		CLSID = s '{3579734B-194A-4C23-84A2-B8615E292094}'
+	}
+	LowX.PseudoControl = s 'PseudoControl Class'
+	{
+		CLSID = s '{3579734B-194A-4C23-84A2-B8615E292094}'
+		CurVer = s 'LowX.PseudoControl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3579734B-194A-4C23-84A2-B8615E292094} = s 'PseudoControl Class'
+		{
+			ProgID = s 'LowX.PseudoControl.1'
+			VersionIndependentProgID = s 'LowX.PseudoControl'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}

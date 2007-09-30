@@ -1,0 +1,3 @@
+VBGROUP 5.0
+StartupProject=..\LowXTool.vbp
+Project=LowXTool_Client1.vbp

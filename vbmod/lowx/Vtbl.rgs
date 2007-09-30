@@ -1,0 +1,26 @@
+HKCR
+{
+	LowX.Vtbl.1 = s 'Vtbl Class'
+	{
+		CLSID = s '{A2D85E1C-5085-4F25-BB95-B420451008F9}'
+	}
+	LowX.Vtbl = s 'Vtbl Class'
+	{
+		CLSID = s '{A2D85E1C-5085-4F25-BB95-B420451008F9}'
+		CurVer = s 'LowX.Vtbl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A2D85E1C-5085-4F25-BB95-B420451008F9} = s 'Vtbl Class'
+		{
+			ProgID = s 'LowX.Vtbl.1'
+			VersionIndependentProgID = s 'LowX.Vtbl'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}'
+		}
+	}
+}
