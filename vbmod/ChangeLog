@@ -1,4 +1,20 @@
 
+2007-09-30
+  * dbproxy/impl/DBProxy.vbp, mvcarch/MVCArch.vbp, e.t.c...
+	rebuild.
+
+  * bastype/test/Test_Stack.vbp, critpatches/CritPatches.vbp, e.t.c...
+	path refactor
+
+  * include/: EasyImage.bas, ErrorAPI.bas, FastImg.bas, FastNet.bas, e.t.c...
+	merged <t/i/bas> into vbmod.
+
+  * LowXTool/.cvsignore, LowXTool/About.frm, LowXTool/About.frx, e.t.c...
+	merged LowX into vbmod.
+
+  * .clflags, .clup.bat, ChangeLog:
+	moved to usnap
+
 2006-07-10
   * vbioext/: GlobalsSingleton.bas, Utilities.cls, VBIOExt.vbp:
 	strconv can't convert empty array.
@@ -10,10 +26,10 @@
   * vbext/Globals.cls:
 	add fatal. (the err process should be improved.)
 
-  * inc/Validators.bas:
+  * include/Validators.bas:
 	validators initial
 
-  * inc/ErrorConstants.bas:
+  * include/ErrorConstants.bas:
 	add xnet errors (#2001 often occur)
 
   * security/: Globals.cls, GlobalsSingleton.bas, Security.vbp, e.t.c...
@@ -153,7 +169,7 @@
 	- empty item must be quoted with "".
 
 2006-06-07
-  * inc/Licenses.bas:
+  * include/Licenses.bas:
 	add consts for xceed 2
 
   * vbmemext/: .cvsignore, ByteArray.cls, ByteBuffer.cls, e.t.c...
@@ -265,7 +281,7 @@
   * dbproxy/impl/: DBConnection.cls, DBProxy.vbp:
 	add isdatabaseexists, using both schema/restrict and foreach loop
 
-  * inc/: Licenses.bas, SystemConstants.bas:
+  * include/: Licenses.bas, SystemConstants.bas:
 	add licenses for xceed controls
 	externalized system constants for easing compilation
 
@@ -406,7 +422,7 @@
 	paramarray cannot be passed down to another paramarray-func, (in sqlfunctions.concat)
 
 2006-04-19
-  * Modules.vbg, bastype/src/StdAfx.h, binary/src/StdAfx.h, e.t.c...
+  * vbmod.vbg, bastype/src/StdAfx.h, binary/src/StdAfx.h, e.t.c...
 	create makefile
 
   * dbproxy/.cvsignore, dbproxy/bin/.cvsignore, e.t.c...
@@ -572,7 +588,7 @@
   * drawings/drawings.dsw, drawings/glyphs/glyphs.cpp, e.t.c...
 	state graph dev
 
-  * inc/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
+  * include/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
 	set binary compatible (don't generate typelib guid every time)
 	saot with events
 	dev drawings
@@ -584,7 +600,7 @@
   * vbuserext/: ScrollableContainer.ctl, AuxiliaryShape.ctl, e.t.c...
 	scrollable container initial test ok!
 
-  * inc/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
+  * include/.cvsignore, .cvsignore, base64com/.cvsignore, e.t.c...
 	add uppercase extnames
 
   * mvcarch/MVCArch.vbp, mvcarch/test/Person.vbp, e.t.c...
@@ -610,7 +626,7 @@
   * bastype/.cvsignore, bastype/bastype.dsw, bastype/src/.cvsignore, e.t.c...
 	initial
 
-  * Modules.vbg, crypt/Crypt.vbp, mvcarch/ContainerObjects.cls, e.t.c...
+  * vbmod.vbg, crypt/Crypt.vbp, mvcarch/ContainerObjects.cls, e.t.c...
 	state dev.
 
 2006-02-17
@@ -628,18 +644,18 @@
 	add sizing hook.
 	when debug with hook-enabled, may crash.
 
-  * inc/Commons.bas, inc/ErrorConstants.bas, vbext/Configuration.cls, e.t.c...
+  * include/Commons.bas, include/ErrorConstants.bas, e.t.c...
 	using global class instead of module
 
   * vbext/: Globals.cls, VBExt.vbp, test/.cvsignore, test/Form3.frm, e.t.c...
 	using LE.commandline instead of API version.
 
 2006-02-16
-  * inc/ErrorConstants.bas, vbext/Configuration.cls, e.t.c...
+  * include/ErrorConstants.bas, vbext/Configuration.cls, e.t.c...
 	add configuration
 
   * vbext/: Layout.cls, VBExt.vbp:
 	layout test ok #1
 
-  * inc/Commons.bas, inc/ErrorConstants.bas, Modules.vbg, e.t.c...
+  * include/Commons.bas, include/ErrorConstants.bas, vbmod.vbg, e.t.c...
 	initial
