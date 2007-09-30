@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#12.0#0#..\..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#12.0#0#..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
 Form=Form1.frm
 Class=PersonBO; PersonBO.cls
 Class=PersonPO; PersonPO.cls

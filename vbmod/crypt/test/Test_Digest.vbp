@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{D8D70B81-644C-48F2-ABC2-3FCEC3B21BCA}#1.0#0#..\..\..\bin\Crypt.dll#Visual Basic 6.0 Binary Process: Encrypt/Decrypt 1.0
+Reference=*\G{D8D70B81-644C-48F2-ABC2-3FCEC3B21BCA}#1.0#0#..\..\bin\Crypt.dll#Visual Basic 6.0 Binary Process: Encrypt/Decrypt 1.0
 Form=Form2.frm
 Module=Module1; Module1.bas
 IconForm="Form2"

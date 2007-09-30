@@ -1,6 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{4C3F115E-AF2C-4FEC-9D69-F8E97245F948}#1.0#0#..\..\..\..\bin\glyphs.dll#Built-in Glyphs Library
+Reference=*\G{4C3F115E-AF2C-4FEC-9D69-F8E97245F948}#1.0#0#..\..\..\bin\glyphs.dll#Built-in Glyphs Library
 Form=Form1.frm
 IconForm="Form1"
 Startup="Form1"

@@ -1,8 +1,8 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
 Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#..\..\..\..\..\Program Files\Common Files\system\ado\msado15.dll#Microsoft ActiveX Data Objects 2.8 Library
-Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1a.1#0#..\..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
-Reference=*\G{CAD2C9D0-4550-4799-9E80-1AA6FB1BE81E}#e.3#0#..\..\..\bin\dbproxy.dll#Database Proxy (Broker) for MVCArch 1.0
+Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1a.1#0#..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{CAD2C9D0-4550-4799-9E80-1AA6FB1BE81E}#e.3#0#..\..\bin\dbproxy.dll#Database Proxy (Broker) for MVCArch 1.0
 Form=Form1.frm
 Module=Module1; Module1.bas
 IconForm="Form1"

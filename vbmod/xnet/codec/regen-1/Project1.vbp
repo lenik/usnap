@@ -1,7 +1,7 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
 Reference=*\G{C4249C87-3E35-46ED-A90F-4905DE37CF38}#1.0#0#..\Debug\codec.dll#Xnet codec 1.0 Type Library
-Reference=*\G{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}#1.1#0#..\..\..\..\bin\LowX.dll#LowX 1.1 Type Library
+Reference=*\G{36BC9BEB-BB9A-4AD0-9F70-17349FCDE141}#1.1#0#..\..\..\bin\LowX.dll#LowX 1.1 Type Library
 Form=Form1.frm
 IconForm="Form1"
 Startup="Form1"

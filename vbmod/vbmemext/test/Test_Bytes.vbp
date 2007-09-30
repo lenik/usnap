@@ -1,7 +1,7 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
-Reference=*\G{D7D45143-A505-4887-8241-82DECC157036}#1.0#0#..\..\..\bin\vbmemext.dll#Visual Basic 6.0 Memory Extension
-Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1d.1#0#..\..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
+Reference=*\G{D7D45143-A505-4887-8241-82DECC157036}#1.0#0#..\..\bin\vbmemext.dll#Visual Basic 6.0 Memory Extension
+Reference=*\G{DE5301AC-D2F4-4176-AA10-5A420F4837B3}#1d.1#0#..\..\bin\vbext.dll#Visual Basic 6.0 Bugfix & Extension
 Module=Test_Bytes1; Test_Bytes1.bas
 Startup="Sub Main"
 HelpFile=""
