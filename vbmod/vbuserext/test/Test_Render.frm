@@ -4,7 +4,7 @@ Begin VB.Form TestRender
    Caption         =   "Form1"
    ClientHeight    =   4830
    ClientLeft      =   165
-   ClientTop       =   855
+   ClientTop       =   735
    ClientWidth     =   7425
    LinkTopic       =   "Form1"
    ScaleHeight     =   4830
@@ -128,7 +128,7 @@ End Property
 
 Private Sub Form_Load()
     Set ap = CreateAnimateSteps( _
-        "|C:\.lokaj\zbmis\mat\icons\Autoscalelayout.gif|1|C:\.lokaj\zbmis\mat\icons\Auxiliaryshape.gif|1|C:\.lokaj\zbmis\mat\icons\Controller.gif|1|C:\.lokaj\zbmis\mat\icons\Eventfilter.gif|1|C:\.lokaj\zbmis\mat\icons\Favoritebox.gif|1|C:\.lokaj\zbmis\mat\icons\ScrollableContainer.gif|1")
+        "|K:\projects\vbmod\mat\icons\Autoscalelayout.gif|1|K:\projects\vbmod\mat\icons\Auxiliaryshape.gif|1|K:\projects\vbmod\mat\icons\Controller.gif|1|K:\projects\vbmod\mat\icons\Eventfilter.gif|1|K:\projects\vbmod\mat\icons\Favoritebox.gif|1|K:\projects\vbmod\mat\icons\ScrollableContainer.gif|1")
     SourcePicture.Show
     opcode.ListIndex = 0
 End Sub

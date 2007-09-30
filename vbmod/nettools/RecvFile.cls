@@ -41,7 +41,7 @@ Public Property Get CurrentSize() As Long
 End Property
 
 ' Rejects redundant bytes
-Public Function Append(ByRef Bytes)
+Public Function Append(ByRef Bytes() As Byte)
     Dim Size As Long
     Size = ArraySize(Bytes)
 

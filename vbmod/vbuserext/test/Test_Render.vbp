@@ -1,10 +1,10 @@
 Type=Exe
 Form=Test_Render.frm
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
 Form=SourcePicture.frm
-Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; comdlg32.ocx
+Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; COMDLG32.OCX
 Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
-Object={79D5D6E9-10F5-4F16-AC63-C1A70BF8EA4C}#28.0#0; VBUserExt.ocx
+Object={E507F045-C2C0-49F4-B8AF-8496CF7355BB}#1.0#0; VBUserExt.ocx
 IconForm="TestRender"
 Startup="TestRender"
 Command32=""
