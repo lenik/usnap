@@ -1,0 +1,73 @@
+First string: <(null)>
+At [1, 0]
+    . #include . <stdio.h> .
+At [2, 0]
+    .
+At [3, 0]
+    . #include . ../src/parser.h .
+At [4, 0]
+    .
+At [5, 0]
+    .
+At [6, 0]
+    . int . main(int . argc, . char . **argv) . { .
+At [7, 0]
+    . input_source_t . *input; .
+At [8, 0]
+    . string_t . *args; .
+At [9, 0]
+    . string_t . *arg; .
+At [10, 0]
+    . string_t . str; .
+At [11, 0]
+    . int . n; .
+At [12, 0]
+    .
+At [13, 0]
+    . if . (argc . < . 2) . { .
+At [14, 0]
+    . printf("words . <file-name>\n"); .
+At [15, 0]
+    . return . -1; .
+At [16, 0]
+    . } .
+At [17, 0]
+    .
+At [18, 0]
+    . input . = . file_source_new(argv[1], . NULL); .
+At [19, 0]
+    . ASSERT(input); .
+At [20, 0]
+    .
+At [21, 0]
+    . str . = . parse_string(input, . 0, . NULL); .
+At [22, 0]
+    . printf("First . string: . <%s>\n", . str); .
+At [23, 0]
+    .
+At [24, 0]
+    . while . (1) . { .
+At [25, 0]
+    . printf("At . [%d, . %d]\n", . input->row, . input->column); .
+At [26, 0]
+    .
+At [27, 0]
+    . n . = . 0; .
+At [28, 0]
+    . args . = . parse_arguments(input, . PARSE_ARG_QUOTED, . &n); .
+At [29, 0]
+    .
+At [30, 0]
+    . if . (args . == . NULL) . { .
+At [31, 0]
+    . printf("Stopped: . %s\n", . input->last_error); .
+At [32, 0]
+    . return . -2; .
+At [33, 0]
+    . } .
+At [34, 0]
+    .
+At [35, 0]
+Stopped: non-terminated string
+line 37, offset 1
+file words.c

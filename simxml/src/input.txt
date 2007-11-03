@@ -1,0 +1,27 @@
+
+        Implementing Notes
+        ------------------------------------------------------------------------
+
+      > EOF 安全
+        当 read 完成后（即实际读入已结束），确保不会调用多余的 read。
+        只有调用 read(...) 时需要考虑是否已结束。只有 next 会调用 read。
+
+      > 前看缓存与输入栈
+        next()/peek() 设置为 virtual 以允许 stack_input_t 改变前看缓存行为。
+
+        例：
+              start:
+                MACRO |. ?abc
+
+              peek:
+                MACRO | ? . abc
+
+              push-input:
+                |. ** macro-expansion **
+                MACRO | ? . abc
+
+              peek:
+                | * . * macro-expansion **
+                MACRO | ? . abc
+
+      >

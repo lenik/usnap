@@ -1,0 +1,20 @@
+
+
+nodes = get_nodes();
+
+if (nodes->type != ..) nodes = node_next_type(nodes, _ATTR);
+
+while (nodes) {
+	// each attribute node.
+	nodes = node_next_type(nodes, NODE_ATTR)) {
+}
+
+while (
+
+n = getnodes();
+
+while (n) {
+	if (n->type==xxx)
+		...
+	n=n->next;
+}
