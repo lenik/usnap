@@ -1,0 +1,34 @@
+HKCR
+{
+	winexmagicinfo.FragmentsColumn.1 = s 'FragmentsColumn Class'
+	{
+		CLSID = s '{B7BD4C40-C269-4C65-AB8D-FD0B3DFB77A9}'
+	}
+	winexmagicinfo.FragmentsColumn = s 'FragmentsColumn Class'
+	{
+		CLSID = s '{B7BD4C40-C269-4C65-AB8D-FD0B3DFB77A9}'
+		CurVer = s 'winexmagicinfo.FragmentsColumn.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {B7BD4C40-C269-4C65-AB8D-FD0B3DFB77A9} = s 'FragmentsColumn Class'
+		{
+			ProgID = s 'winexmagicinfo.FragmentsColumn.1'
+			VersionIndependentProgID = s 'winexmagicinfo.FragmentsColumn'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{2E65EED7-BA04-4A4F-A7D7-E6FE7D81BB17}'
+		}
+	}
+	NoRemove Folder {
+		shellex {
+			ColumnHandlers {
+				ForceRemove {B7BD4C40-C269-4C65-AB8D-FD0B3DFB77A9} = s 'FragmentsColumn Class'
+			}
+		}
+	}
+}

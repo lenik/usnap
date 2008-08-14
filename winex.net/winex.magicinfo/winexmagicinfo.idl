@@ -1,0 +1,58 @@
+// winexmagicinfo.idl : IDL source for winex.magicinfo
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (winexmagicinfo.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(535E61FA-3432-4A9C-A613-7D14A5D3489C),
+	dual,
+	nonextensible,
+	helpstring("ISettings Interface"),
+	pointer_default(unique)
+]
+interface ISettings : IDispatch{
+};
+[
+	object,
+	uuid(F8EC50B7-C58F-4716-856B-0103530E2D32),
+	dual,
+	nonextensible,
+	helpstring("IFragmentsColumn Interface"),
+	pointer_default(unique)
+]
+interface IFragmentsColumn : IDispatch{
+	[id(1), helpstring("method init")] HRESULT init(void);
+};
+[
+	uuid(2E65EED7-BA04-4A4F-A7D7-E6FE7D81BB17),
+	version(1.0),
+	helpstring("winexmagicinfo 1.0 Type Library")
+]
+library WinexMagicInfo
+{
+	importlib("stdole2.tlb");
+	// importlib("shell32.dll");
+
+	[
+		uuid(2295AED8-B593-4390-A7CB-6700DC829C5C),
+		helpstring("Settings Class")
+	]
+	coclass Settings
+	{
+		[default] interface ISettings;
+	};
+	[
+		uuid(B7BD4C40-C269-4C65-AB8D-FD0B3DFB77A9),
+		helpstring("FragmentsColumn Class")
+	]
+	coclass FragmentsColumn
+	{
+		[default] interface IFragmentsColumn;
+		// interface IColumnProvider;
+	};
+};

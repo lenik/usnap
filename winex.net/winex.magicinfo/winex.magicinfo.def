@@ -1,0 +1,9 @@
+; winex.magicinfo.def : Declares the module parameters.
+
+LIBRARY      "winex.magicinfo.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

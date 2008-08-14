@@ -1,0 +1,27 @@
+HKCR
+{
+	winexmagicinfo.Settings.1 = s 'Settings Class'
+	{
+		CLSID = s '{2295AED8-B593-4390-A7CB-6700DC829C5C}'
+	}
+	winexmagicinfo.Settings = s 'Settings Class'
+	{
+		CLSID = s '{2295AED8-B593-4390-A7CB-6700DC829C5C}'
+		CurVer = s 'winexmagicinfo.Settings.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2295AED8-B593-4390-A7CB-6700DC829C5C} = s 'Settings Class'
+		{
+			ProgID = s 'winexmagicinfo.Settings.1'
+			VersionIndependentProgID = s 'winexmagicinfo.Settings'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{2E65EED7-BA04-4A4F-A7D7-E6FE7D81BB17}'
+		}
+	}
+}
