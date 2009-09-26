@@ -9,6 +9,7 @@
     XPStyle on
 
     Page license
+    ; Page components
     Page instfiles
 
     UninstPage uninstConfirm
@@ -43,15 +44,30 @@
 
     Var KEY
 
+    Section "system files"
+        SetOutPath "$SYSDIR"
+            ;File /nonfatal "$SYSDIR\MFC90U.DLL"
+            ;File /nonfatal "$SYSDIR\MSVCR90.DLL"
+            ;File /nonfatal "$SYSDIR\ATL90.DLL"
+    SectionEnd
 
-    Section "System Components"
+    Section "core program"
         SetOutPath "$SYSDIR"
             File /nonfatal "Release\winex.magicinfo.dll"
+
         RegDLL $SYSDIR\winex.magicinfo.dll
 
         StrCpy $KEY "ns\winex\winex.magicinfo\winex.magicinfo.FragmentsColumn"
-        WriteRegStr HKCU $KEY title_2 加密
-        WriteRegStr HKCU $KEY magic_是 $$AABBCCDDEEFF
+
+        WriteRegStr HKCR "*\Shell\setfootmagic" "" "设置为参考加密项"
+        WriteRegStr HKCR "*\Shell\setfootmagic\Command" "" "rundll32 winex.magicinfo.dll,setFootMagic 是 6 $\"%1$\""
+        WriteRegStr HKCR "*\Shell\setheadmagic" "" "设置为特殊加密类"
+        WriteRegStr HKCR "*\Shell\setheadmagic\Command" "" "rundll32 winex.magicinfo.dll,setHeadMagic 特 4 $\"%1$\""
+
+        WriteRegDWORD   HKCU $KEY show_2        1
+        WriteRegStr     HKCU $KEY footerLen     6
+        WriteRegStr     HKCU $KEY title_2       加密
+        WriteRegStr     HKCU $KEY magic_是      $$AABBCCDDEEFF
     SectionEnd
 
 ; Pre-declared functions

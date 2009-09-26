@@ -3,8 +3,8 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 6.00.0366 */
-/* at Thu Aug 14 21:09:40 2008
+ /* File created by MIDL compiler version 7.00.0500 */
+/* at Wed Aug 20 14:05:54 2008
  */
 /* Compiler settings for .\winexmagicinfo.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -89,8 +89,6 @@ typedef struct FragmentsColumn FragmentsColumn;
 extern "C"{
 #endif
 
-void * __RPC_USER MIDL_user_allocate(size_t);
-void __RPC_USER MIDL_user_free( void * );
 
 #ifndef __ISettings_INTERFACE_DEFINED__
 #define __ISettings_INTERFACE_DEFINED__
@@ -118,7 +116,8 @@ EXTERN_C const IID IID_ISettings;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )(
             ISettings * This,
             /* [in] */ REFIID riid,
-            /* [iid_is][out] */ void **ppvObject);
+            /* [iid_is][out] */
+            __RPC__deref_out  void **ppvObject);
 
         ULONG ( STDMETHODCALLTYPE *AddRef )(
             ISettings * This);
@@ -140,7 +139,7 @@ EXTERN_C const IID IID_ISettings;
             ISettings * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [in] */ UINT cNames,
+            /* [range][in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
 
@@ -169,26 +168,26 @@ EXTERN_C const IID IID_ISettings;
 
 
 #define ISettings_QueryInterface(This,riid,ppvObject)	\
-    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) )
 
 #define ISettings_AddRef(This)	\
-    (This)->lpVtbl -> AddRef(This)
+    ( (This)->lpVtbl -> AddRef(This) )
 
 #define ISettings_Release(This)	\
-    (This)->lpVtbl -> Release(This)
+    ( (This)->lpVtbl -> Release(This) )
 
 
 #define ISettings_GetTypeInfoCount(This,pctinfo)	\
-    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) )
 
 #define ISettings_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) )
 
 #define ISettings_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) )
 
 #define ISettings_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) )
 
 
 #endif /* COBJMACROS */
@@ -230,7 +229,8 @@ EXTERN_C const IID IID_IFragmentsColumn;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )(
             IFragmentsColumn * This,
             /* [in] */ REFIID riid,
-            /* [iid_is][out] */ void **ppvObject);
+            /* [iid_is][out] */
+            __RPC__deref_out  void **ppvObject);
 
         ULONG ( STDMETHODCALLTYPE *AddRef )(
             IFragmentsColumn * This);
@@ -252,7 +252,7 @@ EXTERN_C const IID IID_IFragmentsColumn;
             IFragmentsColumn * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [in] */ UINT cNames,
+            /* [range][in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
 
@@ -284,47 +284,36 @@ EXTERN_C const IID IID_IFragmentsColumn;
 
 
 #define IFragmentsColumn_QueryInterface(This,riid,ppvObject)	\
-    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) )
 
 #define IFragmentsColumn_AddRef(This)	\
-    (This)->lpVtbl -> AddRef(This)
+    ( (This)->lpVtbl -> AddRef(This) )
 
 #define IFragmentsColumn_Release(This)	\
-    (This)->lpVtbl -> Release(This)
+    ( (This)->lpVtbl -> Release(This) )
 
 
 #define IFragmentsColumn_GetTypeInfoCount(This,pctinfo)	\
-    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) )
 
 #define IFragmentsColumn_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) )
 
 #define IFragmentsColumn_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) )
 
 #define IFragmentsColumn_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) )
 
 
 #define IFragmentsColumn_init(This)	\
-    (This)->lpVtbl -> init(This)
+    ( (This)->lpVtbl -> init(This) )
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
-
-
-/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IFragmentsColumn_init_Proxy(
-    IFragmentsColumn * This);
-
-
-void __RPC_STUB IFragmentsColumn_init_Stub(
-    IRpcStubBuffer *This,
-    IRpcChannelBuffer *_pRpcChannelBuffer,
-    PRPC_MESSAGE _pRpcMessage,
-    DWORD *_pdwStubPhase);
 
 
 

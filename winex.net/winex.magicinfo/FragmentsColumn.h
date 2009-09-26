@@ -45,6 +45,7 @@ public:
 
 	HRESULT FinalConstruct()
 	{
+		memset(m_bAlwaysShow, 0, sizeof(m_bAlwaysShow));
 		lstrcpy(m_titles[0], TEXT("Header Frag"));
 		lstrcpy(m_titles[1], TEXT("Footer Frag"));
 		lstrcpy(m_titles[2], TEXT("Magic"));
@@ -64,6 +65,7 @@ public:
 
 private:
 	TCHAR m_titles[10][100]; // MAXTITLESIZE
+	int m_bAlwaysShow[10];
 
 	int m_headerSize;
 	int m_footerSize;

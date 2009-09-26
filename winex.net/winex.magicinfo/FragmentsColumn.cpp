@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include "FragmentsColumn.h"
 
+#define KEY_PATH TEXT("ns\\winex\\winex.magicinfo\\winex.magicinfo.FragmentsColumn")
 
 GUID FMTID_Fragments = { 0x893c63b0, 0xb0e1, 0x43ea, { 0x85, 0x8b, 0xc1, 0x25, 0xa0, 0x3d, 0xc8, 0x29 } };
 
@@ -57,7 +58,7 @@ CFragmentsColumn::Initialize(LPCSHCOLUMNINIT psci) {
 	// alert(_T("Initialize"));
 	HKEY hk;
 	LONG err;
-	err = RegCreateKey(HKEY_CURRENT_USER, TEXT("ns\\winex\\winex.magicinfo\\winex.magicinfo.FragmentsColumn"), &hk);
+	err = RegCreateKey(HKEY_CURRENT_USER, KEY_PATH, &hk);
 	if (err != ERROR_SUCCESS)
 		return S_FALSE;
 
@@ -79,6 +80,10 @@ CFragmentsColumn::Initialize(LPCSHCOLUMNINIT psci) {
 		else if (suffix = startsWith(valName, _T("title_"))) {
 			int pid = (int) _tcstol(suffix, NULL, 10);
 			lstrcpy(m_titles[pid], (LPCTSTR) valBuf);
+		} else if (suffix = startsWith(valName, _T("show_"))) {
+			int colIndex = (int) _tcstol(suffix, NULL, 10);
+			int state = *(int *) valBuf;
+			m_bAlwaysShow[colIndex] = state;
 		} else if (suffix = startsWith(valName, _T("magic_"))) {
 			TCHAR *end = (TCHAR *) (valBuf + cbBuf);
 			int half = 0;
@@ -96,6 +101,8 @@ CFragmentsColumn::Initialize(LPCSHCOLUMNINIT psci) {
 						pbuf = headerMask[m_magics];
 						continue;
 				}
+				ASSERT(pbuf != NULL); // format error
+				ASSERT(plen != NULL); // format error
 				TCHAR c = *p;
 				int d;
 				if (c >= '0' && c <= '9')
@@ -134,7 +141,11 @@ CFragmentsColumn::GetColumnInfo(DWORD dwIndex, SHCOLUMNINFO *psci) {
 	sci.vt = VT_BSTR;
 	sci.fmt = LVCFMT_LEFT;
 	sci.cChars = 16;
-	sci.csFlags = SHCOLSTATE_TYPE_STR | SHCOLSTATE_SECONDARYUI;
+	sci.csFlags = SHCOLSTATE_TYPE_STR;
+	if (m_bAlwaysShow[dwIndex])
+		sci.csFlags |= SHCOLSTATE_ONBYDEFAULT;
+	else
+		sci.csFlags |= SHCOLSTATE_SECONDARYUI;
 	TCHAR *title = NULL;
 	TCHAR *description = NULL;
 
@@ -148,7 +159,6 @@ CFragmentsColumn::GetColumnInfo(DWORD dwIndex, SHCOLUMNINFO *psci) {
 		case 2:
 			description = TEXT("Magic Attributes");
 			sci.cChars = 30;
-			sci.csFlags &= ~SHCOLSTATE_SECONDARYUI;
 			break;
 		default:
 			return S_FALSE;
@@ -168,10 +178,12 @@ CFragmentsColumn::GetColumnInfo(DWORD dwIndex, SHCOLUMNINFO *psci) {
 
 STDMETHODIMP
 CFragmentsColumn::GetItemData(LPCSHCOLUMNID pscid, LPCSHCOLUMNDATA pscd, VARIANT *pvarData) {
+	USES_CONVERSION;
+
 	if (!IsEqualFMTID(pscid->fmtid, FMTID_Fragments))
 		return S_FALSE;
 
-	LPCTSTR path = CW2CT(pscd->wszFile);
+	LPCTSTR path = W2CT(pscd->wszFile);
 	struct _stat32 stat;
 	_tstat32(path, &stat);
 	if (stat.st_mode & _S_IFDIR) { // isdir
@@ -184,6 +196,7 @@ CFragmentsColumn::GetItemData(LPCSHCOLUMNID pscid, LPCSHCOLUMNDATA pscd, VARIANT
 
 	char buf[MAXBLOCK];
 	TCHAR flags[MAX_MAGICS + 1];
+	int nflag = 0;
 	size_t cbread;
 	switch (pscid->pid) {
 		case 0: // header
@@ -216,11 +229,12 @@ CFragmentsColumn::GetItemData(LPCSHCOLUMNID pscid, LPCSHCOLUMNDATA pscd, VARIANT
 				if (!match)
 					continue;
 				// Y, N -> lang..
-				lstrcat(flags, _T(","));
+				if (nflag++)
+					lstrcat(flags, _T(","));
 				lstrcat(flags, flagChars[i]);
 			}
 			pvarData->vt = VT_BSTR;
-			pvarData->bstrVal = SysAllocString(CT2CW(flags));
+			pvarData->bstrVal = SysAllocString(T2CW(flags));
 			return S_OK;
 
 		default:
@@ -229,7 +243,7 @@ CFragmentsColumn::GetItemData(LPCSHCOLUMNID pscid, LPCSHCOLUMNDATA pscd, VARIANT
 
 	buf[cbread] = '\0';
 	pvarData->vt = VT_BSTR;
-	pvarData->bstrVal = SysAllocString(CA2W(buf));
+	pvarData->bstrVal = SysAllocString(A2W(buf));
 	return S_OK;
 }
 
@@ -239,4 +253,59 @@ STDMETHODIMP CFragmentsColumn::init(void)
 
 	this->Initialize(NULL);
 	return S_OK;
+}
+
+static HRESULT setRegValue(LPCTSTR keyPath, LPCTSTR name, LPCTSTR value) {
+	HKEY hk;
+	LONG err;
+	err = RegCreateKey(HKEY_CURRENT_USER, KEY_PATH, &hk);
+	if (err != ERROR_SUCCESS)
+		return S_FALSE;
+	DWORD cb = lstrlen(value) * sizeof(TCHAR);
+	err = RegSetValueEx(hk, name, 0, REG_SZ, (const BYTE *) value, cb);
+	RegCloseKey(hk);
+	return S_OK;
+}
+
+HRESULT _stdcall setMagic(BOOL footer, LPCTSTR name, int len, LPCTSTR path) {
+	TCHAR keyName[1000];
+	BYTE buf[1000];
+	TCHAR hex[1000];
+	if (footer)
+		lstrcpy(hex, _T("$"));
+	else
+		lstrcpy(hex, _T("^"));
+	LPTSTR phex = hex + lstrlen(hex);
+
+	size_t size = readFile(path, buf, 0, footer ? -len : len);
+	for (size_t i = 0; i < size; i++) {
+		BYTE byte = buf[i];
+		phex += _stprintf_s(phex, hex + ARRAYSIZE(hex) - phex, _T("%02x"), byte);
+	}
+	_stprintf_s(keyName, ARRAYSIZE(keyName), _T("magic_%s"), name);
+	setRegValue(KEY_PATH, keyName, hex);
+#ifdef _DEBUG
+	MessageBox(0, hex, keyName, 0);
+#endif
+	return S_OK;
+}
+
+HRESULT _stdcall setHeadMagic(HWND hwnd, HINSTANCE hinst, LPSTR lpszCmdLine, int nCmdShow) {
+	USES_CONVERSION;
+	int argc;
+	LPWSTR *argv = CommandLineToArgvW(A2W(lpszCmdLine), &argc);
+	LPCTSTR name = W2CT(argv[0]);
+	int len = (int) _wcstol_l(argv[1], NULL, 0, NULL);
+	LPCTSTR path = W2CT(argv[2]);
+	return setMagic(FALSE, name, len, path);
+}
+
+HRESULT _stdcall setFootMagic(HWND hwnd, HINSTANCE hinst, LPSTR lpszCmdLine, int nCmdShow) {
+	USES_CONVERSION;
+	int argc;
+	LPWSTR *argv = CommandLineToArgvW(A2W(lpszCmdLine), &argc);
+	LPCTSTR name = W2CT(argv[0]);
+	int len = (int) _wcstol_l(argv[1], NULL, 0, NULL);
+	LPCTSTR path = W2CT(argv[2]);
+	return setMagic(TRUE, name, len, path);
 }
