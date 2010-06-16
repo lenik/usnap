@@ -1,0 +1,12 @@
+
+ppj [make] <project-name>
+    -> Makefile
+    -> source files
+    -> mani -> MANIFEST
+
+Makefile
+    prep_nsi
+        -> ppj [gen-nsi]
+            -> setup.nsi
+    dist: prep_nsi
+        -> setup.exe

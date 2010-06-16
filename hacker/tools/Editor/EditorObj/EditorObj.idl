@@ -1,0 +1,26 @@
+// EditorObj.idl : IDL source for EditorObj.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (EditorObj.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(00000000-4544-2001-0004-486954656368),
+	helpstring("Character")
+] interface ICharacter {
+};
+
+[
+	uuid(00000000-4544-2000-0004-486954656368),
+	version(1.0),
+	helpstring("EditorObj 1.0 Type Library")
+] library EditorObjLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+};

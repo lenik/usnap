@@ -1,0 +1,3 @@
+Shecti> fc /b CDRCue.exe.bak CDRCue.exe
+正在比较文件 CDRCue.exe.bak 和 CDRCUE.EXE
+0003DE21: 0A 77

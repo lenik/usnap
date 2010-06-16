@@ -1,0 +1,10 @@
+
+
+NAME	$dllframe
+
+EXPORTS
+
+$exps_def
+
+
+	EP_DllGetProc

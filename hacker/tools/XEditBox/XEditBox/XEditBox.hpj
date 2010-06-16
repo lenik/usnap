@@ -1,0 +1,20 @@
+[OPTIONS]
+CONTENTS=main_index
+TITLE=XEDITBOX Control Help
+COMPRESS=true
+WARNING=2
+HLP=XEditBox.hlp
+ERRORLOG=XEditBox.log
+
+[FILES]
+hlp\XEditBox.rtf
+
+[BITMAPS]
+; miscellaneous
+hlp\Bullet.bmp
+
+[ALIAS]
+HIDD_ABOUTBOX_XEDITBOX = HID_APP_ABOUT_XEDITBOX
+
+[MAP]
+#include <hlp\XEditBox.hm>

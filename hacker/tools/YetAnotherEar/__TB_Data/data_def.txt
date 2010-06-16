@@ -1,0 +1,80 @@
+
+
+
+
+
+
+
+
+
+
+	struct DOS_Header;
+	struct PE_Header;
+
+	struct PE_File {
+
+		DOS_Header	doshdr;
+
+		// 1, continuons
+			$+0		PE_Header	pehdr;
+
+		// 2, pack(4)
+			(~4 & $+3)	PE_Header	pehdr;
+
+		// 3, overlap at [....|4]
+			($ - 4)		PE_Header	pehdr;
+
+		// 4, overlap at [4|....]
+			(PE_File::&doshdr) + 4
+					PE_Header	pehdr;
+
+	}
+
+
+
+	--> C/C++:
+
+		struct DOS_Header;
+
+		struct DOS_Header {
+			// ...		C/C++ must have body defined.
+		};
+
+
+		// 1.
+		#pragma pack(push, 1)
+		struct PE_File {
+			DOS_Header	doshdr;
+			PE_Header	pehdr;
+		}
+		#pragma pack(pop)
+
+		// 2.
+		#pragma pack(push, 4)
+		struct PE_File {
+			DOS_Header	doshdr;
+			PE_Header	pehdr;
+		}
+		#pragma pack(pop)
+
+		// 3.
+		struct PE_File {
+			union {
+				DOS_Header	doshdr;
+				struct {
+					BYTE	_padded[sizeof(doshdr) - 4];
+					PE_Header	pehdr;
+				}
+			}
+		}
+
+		// 4.
+		struct PE_File {
+			union {
+				DOS_Header	doshdr;
+				struct {
+					BYTE	_padded[4];
+					PE_Header	pehdr;
+				}
+			}
+		}

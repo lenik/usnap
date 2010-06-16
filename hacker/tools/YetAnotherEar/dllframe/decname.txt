@@ -1,0 +1,30 @@
+
+
+
+@base@derive@...@last$<params>
+
+param
+
+
+v	void
+pXXX	xxx *, eg. pv: void *
+
+i	int
+
+qqr
+x	structure.
+
+rX	reference&, ri: int&
+t%d	template as %d,   ripvt1t2: int&,void*,int&,void*
+
+o	... (optional)
+
+X%d	%d-length type X, eg."p14Classes@Tfiler"	(Classes::Tfiler *)
+%d	(only %d) %d-length enum type, eg."8Weekdays"	(enum Weekdays)
+
+
+
+
+(within name, replacement:)
+$bctr	~constructor()
+$bdtr	~destructor()

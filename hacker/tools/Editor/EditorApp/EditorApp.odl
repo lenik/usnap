@@ -1,0 +1,42 @@
+// EditorApp.odl : type library source for EditorApp.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (EditorApp.tlb).
+
+[ uuid(3F836A22-9412-4736-89F8-51F24597141F), version(1.0) ]
+library EditorApp
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	//  Primary dispatch interface for CEditorAppDoc
+
+	[ uuid(4DE58EFB-7E31-4EC0-BAD3-E2CBFFD96659) ]
+	dispinterface IEditorApp
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CEditorAppDoc)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CEditorAppDoc)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CEditorAppDoc
+
+	[ uuid(E1CA0FBA-7DEE-4809-95E7-E556D6271C8A) ]
+	coclass Document
+	{
+		[default] dispinterface IEditorApp;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

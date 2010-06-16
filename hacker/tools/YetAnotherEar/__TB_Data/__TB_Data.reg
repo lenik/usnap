@@ -1,0 +1,13 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+
+HKEY_CLASSES_ROOT\TBData.Document = __TB_D Document
+HKEY_CLASSES_ROOT\TBData.Document\CLSID = {B393CF33-4590-4380-B854-3F3FB6E38652}
+
+HKEY_CLASSES_ROOT\CLSID\{B393CF33-4590-4380-B854-3F3FB6E38652} = __TB_D Document
+HKEY_CLASSES_ROOT\CLSID\{B393CF33-4590-4380-B854-3F3FB6E38652}\ProgId = TBData.Document
+HKEY_CLASSES_ROOT\CLSID\{B393CF33-4590-4380-B854-3F3FB6E38652}\LocalServer32 = __TB_DATA.EXE

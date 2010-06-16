@@ -1,0 +1,125 @@
+
+NAME	ole32.dll
+
+EXPORTS
+	CoBuildVersion = P_CoBuildVersion
+	P_CoInitialize
+	P_CoUninitialize
+	P_CoGetMalloc
+	P_CoGetCurrentProcess
+	P_CoRegisterMallocSpy
+	P_CoRevokeMallocSpy
+	P_CoCreateStandardMalloc
+	P_CoInitializeEx
+	P_CoGetCallerTID
+		; P_CoRegisterInitializeSpy
+	P_CoRevokeInitializeSpy
+	P_CoGetP_ContextToken
+	P_DebugCoGetRpcFault
+	P_DebugCoSetRpcFault
+	P_CoGetObjectP_Context
+	CoGetClassObject	= P_CoGetClassObject
+	P_CoRegisterClassObject
+	P_CoRevokeClassObject
+	P_CoResumeClassObjects
+	P_CoSuspendClassObjects
+	P_CoAddRefServerProcess		@5 NONAME
+	P_CoReleaseServerProcess
+	P_CoGetPSClsid
+	P_CoRegisterPSClsid		@10 NONAME
+	P_CoRegisterSurrogate		@11 NONAME
+	P_CoGetMarshalSizeMax		@12 NONAME
+	P_CoMarshalInterface
+	P_CoUnmarshalInterface
+	P_CoMarshalHresult
+	P_CoUnmarshalHresult
+	P_CoReleaseMarshalData
+	P_CoDisconnectObject
+	P_CoLockObjectExternal
+	P_CoGetStandardMarshal
+	P_CoGetStdMarshalEx
+	P_CoIsHandlerP_Connected
+	P_CoMarshalInterThreadInterfaceInStream
+	P_CoGetInterfaceAndReleaseStream
+	P_CoCreateFreeThreadedMarshaler
+	P_CoLoadLibrary
+	P_CoFreeLibrary
+	P_CoFreeAllLibraries
+	P_CoFreeUnusedLibraries
+	P_CoFreeUnusedLibrariesEx
+		; P_CoInitializeSecurity
+	P_CoGetCallP_Context
+	P_CoQueryProxyBlanket
+	P_CoSetProxyBlanket
+	P_CoP_CopyProxy
+	P_CoQueryClientBlanket
+	P_CoImpersonateClient
+	P_CoRevertToSelf
+		; P_CoQueryAuthenticationServices
+	P_CoSwitchCallP_Context
+	P_CoCreateInstance
+	P_CoGetInstanceFromFile
+	P_CoGetInstanceFromIStorage
+	P_CoCreateInstanceEx
+	P_CoGetCancelObject
+	P_CoSetCancelObject
+	P_CoCancelCall
+	P_CoTestCancel
+	P_CoEnableCallCancellation
+	P_CoDisableCallCancellation
+	P_CoAllowSetForegroundWindow
+	P_DcomChannelSetHResult
+	P_StringFromCLSID
+	P_CLSIDFromString
+	P_StringFromIID
+	P_IIDFromString
+	P_CoIsOle1Class
+	P_ProgIDFromCLSID
+	P_CLSIDFromProgID
+	P_CLSIDFromProgIDEx
+	P_StringFromGUID2
+	P_CoCreateGuid
+	P_CoFileTimeToDosDateTime
+	P_CoDosDateTimeToFileTime
+	P_CoFileTimeNow
+	P_CoRegisterMessageFilter
+	P_CoRegisterChannelHook
+	P_CoWaitForMultipleHandles
+	P_CoInvalidateRemoteMachineBindings
+	P_CoGetTreatAsClass
+	P_CoTreatAsClass
+	P_CoTaskMemAlloc
+	P_CoTaskMemRealloc
+	P_CoTaskMemFree
+	P_CreateDataAdviseHolder
+	P_CreateDataCache
+	P_StgCreateDocfile
+	P_StgCreateDocfileOnILockBytes
+	P_StgOpenStorage
+	P_StgOpenStorageOnILockBytes
+	P_StgIsStorageFile
+	P_StgIsStorageILockBytes
+	P_StgSetTimes
+	P_StgOpenAsyncDocfileOnIFillLockBytes
+	P_StgGetIFillLockBytesOnILockBytes
+	P_StgGetIFillLockBytesOnFile
+	P_StgOpenLayoutDocfile
+	P_StgCreateStorageEx
+	P_StgOpenStorageEx
+	P_BindMoniker
+	P_CoInstall
+	P_CoGetObject
+	P_MkParseDisplayName
+	P_MonikerRelativePathTo
+	P_MonikerP_CommonPrefixWith
+	P_CreateBindCtx
+	P_CreateGenericP_Composite
+	P_GetClassFile
+	P_CreateClassMoniker
+	P_CreateFileMoniker
+	P_CreateItemMoniker
+	P_CreateAntiMoniker
+	P_CreatePointerMoniker
+	P_CreateObjrefMoniker
+	P_GetRunningObjectTable
+	P_CreateStdProgressIndicator

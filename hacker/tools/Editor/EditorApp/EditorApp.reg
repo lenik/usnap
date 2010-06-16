@@ -1,0 +1,19 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+HKEY_CLASSES_ROOT\.edt = EditorApp.Document
+HKEY_CLASSES_ROOT\EditorApp.Document\shell\open\command = EDITORAPP.EXE %1
+HKEY_CLASSES_ROOT\EditorApp.Document\shell\open\ddeexec = [open("%1")]
+HKEY_CLASSES_ROOT\EditorApp.Document\shell\open\ddeexec\application = EDITORAPP
+    ; note: the application is optional
+    ;  (it defaults to the app name in "command")
+
+HKEY_CLASSES_ROOT\EditorApp.Document = Editor Document
+HKEY_CLASSES_ROOT\EditorApp.Document\CLSID = {E1CA0FBA-7DEE-4809-95E7-E556D6271C8A}
+
+HKEY_CLASSES_ROOT\CLSID\{E1CA0FBA-7DEE-4809-95E7-E556D6271C8A} = Editor Document
+HKEY_CLASSES_ROOT\CLSID\{E1CA0FBA-7DEE-4809-95E7-E556D6271C8A}\ProgId = EditorApp.Document
+HKEY_CLASSES_ROOT\CLSID\{E1CA0FBA-7DEE-4809-95E7-E556D6271C8A}\LocalServer32 = EDITORAPP.EXE

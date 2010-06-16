@@ -1,0 +1,10 @@
+
+
+a1, d1:
+
+	just test for some low-level vars,
+	e.g. HMODULE's value between app & dll. etc.
+
+WM, wmh:
+
+	main projects

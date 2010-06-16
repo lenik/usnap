@@ -1,0 +1,42 @@
+// __TB_Data.odl : type library source for __TB_Data.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (__TB_Data.tlb).
+
+[ uuid(E8CC39D1-9F55-4C74-8DC9-40A27796A956), version(1.0) ]
+library __TB_Data
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	//  Primary dispatch interface for C__TB_DataDoc
+
+	[ uuid(C023CBD8-6F5C-4C93-8500-5C1125BF4A12) ]
+	dispinterface I__TB_Data
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(C__TB_DataDoc)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(C__TB_DataDoc)
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for C__TB_DataDoc
+
+	[ uuid(B393CF33-4590-4380-B854-3F3FB6E38652) ]
+	coclass Document
+	{
+		[default] dispinterface I__TB_Data;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_embrio", "_embrio\_embrio.vcproj", "{443AE0CF-5771-4B5A-B62F-9DAE7764B53A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "filterLogger", "filterLogger\filterLogger.vcproj", "{5D88876C-CEEB-41FD-B061-C4B9A41ACDB1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{443AE0CF-5771-4B5A-B62F-9DAE7764B53A}.Debug.ActiveCfg = Debug|Win32
+		{443AE0CF-5771-4B5A-B62F-9DAE7764B53A}.Debug.Build.0 = Debug|Win32
+		{443AE0CF-5771-4B5A-B62F-9DAE7764B53A}.Release.ActiveCfg = Release|Win32
+		{443AE0CF-5771-4B5A-B62F-9DAE7764B53A}.Release.Build.0 = Release|Win32
+		{5D88876C-CEEB-41FD-B061-C4B9A41ACDB1}.Debug.ActiveCfg = Debug|Win32
+		{5D88876C-CEEB-41FD-B061-C4B9A41ACDB1}.Debug.Build.0 = Debug|Win32
+		{5D88876C-CEEB-41FD-B061-C4B9A41ACDB1}.Release.ActiveCfg = Release|Win32
+		{5D88876C-CEEB-41FD-B061-C4B9A41ACDB1}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

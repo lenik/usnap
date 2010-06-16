@@ -1,0 +1,26 @@
+
+Name:       D-LINK Router (General)
+Class:      WebRouter
+
+Globs:
+    - D-LINK * Router *
+
+Models:
+    - D-LINK Router Test 1
+    - D-LINK Wireless Router Test 2
+    - D-LINK Router Test 3
+
+Parameters:
+    wanport:
+        name:   WAN Port Selector
+        value:  1
+
+Features:
+    dev.reboot:
+        - /userRpm/SysRebootRpm.htm?Reboot=1
+    dev.reset:
+        - /userRpm/RestoreDefaultCfgRpm.htm?RestoreFactory=1
+    wan.connect:
+        - /userRpm/StatusRpm.htm?Connect=1&wan=$wanport
+    wan.disconnect:
+        - /userRpm/StatusRpm.htm?Disconnect=1&wan=$wanport

@@ -1,0 +1,69 @@
+// XEditBox.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (XEditBox.tlb) that will become a resource in
+// XEditBox.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(9EFD6B9C-3E7D-47A1-A0F0-39A8043963A7), version(1.0),
+  helpfile("XEditBox.hlp"),
+  helpstring("XEditBox ActiveX Control module"),
+  control ]
+library XEDITBOXLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CXEditBoxCtrl
+
+	[ uuid(9EB88073-4AC4-4CD1-89D3-838651110362),
+	  helpstring("Dispatch interface for XEditBox Control"), hidden ]
+	dispinterface _DXEditBox
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CXEditBoxCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CXEditBoxCtrl)
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CXEditBoxCtrl
+
+	[ uuid(EBDCD718-224B-44F6-9E8D-F2ABE4A203DC),
+	  helpstring("Event interface for XEditBox Control") ]
+	dispinterface _DXEditBoxEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CXEditBoxCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CXEditBoxCtrl
+
+	[ uuid(084908E2-0FFF-4057-B272-463AE45501F0), licensed,
+	  helpstring("XEditBox Control"), control ]
+	coclass XEditBox
+	{
+		[default] dispinterface _DXEditBox;
+		[default, source] dispinterface _DXEditBoxEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

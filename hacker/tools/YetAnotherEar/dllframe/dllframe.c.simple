@@ -1,0 +1,56 @@
+
+
+#include "stdafx.h"
+
+#include "${framehdr_file}"
+
+$exps_c
+
+
+
+struct _EP_ProcDecl {
+	void *_name;
+	void *_proc;
+};
+typedef struct _EP_ProcDecl	EP_ProcDecl;
+
+#ifdef MORE_EP_DLLGETPROC
+	extern EP_ProcDecl g_ep_procdecl[];
+	extern int g_ep_procdecl_num;
+#else
+	EP_ProcDecl *g_ep_procdecl = NULL;
+	int g_ep_procdecl_num = 0;
+#endif
+
+static EP_ProcDecl _ep_procdecl_internal[] = {
+	$exp_procdecls
+};
+static EP_ProcDecl _ep_procdecl_internal_num =
+	sizeof(_ep_procdecl_internal) / sizeof(_ep_procdecl_internal[0]);
+
+#include <string.h>
+static void *_EP_DllGetProc(EP_ProcDecl *_decls, int n, const char *_name) {
+	int l = 0, r = n - 1;
+	int i = n / 2;
+	for (; l <= r;) {
+		int c;
+		i = l + (r - l) / 2;
+		c = strcmp(_decls[i]._name, _name);
+		if (c == 0) return _decls[i]._proc;
+		if (c < 0) l = i + 1;
+		else l = i - 1;
+	}
+	return NULL;
+}
+
+void *_stdcall EP_DllGetProc(const char *_proc) {
+	void *p;
+	if (g_ep_procdecl_num > 0) {
+		p = _EP_DllGetProc(g_ep_procdecl, g_ep_procdecl_num, _proc);
+		if (p != NULL) return p;
+	}
+	p = _EP_DllGetProc(_ep_procdecl_internal,
+		_ep_procdecl_internal_num, _proc);
+	return p;
+
+}

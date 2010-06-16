@@ -1,0 +1,26 @@
+
+Name:       TP-LINK Router (General)
+Class:      WebRouter
+
+Globs:
+    - TP-LINK * Router *
+
+Models:
+    - TP-LINK Router R480T
+    # 2.10.1 Build 060216 Rel.37446n
+    - TP-LINK Wireless Router WR340G
+
+Parameters:
+    wanport:
+        name:   WAN Port Selector
+        value:  1
+
+Features:
+    dev.reboot:
+        - /userRpm/SysRebootRpm.htm?Reboot=1
+    dev.reset:
+        - /userRpm/RestoreDefaultCfgRpm.htm?RestoreFactory=1
+    wan.connect:
+        - /userRpm/StatusRpm.htm?Connect=1&wan=$wanport
+    wan.disconnect:
+        - /userRpm/StatusRpm.htm?Disconnect=1&wan=$wanport

@@ -1,0 +1,16 @@
+
+
+
+
+
+
+
+
+#define	NULL	\x0
+#define EOF	\x1B
+#define DOT	\x2E
+
+
+
+
+[\x30:\x39]
