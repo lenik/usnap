@@ -10,11 +10,11 @@ C_STC89C58RD = --code-size 0x8000 --xram-size 0x500
 
 LFLAGS = --iram-size 0x100 $(C_STC89C52RC)
 
-#MODULES = commtest comm2
-#UNITS = commtest
-
 MODULES = $(basename $(wildcard *.c))
-UNITS = $(basename $(wildcard *test.c))
+#MODULES = commtest comm2
+
+#UNITS = $(basename $(wildcard *test.c))
+UNITS = comm1test comm2test
 
 S51TEST = s51test
 
