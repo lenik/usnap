@@ -17,7 +17,7 @@
 void setTimer1Baud300(unsigned xtal_57600, byte k300) {
     unsigned c;
 
-    if (! (PCON & SMOD)) k300 <<= 1;
+    // if (! (PCON & SMOD)) k300 <<= 1;
 
     //    RCAP2H, RCAP2L
 #ifdef MODE_6T
