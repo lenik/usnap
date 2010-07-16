@@ -29,3 +29,4 @@ void DumpImports(PEFile *_arch);
 
 pos::error_t GenerateFrame(PEFile *_arch);
 pos::error_t WritePEFile(pos::asz_t g_szDllfix, PEFile *_pe);
+

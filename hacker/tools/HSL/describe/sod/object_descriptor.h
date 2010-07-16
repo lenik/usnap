@@ -55,3 +55,4 @@ void	object_dump_pure(__int8 *instance, int *object_descriptor, BYTESTREAMPROC b
 int	object_restore_pure_size(int *object_descriptor, BYTESTREAMRESTOREPROC bsrp, bool nest);
 // object_descriptor determines restore method.
 void	object_restore_pure(__int8 *instance, int *object_descriptor, BYTESTREAMRESTOREPROC bsrp);
+
