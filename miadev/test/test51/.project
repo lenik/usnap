@@ -3,6 +3,7 @@
 	<name>test51</name>
 	<comment></comment>
 	<projects>
+		<project>cos51</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
