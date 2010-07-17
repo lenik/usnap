@@ -54,4 +54,6 @@
 #define X165_SH_LD      P1_6
 #define X165_CLK        P3_6    // Excl. DS1302, Share 74H595
 
+#include "../config.h"
+
 #endif
