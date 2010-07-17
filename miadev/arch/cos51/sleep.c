@@ -86,7 +86,7 @@ void usleep2(register unsigned int us) {
  */
 #define _DJNZ_CYCLE     (XTAL / XMUL * 2)
 
-void udelay8(register byte us) {
+void udelayTiny(register byte us) {
     us;
     __asm           // ..(CALL)
         subb a, #9  // .

@@ -107,7 +107,7 @@ void lcd1602PowerOff() {
 byte lcd1602ReadStatus() {
     LCD1602_SELECT(0, 1);
     LCD1602_EN = 1;
-    nop4();
+    udelay_4();
     return LCD1602_D;
 }
 

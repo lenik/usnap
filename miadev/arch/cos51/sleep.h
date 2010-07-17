@@ -72,7 +72,29 @@ void sleep2(byte sec);
 
 #endif
 
-void udelay8(register byte us);
+
+#define __nop1 \
+        nop
+#define __nop2 \
+        nop \
+        nop
+#define __nop5 \
+         __nop2 \
+         __nop2 \
+         __nop1
+
+#define udelay_1()  __asm __nop1 __endasm
+#define udelay_2()  __asm __nop2 __endasm
+#define udelay_3()  __asm __nop2 __nop1 __endasm
+#define udelay_4()  __asm __nop2 __nop2 __endasm
+#define udelay_5()  __asm __nop5 __endasm
+#define udelay_6()  __asm __nop5 __nop1 __endasm
+#define udelay_7()  __asm __nop5 __nop2 __endasm
+#define udelay_8()  __asm __nop5 __nop2 __nop1 __endasm
+#define udelay_9()  __asm __nop5 __nop2 __nop2 __endasm
+#define udelay_10() __asm __nop5 __nop5 __endasm
+
+void udelayTiny(register byte us);
 void udelay(register unsigned int us);
 void mdelay(unsigned int ms);
 void delay(byte sec);
