@@ -3,7 +3,6 @@
 
 #define DEBUG
 #include <cos51/message.h>
-#include <cos51/comm.h>
 #include <cos51/sunit_stdio.h>
 
 byte handler(m_t message, byte param, word data)

@@ -1,7 +1,7 @@
 // #define DEBUG
 #include <cos51/sunit_stdio.h>
 
-#define SLAP_PAYLOAD 100
+#define SLAP_PAYLOAD 40
 #include <cos51/slap.h>
 
 void recv1(__xdata byte *p, byte cb) __reentrant {
