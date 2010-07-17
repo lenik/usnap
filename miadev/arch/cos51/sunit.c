@@ -1,39 +1,48 @@
 #include <stdio.h>
 #include <8051.h>
 
-#define SUNIT_IMPL
+#include "config.h"
+
+#define COS51_SUNIT_C
 #include "sunit.h"
 
 extern __xdata byte sunitBuffer[];
 extern byte sunitBufferSize;
+extern byte sunitReadPtr;
+extern byte sunitRecvPtr;
 
-static int _start = 0;
-static int _end = 0;
+__bit sunitSending = 0;
 
 void putchar(char c) {
-    while (!TI)
+    while (sunitSending)
         ;
-    TI = 0;
     SBUF = c;
+    sunitSending = 1;
 }
 
 char getchar() {
     byte c;
-    while (_start == _end)
+
+    REN = 1;
+    while (sunitReadPtr == sunitRecvPtr)
         ;
-    c = sunitBuffer[_start++];
-    _start %= sunitBufferSize;
+    c = sunitBuffer[sunitReadPtr++];
+    sunitReadPtr %= sunitBufferSize;
     return (char) c;
 }
 
 void sunitSerialProc()
-__interrupt 4 {
+__interrupt(4) __using(RBANK_SUNIT) {
+    if (TI) {
+        sunitSending = 0;
+        TI = 0;
+    }
     if (RI) {
-        if (_start <= _end) {
-            sunitBuffer[_end++] = SBUF;
-            _end %= sunitBufferSize;
-        } else if (_end + 1 < _start) {
-            sunitBuffer[_end++] = SBUF;
+        if (sunitReadPtr <= sunitRecvPtr) {
+            sunitBuffer[sunitRecvPtr++] = SBUF;
+            sunitRecvPtr %= sunitBufferSize;
+        } else if (sunitRecvPtr + 1 < sunitReadPtr) {
+            sunitBuffer[sunitRecvPtr++] = SBUF;
         } else {
             die("recvbuf full");
         }
@@ -41,18 +50,18 @@ __interrupt 4 {
     }
 }
 
+void _assert(char *message, const char *file, unsigned int line) {
+    printf_small("%s:%d: assertion failure: ", file, line);
+    die(message);
+}
+
 void vmstop() {
-__asm
-        ljmp 0xffff
-__endasm;
+    while (sunitSending)
+        ;
+    __asm ljmp 0xffff __endasm;
 }
 
 void die(const char *message) {
     puts(message);
     vmstop();
-}
-
-void _assert(char *message, const char *file, unsigned int line) {
-    printf("%s:%d: assertion failure: ", file, line);
-    die(message);
 }
