@@ -1,13 +1,15 @@
 #ifndef _74XX_165_H
 #define _74XX_165_H
 
+#include "../util.h"
+
 #define X165_READ_BITS(b, n, sh_ld, clk, in) \
     do { \
         byte i = n + 1; \
         sh_ld = 0; /* load */ \
         sh_ld = 1; /* shift */ \
         while (--i) { \
-            b = __shiftl(b, 1); \
+            b <<= 1; \
             if ((in)) \
                 b |= 1; \
             clk = 1; \

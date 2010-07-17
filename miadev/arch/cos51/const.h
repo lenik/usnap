@@ -11,6 +11,6 @@
 #define US2C(us)    (~(unsigned) ((us) * TFREQ / 1000000.0) + 1)
 
 // (ms/1000) / (1 / TFREQ) = ms * TFREQ / 1000
-#define MS2C(ms)    (~(unsigned) ((us) * TFREQ / 1000.0) + 1)
+#define MS2C(ms)    (~(unsigned) ((ms) * TFREQ / 1000.0) + 1)
 
 #endif
