@@ -11,9 +11,9 @@ MODULES = $(basename $(wildcard *.c))
 SOURCES = $(addsuffix .c,$(MODULES))
 
 all: all_medium
-all_small: ../../lib/cos51small.lib ../../lib/cos51small_dbg.lib
-all_medium: ../../lib/cos51medium.lib ../../lib/cos51medium_dbg.lib
-all_large: ../../lib/cos51large.lib ../../lib/cos51large_dbg.lib
+all_small: 	../../lib/cos51small.lib 	../../lib/cos51small_dbg.lib
+all_medium: ../../lib/cos51medium.lib 	../../lib/cos51medium_dbg.lib
+all_large: 	../../lib/cos51large.lib 	../../lib/cos51large_dbg.lib
 
 ../../lib/cos51small.lib: $(addsuffix _s.rel,$(MODULES))
 	$(CCLIB) $@ $^

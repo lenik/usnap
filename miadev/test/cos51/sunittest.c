@@ -1,7 +1,6 @@
 #include <cos51/types.h>
 
-#define RECVBUF_SIZE 128
-#include <cos51/sunit.h>
+#include <cos51/sunit_stdio.h>
 
 void testCase() {
     byte buf[100];
