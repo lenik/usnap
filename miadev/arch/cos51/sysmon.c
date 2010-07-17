@@ -47,7 +47,7 @@
         setsfr_entry(0x##X##f)
 
 /**
- * addr must be passed by DPL.
+ * addr must be passed by DPL, must be 80..ff
  * @return in DPL
  */
 byte getsfr(register byte addr)
@@ -65,6 +65,8 @@ __naked __reentrant __using(0) {
     // r0: low addr
     // r1: tmp
     mov a, dpl
+    anl a, #0x7f
+
     mov dph, #(_getsfr_tab >> 8)
     mov dpl, #(_getsfr_tab)
     rl a
@@ -84,11 +86,13 @@ __naked __reentrant __using(0) {
     jmp @a + dptr
 
 getsfr_ret:
+    mov dpl, acc
     pop acc
     pop 0
     pop 1
     pop dph
     pop psw
+    ret
     __endasm;
 }
 
@@ -108,11 +112,11 @@ __naked {
 }
 
 /**
- * addr must be passed by dph
+ * addr must be passed by dph, must be 80..ff
  * val  must be passed by dpl
  * @return in DPL
  */
-void setsfr(register word addr_val)
+void _setsfr(register word addr_val)
 __naked __reentrant __using(0) {
     addr_val;
     __asm
@@ -130,6 +134,8 @@ __naked __reentrant __using(0) {
     // r1: tmp
     // r2: low addr
     mov a, dph
+    anl a, #0x7f
+
     mov r0, dpl
     mov dph, #(_setsfr_tab >> 8)
     mov dpl, #(_setsfr_tab)
@@ -157,6 +163,7 @@ setsfr_ret:
     pop dpl
     pop dph
     pop psw
+    ret
     __endasm;
 }
 

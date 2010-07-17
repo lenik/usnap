@@ -9,7 +9,10 @@ void setsfr_tab() __naked;
 byte getsfr(register byte addr)
 __naked __reentrant  __using(0);
 
-void setsfr(register word addr_val)
+void _setsfr(register word addr_val)
 __naked __reentrant  __using(0);
+
+#define setsfr(addr, val) \
+    _setsfr( ((word) (addr) << 8) | (val) )
 
 #endif
