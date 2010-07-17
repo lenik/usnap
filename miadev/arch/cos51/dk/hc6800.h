@@ -17,8 +17,8 @@
 #define LCD1602_RW_PORT 0xa5    // P2_5
 #define LCD1602_EN_PORT 0xa7    // P2_7
 
-#define DS1302_CE       P3_5
 #define DS1302_DSIO     P3_4    // JP1302
+#define DS1302_CE       P3_5
 #define DS1302_SCLK     P3_6
 
 #define EEPROM_SCL      G_SCL
@@ -44,15 +44,26 @@
 #define STEPMOTER_D     0x07    // ～1000 = 0111
 #define STEPMOTER_DA    0x06    // ～1001 = 0110
 
-// 74H595
+// 74H595,  serial in, parallel out
 #define X595_SER        P3_4    // JP595
 #define X595_RCLK       P3_5    // Excl. DS1302
 #define X595_SRCLK      P3_6    // Excl. DS1302, Share 74LS165
 
-// 74LS165, ABCDEFGH->JP6
+// 74LS165, parallel in, serial out (HGFEDCBA->JP6)
 #define X165_IN         P1_7    // JP165
 #define X165_SH_LD      P1_6
 #define X165_CLK        P3_6    // Excl. DS1302, Share 74H595
+
+#define LS138_A         P2_2
+#define LS138_B         P2_3
+#define LS138_C         P2_4
+
+#define LED8_A0         LS138_A
+#define LED8_A1         LS138_B
+#define LED8_A2         LS138_C
+#define LED8_SETADDR(a) (P2 = P2 & 0xe3 | (a) << 2)
+#define LED8_EN         P1_0    // J21
+#define LED8_AUX        P1_1    // J14
 
 #include "../config.h"
 
