@@ -1,18 +1,9 @@
 #ifndef COS51_UTIL_H
 #define COS51_UTIL_H
 
-#define nop2() \
-    __asm \
-        nop \
-        nop \
-    __endasm
-
-#define nop4() \
-    __asm \
-        nop \
-        nop \
-        nop \
-        nop \
-    __endasm
+#define HIGH_BYTE(w) \
+    ((unsigned char)(((unsigned) (w)) >> 8))
+#define LOW_BYTE(w) \
+    ((unsigned char)((w) & 0xff))
 
 #endif

@@ -1,10 +1,6 @@
 #ifndef COS51_CONST_H
 #define COS51_CONST_H
 
-#ifndef XMUL
-#   define XMUL 12
-#endif
-
 #define TFREQ (XTAL / XMUL)
 
 #define MHZ2C(f)    (~(unsigned) (TFREQ / (1000000 * (f))) + 1)
