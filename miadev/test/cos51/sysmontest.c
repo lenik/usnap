@@ -1,6 +1,6 @@
 #include <8051.h>
 #include <cos51/sunit_stdio.h>
-#include <cos51/debug.h>
+#include <cos51/sysmon.h>
 #include <cos51/dk/hc6800.h>
 
 #define SFR_TH0 0x8c

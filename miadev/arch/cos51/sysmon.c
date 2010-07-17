@@ -1,4 +1,4 @@
-#include "debug.h"
+#include "sysmon.h"
 
 #define getsfr_entry(idat) \
         mov a, idat \

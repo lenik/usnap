@@ -1,5 +1,5 @@
-#ifndef COS51_DEBUG_H
-#define COS51_DEBUG_H
+#ifndef COS51_SYSMON_H
+#define COS51_SYSMON_H
 
 #include "types.h"
 
