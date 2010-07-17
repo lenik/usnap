@@ -5,8 +5,8 @@ HEX2BIN = hex2bin
 CC = sdcc
 CFLAGS = --std-c99 -I../../arch
 
-C_STC89C52RC = --code-size 0x2000 --xram-size 0x200
-C_STC89C58RD = --code-size 0x8000 --xram-size 0x500
+C_STC89C52RC = --code-size 0x2000 --xram-size 0x200 -Wl-bPAGE1=0x1a00
+C_STC89C58RD = --code-size 0x8000 --xram-size 0x500 -Wl-bPAGE1=0x1a00
 
 LFLAGS = --iram-size 0x100 $(C_STC89C52RC)
 
@@ -31,11 +31,11 @@ bin_small: $(addsuffix _s.bin,$(MODULES))
 bin_medium: $(addsuffix _m.bin,$(MODULES))
 bin_large: $(addsuffix _l.bin,$(MODULES))
 
-test_small: $(addsuffix _s.su,$(UNITS))
-test_medium: $(addsuffix _m.su,$(UNITS))
-test_large: $(addsuffix _l.su,$(UNITS))
+test_small: $(addsuffix _s.out,$(UNITS))
+test_medium: $(addsuffix _m.out,$(UNITS))
+test_large: $(addsuffix _l.out,$(UNITS))
 
-%.su: %.ihx
+%.out: %.ihx
 	$(S51TEST) $<
 
 %.bin: %.ihx
@@ -61,4 +61,4 @@ test_large: $(addsuffix _l.su,$(UNITS))
 	$(CC) -c $(CFLAGS) --model-large    -o $@ $<
 
 clean:
-	rm -f *.asm *.bin *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb
+	rm -f *.asm *.bin *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb *.out

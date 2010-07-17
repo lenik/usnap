@@ -7,10 +7,10 @@
  * Serial Communication Implementation
  */
 
-extern __xdata char *sendbuf;
-extern __xdata char *recvbuf;
-extern byte sendbuf_size;
-extern byte recvbuf_size;
+extern __xdata char sendbuf[];
+extern __xdata char recvbuf[];
+extern byte sendbuf_size; // must <= 255
+extern byte recvbuf_size; // must <= 255
 
 static volatile byte sendp = 0;
 static volatile byte buffp = 0;
@@ -18,13 +18,12 @@ static volatile byte buffp = 0;
 static volatile byte readp = 0;
 static volatile byte recvp = 0;
 
-static bool send_empty = 1;
-static bool send_full = 0;
-static bool sending = 0;
+static volatile bool send_empty = 1;
+static volatile bool send_full = 0;
 
-static bool recv_empty = 1;
-static bool recv_full = 0;
-static bool recv_timeout = 0;
+static volatile bool recv_empty = 1;
+static volatile bool recv_full = 0;
+static volatile bool recv_timeout = 0;
 
 TimeoutProc timeout_proc = NULL;
 
@@ -40,59 +39,51 @@ __interrupt(4) __using(RBANK_COS51) {
 #endif
             REN = 0;
         } else {
-            recvbuf[recvp++] = SBUF;
+            recvbuf[recvp] = SBUF;
+            recvp++;
             recvp %= recvbuf_size;
             recv_empty = 0;
             if (recvp == readp)
-            recv_full = 1;
+                recv_full = 1;
         }
         RI = 0;
     }
     if (TI) {
         if (send_empty) {
-            // direct send
-            sending = 0;
+            // unexpected
         } else {
             // send the next char
-            SBUF = sendbuf[++sendp];
+            sendp++;
             sendp %= sendbuf_size;
             send_full = 0;
-            if (sendp == buffp) {
+            if (sendp == buffp)
                 send_empty = 1;
-                sending = 0;
-            }
+            else
+                SBUF = sendbuf[sendp];
         }
         TI = 0;
     }
 }
 
 bool send(char ch) {
-    if (send_empty) {
-        if (!sending) {
-            // critical:
-            // what if TI==1 then SBUF=x and TI=0?
-            SBUF = ch;
-            sending = 1;
-            return 1;
-        } else {
-            // sendp -> [0:sending-skip] [1:ch] [2] <-- buffp
-            buffp = (buffp + 1) % sendbuf_size;
-        }
-    } else
-        while (send_full) {
-            if (timeout_proc && timeout_proc())
-                return 0;
-        }
+    while (send_full) {
+        if (timeout_proc && timeout_proc())
+            return 0;
+    }
 
     sendbuf[buffp++] = ch;
     buffp %= sendbuf_size;
+
+//    ES = 0;
+
+    if (send_empty)
+        SBUF = ch;
     send_empty = 0;
 
-    ES = 0;
     if (buffp == sendp)
         send_full = 1;
-    ES = 1;
 
+//    ES = 1;
     return 1;
 }
 
@@ -147,8 +138,6 @@ word recvblob(char *p, word size) {
 byte available() {
     if (recv_empty)
         return 0;
-    if (recv_full)
-        return 0xff;
     if (readp < recvp)
         return recvp - readp;
     else

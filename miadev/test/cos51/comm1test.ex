@@ -1,3 +1,2 @@
-[01234567890123456789abcdefghijklmnopqrstuvwxyz
+01234567890123456789abcdefghijklmnopqrstuvwxyz
 hello, world
-]

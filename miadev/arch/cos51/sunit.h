@@ -25,7 +25,7 @@ void vmstop();
 #ifdef SUNIT_STDIO
 
 #   ifndef COMM_BUFSIZE
-#       define COMM_BUFSIZE 5
+#       define COMM_BUFSIZE 100
 #   endif
 
 #   include "comm.h"
@@ -41,7 +41,7 @@ void testCase();
 void main() {
 
 #   ifdef SUNIT_STDIO
-    setTimer2Baud(19200);
+    setTimer2Baud(9600);
     SCON = 0x40; // SM2, ¬REN
     ES = 1;
     EA = 1;

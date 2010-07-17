@@ -6,8 +6,8 @@
 #include "types.h"
 
 #ifdef COMM_BUFSIZE
-__xdata byte sendbuf[COMM_BUFSIZE];
-__xdata byte recvbuf[COMM_BUFSIZE];
+__xdata char sendbuf[COMM_BUFSIZE];
+__xdata char recvbuf[COMM_BUFSIZE];
 byte sendbuf_size = COMM_BUFSIZE;
 byte recvbuf_size = COMM_BUFSIZE;
 #endif

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <8052.h>
 #include <cos51/types.h>
-#include <cos51/comm.h>
+#include <cos51/baud.h>
 #include <cos51/1602.h>
 #include <cos51/dk/hc6800.h>
 
