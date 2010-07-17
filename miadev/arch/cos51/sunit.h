@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <8051.h>
 #include "types.h"
+#include "config.h"
 
 // ASSERT(), TRACE() macros
 void _assert(char *message, const char *file, unsigned int line);
@@ -23,9 +24,14 @@ void vmstop();
 // SUnit/STDIO
 #ifdef SUNIT_STDIO
 
+#   include "comm.h"
+
 #   ifndef SUNIT_BUFSIZE
-#       define SUNIT_BUFSIZE 32
+#       define SUNIT_BUFSIZE 5
 #   endif
+
+void sunitSerialProc()
+__interrupt(4) __using(RBANK_SUNIT);
 
 #else
 
@@ -47,6 +53,7 @@ void testCase();
 #ifndef COS51_SUNIT_C
 void main() {
 #   ifdef SUNIT_STDIO
+    setTimer2Baud(19200);
     SCON = 0x40; // SM2, ¬REN
     ES = 1;
     EA = 1;
