@@ -1,4 +1,5 @@
-#include <cos51/sunit.h>
+#define DEBUG
+#include <cos51/sunit_stdio.h>
 
 #define SLAP_PAYLOAD 100
 #include <cos51/slap.h>

@@ -1,9 +1,10 @@
-#define DEBUG
-#include <cos51/sunit.h>
-#include <cos51/message.h>
-
 #define HEAP_SIZE 200
 #include <_heap.h>
+
+#define DEBUG
+#include <cos51/message.h>
+#include <cos51/comm.h>
+#include <cos51/sunit_stdio.h>
 
 byte handler(m_t message, byte param, word data)
 __reentrant {
@@ -25,19 +26,21 @@ __code PollEntry pollTables[] = { { poll, 1 }, };
 __code MessageHandler handlers[] = { handler, };
 
 void testCase() {
+    // TODO...
+    vmstop();
+
     TRACE("initmq");
+
     INITMQ(pollTables, handlers, 100);
 
-    TR1 = 0;
-    TMOD = 0x10; // 0.0.10 xxxx, Timer 1: timer, mode 2 (TH ⇒ TL)
-    TH1 = 0x03; // US2TCC(100, byte);
-    TL1 = 0x03;
-
-    EA = 1;
-    ET1 = 1;
-    TR1 = 1;
+    TMOD = 0x01; // 0.0.10 xxxx, Timer 1: timer, mode 2 (TH ⇒ TL)
+    TH0 = 0x03; // US2TCC(100, byte);
+    TL0 = 0x03;
+    TR0 = 1;
+    ET0 = 1;
 
     TRACE("dequeue-loop");
+
     while (val < 'h') {
         puts("dequeue");
         dequeue();
@@ -45,7 +48,7 @@ void testCase() {
 }
 
 void pollTimer()
-__interrupt 3 __using 1 {
+__interrupt(1) __using(1) {
     puts("pollTimer");
     TH1 = 3;
     TL1 = 3;

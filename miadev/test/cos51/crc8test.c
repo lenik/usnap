@@ -1,5 +1,5 @@
-#include <cos51/sunit.h>
 #include <cos51/crc8.h>
+#include <cos51/sunit_stdio.h>
 
 void testCase() {
     byte block[] = { 0x01, 0x01, 0x34 };

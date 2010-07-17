@@ -83,7 +83,7 @@ void slapRecv(byte b) {
     slapCRC = crc8Update(b);
 }
 
-void slapRecvBlock(byte *p, byte cb) {
+void slapRecvBlock(byte *pblock, byte cb) {
     while (cb--)
-        slapRecv(*p++);
+        slapRecv(*pblock++);
 }

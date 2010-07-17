@@ -135,6 +135,7 @@ bool dequeue() {
             param = 0;
             data = 0;
             break;
+
         case 2: // 01.0
         case 3: // 01.1
             param = mbuf[start++];
