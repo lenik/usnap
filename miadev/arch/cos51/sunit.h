@@ -25,7 +25,7 @@ void vmstop();
 #ifdef SUNIT_STDIO
 
 #   ifndef COMM_BUFSIZE
-#       define COMM_BUFSIZE 100
+#       define COMM_BUFSIZE 32
 #   endif
 
 #   include "comm.h"
