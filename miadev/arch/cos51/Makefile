@@ -7,6 +7,7 @@ CHECKFLAGS = --debug
 
 CCLIB = sdcclib
 
+HEADERS = $(wildcard *.h)
 MODULES = $(basename $(wildcard *.c))
 SOURCES = $(addsuffix .c,$(MODULES))
 
@@ -33,22 +34,22 @@ all_large: 	../../lib/cos51large.lib 	../../lib/cos51large_dbg.lib
 ../../lib/cos51large_dbg.lib: $(addsuffix _ld.rel,$(MODULES))
 	$(CCLIB) $@ $^
 
-%_s.rel: %.c %.h
+%_s.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(FREEFLAGS) --model-small -o $@ $<
 
-%_m.rel: %.c %.h
+%_m.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(FREEFLAGS) --model-medium -o $@ $<
 
-%_l.rel: %.c %.h
+%_l.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(FREEFLAGS) --model-large -o $@ $<
 
-%_sd.rel: %.c %.h
+%_sd.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(CHECKFLAGS) --model-small -o $@ $<
 
-%_md.rel: %.c %.h
+%_md.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(CHECKFLAGS) --model-medium -o $@ $<
 
-%_ld.rel: %.c %.h
+%_ld.rel: %.c $(HEADERS)
 	$(CC) -c $(CFLAGS) $(CHECKFLAGS) --model-large -o $@ $<
 
 clean:
