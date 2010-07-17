@@ -1,5 +1,7 @@
 #include "sysmon.h"
 
+#pragma codeseg PAGE1
+
 #define getsfr_entry(idat) \
         mov a, idat \
         ajmp getsfr_ret // 2k boundary.
@@ -43,21 +45,6 @@
         setsfr_entry(0x##X##d) \
         setsfr_entry(0x##X##e) \
         setsfr_entry(0x##X##f)
-
-// size=0x200 (0.5k)
-void getsfr_tab()
-__naked {
-    __asm
-    getsfrX_(8)
-    getsfrX_(9)
-    getsfrX_(a)
-    getsfrX_(b)
-    getsfrX_(c)
-    getsfrX_(d)
-    getsfrX_(e)
-    getsfrX_(f)
-    __endasm;
-}
 
 /**
  * addr must be passed by DPL.
@@ -106,17 +93,17 @@ getsfr_ret:
 }
 
 // size=0x200 (0.5k)
-void setsfr_tab()
+void getsfr_tab()
 __naked {
     __asm
-    setsfrX_(8)
-    setsfrX_(9)
-    setsfrX_(a)
-    setsfrX_(b)
-    setsfrX_(c)
-    setsfrX_(d)
-    setsfrX_(e)
-    setsfrX_(f)
+    getsfrX_(8)
+    getsfrX_(9)
+    getsfrX_(a)
+    getsfrX_(b)
+    getsfrX_(c)
+    getsfrX_(d)
+    getsfrX_(e)
+    getsfrX_(f)
     __endasm;
 }
 
@@ -170,5 +157,20 @@ setsfr_ret:
     pop dpl
     pop dph
     pop psw
+    __endasm;
+}
+
+// size=0x200 (0.5k)
+void setsfr_tab()
+__naked {
+    __asm
+    setsfrX_(8)
+    setsfrX_(9)
+    setsfrX_(a)
+    setsfrX_(b)
+    setsfrX_(c)
+    setsfrX_(d)
+    setsfrX_(e)
+    setsfrX_(f)
     __endasm;
 }
