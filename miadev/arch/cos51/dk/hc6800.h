@@ -61,7 +61,7 @@
 #define LED8_A0         LS138_A
 #define LED8_A1         LS138_B
 #define LED8_A2         LS138_C
-#define LED8_SETADDR(a) (P2 = P2 & 0xe3 | (a) << 2)
+#define LED8_SETADDR(a) (P2 = (P2 & 0xe3) | ((a) << 2))
 #define LED8_EN         P1_0    // J21
 #define LED8_AUX        P1_1    // J14
 
