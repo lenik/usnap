@@ -2,8 +2,7 @@
 #define COS51_SLAP_H
 
 #include "types.h"
-#include "crc8.h"
-#include "message.h"
+#include "io/crc8.h"
 
 /**
  * Serial Line A-network Packets

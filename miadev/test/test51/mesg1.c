@@ -69,7 +69,7 @@ void main() {
 
 static byte xx = 0;
 void pollTimer()
-__interrupt 3 __using 1 {
+__interrupt(INT_TIMER1) {
     if (lockdown) {
         lockdown--;
     } else {

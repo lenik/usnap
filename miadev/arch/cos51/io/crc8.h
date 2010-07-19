@@ -1,7 +1,7 @@
 #ifndef COS51_CRC8_H
 #define COS51_CRC8_H
 
-#include "types.h"
+#include "../types.h"
 
 /**
  * 11010101 CRC8 = 0xd5,

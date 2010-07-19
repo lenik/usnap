@@ -1,5 +1,6 @@
 #define __LED8_C
 #include "led8.h"
+#include "math/apn.h"
 
 extern __xdata byte led8Cache[];
 extern byte led8Count;
@@ -150,9 +151,18 @@ void led8Puts(const char *mesg) {
  * @param cb bytes of apn
  * @param frac10 fractional width, [0, frac10^10)
  */
-void led8PutNum(const byte *apn, byte cb, byte frac10) {
+void led8PutNum(const byte *apn, byte cb, byte frac10)
+__reentrant {
     byte pos = led8Count;
-    while (cb && pos) {
+    byte buf[17]; // led8Count + 1, 16+1 is just fine.
+    byte *p;
 
-    }
+    // log(0x100, 10^16) ~ 6.64
+    if (cb > 6)
+        cb = 6;
+    cc = apnToString(buf, apn, cb, 10);
+
+    p = buf + cc;
+    while (cc-- && pos)
+        led8Draw(--pos, *--p);
 }

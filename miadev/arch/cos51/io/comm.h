@@ -1,9 +1,8 @@
 #ifndef COS51_COMM_H
 #define COS51_COMM_H
 
-#include <stdbool.h>
+#include "../types.h"
 #include "baud.h"
-#include "types.h"
 
 #ifdef COMM_BUFSIZE
 __xdata char sendbuf[COMM_BUFSIZE];
@@ -12,7 +11,7 @@ byte sendbuf_size = COMM_BUFSIZE;
 byte recvbuf_size = COMM_BUFSIZE;
 #endif
 
-void commSerialProc() __interrupt(4);
+void commSerialProc() __interrupt(INT_UART);
 
 typedef bool (*TimeoutProc)();
 

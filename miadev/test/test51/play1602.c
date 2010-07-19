@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <cos51/1602.h>
 #include <cos51/sleep.h>
+#include <cos51/display/1602.h>
 
 void putchar(char c) {
     lcd1602Putchar(c);

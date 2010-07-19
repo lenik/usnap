@@ -1,5 +1,5 @@
 #include <8051.h>
-#include <cos51/1602.h>
+#include <cos51/display/1602.h>
 #include <cos51/dk/skbd8.h>
 
 void main() {

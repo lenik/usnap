@@ -1,10 +1,9 @@
 #include <8052.h>
 #include <cos51/types.h>
 #include <cos51/sleep.h>
-#define COMM_BUFSIZE 10
-#include <cos51/comm.h>
 #include <cos51/sunit.h>
-
+#define COMM_BUFSIZE 10
+#include <cos51/io/comm.h>
 #include <cos51/dk/hc6800.h>
 
 void testCase() {

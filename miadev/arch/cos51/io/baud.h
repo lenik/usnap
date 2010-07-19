@@ -1,8 +1,8 @@
 #ifndef COS51_BAUD_H
 #define COS51_BAUD_H
 
-#include "const.h"
-#include "types.h"
+#include "../const.h"
+#include "../types.h"
 
 void setTimer1Baud300(unsigned xtal_57600, byte k300);
 #define setTimer1Baud(baud) \

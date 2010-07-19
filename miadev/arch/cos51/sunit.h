@@ -28,7 +28,7 @@ void vmstop();
 #       define COMM_BUFSIZE 8
 #   endif
 
-#   include "comm.h"
+#   include "io/comm.h"
 
 #endif
 

@@ -17,9 +17,9 @@
     void sleepTimerProc1();
     void sleepTimerProc2();
 
-#   define T0_IMPL void timer0Hub() __interrupt 1 { if (timerProc0) timerProc0(); }
-#   define T1_IMPL void timer1Hub() __interrupt 3 { if (timerProc1) timerProc1(); }
-#   define T2_IMPL void timer2Hub() __interrupt 5 { if (timerProc2) timerProc2(); }
+#   define T0_IMPL void timer0Hub() __interrupt(INT_TIMER0) { if (timerProc0) timerProc0(); }
+#   define T1_IMPL void timer1Hub() __interrupt(INT_TIMER1) { if (timerProc1) timerProc1(); }
+#   define T2_IMPL void timer2Hub() __interrupt(INT_TIMER2) { if (timerProc2) timerProc2(); }
 
 #else
 
@@ -27,9 +27,9 @@
     extern volatile __bit signal1;
     extern volatile __bit signal2;
 
-#define T0_IMPL void sleepTimer0() __interrupt 1 { signal0 = 1; }
-#define T1_IMPL void sleepTimer1() __interrupt 3 { signal1 = 1; }
-#define T2_IMPL void sleepTimer2() __interrupt 5 { signal2 = 1; }
+#define T0_IMPL void sleepTimer0() __interrupt(INT_TIMER0) { signal0 = 1; }
+#define T1_IMPL void sleepTimer1() __interrupt(INT_TIMER1) { signal1 = 1; }
+#define T2_IMPL void sleepTimer2() __interrupt(INT_TIMER2) { signal2 = 1; }
 
 #endif
 

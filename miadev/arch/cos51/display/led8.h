@@ -18,4 +18,11 @@ void led8Set(byte index, byte mask);
 void led8Draw(byte index, char c);
 void led8Refresh();
 
+/**
+ * @param apn arbitrary number.
+ * @param cb bytes of apn
+ * @param frac10 fractional width, [0, frac10^10)
+ */
+void led8PutNum(const byte *apn, byte cb, byte frac10) __reentrant;
+
 #endif

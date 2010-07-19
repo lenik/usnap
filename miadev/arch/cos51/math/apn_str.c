@@ -5,15 +5,17 @@
 
 /**
  * @param buf must be large enough to hold the result string (include '\0').
+ * @param len should less than 0x100 / (8 / log(2, ordix)) for safe purpose.
  * @param ordix must >= 2 and <= 16
  * @return length of the result string (exclude '\0').
  */
-void apnToString(char *buf, byte *apn, byte len, byte div/*ordix*/) {
+word apnToString(char *buf, byte *apn, byte len, byte div/*ordix*/) {
     byte x;
     byte a = 0; // dividend
     byte quo4 = 0; // 4bit|4bit
     byte rem4 = 0;
-    byte cc = 0;
+    __bit lead = 0;
+    word cc = 0;
 
     if (div == 0 || div > 0x10) {
         *buf = 0;
@@ -28,26 +30,26 @@ void apnToString(char *buf, byte *apn, byte len, byte div/*ordix*/) {
         a = (rem4 << 4) | (x & 0x0f);
         rem4 = a % div;
         quo4 = a / div;
-        if (cc || quo4) {
+        if (lead || quo4) {
             *buf++ = N2C(quo4);
-            // cc++;
-            cc = 1;
+            lead = 1;
+            cc++;
         }
 
         __swap8(x);
         a = (rem4 << 4) | (x & 0x0f);
         rem4 = a % div;
         quo4 = a / div;
-        if (cc || quo4) {
+        if (lead || quo4) {
             *buf++ = N2C(quo4);
-            // cc++;
-            cc = 1;
+            lead = 1;
+            cc++;
         }
     }
 
-    if (! cc) {
+    if (! lead) {
         *buf++ = '0';
-        cc++;
+        cc = 1;
     }
     *buf = 0;
     return cc;

@@ -47,7 +47,7 @@ void testCase() {
 }
 
 void pollTimer()
-__interrupt(1) __using(1) {
+__interrupt(INT_TIMER0) {
     puts("pollTimer");
     TH1 = 3;
     TL1 = 3;

@@ -2,7 +2,7 @@
 #include <8051.h>
 
 #include "config.h"
-#include "comm.h"
+#include "io/comm.h"
 
 #define COS51_SUNIT_C
 #include "sunit.h"

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <8052.h>
 #include <cos51/types.h>
-#include <cos51/baud.h>
-#include <cos51/1602.h>
+#include <cos51/io/baud.h>
+#include <cos51/display/1602.h>
 #include <cos51/dk/hc6800.h>
 
 void slsend(byte c) {
@@ -13,7 +13,7 @@ void slsend(byte c) {
 }
 
 void slrecv()
-__interrupt(4) {
+__interrupt(INT_UART) {
     if (RI) {
         // byte b = SBUF;
         P2_0 ^= 1;

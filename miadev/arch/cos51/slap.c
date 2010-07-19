@@ -1,7 +1,7 @@
 #include <stddef.h>
 
 #include "slap.h"
-#include "crc8.h"
+#include "io/crc8.h"
 
 #ifndef SLAP_MAXPORT
 #define SLAP_MAXPORT 16

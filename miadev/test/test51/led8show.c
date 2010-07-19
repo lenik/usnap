@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <8051.h>
 #include <cos51/sleep.h>
-#include <cos51/led8.h>
+#include <cos51/display/led8.h>
 #include <cos51/dk/hc6800.h>
 #include <cos51/const.h>
 

@@ -28,10 +28,10 @@ byte apnMul8(byte *apn, byte len, byte mul);
 
 /**
  * @param buf must be large enough to hold the result string (include '\0').
- * // @param len must be less than 0x100 / (8/log(2,ordix)) - 1.
+ * @param len should less than 0x100 / (8/log(2,ordix)) - 1 for safe purpose.
  * @param ordix must >= 2 and <= 16
- * // @return length of the result string (exclude '\0').
+ * @return length of the result string (exclude '\0').
  */
-void apnToString(char *buf, byte *apn, byte len, byte ordix);
+word apnToString(char *buf, byte *apn, byte len, byte ordix);
 
 #endif
