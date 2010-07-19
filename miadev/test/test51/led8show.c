@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <8051.h>
+#include <cos51/sleep.h>
 #include <cos51/led8.h>
 #include <cos51/dk/hc6800.h>
 #include <cos51/const.h>
@@ -13,11 +14,6 @@ void putchar(char c) {
         off = 0;
     else
         led8Draw(off++, c);
-}
-
-void led8Set(byte index, byte mask) {
-    LED8_SETADDR(index);
-    P0 = mask;
 }
 
 void main() {
@@ -48,6 +44,9 @@ void main() {
 
 byte dd = 0;
 
+byte bak;
+byte bar = 1;
+
 void timer0()
 __interrupt(1) {
     if (dd++ == 10) {
@@ -57,4 +56,13 @@ __interrupt(1) {
         TL0 = REFC;
         led8Refresh();
     }
+
+    bar = (bar >> 1) | (bar << 7);
+
+    bak = P0;
+    P0 = bar;
+    LED8_AUX = 0;
+    mdelay(10);
+    LED8_AUX = 1;
+    P0 = bak;
 }
