@@ -6,7 +6,9 @@
 #define LOW_BYTE(w) \
     ((unsigned char)((w) & 0xff))
 
-#define __shiftl(x, n) (((x) << (n)) | ((x) >> (8 - (n))))
-#define __shiftr(x, n) (((x) >> (n)) | ((x) << (8 - (n))))
+#define __rol8(x, n)    (((x) << (n)) | ((x) >> (8 - (n))))
+#define __ror8(x, n)    (((x) >> (n)) | ((x) << (8 - (n))))
+
+#define __swap8(x)      __ror8(x, 4)
 
 #endif

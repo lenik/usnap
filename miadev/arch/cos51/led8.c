@@ -132,3 +132,27 @@ void led8Refresh() {
         led8Set(i, mask);
     }
 }
+
+void led8Puts(const char *mesg) {
+    byte index = 0;
+    char c;
+    while (c = *mesg++) {
+        led8Draw(index++, c);
+        if (index >= led8Count)
+            break;
+    }
+    while (index++ < led8Count)
+        led8Set(i, 0);
+}
+
+/**
+ * @param apn arbitrary number.
+ * @param cb bytes of apn
+ * @param frac10 fractional width, [0, frac10^10)
+ */
+void led8PutNum(const byte *apn, byte cb, byte frac10) {
+    byte pos = led8Count;
+    while (cb && pos) {
+
+    }
+}

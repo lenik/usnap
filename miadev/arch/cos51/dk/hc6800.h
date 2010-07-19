@@ -9,7 +9,7 @@
 #define BEEP            P1_5    // J8
 #define G_SCL           P2_0
 #define G_SDA           P2_1
-#define IRD             P3_2    // J1, P32=INT0, P33=INT1
+#define IRD             P3_2    // J1, P32=INT0 (P33=INT1)
 #define DS18B20         P3_7    // 1-wire
 
 #define LCD1602_D_PORT  0x80    // P0
@@ -66,5 +66,12 @@
 #define LED8_AUX        P1_1    // J14
 
 #include "../config.h"
+
+// Common extension points
+
+void led8Set(byte index, byte mask) {
+    LED8_SETADDR(index);
+    P0 = mask;
+}
 
 #endif
