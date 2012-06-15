@@ -1,3 +1,0 @@
-EXPORTS
-	DllGetClassObject	@2
-	DllCanUnloadNow		@3

@@ -1,4 +1,0 @@
-
-class IMyDropTarget : public {
-public:
-};

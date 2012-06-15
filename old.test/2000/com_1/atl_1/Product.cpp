@@ -1,7 +1,0 @@
-// Product.cpp : Implementation of CProduct
-#include "stdafx.h"
-#include "Atl01.h"
-#include "Product.h"
-
-/////////////////////////////////////////////////////////////////////////////
-// CProduct
