@@ -251,3 +251,4 @@ protected:
 };
 
 typedef CeE3DBase	*PCEE3DBASE, *LPCEE3DBASE;
+

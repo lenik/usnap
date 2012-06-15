@@ -47,3 +47,4 @@ protected:
 };
 
 typedef CaCTools	*PCaCTools, *LPCaCTools;
+

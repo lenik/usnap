@@ -114,3 +114,4 @@ struct AETextLayout {
 	double bound_w;
 	double bound_h;
 };
+

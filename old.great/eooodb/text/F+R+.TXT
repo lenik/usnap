@@ -11,3 +11,4 @@ R+ Classic;
 R+ SimpleGroup;
 
 Object& person_group_by_ID = SimpleGroup<Person, Person.ID>;
+

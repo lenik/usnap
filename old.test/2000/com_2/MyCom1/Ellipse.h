@@ -23,3 +23,4 @@ private:
 };
 
 typedef CEllipse	*PEllipse, *LPEllipse;
+

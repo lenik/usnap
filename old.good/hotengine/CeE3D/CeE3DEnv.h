@@ -43,3 +43,4 @@ protected:
 };
 
 typedef CeE3DEnv	*PCEE3DENV, *LPCEE3DENV;
+
