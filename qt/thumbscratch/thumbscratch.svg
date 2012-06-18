@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="icons.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient6270">
+      <stop
+         style="stop-color:#fa8072;stop-opacity:1;"
+         offset="0"
+         id="stop6272" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="1"
+         id="stop6274" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3929">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3931" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3933" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3929"
+       id="radialGradient4116"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.7604264,0,0,-0.5591994,469.76082,1132.5224)"
+       cx="243.54901"
+       cy="593.62787"
+       fx="243.54901"
+       fy="593.62787"
+       r="99.462334" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3929"
+       id="radialGradient4190"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.7604264,0,0,-0.5591994,469.76082,1132.5224)"
+       cx="243.54901"
+       cy="593.62787"
+       fx="243.54901"
+       fy="593.62787"
+       r="99.462334" />
+    <filter
+       id="filter4706"
+       inkscape:label="Smooth edges"
+       inkscape:menu="Morphology"
+       inkscape:menu-tooltip="Smooth the outside of shapes and pictures without altering their contents"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4708"
+         stdDeviation="3"
+         result="result1" />
+      <feComposite
+         id="feComposite4710"
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k2="2"
+         k4="-1"
+         in="result1"
+         result="result2" />
+      <feColorMatrix
+         id="feColorMatrix4712"
+         values="0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 8 -6 "
+         result="result3" />
+      <feComposite
+         id="feComposite4714"
+         in2="result3"
+         in="SourceGraphic"
+         operator="in" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3929"
+       id="linearGradient6719"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99240164,0,0,0.98596837,-20.959557,-692.14438)"
+       x1="305.33853"
+       y1="1526.7463"
+       x2="264.13367"
+       y2="1450.6758" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3929"
+       id="linearGradient6775"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99240164,0,0,0.98596837,-20.959557,-692.14438)"
+       x1="305.33853"
+       y1="1526.7463"
+       x2="264.13367"
+       y2="1450.6758" />
+    <filter
+       id="filter7615"
+       x="-0.25"
+       width="1.5"
+       y="-0.25"
+       height="1.5"
+       inkscape:menu="Non realistic 3D shaders"
+       inkscape:menu-tooltip="Non realistic frosted glass imitation"
+       inkscape:label="Frosted glass"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur7617"
+         result="result8"
+         stdDeviation="7" />
+      <feComposite
+         id="feComposite7619"
+         in2="result8"
+         in="result8"
+         operator="xor"
+         result="result6" />
+      <feDisplacementMap
+         id="feDisplacementMap7621"
+         in2="result6"
+         result="result4"
+         scale="75"
+         yChannelSelector="A"
+         xChannelSelector="A"
+         in="result6" />
+      <feComposite
+         id="feComposite7623"
+         in2="result4"
+         k1="2"
+         in="SourceGraphic"
+         operator="arithmetic"
+         result="result2" />
+      <feComposite
+         id="feComposite7625"
+         in2="result2"
+         operator="in"
+         in="result6"
+         result="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="filter7627"
+       x="-0.25"
+       width="1.5"
+       y="-0.25"
+       height="1.5"
+       inkscape:menu="Non realistic 3D shaders"
+       inkscape:menu-tooltip="Non realistic frosted glass imitation"
+       inkscape:label="Frosted glass"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur7629"
+         result="result8"
+         stdDeviation="7" />
+      <feComposite
+         id="feComposite7631"
+         in2="result8"
+         in="result8"
+         operator="xor"
+         result="result6" />
+      <feDisplacementMap
+         id="feDisplacementMap7633"
+         in2="result6"
+         result="result4"
+         scale="75"
+         yChannelSelector="A"
+         xChannelSelector="A"
+         in="result6" />
+      <feComposite
+         id="feComposite7635"
+         in2="result4"
+         k1="2"
+         in="SourceGraphic"
+         operator="arithmetic"
+         result="result2" />
+      <feComposite
+         id="feComposite7637"
+         in2="result2"
+         operator="in"
+         in="result6"
+         result="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="filter7639"
+       x="-0.25"
+       width="1.5"
+       y="-0.25"
+       height="1.5"
+       inkscape:menu="Non realistic 3D shaders"
+       inkscape:menu-tooltip="Non realistic frosted glass imitation"
+       inkscape:label="Frosted glass"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur7641"
+         result="result8"
+         stdDeviation="7" />
+      <feComposite
+         id="feComposite7643"
+         in2="result8"
+         in="result8"
+         operator="xor"
+         result="result6" />
+      <feDisplacementMap
+         id="feDisplacementMap7645"
+         in2="result6"
+         result="result4"
+         scale="75"
+         yChannelSelector="A"
+         xChannelSelector="A"
+         in="result6" />
+      <feComposite
+         id="feComposite7647"
+         in2="result4"
+         k1="2"
+         in="SourceGraphic"
+         operator="arithmetic"
+         result="result2" />
+      <feComposite
+         id="feComposite7649"
+         in2="result2"
+         operator="in"
+         in="result6"
+         result="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="filter7651"
+       x="-0.25"
+       width="1.5"
+       y="-0.25"
+       height="1.5"
+       inkscape:menu="Non realistic 3D shaders"
+       inkscape:menu-tooltip="Non realistic frosted glass imitation"
+       inkscape:label="Frosted glass"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur7653"
+         result="result8"
+         stdDeviation="7" />
+      <feComposite
+         id="feComposite7655"
+         in2="result8"
+         in="result8"
+         operator="xor"
+         result="result6" />
+      <feDisplacementMap
+         id="feDisplacementMap7657"
+         in2="result6"
+         result="result4"
+         scale="75"
+         yChannelSelector="A"
+         xChannelSelector="A"
+         in="result6" />
+      <feComposite
+         id="feComposite7659"
+         in2="result4"
+         k1="2"
+         in="SourceGraphic"
+         operator="arithmetic"
+         result="result2" />
+      <feComposite
+         id="feComposite7661"
+         in2="result2"
+         operator="in"
+         in="result6"
+         result="fbSourceGraphic" />
+    </filter>
+    <filter
+       id="filter7670"
+       x="-0.25"
+       width="1.5"
+       y="-0.25"
+       height="1.5"
+       inkscape:menu="Non realistic 3D shaders"
+       inkscape:menu-tooltip="Non realistic frosted glass imitation"
+       inkscape:label="Frosted glass"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur7672"
+         result="result8"
+         stdDeviation="7" />
+      <feComposite
+         id="feComposite7674"
+         in2="result8"
+         in="result8"
+         operator="xor"
+         result="result6" />
+      <feDisplacementMap
+         id="feDisplacementMap7676"
+         in2="result6"
+         result="result4"
+         scale="75"
+         yChannelSelector="A"
+         xChannelSelector="A"
+         in="result6" />
+      <feComposite
+         id="feComposite7678"
+         in2="result4"
+         k1="2"
+         in="SourceGraphic"
+         operator="arithmetic"
+         result="result2" />
+      <feComposite
+         id="feComposite7680"
+         in2="result2"
+         operator="in"
+         in="result6"
+         result="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.23662262"
+     inkscape:cx="2.7012291"
+     inkscape:cy="635.68292"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-to-guides="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="798"
+     inkscape:window-height="639"
+     inkscape:window-x="266"
+     inkscape:window-y="267"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#dcdcdc;fill-opacity:1;fill-rule:nonzero;stroke:#8b0000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d=""
+       id="path6636"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#dcdcdc;fill-opacity:1;fill-rule:nonzero;stroke:#8b0000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d=""
+       id="path6646"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#dcdcdc;fill-opacity:1;fill-rule:nonzero;stroke:#8b0000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d=""
+       id="path6648"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#dcdcdc;fill-opacity:1;fill-rule:nonzero;stroke:#8b0000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d=""
+       id="path6650"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g7776"
+       transform="matrix(1.961493,0,0,1.961493,-216.55218,-1075.9002)"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/thumbscratch/icon.png"
+       inkscape:export-xdpi="19.92"
+       inkscape:export-ydpi="19.92">
+      <rect
+         style="fill:none;stroke:none"
+         id="rect7686"
+         width="360.42215"
+         height="360.42212"
+         x="121.70795"
+         y="561.04272"
+         rx="19.910082"
+         ry="21.830603" />
+      <text
+         xml:space="preserve"
+         style="font-size:107.42436218px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#dcdcdc;fill-opacity:1;stroke:none;font-family:Breip;-inkscape-font-specification:Breip Bold"
+         x="148.7713"
+         y="861.59607"
+         id="text7772"
+         sodipodi:linespacing="125%"
+         transform="scale(0.97343345,1.0272916)"><tspan
+           sodipodi:role="line"
+           id="tspan7774"
+           x="148.7713"
+           y="861.59607">Scratch</tspan></text>
+      <g
+         transform="translate(-1.0565346,-23.243762)"
+         id="g7766">
+        <path
+           transform="matrix(1.1266667,0,0,1.1066667,-121.86886,-1.217965)"
+           d="m 492.34514,702.64923 c 0,43.7631 -35.477,79.2401 -79.2401,79.2401 -43.7631,0 -79.2401,-35.477 -79.2401,-79.2401 0,-43.7631 35.477,-79.2401 79.2401,-79.2401 43.7631,0 79.2401,35.477 79.2401,79.2401 z"
+           sodipodi:ry="79.240097"
+           sodipodi:rx="79.240097"
+           sodipodi:cy="702.64923"
+           sodipodi:cx="413.10504"
+           id="path7758"
+           style="fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:#c0c0c0;stroke-width:0.45656973;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="arc" />
+        <path
+           transform="translate(-62.674752,131.84069)"
+           inkscape:transform-center-y="-21.701139"
+           d="m 405.8907,638.50401 c -4.23521,7.3356 -165.17314,7.3356 -169.40835,0 -4.23521,-7.33559 76.23376,-146.71193 84.70417,-146.71193 8.47042,0 88.93938,139.37634 84.70418,146.71193 z"
+           inkscape:randomized="0"
+           inkscape:rounded="0.05"
+           inkscape:flatsided="true"
+           sodipodi:arg2="1.5707963"
+           sodipodi:arg1="0.52359878"
+           sodipodi:r2="48.903976"
+           sodipodi:r1="97.807953"
+           sodipodi:cy="589.60004"
+           sodipodi:cx="321.18652"
+           sodipodi:sides="3"
+           id="path7760"
+           style="fill:#a9a9a9;fill-opacity:1;stroke:#c0c0c0;stroke-width:0.50981575;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:type="star" />
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffd700;fill-opacity:1;fill-rule:nonzero;stroke:#c0c0c0;stroke-width:0.45656973;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path7756"
+           sodipodi:cx="413.10504"
+           sodipodi:cy="702.64923"
+           sodipodi:rx="79.240097"
+           sodipodi:ry="79.240097"
+           d="m 492.34514,702.64923 c 0,43.7631 -35.477,79.2401 -79.2401,79.2401 -43.7631,0 -79.2401,-35.477 -79.2401,-79.2401 0,-43.7631 35.477,-79.2401 79.2401,-79.2401 43.7631,0 79.2401,35.477 79.2401,79.2401 z"
+           transform="matrix(1.1266667,0,0,1.1066667,-127.86886,-5.2179654)" />
+        <path
+           sodipodi:type="star"
+           style="fill:#fa8072;fill-opacity:1;stroke:#c0c0c0;stroke-width:0.50981575;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path7752"
+           sodipodi:sides="3"
+           sodipodi:cx="321.18652"
+           sodipodi:cy="589.60004"
+           sodipodi:r1="97.807953"
+           sodipodi:r2="48.903976"
+           sodipodi:arg1="0.52359878"
+           sodipodi:arg2="1.5707963"
+           inkscape:flatsided="true"
+           inkscape:rounded="0.05"
+           inkscape:randomized="0"
+           d="m 405.8907,638.50401 c -4.23521,7.3356 -165.17314,7.3356 -169.40835,0 -4.23521,-7.33559 76.23376,-146.71193 84.70417,-146.71193 8.47042,0 88.93938,139.37634 84.70418,146.71193 z"
+           inkscape:transform-center-y="-21.701139"
+           transform="translate(-68.674752,127.84069)" />
+      </g>
+      <text
+         transform="scale(0.97343346,1.0272916)"
+         sodipodi:linespacing="125%"
+         id="text7762"
+         y="859.64911"
+         x="144.66214"
+         style="font-size:107.42436218px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#4169e1;fill-opacity:1;stroke:none;font-family:Breip;-inkscape-font-specification:Breip Bold"
+         xml:space="preserve"><tspan
+           y="859.64911"
+           x="144.66214"
+           id="tspan7764"
+           sodipodi:role="line">Scratch</tspan></text>
+    </g>
+  </g>
+</svg>
