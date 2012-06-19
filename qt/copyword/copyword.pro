@@ -30,7 +30,11 @@ CONFIG += qdeclarative-boostable
 # CONFIG += qt-components
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    player.cpp \
+    session.cpp \
+    book.cpp \
+    word.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -43,4 +47,19 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/copyright \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog
+    qtc_packaging/debian_harmattan/changelog \
+    qml/menu.qml \
+    qml/main.qml \
+    qml/shared/images/src/lace-1.xcf \
+    qml/shared/CoolButton.qml \
+    qml/shared/images/button-red.png \
+    qml/shared/images/button-purple.png \
+    qml/shared/images/button-green.png \
+    qml/shared/images/button-gray.png \
+    qml/shared/images/button-blue.png
+
+HEADERS += \
+    player.h \
+    session.h \
+    book.h \
+    word.h
