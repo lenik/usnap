@@ -23,7 +23,7 @@ public:
     QString getSound();
     void setSound(QString sound);
     QString getExplanation();
-    void setExplanation(String expalanation);
+    void setExplanation(QString explanation);
 
 private:
     QString name;

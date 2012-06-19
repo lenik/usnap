@@ -7,23 +7,24 @@
 class Player : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name
-               READ getName WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QMap scores)
+    Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
 
 public:
     explicit Player(QObject *parent = 0);
 
-private:
-    QString name;
-    QMap<Book, int> scores;
-
-public:
-
 signals:
+    void nameChanged();
 
 public slots:
 
+public:
+    QString getName();
+    void setName(QString name);
+
+private:
+    QString name;
+    // QString face;
+    QMap<QString, int> scores; // book => score
 };
 
 #endif // PLAYER_H

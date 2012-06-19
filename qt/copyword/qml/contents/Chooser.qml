@@ -7,11 +7,9 @@ Rectangle {
 
     property int vspacing: 5
     property string book
+    property int slideSpeed: 10
 
     signal select(string book)
-
-    width: 360
-    height: 360
 
     gradient: Gradient {
         GradientStop {
@@ -78,7 +76,7 @@ Rectangle {
         anchors.bottom: level5.top
         anchors.bottomMargin: vspacing
         anchors.horizontalCenterOffset: 0
-        clicked: chooser.select("level-4")
+        onClicked: chooser.select("level-4")
     }
 
     CoolButton {
@@ -99,35 +97,35 @@ Rectangle {
         SequentialAnimation {
             PauseAnimation { duration: 0 }
             NumberAnimation {
-                target: level1; property: "x"; duration: 2000; easing.type: Easing.OutBounce
+                target: level1; property: "x"; duration: 1000; easing.type: Easing.OutBounce
                 to: (chooser.width - level1.width) / 2
             }
         }
         SequentialAnimation {
-            PauseAnimation { duration: 500 }
+            PauseAnimation { duration: 1000 / slideSpeed }
             NumberAnimation {
-                target: level2; property: "x"; duration: 2000; easing.type: Easing.OutBounce
+                target: level2; property: "x"; duration: 1000; easing.type: Easing.OutBounce
                 to: (chooser.width - level2.width) / 2
             }
         }
         SequentialAnimation {
-            PauseAnimation { duration: 1000 }
+            PauseAnimation { duration: 2000 / slideSpeed }
             NumberAnimation {
-                target: level3; property: "x"; duration: 2000; easing.type: Easing.OutBounce
+                target: level3; property: "x"; duration: 1000; easing.type: Easing.OutBounce
                 to: (chooser.width - level3.width) / 2
             }
         }
         SequentialAnimation {
-            PauseAnimation { duration: 1500 }
+            PauseAnimation { duration: 3000 / slideSpeed }
             NumberAnimation {
-                target: level4; property: "x"; duration: 2000; easing.type: Easing.OutBounce
+                target: level4; property: "x"; duration: 1000; easing.type: Easing.OutBounce
                 to: (chooser.width - level4.width) / 2
             }
         }
         SequentialAnimation {
-            PauseAnimation { duration: 2000 }
+            PauseAnimation { duration: 4000 / slideSpeed }
             NumberAnimation {
-                target: level5; property: "x"; duration: 2000; easing.type: Easing.OutBounce
+                target: level5; property: "x"; duration: 1000; easing.type: Easing.OutBounce
                 to: (chooser.width - level5.width) / 2
             }
         }

@@ -3,11 +3,13 @@ import QtQuick 1.1
 import "contents"
 
 Rectangle {
-    width: 360
-    height: 360
+
+    width: 30
+    height: 40
 
     Chooser {
         id: chooser
+        anchors.fill: parent
     }
 
 }

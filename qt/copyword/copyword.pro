@@ -1,6 +1,6 @@
 # Add more folders to ship with the application, here
-folder_01.source = qml/copyword
-folder_01.target = qml
+folder_01.source = qml
+folder_01.target =
 DEPLOYMENTFOLDERS = folder_01
 
 # Additional import path used to resolve QML modules in Creator's code model
@@ -41,14 +41,6 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += \
-    qtc_packaging/debian_harmattan/rules \
-    qtc_packaging/debian_harmattan/README \
-    qtc_packaging/debian_harmattan/manifest.aegis \
-    qtc_packaging/debian_harmattan/copyright \
-    qtc_packaging/debian_harmattan/control \
-    qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog \
-    qml/menu.qml \
     qml/main.qml \
     qml/shared/images/src/lace-1.xcf \
     qml/shared/CoolButton.qml \
@@ -56,7 +48,13 @@ OTHER_FILES += \
     qml/shared/images/button-purple.png \
     qml/shared/images/button-green.png \
     qml/shared/images/button-gray.png \
-    qml/shared/images/button-blue.png
+    qml/shared/images/button-blue.png \
+    qml/contents/Chooser.qml \
+    data/level-5.csv \
+    data/level-4.csv \
+    data/level-3.csv \
+    data/level-2.csv \
+    data/level-1.csv
 
 HEADERS += \
     player.h \

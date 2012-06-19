@@ -25,6 +25,6 @@ QString Word::getExplanation() {
     return explanation;
 }
 
-void Word::setExplanation(String explanation) {
+void Word::setExplanation(QString explanation) {
     this->explanation = explanation;
 }

@@ -5,6 +5,14 @@ Session::Session(QObject *parent) :
 {
 }
 
+Player *Session::getPlayer() {
+    return player;
+}
+
+void Session::setPlayer(Player *player) {
+    this->player = player;
+}
+
 Book *Session::getBook() {
     return book;
 }
@@ -50,17 +58,21 @@ void Session::setIndex(int index) {
     emit indexChanged();
 }
 
-QWord Session::getCurrent() {
-    this->book->getWords();
+Word *Session::getCurrent() {
+    return 0;
 }
 
-QStringList Session::getCandidates();
+QVariantList Session::getCandidates() {
+    QVariantList list;
+    return list;
+}
+
 int Session::getAnswer() {
-    return answers[index];
+    return 0;
 }
 
 void Session::setAnswer(int answer) {
-    answers[index] = answer;
+    // answers[index] = answer;
 }
 
 int Session::getScore() {
@@ -68,13 +80,12 @@ int Session::getScore() {
     return score;
 }
 
-QStringList Session::getSelection() {
-    QStringList selection;
-    for (int i = 0; i < count; i++) {
-
-    }
+QVariantList Session::getSelection() {
+    QVariantList list;
+    return list;
 }
 
-QList<int> *Session::getAnswers() {
-    return answer;
+QVariantList Session::getAnswers() {
+    QVariantList list;
+    return list;
 }

@@ -21,6 +21,6 @@ void Book::setTitle(QString title) {
     this->title = title;
 }
 
-QMap<QString, Word> Book::getWords() {
-    return words;
+QMap<QString, Word *> *Book::getWords() {
+    return &words;
 }
