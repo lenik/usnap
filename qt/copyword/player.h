@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <QObject>
+#include <QMap>
 
 class Player : public QObject
 {

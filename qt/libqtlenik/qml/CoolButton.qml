@@ -3,8 +3,7 @@ import QtQuick 1.0
 BorderImage {
     id: button
 
-    property alias label: buttonText.text
-    property alias border: border
+    property alias text: buttonText.text
     property string style: "gray"
 
     signal clicked
@@ -19,7 +18,6 @@ BorderImage {
 
     Text {
         id: buttonText
-        text: "Hello"
         anchors.centerIn: parent; anchors.verticalCenterOffset: -1
         font.pixelSize: parent.width > parent.height ? parent.height * .5 : parent.width * .5
         style: Text.Sunken; color: "white"; styleColor: "black"; smooth: true
