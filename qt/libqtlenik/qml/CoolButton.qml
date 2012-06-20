@@ -5,6 +5,8 @@ BorderImage {
 
     property alias text: buttonText.text
     property alias font: buttonText.font
+    property alias textWidth: buttonText.width
+
     property string style: "gray"
 
     signal clicked

@@ -1,6 +1,7 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 import "../shared"
+import "chooser.js" as ChooserEngine
 
 Rectangle {
     id: chooser
@@ -16,7 +17,6 @@ Rectangle {
             position: 0
             color: "#ffffff"
         }
-
         GradientStop {
             position: 1
             color: "#ff9500"
@@ -37,36 +37,27 @@ Rectangle {
 
     MenuButton {
         id: level1
-        x: -200
-        y: 145
-        height: 35
         text: "Basic"
         anchors.bottom: level2.top
         anchors.bottomMargin: vspacing
+        onClicked: chooser.select("level-1")
     }
     MenuButton {
         id: level2
-        x: -200
-        y: 180
-        height: 35
         text: "Medium I"
         anchors.bottom: level3.top
         anchors.bottomMargin: vspacing
+        onClicked: chooser.select("level-2")
     }
     MenuButton {
         id: level3
-        x: -200
-        y: 215
-        height: 35
         text: "Medium II"
         anchors.bottom: level4.top
         anchors.bottomMargin: vspacing
+        onClicked: chooser.select("level-3")
     }
     MenuButton {
         id: level4
-        x: -200
-        y: 242
-        height: 35
         text: "Crazy"
         anchors.bottom: level5.top
         anchors.bottomMargin: vspacing
@@ -74,26 +65,24 @@ Rectangle {
     }
     MenuButton {
         id: level5
-        x: -200
-        y: 285
-        height: 35
         text: "Mad"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
+        onClicked: chooser.select("level-5")
     }
 
     SequentialAnimation {
         id: slideIn
         running: true
-        ScriptAction { script: level1.state = "Visible" }
+        ScriptAction { script: level1.state = "stand" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level2.state = "Visible" }
+        ScriptAction { script: level2.state = "stand" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level3.state = "Visible" }
+        ScriptAction { script: level3.state = "stand" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level4.state = "Visible" }
+        ScriptAction { script: level4.state = "stand" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level5.state = "Visible" }
+        ScriptAction { script: level5.state = "stand" }
     }
 
 }

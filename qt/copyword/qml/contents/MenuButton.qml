@@ -2,39 +2,43 @@
 import QtQuick 1.1
 import "../shared"
 
-CoolButton {
-    // property alias abc: text
+Item {
+    id: item
 
-    id: button
-    font.pixelSize: (parent.width < parent.height ? parent.width : parent.height) / 20
-    width: text.length * font.pixelSize
+    property alias text: button.text
+    signal clicked
+
+    width: button.textWidth + 30
     height: parent.height / 20
-    x: 50
+    x: -width
+
+    CoolButton {
+        id: button
+        font.pixelSize:Math.min(item.parent.width, item.parent.height) / 20
+        anchors.fill: parent
+        onClicked: {
+            item.state = "away"
+            item.clicked()
+        }
+    }
 
     states: [
         State {
-            name: "Visible"
+            name: "stand"
             AnchorChanges {
-                target: button
+                target: item
                 anchors.horizontalCenter: parent.horizontalCenter
             }
         },
         State {
-            name: "pressed"
+            name: "away"
             AnchorChanges {
-                target: button
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-        },
-        State {
-            name: "Loaded"
-            AnchorChanges {
-                target: button
+                target: item
                 anchors.horizontalCenter: undefined
             }
             PropertyChanges {
-                target: button
-                x: 300
+                target: item
+                x: parent.width
             }
         }
 
@@ -42,37 +46,19 @@ CoolButton {
 
     transitions: [
         Transition {
-            to: "Visible"
+            to: "stand"
             AnchorAnimation {
                 duration: 1000
                 easing.type: Easing.OutBounce
             }
         },
         Transition {
-            to: "pressed"
-            AnchorAnimation {
-                duration: 1000
-                easing.type: Easing.OutBounce
-            }
-        },
-        Transition {
-            to: "Loaded"
+            to: "away"
             AnchorAnimation {
                 duration: 500
                 easing.type: Easing.InBounce
             }
         }
     ]
-
-    onClicked: {
-        button.state = "Loaded"
-    }
-
-    Timer {
-        interval: 100
-        running: true
-        repeat: true
-        onTriggered: button.text = button.state
-    }
 
 }
