@@ -35,100 +35,65 @@ Rectangle {
         font.pixelSize: 32
     }
 
-    CoolButton {
+    MenuButton {
         id: level1
         x: -200
         y: 145
-        width: 190
         height: 35
-        text: "Level 1"
+        text: "Basic"
         anchors.bottom: level2.top
         anchors.bottomMargin: vspacing
     }
-    CoolButton {
+    MenuButton {
         id: level2
         x: -200
         y: 180
-        width: 190
         height: 35
-        text: "Level 2"
+        text: "Medium I"
         anchors.bottom: level3.top
         anchors.bottomMargin: vspacing
     }
-
-    CoolButton {
+    MenuButton {
         id: level3
         x: -200
         y: 215
-        width: 190
         height: 35
-        text: "Level 3"
+        text: "Medium II"
         anchors.bottom: level4.top
         anchors.bottomMargin: vspacing
     }
-    CoolButton {
+    MenuButton {
         id: level4
         x: -200
         y: 242
-        width: 190
         height: 35
-        text: "Level 4"
+        text: "Crazy"
         anchors.bottom: level5.top
         anchors.bottomMargin: vspacing
-        anchors.horizontalCenterOffset: 0
         onClicked: chooser.select("level-4")
     }
-
-    CoolButton {
+    MenuButton {
         id: level5
         x: -200
         y: 285
-        width: 190
         height: 35
-        text: "Level 5"
-        anchors.horizontalCenterOffset: 0
+        text: "Mad"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
     }
 
-    ParallelAnimation {
+    SequentialAnimation {
         id: slideIn
         running: true
-        SequentialAnimation {
-            PauseAnimation { duration: 0 }
-            NumberAnimation {
-                target: level1; property: "x"; duration: 1000; easing.type: Easing.OutBounce
-                to: (chooser.width - level1.width) / 2
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 1000 / slideSpeed }
-            NumberAnimation {
-                target: level2; property: "x"; duration: 1000; easing.type: Easing.OutBounce
-                to: (chooser.width - level2.width) / 2
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 2000 / slideSpeed }
-            NumberAnimation {
-                target: level3; property: "x"; duration: 1000; easing.type: Easing.OutBounce
-                to: (chooser.width - level3.width) / 2
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 3000 / slideSpeed }
-            NumberAnimation {
-                target: level4; property: "x"; duration: 1000; easing.type: Easing.OutBounce
-                to: (chooser.width - level4.width) / 2
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 4000 / slideSpeed }
-            NumberAnimation {
-                target: level5; property: "x"; duration: 1000; easing.type: Easing.OutBounce
-                to: (chooser.width - level5.width) / 2
-            }
-        }
+        ScriptAction { script: level1.state = "Visible" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: level2.state = "Visible" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: level3.state = "Visible" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: level4.state = "Visible" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: level5.state = "Visible" }
     }
 
 }

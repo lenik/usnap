@@ -4,8 +4,8 @@ import "contents"
 
 Rectangle {
 
-    width: 30
-    height: 40
+    width: 480
+    height: 800
 
     Chooser {
         id: chooser
