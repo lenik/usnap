@@ -6,11 +6,12 @@ Rectangle {
     property alias color: titleText.color
 
     id: scene
+    clip: true
 
     gradient: Gradient {
         GradientStop {
             position: 0
-            color: "#7a7a7a"
+            color: "#666666"
         }
         GradientStop {
             position: 0.2
@@ -18,7 +19,7 @@ Rectangle {
         }
         GradientStop {
             position: 1
-            color: "#424242"
+            color: "#444444"
         }
     }
 

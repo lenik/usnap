@@ -55,7 +55,8 @@ OTHER_FILES += \
     data/level-3.csv \
     data/level-2.csv \
     data/level-1.csv \
-    qml/shared/FlyAwayBox.qml
+    qml/shared/FlyAwayBox.qml \
+    qml/shared/FadeAwayBox.qml
 
 HEADERS += \
     player.h \

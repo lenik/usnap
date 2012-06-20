@@ -32,14 +32,14 @@ Scene {
     }
     MenuButton {
         id: level2
-        text: "Medium / 普通 I"
+        text: "Medium / 普通"
         anchors.bottom: level3.top
         anchors.bottomMargin: vspacing
         onClicked: chooser.chosen("level-2")
     }
     MenuButton {
         id: level3
-        text: "Medium / 普通 II"
+        text: "High / 提高"
         anchors.bottom: level4.top
         anchors.bottomMargin: vspacing
         onClicked: chooser.chosen("level-3")

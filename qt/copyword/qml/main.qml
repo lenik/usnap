@@ -6,8 +6,8 @@ import "contents"
 Rectangle {
     id: screen
 
-    width: 200
-    height: 320
+    width: 320
+    height: 600
 
     XFlipable {
         id: flip1
@@ -55,8 +55,17 @@ Rectangle {
                     id: rolling
                     width: screen.width
                     height: screen.height
-                    onEnd: flick.contentX = screen.width
+                    onSkipped: flick.contentX = screen.width
+                    onDone: flick.contentX = screen.width
                 }
+
+                Test {
+                    id: test
+                    width: screen.width
+                    height: screen.height
+                    onEnd: flick.contentX = screen.width * 2
+                }
+
                 Scoreboard {
                     id: scoreboard
                     width: screen.width

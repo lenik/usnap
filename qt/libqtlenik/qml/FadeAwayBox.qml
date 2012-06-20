@@ -2,22 +2,17 @@ import QtQuick 1.0
 
 Rectangle {
     property real speed: 5
-    property real displacement: parent.height * 0.5
-    property real y0: 0
-
+    property bool fadeIn: true
+    property bool fadeOut: true
     signal appeared
     signal disappeared
 
     id: box
-    y: y0
+    // clip: true
 
     states: [
         State {
             name: "coming"
-            PropertyChanges {
-                target: box
-                y: y0 + displacement
-            }
             PropertyChanges {
                 target: box
                 opacity: 0
@@ -25,10 +20,6 @@ Rectangle {
         },
         State {
             name: "away"
-            PropertyChanges {
-                target: box
-                y: y0 - displacement
-            }
             PropertyChanges {
                 target: box
                 opacity: 0
@@ -42,8 +33,8 @@ Rectangle {
             SequentialAnimation {
                 NumberAnimation {
                     target: box
-                    properties: "y, opacity"
-                    duration: 5000 / box.speed
+                    property: "opacity"
+                    duration: fadeIn ? (5000 / box.speed) : 10
                     easing.type: Easing.OutCubic
                 }
                 ScriptAction { script: box.appeared() }
@@ -54,8 +45,8 @@ Rectangle {
             SequentialAnimation {
                 NumberAnimation {
                     target: box
-                    properties: "y, opacity"
-                    duration: 5000 / box.speed
+                    property: "opacity"
+                    duration: fadeOut ? (5000 / box.speed) : 10
                     easing.type: Easing.OutCubic
                 }
                 ScriptAction { script: box.disappeared() }
