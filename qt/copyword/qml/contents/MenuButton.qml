@@ -9,12 +9,13 @@ Item {
     signal clicked
 
     width: button.textWidth + 30
-    height: parent.height / 20
+    height: button.textHeight + 10
     x: -width
 
     CoolButton {
         id: button
-        font.pixelSize:Math.min(item.parent.width, item.parent.height) / 20
+        style: "gray"
+        font.pixelSize:Math.min(item.parent.width, item.parent.height) / 15
         anchors.fill: parent
         onClicked: {
             item.state = "away"

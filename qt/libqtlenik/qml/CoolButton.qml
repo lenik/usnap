@@ -6,6 +6,7 @@ BorderImage {
     property alias text: buttonText.text
     property alias font: buttonText.font
     property alias textWidth: buttonText.width
+    property alias textHeight: buttonText.height
 
     property string style: "gray"
 
