@@ -1,6 +1,5 @@
 *.pro.user
-*__Debug
-*__Release
+*-build-*
 
 qmlapplicationviewer
 qtc_packaging
