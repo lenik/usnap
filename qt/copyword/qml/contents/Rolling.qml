@@ -59,6 +59,7 @@ Scene {
             color: "white"
             font.family: "Comic Sans MS"
             font.pixelSize: parent.width / 10
+            wrapMode: Text.Wrap
         }
 
         state: "coming"
@@ -68,9 +69,9 @@ Scene {
 
     Timer {
         id: timer
-        interval: 5000 / speed
+        interval: 1000 / speed
         repeat: false
-        running: false
+        running: pauseButton.state != "pressed"
         onTriggered: fly1.state = "away"
     }
 
@@ -84,6 +85,13 @@ Scene {
         anchors.bottomMargin: parent.height * 0.1
 
         CoolButtonAuto {
+            id: pauseButton
+            text: state == "pressed" ? "继续" : "暂停"
+            container: rolling
+            shadeColor: "red"
+        }
+
+        CoolButtonAuto {
             id: skip
             text: "跳过"
             container: rolling
@@ -91,8 +99,4 @@ Scene {
         }
     }
 
-    ScriptAction {
-        running: true
-        script: rolling.start()
-    }
 }

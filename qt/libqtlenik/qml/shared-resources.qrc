@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/qml/shared">
+        <file>images/button-blue.png</file>
+        <file>images/button-gray.png</file>
+        <file>images/button-green.png</file>
+        <file>images/button-purple.png</file>
+        <file>images/button-red.png</file>
+        <file>CoolButton.qml</file>
+        <file>CoolButtonAuto.qml</file>
+        <file>FadeAwayBox.qml</file>
+        <file>FlyAwayBox.qml</file>
+        <file>XFlipable.qml</file>
+        <file>YFlipable.qml</file>
+    </qresource>
+</RCC>

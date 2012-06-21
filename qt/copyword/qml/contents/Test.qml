@@ -222,10 +222,4 @@ Scene {
         }
     }
 
-    ScriptAction {
-        running: true
-        script: {
-            test.start()
-        }
-    }
 }

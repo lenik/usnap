@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/level-1.csv</file>
+        <file>data/level-2.csv</file>
+        <file>data/level-3.csv</file>
+        <file>data/level-4.csv</file>
+        <file>data/level-5.csv</file>
+        <file>qml/main.qml</file>
+        <file>qml/contents/Choices.qml</file>
+        <file>qml/contents/ChooseBook.qml</file>
+        <file>qml/contents/ChoosePlayer.qml</file>
+        <file>qml/contents/chooser.js</file>
+        <file>qml/contents/MenuButton.qml</file>
+        <file>qml/contents/Rolling.qml</file>
+        <file>qml/contents/Scene.qml</file>
+        <file>qml/contents/Scoreboard.qml</file>
+        <file>qml/contents/Test.qml</file>
+        <file>qml/contents/Welcome.qml</file>
+    </qresource>
+</RCC>

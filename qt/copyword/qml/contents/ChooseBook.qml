@@ -10,7 +10,7 @@ Scene {
     property string book
     property int slideSpeed: 10
 
-    signal chosen(string book)
+    signal chosen(string bookName)
 
     function show() {
         level1.state = "";

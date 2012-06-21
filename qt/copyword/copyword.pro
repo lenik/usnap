@@ -33,33 +33,20 @@ CONFIG += qdeclarative-boostable
 SOURCES += main.cpp \
     player.cpp \
     session.cpp \
-    book.cpp \
-    word.cpp
+    csvfile.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += \
-    qml/main.qml \
-    qml/shared/images/src/lace-1.xcf \
-    qml/shared/CoolButton.qml \
-    qml/shared/images/button-red.png \
-    qml/shared/images/button-purple.png \
-    qml/shared/images/button-green.png \
-    qml/shared/images/button-gray.png \
-    qml/shared/images/button-blue.png \
-    qml/contents/Chooser.qml \
-    data/level-5.csv \
-    data/level-4.csv \
-    data/level-3.csv \
-    data/level-2.csv \
-    data/level-1.csv \
-    qml/shared/FlyAwayBox.qml \
-    qml/shared/FadeAwayBox.qml
+    qml/main.qml
 
 HEADERS += \
     player.h \
     session.h \
-    book.h \
-    word.h
+    csvfile.h
+
+RESOURCES += \
+    qml/shared/shared-resources.qrc \
+    resources.qrc
