@@ -11,5 +11,6 @@
         <file>FlyAwayBox.qml</file>
         <file>XFlipable.qml</file>
         <file>YFlipable.qml</file>
+        <file>InfiniteFlickable.qml</file>
     </qresource>
 </RCC>
