@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>data/vortaro.csv</file>
+        <file>qml/contents/images/circle-et.png</file>
+        <file>qml/contents/images/circle-go.png</file>
+        <file>qml/contents/images/circle-to.png</file>
+        <file>qml/contents/images/circle-zh.png</file>
+        <file>qml/contents/images/circle-et-invert.png</file>
+        <file>qml/contents/images/circle-go-invert.png</file>
+        <file>qml/contents/images/circle-to-invert.png</file>
+        <file>qml/contents/images/circle-zh-invert.png</file>
+    </qresource>
+</RCC>
