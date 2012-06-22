@@ -1,4 +1,6 @@
 import QtQuick 1.1
+import "shared"
+import "contents"
 
 Rectangle {
     width: 360
