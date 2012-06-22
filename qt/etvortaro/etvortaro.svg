@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="icons.svg">
+   sodipodi:docname="etvortaro.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -318,19 +318,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.23662262"
-     inkscape:cx="2.7012291"
-     inkscape:cy="635.68292"
+     inkscape:zoom="1.3385397"
+     inkscape:cx="253.40686"
+     inkscape:cy="31.109182"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-to-guides="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="798"
-     inkscape:window-height="639"
-     inkscape:window-x="266"
-     inkscape:window-y="267"
+     inkscape:window-width="857"
+     inkscape:window-height="541"
+     inkscape:window-x="198"
+     inkscape:window-y="359"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -345,9 +345,21 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="back"
+     sodipodi:insensitive="true" />
+  <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="opacity:0.8738739;fill:#b0e0e6;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="rect3228"
+       width="735.84161"
+       height="79.164917"
+       x="3.7354143"
+       y="970.20898" />
     <g
        id="g4284"
        transform="matrix(2.0083952,0,0,2.0083952,-241.32437,-1259.8782)"
@@ -499,5 +511,272 @@
        d=""
        id="path6650"
        inkscape:connector-curvature="0" />
+    <g
+       id="g3231"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-et-invert.png"
+       inkscape:export-xdpi="76.599998"
+       inkscape:export-ydpi="76.599998">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-et.png"
+         transform="matrix(0.3774277,0,0,0.3774277,0.48895153,682.36162)"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3189"
+         style="opacity:0.8738739;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-et.png"
+         transform="matrix(0.93940928,0,0,0.93940928,-72.0994,116.83902)"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         id="flowRoot3191"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3193"><rect
+             style="fill:#000000"
+             y="922.36975"
+             x="110.56826"
+             height="129.99242"
+             width="268.94983"
+             id="rect3195" /></flowRegion><flowPara
+           id="flowPara3197">et</flowPara></flowRoot>    </g>
+    <g
+       id="g3238"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-zh-invert.png"
+       inkscape:export-xdpi="76.603973"
+       inkscape:export-ydpi="76.603973">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-zh.png"
+         sodipodi:type="arc"
+         style="opacity:0.8738739;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3199"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         transform="matrix(0.3774277,0,0,0.3774277,73.801083,682.36162)" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-zh.png"
+         xml:space="preserve"
+         id="flowRoot3201"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         transform="matrix(0.93940928,0,0,0.93940928,5.7418629,122.87786)"><flowRegion
+           id="flowRegion3203"><rect
+             id="rect3205"
+             width="268.94983"
+             height="129.99242"
+             x="110.56826"
+             y="922.36975"
+             style="fill:#000000" /></flowRegion><flowPara
+           id="flowPara3207">中</flowPara></flowRoot>    </g>
+    <g
+       id="g3245"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-to-invert.png"
+       inkscape:export-xdpi="76.603966"
+       inkscape:export-ydpi="76.603966">
+      <path
+         transform="matrix(0.3774277,0,0,0.3774277,147.11321,682.36162)"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3209"
+         style="opacity:0.8738739;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         transform="matrix(0.93940928,0,0,0.93940928,79.053997,119.49422)"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         id="flowRoot3211"
+         xml:space="preserve"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3213"><rect
+             style="fill:#000000"
+             y="922.36975"
+             x="110.56826"
+             height="71.762062"
+             width="130.87787"
+             id="rect3215" /></flowRegion><flowPara
+           id="flowPara3217">⇀</flowPara></flowRoot>    </g>
+    <g
+       id="g3252"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-go-invert.png"
+       inkscape:export-xdpi="76.603958"
+       inkscape:export-ydpi="76.603958">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         sodipodi:type="arc"
+         style="opacity:0.8738739;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3223"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         transform="matrix(0.3774277,0,0,0.3774277,220.42535,682.36161)" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         xml:space="preserve"
+         id="flowRoot3225"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         transform="matrix(0.93940928,0,0,0.93940928,150.85641,117.9845)"><flowRegion
+           id="flowRegion3227"><rect
+             id="rect3229"
+             width="130.87787"
+             height="71.762062"
+             x="110.56826"
+             y="922.36975"
+             style="fill:#000000" /></flowRegion><flowPara
+           id="flowPara3231">↴</flowPara></flowRoot>    </g>
+    <g
+       transform="matrix(0.3774277,0,0,0.3774277,7.8201655,580.16691)"
+       id="g3084">
+      <path
+         sodipodi:type="arc"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3086"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         transform="translate(-19.424154,70.225785)"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-et.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot3088"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         transform="matrix(2.4889781,0,0,2.4889781,-211.74801,-1428.1343)"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-et.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3090"><rect
+             id="rect3092"
+             width="268.94983"
+             height="129.99242"
+             x="110.56826"
+             y="922.36975"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara3094">et</flowPara></flowRoot>    </g>
+    <g
+       transform="matrix(0.3774277,0,0,0.3774277,10.075918,580.16691)"
+       id="g3096">
+      <path
+         transform="translate(168.84072,70.225785)"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3098"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-zh.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         transform="matrix(2.4889781,0,0,2.4889781,-11.483138,-1412.1343)"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         id="flowRoot3100"
+         xml:space="preserve"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-zh.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3102"><rect
+             style="fill:#ffffff"
+             y="922.36975"
+             x="110.56826"
+             height="129.99242"
+             width="268.94983"
+             id="rect3104" /></flowRegion><flowPara
+           id="flowPara3106">中</flowPara></flowRoot>    </g>
+    <g
+       transform="matrix(0.3774277,0,0,0.3774277,8.9480385,580.16691)"
+       id="g3108">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         sodipodi:type="arc"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3110"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         transform="translate(366.07059,70.225785)" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         xml:space="preserve"
+         id="flowRoot3112"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         transform="matrix(2.4889781,0,0,2.4889781,185.74673,-1421.0993)"><flowRegion
+           id="flowRegion3114"><rect
+             id="rect3116"
+             width="130.87787"
+             height="71.762062"
+             x="110.56826"
+             y="922.36975"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara3118">⇀</flowPara></flowRoot>    </g>
+    <g
+       inkscape:export-ydpi="28.91"
+       inkscape:export-xdpi="28.91"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-go.png"
+       transform="matrix(0.3774277,0,0,0.3774277,231.14019,649.53146)"
+       id="g3120">
+      <path
+         transform="translate(-28.389139,-113.55659)"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3122"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         transform="matrix(2.4889781,0,0,2.4889781,-212.713,-1608.8817)"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         id="flowRoot3124"
+         xml:space="preserve"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3126"><rect
+             style="fill:#ffffff"
+             y="922.36975"
+             x="110.56826"
+             height="71.762062"
+             width="130.87787"
+             id="rect3128" /></flowRegion><flowPara
+           id="flowPara3130">↴</flowPara></flowRoot>    </g>
   </g>
 </svg>
