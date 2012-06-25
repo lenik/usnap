@@ -7,9 +7,10 @@ import QtQuick 1.1
 Flickable {
     property int rows: 3
     property int columns: 3
-    property int origRow: 1
-    property int origColumn: 1
+    property int origRow: rows / 2
+    property int origColumn: columns / 2
     property bool aligned: false
+    property bool collapsing: false
 
     signal scrollLeft
     signal scrollRight
@@ -23,12 +24,17 @@ Flickable {
     contentHeight: height * rows
     contentX: width * origRow
     contentY: height * origColumn
+    clip: true
 
-    onFlickEnded: {
+    function collapse() {
+        if (collapsing)
+            return;
+        collapsing = true;
+
         var col = Math.round(contentX / width);
         var row = Math.round(contentY / height);
         // if (aligned)
-        console.debug("row=" + row + ", col=" + col);
+        // console.debug("row=" + row + ", col=" + col);
         if (row < origRow)
             grid.scrollUp();
         if (row > origRow)
@@ -44,6 +50,11 @@ Flickable {
 
         contentX = origColumn * width;
         contentY = origRow * height;
+
+        collapsing = false;
     }
+
+    onFlickEnded: collapse()
+    onMovementEnded: collapse()
 
 }
