@@ -30,7 +30,11 @@ CONFIG += qdeclarative-boostable
 # CONFIG += qt-components
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    session.cpp \
+    dict.cpp \
+    word.cpp \
+    csvfile.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -42,3 +46,9 @@ OTHER_FILES += \
 RESOURCES += \
     qml/shared/shared-resources.qrc \
     resources.qrc
+
+HEADERS += \
+    session.h \
+    dict.h \
+    word.h \
+    csvfile.h
