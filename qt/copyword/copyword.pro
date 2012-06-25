@@ -35,13 +35,6 @@ SOURCES += main.cpp \
     session.cpp \
     csvfile.cpp
 
-# Please do not modify the following two lines. Required for deployment.
-include(qmlapplicationviewer/qmlapplicationviewer.pri)
-qtcAddDeployment()
-
-OTHER_FILES += \
-    qml/main.qml
-
 HEADERS += \
     player.h \
     session.h \
@@ -50,3 +43,10 @@ HEADERS += \
 RESOURCES += \
     qml/shared/shared-resources.qrc \
     resources.qrc
+
+OTHER_FILES += \
+    qml/main.qml
+
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()

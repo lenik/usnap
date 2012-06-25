@@ -36,19 +36,19 @@ SOURCES += main.cpp \
     word.cpp \
     csvfile.cpp
 
-# Please do not modify the following two lines. Required for deployment.
-include(qmlapplicationviewer/qmlapplicationviewer.pri)
-qtcAddDeployment()
-
-OTHER_FILES += \
-    qml/main.qml
-
-RESOURCES += \
-    qml/shared/shared-resources.qrc \
-    resources.qrc
-
 HEADERS += \
     session.h \
     dict.h \
     word.h \
     csvfile.h
+
+RESOURCES += \
+    qml/shared/shared-resources.qrc \
+    resources.qrc
+
+OTHER_FILES += \
+    qml/main.qml
+
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()

@@ -4,8 +4,11 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QScopedPointer<QApplication> app(createApplication(argc, argv));
-
     QmlApplicationViewer viewer;
+
+    Session session;
+    viewer.engine()->rootContext()->setContextObject(&session);
+
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer.setSource(QUrl("qrc:///qml/main.qml"));
     viewer.showExpanded();
