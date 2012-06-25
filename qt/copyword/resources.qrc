@@ -16,5 +16,6 @@
         <file>qml/contents/Scoreboard.qml</file>
         <file>qml/contents/Test.qml</file>
         <file>qml/contents/Welcome.qml</file>
+        <file>qml/contents/ScoreText.qml</file>
     </qresource>
 </RCC>

@@ -1,6 +1,5 @@
 import QtQuick 1.1
 import "../shared"
-import "Scoreboard.qml"
 
 Scene {
     property string level: "未知"
