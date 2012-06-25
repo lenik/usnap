@@ -55,6 +55,42 @@ Scene {
     }
 
     InfiniteFlickable {
+        id: content
+
+        anchors.left: parent.left
+        anchors.top: topHr.bottom
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        rows: 3
+        columns: 1
+        origRow: 1
+        origColumn: 0
+
+        Rectangle {
+            id: top
+            width: content.width
+            height: content.height
+            color: "gray"
+            opacity: 0.2
+        }
+        Rectangle {
+            id: mid
+            width: content.width
+            height: content.height
+            color: "gray"
+            opacity: 0.2
+            anchors.top: top.bottom
+        }
+        Rectangle {
+            id: bottom
+            width: content.width
+            height: content.height
+            color: "gray"
+            opacity: 0.2
+            anchors.top: mid.bottom
+        }
+
     }
 
 }
