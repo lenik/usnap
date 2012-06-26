@@ -1,6 +1,6 @@
 # Add more folders to ship with the application, here
 qmldir.source = qml
-qmldir.target = qml
+qmldir.target =
 DEPLOYMENTFOLDERS = qmldir
 
 # Additional import path used to resolve QML modules in Creator's code model
