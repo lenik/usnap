@@ -2,9 +2,9 @@
     <qresource prefix="/">
         <file>data/vortaro.csv</file>
         <file>qml/main.qml</file>
+        <file>qml/contents/EntryContent.qml</file>
+        <file>qml/contents/Lookup.qml</file>
         <file>qml/contents/Scene.qml</file>
-        <file>qml/contents/LookupEt.qml</file>
-        <file>qml/contents/LookupZh.qml</file>
         <file>qml/contents/SymbolButton.qml</file>
         <file>qml/contents/Welcome.qml</file>
         <file>qml/contents/images/circle-et.png</file>

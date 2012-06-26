@@ -7,10 +7,20 @@ Session::Session(QObject *parent) :
     QObject(parent)
 {
     m_dict = new Dict(this);
+    m_etDict = new Dict(this);
+    m_zhDict = new Dict(this);
 }
 
 Dict *Session::getDict() {
     return m_dict;
+}
+
+Dict *Session::getEtDict() {
+    return m_etDict;
+}
+
+Dict *Session::getZhDict() {
+    return m_zhDict;
 }
 
 typedef const char *ccptr_t;
@@ -42,14 +52,14 @@ bool Session::load() {
         }
 
         // et => zh
-        Word *et = m_dict->lazyCreate(tokens[0]);
+        Word *et = m_etDict->lazyCreate(tokens[0]);
         for (int i = 1; i < tokenCount; i++) {
             et->addTranslation(tokens[i]);
         }
 
         // zh => et
         for (int i = 1; i < tokenCount; i++) {
-            Word *zh = m_dict->lazyCreate(tokens[i]);
+            Word *zh = m_zhDict->lazyCreate(tokens[i]);
             zh->addTranslation(et->getName());
         }
     }

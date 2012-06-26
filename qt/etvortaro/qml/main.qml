@@ -17,64 +17,38 @@ Rectangle {
         onBegan: welcome.opacity = 0
     }
 
-    Flickable {
+    YFlipable {
         id: switcher
         x: 0
         y: 0
         width: parent.width
         height: parent.height
-        contentWidth: width * 2
-        contentHeight: height
 
-        LookupEt {
+        front: Lookup {
             id: lookupEt
             width: switcher.width
             height:switcher.height
-            onJumpToZh: switcher.state = 'zh'
+            dict: etDict
+            fromSymbol: "circle-zh"
+            toSymbol: "circle-et"
+            onIndicatorClicked: switcher.state = 'back'
         }
 
-        LookupZh {
+        back: Lookup {
             id: lookupZh
             width: switcher.width
             height: switcher.height
-            anchors.left: lookupEt.right
-            anchors.leftMargin: 0
-            onJumpToEt: switcher.state = 'et'
+            dict: zhDict
+            fromSymbol: "circle-zh"
+            toSymbol: "circle-et"
+            onIndicatorClicked: switcher.state = 'front'
         }
-
-        state: "et"
-        states: [
-            State {
-                name: "et"
-                PropertyChanges {
-                    target: switcher
-                    contentX: 0
-                }
-            },
-            State {
-                name: "zh"
-                PropertyChanges {
-                    target: switcher
-                    contentX: switcher.width
-                }
-            }
-        ]
-
-        Behavior on contentX {
-            NumberAnimation {
-                target: switcher
-                properties: "contentX"
-                duration: 1000
-                easing.type: Easing.InOutExpo
-            }
-        }
-
     }
 
     SequentialAnimation {
         id: fadeOutWelcome
         running: true
-        PauseAnimation { duration: 3000 }
+        PauseAnimation { duration: 1000 }
         NumberAnimation {
             target: welcome
             properties: "opacity"

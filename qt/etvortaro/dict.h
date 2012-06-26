@@ -20,7 +20,7 @@ public slots:
     QDeclarativeListProperty<Word> getWords();
     int size() const;
     Word *get(int index) const;
-    int indexOf(QString name) const;
+    Q_INVOKABLE int indexOf(QString name) const;
     void add(Word *word);
     Word *lazyCreate(const char *name);
 
