@@ -6,8 +6,9 @@ Scene {
 
     id: lookupZh
 
-    Row {
+    Item {
         id: navbar
+        height: circ_zh.height
         SymbolButton {
             id: circ_zh
             symbol: "circle-zh"
@@ -29,7 +30,7 @@ Scene {
             anchors.leftMargin: 3
             anchors.verticalCenter: parent.verticalCenter
         }
-        Text {
+        TextInput {
             id: queryText
             anchors.left: circ_et.right
             anchors.leftMargin: 3

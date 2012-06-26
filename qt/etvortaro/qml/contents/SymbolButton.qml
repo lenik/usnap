@@ -3,20 +3,20 @@ import QtQuick 1.0
 BorderImage {
     id: button
 
-    property alias size: buttonText.font
     property string symbol: "go"
-    property real size: 16
+    property real size: 30
 
     property string image: "images/" + symbol + ".png"
     property string invertImage: "images/" + symbol + "-invert.png"
+    property bool inverted
 
     signal clicked
 
     width: size
     height: size
-    source: state == "pressed"
-              ?  (inverted ? image : invertImage)
-              : (inverted ? invertImage : image)
+    source: inverted
+                ? (state == "pressed" ? image : invertImage)
+                : (state == "pressed" ? invertImage : image)
 
     MouseArea {
         id: mouseArea
@@ -25,6 +25,7 @@ BorderImage {
     }
 
     states: State {
-        name: "pressed"; when: mouseArea.pressed == true
+        name: "pressed"
+        when: mouseArea.pressed == true
     }
 }

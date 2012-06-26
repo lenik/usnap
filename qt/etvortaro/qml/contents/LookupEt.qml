@@ -6,8 +6,9 @@ Scene {
 
     id: lookupEt
 
-    Row {
+    Item {
         id: navbar
+        height: circ_et.height
         SymbolButton {
             id: circ_et
             symbol: "circle-et"
@@ -29,7 +30,7 @@ Scene {
             anchors.leftMargin: 3
             anchors.verticalCenter: parent.verticalCenter
         }
-        Text {
+        TextInput {
             id: queryText
             anchors.left: circ_zh.right
             anchors.leftMargin: 3
@@ -90,7 +91,6 @@ Scene {
             opacity: 0.2
             anchors.top: mid.bottom
         }
-
     }
 
 }

@@ -1,9 +1,12 @@
 <RCC>
     <qresource prefix="/">
+        <file>data/vortaro.csv</file>
         <file>qml/main.qml</file>
         <file>qml/contents/Scene.qml</file>
+        <file>qml/contents/LookupEt.qml</file>
+        <file>qml/contents/LookupZh.qml</file>
+        <file>qml/contents/SymbolButton.qml</file>
         <file>qml/contents/Welcome.qml</file>
-        <file>data/vortaro.csv</file>
         <file>qml/contents/images/circle-et.png</file>
         <file>qml/contents/images/circle-go.png</file>
         <file>qml/contents/images/circle-to.png</file>
@@ -12,5 +15,7 @@
         <file>qml/contents/images/circle-go-invert.png</file>
         <file>qml/contents/images/circle-to-invert.png</file>
         <file>qml/contents/images/circle-zh-invert.png</file>
+        <file>qml/contents/images/null-to.png</file>
+        <file>qml/contents/images/null-to-invert.png</file>
     </qresource>
 </RCC>
