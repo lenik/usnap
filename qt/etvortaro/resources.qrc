@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/contents/Scene.qml</file>
+        <file>qml/contents/Welcome.qml</file>
         <file>data/vortaro.csv</file>
         <file>qml/contents/images/circle-et.png</file>
         <file>qml/contents/images/circle-go.png</file>
