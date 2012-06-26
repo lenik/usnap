@@ -33,9 +33,8 @@ bool Session::load() {
     }
 
     char line[1024];
-    ccptr_t tokens[16] = { 0, };
+    ccptr_t tokens[16];
     int tokenMax = sizeof(tokens) / sizeof(ccptr_t);
-    int tokenCount = 0;
 
     while (! file.atEnd()) {
         int cc = file.readLine(line, sizeof(line));
@@ -43,24 +42,29 @@ bool Session::load() {
             break;
 
         char *p = line;
+        tokens[0] = p;
+        int tokenCount = 0;
+
         while (*p) {
-            if (*p == ',') *p = '0';
+            if (*p == ',') *p = '\0';
             if (*p++ == '\0') {
                 if (tokenCount < tokenMax)
-                    tokens[tokenCount++] = p;
+                    tokens[++tokenCount] = p;
             }
         }
 
         // et => zh
         Word *et = m_etDict->lazyCreate(tokens[0]);
+        QString word = et->getName();
         for (int i = 1; i < tokenCount; i++) {
-            et->addTranslation(tokens[i]);
+            QString tr = QString::fromUtf8(tokens[i]);
+            et->addTranslation(tr);
         }
 
         // zh => et
         for (int i = 1; i < tokenCount; i++) {
             Word *zh = m_zhDict->lazyCreate(tokens[i]);
-            zh->addTranslation(et->getName());
+            zh->addTranslation(word);
         }
     }
 

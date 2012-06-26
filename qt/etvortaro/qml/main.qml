@@ -15,6 +15,7 @@ Rectangle {
         opacity: 100
         z: 100
         onBegan: welcome.opacity = 0
+        // ScriptAction { running: true; script: load() }
     }
 
     YFlipable {
@@ -29,8 +30,8 @@ Rectangle {
             width: switcher.width
             height:switcher.height
             dict: etDict
-            fromSymbol: "circle-zh"
-            toSymbol: "circle-et"
+            fromSymbol: "circle-et"
+            toSymbol: "circle-zh"
             onIndicatorClicked: switcher.state = 'back'
         }
 

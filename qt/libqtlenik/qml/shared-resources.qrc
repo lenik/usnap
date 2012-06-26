@@ -9,8 +9,12 @@
         <file>CoolButtonAuto.qml</file>
         <file>FadeAwayBox.qml</file>
         <file>FlyAwayBox.qml</file>
+        <file>InfiniteFlickable.qml</file>
+        <file>RoundTextInput.qml</file>
         <file>XFlipable.qml</file>
         <file>YFlipable.qml</file>
-        <file>InfiniteFlickable.qml</file>
+        <file>images/rc-white-10.png</file>
+        <file>images/rc-white-20.png</file>
+        <file>images/rc-white-30.png</file>
     </qresource>
 </RCC>

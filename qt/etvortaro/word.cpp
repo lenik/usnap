@@ -30,6 +30,7 @@ void Word::setDescription(QString description) {
 }
 
 void Word::addTranslation(QString translation) {
+    if (! m_description.isEmpty())
+        m_description.append("; ");
     m_description.append(translation);
-    m_description.append("\n");
 }

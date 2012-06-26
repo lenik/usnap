@@ -2,9 +2,9 @@ import QtQuick 1.1
 import "../shared"
 
 Rectangle {
-    property string text: content.text
+    property alias text: content.text
     id: box
-    opacity: 0.2
+    // opacity: 0.2
     clip: true
     color: "gray"
 
@@ -13,6 +13,7 @@ Rectangle {
         width: parent.width * 0.95
         height: parent.height * 0.95
         anchors.fill: parent
+        text: "entry-content"
     }
 
 }

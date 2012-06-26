@@ -12,6 +12,7 @@ Scene {
 
     Item {
         id: navbar
+        width: parent.width
         height: fromButton.height
         SymbolButton {
             id: fromButton
@@ -34,8 +35,10 @@ Scene {
             anchors.leftMargin: 3
             anchors.verticalCenter: parent.verticalCenter
         }
-        TextInput {
+        RoundTextInput {
             id: queryText
+            textColor: "black"
+            height: parent.height
             anchors.left: toButton.right
             anchors.leftMargin: 3
             anchors.right: queryButton.left

@@ -8,11 +8,14 @@
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+    qmlRegisterType<Dict>("Vortaro", 1, 0, "Dict");
+    qmlRegisterType<Word>("Vortaro", 1, 0, "Word");
+
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer viewer;
 
     Session session;
-    // session.load();
+    session.load();
     viewer.engine()->rootContext()->setContextObject(&session);
 
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);

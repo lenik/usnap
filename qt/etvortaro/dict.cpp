@@ -48,8 +48,8 @@ Word *Dict::lazyCreate(const char *name) {
         word = get(pos);
     else {
         pos = -pos - 1;
-        word = new Word();
-        word->setName(QString(name));
+        word = new Word(this);
+        word->setName(QString::fromUtf8(name));
         m_words.insert(pos, word);
     }
     return word;

@@ -9,7 +9,7 @@ class Dict : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int size READ size)
-    Q_PROPERTY(QDeclarativeListProperty<Word> m_words READ getWords)
+    Q_PROPERTY(QDeclarativeListProperty<Word> words READ getWords)
 
 public:
     explicit Dict(QObject *parent = 0);
