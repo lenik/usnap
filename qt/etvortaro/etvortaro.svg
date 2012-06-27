@@ -318,19 +318,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3385397"
-     inkscape:cx="253.40686"
-     inkscape:cy="31.109182"
+     inkscape:zoom="0.33463493"
+     inkscape:cx="315.35501"
+     inkscape:cy="541.56403"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-to-guides="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="857"
-     inkscape:window-height="541"
-     inkscape:window-x="198"
-     inkscape:window-y="359"
+     inkscape:window-width="878"
+     inkscape:window-height="623"
+     inkscape:window-x="178"
+     inkscape:window-y="300"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -778,5 +778,147 @@
              width="130.87787"
              id="rect3128" /></flowRegion><flowPara
            id="flowPara3130">↴</flowPara></flowRoot>    </g>
+    <g
+       id="g3169"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-i.png"
+       inkscape:export-xdpi="76.599998"
+       inkscape:export-ydpi="76.599998">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         sodipodi:type="arc"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3124"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         transform="matrix(0.3774277,0,0,0.3774277,535.69429,606.67206)" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         xml:space="preserve"
+         id="flowRoot3126"
+         style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic"
+         transform="matrix(0.93940928,0,0,0.93940928,475.83743,45.656812)"><flowRegion
+           id="flowRegion3128"><rect
+             id="rect3130"
+             width="130.87787"
+             height="71.762062"
+             x="110.56826"
+             y="922.36975"
+             style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic" /></flowRegion><flowPara
+           style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic"
+           id="flowPara3132">i</flowPara></flowRoot>    </g>
+    <g
+       id="g3162"
+       transform="translate(-65.743287,1.867707)"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-i-invert.png"
+       inkscape:export-xdpi="76.599998"
+       inkscape:export-ydpi="76.599998">
+      <path
+         transform="matrix(0.3774277,0,0,0.3774277,602.18466,682.87451)"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3152"
+         style="opacity:0.8738739;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         transform="matrix(0.93940928,0,0,0.93940928,542.3278,121.85926)"
+         style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic"
+         id="flowRoot3154"
+         xml:space="preserve"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3156"><rect
+             style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic"
+             y="922.36975"
+             x="110.56826"
+             height="71.762062"
+             width="130.87787"
+             id="rect3158" /></flowRegion><flowPara
+           id="flowPara3160"
+           style="font-size:42.57994843px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:jsMath-cmmib10;-inkscape-font-specification:jsMath-cmmib10 Bold Italic">i</flowPara></flowRoot>    </g>
+    <g
+       inkscape:export-ydpi="76.599998"
+       inkscape:export-xdpi="76.599998"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-x.png"
+       id="g3176"
+       transform="translate(81.432026,0)">
+      <path
+         transform="matrix(0.3774277,0,0,0.3774277,535.69429,606.67206)"
+         d="m 213.6657,865.59149 c 0,41.26025 -33.44804,74.70828 -74.70829,74.70828 -41.260242,0 -74.70828,-33.44803 -74.70828,-74.70828 0,-41.26024 33.448038,-74.70828 74.70828,-74.70828 41.26025,0 74.70829,33.44804 74.70829,74.70828 z"
+         sodipodi:ry="74.708282"
+         sodipodi:rx="74.708282"
+         sodipodi:cy="865.59149"
+         sodipodi:cx="138.95741"
+         id="path3178"
+         style="opacity:0.8738739;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91" />
+      <flowRoot
+         transform="matrix(1.0536769,0,0,0.79500336,458.64415,179.02414)"
+         style="font-size:42.57994843px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="flowRoot3180"
+         xml:space="preserve"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-ydpi="28.91"><flowRegion
+           id="flowRegion3182"><rect
+             style="font-size:42.57994843px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+             y="922.36975"
+             x="110.56826"
+             height="71.762062"
+             width="130.87787"
+             id="rect3184" /></flowRegion><flowPara
+           id="flowPara3186"
+           style="font-size:42.57994843px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">X</flowPara></flowRoot>    </g>
+    <g
+       id="g3217"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/qml/contents/images/circle-x-invert.png"
+       inkscape:export-xdpi="76.599998"
+       inkscape:export-ydpi="76.599998">
+      <path
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         sodipodi:type="arc"
+         style="opacity:0.87387389999999998;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path3202"
+         sodipodi:cx="138.95741"
+         sodipodi:cy="865.59149"
+         sodipodi:rx="74.708282"
+         sodipodi:ry="74.708282"
+         d="m 213.6657,865.59149 a 74.708282,74.708282 0 1 1 -149.41657,0 74.708282,74.708282 0 1 1 149.41657,0 z"
+         transform="matrix(0.3774277,0,0,0.3774277,617.12632,684.74221)" />
+      <flowRoot
+         inkscape:export-ydpi="28.91"
+         inkscape:export-xdpi="28.91"
+         inkscape:export-filename="/home/lenik/tasks/22-qt/etvortaro/circle-to.png"
+         xml:space="preserve"
+         id="flowRoot3204"
+         style="font-size:42.57994843000000174px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         transform="matrix(1.0536769,0,0,0.79500336,540.07618,257.09429)"><flowRegion
+           id="flowRegion3206"><rect
+             id="rect3208"
+             width="130.87787"
+             height="71.762062"
+             x="110.56826"
+             y="922.36975"
+             style="font-size:42.57994843000000174px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono" /></flowRegion><flowPara
+           style="font-size:42.57994843000000174px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono;fill:#000000"
+           id="flowPara3210">X</flowPara></flowRoot>    </g>
   </g>
 </svg>

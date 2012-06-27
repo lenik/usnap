@@ -14,7 +14,7 @@ Rectangle {
     Text {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        text: "关于本程序\n\n作者：谢继雷 <xjl@99jsj.com>\n源码：http://goo.gl/nN1wU"
+        text: "关于本程序\n\n作者：谢继雷 <xjl@99jsj.com>\n源码：http://goo.gl/m1xZI"
         font.pixelSize: parent.width / 20
         color: "darkblue"
         style: Text.Sunken
