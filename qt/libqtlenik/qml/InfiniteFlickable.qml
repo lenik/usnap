@@ -9,7 +9,8 @@ Flickable {
     property int columns: 3
     property int origRow: rows / 2
     property int origColumn: columns / 2
-    property bool aligned: false
+    property bool alignRow: true
+    property bool alignColumn: true
     property bool collapsing: false
 
     signal scrollLeft
@@ -26,6 +27,17 @@ Flickable {
     contentY: height * origColumn
     clip: true
 
+    function goTo(row, column) {
+        if (alignRow)
+            contentY =height * row;
+        if (alignColumn)
+            contentX = width * column;
+    }
+
+    function home() {
+        goTo(origRow, origColumn);
+    }
+
     function collapse() {
         if (collapsing)
             return;
@@ -33,24 +45,27 @@ Flickable {
 
         var col = Math.round(contentX / width);
         var row = Math.round(contentY / height);
-        // if (aligned)
-        // console.debug("row=" + row + ", col=" + col);
-        if (row < origRow)
-            grid.scrollUp();
-        if (row > origRow)
-            grid.scrollDown();
-        if (col < origColumn)
-            grid.scrollLeft();
-        if (col > origColumn)
-            grid.scrollRight();
+        var dx = 0;
+        var dy = 0;
 
-        var dy = row - origRow;
-        var dx = col - origColumn;
+        if (alignRow) {
+            if (row < origRow)
+                grid.scrollUp();
+            if (row > origRow)
+                grid.scrollDown();
+            dy = row - origRow;
+        }
+        if (alignColumn) {
+            if (col < origColumn)
+                grid.scrollLeft();
+            if (col > origColumn)
+                grid.scrollRight();
+            dx = col - origColumn;
+        }
+
         grid.positionChanged(dx, dy);
 
-        contentX = origColumn * width;
-        contentY = origRow * height;
-
+        home();
         collapsing = false;
     }
 
