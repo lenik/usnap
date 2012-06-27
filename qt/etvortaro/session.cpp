@@ -38,33 +38,34 @@ bool Session::load() {
 
     while (! file.atEnd()) {
         int cc = file.readLine(line, sizeof(line));
-        if (cc <= 0)
+        if (cc < 0)
             break;
 
         char *p = line;
         tokens[0] = p;
         int tokenCount = 0;
 
-        while (*p) {
+        for (int i = 0; i <= cc; i++) {
             if (*p == ',') *p = '\0';
+            if (*p == '\n') { *p = '\0'; continue; }
             if (*p++ == '\0') {
                 if (tokenCount < tokenMax)
                     tokens[++tokenCount] = p;
             }
         }
 
-        // et => zh
-        Word *et = m_etDict->lazyCreate(tokens[0]);
-        QString word = et->getName();
-        for (int i = 1; i < tokenCount; i++) {
-            QString tr = QString::fromUtf8(tokens[i]);
-            et->addTranslation(tr);
-        }
+        QString et = QString::fromUtf8(tokens[0]);
+        Word *etWord = m_etDict->lazyCreate(et);
 
-        // zh => et
         for (int i = 1; i < tokenCount; i++) {
-            Word *zh = m_zhDict->lazyCreate(tokens[i]);
-            zh->addTranslation(word);
+            QString zh = QString::fromUtf8(tokens[i]);
+
+            // et => zh
+            etWord->addTranslation(zh);
+
+            // zh => et
+            Word *zhWord = m_zhDict->lazyCreate(zh);
+            zhWord->addTranslation(et);
         }
     }
 

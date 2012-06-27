@@ -23,6 +23,7 @@ public slots:
     Q_INVOKABLE int indexOf(QString name) const;
     void add(Word *word);
     Word *lazyCreate(const char *name);
+    Word *lazyCreate(QString name);
 
 private:
     QList<Word *> m_words;

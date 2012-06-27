@@ -42,6 +42,10 @@ void Dict::add(Word *word) {
 }
 
 Word *Dict::lazyCreate(const char *name) {
+    return lazyCreate(QString::fromUtf8(name));
+}
+
+Word *Dict::lazyCreate(QString name) {
     Word *word;
     int pos = indexOf(name);
     if (pos >= 0)
@@ -49,7 +53,7 @@ Word *Dict::lazyCreate(const char *name) {
     else {
         pos = -pos - 1;
         word = new Word(this);
-        word->setName(QString::fromUtf8(name));
+        word->setName(name);
         m_words.insert(pos, word);
     }
     return word;
