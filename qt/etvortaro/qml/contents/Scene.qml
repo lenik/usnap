@@ -1,26 +1,21 @@
 import QtQuick 1.1
 import "../shared"
 
-Rectangle {
+Item {
     property alias title: titleText.text
     property alias color: titleText.color
 
     id: scene
     clip: true
 
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#666666"
-        }
-        GradientStop {
-            position: 0.2
-            color: "#ffffff"
-        }
-        GradientStop {
-            position: 1
-            color: "#444444"
-        }
+    BorderImage {
+        id: background
+        anchors.fill: parent
+        source: "images/stars.png"
+        border { left: 0; top: 0; right: 0; bottom: 0 }
+        horizontalTileMode: BorderImage.Repeat
+        verticalTileMode: BorderImage.Repeat
+        // opacity: 0.8
     }
 
     Text {
