@@ -17,5 +17,9 @@
         <file>qml/contents/Test.qml</file>
         <file>qml/contents/Welcome.qml</file>
         <file>qml/contents/ScoreText.qml</file>
+        <file>qml/contents/images/mountain.png</file>
+        <file>qml/contents/images/sky.png</file>
+        <file>qml/contents/images/mountain-small.png</file>
+        <file>qml/contents/images/sky-small.png</file>
     </qresource>
 </RCC>

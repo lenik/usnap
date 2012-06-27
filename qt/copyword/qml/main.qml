@@ -5,8 +5,8 @@ import "contents"
 Rectangle {
     id: screen
 
-    width: 200
-    height: 300
+    width: 240
+    height: 400
 
     XFlipable {
         id: flip1

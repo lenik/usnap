@@ -1,26 +1,32 @@
 import QtQuick 1.1
 import "../shared"
 
-Rectangle {
+BorderImage {
+    property bool smallMode: Math.min(width, height) < 300
+    property real scaleRatio: smallMode ? 0.5 : 1
+
     property alias title: titleText.text
     property alias color: titleText.color
 
     id: scene
     clip: true
 
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#666666"
-        }
-        GradientStop {
-            position: 0.2
-            color: "#ffffff"
-        }
-        GradientStop {
-            position: 1
-            color: "#444444"
-        }
+    source: smallMode ? "images/sky-small.png" : "images/sky.png"
+    border {
+        left: 264 * scaleRatio
+        right: 170 * scaleRatio
+        top: 191 * scaleRatio
+        bottom: 0 * scaleRatio
+    }
+    horizontalTileMode: BorderImage.Repeat
+    verticalTileMode: BorderImage.Repeat
+
+    Image {
+        id: mountain
+        source: smallMode ? "images/mountain-small.png" : "images/mountain.png"
+        width: parent.width
+        height: parent.height * 0.15
+        anchors.bottom: parent.bottom
     }
 
     Text {
