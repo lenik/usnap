@@ -10,10 +10,11 @@ Scene {
         ]
     property int index: 0
     property variant candidates: []
-    property variant answers: []
+    property variant answers: [ 1, 2, 3, ]
     property bool backward: false
     property bool leftSide: true
 
+    signal scoreChanged
     signal end
 
     function start() {
@@ -49,7 +50,6 @@ Scene {
         promptBox.state = "coming";
         promptBox.state = "";
 
-
         if (backward) {
             if (! leftSide) {
                 leftSide = true;
@@ -77,6 +77,30 @@ Scene {
             flick1.state = "";
             flick1.state = "right";
         }
+    }
+
+    function setAnswer(index, answer) {
+        console.log("answers[" + index + "] = " + answer);
+        answers[index] = answer;
+        console.log("val = " + answers[index]);
+        console.log("answers.length => " + answers.length);
+        console.log("answers => " + answers);
+        for (var k in answers)
+            console.log("answer key: " + k);
+        test.scoreChanged();
+    }
+
+    function getScore() {
+        var matchings = 0;
+        console.log("answers = " + answers);
+        for (var i = 0; i < table.length; i++) {
+            var expected = table[i][1];
+            var actual = answers[i];
+            console.debug("expected = " + expected, "actual = " + actual + ".");
+            if (expected == actual)
+                matchings++;
+        }
+        return matchings;
     }
 
     id: test
@@ -146,7 +170,7 @@ Scene {
                 green: index < table.length ? table[index][1] : ""
                 onChoiced: {
                     backward = false;
-                    answers[index] = cRight.value;
+                    setAnswer(index, cLeft.value);
                     index++;
                     if (index < table.length)
                         promptBox.state = "away";
@@ -162,7 +186,7 @@ Scene {
                 green: index < table.length ? table[index][1] : ""
                 onChoiced: {
                     backward = false;
-                    answers[index] = cRight.value;
+                    setAnswer(index, cRight.value);
                     index++;
                     if (index < table.length)
                         promptBox.state = "away";

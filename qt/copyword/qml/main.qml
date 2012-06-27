@@ -105,6 +105,10 @@ Rectangle {
                         flick.contentX = screen.width * 2; // show scoreboard
                         // scoreboard.refresh();
                     }
+                    onScoreChanged: {
+                        console.log("score = " + test.getScore());
+                        scoreboard.testPassed = test.getScore();
+                    }
                 }
 
                 Scoreboard {

@@ -7,6 +7,7 @@ BorderImage {
 
     property alias title: titleText.text
     property alias color: titleText.color
+    property alias bottomImage: mountain
 
     id: scene
     clip: true

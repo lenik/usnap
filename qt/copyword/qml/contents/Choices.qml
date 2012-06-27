@@ -22,7 +22,7 @@ Rectangle {
 
     signal choiced
 
-    id: answer
+    id: choices
     width: parent.width
     height: parent.height
 
@@ -59,8 +59,8 @@ Rectangle {
         width: hspan
         height: vspan - vspacing
         // text: "Answer 1"
-        shadeColor: text == red ? "red" : text == green ? "green" : answer.shadeColor
-        onClicked: { answer.value = text; answer.choiced() }
+        shadeColor: text == red ? "red" : text == green ? "green" : choices.shadeColor
+        onClicked: { choices.value = text; choices.choiced() }
     }
 
     CoolButton {
@@ -70,8 +70,8 @@ Rectangle {
         width: hspan
         height: vspan - vspacing
         // text: "Answer 2"
-        shadeColor: text == red ? "red" : text == green ? "green" : answer.shadeColor
-        onClicked: { answer.value = text; answer.choiced() }
+        shadeColor: text == red ? "red" : text == green ? "green" : choices.shadeColor
+        onClicked: { choices.value = text; choices.choiced() }
     }
 
     CoolButton {
@@ -81,8 +81,8 @@ Rectangle {
         width: hspan
         height: vspan - vspacing
         // text: "Answer 3"
-        shadeColor: text == red ? "red" : text == green ? "green" : answer.shadeColor
-        onClicked: { answer.value = text; answer.choiced() }
+        shadeColor: text == red ? "red" : text == green ? "green" : choices.shadeColor
+        onClicked: { choices.value = text; choices.choiced() }
     }
 
 }
