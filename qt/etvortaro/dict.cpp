@@ -17,18 +17,19 @@ Word *Dict::get(int index) const {
     return m_words.at(index);
 }
 
-int Dict::indexOf(QString name) const {
+int Dict::indexOf(QString key) const {
     int begin = 0;
     int end = size();
     while (begin < end) {
         int mid = begin + (end - begin) / 2;
         Word *w = m_words.at(mid);
-        if (name == w->getName())
-            return mid;
-        if (name < w->getName())
+        int cmp = compare(key, w->getName());
+        if (cmp < 0)
             end = mid;
-        else
+        else if (cmp > 0)
             begin = mid + 1;
+        else
+            return mid;
     }
     // assert begin == end;
     return -begin - 1;
@@ -57,4 +58,14 @@ Word *Dict::lazyCreate(QString name) {
         m_words.insert(pos, word);
     }
     return word;
+}
+
+int Dict::compare(QString s1, QString s2) const {
+    QString lc1 = s1.toLower();
+    QString lc2 = s2.toLower();
+    if (lc1 < lc2)
+        return -1;
+    if (lc1 > lc2)
+        return 1;
+    return 0;
 }

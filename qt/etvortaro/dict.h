@@ -25,6 +25,9 @@ public slots:
     Word *lazyCreate(const char *name);
     Word *lazyCreate(QString name);
 
+protected:
+    int compare(QString a, QString b) const;
+
 private:
     QList<Word *> m_words;
 };
