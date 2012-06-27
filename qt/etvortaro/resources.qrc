@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>data/vortaro.csv</file>
         <file>qml/main.qml</file>
+        <file>qml/contents/About.qml</file>
         <file>qml/contents/EntryContent.qml</file>
         <file>qml/contents/Lookup.qml</file>
         <file>qml/contents/Scene.qml</file>
@@ -15,6 +16,10 @@
         <file>qml/contents/images/circle-go-invert.png</file>
         <file>qml/contents/images/circle-to-invert.png</file>
         <file>qml/contents/images/circle-zh-invert.png</file>
+        <file>qml/contents/images/circle-i.png</file>
+        <file>qml/contents/images/circle-i-invert.png</file>
+        <file>qml/contents/images/circle-x.png</file>
+        <file>qml/contents/images/circle-x-invert.png</file>
         <file>qml/contents/images/null-to.png</file>
         <file>qml/contents/images/null-to-invert.png</file>
     </qresource>

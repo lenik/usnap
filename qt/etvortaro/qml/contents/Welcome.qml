@@ -7,8 +7,6 @@ Rectangle {
     signal infoClicked
 
     id: welcome
-    width: 320
-    height: 600
 
     gradient: Gradient {
         GradientStop {

@@ -6,7 +6,13 @@ Scene {
     property string toSymbol
     property variant dict
 
+    property int pageSize: 10
+    property int index: 0
+
+    property alias text: queryText.text
+
     signal indicatorClicked
+    signal closed
 
     id: lookup
 
@@ -17,8 +23,8 @@ Scene {
         SymbolButton {
             id: fromButton
             symbol: fromSymbol
-            onClicked: lookup.indicatorClicked()
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: lookup.indicatorClicked()
         }
         SymbolButton {
             id: null_to
@@ -30,10 +36,10 @@ Scene {
         SymbolButton {
             id: toButton
             symbol: toSymbol
-            onClicked: lookup.indicatorClicked()
             anchors.left: null_to.right
             anchors.leftMargin: 3
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: lookup.indicatorClicked()
         }
         RoundTextInput {
             id: queryText
@@ -44,14 +50,14 @@ Scene {
             anchors.right: queryButton.left
             anchors.rightMargin: 3
             anchors.verticalCenter: parent.verticalCenter
-            onTextChanged: query();
+            onTextChanged: query()
         }
         SymbolButton {
             id: queryButton
             symbol: "circle-go"
-            onClicked: query()
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: query()
         }
     }
 
@@ -71,27 +77,61 @@ Scene {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        contentWidth: parent.width * 1.5
+        // alignColumn: false
+
         rows: 3
         columns: 1
         origRow: 1
         origColumn: 0
 
+        onScrollUp: {
+            var index = lookup.index - pageSize;
+            if (index < 0)
+                index = 0;
+            scroll(index);
+        }
+        onScrollDown: {
+            var index = lookup.index + pageSize;
+            if (index >= dict.size - pageSize)
+                index = dict.size - pageSize;
+            if (index < 0)
+                index = 0;
+            scroll(index);
+        }
+
         EntryContent {
             id: prev
-            width: yflick.width
+            width: yflick.width * 2
             height: yflick.height
+            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
         }
         EntryContent {
             id: center
-            width: yflick.width
+            width: yflick.width * 2
             height: yflick.height
             anchors.top: prev.bottom
+            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
         }
         EntryContent {
             id: next
-            width: yflick.width
+            width: yflick.width * 2
             height: yflick.height
             anchors.top: center.bottom
+            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
+        }
+    }
+
+    Row {
+        id: footbar
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        spacing: 5
+
+        SymbolButton {
+            id: closeButton
+            symbol: "circle-x"
+            onClicked: lookup.closed()
         }
     }
 
@@ -103,9 +143,11 @@ Scene {
     }
 
     function scroll(index) {
-        load(prev, index - 5, index);
-        load(center, index, index + 5);
-        load(next, index + 5, index + 10);
+        lookup.index = index;
+        load(prev, index - pageSize, index);
+        load(center, index, index + pageSize);
+        load(next, index + pageSize, index + pageSize * 2);
+        yflick.home();
     }
 
     function load(ec, from, to) {
