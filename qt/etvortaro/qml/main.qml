@@ -3,18 +3,19 @@ import "shared"
 import "contents"
 
 Rectangle {
+    property bool debug: false
     property int pageSize: 18
 
     id: screen
 
-    width: 480; height: 800
-    // width: 240; height: 400
+    width: debug ? 240 : 480
+    height: debug ? 400 : 800
     color: "lightgray"
 
     Welcome {
         id: welcome
         anchors.fill: parent
-        opacity: 100
+        opacity: 1
         z: 10
         onBegan: welcome.opacity = 0
         onInfoClicked: about.opacity = 1
@@ -52,7 +53,7 @@ Rectangle {
             id: lookupEt
             width: switcher.width
             height:switcher.height
-            pageSize: screen.pageSize
+            // pageSize: screen.pageSize
             dict: etDict
             fromSymbol: "circle-et"
             toSymbol: "circle-zh"
@@ -68,7 +69,7 @@ Rectangle {
             id: lookupZh
             width: switcher.width
             height: switcher.height
-            pageSize: screen.pageSize
+            // pageSize: screen.pageSize
             dict: zhDict
             fromSymbol: "circle-zh"
             toSymbol: "circle-et"

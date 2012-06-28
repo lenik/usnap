@@ -6,7 +6,9 @@ Scene {
     property string toSymbol
     property variant dict
 
-    property int pageSize: 10
+    property real listHeight: height - topHr.bottom
+    property real fontSize: Math.min(width, listHeight) / 15
+    property int pageSize: Math.max(width, listHeight) / (fontSize * 1.4)
     property int index: 0
 
     property alias text: queryText.text
@@ -104,21 +106,21 @@ Scene {
             id: prev
             width: yflick.width * 2
             height: yflick.height
-            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
+            font.pixelSize: fontSize
         }
         EntryContent {
             id: center
             width: yflick.width * 2
             height: yflick.height
             anchors.top: prev.bottom
-            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
+            font.pixelSize: fontSize
         }
         EntryContent {
             id: next
             width: yflick.width * 2
             height: yflick.height
             anchors.top: center.bottom
-            font.pixelSize: Math.min(yflick.width, yflick.height) / 15
+            font.pixelSize: fontSize
         }
     }
 
