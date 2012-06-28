@@ -77,6 +77,7 @@ QVariantList CsvFile::getRecords() {
             char *p = line;
             int columns = 0;
             for (int i = 0; i <= cc; i++) {
+                if (*p == '\n') *p = '\0';
                 if (*p == delim && columns < m_maxColumns)
                     *p = '\0';
                 if (! *p++) {
