@@ -14,7 +14,7 @@
         <file>qml/contents/ChooseBook.qml</file>
         <file>qml/contents/ChoosePlayer.qml</file>
         <file>qml/contents/Chooser.js</file>
-        <file>qml/contents/MenuButton.qml</file>
+        <file>qml/contents/BookIcon.qml</file>
         <file>qml/contents/Rolling.qml</file>
         <file>qml/contents/Scene.qml</file>
         <file>qml/contents/Scoreboard.qml</file>
@@ -32,5 +32,8 @@
         <file>qml/contents/images/mountain3-small.png</file>
         <file>qml/contents/images/sky3.png</file>
         <file>qml/contents/images/sky3-small.png</file>
+        <file>qml/contents/SymbolButton.qml</file>
+        <file>qml/contents/images/cloud.png</file>
+        <file>qml/contents/images/cloud-invert.png</file>
     </qresource>
 </RCC>

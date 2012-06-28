@@ -5,17 +5,26 @@ import "../shared"
 Item {
     id: item
 
-    property alias text: button.text
+    property alias text: itemText.text
     signal clicked
 
-    width: button.textWidth + 30
-    height: button.textHeight + 10
+    width: itemText.width + 30
+    height: itemText.height + 10
 
-    CoolButton {
+    SymbolButton {
         id: button
-        style: "gray"
-        font.pixelSize:Math.min(item.parent.width, item.parent.height) / 15
+        symbol: "cloud"
         anchors.fill: parent
+
+        Text {
+            id: itemText
+            anchors.centerIn: parent
+            font.pixelSize:Math.min(item.parent.width, item.parent.height) / 15
+            color: "black"
+            style: Text.Raised
+            styleColor: "gray"
+        }
+
         onClicked: {
             item.state = "away"
             item.clicked()
