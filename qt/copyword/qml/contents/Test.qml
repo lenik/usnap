@@ -103,14 +103,12 @@ Scene {
 
     FadeAwayBox {
         id: promptBox
-        y: parent.height * 0.2
-        width: parent.width * 0.85
-        height: promptText.font.pixelSize + 25
+        width: parent.width
+        height: promptText.height + 10
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: flick1.top
+        anchors.bottomMargin: 15
 
-        radius: 10
-        border.width: 4
-        border.color: "gray"
         fadeOut: false
 
         gradient: Gradient {
@@ -126,12 +124,15 @@ Scene {
 
         Text {
             id: promptText
+            width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            text: "Hello, world"
             color: "black"
             font.family: "Comic Sans MS"
             font.pixelSize: parent.width / 12
-            text: "Hello, world"
+            wrapMode: Text.WrapAnywhere
+            horizontalAlignment: Text.AlignHCenter
         }
 
         state: ""
