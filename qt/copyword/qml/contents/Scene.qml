@@ -2,7 +2,7 @@ import QtQuick 1.1
 import "../shared"
 
 BorderImage {
-    property bool smallMode: Math.min(width, height) < 300
+    property bool smallMode: Math.min(width, height) < 400
     property real scaleRatio: smallMode ? 0.5 : 1
     property string topStyle
     property string bottomStyle
@@ -28,13 +28,15 @@ BorderImage {
 
     Text {
         id: titleText
-        color: "white"
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.top: parent.top
         anchors.topMargin: 10
         // font.family: "Comic Sans MS"
         font.pixelSize: Math.min(scene.width, scene.height) / 10
+        color: "white"
+        style: Text.Outline
+        styleColor: "gold"
     }
 
 }

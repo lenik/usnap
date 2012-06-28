@@ -27,63 +27,63 @@ Scene {
 
     title: "选择难度等级"
 
-    MenuButton {
+    BookIcon {
         id: eo1
         x: 19 * scaleX
         y: 272 * scaleY
         text: "世界语 1"
         onClicked: chooser.chosen("eo-1")
     }
-    MenuButton {
+    BookIcon {
         id: eo2
         x: 55 * scaleX
         y: 366 * scaleY
         text: "世界语 2"
         onClicked: chooser.chosen("eo-2")
     }
-    MenuButton {
+    BookIcon {
         id: eo3
         x: 55 * scaleX
         y: 459 * scaleY
         text: "世界语 3"
         onClicked: chooser.chosen("eo-3")
     }
-    MenuButton {
+    BookIcon {
         id: eo4
         x: 19 * scaleX
         y: 539 * scaleY
         text: "世界语 4"
         onClicked: chooser.chosen("eo-4")
     }
-    MenuButton {
+    BookIcon {
         id: en1
         x: 211 * scaleX
         y: 230 * scaleY
         text: "英语 2"
         onClicked: chooser.chosen("en-1")
     }
-    MenuButton {
+    BookIcon {
         id: en2
         x: 184 * scaleX
         y: 321 * scaleY
         text: "英语 3"
         onClicked: chooser.chosen("en-2")
     }
-    MenuButton {
+    BookIcon {
         id: en3
         x: 154 * scaleX
         y: 413 * scaleY
         text: "英语 4"
         onClicked: chooser.chosen("en-3")
     }
-    MenuButton {
+    BookIcon {
         id: en4
         x: 184 * scaleX
         y: 496 * scaleY
         text: "英语 6"
         onClicked: chooser.chosen("en-4")
     }
-    MenuButton {
+    BookIcon {
         id: en5
         x: 211 * scaleX
         y: 578 * scaleY

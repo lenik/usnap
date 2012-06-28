@@ -19,7 +19,8 @@ Scene {
         style: "red"
         width: parent.width * 0.5
         height: parent.height * 0.1
-        text: "Start!"
+        // text: "Komencu!"
+        text: "开始!"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter

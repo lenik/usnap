@@ -3,10 +3,11 @@ import "shared"
 import "contents"
 
 Rectangle {
-    id: screen
+    property bool debug: false
 
-    width: 240
-    height: 400
+    id: screen
+    width: debug ? 240 : 480
+    height: debug ? 400 : 800
 
     XFlipable {
         id: flip1
@@ -104,6 +105,7 @@ Rectangle {
                         id: rolling
                         width: screen.width
                         height: screen.height
+                        speed: debug ? 1 : 0.3
                         onSkipped: {
                             flick.contentX = screen.width;
                             test.start();
