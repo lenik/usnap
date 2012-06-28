@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import "../shared"
+import "Test.js" as TestEngine
 
 Scene {
     property int speed: 10
@@ -9,15 +10,17 @@ Scene {
             [ "骆驼", "camel", "/'kaemel/", "lamo", "what the fuck..." ],
         ]
     property int index: 0
-    property variant candidates: []
-    property variant answers: [ 1, 2, 3, ]
     property bool backward: false
     property bool leftSide: true
+
+    property alias promptFont: promptText.font
 
     signal scoreChanged
     signal end
 
     function start() {
+        TestEngine.candidates = [];
+        TestEngine.answers = [];
         showWord(index = 0);
     }
 
@@ -44,7 +47,7 @@ Scene {
                 candidates[q] = a;
             }
         }
-        test.candidates = candidates;
+        TestEngine.candidates = candidates;
 
         promptText.text = description + "?";
         promptBox.state = "coming";
@@ -80,23 +83,15 @@ Scene {
     }
 
     function setAnswer(index, answer) {
-        console.log("answers[" + index + "] = " + answer);
-        answers[index] = answer;
-        console.log("val = " + answers[index]);
-        console.log("answers.length => " + answers.length);
-        console.log("answers => " + answers);
-        for (var k in answers)
-            console.log("answer key: " + k);
+        TestEngine.answers[index] = answer;
         test.scoreChanged();
     }
 
     function getScore() {
         var matchings = 0;
-        console.log("answers = " + answers);
         for (var i = 0; i < table.length; i++) {
             var expected = table[i][1];
-            var actual = answers[i];
-            console.debug("expected = " + expected, "actual = " + actual + ".");
+            var actual = TestEngine.answers[i];
             if (expected == actual)
                 matchings++;
         }

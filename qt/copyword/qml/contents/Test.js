@@ -1,0 +1,3 @@
+
+var candidates = [];
+var answers = [];
