@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sed -e 's/~zC/Ĉ/g' \
+    -e 's/~zG/Ĝ/g' \
+    -e 's/~zH/Ĥ/g' \
+    -e 's/~zJ/Ĵ/g' \
+    -e 's/~zS/Ŝ/g' \
+    -e 's/~zU/Ŭ/g' \
+    -e 's/~zc/ĉ/g' \
+    -e 's/~zg/ĝ/g' \
+    -e 's/~zh/ĥ/g' \
+    -e 's/~zj/ĵ/g' \
+    -e 's/~zs/ŝ/g' \
+    -e 's/~zu/ŭ/g' \
+    "$@"

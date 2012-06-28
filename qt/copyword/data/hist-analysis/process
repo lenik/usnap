@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for f in "$@"; do
+    echo "Find words: $f"
+    ./1-escape "$f" | ./2-eo-words | ./3-unescape | sort -d >"$f.raw"
+    echo "Normalize & count: $f"
+    ./4-norm "$f.raw" | sort -d | uniq -c >"$f.nc"
+done

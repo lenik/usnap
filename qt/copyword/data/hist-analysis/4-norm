@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sed -e 's/oj$/o/g' \
+    -e 's/[ai]s$/i/g' \
+    -e 's/u$/i/g' \
+    "$@"
