@@ -22,5 +22,7 @@
         <file>qml/contents/images/circle-x-invert.png</file>
         <file>qml/contents/images/null-to.png</file>
         <file>qml/contents/images/null-to-invert.png</file>
+        <file>qml/contents/images/et-flag.png</file>
+        <file>qml/contents/images/stars.png</file>
     </qresource>
 </RCC>

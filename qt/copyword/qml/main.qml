@@ -106,7 +106,6 @@ Rectangle {
                         // scoreboard.refresh();
                     }
                     onScoreChanged: {
-                        console.log("score = " + test.getScore());
                         scoreboard.testPassed = test.getScore();
                     }
                 }

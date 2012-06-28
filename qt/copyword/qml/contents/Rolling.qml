@@ -9,6 +9,7 @@ Scene {
             [ "骆驼", "camel", "/'kaemel/", "lamo", "what the fuck..." ]
         ]
     property int index: 0
+    property alias flyFont: flyText1.font
 
     signal done
     signal skipped

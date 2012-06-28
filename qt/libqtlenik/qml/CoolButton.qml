@@ -24,7 +24,7 @@ BorderImage {
     Text {
         id: buttonText
         anchors.centerIn: parent; anchors.verticalCenterOffset: -1
-        font.pixelSize: parent.width > parent.height ? parent.height * .5 : parent.width * .5
+        font.pixelSize: Math.min(parent.width, parent.height) * .5
         style: Text.Sunken; color: "white"; styleColor: "black"; smooth: true
     }
 

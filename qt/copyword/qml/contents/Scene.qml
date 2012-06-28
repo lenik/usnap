@@ -6,6 +6,7 @@ BorderImage {
     property real scaleRatio: smallMode ? 0.5 : 1
 
     property alias title: titleText.text
+    property alias titleFont: titleText.font
     property alias color: titleText.color
     property alias bottomImage: mountain
 
@@ -37,7 +38,7 @@ BorderImage {
         anchors.leftMargin: 20
         anchors.top: parent.top
         anchors.topMargin: 10
-        font.family: "Comic Sans MS"
+        // font.family: "Comic Sans MS"
         font.pixelSize: Math.min(scene.width, scene.height) / 10
     }
 
