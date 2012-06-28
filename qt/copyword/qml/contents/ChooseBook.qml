@@ -21,6 +21,12 @@ Scene {
         slideIn.start();
     }
 
+    topStyle: "sky2"
+    bottomStyle: "mountain"
+    border {
+        left: 176 * scaleRatio; top: 190 * scaleRatio
+        right: 250 * scaleRatio; bottom: 0 * scaleRatio }
+
     title: "选择难度等级"
 
     MenuButton {

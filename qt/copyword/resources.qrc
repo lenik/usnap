@@ -23,5 +23,11 @@
         <file>qml/contents/images/mountain-small.png</file>
         <file>qml/contents/images/sky.png</file>
         <file>qml/contents/images/sky-small.png</file>
+        <file>qml/contents/images/sky2.png</file>
+        <file>qml/contents/images/sky2-small.png</file>
+        <file>qml/contents/images/mountain3.png</file>
+        <file>qml/contents/images/mountain3-small.png</file>
+        <file>qml/contents/images/sky3.png</file>
+        <file>qml/contents/images/sky3-small.png</file>
     </qresource>
 </RCC>

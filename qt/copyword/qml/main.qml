@@ -68,56 +68,66 @@ Rectangle {
             }
         }
 
-        back: Flickable {
-            id: flick
+        back: Scene {
+            id: flickScene
             anchors.fill: parent
-            contentWidth: row.width
-            contentHeight: row.height
+            topStyle: "sky3"
+            bottomStyle: "mountain3"
+            border {
+                left: 210 * scaleRatio; top: 203 * scaleRatio
+                right: 242 * scaleRatio; bottom: 0 * scaleRatio }
 
-            Behavior on contentX {
-                NumberAnimation {
-                    duration: 1000
-                    easing.type: Easing.OutExpo
-                }
-            }
+            Flickable {
+                id: flick
+                anchors.fill: parent
+                contentWidth: row.width
+                contentHeight: row.height
 
-            Row {
-                id: row
-                Rolling {
-                    id: rolling
-                    width: screen.width
-                    height: screen.height
-                    onSkipped: {
-                        flick.contentX = screen.width;
-                        test.start();
-                    }
-                    onDone: {
-                        flick.contentX = screen.width;
-                        test.start();
+                Behavior on contentX {
+                    NumberAnimation {
+                        duration: 1000
+                        easing.type: Easing.OutExpo
                     }
                 }
 
-                Test {
-                    id: test
-                    width: screen.width
-                    height: screen.height
-                    onEnd: {
-                        flick.contentX = screen.width * 2; // show scoreboard
-                        // scoreboard.refresh();
+                Row {
+                    id: row
+                    Rolling {
+                        id: rolling
+                        width: screen.width
+                        height: screen.height
+                        onSkipped: {
+                            flick.contentX = screen.width;
+                            test.start();
+                        }
+                        onDone: {
+                            flick.contentX = screen.width;
+                            test.start();
+                        }
                     }
-                    onScoreChanged: {
-                        scoreboard.testPassed = test.getScore();
-                    }
-                }
 
-                Scoreboard {
-                    id: scoreboard
-                    width: screen.width
-                    height: screen.height
-                    onRetry: flick.contentX = 0
-                    onGoBack: {
-                        flip1.state = ""; // show book chooser
-                        chooseBook.show();
+                    Test {
+                        id: test
+                        width: screen.width
+                        height: screen.height
+                        onEnd: {
+                            flick.contentX = screen.width * 2; // show scoreboard
+                            // scoreboard.refresh();
+                        }
+                        onScoreChanged: {
+                            scoreboard.testPassed = test.getScore();
+                        }
+                    }
+
+                    Scoreboard {
+                        id: scoreboard
+                        width: screen.width
+                        height: screen.height
+                        onRetry: flick.contentX = 0
+                        onGoBack: {
+                            flip1.state = ""; // show book chooser
+                            chooseBook.show();
+                        }
                     }
                 }
             }
