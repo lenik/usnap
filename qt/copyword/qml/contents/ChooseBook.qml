@@ -12,12 +12,10 @@ Scene {
 
     signal chosen(string bookName)
 
+    property real scaleX: width / 320
+    property real scaleY: height / 640
+
     function show() {
-        level1.state = "";
-        level2.state = "";
-        level3.state = "";
-        level4.state = "";
-        level5.state = "";
         slideIn.start();
     }
 
@@ -30,52 +28,87 @@ Scene {
     title: "选择难度等级"
 
     MenuButton {
-        id: level1
-        text: "Basic / 简单"
-        anchors.bottom: level2.top
-        anchors.bottomMargin: vspacing
-        onClicked: chooser.chosen("level-1")
+        id: eo1
+        x: 19 * scaleX
+        y: 272 * scaleY
+        text: "世界语 1"
+        onClicked: chooser.chosen("eo-1")
     }
     MenuButton {
-        id: level2
-        text: "Medium / 普通"
-        anchors.bottom: level3.top
-        anchors.bottomMargin: vspacing
-        onClicked: chooser.chosen("level-2")
+        id: eo2
+        x: 55 * scaleX
+        y: 366 * scaleY
+        text: "世界语 2"
+        onClicked: chooser.chosen("eo-2")
     }
     MenuButton {
-        id: level3
-        text: "High / 提高"
-        anchors.bottom: level4.top
-        anchors.bottomMargin: vspacing
-        onClicked: chooser.chosen("level-3")
+        id: eo3
+        x: 55 * scaleX
+        y: 459 * scaleY
+        text: "世界语 3"
+        onClicked: chooser.chosen("eo-3")
     }
     MenuButton {
-        id: level4
-        text: "Crazy / 超难"
-        anchors.bottom: level5.top
-        anchors.bottomMargin: vspacing
-        onClicked: chooser.chosen("level-4")
+        id: eo4
+        x: 19 * scaleX
+        y: 539 * scaleY
+        text: "世界语 4"
+        onClicked: chooser.chosen("eo-4")
     }
     MenuButton {
-        id: level5
-        text: "Mad / 疯狂"
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
-        onClicked: chooser.chosen("level-5")
+        id: en1
+        x: 211 * scaleX
+        y: 230 * scaleY
+        text: "英语 2"
+        onClicked: chooser.chosen("en-1")
+    }
+    MenuButton {
+        id: en2
+        x: 184 * scaleX
+        y: 321 * scaleY
+        text: "英语 3"
+        onClicked: chooser.chosen("en-2")
+    }
+    MenuButton {
+        id: en3
+        x: 154 * scaleX
+        y: 413 * scaleY
+        text: "英语 4"
+        onClicked: chooser.chosen("en-3")
+    }
+    MenuButton {
+        id: en4
+        x: 184 * scaleX
+        y: 496 * scaleY
+        text: "英语 6"
+        onClicked: chooser.chosen("en-4")
+    }
+    MenuButton {
+        id: en5
+        x: 211 * scaleX
+        y: 578 * scaleY
+        text: "英语 8"
+        onClicked: chooser.chosen("en-5")
     }
 
     SequentialAnimation {
         id: slideIn
-        ScriptAction { script: level1.state = "stand" }
+        ScriptAction { script: eo1.state = "" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level2.state = "stand" }
+        ScriptAction { script: eo2.state = "" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level3.state = "stand" }
+        ScriptAction { script: eo3.state = "" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level4.state = "stand" }
+        ScriptAction { script: eo4.state = "" }
         PauseAnimation { duration: 1000 / slideSpeed }
-        ScriptAction { script: level5.state = "stand" }
+        ScriptAction { script: en1.state = "" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: en2.state = "" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: en3.state = "" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: en4.state = "" }
+        PauseAnimation { duration: 1000 / slideSpeed }
+        ScriptAction { script: en5.state = "" }
     }
-
 }

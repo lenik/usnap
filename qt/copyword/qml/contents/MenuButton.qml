@@ -10,7 +10,6 @@ Item {
 
     width: button.textWidth + 30
     height: button.textHeight + 10
-    x: -width
 
     CoolButton {
         id: button
@@ -23,20 +22,27 @@ Item {
         }
     }
 
+    Behavior on x {
+        NumberAnimation {
+            target: item
+            property: "x"
+            duration: 1000
+            easing.type: Easing.OutBounce
+        }
+    }
+
+    state: "far"
+
     states: [
         State {
-            name: "stand"
-            AnchorChanges {
+            name: "far"
+            PropertyChanges {
                 target: item
-                anchors.horizontalCenter: parent.horizontalCenter
+                x: -item.width
             }
         },
         State {
             name: "away"
-            AnchorChanges {
-                target: item
-                anchors.horizontalCenter: undefined
-            }
             PropertyChanges {
                 target: item
                 x: parent.width
@@ -47,17 +53,17 @@ Item {
 
     transitions: [
         Transition {
-            to: "stand"
-            AnchorAnimation {
+            from: "far"
+            PropertyAnimation {
                 duration: 1000
                 easing.type: Easing.OutBounce
             }
         },
         Transition {
             to: "away"
-            AnchorAnimation {
-                duration: 500
-                easing.type: Easing.InBounce
+            PropertyAnimation {
+                duration: 1000
+                easing.type: Easing.OutBounce
             }
         }
     ]

@@ -1,11 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/level-1.csv</file>
-        <file>data/level-2.csv</file>
-        <file>data/level-3.csv</file>
-        <file>data/level-4.csv</file>
-        <file>data/level-5.csv</file>
-        <file>data/vortaro.csv</file>
+        <file>data/en-1.csv</file>
+        <file>data/en-2.csv</file>
+        <file>data/en-3.csv</file>
+        <file>data/en-4.csv</file>
+        <file>data/en-5.csv</file>
+        <file>data/eo-1.csv</file>
+        <file>data/eo-2.csv</file>
+        <file>data/eo-3.csv</file>
+        <file>data/eo-4.csv</file>
         <file>qml/main.qml</file>
         <file>qml/contents/Choices.qml</file>
         <file>qml/contents/ChooseBook.qml</file>

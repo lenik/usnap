@@ -46,10 +46,18 @@ Rectangle {
                         var prev = file.records[pick > 0 ? pick - 1 : other1];
                         var next = file.records[pick < total - 1 ? pick + 1 : other2];
 
+                        var sound = "";
+                        var description = "";
+                        if (record[1].substr(0, 1) == "[") {
+                            sound = record[1];
+                            description = record[2];
+                        } else {
+                            description = record[1];
+                        }
                         var entry = [
-                                    record[2], // description
+                                    description,
                                     record[0], // word
-                                    record[1], // sound
+                                    sound,
                                     prev[0], // candidate-1
                                     next[0], // candidate-2
                                 ];
