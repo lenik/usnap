@@ -31,10 +31,12 @@ CONFIG += qdeclarative-boostable
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    session.cpp
+    session.cpp \
+    point.cpp
 
 HEADERS += \
-    session.h
+    session.h \
+    point.h
 
 RESOURCES += \
     qml/shared/shared-resources.qrc \

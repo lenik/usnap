@@ -1,39 +1,51 @@
 import QtQuick 1.1
+import Qt.labs.Canvas 1.0
 import "shared"
 import "contents"
 
 import "contents/Geom.js" as Geom
+import "contents/Game.js" as Game
 
 Rectangle {
     property bool debug: true
 
     id: screen
 
-    width: debug ? 240 : 480
-    height: debug ? 300 : 800
+    width: debug ? 320 : 480
+    height: debug ? 500 : 800
 
-    function dist() {
-        var JunkType = Qt.createComponent("contents/Junk.qml");
-
-        var count = 10;
-        for (var i = 0; i < count; i++) {
-            var junk = JunkType.createObject(box);
-            junk._x = Math.random() * 100;
-            junk._y = Math.random() * 100;
+    CoolButton {
+        id: refresh
+        width: 100
+        height: 30
+        text: "Refresh"
+        onClicked: Game.createLevel(canvas)
+    }
+    Context2D { id: c }
+    Canvas {
+        id: canvas
+        y: 100
+        width: parent.width
+        height: parent.height - 100
+        //anchors.bottom: screen.bottom
+        color: "gray"
+        onPaint: {
         }
     }
 
-    Rectangle {
-        id: box
-        width: parent.width
-        height: parent.height
-        //anchors.bottom: screen.bottom
-        color: "lightgray"
+    Junk {
+        id: hintM
+        width: 10
+        height: 10
+        radius: 4
+        color: "pink"
     }
-
-    ScriptAction {
-        running: true
-        script: dist();
+    Junk {
+        id: hintI
+        width: 10
+        height: 10
+        radius: 4
+        color: "red"
     }
 
 }
