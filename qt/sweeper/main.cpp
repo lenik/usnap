@@ -1,6 +1,9 @@
 #include <QtGui/QApplication>
-#include "qmlapplicationviewer.h"
+#include <qdeclarative.h>
+#include <QtDeclarative/QDeclarativeContext>
+#include <QtDeclarative/QDeclarativeEngine>
 
+#include "qmlapplicationviewer.h"
 #include "session.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
