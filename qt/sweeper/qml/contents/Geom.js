@@ -1,4 +1,40 @@
 
+function Point(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+}
+
+function Vector(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+}
+
+function LineSeg(_src, _dst) {
+    this.src = _src;
+    this.dst = _dst;
+    this.len = function() {
+             var dx = dst.x - src.x;
+             var dy = dst.y - src.y;
+            return Math.sqrt(dx * dx + dy * dy);
+         };
+}
+
+function Rectangle(p1, p2) {
+    this.topLeft = new Point(
+             Math.min(p1.x, p2.x), Math.min(p1.y, p2.y));
+    this.bottomRight = new Point(
+             Math.max(p1.x, p2.x), Math.max(p1.y, p2.y));
+    this.width = function() {
+             return bottomRight.x - topLeft.x;
+         };
+    this.height = function() {
+             return bottomRight.y - topLeft.y;
+         };
+    this.area = function() {
+             return width() * height();
+         };
+}
+
 /**
  * @return 0  parallel
  *         >0 ccw, or turn-left
@@ -35,7 +71,7 @@ function convex_presort(points) {
             minX = pt.x;
             minY = pt.y;
             minIndex = i;
-        } else if (pt.y == minY) {
+        } else if (pt.y === minY) {
             if (pt.x < minX) {
                 minX = pt.x;
              // minY = pt.y;
@@ -59,24 +95,23 @@ function convex_presort(points) {
 
 function convex(points) {
     convex_presort(points);
-    var M = 1;
-    var N = points.length;
-    for (var i = 2; i < N; i++) {
-        var Mprev = M == 0 ? (N - 1) : (M - 1);
-        while (ccw(points[Mprev], points[M], points[i]) <= 0) {
-            if (M > 1)
-                M--;
-            else if (i == N)
+    // var end = points[points.length - 1];
+    var stack = [ points[0], points[1] ];
+    var n = stack.length;
+    for (var i = n; i < points.length; i++) {
+        stack[n++] = points[i];
+        // reduce
+        while (n >= 3) {
+            if (ccw(stack[n-3], stack[n-2], stack[n-1]) <= 0) {
+                stack[n-2] = stack[n-1];
+                n--;
+            } else {
                 break;
-            else
-                i++;
+            }
         }
-        M++;
-        var t = points[M];
-        points[M] = points[i];
-        points[i] = t;
     }
-    return M;
+    stack.splice(n);
+    return stack;
 }
 
 function shapeCenter(points) {
@@ -86,9 +121,9 @@ function shapeCenter(points) {
         sumX += points[i].x;
         sumY += points[i].y;
     }
-    var center = Object();
-    center.x = sumX / points.length;
-    center.y = sumY / points.length;
+    var center = new Point(
+            sumX / points.length,
+            sumY / points.length);
     return center;
 }
 
@@ -107,18 +142,21 @@ function triangleArea(p, q, r) {
     return area;
 }
 
+function polygonArea(polygon, hint) {
+    var area = 0;
+    for (var i = 0; i < polygon.length; i++) {
+        var prev = i - 1;
+        if (prev < 0) prev = polygon.length - 1;
+        area += triangleArea(polygon[prev], polygon[i], hint);
+    }
+    return area;
+}
+
 function inside(convex, pt) {
-    var eps = 0.1;
-    var expected = 0;
-    for (var i = 2; i < convex.length; i++) {
-        expected += triangleArea(
-            convex[i - 2], convex[i - 1], convex[i]);
-    }
-    var actual = 0;
-    for (var i = 1; i < convex.length; i++) {
-        actual += triangleArea(
-            convex[i - 1], convex[i], pt);
-    }
+    var eps = 10;
+    var center = shapeCenter(convex);
+    var expected = polygonArea(convex, center);
+    var actual = polygonArea(convex, pt);
     return Math.abs(expected - actual) < eps;
 }
 
@@ -136,7 +174,7 @@ function lineIntr(p1, p2, q1, q2, limited) {
         if (v < 0 || v > 1)
             return null;
     }
-    var pt = Object();
+    var pt = new Point();
     pt.x = p1.x + u * dpx;
     pt.y = p1.y + v * dpy;
     return pt;
@@ -145,7 +183,7 @@ function lineIntr(p1, p2, q1, q2, limited) {
 function polygonIntr(polygon, p, q) {
     for (var i = 1; i < polygon.length; i++) {
         var pt = lineIntr(polygon[i - 1], polygon[i], p, q, true);
-        if (pt != null)
+        if (pt !== null)
             return pt;
     }
     return null;
@@ -163,16 +201,16 @@ function boundingBox(points) {
         if (pt.y < minY) minY = pt.y;
         if (pt.y > maxY) maxY = pt.y;
     }
-    var box = Object();
-    box.x = maxX - minX;
-    box.y = maxY - minY;
+    var box = new Rectangle(
+                new Point(minX, minY),
+                new Point(maxX, maxY));
     return box;
 }
 
 function centerScale(points, delta) {
     var center = shapeCenter(points);
     var bbox = boundingBox(points);
-    var size = Math.max(bbox.x, bbox.y);
+    var size = Math.max(bbox.width(), bbox.height());
     var k = 1 + delta / size;
     for (var i = 0; i < points.length; i++) {
         var pt = points[i];
@@ -196,9 +234,9 @@ function bounceFarEnd(lineA, lineB, pt, addDelta) {
     var vx = dx * cos(a) - dy * sin(a);
     var vy = dx * sin(a) + dy * cos(a);
 
-    var end = Object();
-    end.x = pt.x + vx;
-    end.y = pt.y + vy;
+    var end = new Point(
+                pt.x + vx,
+                pt.y + vy);
     return end;
 }
 
@@ -206,7 +244,7 @@ function bounceTarget(polygon, lineA, lineB, pt) {
     var safeExtent = 30;
     var farEnd = bounceFarEnd(lineA, lineB, pt, safeExtent);
     var end = polygonIntr(polygon, pt, farEnd);
-    if (end == null)
+    if (end === null)
         return null; // unexpected?
 
     var ex = end.x - pt.x;
