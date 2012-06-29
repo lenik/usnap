@@ -5,9 +5,12 @@
 
 #include "qmlapplicationviewer.h"
 #include "session.h"
+#include "point.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+    qmlRegisterType<Point>("net.bodz.qt", 1, 0, "Point");
+
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer viewer;
 

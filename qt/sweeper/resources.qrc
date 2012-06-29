@@ -5,5 +5,10 @@
         <file>qml/contents/Welcome.qml</file>
         <file>qml/contents/Geom.js</file>
         <file>qml/contents/Junk.qml</file>
+        <file>qml/contents/Game.js</file>
+        <file>qml/contents/Broom.qml</file>
+        <file>qml/contents/images/broom.png</file>
+        <file>qml/contents/Broom.js</file>
+        <file>qml/contents/Junk.js</file>
     </qresource>
 </RCC>

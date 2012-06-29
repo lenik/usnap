@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/contents/stuff/apple_core_01.svg</file>
+        <file>qml/contents/stuff/apple_wedge.svg</file>
+        <file>qml/contents/stuff/applf.svg</file>
+        <file>qml/contents/stuff/beach_ball_01.svg</file>
+        <file>qml/contents/stuff/blocco_notes.svg</file>
+        <file>qml/contents/stuff/calamita_architetto_fran_01.svg</file>
+        <file>qml/contents/stuff/candy_31.svg</file>
+        <file>qml/contents/stuff/cheese_01.svg</file>
+        <file>qml/contents/stuff/erlenmeyer_jean_vitor_ba_.svg</file>
+        <file>qml/contents/stuff/floppy.svg</file>
+        <file>qml/contents/stuff/fries_ganson.svg</file>
+        <file>qml/contents/stuff/funnyflower_02.svg</file>
+        <file>qml/contents/stuff/garlic_toast.svg</file>
+        <file>qml/contents/stuff/glace_4_jean-victor_bali_01.svg</file>
+        <file>qml/contents/stuff/habanero_pepper_1_simpl_01.svg</file>
+        <file>qml/contents/stuff/happy_monkey_benji_park_01.svg</file>
+        <file>qml/contents/stuff/keep_tidy_outside_01.svg</file>
+        <file>qml/contents/stuff/ladybug_01.svg</file>
+        <file>qml/contents/stuff/lemon_simple.svg</file>
+        <file>qml/contents/stuff/lucertolona_architetto_f_01.svg</file>
+        <file>qml/contents/stuff/macchina_fotografica_di_01.svg</file>
+        <file>qml/contents/stuff/mouse.svg</file>
+        <file>qml/contents/stuff/pear_02.svg</file>
+        <file>qml/contents/stuff/pizza_cheese.svg</file>
+        <file>qml/contents/stuff/pizza_slice_fco._andrade_01.svg</file>
+        <file>qml/contents/stuff/pop_can.svg</file>
+        <file>qml/contents/stuff/rondelle_d_orange_01.svg</file>
+        <file>qml/contents/stuff/rubik.svg</file>
+        <file>qml/contents/stuff/scissors.svg</file>
+        <file>qml/contents/stuff/soft_drink.svg</file>
+        <file>qml/contents/stuff/spider.svg</file>
+        <file>qml/contents/stuff/steak-v0.1.svg</file>
+        <file>qml/contents/stuff/thumbtack_linda_kim_01.svg</file>
+        <file>qml/contents/stuff/watermelon_simple.svg</file>
+    </qresource>
+</RCC>

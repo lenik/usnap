@@ -40,7 +40,8 @@ HEADERS += \
 
 RESOURCES += \
     qml/shared/shared-resources.qrc \
-    resources.qrc
+    resources.qrc \
+    openclipart.qrc
 
 OTHER_FILES += \
     qml/main.qml

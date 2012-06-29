@@ -9,7 +9,8 @@ function createLevel(parent) {
 
     for (var i = 0; i < parent.children.length; i++) {
         var child = parent.children[i];
-        child.destroy();
+        if (child.toString().substr(0, 4) === "Junk")
+            child.destroy();
     }
 
     var count = 10;
@@ -17,32 +18,28 @@ function createLevel(parent) {
     for (var i = 0; i < count; i++) {
         var junk = JunkType.createObject(parent);
         var pt = new Geom.Point();
-        pt.item = junk;
-        junk._x = pt.x = Math.random() * 100;
-        junk._y = pt.y = Math.random() * 100;
-        points[i] = pt;
+        junk.u = pt.x = Math.random() * 100;
+        junk.v = pt.y = Math.random() * 100;
+        junk.shapeIndex = Math.floor(Math.random() * junk.shapeCount);
+        junk.rotation = Math.random() * 360;
         junk.text = i;
+        pt.item = junk;
+        points[i] = pt;
     }
 
+    level.points = points;
     level.convex = Geom.convex(points);
 
     var ctx = canvas.getContext();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPolygon(ctx, level.convex, canvas.width / 100, canvas.height / 100);
-    for (var i = 0; i < level.convex.length; i++) {
-        var it = level.convex[i].item;
-        it.color = "green";
-        it.text = i;
-    }
-
-    var center = Geom.shapeCenter(level.convex);
-    drawCircle(ctx,
-               center.x * canvas.width / 100,
-               center.y * canvas.height / 100,
-               10,"pink");
+    drawPolygon(ctx, level.convex, canvas.width/100, canvas.height/100);
 }
 
-function drawPolygon(ctx, polygon, xScale, yScale) {
+function drawPolygon(ctx, polygon, xScale, yScale, strokeColor, fillColor) {
+    if (fillColor !== undefined)
+        ctx.fillStyle = fillColor;
+    if (strokeColor !== undefined)
+        ctx.strokeStyle = strokeColor;
     ctx.beginPath();
     ctx.moveTo(
                 polygon[0].x * xScale,
@@ -75,3 +72,5 @@ function drawPixel(ctx, x, y, color) {
     ctx.fillRect(x, y, 1, 1);
     ctx.closePath();
 }
+
+var broomPos = new Object();

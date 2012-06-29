@@ -160,7 +160,7 @@ function inside(convex, pt) {
     return Math.abs(expected - actual) < eps;
 }
 
-function lineIntr(p1, p2, q1, q2, limited) {
+function lineIntr(p1, p2, q1, q2, within) {
     var dpx = p2.x - p1.x;
     var dpy = p2.y - p1.y;
     var dqx = q2.x - q1.x;
@@ -168,7 +168,7 @@ function lineIntr(p1, p2, q1, q2, limited) {
     var m = dpx * dqy - dqx * dpy;
     var u = dqx * (p1.y - q1.y) - dqy * (p1.x - q1.x);
     var v = dpx * (p1.y - q1.y) - dpy * (p1.x - q1.x);
-    if (limited) {
+    if (within) {
         if (u < 0 || u > 1)
             return null;
         if (v < 0 || v > 1)
@@ -180,9 +180,9 @@ function lineIntr(p1, p2, q1, q2, limited) {
     return pt;
 }
 
-function polygonIntr(polygon, p, q) {
+function polygonIntr(polygon, src, dst) {
     for (var i = 1; i < polygon.length; i++) {
-        var pt = lineIntr(polygon[i - 1], polygon[i], p, q, true);
+        var pt = lineIntr(polygon[i - 1], polygon[i], src, dst, true);
         if (pt !== null)
             return pt;
     }
@@ -219,20 +219,32 @@ function centerScale(points, delta) {
     }
 }
 
-function bounceFarEnd(lineA, lineB, pt, addDelta) {
+function sign(x) {
+    if (x === 0)
+        return 0;
+    else if (x > 0)
+        return 1;
+    else
+        return -1;
+}
+
+function bounceTowards(lineA, lineB, pt, addDelta) {
     var s = side(lineA, lineB, pt);
-    s = Math.sign(-s);
+    s = sign(-s);
     var a = s * Math.PI / 4;
 
     var dx = lineB.x - lineA.x;
     var dy = lineB.y - lineA.y;
     var len = Math.sqrt(dx * dx + dy * dy);
-    var k = 1 + addDelta / len;
-    dx *= k;
-    dy *= k;
 
-    var vx = dx * cos(a) - dy * sin(a);
-    var vy = dx * sin(a) + dy * cos(a);
+    if (addDelta !== undefined) {
+        var k = 1 + addDelta / len;
+        dx *= k;
+        dy *= k;
+    }
+
+    var vx = dx * Math.cos(a) - dy * Math.sin(a);
+    var vy = dx * Math.sin(a) + dy * Math.cos(a);
 
     var end = new Point(
                 pt.x + vx,
@@ -241,9 +253,8 @@ function bounceFarEnd(lineA, lineB, pt, addDelta) {
 }
 
 function bounceTarget(polygon, lineA, lineB, pt) {
-    var safeExtent = 30;
-    var farEnd = bounceFarEnd(lineA, lineB, pt, safeExtent);
-    var end = polygonIntr(polygon, pt, farEnd);
+    var towards = bounceTowards(lineA, lineB, pt);
+    var end = polygonIntr(polygon, pt, towards);
     if (end === null)
         return null; // unexpected?
 
@@ -260,8 +271,23 @@ function bounceTarget(polygon, lineA, lineB, pt) {
     var edgeK = endLen / (startLen + endLen);
     // var force = edgeK * edgeK;
 
-    end.x += ex * edgeK + (Math.random() - 0.5) * 0.5;
-    end.y += ey * edgeK + (Math.random() - 0.5) * 0.5;
+    end.x += ex * edgeK; // + (Math.random() - 0.5) * 0.5;
+    end.y += ey * edgeK; // + (Math.random() - 0.5) * 0.5;
 
     return end;
+}
+
+function moveTarget(polygon, lineA, lineB, pt) {
+    var margin = 2;
+    var dx = lineB.x - lineA.x;
+    var dy = lineB.y - lineA.y;
+    var lineLen = Math.sqrt(dx * dx + dy * dy);
+    var tx = pt.x + dx / lineLen + (Math.random() - 0.5) * 0.5;
+    var ty = pt.y + dy / lineLen + (Math.random() - 0.5) * 0.5;
+
+    if (tx < margin) tx = margin;
+    if (ty < margin) ty = margin;
+    if (tx >= 100 - margin) tx = 100 - margin;
+    if (ty >= 100 - margin) ty = 100 - margin;
+    return new Geom.Point(tx, ty);
 }
