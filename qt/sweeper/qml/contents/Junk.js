@@ -29,7 +29,6 @@ var sources = [
             "rubik.svg",
             "scissors.svg",
             "soft_drink.svg",
-            "spider.svg",
             "steak-v0.1.svg",
             "thumbtack_linda_kim_01.svg",
             "watermelon_simple.svg",
