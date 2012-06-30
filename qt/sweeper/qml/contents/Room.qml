@@ -9,14 +9,15 @@ Image {
     property int shapeIndex: 0
     property int shapeCount: RoomModel.sources.length
     property alias items: _items
+    property real posX
+    property real posY
 
-    signal started
-    signal removed
+    signal removed(variant item)
 
     id: room
 
     source: "images/" + RoomModel.sources[shapeIndex];
-    fillMode: Image.PreserveAspectFit
+    fillMode: Image.Stretch
 
     Item {
         id: _items
@@ -34,6 +35,8 @@ Image {
             broom.visible = false;
         }
         onPositionChanged: {
+            posX = mouseX;
+            posY = mouseY;
             if (! broom.visible)
                 return;
 
@@ -62,7 +65,7 @@ Image {
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
             // Game.drawPolygon(ctx, convex, canvas.width/100, canvas.height/100, "red", "pink");
 
-            var pts = Game.level.points;
+            var pts = Game.data.points;
             var hits = [];
             var nhit = 0;
             for (i = 0; i < pts.length; i++) {
@@ -74,6 +77,8 @@ Image {
             for (i = 0; i < nhit; i++) {
                 pt = hits[i];
                 var item = pt.item;
+                if (! item.visible) // Don't move hidden junk.
+                    continue;
                 var target = Geom.moveTarget(convex,
                                   new Geom.Point(startU, startV),
                                   new Geom.Point(endU, endV),
@@ -83,14 +88,58 @@ Image {
                 pt.y = target.y;
                 item.u = pt.x;
                 item.v = pt.y;
+                if (trash.overlapped(item)) {
+                    item.visible = false;
+                    room.removed(item);
+                }
             }
         } // onPositionChanged
+    }
+
+    Image {
+        id: trash
+        source: "images/trash.svg"
+        width: 30
+        height: 40
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 40
+        anchors.bottomMargin: 20
+        z: 5
+
+        function overlapped(obj) {
+            var centerX = x + width / 2;
+            var centerY = y + height / 2;
+            var objX = obj.x + obj.width / 2;
+            var objY = obj.y + obj.height / 2;
+            var dx = objX - centerX;
+            var dy = objY - centerY;
+            return Math.abs(dx) < width / 2
+                    && Math.abs(dy) < height / 2;
+        }
     }
 
     Broom {
         id: broom
         visible: false
         z: 10
+    }
+
+    function createLevel(level) {
+        Game.createLevel(_items, level);
+        console.log("Created: " + Game.data.points.length);
+    }
+
+    function getRemainingJunks() {
+        var count = 0;
+        for (var i = 0; i < _items.children.length; i++) {
+            var child = _items.children[i];
+            if (child.toString().substr(0, 4) === "Junk") {
+                if (child.visible)
+                    count++;
+            }
+        }
+        return count;
     }
 
 }

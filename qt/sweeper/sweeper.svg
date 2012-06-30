@@ -707,15 +707,6 @@
        r="29.765299" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient6268"
-       id="linearGradient6277"
-       x1="882.46924"
-       y1="-33.753834"
-       x2="1032.3759"
-       y2="45.442127"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
        xlink:href="#linearGradient6289"
        id="linearGradient6287"
        x1="852.77075"
@@ -758,11 +749,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="1077.5641"
-     inkscape:cy="774.50012"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="236.17111"
+     inkscape:cy="-173.26007"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:snap-to-guides="false"
      showguides="true"
@@ -844,6 +835,51 @@
        width="327.93765"
        id="rect4518"
        style="fill:#dda0dd;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    <path
+       style="fill:#deb887;fill-opacity:1;fill-rule:evenodd;stroke:#808080;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 213.74517,784.44552 166,0 c 29.362,0 59.60232,24.3899 53,53 l -30,130 c -6.60232,28.61 -23.638,52.99998 -53,52.99998 l -107,0 c -29.362,0 -46.60715,-24.34238 -53,-52.99998 l -29,-130 c -6.39285,-28.6576 23.638,-53 53,-53 z"
+       id="rect8619"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssssssss"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/sweeper/qml/contents/images/bucket.png"
+       inkscape:export-xdpi="25.767635"
+       inkscape:export-ydpi="25.767635" />
+    <path
+       sodipodi:nodetypes="sssssssss"
+       inkscape:connector-curvature="0"
+       id="path8623"
+       d="m 334.12594,1003.3189 -78.69062,0 c -13.91875,0 -28.25387,-9.17018 -25.1241,-19.92698 l 14.22119,-48.8774 c 3.12977,-10.7568 11.20536,-19.9269 25.12412,-19.9269 l 50.72225,0 c 13.91876,0 22.09365,9.1522 25.12412,19.9269 l 13.74715,48.8774 c 3.03047,10.7747 -11.20535,19.92698 -25.12411,19.92698 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ff7f50;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/sweeper/qml/contents/images/bucket.png"
+       inkscape:export-xdpi="25.767635"
+       inkscape:export-ydpi="25.767635" />
+    <path
+       style="fill:#fa8072;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 328.66752,1000.7313 -67.77694,0 c -11.98835,0 -24.33532,-4.17828 -21.63962,-9.07958 l 12.24884,-22.2705 c 2.6957,-4.9013 9.65128,-9.0795 21.63963,-9.0795 l 43.68754,0 c 11.98835,0 19.02946,4.17 21.63963,9.0795 l 11.84055,22.2705 c 2.61017,4.9095 -9.65127,9.07958 -21.63963,9.07958 z"
+       id="path8625"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssssssss"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/sweeper/qml/contents/images/bucket.png"
+       inkscape:export-xdpi="25.767635"
+       inkscape:export-ydpi="25.767635" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 219.98408,879.52632 c -0.69594,-28.5764 41.80882,-30.2418 41.61924,0.8898"
+       id="path8627"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/sweeper/qml/contents/images/bucket.png"
+       inkscape:export-xdpi="25.767635"
+       inkscape:export-ydpi="25.767635" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path8650"
+       d="m 330.29274,879.52632 c -0.69594,-28.5764 41.80882,-30.2418 41.61924,0.8898"
+       style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="/home/lenik/tasks/22-qt/sweeper/qml/contents/images/bucket.png"
+       inkscape:export-xdpi="25.767635"
+       inkscape:export-ydpi="25.767635" />
   </g>
   <g
      inkscape:label="Fore"

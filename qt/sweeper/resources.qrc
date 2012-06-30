@@ -31,5 +31,7 @@
         <file>qml/contents/images/blood-full.png</file>
         <file>qml/contents/images/room-1.png</file>
         <file>qml/contents/images/room-2.png</file>
+        <file>qml/contents/images/bucket.png</file>
+        <file>qml/contents/images/trash.svg</file>
     </qresource>
 </RCC>

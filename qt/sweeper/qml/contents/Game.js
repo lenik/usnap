@@ -1,11 +1,11 @@
 
-var level = {
+var data = {
     points: [],
     convex: [],
 };
 
-function createLevel(parent) {
-    var JunkType = Qt.createComponent("contents/Junk.qml");
+function createLevel(parent, level) {
+    var JunkType = Qt.createComponent("Junk.qml");
 
     for (var i = 0; i < parent.children.length; i++) {
         var child = parent.children[i];
@@ -13,7 +13,7 @@ function createLevel(parent) {
             child.destroy();
     }
 
-    var count = 10;
+    var count = 2 + level * 3;
     var points = [];
     for (var i = 0; i < count; i++) {
         var junk = JunkType.createObject(parent);
@@ -28,12 +28,12 @@ function createLevel(parent) {
         points[i] = pt;
     }
 
-    level.points = points;
-    level.convex = Geom.convex(points);
+    data.points = points;
+    data.convex = Geom.convex(points);
 
 //    var ctx = canvas.getContext();
 //    ctx.clearRect(0, 0, canvas.width, canvas.height);
-//    drawPolygon(ctx, level.convex, canvas.width/100, canvas.height/100);
+//    drawPolygon(ctx, data.convex, canvas.width/100, canvas.height/100);
 }
 
 function drawPolygon(ctx, polygon, xScale, yScale, strokeColor, fillColor) {
