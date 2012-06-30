@@ -10,5 +10,16 @@
         <file>qml/contents/images/broom.png</file>
         <file>qml/contents/Broom.js</file>
         <file>qml/contents/Junk.js</file>
+        <file>qml/contents/Room.js</file>
+        <file>qml/contents/Room.qml</file>
+        <file>qml/contents/sounds/piano.mp3</file>
+        <file>qml/contents/sounds/scream.mp3</file>
+        <file>qml/contents/sounds/sweep1.mp3</file>
+        <file>qml/contents/sounds/sweep2.mp3</file>
+        <file>qml/contents/sounds/sweep3.mp3</file>
+        <file>qml/contents/sounds/sweep-turbo.mp3</file>
+        <file>qml/contents/sounds/woohoo.mp3</file>
+        <file>qml/contents/sounds/yeah.mp3</file>
+        <file>qml/contents/sounds/yh.mp3</file>
     </qresource>
 </RCC>

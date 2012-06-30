@@ -29,6 +29,10 @@ CONFIG += qdeclarative-boostable
 # Add dependency to Symbian components
 # CONFIG += qt-components
 
+# Rquires Qt.multimedia
+# CONFIG += mobility
+# MOBILITY = multimedia
+
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     session.cpp \
