@@ -23,6 +23,7 @@ function createLevel(parent) {
         junk.shapeIndex = Math.floor(Math.random() * junk.shapeCount);
         junk.rotation = Math.random() * 360;
         junk.text = i;
+        junk.animated = true;
         pt.item = junk;
         points[i] = pt;
     }
@@ -30,9 +31,9 @@ function createLevel(parent) {
     level.points = points;
     level.convex = Geom.convex(points);
 
-    var ctx = canvas.getContext();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPolygon(ctx, level.convex, canvas.width/100, canvas.height/100);
+//    var ctx = canvas.getContext();
+//    ctx.clearRect(0, 0, canvas.width, canvas.height);
+//    drawPolygon(ctx, level.convex, canvas.width/100, canvas.height/100);
 }
 
 function drawPolygon(ctx, polygon, xScale, yScale, strokeColor, fillColor) {

@@ -13,6 +13,7 @@ Image {
     property string text
     // property alias text: text1.text
     property bool marked
+    property bool animated
 
     id: junk
     width: Math.max(parent.width, parent.height) / 20
@@ -27,14 +28,14 @@ Image {
 
     Behavior on x {
         NumberAnimation {
-            duration: 300
+            duration: animated ? 300 : 0
             easing.type: Easing.OutQuad
         }
     }
 
     Behavior on y {
         NumberAnimation {
-            duration: 300
+            duration: animated ? 300 : 0
             easing.type: Easing.OutQuad
         }
     }

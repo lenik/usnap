@@ -20,10 +20,11 @@ Rectangle {
         width: 100
         height: 30
         text: "Refresh"
-        onClicked: Game.createLevel(canvas)
+        onClicked: Game.createLevel(room.items)
     }
 
     Room {
+        id: room
         y: 40
         width: parent.width
         height: parent.height - 40
