@@ -3,7 +3,7 @@ import "shared"
 import "contents"
 
 Rectangle {
-    property bool debug: true
+    property bool debug: false
 
     id: screen
 
