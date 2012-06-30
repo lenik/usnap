@@ -25,6 +25,20 @@ Image {
     fillMode: Image.PreserveAspectFit
     smooth: true
 
+    Behavior on x {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutQuad
+        }
+    }
+
+    Behavior on y {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutQuad
+        }
+    }
+
     Text {
         id: text1
         anchors.centerIn: parent

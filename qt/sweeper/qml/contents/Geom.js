@@ -282,8 +282,9 @@ function moveTarget(polygon, lineA, lineB, pt) {
     var dx = lineB.x - lineA.x;
     var dy = lineB.y - lineA.y;
     var lineLen = Math.sqrt(dx * dx + dy * dy);
-    var tx = pt.x + dx / lineLen + (Math.random() - 0.5) * 0.5;
-    var ty = pt.y + dy / lineLen + (Math.random() - 0.5) * 0.5;
+    var scale = Math.pow(lineLen, 0.3); // Math.sqrt(lineLen);
+    var tx = pt.x + dx / scale + (Math.random() - 0.5) * 0.5;
+    var ty = pt.y + dy / scale + (Math.random() - 0.5) * 0.5;
 
     if (tx < margin) tx = margin;
     if (ty < margin) ty = margin;
