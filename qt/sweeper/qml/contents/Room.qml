@@ -58,7 +58,7 @@ Image {
 
             var convex = Geom.convex(startShape.concat(endShape));
 
-            var ctx = canvas.getContext();
+            // var ctx = canvas.getContext();
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
             // Game.drawPolygon(ctx, convex, canvas.width/100, canvas.height/100, "red", "pink");
 
