@@ -18,6 +18,13 @@
         <file>qml/contents/images/game-over.png</file>
         <file>qml/contents/images/level-up.png</file>
         <file>qml/contents/images/circle-broom-100.png</file>
+        <file>qml/contents/images/blood-empty.png</file>
+        <file>qml/contents/images/blood-full.png</file>
+        <file>qml/contents/images/room-1.png</file>
+        <file>qml/contents/images/room-2.png</file>
+        <file>qml/contents/images/bucket.png</file>
+        <file>qml/contents/images/trash.svg</file>
+        <file>qml/contents/images/logo.png</file>
         <file>qml/contents/sounds/piano.mp3</file>
         <file>qml/contents/sounds/scream.mp3</file>
         <file>qml/contents/sounds/sweep1.mp3</file>
@@ -27,11 +34,5 @@
         <file>qml/contents/sounds/woohoo.mp3</file>
         <file>qml/contents/sounds/yeah.mp3</file>
         <file>qml/contents/sounds/yh.mp3</file>
-        <file>qml/contents/images/blood-empty.png</file>
-        <file>qml/contents/images/blood-full.png</file>
-        <file>qml/contents/images/room-1.png</file>
-        <file>qml/contents/images/room-2.png</file>
-        <file>qml/contents/images/bucket.png</file>
-        <file>qml/contents/images/trash.svg</file>
     </qresource>
 </RCC>

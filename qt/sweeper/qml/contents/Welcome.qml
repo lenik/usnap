@@ -2,21 +2,26 @@
 import QtQuick 1.1
 import "../shared"
 
-Scene {
+Image {
     signal began
 
     id: welcome
+    source: "images/logo.png"
+    fillMode: Image.Stretch
 
-    CoolButton {
-        id: nextButton
-        style: "red"
-        width: parent.width * 0.5
-        height: parent.height * 0.1
-        text: "Start!"
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
-        anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: welcome.began()
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            // opacity = 0;
+            welcome.began();
+        }
+    }
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 1000
+            easing.type: Easing.Linear
+        }
     }
 
 }
