@@ -1,0 +1,29 @@
+关于
+----
+
+本仓库大概相当于我个人的 apache-incubators 吧。
+USNAP 的名称意思是 You still need a plan.
+
+这里存放的是我 1993 年写 Quick Basic 以来所有乱七八糟的程序和习作。其中 1993-1997 年的文件由于被病毒感染于是丢失了时间戳，全部存放于1997/目录中。
+
+目录结构：
+    bas:        C 应用程序基础框架
+    cpf:        通用 C 编程框架
+    d:          D 语言开发
+    graph:      计算几何研究
+    hacker:     Hack 工具
+    langs:      编译语言研究
+    list:       未分类的程序集
+    miadev:     SDCC 嵌入式开发
+    mso-vba:    MS Office 的 VBA 插件
+    old.*:      早期程序和习作
+    parser:     解析器研究
+    qt:         Qt 竞赛作品
+    simxml:     simxml 解析器
+    tools:      一些工具
+
+
+如有感兴趣的地方不妨与我联系，
+
+谢继雷
+(xjl at 99jsj dot com)
