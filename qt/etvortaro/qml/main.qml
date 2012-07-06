@@ -9,7 +9,7 @@ Rectangle {
     id: screen
 
     width: debug ? 240 : 480
-    height: debug ? 400 : 800
+    height: debug ? 400 : 854
     color: "lightgray"
 
     Welcome {

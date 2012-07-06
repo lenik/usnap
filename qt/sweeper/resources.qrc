@@ -34,5 +34,11 @@
         <file>qml/contents/sounds/woohoo.mp3</file>
         <file>qml/contents/sounds/yeah.mp3</file>
         <file>qml/contents/sounds/yh.mp3</file>
+        <file>qml/contents/images/circle-i.png</file>
+        <file>qml/contents/images/circle-i-invert.png</file>
+        <file>qml/contents/images/circle-x.png</file>
+        <file>qml/contents/images/circle-x-invert.png</file>
+        <file>qml/contents/About.qml</file>
+        <file>qml/contents/SymbolButton.qml</file>
     </qresource>
 </RCC>

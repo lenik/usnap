@@ -1,4 +1,5 @@
 import QtQuick 1.1
+// import QtMultimediaKit 1.1
 // import Qt.labs.Canvas 1.0
 import "../shared"
 
@@ -18,6 +19,7 @@ Image {
     id: room
 
     source: "images/" + RoomModel.sources[shapeIndex];
+    smooth: true
     fillMode: Image.Stretch
     // color: "#f0f0cc"
 
@@ -42,6 +44,7 @@ Image {
             if (! broom.visible)
                 return;
 
+            // piano.play();
             var f0 = new Geom.Point(broom.u, broom.v);
             broom.setCenterXY(mouseX, mouseY);
             var f1 = new Geom.Point(broom.u, broom.v);
@@ -102,6 +105,12 @@ Image {
         } // onPositionChanged
     }
 
+    Broom {
+        id: broom
+        visible: false
+        z: 10
+    }
+
     Image {
         id: trash
         source: "images/trash.svg"
@@ -124,12 +133,6 @@ Image {
             return Math.abs(dx) < width / 2
                     && Math.abs(dy) < height / 2;
         }
-    }
-
-    Broom {
-        id: broom
-        visible: false
-        z: 10
     }
 
     function createLevel(level) {

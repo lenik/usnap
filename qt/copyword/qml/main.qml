@@ -7,7 +7,27 @@ Rectangle {
 
     id: screen
     width: debug ? 240 : 480
-    height: debug ? 400 : 800
+    height: debug ? 400 : 854
+
+    About {
+        id: aboutBox
+        width: parent.width * 0.8
+        height: parent.height * 0.25
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        opacity: 0
+        z: 10
+        onClosed: aboutBox.opacity = 0
+
+        Behavior on opacity {
+            NumberAnimation {
+                target: aboutBox
+                properties: "opacity"
+                duration: 750
+                easing.type: Easing.Linear
+            }
+        }
+    }
 
     XFlipable {
         id: flip1
@@ -29,6 +49,7 @@ Rectangle {
             back: ChooseBook {
                 id: chooseBook
                 anchors.fill: parent
+                onInfoClicked: aboutBox.opacity = 1
                 onChosen: {
                     var fileName = ":/data/" + bookName + ".csv";
                     file.fileName = fileName;

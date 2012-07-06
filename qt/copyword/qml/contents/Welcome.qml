@@ -14,17 +14,21 @@ Scene {
         right: 170 * scaleRatio; bottom: 0 * scaleRatio
     }
 
-    CoolButton {
-        id: nextButton
-        style: "red"
-        width: parent.width * 0.5
-        height: parent.height * 0.1
-        // text: "Komencu!"
-        text: "开始!"
+    Row {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: welcome.began()
+        spacing: screen.width * 0.03
+
+        CoolButton {
+            id: nextButton
+            style: "red"
+            width: screen.width * 0.5
+            height: screen.height * 0.1
+            // text: "Komencu!"
+            text: "开始!"
+            onClicked: welcome.began()
+        }
     }
 
 }

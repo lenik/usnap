@@ -10,6 +10,7 @@
         <file>data/eo-3.csv</file>
         <file>data/eo-4.csv</file>
         <file>qml/main.qml</file>
+        <file>qml/contents/About.qml</file>
         <file>qml/contents/Choices.qml</file>
         <file>qml/contents/ChooseBook.qml</file>
         <file>qml/contents/ChoosePlayer.qml</file>
@@ -22,6 +23,7 @@
         <file>qml/contents/Test.js</file>
         <file>qml/contents/Welcome.qml</file>
         <file>qml/contents/ScoreText.qml</file>
+        <file>qml/contents/SymbolButton.qml</file>
         <file>qml/contents/images/mountain.png</file>
         <file>qml/contents/images/mountain-small.png</file>
         <file>qml/contents/images/sky.png</file>
@@ -32,8 +34,11 @@
         <file>qml/contents/images/mountain3-small.png</file>
         <file>qml/contents/images/sky3.png</file>
         <file>qml/contents/images/sky3-small.png</file>
-        <file>qml/contents/SymbolButton.qml</file>
         <file>qml/contents/images/cloud.png</file>
         <file>qml/contents/images/cloud-invert.png</file>
+        <file>qml/contents/images/circle-i.png</file>
+        <file>qml/contents/images/circle-i-invert.png</file>
+        <file>qml/contents/images/circle-x.png</file>
+        <file>qml/contents/images/circle-x-invert.png</file>
     </qresource>
 </RCC>

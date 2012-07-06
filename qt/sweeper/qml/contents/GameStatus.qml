@@ -9,11 +9,12 @@ Item {
     property bool paused: true
     property real speed: 1000
 
-    property real fontSize: 20
+    property real fontSize: 30
     property real avoidX
     property real avoidY
 
     signal timeout
+    signal quitClicked
 
     id: status
 
@@ -41,19 +42,30 @@ Item {
         visible: !meet(levelText, avoidX, avoidY)
     }
 
-    Text {
-        id: scoreText
-        text: "SCORE " + score
-        // font.family
-        font.pixelSize: fontSize
-        color: "white"
-        style: Text.Sunken
-        styleColor: "black"
+    Row {
+        id: scoreMisc
+        visible: !meet(scoreMisc, avoidX, avoidY)
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.rightMargin: 3
         anchors.topMargin: 3
-        visible: !meet(scoreText, avoidX, avoidY)
+        spacing: 10
+
+        Text {
+            id: scoreText
+            text: "SCORE " + score
+            // font.family
+            font.pixelSize: fontSize
+            color: "white"
+            style: Text.Sunken
+            styleColor: "black"
+        }
+
+        SymbolButton {
+            id: quitButton
+            symbol: "circle-x"
+            onClicked: status.quitClicked()
+        }
     }
 
     Row {

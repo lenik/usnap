@@ -8,7 +8,18 @@ Rectangle {
     id: screen
 
     width: debug ? 320 : 480
-    height: debug ? 500 : 800
+    height: debug ? 500 : 854
+
+    About {
+        id: about
+        width: parent.width * 0.8
+        height: parent.height * 0.25
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        opacity: 0
+        z: 11
+        onClosed: about.opacity = 0
+    }
 
     XFlipable {
         id: flip
@@ -16,7 +27,7 @@ Rectangle {
 
         front: Welcome {
             anchors.fill: parent
-
+            onInfoClicked: about.opacity = 1
             onBegan: {
                 status.level = 1;
                 status.score = 0;
@@ -60,6 +71,7 @@ Rectangle {
                         status.go();
                     }
                 }
+                onQuitClicked: Qt.quit()
             }
 
             PopupText {
