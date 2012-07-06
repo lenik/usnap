@@ -152,37 +152,59 @@ function polygonArea(polygon, hint) {
     return area;
 }
 
-function inside(convex, pt) {
-    var eps = 10;
+function inside(convex, pt, radius) {
+    var eps = 1e-3;
     var center = shapeCenter(convex);
-    var expected = polygonArea(convex, center);
-    var actual = polygonArea(convex, pt);
-    return Math.abs(expected - actual) < eps;
+    var max = polygonArea(convex, center) + eps;
+    if (radius === undefined) {
+        return polygonArea(convex, pt) > max;
+    }
+    var pts = [
+                new Point(pt.x - radius, pt.y),
+                new Point(pt.x + radius, pt.y),
+                new Point(pt.x, pt.y - radius),
+                new Point(pt.x, pt.y + radius)
+            ];
+    for (var i = 0; i < pts.length; i++) {
+        if (polygonArea(convex, pts[i]) < max)
+            return true;
+    }
+    return false;
 }
 
-function lineIntr(p1, p2, q1, q2, within) {
-    var dpx = p2.x - p1.x;
-    var dpy = p2.y - p1.y;
-    var dqx = q2.x - q1.x;
-    var dqy = q2.y - q1.y;
-    var m = dpx * dqy - dqx * dpy;
-    var u = dqx * (p1.y - q1.y) - dqy * (p1.x - q1.x);
-    var v = dpx * (p1.y - q1.y) - dpy * (p1.x - q1.x);
+function lineIntr(s1, e1, s2, e2, within) {
+    var eps = 1e-5;
+    var w1 = e1.x - s1.x, h1 = e1.y - s1.y;
+    var w2 = e2.x - s2.x, h2 = e2.y - s2.y;
+    var m = w1 * h2 - w2 * h1;
+    if (Math.abs(m) < eps) return null;
+
+    var pt = new Point();
+    pt.x = ((s2.x*e2.y - s2.y*e2.x)*w1 - (s1.x*e1.y - s1.y*e1.x)*w2) / m;
+    pt.y = ((s2.x*e2.y - s2.y*e2.x)*h1 - (s1.x*e1.y - s1.y*e1.x)*h2) / m;
+
     if (within) {
-        if (u < 0 || u > 1)
+        var u = (pt.x - s1.x) / (s2.x - s1.x);
+        var v = (pt.y - s1.y) / (s2.y - s1.y);
+        var uValid = u >= 0 && u <= 1;
+        var vValid = v >= 0 && v <= 1;
+        if (! (uValid || vValid))
             return null;
-        if (v < 0 || v > 1)
+
+        u = (pt.x - s2.x) / (s2.x - s1.x);
+        v = (pt.y - s2.y) / (s2.y - s1.y);
+        uValid = u >= 0;
+        vValid = v >= 0;
+        if (! (uValid || vValid))
             return null;
     }
-    var pt = new Point();
-    pt.x = p1.x + u * dpx;
-    pt.y = p1.y + v * dpy;
     return pt;
 }
 
 function polygonIntr(polygon, src, dst) {
-    for (var i = 1; i < polygon.length; i++) {
-        var pt = lineIntr(polygon[i - 1], polygon[i], src, dst, true);
+    for (var a = 0; a < polygon.length; a++) {
+        var b = (a + 1) % polygon.length;
+        var pt = lineIntr(polygon[a], polygon[b], src, dst, true);
         if (pt !== null)
             return pt;
     }
@@ -235,9 +257,9 @@ function bounceTowards(lineA, lineB, pt, addDelta) {
 
     var dx = lineB.x - lineA.x;
     var dy = lineB.y - lineA.y;
-    var len = Math.sqrt(dx * dx + dy * dy);
 
     if (addDelta !== undefined) {
+        var len = Math.sqrt(dx * dx + dy * dy);
         var k = 1 + addDelta / len;
         dx *= k;
         dy *= k;
@@ -252,12 +274,19 @@ function bounceTowards(lineA, lineB, pt, addDelta) {
     return end;
 }
 
-function bounceTarget(polygon, lineA, lineB, pt) {
+function bounceTarget(polygon, lineA, lineB, pt, g) {
     var towards = bounceTowards(lineA, lineB, pt);
     var end = polygonIntr(polygon, pt, towards);
-    if (end === null)
+    if (end === null) {
+        if (g !== undefined)
+            g.drawLine(pt.x, pt.y, towards.x, towards.y, "green");
         return null; // unexpected?
-
+    } else {
+        if (g !== undefined) {
+            g.drawLine(pt.x, pt.y, towards.x, towards.y, "blue");
+            g.drawLine(pt.x, pt.y, end.x, end.y, "red");
+        }
+    }
     var ex = end.x - pt.x;
     var ey = end.y - pt.y;
     var endLen = Math.sqrt(ex * ex + ey * ey);
@@ -291,4 +320,64 @@ function moveTarget(polygon, lineA, lineB, pt) {
     if (tx >= 100 - margin) tx = 100 - margin;
     if (ty >= 100 - margin) ty = 100 - margin;
     return new Geom.Point(tx, ty);
+}
+
+function Graph(ctx, xScale, yScale, width, height) {
+    this.ctx = ctx;
+    this.xScale = xScale;
+    this.yScale = yScale;
+    this.width = width;
+    this.height = height;
+
+    this.clear = function() {
+         ctx.clearRect(0, 0, width * xScale, height * yScale);
+     };
+
+    this.drawPixel = function(x, y, color) {
+        if (color !== undefined)
+            ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.fillRect(x, y, 1, 1);
+        ctx.closePath();
+    };
+
+    this.drawLine = function(x0, y0, x1, y1, color) {
+        if (color !== undefined)
+            ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(x0 * xScale, y0 * yScale);
+        ctx.lineTo(x1 * xScale, y1 * yScale);
+        ctx.closePath();
+        ctx.stroke();
+    };
+
+    this.drawCircle = function(x, y, radius, strokeColor, fillColor) {
+        if (fillColor !== undefined)
+            ctx.fillStyle = fillColor;
+        if (strokeColor !== undefined)
+            ctx.strokeStyle = strokeColor;
+        ctx.beginPath();
+        ctx.arc(x * xScale, y * yScale, radius * xScale, 0, Math.PI * 2, true);
+        ctx.closePath();
+        if (fillColor !== undefined)
+            ctx.fill();
+        ctx.stroke();
+    };
+
+    this.drawPolygon = function(polygon, strokeColor, fillColor) {
+        if (fillColor !== undefined)
+            ctx.fillStyle = fillColor;
+        if (strokeColor !== undefined)
+            ctx.strokeStyle = strokeColor;
+        ctx.beginPath();
+        ctx.moveTo(
+                    polygon[0].x * xScale,
+                    polygon[0].y * yScale);
+        for (var i = 1; i < polygon.length; i++)
+            ctx.lineTo(
+                        polygon[i].x * xScale,
+                        polygon[i].y * yScale);
+        ctx.closePath();
+        ctx.stroke();
+    };
 }

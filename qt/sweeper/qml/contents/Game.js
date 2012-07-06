@@ -33,45 +33,7 @@ function createLevel(parent, level) {
 
 //    var ctx = canvas.getContext();
 //    ctx.clearRect(0, 0, canvas.width, canvas.height);
-//    drawPolygon(ctx, data.convex, canvas.width/100, canvas.height/100);
-}
-
-function drawPolygon(ctx, polygon, xScale, yScale, strokeColor, fillColor) {
-    if (fillColor !== undefined)
-        ctx.fillStyle = fillColor;
-    if (strokeColor !== undefined)
-        ctx.strokeStyle = strokeColor;
-    ctx.beginPath();
-    ctx.moveTo(
-                polygon[0].x * xScale,
-                polygon[0].y * yScale);
-    for (var i = 1; i < polygon.length; i++)
-        ctx.lineTo(
-                    polygon[i].x * xScale,
-                    polygon[i].y * yScale);
-    ctx.closePath();
-    ctx.stroke();
-}
-
-function drawCircle(ctx, x, y, radius, strokeColor, fillColor) {
-    if (fillColor !== undefined)
-        ctx.fillStyle = fillColor;
-    if (strokeColor !== undefined)
-        ctx.strokeStyle = strokeColor;
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2, true);
-    ctx.closePath();
-    if (fillColor !== undefined)
-        ctx.fill();
-    ctx.stroke();
-}
-
-function drawPixel(ctx, x, y, color) {
-    if (color !== undefined)
-        ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.fillRect(x, y, 1, 1);
-    ctx.closePath();
+//    Geom.drawPolygon(ctx, data.convex, canvas.width/100, canvas.height/100);
 }
 
 var broomPos = new Object();
