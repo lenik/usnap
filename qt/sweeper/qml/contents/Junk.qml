@@ -14,10 +14,12 @@ Image {
     // property alias text: text1.text
     property bool marked
     property bool animated
+    property real rScale: Math.min(parent.width, parent.height) / 100
+    property real radius: rScale * (3 + Math.random() * 3)
 
     id: junk
-    width: Math.max(parent.width, parent.height) / 20
-    height: width
+    width: radius * 2
+    height: radius * 2
 
     x: parent.width * (u / uWidth) - width / 2
     y: parent.height * (v / uHeight) - height / 2
@@ -28,15 +30,22 @@ Image {
 
     Behavior on x {
         NumberAnimation {
-            duration: animated ? 300 : 0
-            easing.type: Easing.OutQuad
+            duration: animated ? 200 : 0
+            easing.type: Easing.OutExpo
         }
     }
 
     Behavior on y {
         NumberAnimation {
-            duration: animated ? 300 : 0
-            easing.type: Easing.OutQuad
+            duration: animated ? 200 : 0
+            easing.type: Easing.OutExpo
+        }
+    }
+
+    Behavior on rotation {
+        NumberAnimation {
+            duration: animated ? 200 : 0
+            easing.type: Easing.OutExpo
         }
     }
 
