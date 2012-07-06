@@ -1,4 +1,5 @@
 import QtQuick 1.1
+// import Qt.labs.Canvas 1.0
 import "../shared"
 
 import "Geom.js" as Geom
@@ -18,6 +19,7 @@ Image {
 
     source: "images/" + RoomModel.sources[shapeIndex];
     fillMode: Image.Stretch
+    // color: "#f0f0cc"
 
     Item {
         id: _items
@@ -40,54 +42,58 @@ Image {
             if (! broom.visible)
                 return;
 
-            var startU = broom.u;
-            var startV = broom.v;
-
+            var f0 = new Geom.Point(broom.u, broom.v);
             broom.setCenterXY(mouseX, mouseY);
-            var endU = broom.u;
-            var endV = broom.v;
-
-//                    var du = endU - startU;
-//                    var dv = endV - startV;
+            var f1 = new Geom.Point(broom.u, broom.v);
+            // var du = f1.x - f0.x;
+            // var dv = f1.y - f0.y;
 
             var head = broom.getShape();
             var startShape = [];
             var endShape = [];
             for (var i = 0; i < head.length; i++) {
                 var pt = head[i];
-                startShape[i] = new Geom.Point(pt.x + startU, pt.y + startV);
-                endShape[i] = new Geom.Point(pt.x + endU, pt.y + endV);
+                startShape[i] = new Geom.Point(pt.x + f0.x, pt.y + f0.y);
+                endShape[i] = new Geom.Point(pt.x + f1.x, pt.y + f1.y);
             }
 
             var convex = Geom.convex(startShape.concat(endShape));
 
-            // var ctx = canvas.getContext();
-            // ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Game.drawPolygon(ctx, convex, canvas.width/100, canvas.height/100, "red", "pink");
+            // var ctx = room.getContext();
+            // var g = new Geom.Graph(ctx, room.width / 100, room.height / 100, 100, 100);
+            // if (RoomModel.moveCount++ % 30 === 0) g.clear();
+            // g.drawPolygon(convex, "lightgray");
+            // g.drawLine(startU, startV, endU, endV, "pink");
 
             var pts = Game.data.points;
             var hits = [];
             var nhit = 0;
+            var item;
             for (i = 0; i < pts.length; i++) {
                 pt = pts[i];
-                if (Geom.inside(convex, pt))
+                item = pt.item;
+                var radius = item.radius / room.width * 100;
+                if (Geom.inside(convex, pt, radius * 0.7))
                     hits[nhit++] = pt;
             }
 
             for (i = 0; i < nhit; i++) {
                 pt = hits[i];
-                var item = pt.item;
+                item = pt.item;
                 if (! item.visible) // Don't move hidden junk.
                     continue;
+                // g.drawCircle(pt.x, pt.y, 3, "black");
                 var target = Geom.moveTarget(convex,
-                                  new Geom.Point(startU, startV),
-                                  new Geom.Point(endU, endV),
-                                  pt);
+                                  f0,f1, pt);
                 if (target === null) continue;
                 pt.x = target.x;
                 pt.y = target.y;
                 item.u = pt.x;
                 item.v = pt.y;
+
+                var side = Geom.side(f0, f1, pt);
+                item.rotation += -side * (Math.random() * 5);
+
                 if (trash.overlapped(item)) {
                     item.visible = false;
                     room.removed(item);
@@ -99,8 +105,9 @@ Image {
     Image {
         id: trash
         source: "images/trash.svg"
-        width: 30
-        height: 40
+        width: parent.width / 10
+        height: parent.height / 10
+        fillMode: Image.PreserveAspectFit
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.rightMargin: 40
