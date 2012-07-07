@@ -1,4 +1,5 @@
 import QtQuick 1.1
+import com.nokia.meego 1.0
 import "shared"
 import "contents"
 
@@ -8,6 +9,14 @@ Rectangle {
     id: screen
     width: debug ? 240 : 480
     height: debug ? 400 : 854
+
+    Menu {
+        id: mainMenu
+        MenuLayout {
+            MenuItem { text: "About"; onClicked:  aboutBox.opacity = 1 }
+            MenuItem { text: "Quit"; onClicked: Qt.quit() }
+        }
+    }
 
     About {
         id: aboutBox
