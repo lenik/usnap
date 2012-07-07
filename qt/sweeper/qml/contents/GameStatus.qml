@@ -14,7 +14,6 @@ Item {
     property real avoidY
 
     signal timeout
-    signal quitClicked
 
     id: status
 
@@ -42,30 +41,19 @@ Item {
         visible: !meet(levelText, avoidX, avoidY)
     }
 
-    Row {
-        id: scoreMisc
-        visible: !meet(scoreMisc, avoidX, avoidY)
+    Text {
+        id: scoreText
+        text: "SCORE " + score
+        // font.family
+        font.pixelSize: fontSize
+        color: "white"
+        style: Text.Sunken
+        styleColor: "black"
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.rightMargin: 3
         anchors.topMargin: 3
-        spacing: 10
-
-        Text {
-            id: scoreText
-            text: "SCORE " + score
-            // font.family
-            font.pixelSize: fontSize
-            color: "white"
-            style: Text.Sunken
-            styleColor: "black"
-        }
-
-        SymbolButton {
-            id: quitButton
-            symbol: "circle-x"
-            onClicked: status.quitClicked()
-        }
+        visible: !meet(scoreText, avoidX, avoidY)
     }
 
     Row {

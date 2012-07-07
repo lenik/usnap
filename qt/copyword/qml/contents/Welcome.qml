@@ -18,13 +18,13 @@ Scene {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: screen.width * 0.03
+        spacing: toplevel.width * 0.03
 
         CoolButton {
             id: nextButton
             style: "red"
-            width: screen.width * 0.5
-            height: screen.height * 0.1
+            width: toplevel.width * 0.5
+            height: toplevel.height * 0.1
             // text: "Komencu!"
             text: "开始!"
             onClicked: welcome.began()

@@ -112,23 +112,4 @@ Scene {
         PauseAnimation { duration: 1000 / slideSpeed }
         ScriptAction { script: en5.state = "" }
     }
-
-    Row {
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
-        anchors.left: parent.left
-        anchors.leftMargin: 30
-        spacing: 10
-
-        SymbolButton {
-            id: aboutButton
-            symbol: "circle-i"
-            onClicked: chooser.infoClicked()
-        }
-        SymbolButton {
-            id: quitButton
-            symbol: "circle-x"
-            onClicked: Qt.quit()
-        }
-    }
 }

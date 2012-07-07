@@ -3,7 +3,6 @@ import QtQuick 1.1
 import "../shared"
 
 Image {
-    signal infoClicked
     signal began
 
     id: welcome
@@ -25,17 +24,4 @@ Image {
         }
     }
 
-    Row {
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
-        anchors.right: parent.right
-        anchors.rightMargin: 30
-        spacing: 10
-
-        SymbolButton {
-            id: aboutButton
-            symbol: "circle-i"
-            onClicked: welcome.infoClicked()
-        }
-    }
 }

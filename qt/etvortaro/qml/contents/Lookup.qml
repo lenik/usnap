@@ -124,19 +124,6 @@ Scene {
         }
     }
 
-    Row {
-        id: footbar
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        spacing: 5
-
-        SymbolButton {
-            id: closeButton
-            symbol: "circle-x"
-            onClicked: lookup.closed()
-        }
-    }
-
     function query() {
         var index = dict.indexOf(queryText.text);
         if (index < 0)

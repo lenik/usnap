@@ -13,10 +13,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer viewer;
+    QDeclarativeEngine *engine = viewer.engine();
+    QDeclarativeContext *rootContext = engine->rootContext();
+
+    // engine->addImportPath(QString("/opt/nokia/qtsdk/Simulator/Qt/gcc/imports"));
 
     Session session;
     session.load();
-    viewer.engine()->rootContext()->setContextObject(&session);
+    rootContext->setContextObject(&session);
 
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer.setSource(QUrl("qrc:///qml/main.qml"));

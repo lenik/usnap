@@ -40,5 +40,6 @@
         <file>qml/contents/images/circle-i-invert.png</file>
         <file>qml/contents/images/circle-x.png</file>
         <file>qml/contents/images/circle-x-invert.png</file>
+        <file>qml/MainPage.qml</file>
     </qresource>
 </RCC>

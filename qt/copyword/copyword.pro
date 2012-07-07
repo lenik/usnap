@@ -1,7 +1,7 @@
 # Add more folders to ship with the application, here
 qmldir.source = qml
 qmldir.target =
-DEPLOYMENTFOLDERS =
+DEPLOYMENTFOLDERS = qmldir
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -43,9 +43,6 @@ HEADERS += \
 RESOURCES += \
     qml/shared/shared-resources.qrc \
     resources.qrc
-
-OTHER_FILES += \
-    qml/main.qml
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
