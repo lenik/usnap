@@ -21,7 +21,6 @@ PageStackWindow {
     About {
         id: about
         width: parent.width * 0.8
-        height: parent.height * 0.25
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         opacity: 0
