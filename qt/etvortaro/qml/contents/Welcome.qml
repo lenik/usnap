@@ -6,7 +6,6 @@ Rectangle {
     property real fontSize: Math.min(parent.width, parent.height) / 80
 
     signal began
-    signal infoClicked
 
     id: welcome
 

@@ -24,5 +24,6 @@
         <file>qml/contents/images/null-to-invert.png</file>
         <file>qml/contents/images/et-flag.png</file>
         <file>qml/contents/images/stars.png</file>
+        <file>qml/MainPage.qml</file>
     </qresource>
 </RCC>

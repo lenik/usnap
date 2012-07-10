@@ -22,7 +22,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     session.load();
     rootContext->setContextObject(&session);
 
-    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
     viewer.setSource(QUrl("qrc:///qml/main.qml"));
     // viewer.setMainQmlFile(QString("qml/main.qml"));
     viewer.showExpanded();
