@@ -9,7 +9,7 @@ Scene {
             [ "骆驼", "camel", "/'kaemel/", "lamo", "what the fuck..." ]
         ]
     property int index: 0
-    property alias flyFont: flyText1.font
+    // property alias flyFont: description.font
 
     signal done
     signal skipped
@@ -27,7 +27,9 @@ Scene {
         var description = entry[0];
         var word = entry[1];
         var sound = entry[2];
-        flyText1.text = /*"(" + index + ") " +*/ word + " " + sound +"\n" + description;
+        wordText.text = /*"(" + index + ") " +*/ word;
+        descriptionText.text = description;
+        soundText.text = sound;
         fly1.state = "coming";
         fly1.state = "";
     }
@@ -38,9 +40,9 @@ Scene {
     FlyAwayBox {
         id: fly1
         radius: 10
-        y0: parent.height * 0.3
+        y0: parent.height * 0.2
         width: parent.width * 0.75
-        height: parent.height * 0.4
+        height: parent.height * 0.55
         anchors.horizontalCenter: parent.horizontalCenter
         gradient: Gradient {
             GradientStop {
@@ -54,12 +56,41 @@ Scene {
         }
 
         Text {
-            id: flyText1
-            anchors.fill: parent
-            anchors.margins: font.pixelSize
+            id: wordText
+            anchors.top: parent.top
+            anchors.topMargin: font.pixelSize * 0.75
+            anchors.left: parent.left
+            anchors.leftMargin: font.pixelSize * 0.75
             color: "white"
             font.family: "Comic Sans MS"
+            font.pixelSize: parent.width / 8
+            wrapMode: Text.NoWrap
+        }
+
+        Text {
+            id: soundText
+            anchors.top: wordText.bottom
+            anchors.topMargin: 0
+            anchors.right: parent.right
+            anchors.rightMargin: font.pixelSize
+            color: "lightblue"
+            font.family: "Sans Serif"
             font.pixelSize: parent.width / 10
+            wrapMode: Text.NoWrap
+        }
+
+        Text {
+            id: descriptionText
+            anchors.top: soundText.bottom
+            anchors.topMargin: 3
+            anchors.left: parent.left
+            anchors.leftMargin: font.pixelSize * 0.8
+            anchors.right: parent.right
+            anchors.rightMargin: font.pixelSize * 0.8
+            anchors.bottom: parent.bottom
+            color: "white"
+            font.family: "Comic Sans MS"
+            font.pixelSize: parent.width / 11
             wrapMode: Text.Wrap
         }
 
