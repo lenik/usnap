@@ -14,7 +14,7 @@ Rectangle {
     Text {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        text: "关于世界语小辞典\n\n版本：1.3.0\n作者：谢继雷 <xjl@99jsj.com>"
+        text: "关于世界语小辞典\n\n版本：1.3.1\n作者：谢继雷 <xjl@99jsj.com>"
         font.pixelSize: parent.width / 20
         color: "darkblue"
         style: Text.Sunken

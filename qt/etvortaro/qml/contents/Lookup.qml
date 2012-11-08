@@ -49,17 +49,10 @@ Scene {
             height: parent.height
             anchors.left: toButton.right
             anchors.leftMargin: 3
-            anchors.right: queryButton.left
+            anchors.right: parent.right
             anchors.rightMargin: 3
             anchors.verticalCenter: parent.verticalCenter
             onTextChanged: query()
-        }
-        SymbolButton {
-            id: queryButton
-            symbol: "circle-go"
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            onClicked: query()
         }
     }
 
@@ -126,24 +119,36 @@ Scene {
 
     function query() {
         var index = dict.indexOf(queryText.text);
-        if (index < 0)
+        var hint;
+        if (index < 0) {
             index = -index - 1;
-        scroll(index);
+            if (queryText.text == "")
+                hint = "（请输入要查找的单词。）\n";
+            else
+                hint = "（未找到单词 " + queryText.text + "。）\n";
+        }
+        scroll(index, hint);
     }
 
-    function scroll(index) {
+    function scroll(index, hint) {
         lookup.index = index;
         load(prev, index - pageSize, index);
-        load(center, index, index + pageSize);
-        load(next, index + pageSize, index + pageSize * 2);
+
+        var offset = index;
+        var size1 = pageSize;
+        // if (hint !== null) size1--;
+        load(center, offset, offset + size1, hint);
+        offset += size1;
+
+        load(next, offset, offset + pageSize);
         yflick.home();
     }
 
-    function load(ec, from, to) {
+    function load(ec, from, to, hint) {
         if (from < 0) from = 0;
         if (to >= dict.size) to = dict.size;
 
-        var s = "";
+        var s = hint === undefined ? "" : hint;
         for (var i = from; i < to; i++) {
             var word = dict.words[i];
             var entryText = word.name + ": " + word.description;
@@ -151,4 +156,5 @@ Scene {
         }
         ec.text = s;
     }
+
 }
