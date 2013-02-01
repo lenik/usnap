@@ -1,0 +1,18 @@
+
+1. eclipse update:
+    - Using kaist/jaist mirrors to speed up downloads.
+    - Install each component, and repackage into /opt/lib/eclipse step by step.
+    - The following are required:
+        Eclipse MarketPlace
+        m2e-1.2.0
+        m2e-android-0.4.6
+            (the MOXy is auto included, no need of EclipseLink.)
+
+2. android deployment
+    - X.509 certificate deeper (or equal) then 3 levels is not supported.
+    - In the AndroidManafest, check following:
+        The package name. (should keep the same with the srccode)
+        The class name.
+    - Debug the application can automatically signed with a debug cert.
+    - How to see launch exception? Run:
+        # adb shell am start <package-name>
