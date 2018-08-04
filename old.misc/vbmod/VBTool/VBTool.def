@@ -1,0 +1,58 @@
+
+LIBRARY		"LowTool"
+DESCRIPTION	"Low Programming Tools (c) by DanSei / 2000, Z.J. Release 4 (2001.12)"
+
+EXPORTS
+
+		returnIDFunc
+		returnHandle
+
+		rV	= returnValue
+		rB	= returnByte
+		rW	= returnWord
+		rL	= returnLong
+		rnB	= returnNByte
+		rnW	= returnNWord
+		rnL	= returnNLong
+
+		fB	= forceByte
+		fW	= forceWord
+		fL	= forceLong
+		fnB	= forceNByte
+		fnW	= forceNWord
+		fnL	= forceNLong
+
+		cB	= copyBytes
+
+		SLA	= getStringLengthA
+		SLW	= getStringLengthW
+		SLM	= getStringLengthM
+
+		CF0	= callFunction0
+		CF1	= callFunction1
+		CF2	= callFunction2
+		CF3	= callFunction3
+		CF4	= callFunction4
+		CP0	= callProcedure0
+		CP1	= callProcedure1
+		CP2	= callProcedure2
+		CP3	= callProcedure3
+		CP4	= callProcedure4
+		_CS	= _call_stdcall
+		_CC	= _call_cdecl
+		CS	= call_stdcall
+		CC	= call_cdecl
+
+		DW_A	= dword_add
+		DW_S	= dword_sub
+		DW_M	= dword_mul
+		DW_D	= dword_div
+		DW_L	= dword_shift_left
+		DW_R	= dword_shift_right
+
+		BREAK	= debugBreak
+
+		Mcatch		= catchMessage
+		Mchain		= chainMessage
+
+	; DEBUG
