@@ -21,20 +21,20 @@ using namespace pos::ic::parse;
 YY_API int YTMFparse(void *pvParse);
 
 YY_API int YTMFlex(void *plval, void *pvParse) {
-	parse_env_t *_e;
-	_e = (parse_env_t *)pvParse;
+    parse_env_t *_e;
+    _e = (parse_env_t *)pvParse;
 
-	YTMFFlexLexer *pYL =
-		(YTMFFlexLexer *)_e->source.body._pv;
+    YTMFFlexLexer *pYL =
+        (YTMFFlexLexer *)_e->source.body._pv;
 
-	int i;
-	i = pYL->yylex();
+    int i;
+    i = pYL->yylex();
 
-	return i;
+    return i;
 }
 
 YY_API int YTMFerror(const char *) {
-	return 0;
+    return 0;
 }
 
 void YTMFlex_test() {
@@ -51,25 +51,25 @@ void YTMFlex_test() {
 
 
 BOOL YTMFParse(ResultContext *_pvBody, istream *_is, ostream *_os) {
-	// POS_ASSERT(_pvBody);
+    // POS_ASSERT(_pvBody);
 
-	YTMFFlexLexer lexer(_is, _os);
+    YTMFFlexLexer lexer(_is, _os);
 
-	parse_env_t e;
+    parse_env_t e;
 
-	e.source.body._pv	= &lexer;
-	e.target.body._pv	= (void *)_pvBody;
+    e.source.body._pv   = &lexer;
+    e.target.body._pv   = (void *)_pvBody;
 
-	// tell lexer the location of parse_env_t.
-	extern parse_env_t * _e;
-	_e = &e;
+    // tell lexer the location of parse_env_t.
+    extern parse_env_t * _e;
+    _e = &e;
 
-	int i;
+    int i;
 
-//	extern void lex_main();
-//	lex_main();
+//  extern void lex_main();
+//  lex_main();
 
-	i = YTMFparse((void *)&e);
+    i = YTMFparse((void *)&e);
 
-	return i == 0;
+    return i == 0;
 }

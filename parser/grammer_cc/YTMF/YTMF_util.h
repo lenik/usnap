@@ -10,28 +10,28 @@ using namespace pos;
 using namespace pos::ic::parse;
 
 
-#define LEXF_NEWLINE		0x00000001
-#define LEXF_NOCASE			0x00000002
-#define LEXF_QQ				0x00000004
-#define LEXF_Q				0x00000008
-#define LEXF_NUM			0x00000010
-#define LEXF_ID				0x00000020
-#define LEXF_CM_SHARP		0x00000100
-#define LEXF_CM_SLASH_AST	0x00000200
+#define LEXF_NEWLINE        0x00000001
+#define LEXF_NOCASE         0x00000002
+#define LEXF_QQ             0x00000004
+#define LEXF_Q              0x00000008
+#define LEXF_NUM            0x00000010
+#define LEXF_ID             0x00000020
+#define LEXF_CM_SHARP       0x00000100
+#define LEXF_CM_SLASH_AST   0x00000200
 
 
-#define YYPARSE_PARAM	pvParse
-#define YYPARSE_HEAD	\
-	parse_env_t&		_e = *(parse_env_t *)pvParse;				\
-	graph_t *			_graph = (graph_t *)_e.target.body._pv;		\
-	parse_env_t::_stop&	_e_l = _e.s[0];								\
-	parse_env_t::_stop&	_e_g = _e.s[1];								\
-	int&				_col = (int&)_e_l.loc.x;					\
-	int&				_line = (int&)_e_l.loc.y;					\
-	YYSTYPE *&			_e_lval = (YYSTYPE *&)_e_l.out.L;			\
-						_e_lval	= &yylval;
+#define YYPARSE_PARAM   pvParse
+#define YYPARSE_HEAD    \
+    parse_env_t&        _e = *(parse_env_t *)pvParse;               \
+    graph_t *           _graph = (graph_t *)_e.target.body._pv;     \
+    parse_env_t::_stop& _e_l = _e.s[0];                             \
+    parse_env_t::_stop& _e_g = _e.s[1];                             \
+    int&                _col = (int&)_e_l.loc.x;                    \
+    int&                _line = (int&)_e_l.loc.y;                   \
+    YYSTYPE *&          _e_lval = (YYSTYPE *&)_e_l.out.L;           \
+                        _e_lval = &yylval;
 
-#define YYLEX_PARAM		pvParse
+#define YYLEX_PARAM     pvParse
 
 
 int YTMFlex(void *plval, void *pParse);

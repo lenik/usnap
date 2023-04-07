@@ -166,7 +166,7 @@ InputPath=.\YTMF_g.y
 InputName=YTMF_g
 
 "$(InputDir)\$(InputName)y.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	lalrc -v -d -p YTMF -b lc -o $(InputDir)\$(InputName)y.cpp $(InputDir)\$(InputName).y
+    lalrc -v -d -p YTMF -b lc -o $(InputDir)\$(InputName)y.cpp $(InputDir)\$(InputName).y
 
 # End Custom Build
 
@@ -178,7 +178,7 @@ InputPath=.\YTMF_g.y
 InputName=YTMF_g
 
 "$(InputDir)\$(InputName)y.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	lalrc -v -d -p YTMF -b lc -o $(InputDir)\$(InputName)y.cpp $(InputDir)\$(InputName).y
+    lalrc -v -d -p YTMF -b lc -o $(InputDir)\$(InputName)y.cpp $(InputDir)\$(InputName).y
 
 # End Custom Build
 
@@ -197,7 +197,7 @@ InputPath=.\YTMF_l.l
 InputName=YTMF_l
 
 "$(InputDir)\$(InputName)l.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -+ -Cr -PYTMF -b -o$(InputDir)\$(InputName)l.cpp $(InputDir)\$(InputName).l
+    flex -+ -Cr -PYTMF -b -o$(InputDir)\$(InputName)l.cpp $(InputDir)\$(InputName).l
 
 # End Custom Build
 
@@ -209,7 +209,7 @@ InputPath=.\YTMF_l.l
 InputName=YTMF_l
 
 "$(InputDir)\$(InputName)l.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	flex -+ -Cr -PYTMF -b -o$(InputDir)\$(InputName)l.cpp $(InputDir)\$(InputName).l
+    flex -+ -Cr -PYTMF -b -o$(InputDir)\$(InputName)l.cpp $(InputDir)\$(InputName).l
 
 # End Custom Build
 

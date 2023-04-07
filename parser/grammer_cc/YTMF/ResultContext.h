@@ -3,5 +3,5 @@
 #pragma once
 
 interface ResultContext {
-	/**/
+    /**/
 };
