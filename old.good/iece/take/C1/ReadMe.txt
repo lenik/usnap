@@ -3,7 +3,7 @@
 
 
 IECE	Integrated Enterprise Control Enviroment
-	集成企业控制环境
+	闆嗘垚浼佷笟鎺у埗鐜
 
 	Conception-Design
 
@@ -13,4 +13,4 @@ IECE	Integrated Enterprise Control Enviroment
 
 Inspiration
 
-	人口进出管理
+	浜哄彛杩涘嚭绠＄悊

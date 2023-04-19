@@ -1,7 +1,7 @@
 
 
-´óÖÂ·½°¸
+å¤§è‡´æ–¹æ¡ˆ
 
 	2002.2.1-2002.3.1
-		ÏÂ Platform SDK£¬Óë HIS¡¢OeFS Í¬²½½øÕ¹
-		×¼±¸
+		ä¸‹ Platform SDKï¼Œä¸Ž HISã€OeFS åŒæ­¥è¿›å±•
+		å‡†å¤‡

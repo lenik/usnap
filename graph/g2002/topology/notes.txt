@@ -2,25 +2,25 @@
 
 [1]------------------------------------------------
 
-	¼¸ºÎÍØÆËÍøÂçÉè¼Æ
+	å‡ ä½•æ‹“æ‰‘ç½‘ç»œè®¾è®¡
 
-		G(S)ÎÊÌâ
-			×î´ó¼äÏ¶ÎÊÌâ MAX G
-			×îÐ¡¸²¸ÇÎÊÌâ MIN C
-			×î½ü¶ÔÎÊÌâ CPP
-			ËùÓÐ×î½üÁÚ½üÎÊÌâ ANNP
-			ÓÊ¾ÖÎÊÌâ POFP
+		G(S)é—®é¢˜
+			æœ€å¤§é—´éš™é—®é¢˜ MAX G
+			æœ€å°è¦†ç›–é—®é¢˜ MIN C
+			æœ€è¿‘å¯¹é—®é¢˜ CPP
+			æ‰€æœ‰æœ€è¿‘é‚»è¿‘é—®é¢˜ ANNP
+			é‚®å±€é—®é¢˜ POFP
 
-		G(E)ÎÊÌâ
-			EMST ÎÊÌâ
-			Å·¼¸ÀïµÂ TSP
-			Å·¼¸ÀïµÃ×î´óÉú³ÉÊ÷ÎÊÌâ
+		G(E)é—®é¢˜
+			EMST é—®é¢˜
+			æ¬§å‡ é‡Œå¾· TSP
+			æ¬§å‡ é‡Œå¾—æœ€å¤§ç”Ÿæˆæ ‘é—®é¢˜
 
-		G(S, E)ÎÊÌâ
-			Å·¼¸ÀïµÃ Steiner ×îÐ¡Ê÷ÎÊÌâ ESMT
-			Ö±Ïß Steiner ×îÐ¡Ê÷ÎÊÌâ RSMT
+		G(S, E)é—®é¢˜
+			æ¬§å‡ é‡Œå¾— Steiner æœ€å°æ ‘é—®é¢˜ ESMT
+			ç›´çº¿ Steiner æœ€å°æ ‘é—®é¢˜ RSMT
 
-		G(omiga)ÎÊÌâ
-			ÓÐÕÏ°­ÎïµÄ×î´ó¿ÕÏ¶ÎÊÌâ MAX G(omiga)
-			¾ßÓÐÕÏ°­ÎïµÄÅ·¼¸ÀïµÃ×î¶ÌÂ·¾­ÎÊÌâ ESPO
-			¾ßÓÐÕÏ°­ÎïµÄ Steiner ×îÐ¡Ê÷ÎÊÌâ ESMTO
+		G(omiga)é—®é¢˜
+			æœ‰éšœç¢ç‰©çš„æœ€å¤§ç©ºéš™é—®é¢˜ MAX G(omiga)
+			å…·æœ‰éšœç¢ç‰©çš„æ¬§å‡ é‡Œå¾—æœ€çŸ­è·¯ç»é—®é¢˜ ESPO
+			å…·æœ‰éšœç¢ç‰©çš„ Steiner æœ€å°æ ‘é—®é¢˜ ESMTO

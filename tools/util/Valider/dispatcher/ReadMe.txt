@@ -1,16 +1,16 @@
 
-Ê¾Àı
+ç¤ºä¾‹
 		dispatcher x:\abc\temp x:\maindir /s
 
-		ÆäÖĞµÚ201¸ö¸´ÖÆÓĞ x:\abc\temp --> x:\maindir\sub\s2\temp
+		å…¶ä¸­ç¬¬201ä¸ªå¤åˆ¶æœ‰ x:\abc\temp --> x:\maindir\sub\s2\temp
 
 %%	%
-%r	Ïà¶ÔÓÚÄ¿±êµÄÂ·¾¶	..\..\..\abc
-%R	Ïà¶ÔÓëÔ´µÄÂ·¾¶		..\maindir\sub\s2
+%r	ç›¸å¯¹äºç›®æ ‡çš„è·¯å¾„	..\..\..\abc
+%R	ç›¸å¯¹ä¸æºçš„è·¯å¾„		..\maindir\sub\s2
 
-%s	Ô´ÎÄ¼ş»ùÃû×Ö		temp
-%d	Ä¿±êÄ¿Â¼		x:\maindir\sub\s2
-%D	Ä¿±êÎÄ¼şÃû		x:\maindir\sub\s2\temp
-%c	¼ÆÊıÆ÷			201
-%*	Ëæ»ú×Ö½Ú		?
-%?	Ëæ»úÊı×Ö		(0-9)
+%s	æºæ–‡ä»¶åŸºåå­—		temp
+%d	ç›®æ ‡ç›®å½•		x:\maindir\sub\s2
+%D	ç›®æ ‡æ–‡ä»¶å		x:\maindir\sub\s2\temp
+%c	è®¡æ•°å™¨			201
+%*	éšæœºå­—èŠ‚		?
+%?	éšæœºæ•°å­—		(0-9)

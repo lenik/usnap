@@ -6,4 +6,4 @@
 -- DDK --
 
 	PORT
-			一种字符设备，不能seek，可以输出和输入，转 IN port,op / OUT port,op
+			涓�绉嶅瓧绗﹁澶囷紝涓嶈兘seek锛屽彲浠ヨ緭鍑哄拰杈撳叆锛岃浆 IN port,op / OUT port,op

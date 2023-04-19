@@ -30,7 +30,7 @@ R+ Hundreds {
 };
 
 
-// 访问频率硬排序记录集
+// 璁块棶棰戠巼纭帓搴忚褰曢泦
 R+ FreqSorted {
 	int RecordNo;
 

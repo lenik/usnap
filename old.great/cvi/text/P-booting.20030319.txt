@@ -1,6 +1,6 @@
 
 
-P-booting 执行报告
+P-booting 鎵ц鎶ュ憡
 2003.3.19
 
 
@@ -19,7 +19,7 @@ P-booting 执行报告
 
 
 ---------------
-报告用语
+鎶ュ憡鐢ㄨ
 
 	A	Archieved
 	P	Progress

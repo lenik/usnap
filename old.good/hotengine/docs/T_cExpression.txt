@@ -3,6 +3,6 @@ cText		campo Text
 
 
 
-cExpression	campo Expression 表达式的处理
+cExpression	campo Expression 琛ㄨ揪寮忕殑澶勭悊
 
-	这个计划基于simpleCalc计划之上
+	杩欎釜璁″垝鍩轰簬simpleCalc璁″垝涔嬩笂

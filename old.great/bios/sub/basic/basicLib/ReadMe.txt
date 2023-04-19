@@ -1,19 +1,19 @@
 
-»ù±¾ Ä£¿é¡¢¿â ´¦Àí¿â
+åŸºæœ¬ æ¨¡å—ã€åº“ å¤„ç†åº“
 
-¡µÇåÀí¿âÏÖ×´
-¡µ°²×°¿â
-¡µ²ðÐ¶¿â
+ã€‰æ¸…ç†åº“çŽ°çŠ¶
+ã€‰å®‰è£…åº“
+ã€‰æ‹†å¸åº“
 
-¡µÖ§³ÖDLL¿â
-¡µÖ§³ÖCOM¿â
+ã€‰æ”¯æŒDLLåº“
+ã€‰æ”¯æŒCOMåº“
 
-basicLib¿â±¾ÉíÒÔDLLÐÎÊ½ÊµÏÖ¡£
+basicLibåº“æœ¬èº«ä»¥DLLå½¢å¼å®žçŽ°ã€‚
 
-¡µ½ÓÊÜÀ´×ÔºËÐÄµÄMFS(memory file-system, ×÷ÎªhisµÄÄÚ´æ¹ÜÀí·þÎñ)¸ùÄ¿Â¼£¬
-	ÕâÉæ¼°µ½ÎÄ¼þÏµÍ³¡£
-	ºËÐÄ¿ÉÒÔ´«µÝ×Ö·û´®ÃèÊö£¬Ò²¿ÉÒÔ´«¸øÄ¿Â¼¶ÔÏó¡£( IOeFS )
-	µ±Ç°Ö»ÄÜÓÃ×Ö·û´®ÃèÊö¡£
-	ÕâÑùbasicLib»¹ÐèÒªÖªµÀMFS/µÄÏà¶ÔÂ·¾¶£¬ÕâÑù²ÅÄÜ½«ÐÅÏ¢Ð´ÈëÕýÈ·Î»ÖÃ¡£
+ã€‰æŽ¥å—æ¥è‡ªæ ¸å¿ƒçš„MFS(memory file-system, ä½œä¸ºhisçš„å†…å­˜ç®¡ç†æœåŠ¡)æ ¹ç›®å½•ï¼Œ
+	è¿™æ¶‰åŠåˆ°æ–‡ä»¶ç³»ç»Ÿã€‚
+	æ ¸å¿ƒå¯ä»¥ä¼ é€’å­—ç¬¦ä¸²æè¿°ï¼Œä¹Ÿå¯ä»¥ä¼ ç»™ç›®å½•å¯¹è±¡ã€‚( IOeFS )
+	å½“å‰åªèƒ½ç”¨å­—ç¬¦ä¸²æè¿°ã€‚
+	è¿™æ ·basicLibè¿˜éœ€è¦çŸ¥é“MFS/çš„ç›¸å¯¹è·¯å¾„ï¼Œè¿™æ ·æ‰èƒ½å°†ä¿¡æ¯å†™å…¥æ­£ç¡®ä½ç½®ã€‚
 
-¡µ
+ã€‰

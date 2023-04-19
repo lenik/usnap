@@ -1,9 +1,9 @@
 
-// ���л���Ķ�����
+// 带有缓冲的二叉树
 
-// �������256��, ����Ϊ ncached = DEFAULT_CACHED_NUM.
+// 缓冲最多256个, 设置为 ncached = DEFAULT_CACHED_NUM.
 
 void insertseg(seg_start, seg_end) {
 }
 
-// �ѵ㣺ʵ�ʿռ�ķ���
+// 难点：实际空间的分配

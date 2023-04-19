@@ -1,20 +1,20 @@
 
 
-	�﷨�������ĵ�һ���汾
+	语法编译器的第一个版本
 
 
-Gc���﷨��
+Gc的语法：
 
 
-	Gc��ҪLR(0)�͹�����?
+	Gc需要LR(0)就够了吗?
 
 
 SYMBOL:
-	ÿ��symbol����Ӧһ��ID, ���ڹ�Լ����ͨ���ж�ID���ж��Ƿ���ȷsymbol,
-	�����˲�ѯ��symbol���ȼ�ʱͨ��ӳ��ID->SYMBOL�ṹ���ȡ���ȼ���
-	SYMBOL�����������й���symbol�Ĳ�����Ϣ��
+	每个symbol都对应一个ID, 对于规约机制通过判断ID来判断是否正确symbol,
+	而到了查询该symbol优先级时通过映射ID->SYMBOL结构体获取优先级。
+	SYMBOL还有其它所有关于symbol的参数信息。
 
-G����ԭʼ�ű���
+G语言原始脚本：
 
 G_File<accept=nul>:
 	_

@@ -14,13 +14,13 @@ GG. Translate and Represenetation
 	gi ---> gs ---> gr  ( ---> gs ---> gr )
 
 
-- gi->gs ·¢ÉúµÄÊÂÏî
+- gi->gs å‘ç”Ÿçš„äº‹é¡¹
 
 
-- ×ª»»ÎÄ·¨Íê³ÉµÄ¹¦ÄÜ
+- è½¬æ¢æ–‡æ³•å®Œæˆçš„åŠŸèƒ½
 
 
-- ×ª»»ÎÄ·¨µÄ G ÃèÊö
+- è½¬æ¢æ–‡æ³•çš„ G æè¿°
 
 
-- ÓÃÓÚ POS ½á¹¹ÌåÃèÊöµÄ (¹éÓÚEPD¿ÉÇ¶ÈëÔ²ÐÎÃèÊö) ÎÄ·¨¼°×ª»»ÎÄ·¨
+- ç”¨äºŽ POS ç»“æž„ä½“æè¿°çš„ (å½’äºŽEPDå¯åµŒå…¥åœ†å½¢æè¿°) æ–‡æ³•åŠè½¬æ¢æ–‡æ³•

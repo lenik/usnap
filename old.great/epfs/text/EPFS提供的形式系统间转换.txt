@@ -1,7 +1,7 @@
 
 
-Unicode, UTF-8, ASCII, ASCIZ, BSTR, OLESTR, MBCS, WCS �ȵ��� EPFS �еĴ��
+Unicode, UTF-8, ASCII, ASCIZ, BSTR, OLESTR, MBCS, WCS 等等在 EPFS 中的存放
 
-EPFS�н�����ͬʱ����RELEASE/DEBUG,ASCII/UNICODE�����ݣ�
-����ϵͳһ�����ڻ������û�������ɾ���������ļ��Ͽɿ��Ƶ�̫�٣�
-���ϵͳ�Ĳ�ͬ��ʽ��Ҫ����ڲ�ͬĿ¼�У���Щ����ͨ���ԼӸĽ�����ϵͳ����ʵ�֡���һ���棬
+EPFS中将可以同时包含RELEASE/DEBUG,ASCII/UNICODE等内容，
+操作系统一方面在基本的用户界面如删除、复制文件上可控制的太少，
+因此系统的不同形式需要存放在不同目录中，这些可以通过稍加改进操作系统即可实现。另一方面，

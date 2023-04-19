@@ -7,10 +7,10 @@
 
 
 
-	gelyx ³ÐÔØµÄÐÎÊ½¼´ÊÇ´úÂë¡£´úÂë¿ÉÒÔ¼ÜÍÐÔÚ·ºgÉÏ£¬ÕâÖÖÍêÃÀÖ÷ÒåµÄÊµ¼ù·½·¨
-	³ÆÎªÊµ¼ùÀíÏëÔØÌå·½·¨M-PIC(Practical-Ideal-Carrier Method), ÒÔ·ºg ×÷
-	ÎªÔØÌåµÄ M-PIC ³ÆÎª M-gPIC¡£
+	gelyx æ‰¿è½½çš„å½¢å¼å³æ˜¯ä»£ç ã€‚ä»£ç å¯ä»¥æž¶æ‰˜åœ¨æ³›gä¸Šï¼Œè¿™ç§å®Œç¾Žä¸»ä¹‰çš„å®žè·µæ–¹æ³•
+	ç§°ä¸ºå®žè·µç†æƒ³è½½ä½“æ–¹æ³•M-PIC(Practical-Ideal-Carrier Method), ä»¥æ³›g ä½œ
+	ä¸ºè½½ä½“çš„ M-PIC ç§°ä¸º M-gPICã€‚
 
-	gelyx µÄÖ÷Òª±íÏÖÓïÑÔ½«²ÉÓÃ TÓïÑÔ (tit/titi)£¬²»½öÒòÎªÆäË¼¿¼²ã´Î£¬Ò²Òò
-	ÎªÆä×÷ÎªÊµÏÖÆ½Ì¨µÄÇ¿´óºÍÍ¨ÓÃÐÔ¡£ÕâÑù»ùÓÚ·ºgµÄT (T/g)
+	gelyx çš„ä¸»è¦è¡¨çŽ°è¯­è¨€å°†é‡‡ç”¨ Tè¯­è¨€ (tit/titi)ï¼Œä¸ä»…å› ä¸ºå…¶æ€è€ƒå±‚æ¬¡ï¼Œä¹Ÿå› 
+	ä¸ºå…¶ä½œä¸ºå®žçŽ°å¹³å°çš„å¼ºå¤§å’Œé€šç”¨æ€§ã€‚è¿™æ ·åŸºäºŽæ³›gçš„T (T/g)
 - tit/titi

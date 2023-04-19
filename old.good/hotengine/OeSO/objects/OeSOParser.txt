@@ -1,12 +1,12 @@
-¹ØÓÚÀàOeSOParser£º
-ÀàÃèÊö£º
-	·ÖÎöÆ÷ÓÃÓÚ·ÖÎöSOMLÎÄµµ¡¢´ÓÊý¾Ý¿âÖÐµ¼ÈëSOML¡¢±£´æSOMLµÈ, ²¢´´½¨Ó¦ÓÃÌå¶ÔÏó¡££º
-½á¹¹£º
-	¸¸Àà£º
+å…³äºŽç±»OeSOParserï¼š
+ç±»æè¿°ï¼š
+	åˆ†æžå™¨ç”¨äºŽåˆ†æžSOMLæ–‡æ¡£ã€ä»Žæ•°æ®åº“ä¸­å¯¼å…¥SOMLã€ä¿å­˜SOMLç­‰, å¹¶åˆ›å»ºåº”ç”¨ä½“å¯¹è±¡ã€‚ï¼š
+ç»“æž„ï¼š
+	çˆ¶ç±»ï¼š
 
-	ÅÉÉúÀà£º
+	æ´¾ç”Ÿç±»ï¼š
 
-	ÊµÏÖ½Ó¿Ú£º
+	å®žçŽ°æŽ¥å£ï¼š
 		IOeSOParser
-	CLSID£º
+	CLSIDï¼š
 		00000000-4F45-0600-0002-486954656368

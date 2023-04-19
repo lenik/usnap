@@ -2,14 +2,14 @@
 
 
 
-结点操作
+缁撶偣鎿嶄綔
 
 	create
 	delete
 
 
 
-空间操作
+绌洪棿鎿嶄綔
 
 	allocate
 	reallocate

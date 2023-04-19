@@ -7,19 +7,19 @@ check
 		debug version
 
 modules
-		���е����ģ��
+		所有的相关模块
 
 inc
-		ͷ�ļ������Ϳ��
+		头文件、类型库等
 
 spec
-		�淶������ĵ����ο����ϵ�
+		规范、设计文档、参考资料等
 
 support
-		֧�ֳ���
+		支持程序
 
 gui
-		�û����桢С���ߵ�
+		用户界面、小工具等
 
 doc
-		����ĵ�
+		设计文档

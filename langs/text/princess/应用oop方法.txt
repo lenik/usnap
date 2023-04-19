@@ -2,23 +2,23 @@
 
 
 
-Ϊ M-PO �ṩ��ģ�ķ�����
+为 M-PO 提供建模的方法，
 
-	- ���Բ��� XML �ķ�����ʹ�� xml-scheme �������࣬���ȱʡ���ԣ�
-	  ʹ�� <class> instance data... </class> ������ʵ����
+	- 可以采用 XML 的方法，使用 xml-scheme 来定义类，类的缺省属性，
+	  使用 <class> instance data... </class> 来建立实例。
 
-	- �����򻯵�֧���� XML ������Ҫ�ŵ�֮һ��
+	- 对区域化的支持是 XML 的最重要优点之一。
 
-	- XML ��Ҫ������֯���ݣ�XML ��Ƕ��ű���֧�����ޣ���Ȼ vbscript,
-	  javascript/jscript ���ṩ�˽ϺõĽű��������ڲ����� TIT[i]����g
-	  ������£�����̫ǿ���ˣ������Ѿ���Խһ�����Եķ��룩������Ҳ��
-	  �㹻Ӧ�ã��������·���������Ȼȱ����
+	- XML 主要在于组织数据，XML 对嵌入脚本的支持有限，虽然 vbscript,
+	  javascript/jscript 等提供了较好的脚本能力，在不考虑 TIT[i]、泛g
+	  的情况下（它们太强大了，而且已经超越一般语言的范畴），它们也许
+	  足够应用，但在以下方面它们仍然缺乏：
 		-
-		- �����Ʊ���
+		- 二进制编译
 		-
 
-	- �� M-PO ģʽΪӦ�ý�ģʱ�����������ݽṹ (��STL) ��Ҫ��һ�ָ����
-	  ����ʽ����ʾ��һЩ����������Ҫ�������Եķ�����������㡣
+	- 以 M-PO 模式为应用建模时，基本的数据结构 (如STL) 需要以一种更简洁
+	  的形式来表示。一些连接网络需要采用隐性的方法来建立结点。
 
 	static class = namespace.
 

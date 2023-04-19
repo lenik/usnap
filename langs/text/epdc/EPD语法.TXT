@@ -5,22 +5,22 @@
 # Grammer
 
 
-- EPD ֧��
+- EPD 支持
 
-	- PE �ṹ API ����(�����б�)��
+	- PE 结构 API 调用(参数列表)：
 		. pascal
 		. cdecl
 		. thiscall
 		. fastcall
-	- COM �ӿ�����
-		. ����ӿ�
-		. ���Ƚӿ�
-		. coclass �����ӿ�
-		. �ṹ��ĸ���֧��
+	- COM 接口声明
+		. 虚表接口
+		. 调度接口
+		. coclass 导出接口
+		. 结构体的附加支持
 	-
 
 
-- C+3 �ڲ�֧�� EPD.
+- C+3 内部支持 EPD.
 
 
 

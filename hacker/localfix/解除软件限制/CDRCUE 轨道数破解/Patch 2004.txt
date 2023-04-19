@@ -1,3 +1,3 @@
 Shecti> fc /b CDRCue.exe.bak CDRCue.exe
-ÕýÔÚ±È½ÏÎÄ¼þ CDRCue.exe.bak ºÍ CDRCUE.EXE
+æ­£åœ¨æ¯”è¾ƒæ–‡ä»¶ CDRCue.exe.bak å’Œ CDRCUE.EXE
 0003DE21: 0A 77

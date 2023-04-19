@@ -1,19 +1,19 @@
 
 
 !!
-	- ×î¹Ø¼üµÄÎÊÌâÊÇ£¬OnCreate µÄµ½À´Òª±È InitializeControl Ôç¡£
-	  ÎªÊ²Ã´£¿
+	- æœ€å…³é”®çš„é—®é¢˜æ˜¯ï¼ŒOnCreate çš„åˆ°æ¥è¦æ¯” InitializeControl æ—©ã€‚
+	  ä¸ºä»€ä¹ˆï¼Ÿ
 
 
 
-1. OnXXX ÔõÃ´±»´¥·¢µÄ£¿
-	OnXXX ÊÇ¶¨ÒåºÃµÄÒ»×éÊÂ¼þ´¦Àíº¯Êý£¬Ò»°ãÀ´Ëµ²»ÄÜÔö¼ÓÐÂµÄOnXXX.
+1. OnXXX æ€Žä¹ˆè¢«è§¦å‘çš„ï¼Ÿ
+	OnXXX æ˜¯å®šä¹‰å¥½çš„ä¸€ç»„äº‹ä»¶å¤„ç†å‡½æ•°ï¼Œä¸€èˆ¬æ¥è¯´ä¸èƒ½å¢žåŠ æ–°çš„OnXXX.
 
-	TWinControl::WndProc() ²¢²»¸ºÔð´¦Àí¸÷ÖÖ·ÖÖ§.
+	TWinControl::WndProc() å¹¶ä¸è´Ÿè´£å¤„ç†å„ç§åˆ†æ”¯.
 
 	KeyDown, WM_...:
-		ÔÚPascalÊµÏÖÖÐ£¬TObject::Dispatch½«µ÷ÓÃdelphiclassÖÐ
-		Í¨¹ý procedure WMXxx message(WM_XXX) ÉùÃ÷µÄ¸÷ÖÖÏûÏ¢´¦Àí¹ý³Ì¡£
+		åœ¨Pascalå®žçŽ°ä¸­ï¼ŒTObject::Dispatchå°†è°ƒç”¨delphiclassä¸­
+		é€šè¿‡ procedure WMXxx message(WM_XXX) å£°æ˜Žçš„å„ç§æ¶ˆæ¯å¤„ç†è¿‡ç¨‹ã€‚
 	  -> WMKeyDown(msg)
 	  -> DoKeyDown(msg,btn,shift)
 	  -> KeyDown(btn,shift,x,y)
@@ -28,13 +28,13 @@
 	    -> DoCreate
 	    -> OnCreate
 
-2. m_VclCtl->OnXXX ÖØ¶¨Òåºó, ºÍ WndProc µÄ¹ØÏµ£¿
-	ÔÚTVclComControl::InitializeÖÐ£¬m_VclCtlÍ¼ÐÎ½çÃæÖÐµÄ´¦Àíº¯Êý
-	±»Ñ¹ÔÚºóÃæ£¬¶øTVclComControlµÄWindowProcÔòÏÈÖ´ÐÐ:
+2. m_VclCtl->OnXXX é‡å®šä¹‰åŽ, å’Œ WndProc çš„å…³ç³»ï¼Ÿ
+	åœ¨TVclComControl::Initializeä¸­ï¼Œm_VclCtlå›¾å½¢ç•Œé¢ä¸­çš„å¤„ç†å‡½æ•°
+	è¢«åŽ‹åœ¨åŽé¢ï¼Œè€ŒTVclComControlçš„WindowProcåˆ™å…ˆæ‰§è¡Œ:
 		m_CtlWndProc = m_VclCtl->WindowProc
 		m_VclCtl->WindowProc = TVclComControl::WndProc
-	È»ºóÔÙ
+	ç„¶åŽå†
 		(virtual) InitializeControl()
-	Í¬Ê±×¢Òâµ½Á½¸ö´¦Àíº¯ÊýËùÊô£º
+	åŒæ—¶æ³¨æ„åˆ°ä¸¤ä¸ªå¤„ç†å‡½æ•°æ‰€å±žï¼š
 		m_VclCtl->WindowProc : TControl::WndProc
 				(TControl/TWinControl/TCustomForm/...)

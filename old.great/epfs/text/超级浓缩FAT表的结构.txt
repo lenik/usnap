@@ -28,16 +28,16 @@ insertseg(seg_start, seg_end) {	// theseg == seg_start..seg_end
 				i = 2*i+2;
 			}
 		} else {
-			if thesegÈ«²¿ÔÚleftseg×ó±ß ||
-				thesegÈ«²¿ÔÚrightsegÓÒ±ß ||
-				theseg.leftÔÚleftsegÓÒ±ß&&theseg.rightÔÚrightseg×ó±ß {
+			if thesegå…¨éƒ¨åœ¨leftsegå·¦è¾¹ ||
+				thesegå…¨éƒ¨åœ¨rightsegå³è¾¹ ||
+				theseg.leftåœ¨leftsegå³è¾¹&&theseg.rightåœ¨rightsegå·¦è¾¹ {
 				return NO_SPACE_AVAIL
-			elseif theseg.leftÊôÓÚ(leftseg union rightseg) ||
-				theseg.rightÊôÓÚ(leftseg union rightseg) {
+			elseif theseg.leftå±äº(leftseg union rightseg) ||
+				theseg.rightå±äº(leftseg union rightseg) {
 				if leftseg.right>rightseg.left+1 {
-					// ±íÊ¾leftsegºÍrightsegÖ®¼äÓĞ¿ÕÏ¶
+					// è¡¨ç¤ºleftsegå’Œrightsegä¹‹é—´æœ‰ç©ºéš™
 		----------------->	return CROSS_SEG
-		|		} elseif theseg.leftÊôÓÚleftseg && theseg.rightÊôÓÚrightseg {
+		|		} elseif theseg.leftå±äºleftseg && theseg.rightå±äºrightseg {
 		|
 		|			break;
 		|		} else {
@@ -46,21 +46,21 @@ insertseg(seg_start, seg_end) {	// theseg == seg_start..seg_end
 		}
 	}
 
-	// ÔÚsegtable[i]»ò(segtable[i .. i+1]¿çÇø¼äÄÚ)·ÖÅätheseg
-	if (²»¿åÇø¼ä) {
+	// åœ¨segtable[i]æˆ–(segtable[i .. i+1]è·¨åŒºé—´å†…)åˆ†é…theseg
+	if (ä¸å®åŒºé—´) {
 		segi=segtable[i]
-		segip=segiµÄ¸¸¶Î
+		segip=segiçš„çˆ¶æ®µ
 		if theseg.left==segi.left {
 			if theseg.right==segi.right {
-				//ÍêÈ«¸²¸Ç
-				ĞèÉ¾³ı½áµã
+				//å®Œå…¨è¦†ç›–
+				éœ€åˆ é™¤ç»“ç‚¹
 			else {
-				//¸ÇÔÚ×ó±ß
+				//ç›–åœ¨å·¦è¾¹
 				*psegi=segi
 				while () {
 					psegi->term=0
 					psegi->left=theseg.right+1
-					if psegiÊÇ×ó×ÓÖ§ {
+					if psegiæ˜¯å·¦å­æ”¯ {
 						psegip->left=psegi->left
 						psegi=psegip
 						continue
@@ -69,35 +69,35 @@ insertseg(seg_start, seg_end) {	// theseg == seg_start..seg_end
 				}
 			}
 		} else if theseg.right==segi.right {
-			// ¸ÇÔÚÓÒ±ß
+			// ç›–åœ¨å³è¾¹
 			...
 		} else {
-			// ¸ÇÔÚÖĞ¼ä
-			ĞèÔö¼Ó½áµã
+			// ç›–åœ¨ä¸­é—´
+			éœ€å¢åŠ ç»“ç‚¹
 			newleft.left=segi.left
 			newleft.right=theseg.left-1
 			newright.left=theseg.right+1
 			newright.right=segi.right
 		}
 	} else {
-		// ¿çÇø¼ä
+		// è·¨åŒºé—´
 		segi1=segi		//left range
 		segi2=segtable[i+1]	//right range
 		if theseg.left==segi1.left {
-			//×ó±ßÑÍÃ»
+			//å·¦è¾¹æ·¹æ²¡
 			if theseg.right==segi2.right {
-				//È«ÑÍÃ»
-				segi1,segi2,segipÉ¾³ı
+				//å…¨æ·¹æ²¡
+				segi1,segi2,segipåˆ é™¤
 				goto x
 			} else {
-				segi1É¾³ı
+				segi1åˆ é™¤
 			}
 		} else {
 			segi1.right=theseg.left-1
 		}
 		if theseg.right==segi2.right {
-			//ÓÒ±ßÑÍÃ»
-			segi2É¾³ı
+			//å³è¾¹æ·¹æ²¡
+			segi2åˆ é™¤
 		} else {
 			segi2.left=theseg.right+1
 		}

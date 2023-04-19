@@ -2,27 +2,27 @@
 
 
 
-EPD (Ƕ��ԭ������, Embedded Prototype Declaration)
+EPD (嵌入原型声明, Embedded Prototype Declaration)
 
-��Ʋο�
-
-
-
-- ��ͬ�� TIT[i]�������ڷ��壬��Ϊ����Ŀ���� "Think It"����˼���ǣ��Ǻǣ�
-
-- ��ͬ�� IDL��IDL ̫ע�� COM �ˡ�һЩ��ԭ���޹صģ������Ϳ⡢������Ϣ��
-  �� EPD �в����ڡ� ���� COM ��֧�ֽṹ�������Ҳ���������ڡ�
-
-- EPD Ҫ��Ҫ֧�� TIT[i] ��һ��ֵ������Ľ��㡣
-	�ع� tit �Ĺ��������ԣ�
-	- �ӵͼ����߼���ȫ��֧��
-	- �����ص�ǿ��֧��
-	- ȫ��ķ����͵�����ʵ����
-	- ������ʵ�ֵĽϸ߷��� ([i]����)
+设计参考
 
 
 
-- �о� EPD �ĺô���
-	- ����Ϊ C/C++ POS ��ģ�ṩ�������
-	- ����Ϊ TIT[i] �ṩ���ָ��
+- 不同于 TIT[i]，它重在泛义，因为它的目标是 "Think It"。穷思竭虑，呵呵！
+
+- 不同于 IDL，IDL 太注重 COM 了。一些与原型无关的，如类型库、帮助信息，
+  在 EPD 中不存在。 而且 COM 不支持结构体的限制也将不复存在。
+
+- EPD 要不要支持 TIT[i] 是一个值得争议的焦点。
+	回顾 tit 的功能与特性：
+	- 从低级到高级的全面支持
+	- 对重载的强大支持
+	- 全面的泛类型的类型实例化
+	- 声明与实现的较高分离 ([i]部分)
+
+
+
+- 研究 EPD 的好处：
+	- 可以为 C/C++ POS 建模提供经验基础
+	- 可以为 TIT[i] 提供设计指南
 	-

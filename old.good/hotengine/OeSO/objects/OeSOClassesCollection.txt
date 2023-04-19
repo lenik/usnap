@@ -1,12 +1,12 @@
-������OeSOClassesCollection��
-��������
-	�༯���ࣺ
-�ṹ��
-	���ࣺ
+关于类OeSOClassesCollection：
+类描述：
+	类集合类：
+结构：
+	父类：
 
-	�����ࣺ
+	派生类：
 
-	ʵ�ֽӿڣ�
+	实现接口：
 		IOeSOClassesCollection
-	CLSID��
+	CLSID：
 		00000000-4F45-0632-0002-486954656368

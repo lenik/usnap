@@ -1,13 +1,13 @@
 
 
 
-	ÑÐ¾¿µÄÏÝÚå
+	ç ”ç©¶çš„é™·é˜±
 
-	±³¾°
-		ÆÆ½âOICQµÄ¿ØÖÆÎÄ±¾
+	èƒŒæ™¯
+		ç ´è§£OICQçš„æŽ§åˆ¶æ–‡æœ¬
 
 
-	ÏÝÚå
+	é™·é˜±
 		HIS (HiTech Information Server)
 
 			command analyse, CAT, CDT

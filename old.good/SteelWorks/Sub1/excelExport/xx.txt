@@ -13,13 +13,13 @@ vbc.CodeModule.AddFromString _
 
 xapp.OnKey "^%{H}", "hideThisObject"
 
-s.Name = "Ê×Ò³"
+s.Name = "é¦–é¡µ"
 
         Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 80, 15, 400, 33)
-                sh.Name = "Ê×Ò³_ÌáÊ¾"
+                sh.Name = "é¦–é¡µ_æç¤º"
                 sh.TextFrame.Characters.Text = _
-                        "±¾ÎÄÓÉ[Á÷´¦Àí|Ò»Î¬Á£¶ÈÁ÷(ÑÏ¸ñµ¥Ôª)|Ä£ºıÁ÷±È½Ï|¹¦ÄÜ½çÃæ|Beta|ÅúÁ¿±È½Ï]³ÌĞòÉú³É" & vbNewLine & _
-                        "Òş²Ø±¾ÌáÊ¾ÌõÇë°´Ctrl-Alt-H"
+                        "æœ¬æ–‡ç”±[æµå¤„ç†|ä¸€ç»´ç²’åº¦æµ(ä¸¥æ ¼å•å…ƒ)|æ¨¡ç³Šæµæ¯”è¾ƒ|åŠŸèƒ½ç•Œé¢|Beta|æ‰¹é‡æ¯”è¾ƒ]ç¨‹åºç”Ÿæˆ" & vbNewLine & _
+                        "éšè—æœ¬æç¤ºæ¡è¯·æŒ‰Ctrl-Alt-H"
                 sh.TextFrame.Characters.Font.Size = 10
                 sh.TextFrame.Characters.Font.Color = &H8000&
                 sh.TextFrame.Characters(46).Font.Color = &H808080
@@ -27,20 +27,20 @@ s.Name = "Ê×Ò³"
                 sh.Line.Visible = msoFalse
                 sh.Fill.Visible = msoFalse
 
-        Set sh = s.Shapes.AddTextEffect(msoTextEffect9, "Åú Á¿ ±È ½Ï", "ºÚÌå", 40#, msoFalse, msoFalse, 160, 141#)
-                sh.Name = "Ê×Ò³_±êÌâ"
+        Set sh = s.Shapes.AddTextEffect(msoTextEffect9, "æ‰¹ é‡ æ¯” è¾ƒ", "é»‘ä½“", 40#, msoFalse, msoFalse, 160, 141#)
+                sh.Name = "é¦–é¡µ_æ ‡é¢˜"
         Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 160, 190, 220, 20)
-                sh.Name = "Ê×Ò³_±êÌâ2"
-                sh.TextFrame.Characters.Text = "½á ¹û ±¨ ¸æ µ¥"
+                sh.Name = "é¦–é¡µ_æ ‡é¢˜2"
+                sh.TextFrame.Characters.Text = "ç»“ æœ æŠ¥ å‘Š å•"
                 sh.TextFrame.Characters.Font.Size = 10
                 sh.TextFrame.HorizontalAlignment = xlHAlignRight
                 sh.Line.Visible = msoFalse
                 sh.Fill.Visible = msoFalse
 
         Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 75, 250, 200, 30)
-                sh.Name = "Ê×Ò³_°æÈ¨"
+                sh.Name = "é¦–é¡µ_ç‰ˆæƒ"
                 sh.TextFrame.Characters.Text = _
-                        "°æÈ¨±£Áô (C)ÌÒ¿ÇÈí¼ş 1997-2001" & vbNewLine & _
+                        "ç‰ˆæƒä¿ç•™ (C)æ¡ƒå£³è½¯ä»¶ 1997-2001" & vbNewLine & _
                         "Contact: dansei@126.com"
                 sh.TextFrame.Characters.Font.Size = 10
                 sh.TextFrame.Characters.Font.Color = &H606060
@@ -48,18 +48,18 @@ s.Name = "Ê×Ò³"
                 sh.Fill.Visible = msoFalse
 
 Set s = book.Worksheets.Add(, s)
-s.Name = "¹¤³Ì"
+s.Name = "å·¥ç¨‹"
 
 Set s = book.Worksheets.Add(, s)
-s.Name = "ÏêÏ¸±¨¸æ"
+s.Name = "è¯¦ç»†æŠ¥å‘Š"
 
 Set s = book.Worksheets.Add(, s)
-s.Name = "Ğò"
+s.Name = "åº"
 
 Set s = book.Worksheets.Add(, s)
-s.Name = "Ä©Ò³"
+s.Name = "æœ«é¡µ"
         Set sh = s.Shapes.AddTextbox(msoTextOrientationHorizontal, 160, 141, 220, 40)
-        sh.TextFrame.Characters.Text = "Ğ» Ğ» Ê¹ ÓÃ !"
+        sh.TextFrame.Characters.Text = "è°¢ è°¢ ä½¿ ç”¨ !"
         sh.TextFrame.Characters.Font.Size = 10
         sh.TextFrame.HorizontalAlignment = xlHAlignCenter
         sh.Line.Visible = msoFalse

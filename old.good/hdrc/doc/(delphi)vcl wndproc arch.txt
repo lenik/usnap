@@ -68,7 +68,7 @@ TCustomForm::AfterConstruction {
 TCustomForm::CreateWnd {
   (1) SendMsg WM_SETICON -> "Handle"
   (2) ComponentState != csDesigning ==>
-	Èç¹ûfsMDIÔò½¨Á¢Ò»¸öÄ¬ÈÏMDI Child´°Ìå£º
+	å¦‚æžœfsMDIåˆ™å»ºç«‹ä¸€ä¸ªé»˜è®¤MDI Childçª—ä½“ï¼š
 		menu = FWindowMenu.Handle
 		FClientHandle = createwindow "MDICLIENT", WS_CHILD | ...
 			.GWL_WNDPROC  -> FDefClientProc

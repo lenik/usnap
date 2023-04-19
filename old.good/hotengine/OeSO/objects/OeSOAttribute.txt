@@ -1,12 +1,12 @@
-¹ØÓÚÀàOeSOAttribute£º
-ÀàÃèÊö£º
-	ÊôÐÔÀà±£´æÒ»¸öÊôÐÔ.£º
-½á¹¹£º
-	¸¸Àà£º
+å…³äºŽç±»OeSOAttributeï¼š
+ç±»æè¿°ï¼š
+	å±žæ€§ç±»ä¿å­˜ä¸€ä¸ªå±žæ€§.ï¼š
+ç»“æž„ï¼š
+	çˆ¶ç±»ï¼š
 
-	ÅÉÉúÀà£º
+	æ´¾ç”Ÿç±»ï¼š
 
-	ÊµÏÖ½Ó¿Ú£º
+	å®žçŽ°æŽ¥å£ï¼š
 		IOeSOAttribute
-	CLSID£º
+	CLSIDï¼š
 		00000000-4F45-0620-0002-486954656368

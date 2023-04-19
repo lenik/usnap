@@ -1,7 +1,7 @@
 
-yyparse½Ó¹ÜÁË±ê×¼ÊäÈë, ÈçºÎ½«ÆäÉè³É´Ó×Ö·û´®ÊäÈë?
+yyparseæŽ¥ç®¡äº†æ ‡å‡†è¾“å…¥, å¦‚ä½•å°†å…¶è®¾æˆä»Žå­—ç¬¦ä¸²è¾“å…¥?
 
-½â¾ö·½·¨:
-yyparse´ÓyylexµÄ½á¹ûÊäÈë, Ö»Òª¸Ä±äyylexµÄÊäÈëÊä³öÁ÷¼´¿É.
+è§£å†³æ–¹æ³•:
+yyparseä»Žyylexçš„ç»“æžœè¾“å…¥, åªè¦æ”¹å˜yylexçš„è¾“å…¥è¾“å‡ºæµå³å¯.
 
-1. ·ÖÎöyylexµÄ»ù±¾½á¹¹
+1. åˆ†æžyylexçš„åŸºæœ¬ç»“æž„

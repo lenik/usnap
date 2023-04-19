@@ -1,3 +1,3 @@
 
 
-Ê¹ÓÃ LALR (Look-Ahead LR) ·ÖÎö±í´ïÊ½
+ä½¿ç”¨ LALR (Look-Ahead LR) åˆ†æžè¡¨è¾¾å¼

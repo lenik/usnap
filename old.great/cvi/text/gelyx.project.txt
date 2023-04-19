@@ -2,15 +2,15 @@
 
 
 
-信息组成结构
-信息处理
-信息体系结构
+淇℃伅缁勬垚缁撴瀯
+淇℃伅澶勭悊
+淇℃伅浣撶郴缁撴瀯
 
 
 
 
-UFOSL - Gelyx	继雷克斯计划
+UFOSL - Gelyx	缁ч浄鍏嬫柉璁″垝
 	Unified Foundation Open Science Library
 
-UCOOL -	Kunnta	昆塔计划
+UCOOL -	Kunnta	鏄嗗璁″垝
 	Unified Classified Open Object Library
