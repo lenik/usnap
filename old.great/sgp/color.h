@@ -33,18 +33,18 @@ public:
 	} _c;
 
 public:
-	invert();			// È¡²¹É«
+	invert();			// å–è¡¥è‰²
 
 public:
-	void mix_palette(color& o);	// µ÷É«°åÉ«²Ê»ìºÏ
-	void mix_light(color& o);	// ¹âÕÕÉ«²Ê»ìºÏ
+	void mix_palette(color& o);	// è°ƒè‰²æ¿è‰²å½©æ··åˆ
+	void mix_light(color& o);	// å…‰ç…§è‰²å½©æ··åˆ
 
 public:
 	friend class color_imps;
 };
 
 
-// ÊµÌåÉ«, ¾ßÓĞÊıÁ¿µÄÉ«
+// å®ä½“è‰², å…·æœ‰æ•°é‡çš„è‰²
 class solid_color {
 public:
 	color c;

@@ -15,11 +15,11 @@ BSTR xmlTool::makeXmlView() {
 	CString	r;
 	int	i;
 
-	r	= _T("<HTML><HEAD><TITLE>Xml结构视图</TITLE>"
+	r	= _T("<HTML><HEAD><TITLE>Xml缁撴瀯瑙嗗浘</TITLE>"
 			"<META GENERATOR=\"XmlTool01\">"
 			"</HEAD>"
-			"<BODY><FONT name=\"宋体\">"
-			"<P><H2>XML结构视图</H2></P>"
+			"<BODY><FONT name=\"瀹嬩綋\">"
+			"<P><H2>XML缁撴瀯瑙嗗浘</H2></P>"
 			);
 	for (i = 0; i < this->m_pXml->childNodes->length - 1; i++) {
 		r	+= "<DL>";

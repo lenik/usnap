@@ -18,13 +18,13 @@ HPNum::~HPNum() {
 }
 
 UINT HPNum::Trim() {
-	// ÕûÀíÊıÖµ, 1.Çå³ıÊôÓÚÕûÊıµÄÊ×¶ËÁã 2.Çå³ıÊôÓÚĞ¡ÊıµÄÄ©¶ËÁã
+	// æ•´ç†æ•°å€¼, 1.æ¸…é™¤å±äºæ•´æ•°çš„é¦–ç«¯é›¶ 2.æ¸…é™¤å±äºå°æ•°çš„æœ«ç«¯é›¶
 	UINT nZeros = 0;
 	UINT nIndex = m_sData.GetSize() - 1;
-	while (m_sData[nIndex--] == 0) { nZeros++; }	// ×îÓÒ¶ËÁãµÄ¸öÊı (ÊôÓÚÕûÊı)
+	while (m_sData[nIndex--] == 0) { nZeros++; }	// æœ€å³ç«¯é›¶çš„ä¸ªæ•° (å±äºæ•´æ•°)
 	if (nZeros != 0) { m_sData.SetSize(nIndex + 1); }
 	nIndex = 0;
-	while (m_sData[nIndex++] == 0) { nZeros++; }	// ×î×ó¶ËÁãµÄ¸öÊı (ÊôÓÚĞ¡Êı)
+	while (m_sData[nIndex++] == 0) { nZeros++; }	// æœ€å·¦ç«¯é›¶çš„ä¸ªæ•° (å±äºå°æ•°)
 	if (nIndex > 0) { m_sData.RemoveAt(0, nIndex); }
 	return (nZeros);
 }
@@ -38,22 +38,22 @@ void HPNum::AssertValid() {
 void _HPBaseArith::Shift(HPNum &hn, int i) {
 	UINT nNum = i > 0 ? i : -i;
 	if (i == 0) { return; }
-	if (i > 0) {		// shift right, smaller ÓÒÒÆ, Ğ¡ÊıÎ»ÊıÔö¶à, ±äĞ¡
-		if (hn.GetIL() >= nNum) {	// pointer in bound Ğ¡ÊıµãÎ´³¬½ç
+	if (i > 0) {		// shift right, smaller å³ç§», å°æ•°ä½æ•°å¢å¤š, å˜å°
+		if (hn.GetIL() >= nNum) {	// pointer in bound å°æ•°ç‚¹æœªè¶…ç•Œ
 			hn.SetDL(hn.GetDL() + nNum);
 			// nNum = 0;
-		} else {	// append zeros Ğ¡Êıµã³¬½ç, ÍùÓÒ±ß²¹Áã
+		} else {	// append zeros å°æ•°ç‚¹è¶…ç•Œ, å¾€å³è¾¹è¡¥é›¶
 			nNum -= hn.GetIL();
 			hn.SetDL(hn += nNum);
 		}
-	} else {	// shift left, bigger ×óÒÆ, Ğ¡ÊıÎ»Êı¼õÉÙ, ±ä´ó
-		if (hn.GetDL() >= nNum) {	// pointer in bound Ğ¡ÊıµãÎ´³¬½ç
+	} else {	// shift left, bigger å·¦ç§», å°æ•°ä½æ•°å‡å°‘, å˜å¤§
+		if (hn.GetDL() >= nNum) {	// pointer in bound å°æ•°ç‚¹æœªè¶…ç•Œ
 			hn.SetDL(hn.GetDL() - nNum);
 			// nNum = 0;
-		} else {	// insert zeros at head Ğ¡Êıµã³¬½ç
+		} else {	// insert zeros at head å°æ•°ç‚¹è¶…ç•Œ
 			nNum -= hn.GetDL();
 			hn.SetDL(0);
-			hn.m_sData.InsertAt(0, 0, nNum);		// Ïò×ó±ß²åi¸öÁã
+			hn.m_sData.InsertAt(0, 0, nNum);		// å‘å·¦è¾¹æ’iä¸ªé›¶
 		}
 	}
 }
@@ -62,7 +62,7 @@ void _HPBaseArith::AddI(HPNum &hn, UINT nIndex, UINT nI) {
 	nCarry = nI;
 	while (nCarry && nIndex < hn.m_nLength) {
 		nCarry += hn[nIndex];
-		if (nCarry < hn.GetRadix()) { // ÎŞ½øÎ»²úÉú, ¼ÓËÙ
+		if (nCarry < hn.GetRadix()) { // æ— è¿›ä½äº§ç”Ÿ, åŠ é€Ÿ
 			hn[nIndex] = nCarry;
 			nCarry = 0;
 		} else {
@@ -71,8 +71,8 @@ void _HPBaseArith::AddI(HPNum &hn, UINT nIndex, UINT nI) {
 		}
 		nIndex++;
 	}
-	while (nCarry) {	// Ö÷ÒªÊÇ¿¼ÂÇ nI ´óÓÚ½øÖÆÊı, ½á¹ûÔö¼ÓÁË>=1 Î»
-		if (nCarry < hn.GetRadix()) {	// ÎŞ½øÎ»²úÉú, ¼ÓËÙ
+	while (nCarry) {	// ä¸»è¦æ˜¯è€ƒè™‘ nI å¤§äºè¿›åˆ¶æ•°, ç»“æœå¢åŠ äº†>=1 ä½
+		if (nCarry < hn.GetRadix()) {	// æ— è¿›ä½äº§ç”Ÿ, åŠ é€Ÿ
 			hn[hn.m_nLength] = nCarry;
 			++hn;
 			nCarry = 0;
@@ -88,10 +88,10 @@ int _HPBaseArith::CmpI(HPNum &hn, UINT nIndex, UINT nI) {
 	int nCmp = 0;
 	nCarry = 0;
 	UINT t = nIndex, nRadix = hn.GetRadix();
-	// while (--t > nIndex) if (hn[t] != 0) /* hn'ÓĞĞ§Î» > nIndex, ´óÓÚ */ return 1;
-	if (hn[nIndex] < nI) { // ÏàÓ¦Î» hn' < nI'
-		while (t < hn.m_nLength) {	// ±È½Ï ×î¸ßÎ»..ÏàÓ¦Î»hn'×éºÏÊı Óë nI
-			if (nI == 0) { break; }	// nI±È¾¡
+	// while (--t > nIndex) if (hn[t] != 0) /* hn'æœ‰æ•ˆä½ > nIndex, å¤§äº */ return 1;
+	if (hn[nIndex] < nI) { // ç›¸åº”ä½ hn' < nI'
+		while (t < hn.m_nLength) {	// æ¯”è¾ƒ æœ€é«˜ä½..ç›¸åº”ä½hn'ç»„åˆæ•° ä¸ nI
+			if (nI == 0) { break; }	// nIæ¯”å°½
 			if ((hn[t] + nCarry) % nRadix != nI % nRadix) {
 				nCmp = _cmp((hn[t] + nCarry) % nRadix, nI % nRadix);
 			}
@@ -109,22 +109,22 @@ int _HPBaseArith::SubI(HPNum &hn, UINT nIndex, UINT nI) {
 	BOOL bInvert = FALSE;
 
 	bInvert = CmpI(hn, nIndex, nI);
-	if (CmpI(hn, nIndex, nI) < 0) { // ½á¹ûÎ»¸ºÊı, Ó¦¸Ã·´¼õ
-		// 1.Ö¸¶¨ÎªÓÒ²à·ÇÁã×îµÍÎ»È¡·´ 2.Ö¸¶¨×î¸ßÎ»ÓÚ·ÇÁã×îµÍÎ»Ö®¼äÈ¡²¹ 3.nI¼õÖ¸¶¨×î¸ßÎ»
+	if (CmpI(hn, nIndex, nI) < 0) { // ç»“æœä½è´Ÿæ•°, åº”è¯¥åå‡
+		// 1.æŒ‡å®šä¸ºå³ä¾§éé›¶æœ€ä½ä½å–å 2.æŒ‡å®šæœ€é«˜ä½äºéé›¶æœ€ä½ä½ä¹‹é—´å–è¡¥ 3.nIå‡æŒ‡å®šæœ€é«˜ä½
 		/*
-			A. µ¥Î»·´¼õ, ±»¼õÊıÖ¸¶¨Î»ºó½ÔÎªÁã, Ñ°ÕÒ¼õÊıÖĞ·ÇÁã×îµÍÎ»¼´ÊÇÑ°ÕÒ´óÓÚÏàÓ¦±»¼õÊı×îµÍÎ».
-			Èç¹ûÕâ¸ö×îµÍÎ»»¹²»¼°Ö¸¶¨Î»ËµÃ÷±»¼õÊıÄÇ²¿·ÖĞ¡ÓÚ¼õÊıÄÇ²¿·Ö, ĞèÒª½èÎ»,
-				B1. ×îµÍÎ»µ½Ö¸¶¨×î¸ßÎ»Ö®¼ä(²»°üÀ¨Ö¸¶¨×î¸ßÎ»)Çó²¹, ±»¼õÊı¼õÈ¥1
-			·ñÔò: B2. ²»±Ø½èÎ»
-			C. È»ºó±»¼õÊı¼õÈ¥¼õÊı×î¸ßÎ»µ½Ö¸¶¨Î»ÄÇ²¿·Ö. ÏÈ¼õµô¼õÊıÄÇ²¿·Ö³¤¶È, Èô±»¼õÊı»¹ÓĞÊ£Óà,
-			D. ¿¼ÂÇµ½±»¼õÊı¿ÉÄÜ´óÓÚ½øÖÆÊı, ¹ÊÓÃµ¥Î»¸³Öµ. ÒòÎª½á¹û´æ·ÅÔÚ¼õÊı½á¹¹ÖĞ, ÏÈ¸ø¼õÊıÔö¼ÓÎ»Êı.
+			A. å•ä½åå‡, è¢«å‡æ•°æŒ‡å®šä½åçš†ä¸ºé›¶, å¯»æ‰¾å‡æ•°ä¸­éé›¶æœ€ä½ä½å³æ˜¯å¯»æ‰¾å¤§äºç›¸åº”è¢«å‡æ•°æœ€ä½ä½.
+			å¦‚æœè¿™ä¸ªæœ€ä½ä½è¿˜ä¸åŠæŒ‡å®šä½è¯´æ˜è¢«å‡æ•°é‚£éƒ¨åˆ†å°äºå‡æ•°é‚£éƒ¨åˆ†, éœ€è¦å€Ÿä½,
+				B1. æœ€ä½ä½åˆ°æŒ‡å®šæœ€é«˜ä½ä¹‹é—´(ä¸åŒ…æ‹¬æŒ‡å®šæœ€é«˜ä½)æ±‚è¡¥, è¢«å‡æ•°å‡å»1
+			å¦åˆ™: B2. ä¸å¿…å€Ÿä½
+			C. ç„¶åè¢«å‡æ•°å‡å»å‡æ•°æœ€é«˜ä½åˆ°æŒ‡å®šä½é‚£éƒ¨åˆ†. å…ˆå‡æ‰å‡æ•°é‚£éƒ¨åˆ†é•¿åº¦, è‹¥è¢«å‡æ•°è¿˜æœ‰å‰©ä½™,
+			D. è€ƒè™‘åˆ°è¢«å‡æ•°å¯èƒ½å¤§äºè¿›åˆ¶æ•°, æ•…ç”¨å•ä½èµ‹å€¼. å› ä¸ºç»“æœå­˜æ”¾åœ¨å‡æ•°ç»“æ„ä¸­, å…ˆç»™å‡æ•°å¢åŠ ä½æ•°.
 		*/
-		for (t = 0; t < nIndex; t++) {	// A) t ·µ»Ø·ÇÁã×îµÍÎ», Èç¹ûµÈÓÚÖ¸¶¨Î»±íÊ¾B2
+		for (t = 0; t < nIndex; t++) {	// A) t è¿”å›éé›¶æœ€ä½ä½, å¦‚æœç­‰äºæŒ‡å®šä½è¡¨ç¤ºB2
 			if (hn[t] != 0) { break; }
 		}
 		if (t < nIndex) {	// B1)
-			hn[t] = nRadix-- - hn[t];	// nRadix - 1 ĞÎ³É²¹Âë±»¼õÊı
-			for (t++; t < nIndex; t++) {	// Ö¸¶¨×î¸ßÎ»ÓÚ·ÇÁã×îµÍÎ»Ö®¼äÈ¡²¹
+			hn[t] = nRadix-- - hn[t];	// nRadix - 1 å½¢æˆè¡¥ç è¢«å‡æ•°
+			for (t++; t < nIndex; t++) {	// æŒ‡å®šæœ€é«˜ä½äºéé›¶æœ€ä½ä½ä¹‹é—´å–è¡¥
 				hn[t] = nRadix - hn[t];
 			}
 			nI--;
@@ -139,33 +139,33 @@ int _HPBaseArith::SubI(HPNum &hn, UINT nIndex, UINT nI) {
 
 			nBorrow = 1 - (nRadix + nI - hn[t])
 
-			hn[nIndex] = (nI - hn[nIndex] - 1) % nRadix; 	// ½èÁËÒ»Î»
+			hn[nIndex] = (nI - hn[nIndex] - 1) % nRadix; 	// å€Ÿäº†ä¸€ä½
 			nI -= 0;
 
 		if (t == nIndex) {
 			hn[nIndex] = (nI - hn[nIndex]) % nRadix;
 			nI -= nRadix - hn[nIndex];
 		} else {
-			hn[t] = nRadix-- - hn[t];	// nRadix - 1 ĞÎ³É²¹Âë±»¼õÊı
-			for (; t < nIndex; t++) {	// Ö¸¶¨×î¸ßÎ»ÓÚ·ÇÁã×îµÍÎ»Ö®¼äÈ¡²¹
+			hn[t] = nRadix-- - hn[t];	// nRadix - 1 å½¢æˆè¡¥ç è¢«å‡æ•°
+			for (; t < nIndex; t++) {	// æŒ‡å®šæœ€é«˜ä½äºéé›¶æœ€ä½ä½ä¹‹é—´å–è¡¥
 				hn[t] = nRadix - hn[t];
 			}
-			hn[nIndex] = (nI - hn[nIndex] - 1) % nRadix; 	// ½èÁËÒ»Î»
+			hn[nIndex] = (nI - hn[nIndex] - 1) % nRadix; 	// å€Ÿäº†ä¸€ä½
 			nI -= 0;
 		}
 		return -1;
-	} else {	// Ò»°ãÇé¿ö
+	} else {	// ä¸€èˆ¬æƒ…å†µ
 		nBorrow = nI;
 		while (nBorrow && nIndex < hn.m_nLength) {
-			if (hn[nIndex] >= nBorrow) {	// ÎŞ½èÎ»²úÉú, ¼ÓËÙ
+			if (hn[nIndex] >= nBorrow) {	// æ— å€Ÿä½äº§ç”Ÿ, åŠ é€Ÿ
 				hn[nIndex] -= nBorrow;
 				nBorrow = 0;
 				break;
 			} else {
 				if (nBorrow % nRadix != 0) {
-					hn[nIndex] += nRadix - nBorrow % nRadix;	// nBorrowÒ²Ğí´óÓÚ½øÎ»Êı
+					hn[nIndex] += nRadix - nBorrow % nRadix;	// nBorrowä¹Ÿè®¸å¤§äºè¿›ä½æ•°
 				}
-				nBorrow = (nBorrow - 1) / nRadix + 1;	// nBorrow²»¿ÉÄÜÊÇÁã
+				nBorrow = (nBorrow - 1) / nRadix + 1;	// nBorrowä¸å¯èƒ½æ˜¯é›¶
 			}
 			nIndex++;
 		}
@@ -174,20 +174,20 @@ int _HPBaseArith::SubI(HPNum &hn, UINT nIndex, UINT nI) {
 }
 
 void _HPBaseArith::Adjust(HPNum &hn, UINT nIL, UINT nDL) {
-	if (nDL > hn.GetDL()) {	// // 1.µ÷ÕûĞ¡Êı³¤¶È
-		hn.m_sData.InsertAt(0, 0, nDL - hn.GetDL());	// Ôö¼ÓĞ¡ÊıÎ»Êı
+	if (nDL > hn.GetDL()) {	// // 1.è°ƒæ•´å°æ•°é•¿åº¦
+		hn.m_sData.InsertAt(0, 0, nDL - hn.GetDL());	// å¢åŠ å°æ•°ä½æ•°
 		hn.SetDL(nDL);
-	} else if (nDL < hn.GetDL()) {	// ¼õÉÙĞ¡ÊıÎ»Êı, ËÄÉáÎåÈë.
+	} else if (nDL < hn.GetDL()) {	// å‡å°‘å°æ•°ä½æ•°, å››èˆäº”å…¥.
 		int nKeepBegin = hn.GetDL() - nDL;
-		if (hn[hn.GetDL() - nDL - 1] >= hn.GetRadix() / 2) {	// ÔÚm_nDL - nDLÎ»Ö®Ç°µÄÊı½«±»É¾³ı
-			AddI(hn, hn.GetDL() - nDL, 1);	// ÎåÈë
+		if (hn[hn.GetDL() - nDL - 1] >= hn.GetRadix() / 2) {	// åœ¨m_nDL - nDLä½ä¹‹å‰çš„æ•°å°†è¢«åˆ é™¤
+			AddI(hn, hn.GetDL() - nDL, 1);	// äº”å…¥
 		}
 		hn.m_sData.RemoveAt(0, hn.GetDL() - nDL);
 		hn.SetDL(nDL);
 	}
-	if (nIL > hn.GetIL()) {	// 2.µ÷ÕûÕûÊı³¤¶È
-		hn += nIL - hn.GetIL();		// Ôö¼ÓÕûÊıÎ»Êı, ×·¼ÓÁã
-	} else if (nIL < hn.GetIL()) { // ¼õÉÙÕûÊıÎ»Êı
+	if (nIL > hn.GetIL()) {	// 2.è°ƒæ•´æ•´æ•°é•¿åº¦
+		hn += nIL - hn.GetIL();		// å¢åŠ æ•´æ•°ä½æ•°, è¿½åŠ é›¶
+	} else if (nIL < hn.GetIL()) { // å‡å°‘æ•´æ•°ä½æ•°
 		if (hn.Trim() != 0) { Adjust(hn, nIL, nDL); }
 	}
 }

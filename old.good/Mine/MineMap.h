@@ -1,8 +1,8 @@
 
-// ÓĞ½âÉ¨À×Ëã·¨
+// æœ‰è§£æ‰«é›·ç®—æ³•
 
-// Mr.Ğ» 2002.1.4-
-// HiTech @ ÖĞ¹úÕã½­
+// Mr.è°¢ 2002.1.4-
+// HiTech @ ä¸­å›½æµ™æ±Ÿ
 
 #pragma once
 
@@ -86,17 +86,17 @@ public:
 	int	width;
 	int	height;
 
-	BOOL	lookt[MAXTH][MAXTW];	// ²Î¿¼ËÄÖÜ±í
+	BOOL	lookt[MAXTH][MAXTW];	// å‚è€ƒå››å‘¨è¡¨
 	int	twidth;
 	int	theight;
-	int	tX;			// ÖĞĞÄµã
+	int	tX;			// ä¸­å¿ƒç‚¹
 	int	tY;
 
 	void randomMap();
 	void click(int x, int y);
-	// ÓÉ¸ÅÂÊÂÛÕÒ³öµ±Ç°¿ÉÒÔµÃÖªµÄ½â, Èç¹ûÃ»ÓĞ¶¨½âÔò·µ»ØFALSE
+	// ç”±æ¦‚ç‡è®ºæ‰¾å‡ºå½“å‰å¯ä»¥å¾—çŸ¥çš„è§£, å¦‚æœæ²¡æœ‰å®šè§£åˆ™è¿”å›FALSE
 	BOOL hint_byprob(int& x, int& y);
-	// ÓÉ¿éÍÆÀíÕÒ³öµ±Ç°¿ÉÒÔµÃÖªµÄ½â, Èç¹ûÃ»ÓĞ¶¨½âÔò·µ»ØFALSE
+	// ç”±å—æ¨ç†æ‰¾å‡ºå½“å‰å¯ä»¥å¾—çŸ¥çš„è§£, å¦‚æœæ²¡æœ‰å®šè§£åˆ™è¿”å›FALSE
 	BOOL hint_byblock(int& x, int& y);
 
 public:

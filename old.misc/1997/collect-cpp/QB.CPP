@@ -26,8 +26,8 @@ void interrupt (*old1c)(...);
 
 void interrupt new1c(...) {
   static char *Ts, *T = quick == 1 ?
-	"TOPCROAKCHKREFERCHKREFERCHKREFERÌÒ¿ÇÈí¼þ¼ì²éÒýÓÃ¼ì²éÒýÓÃ¼ì²éÒýÓÃ" :
-	"TOPCROAKCLRCOUNTADJTIMERWELLDONEÌÒ¿ÇÈí¼þÇå³ý¼ÆÊýµ÷ÕûÊ±¼ä±£´æ×´Ì¬";
+	"TOPCROAKCHKREFERCHKREFERCHKREFERæ¡ƒå£³è½¯ä»¶æ£€æŸ¥å¼•ç”¨æ£€æŸ¥å¼•ç”¨æ£€æŸ¥å¼•ç”¨" :
+	"TOPCROAKCLRCOUNTADJTIMERWELLDONEæ¡ƒå£³è½¯ä»¶æ¸…é™¤è®¡æ•°è°ƒæ•´æ—¶é—´ä¿å­˜çŠ¶æ€";
   static int i, count, index = 0;
   static char far *s;
   s = (char far *)MK_FP(0xB800, POS);
@@ -79,12 +79,12 @@ void main(int argc, char **argv) {
 }
 
 void Begin_Chinese() {
-	textcolor(YELLOW); cprintf("Quick Basic 7.10        ÍÑ¿Ç½âÃÜ³ÌÐò1.0    ×¤ÁôÄÚ´æ\n\r");
-	textcolor(LIGHTBLUE); cprintf("¼ÆËã»úÈí¼þ°²È«Ð­»á      Ð»¼ÌÀ×/ÌÒ¿ÇÈí¼þ\n\r");
-        textcolor(WHITE); cprintf("Ö´ÐÐ\"QB /!\"²é¿´ÍÑ¿Ç°æQB7.1°ïÖú\n\r");
-        textcolor(LIGHTGREEN); cprintf("Éú³ÉÃÜÔ¿......\n\r");
+	textcolor(YELLOW); cprintf("Quick Basic 7.10        è„±å£³è§£å¯†ç¨‹åº1.0    é©»ç•™å†…å­˜\n\r");
+	textcolor(LIGHTBLUE); cprintf("è®¡ç®—æœºè½¯ä»¶å®‰å…¨åä¼š      è°¢ç»§é›·/æ¡ƒå£³è½¯ä»¶\n\r");
+        textcolor(WHITE); cprintf("æ‰§è¡Œ\"QB /!\"æŸ¥çœ‹è„±å£³ç‰ˆQB7.1å¸®åŠ©\n\r");
+        textcolor(LIGHTGREEN); cprintf("ç”Ÿæˆå¯†é’¥......\n\r");
         if (!quick) delay(DELAY1);
-	cprintf("×°Èë³ÌÐò......\n\r");
+	cprintf("è£…å…¥ç¨‹åº......\n\r");
 	textcolor(LIGHTGRAY);
 	cprintf("\
 \n\r");
@@ -103,7 +103,7 @@ void Begin_English() {
 
 void End_OK_Chinese() {
 	textcolor(WHITE);
-	cprintf("Õý³£ÍË³ö!\n\r");
+	cprintf("æ­£å¸¸é€€å‡º!\n\r");
 	textcolor(LIGHTGRAY);
 	cprintf("\n\r");
 }
@@ -117,13 +117,13 @@ void End_OK_English() {
 
 void Help_Chinese() {
         printf("\
-ÍÑ¿Ç½âÃÜQuick Basic 7.10ÓÃ·¨°ïÖú\n\r-\n\r\
-  QB /? /! /AH /B /C:n {/Ea | /Es} /E:n /G /H /K:[file] /L [¿âÃû]\n\r\
-     /MBF /NOF[RILLS] /NOHI [/RUN] BASÎÄ¼þÃû /CMD ×Ö´®\n\r\n\r\
-  /? ²é¿´±¾°ïÖú\n\r\
-  /! ¿ìËÙÆô¶¯ (²»Æô¶¯¼ä½Ó¿âÒýÓÃ, ¿ÉÄÜ»áµ¼ÖÂQBÔÚÒýÓÃ¿âÊ±µ¯³öÒ»´ó¶ÑÎ¢Èí°æÈ¨ÇÖ·¸\n\r\
-               ´°¿Ú, ²¢ÏÝÈëËÀÑ­»·. Èç¹û²»ÒýÓÃÍâ½Ó¿â²»»á³öÏÖ´ËÎÊÌâ. )\n\r\
-  ÆäËüÑ¡Ïî²Î¿¼±ê×¼QB×ÊÁÏ. ");
+è„±å£³è§£å¯†Quick Basic 7.10ç”¨æ³•å¸®åŠ©\n\r-\n\r\
+  QB /? /! /AH /B /C:n {/Ea | /Es} /E:n /G /H /K:[file] /L [åº“å]\n\r\
+     /MBF /NOF[RILLS] /NOHI [/RUN] BASæ–‡ä»¶å /CMD å­—ä¸²\n\r\n\r\
+  /? æŸ¥çœ‹æœ¬å¸®åŠ©\n\r\
+  /! å¿«é€Ÿå¯åŠ¨ (ä¸å¯åŠ¨é—´æŽ¥åº“å¼•ç”¨, å¯èƒ½ä¼šå¯¼è‡´QBåœ¨å¼•ç”¨åº“æ—¶å¼¹å‡ºä¸€å¤§å †å¾®è½¯ç‰ˆæƒä¾µçŠ¯\n\r\
+               çª—å£, å¹¶é™·å…¥æ­»å¾ªçŽ¯. å¦‚æžœä¸å¼•ç”¨å¤–æŽ¥åº“ä¸ä¼šå‡ºçŽ°æ­¤é—®é¢˜. )\n\r\
+  å…¶å®ƒé€‰é¡¹å‚è€ƒæ ‡å‡†QBèµ„æ–™. ");
 }
 
 void Help_English() {
@@ -140,7 +140,7 @@ Unshelled decrypted Quick Basic 7.10 Help\n\r-\n\r\
 
 void End_Error_Chinese() {
 	textcolor(WHITE);
-	cprintf("³ÌÐòÔËÐÐ³ö´í!\n\r");
+	cprintf("ç¨‹åºè¿è¡Œå‡ºé”™!\n\r");
 	textcolor(LIGHTGRAY);
 	cprintf("\n\r");
 }

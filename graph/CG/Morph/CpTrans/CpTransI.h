@@ -4,16 +4,16 @@
 
 #include "stdtypes.h"
 
-/* ¹ØÁªµã */
+/* å…³è”ç‚¹ */
 typedef struct _POINTR {
-	INT	ref;		/* ¹ØÁªµãË÷Òý */
-	INT	obj;		/* ±»¹ØÁªµãË÷Òý */
-	REAL	dist;		/* ¾àÀëÈ¨Öµ */
+	INT	ref;		/* å…³è”ç‚¹ç´¢å¼• */
+	INT	obj;		/* è¢«å…³è”ç‚¹ç´¢å¼• */
+	REAL	dist;		/* è·ç¦»æƒå€¼ */
 } POINTR, *PPOINTR, *LPPOINTR;
 
-/* ¾àÀë¶ÈÁ¿»Øµ÷ÀàÐÍ */
+/* è·ç¦»åº¦é‡å›žè°ƒç±»åž‹ */
 typedef REAL (STDCALL *DISTANCEPROC)(LPPOINT pA, LPPOINT pB);
-/* ¹ØÁª·½·¨»Øµ÷ÀàÐÍ */
+/* å…³è”æ–¹æ³•å›žè°ƒç±»åž‹ */
 typedef BOOL (STDCALL *CPREFERPROC)(LPPOINTR		rt,
 				    INT			nt,
 				    LPPOINT		cpSrc,
@@ -26,41 +26,41 @@ typedef BOOL (STDCALL *CPREFERPROC)(LPPOINTR		rt,
 				    INT			obj,
 				    REAL		dist,
 				    DISTANCEPROC	distProc);
-/* ²åÖµ¹ý³Ì»Øµ÷ÀàÐÍ */
+/* æ’å€¼è¿‡ç¨‹å›žè°ƒç±»åž‹ */
 typedef BOOL (STDCALL *CPTRANSFORMPROC)(REAL		slider,
 					LPPOINT		cp,
 					INT		ncp,
 					DWORD		dwParam);
-/* Ë«Ïò¹ØÁª±í¼ì²â»Øµ÷ÀàÐÍ */
+/* åŒå‘å…³è”è¡¨æ£€æµ‹å›žè°ƒç±»åž‹ */
 typedef BOOL (STDCALL *CPRELATIONPROC)(LPPOINTR		rtSrc,
 				       INT		nSrc,
 				       LPPOINTR		rtDst,
 				       INT		nDst,
 				       DWORD		dwParam);
 
-/* distance_e		Å·ÊÏ¾àÀë: Ô¤¶¨Òå¾àÀë¶ÈÁ¿»Øµ÷º¯Êý */
+/* distance_e		æ¬§æ°è·ç¦»: é¢„å®šä¹‰è·ç¦»åº¦é‡å›žè°ƒå‡½æ•° */
 REAL	STDCALL distance_e(LPPOINT pA, LPPOINT pB);
 
 BOOL	STDCALL draw_on_screen(REAL, LPPOINT, INT, DWORD);
 
-/* cp_refer		¹ØÁªº¯Êý
- * ¹¦ÄÜ
- *	¹ØÁªÖ¸¶¨µÄ¹ØÁª, ²¢ÔÚ±ØÒªµÄÊ±ºòÖØÐÂ¹ØÁªÓëÖ¸¶¨¹ØÁª³åÍ»µÄ¹ØÁª
- * ÊäÈë
- *	rTable		¹ØÁª±í
- *	nTable		¹ØÁª±íµÄ´óÐ¡
- *	cpSrc, nSrc	Ô´¿ØÖÆµã
- *	cpDst, nDst	Ä¿±ê¿ØÖÆµã
- *	cpDstEx		ÅÅ³âÄ¿±êË÷Òý¼¯
- *	nDstEx		ÅÅ³âÄ¿±êË÷Òý¼¯µÄÔªÊý
- *	ref		Ö¸¶¨¹ØÁªµÄ¹ØÁªµã
- *	obj		Ö¸¶¨¹ØÁªµÄ±»¹ØÁªµã
- *	dist		¹ØÁªµÄ¾àÀëÈ¨Öµ
- *	distProc	¶ÈÁ¿»Øµ÷
- * Êä³ö
- *	rTable		ÐÞ¸ÄºóµÄ¹ØÁª±í
- * ·µ»Ø
- *	¹ØÁª³É¹¦·µ»ØTRUE, ·ñÔò·µ»ØFALSE
+/* cp_refer		å…³è”å‡½æ•°
+ * åŠŸèƒ½
+ *	å…³è”æŒ‡å®šçš„å…³è”, å¹¶åœ¨å¿…è¦çš„æ—¶å€™é‡æ–°å…³è”ä¸ŽæŒ‡å®šå…³è”å†²çªçš„å…³è”
+ * è¾“å…¥
+ *	rTable		å…³è”è¡¨
+ *	nTable		å…³è”è¡¨çš„å¤§å°
+ *	cpSrc, nSrc	æºæŽ§åˆ¶ç‚¹
+ *	cpDst, nDst	ç›®æ ‡æŽ§åˆ¶ç‚¹
+ *	cpDstEx		æŽ’æ–¥ç›®æ ‡ç´¢å¼•é›†
+ *	nDstEx		æŽ’æ–¥ç›®æ ‡ç´¢å¼•é›†çš„å…ƒæ•°
+ *	ref		æŒ‡å®šå…³è”çš„å…³è”ç‚¹
+ *	obj		æŒ‡å®šå…³è”çš„è¢«å…³è”ç‚¹
+ *	dist		å…³è”çš„è·ç¦»æƒå€¼
+ *	distProc	åº¦é‡å›žè°ƒ
+ * è¾“å‡º
+ *	rTable		ä¿®æ”¹åŽçš„å…³è”è¡¨
+ * è¿”å›ž
+ *	å…³è”æˆåŠŸè¿”å›žTRUE, å¦åˆ™è¿”å›žFALSE
  */
 BOOL	STDCALL	cp_refer(LPPOINTR	rTable,
 			 INT		nTable,
@@ -76,23 +76,23 @@ BOOL	STDCALL	cp_refer(LPPOINTR	rTable,
 			 DISTANCEPROC	distProc
 			 );
 
-/* cp_transform		¿ØÖÆµã×ª»»º¯Êý
- * ¹¦ÄÜ
- *	½«Ô´¿ØÖÆµã¼¯Öð½¥×ª»»µ½Ä¿±ê¿ØÖÆµã¼¯
- * ÊäÈë
- *	cpSrc		Ô´¿ØÖÆµãÊý×é
- *	nSrc		Ô´¿ØÖÆµãÊýÄ¿
- *	cpDst		Ä¿±ê¿ØÖÆµã
- *	nDst		Ä¿±ê¿ØÖÆµãÊýÄ¿
- *	sample		×ª»»²åÖµ¼ä¸ô, ¶¨ÒåÓò(0,1], Ô½Ð¡×ª»»¹ý³ÌÔ½Æ½»¬, Ä¬ÈÏ0.1
- *	distProc	¶ÈÁ¿·½·¨»Øµ÷, Ä¬ÈÏÎªÅ·À­¾àÀë
- *	transProc	²åÖµ¹ý³Ì»Øµ÷, Ä¬ÈÏÎªÔÚÈ±Ê¡Êä³öÉè±¸ÉÏ×÷Í¼
- *	transParam	´«µÝ¸ø²åÖµ¹ý³Ì»Øµ÷µÄ²ÎÊý
- *	relProc		Ë«Ïò¹ØÁª±í¼ì²â»Øµ÷, Ä¬ÈÏNULLºöÂÔ
- *	relParam	´«µÝ¸øË«Ïò¹ØÁª±í¼ì²â»Øµ÷µÄ²ÎÊý
- *	relDemonstrate	ÑÝÊ¾¹ØÁª±í¹¹Ôì¹ý³Ì
- * ·µ»Ø
- *	×ª»»³É¹¦TRUE, ·ñÔò×ª»»Ê§°Ü
+/* cp_transform		æŽ§åˆ¶ç‚¹è½¬æ¢å‡½æ•°
+ * åŠŸèƒ½
+ *	å°†æºæŽ§åˆ¶ç‚¹é›†é€æ¸è½¬æ¢åˆ°ç›®æ ‡æŽ§åˆ¶ç‚¹é›†
+ * è¾“å…¥
+ *	cpSrc		æºæŽ§åˆ¶ç‚¹æ•°ç»„
+ *	nSrc		æºæŽ§åˆ¶ç‚¹æ•°ç›®
+ *	cpDst		ç›®æ ‡æŽ§åˆ¶ç‚¹
+ *	nDst		ç›®æ ‡æŽ§åˆ¶ç‚¹æ•°ç›®
+ *	sample		è½¬æ¢æ’å€¼é—´éš”, å®šä¹‰åŸŸ(0,1], è¶Šå°è½¬æ¢è¿‡ç¨‹è¶Šå¹³æ»‘, é»˜è®¤0.1
+ *	distProc	åº¦é‡æ–¹æ³•å›žè°ƒ, é»˜è®¤ä¸ºæ¬§æ‹‰è·ç¦»
+ *	transProc	æ’å€¼è¿‡ç¨‹å›žè°ƒ, é»˜è®¤ä¸ºåœ¨ç¼ºçœè¾“å‡ºè®¾å¤‡ä¸Šä½œå›¾
+ *	transParam	ä¼ é€’ç»™æ’å€¼è¿‡ç¨‹å›žè°ƒçš„å‚æ•°
+ *	relProc		åŒå‘å…³è”è¡¨æ£€æµ‹å›žè°ƒ, é»˜è®¤NULLå¿½ç•¥
+ *	relParam	ä¼ é€’ç»™åŒå‘å…³è”è¡¨æ£€æµ‹å›žè°ƒçš„å‚æ•°
+ *	relDemonstrate	æ¼”ç¤ºå…³è”è¡¨æž„é€ è¿‡ç¨‹
+ * è¿”å›ž
+ *	è½¬æ¢æˆåŠŸTRUE, å¦åˆ™è½¬æ¢å¤±è´¥
  */
 BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 			     INT		nSrc,
@@ -108,20 +108,20 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 			     CPREFERPROC	referProc	DEFAULT(cp_refer)
 			     );
 
-/* cp_setrefer		ÉèÖÃ¹ØÁª
- * ¹¦ÄÜ
- *	ÉèÖÃ¹ØÁªµãÓë±»¹ØÁªµã(Ä¿±êµã)µÄ¹ØÁª
- * ÊäÈë
- *	rTable		¹ØÁª±í
- *	nTable		¹ØÁª±íÖÐº¬ÓÐµÄ¹ØÁªÊýÄ¿
- *	ref		¹ØÁªµãË÷Òý
- *	obj		±»¹ØÁªµãË÷Òý
- *	dist		¹ØÁªµÄ¾àÀë
- *	initp		ËÑË÷¹ØÁª±íµÄÆðµã, ÓÃÓÚ¼ÓËÙ, Ä¬ÈÏÎª´ÓÍ·¿ªÊ¼ËÑË÷
- * Êä³ö
- *	rTable		ÉèÖÃÐÂµÄ¹ØÁªºóµÄ¹ØÁª±í
- * ·µ»Ø
- *	ÉèÖÃ¹ØÁª³É¹¦TRUE, ·ñÔòÊ§°Ü
+/* cp_setrefer		è®¾ç½®å…³è”
+ * åŠŸèƒ½
+ *	è®¾ç½®å…³è”ç‚¹ä¸Žè¢«å…³è”ç‚¹(ç›®æ ‡ç‚¹)çš„å…³è”
+ * è¾“å…¥
+ *	rTable		å…³è”è¡¨
+ *	nTable		å…³è”è¡¨ä¸­å«æœ‰çš„å…³è”æ•°ç›®
+ *	ref		å…³è”ç‚¹ç´¢å¼•
+ *	obj		è¢«å…³è”ç‚¹ç´¢å¼•
+ *	dist		å…³è”çš„è·ç¦»
+ *	initp		æœç´¢å…³è”è¡¨çš„èµ·ç‚¹, ç”¨äºŽåŠ é€Ÿ, é»˜è®¤ä¸ºä»Žå¤´å¼€å§‹æœç´¢
+ * è¾“å‡º
+ *	rTable		è®¾ç½®æ–°çš„å…³è”åŽçš„å…³è”è¡¨
+ * è¿”å›ž
+ *	è®¾ç½®å…³è”æˆåŠŸTRUE, å¦åˆ™å¤±è´¥
  */
 BOOL	STDCALL cp_setrefer(LPPOINTR	rTable,
 			    INT		nTable,
@@ -131,7 +131,7 @@ BOOL	STDCALL cp_setrefer(LPPOINTR	rTable,
 			    INT		initp		DEFAULT(0)
 			    );
 
-/* ·µ»Ø¹ØÁª±íÖÐÊµ¼ÊÊ¹ÓÃµÄ¹ØÁªÊý */
+/* è¿”å›žå…³è”è¡¨ä¸­å®žé™…ä½¿ç”¨çš„å…³è”æ•° */
 INT	STDCALL cp_rtcounts(LPPOINTR rTable, INT nTable);
 
 

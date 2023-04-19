@@ -1,7 +1,7 @@
-// Automation compiler ±àÒëÄ£°åÎÄ¼ş
-// C++ °æ±¾
+// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶
+// C++ ç‰ˆæœ¬
 
-// ×´Ì¬³£Á¿
+// çŠ¶æ€å¸¸é‡
 
 
 #define A_cg_s                   	0x00000000
@@ -10,7 +10,7 @@
 #define A_cg_START               	0x00000000
 #define A_cg_END                 	0x00000002
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 #define A_cg_calltype	_stdcall
 
 #include <list>
@@ -27,14 +27,14 @@ typedef stack<state> statestack;
 typedef character (A_cg_calltype *A_cg_input_proc)(buffers& ib, int protect_level);
 typedef void (A_cg_calltype *A_cg_user_proc)(state S1, state S2, character c, buffer& accept_buffer);
 
-// º¯ÊıÔ­ĞÍ
+// å‡½æ•°åŸå‹
 
 character A_cg_calltype A_cg_getc();
 character A_cg_calltype A_cg_input(buffers& ib, int pl);
 state A_cg_calltype A_cg_loop(A_cg_input_proc ip, int& pl, buffers& ib, buffers& ab, statestack& ss, state& s);
 bool A_cg_calltype A_cg_main();
 
-// ÓÃ»§º¯ÊıÔ­ĞÍ
+// ç”¨æˆ·å‡½æ•°åŸå‹
 
 void A_cg_calltype A_cg_ret_plus(state S1, state S2, character c, buffer& ab);
 void A_cg_calltype A_cg_ret_minus(state S1, state S2, character c, buffer& ab);
@@ -46,7 +46,7 @@ void A_cg_calltype A_cg_ret_rightb(state S1, state S2, character c, buffer& ab);
 void A_cg_calltype A_cg_clearB(state S1, state S2, character c, buffer& ab);
 void A_cg_calltype A_cg_ret_NUM(state S1, state S2, character c, buffer& ab);
 
-// Ä¬ÈÏ´¦Àí
+// é»˜è®¤å¤„ç†
 
 
 character A_cg_calltype A_cg_input(buffers& ib, int pl) {
@@ -83,7 +83,7 @@ state A_cg_calltype A_cg_loop(
 	/* S is s */
 	character c = ip(ib, pl);
 
-// Ö÷´¦Àíº¯Êı
+// ä¸»å¤„ç†å‡½æ•°
 
 // Eb
 
@@ -368,7 +368,7 @@ bool A_cg_calltype A_cg_main() {
 }
 
 
-// È±Ê¡¿ò¼Ü
+// ç¼ºçœæ¡†æ¶
 
 #ifdef USE_A_cg_FRAME
 

@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 
     test_encode("hello, world");
     test_encode("simpleword");
-    test_encode("ÄãºÃ£¬ÖÐ¹ú");
+    test_encode("ä½ å¥½ï¼Œä¸­å›½");
     test_encode("for example ' a str(@#$!&*(\\\t\r\ning with \" inside '. ");
     test_encode("");
     test_encode("segment\0separated", 17);
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     test_decode("\"hello, world\"");
     test_decode("simpleword");
-    test_decode("ÄãºÃ£¬ÖÐ¹ú");
+    test_decode("ä½ å¥½ï¼Œä¸­å›½");
     test_decode("\"for example ' a str(@#$!&*(\\\\\\t\\r\\ning with \\\" inside '. \"");
     test_decode("\"\"");
     test_decode("segment\0separated", 17);

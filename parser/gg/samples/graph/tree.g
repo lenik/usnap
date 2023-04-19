@@ -11,7 +11,7 @@ tree:
 stick:
 	segment
 	| stick segment s.t {
-		// segmentÉú³¤ÔÚstickµÄÈ·ÇĞÎ»ÖÃ
+		// segmentç”Ÿé•¿åœ¨stickçš„ç¡®åˆ‡ä½ç½®
 		r = grow_at_regular_position($1, $2);
 
 		/*
@@ -31,7 +31,7 @@ stick:
 root:
 	root_group
 	| root root_group s.t {
-		// Ğë¸ùºÍ¸ùµÄ¹ØÏµĞèÒª·ş´ÓÍ³¼Æ
+		// é¡»æ ¹å’Œæ ¹çš„å…³ç³»éœ€è¦æœä»ç»Ÿè®¡
 		return sparse_than($2, $1);
 		}
 	do c{

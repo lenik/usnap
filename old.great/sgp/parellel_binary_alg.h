@@ -8,10 +8,10 @@ SGP_BEGIN
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// ²¢ĞĞ¶ş½øÖÆÔËËã
-//	Ê¹ÓÃÒ»¸ö»úÆ÷ÔËËã²Ù×÷µ¥ÔªÊµÏÖ¶Ô¶à¸ö¶ş½øÖÆµ¥Ôª²¢ĞĞ´¦Àí¡£
-//	Ã¿¸öµ¥ÔªÕ¼ÓÃµÄ¶ş½øÖÆÎ»±ØĞëÁ¬Ğø¡£
-//	Ã¿¸öµ¥ÔªÕ¼ÓÃµÄÎ»Êı±ØĞëÖÁÉÙÊÇ 2 Î»¡£
+// å¹¶è¡ŒäºŒè¿›åˆ¶è¿ç®—
+//	ä½¿ç”¨ä¸€ä¸ªæœºå™¨è¿ç®—æ“ä½œå•å…ƒå®ç°å¯¹å¤šä¸ªäºŒè¿›åˆ¶å•å…ƒå¹¶è¡Œå¤„ç†ã€‚
+//	æ¯ä¸ªå•å…ƒå ç”¨çš„äºŒè¿›åˆ¶ä½å¿…é¡»è¿ç»­ã€‚
+//	æ¯ä¸ªå•å…ƒå ç”¨çš„ä½æ•°å¿…é¡»è‡³å°‘æ˜¯ 2 ä½ã€‚
 template<class _t = unsigned __int32>
 class parellel_binary_alg {
 public:
@@ -35,36 +35,36 @@ public:
 	inline _t add(_t a, _t b);
 	inline _t sub(_t a, _t b);
 
-	inline _t full_inc(_t a);		// ±¥ºÍÔö¼Ó
-	inline _t full_dec(_t a);		// ±¥ºÍ¼õÉÙ
-	inline _t full_add(_t a, _t b);		// ±¥ºÍ¼Ó·¨
-	inline _t full_sub(_t a, _t b);		// ±¥ºÍ¼õ·¨
+	inline _t full_inc(_t a);		// é¥±å’Œå¢åŠ 
+	inline _t full_dec(_t a);		// é¥±å’Œå‡å°‘
+	inline _t full_add(_t a, _t b);		// é¥±å’ŒåŠ æ³•
+	inline _t full_sub(_t a, _t b);		// é¥±å’Œå‡æ³•
 
-	inline _t diff(_t a, _t b);		// ²îÖµ¼õ·¨
-	inline _t cmp(_t a, _t b);		// ±È½Ï, 0ÏàµÈ, ×î¸ßÎ»a<b, ×îµÍÎ»a>b
+	inline _t diff(_t a, _t b);		// å·®å€¼å‡æ³•
+	inline _t cmp(_t a, _t b);		// æ¯”è¾ƒ, 0ç›¸ç­‰, æœ€é«˜ä½a<b, æœ€ä½ä½a>b
 
-	inline _t se(_t a, _t b);		// ±È½ÏÊÇ·ñÏàµÈ
-	inline _t sne(_t a, _t b);		// ±È½ÏÊÇ·ñ²»ÏàµÈ
-	inline _t sa(_t a, _t b);		// ±È½ÏÊÇ·ñ´óÓÚ
-	inline _t sae(_t a, _t b);		// ±È½ÏÊÇ·ñ´óÓÚµÈÓÚ
-	inline _t sb(_t a, _t b);		// ±È½ÏÊÇ·ñĞ¡ÓÚ
-	inline _t sbe(_t a, _t b);		// ±È½ÏÊÇ·ñĞ¡ÓÚµÈÓÚ
-	inline _t sz(_t a);			// ±È½ÏÊÇ·ñÎª0
-	inline _t snz(_t a);			// ±È½ÏÊÇ·ñ²»Îª0
+	inline _t se(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦ç›¸ç­‰
+	inline _t sne(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦ä¸ç›¸ç­‰
+	inline _t sa(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦å¤§äº
+	inline _t sae(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦å¤§äºç­‰äº
+	inline _t sb(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦å°äº
+	inline _t sbe(_t a, _t b);		// æ¯”è¾ƒæ˜¯å¦å°äºç­‰äº
+	inline _t sz(_t a);			// æ¯”è¾ƒæ˜¯å¦ä¸º0
+	inline _t snz(_t a);			// æ¯”è¾ƒæ˜¯å¦ä¸ä¸º0
 
-	inline _t u(_t a, int i);		// ÌáÈ¡µ¥Ôª
-	inline _t u(_t a, int i, _t v);		// ÉèÖÃµ¥Ôª
-	inline _t uv(int i, _t v);		// Ô¤Ëãµ¥ÔªÖµ
-	inline _t us(_t a, _t i);		// ÌáÈ¡Ö¸¶¨µ¥Ôª¼¯
-	inline _t us(_t a, _t i, _t v);		// ÉèÖÃÖ¸¶¨µ¥Ôª¼¯
-	inline _t usp(_t a, _t i, _t v, _t p);	// ´øÈ¨ÖµÉèÖÃÖ¸¶¨µ¥Ôª¼¯
+	inline _t u(_t a, int i);		// æå–å•å…ƒ
+	inline _t u(_t a, int i, _t v);		// è®¾ç½®å•å…ƒ
+	inline _t uv(int i, _t v);		// é¢„ç®—å•å…ƒå€¼
+	inline _t us(_t a, _t i);		// æå–æŒ‡å®šå•å…ƒé›†
+	inline _t us(_t a, _t i, _t v);		// è®¾ç½®æŒ‡å®šå•å…ƒé›†
+	inline _t usp(_t a, _t i, _t v, _t p);	// å¸¦æƒå€¼è®¾ç½®æŒ‡å®šå•å…ƒé›†
 	inline _t usp(_t a, _t i, _t v,
-		double p, bool mix);		// ´ø¸¡µãÊıÈ¨ÖµÉèÖÃÖ¸¶¨µ¥Ôª¼¯
+		double p, bool mix);		// å¸¦æµ®ç‚¹æ•°æƒå€¼è®¾ç½®æŒ‡å®šå•å…ƒé›†
 	inline _t usp(_t a, _t i, _t v,
-		double *pp, bool mix);		// ´ø¸¡µãÊıÈ¨ÖµÊı×éÉèÖÃÖ¸¶¨µ¥Ôª¼¯
+		double *pp, bool mix);		// å¸¦æµ®ç‚¹æ•°æƒå€¼æ•°ç»„è®¾ç½®æŒ‡å®šå•å…ƒé›†
 
-	inline _t sum(_t a);			// µ¥ÔªÀÛ»ı
-	inline _t sump(_t a, _t p);		// µ¥Ôª´øÈ¨ÖµÀÛ»ı
+	inline _t sum(_t a);			// å•å…ƒç´¯ç§¯
+	inline _t sump(_t a, _t p);		// å•å…ƒå¸¦æƒå€¼ç´¯ç§¯
 
 public:
 	enum predefined_type {

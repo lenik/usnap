@@ -97,14 +97,14 @@ data thr_output	(data input, int num) { input = input; num = num;
 	if (samesession != session) {
 		// a new session begin
 		samesession = session;
-		// ĞÂÒ»´Î²Ù×÷Ê×ÏÈÅĞ¶ÏÊÇ·ñÒÑ±»·âËø. ÈôÒÑ±»·âËøÔò±¾´Î´í×÷²»Ö´ĞĞ·âËø.
+		// æ–°ä¸€æ¬¡æ“ä½œé¦–å…ˆåˆ¤æ–­æ˜¯å¦å·²è¢«å°é”. è‹¥å·²è¢«å°é”åˆ™æœ¬æ¬¡é”™ä½œä¸æ‰§è¡Œå°é”.
 		if (output_thr < 0) no_thr = 1;
 		else {
-			// ·ñÔòÖ´ĞĞÒ»´Î¼ÓÇ¿·âËø
+			// å¦åˆ™æ‰§è¡Œä¸€æ¬¡åŠ å¼ºå°é”
 			output_thr--;
 		}
 	} else {
-		// Í¬Ò»´Î²Ù×÷ÄÚ¾¡¹Ü¼ÓÇ¿·âËø
+		// åŒä¸€æ¬¡æ“ä½œå†…å°½ç®¡åŠ å¼ºå°é”
 		output_thr--;
 	}
 */
@@ -361,7 +361,7 @@ main(int argc, char **argv) {
 		case 'h':
 		case '%':
 			num = getnum(p + 1, &p, databits / 2);
-			// µ±·¢ÉúÆæÊıÎ»½»»»Ê±±£Ö¤±àÂëÊ±·Ö³É[*,num],¶ø½âÂëÊ±·Ö³É[num,*]
+			// å½“å‘ç”Ÿå¥‡æ•°ä½äº¤æ¢æ—¶ä¿è¯ç¼–ç æ—¶åˆ†æˆ[*,num],è€Œè§£ç æ—¶åˆ†æˆ[num,*]
 			addchain(swaphl, codestatus ? databits - num : num);
 			break;
 		case 't':

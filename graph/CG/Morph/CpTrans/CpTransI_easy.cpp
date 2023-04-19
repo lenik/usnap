@@ -4,11 +4,11 @@
 #include "CpTransI.h"
 
 /*
- * rTable, nTable	: ¹ØÁª±í
- * cpDst, nDst		: Ä¿±êµã£¬µ±ÓĞ±ØÒªÊ±Í¨¹ı²éÕÒÄ¿±êµã¼¯·¢ÏÖÆäËû¹ØÁª·½·¨
- * cDstEx, nDstEx	: ¶ÔÓÚÉÏÊö¹ØÁªÆäËûÄ¿±êµãÊ±ĞèÒªÅÅ³ıµÄÄ¿±êµãË÷Òı
- * ref, obj		: Ö¸¶¨¹ØÁª¶Ô
- * dist			: ¹ØÁª¶ÔµÄË÷Òı
+ * rTable, nTable	: å…³è”è¡¨
+ * cpDst, nDst		: ç›®æ ‡ç‚¹ï¼Œå½“æœ‰å¿…è¦æ—¶é€šè¿‡æŸ¥æ‰¾ç›®æ ‡ç‚¹é›†å‘ç°å…¶ä»–å…³è”æ–¹æ³•
+ * cDstEx, nDstEx	: å¯¹äºä¸Šè¿°å…³è”å…¶ä»–ç›®æ ‡ç‚¹æ—¶éœ€è¦æ’é™¤çš„ç›®æ ‡ç‚¹ç´¢å¼•
+ * ref, obj		: æŒ‡å®šå…³è”å¯¹
+ * dist			: å…³è”å¯¹çš„ç´¢å¼•
  */
 BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 			      INT		nTable,
@@ -23,10 +23,10 @@ BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 			      REAL		dist,
 			      DISTANCEPROC	distProc) {
 	INT		rcounts		= cp_rtcounts(rTable, nTable);
-						/* ¹ØÁª±íÊ¹ÓÃ³¤¶È */
-	BOOL		ret		= TRUE;	/* ·µ»ØÖµ */
+						/* å…³è”è¡¨ä½¿ç”¨é•¿åº¦ */
+	BOOL		ret		= TRUE;	/* è¿”å›å€¼ */
 
-	/* ²»¹ÜÄ¿±êµãÉĞÎ´±»¹ØÁª, ¼òµ¥µÄÉèÖÃ¹ØÁª */
+	/* ä¸ç®¡ç›®æ ‡ç‚¹å°šæœªè¢«å…³è”, ç®€å•çš„è®¾ç½®å…³è” */
 	ret	= cp_setrefer(rTable, nTable, ref, obj, dist, rcounts);
 
 	return ret;

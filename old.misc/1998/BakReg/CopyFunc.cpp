@@ -23,7 +23,7 @@ BOOL Copy::CopyValue(HKEY hKeyS, HKEY hKeyD) {
 	DWORD dwValueType;
 	DWORD dwNL, dwDL;
 	if (lpValueName == NULL || lpValueData == NULL) {
-		PrintError(NULL, "ÄÚ´æ·ÖÅä´íÎó!", GetLastError());
+		PrintError(NULL, "å†…å­˜åˆ†é…é”™è¯¯!", GetLastError());
 		return FALSE;
 	}
 
@@ -50,12 +50,12 @@ BOOL Copy::CopyValue(HKEY hKeyS, HKEY hKeyD) {
 				dwValueType,
 				lpValueData, dwDL);
 			if (l == ERROR_SUCCESS) {
-				r->Append("¸´ÖÆ³É¹¦!\r\n");
+				r->Append("å¤åˆ¶æˆåŠŸ!\r\n");
 			} else {
-				PrintError(NULL, "ÉèÖÃÄ¿±ê¼üÖµ´íÎó: ", l);
+				PrintError(NULL, "è®¾ç½®ç›®æ ‡é”®å€¼é”™è¯¯: ", l);
 			}
 		} else {
-			PrintError(NULL, "Ã¶¾Ù¼üÖµ´íÎó: ", l);
+			PrintError(NULL, "æšä¸¾é”®å€¼é”™è¯¯: ", l);
 		}
 	}
 	delete lpValueData;
@@ -106,16 +106,16 @@ BOOL Copy::CopyKey(HKEY hKeyS, HKEY hKeyD, BOOL Sub) {
 					l = RegCreateKey(hKeyD, lpKeyName, &hKeyD1);
 					if (l == ERROR_SUCCESS) {
 						//MessageBox(NULL, Buf, "Key Info.", MB_OK);
-						r->Append("±»½¨Á¢.\r\n");
+						r->Append("è¢«å»ºç«‹.\r\n");
 						Level++;
 						CopyKey(hKeyS1, hKeyD1, Sub);
 						Level--;
 						RegCloseKey(hKeyD1);
-					} else { PrintError(NULL, "´ò¿ª / ½¨Á¢Ä¿±êÖ÷¼ü´íÎó: ", l);	}
+					} else { PrintError(NULL, "æ‰“å¼€ / å»ºç«‹ç›®æ ‡ä¸»é”®é”™è¯¯: ", l);	}
 				}	// No nest myself
 				RegCloseKey(hKeyS1);
-			} else { PrintError(NULL, "´ò¿ªÔ´Ö÷¼ü´íÎó: ", l); }	// RegOpenKey
-		} else { PrintError(NULL, "Ã¶¾ÙÖ÷¼ü´íÎó: ", l); }	// EnumKey
+			} else { PrintError(NULL, "æ‰“å¼€æºä¸»é”®é”™è¯¯: ", l); }	// RegOpenKey
+		} else { PrintError(NULL, "æšä¸¾ä¸»é”®é”™è¯¯: ", l); }	// EnumKey
 	}
 	delete lpKeyName;
 	return TRUE;

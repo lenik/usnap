@@ -25,20 +25,20 @@ WINAPI WinMain(
 	if (PerCmdLine(lpCmdLine, &hKeyS, &hKeyD, &lpNA, &lpNB) == 0) {
 		lpBegin = new CHAR[4096];
 		wsprintf(lpBegin,
-			"¿ªÊ¼±¸·İ×¢²á±íÏî %s µ½ %s%s \n°´ YES ¿ªÊ¼, ·ñÔòÍË³ö. \nÌÒ¿ÇÈí¼ş / Ğ»¼ÌÀ× \nTopCroak Software / DanSei \n°æÈ¨±£Áô  1999.6 ÖĞ¹ú.Õã½­",
+			"å¼€å§‹å¤‡ä»½æ³¨å†Œè¡¨é¡¹ %s åˆ° %s%s \næŒ‰ YES å¼€å§‹, å¦åˆ™é€€å‡º. \næ¡ƒå£³è½¯ä»¶ / è°¢ç»§é›· \nTopCroak Software / DanSei \nç‰ˆæƒä¿ç•™  1999.6 ä¸­å›½.æµ™æ±Ÿ",
 			lpNA,
 			lpNB,
-			bSub == TRUE ? "(´ø×Ó¼ü)" : "");
-		if (MessageBox(NULL, lpBegin, "¿ªÊ¼±¸·İ", MB_YESNO) == IDYES) {
+			bSub == TRUE ? "(å¸¦å­é”®)" : "");
+		if (MessageBox(NULL, lpBegin, "å¼€å§‹å¤‡ä»½", MB_YESNO) == IDYES) {
 			c = new Copy(hKeyD);
 			c->CopyKey(hKeyS, hKeyD, bSub);
 			delete c;
 		}
 		delete lpBegin;
 		RegClose(hKeyS, hKeyD);
-		MessageBox(NULL, "×¢²á±í±¸·İÍê±Ï!", "³É¹¦½áÊø", MB_OK);
+		MessageBox(NULL, "æ³¨å†Œè¡¨å¤‡ä»½å®Œæ¯•!", "æˆåŠŸç»“æŸ", MB_OK);
 	} else {
-		MessageBox(NULL, "¸ñÊ½: BakReg [-s] [Ô´¼ü] [Ä¿±ê¼ü] \n(È±Ê¡Ô¤¶¨ÒåÖ÷¼üÎª HKEY_USERS)", "²ÎÊı´íÎó!", MB_OK);
+		MessageBox(NULL, "æ ¼å¼: BakReg [-s] [æºé”®] [ç›®æ ‡é”®] \n(ç¼ºçœé¢„å®šä¹‰ä¸»é”®ä¸º HKEY_USERS)", "å‚æ•°é”™è¯¯!", MB_OK);
 	}
 
 	return 0;

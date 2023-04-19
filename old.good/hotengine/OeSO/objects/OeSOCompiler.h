@@ -1,7 +1,7 @@
 
 #pragma once
 
-// ±àÒëÆ÷½«SOML±àÒë³ÉÆäËüÓïÑÔ¡£
+// ç¼–è¯‘å™¨å°†SOMLç¼–è¯‘æˆå…¶å®ƒè¯­è¨€ã€‚
 // CLSID: 00000000-4F45-0601-0002-486954656368
 class OeSOCompiler :
 	public CComObjectRoot,

@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// ·½·¨ÀàÓÃÓÚÃèÊöÒ»¸ö·½·¨¡£ÃèÊö·½·¨¿ÉÒÔÍ¨¹ý±àÐ´¼òµ¥´úÂë¡¢ÒýÓÃ½Å±¾Àà»òÕßÓ³Éäµ½ÆäËüÀàÉÏ¡£
+// æ–¹æ³•ç±»ç”¨äºŽæè¿°ä¸€ä¸ªæ–¹æ³•ã€‚æè¿°æ–¹æ³•å¯ä»¥é€šè¿‡ç¼–å†™ç®€å•ä»£ç ã€å¼•ç”¨è„šæœ¬ç±»æˆ–è€…æ˜ å°„åˆ°å…¶å®ƒç±»ä¸Šã€‚
 // CLSID: 00000000-4F45-0621-0002-486954656368
 
 OeSOMethod::OeSOMethod() {}

@@ -15,7 +15,7 @@
 #define IDC_EMBRIO			109
 #define IDC_MYICON				2
 #define IDC_STATIC				-1
-// пб╤тоС╣добр╩п╘д╛хож╣
+// Ф√╟Е╞╧Х╠║Г └Д╦▀Д╦─Д╨⌡И╩≤Х╝╓Е─╪
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

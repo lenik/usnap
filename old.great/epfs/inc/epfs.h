@@ -5,7 +5,7 @@
 
 // practical version
 /*
-	ÕâÊÇEPFSµÄ³õÊ¼°æ£¬Èç¹ûtitÓĞÏ£Íû£¬Ëü±Ø½«±»t½Å±¾»ò·ºgËù´úÌæ¡£
+	è¿™æ˜¯EPFSçš„åˆå§‹ç‰ˆï¼Œå¦‚æœtitæœ‰å¸Œæœ›ï¼Œå®ƒå¿…å°†è¢«tè„šæœ¬æˆ–æ³›gæ‰€ä»£æ›¿ã€‚
 	This is the initial version of EPFS header, and it will be
 	replaced by T-script or g whenever possible.
 */

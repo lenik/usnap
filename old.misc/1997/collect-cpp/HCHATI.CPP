@@ -64,7 +64,7 @@ int InitEnv(void){
   InitVirtualServer();
   if (!StartInfo()) return 0;
   if (!InitUser()) return 0;
-  strcpy(DefaultAction, (Ucdos)?"Ëµ: ":" say: ");
+  strcpy(DefaultAction, (Ucdos)?"è¯´: ":" say: ");
   strcpy(DApre, "\""); strcpy(DAadd, "\"");
   CW[Screen].Clear(); CW[Screen].Save();
   CW[Title].Clear(); CW[Title].Save();
@@ -86,7 +86,7 @@ char* CurTime(void){
   char RetTime[100];
   time(&secs_now);
   time_now=localtime(&secs_now);
-  if (Ucdos) strftime(RetTime, 100, "(%Hµã%M·Ö%SÃë)@", time_now);
+  if (Ucdos) strftime(RetTime, 100, "(%Hç‚¹%Måˆ†%Sç§’)@", time_now);
   else strftime(RetTime, 100, "(%H:%M:%S)@", time_now);
   return RetTime;
 }
@@ -214,23 +214,23 @@ int StartInfo(void){
       gotoxy (20, 20); PutCString("<<15>><Enter> Accept       <Esc> Not accept");
       break;
     case 1:
-      gotoxy (10,  1); PutCString("<<15>>Ìì ÌÃ ÁÄ Ìì Õ¾        ºËĞÄµ÷ÊÔ°æ C                ÖÆ×÷/Ğ»¼ÌÀ×");
-      gotoxy (10,  3); PutCString("<<14>>                 ---  »¶Ó­À´µ½ÌìÌÃ  ---");
-      gotoxy (10,  4); PutCString("<<7>>      ÎÒ ±à Õâ ¸ö ³Ì Ğò Ö» Ïë ¸ü ºÃ µÄ Ñ§ Ï° Íø Âç.");
-      gotoxy (10,  5); PutCString("   Ï£ Íû Äã ÄÜ Ï² »¶ Ëü.   ÎÒ »á ÈÃ Ëü ×ö µØ ¸ü ºÃ,  ¸ü");
-      gotoxy (10,  6); PutCString("   ÓĞ È¤,   µ« Õâ ¸ü Ğè Òª ´ó ¼Ò µÄ Òâ ¼û.");
-      gotoxy (10,  7); PutCString("         Èç ¹û Äã ÓĞ Ê² Ã´ ÎÊ Ìâ »ò ½¨ Òé,   Çë ²» ±Ø ½é");
-      gotoxy (10,  8); PutCString("   Òâ ¸æ Ëß ÎÒ ,  ÎÒ »á ¾¡ Á¿ ½Ó ÊÜ µÄ .");
-      gotoxy (10,  9); PutCString("                                         --- ×÷Õß 98.9.12");
+      gotoxy (10,  1); PutCString("<<15>>å¤© å ‚ èŠ å¤© ç«™        æ ¸å¿ƒè°ƒè¯•ç‰ˆ C                åˆ¶ä½œ/è°¢ç»§é›·");
+      gotoxy (10,  3); PutCString("<<14>>                 ---  æ¬¢è¿æ¥åˆ°å¤©å ‚  ---");
+      gotoxy (10,  4); PutCString("<<7>>      æˆ‘ ç¼– è¿™ ä¸ª ç¨‹ åº åª æƒ³ æ›´ å¥½ çš„ å­¦ ä¹  ç½‘ ç»œ.");
+      gotoxy (10,  5); PutCString("   å¸Œ æœ› ä½  èƒ½ å–œ æ¬¢ å®ƒ.   æˆ‘ ä¼š è®© å®ƒ åš åœ° æ›´ å¥½,  æ›´");
+      gotoxy (10,  6); PutCString("   æœ‰ è¶£,   ä½† è¿™ æ›´ éœ€ è¦ å¤§ å®¶ çš„ æ„ è§.");
+      gotoxy (10,  7); PutCString("         å¦‚ æœ ä½  æœ‰ ä»€ ä¹ˆ é—® é¢˜ æˆ– å»º è®®,   è¯· ä¸ å¿… ä»‹");
+      gotoxy (10,  8); PutCString("   æ„ å‘Š è¯‰ æˆ‘ ,  æˆ‘ ä¼š å°½ é‡ æ¥ å— çš„ .");
+      gotoxy (10,  9); PutCString("                                         --- ä½œè€… 98.9.12");
       gotoxy (1 , 10); PutCString("<<11>>================================================================================");
 
-      gotoxy (10, 12); PutCString("<<4>>Ğ­ Òé");
-      gotoxy (10, 13); PutCString("<<12>>   Çë ×Ô ¾õ ×ñ ÊØ ÏÂ ÁĞ Ğ­ Òé");
-      gotoxy (10, 15); PutCString("<<10>>      ¢Ù  <<9>>²» Ì¸ ÂÛ ÈÎ ºÎ ´¥ ¼° ¹ú ¼Ò ·¨ Áî µÄ »° Ìâ.");
-      gotoxy (10, 16); PutCString("<<10>>      ¢Ú  <<9>>²» Ì¸ ÂÛ ÈÎ ºÎ Îê Èè Ëû ÈË ÈË ¸ñ µÄ ÑÔ Óï.");
-      gotoxy (10, 17); PutCString("<<10>>      ¢Û  <<9>>²» Ì¸ ÂÛ ÈÎ ºÎ Òù »à µÍ ¼¶ µÄ »° Ìâ.");
+      gotoxy (10, 12); PutCString("<<4>>å è®®");
+      gotoxy (10, 13); PutCString("<<12>>   è¯· è‡ª è§‰ éµ å®ˆ ä¸‹ åˆ— å è®®");
+      gotoxy (10, 15); PutCString("<<10>>      â‘   <<9>>ä¸ è°ˆ è®º ä»» ä½• è§¦ åŠ å›½ å®¶ æ³• ä»¤ çš„ è¯ é¢˜.");
+      gotoxy (10, 16); PutCString("<<10>>      â‘¡  <<9>>ä¸ è°ˆ è®º ä»» ä½• ä¾® è¾± ä»– äºº äºº æ ¼ çš„ è¨€ è¯­.");
+      gotoxy (10, 17); PutCString("<<10>>      â‘¢  <<9>>ä¸ è°ˆ è®º ä»» ä½• æ·« ç§½ ä½ çº§ çš„ è¯ é¢˜.");
 
-      gotoxy (20, 20); PutCString("<<15>><»Ø³µ> ½ÓÊÜ       <Esc> ²»½ÓÊÜ");
+      gotoxy (20, 20); PutCString("<<15>><å›è½¦> æ¥å—       <Esc> ä¸æ¥å—");
       break;
   }
   if (getch()==13) return 1;
@@ -250,32 +250,32 @@ int InitUser(void){
       gotoxy (10, 20); PutCString("<<13>>   Leaving  : <<43>>                                    ");
       break;
     case 1:
-      gotoxy (10, 12); PutCString("<<15>>×¢ ²á");
-      gotoxy (10, 14); PutCString("<<13>>   ×¢ ²á Ãû : <<43>>                                    ");
-      gotoxy (10, 16); PutCString("<<13>>   ĞÔ ±ğ    : <<43>>                                    ");
-      gotoxy (10, 18); PutCString("<<13>>   °® ºÃ    : <<43>>                                    ");
-      gotoxy (10, 20); PutCString("<<13>>   Áô ÑÔ    : <<43>>                                    ");
+      gotoxy (10, 12); PutCString("<<15>>æ³¨ å†Œ");
+      gotoxy (10, 14); PutCString("<<13>>   æ³¨ å†Œ å : <<43>>                                    ");
+      gotoxy (10, 16); PutCString("<<13>>   æ€§ åˆ«    : <<43>>                                    ");
+      gotoxy (10, 18); PutCString("<<13>>   çˆ± å¥½    : <<43>>                                    ");
+      gotoxy (10, 20); PutCString("<<13>>   ç•™ è¨€    : <<43>>                                    ");
       break;
   }
 
   window (25, 14, 55, 14);
     if (!GetCString(User.Name)) {
-      strcpy(User.Name, (Ucdos)?"ÎŞÃûÖ®¾Ô":"Noname Horse");
+      strcpy(User.Name, (Ucdos)?"æ— åä¹‹é©¹":"Noname Horse");
       strcat(User.Name, ltoa(random(10000), Tem, 10));
     }
   window (25, 16, 55, 16);
     GetCString(User.sSex);
-    if (!strcmp(User.sSex, "ÄĞ")) strcpy(User.sSex, "ÏÈÉú");
-    else if (!strcmp(User.sSex, "Å®")) strcpy(User.sSex, "Ğ¡½ã");
+    if (!strcmp(User.sSex, "ç”·")) strcpy(User.sSex, "å…ˆç”Ÿ");
+    else if (!strcmp(User.sSex, "å¥³")) strcpy(User.sSex, "å°å§");
     else if (!strcmp(User.sSex, "male")) strcpy(User.sSex, "Mr. ");
     else if (!strcmpi(User.sSex, "female")) strcpy(User.sSex, "Miss ");
-    else strcpy(User.sSex,(Ucdos)?"Õâ¸ö»ğĞÇÈË":"Fire Star Human");
+    else strcpy(User.sSex,(Ucdos)?"è¿™ä¸ªç«æ˜Ÿäºº":"Fire Star Human");
   window (25, 18, 55, 18);
     if (!GetCString(User.Like))
-      strcpy(User.Like,(Ucdos)?"Áô°×Ìõ":"Leave blank");
+      strcpy(User.Like,(Ucdos)?"ç•™ç™½æ¡":"Leave blank");
   window (25, 20, 55, 20);
     if (!GetCString(User.Leave))
-      strcpy(User.Leave,(Ucdos)?"´ó¼ÒºÃ!":"Hello, everyone!");
+      strcpy(User.Leave,(Ucdos)?"å¤§å®¶å¥½!":"Hello, everyone!");
 
   Users=fopen(UsersFile, "ab");
   if (!Users)
@@ -298,10 +298,10 @@ void LoginFrame(void){
     if (Ucdos) {
       strcat(Talks, User.Name);
       strcat(Talks, User.sSex);
-      strcat(Talks, "ÓÚ");
-      strftime(Tem, 200, "%YÄê%mÔÂ%dÈÕ %HÊ±%M·Ö%SÃë", time_now);
+      strcat(Talks, "äº");
+      strftime(Tem, 200, "%Yå¹´%mæœˆ%dæ—¥ %Hæ—¶%Måˆ†%Sç§’", time_now);
       strcat(Talks, Tem);
-      strcat(Talks, "À´µ½ÌìÌÃ, Ëµ\"");
+      strcat(Talks, "æ¥åˆ°å¤©å ‚, è¯´\"");
       strcat(Talks, User.Leave);
       strcat(Talks, "\"@");
       PutCString(Talks);
@@ -344,7 +344,7 @@ void LoginFrame(void){
 
   CWBegin(Talking)
   CW[Talking].Clear();
-    if (Ucdos) strcpy(Talks, "´ó¼ÒºÃ, ÎÒ¸ÕÉÏÀ´!");
+    if (Ucdos) strcpy(Talks, "å¤§å®¶å¥½, æˆ‘åˆšä¸Šæ¥!");
     else strcpy(Talks, "Hi, everyone, I just logged-in!");
     MakeTalk(Talks);
     strcat(Talks, CurTime());
@@ -377,7 +377,7 @@ void LoginFrame(void){
 
 void LogoutFrame(void){
   CWBegin(Talking);
-    if (Ucdos) strcpy(Talks, "ÎÒ×ßÂŞ, °İ°İ!");
+    if (Ucdos) strcpy(Talks, "æˆ‘èµ°ç½—, æ‹œæ‹œ!");
     else strcpy(Talks, "Byebye! I just logged-off!");
     MakeTalk(Talks);
     strcat(Talks, CurTime());
@@ -410,47 +410,47 @@ void LogoutFrame(void){
 
 void VSOK(void){
   CWBegin(Status);
-    PutCString((Ucdos)?"Á¬½Óµ½ĞéÄâ·şÎñÆ÷.@":"Success in linking virtual server.@");
+    PutCString((Ucdos)?"è¿æ¥åˆ°è™šæ‹ŸæœåŠ¡å™¨.@":"Success in linking virtual server.@");
   CWEnd(Status);
 }
 void NoVS(void){
   CWBegin(Status);
     switch (errno) {
       case EINVFNC:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷ÄÚ²¿´íÎó!@":"Inside virtual server errno!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨å†…éƒ¨é”™è¯¯!@":"Inside virtual server errno!@");
 	break;
       case ENOFILE:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷Î´ÕÒµ½!@":"Can't find virtual server!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨æœªæ‰¾åˆ°!@":"Can't find virtual server!@");
 	break;
       case ENOPATH:
-	PutCString((Ucdos)?"²»ÄÜÁ¬½Óµ½ĞéÄâ·şÎñÆ÷!@":"Can't connect to virtual server!@");
+	PutCString((Ucdos)?"ä¸èƒ½è¿æ¥åˆ°è™šæ‹ŸæœåŠ¡å™¨!@":"Can't connect to virtual server!@");
 	break;
       case ECONTR:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷ÆÆ»µ!@":"Virtual Server has been destroyed!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨ç ´å!@":"Virtual Server has been destroyed!@");
 	break;
       case EINVMEM:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷Òç³ö!@":"Virtual Server overflowed!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨æº¢å‡º!@":"Virtual Server overflowed!@");
 	break;
       case EINVDAT:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷Êı¾İ´í!@":"Virtual Server Data Error!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨æ•°æ®é”™!@":"Virtual Server Data Error!@");
 	break;
       case EINVACC:
-	PutCString((Ucdos)?"²»ÄÜ·ÃÎÊĞéÄâ·şÎñÆ÷!@":"Couldn't access virtual server!@");
+	PutCString((Ucdos)?"ä¸èƒ½è®¿é—®è™šæ‹ŸæœåŠ¡å™¨!@":"Couldn't access virtual server!@");
 	break;
       case EINVDRV:
-	PutCString((Ucdos)?"ÄúÃ»ÓĞ·ÃÎÊĞéÄâ·şÎñÆ÷µÄÈ¨Àû!@":"You have no rights to access virtual server!@");
+	PutCString((Ucdos)?"æ‚¨æ²¡æœ‰è®¿é—®è™šæ‹ŸæœåŠ¡å™¨çš„æƒåˆ©!@":"You have no rights to access virtual server!@");
 	break;
       case ECURDIR:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷¶Ï¿ª!@":"Virtual Server broken!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨æ–­å¼€!@":"Virtual Server broken!@");
 	break;
       case EACCES:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷±£»¤ĞÔ´íÎó!@":"Virtual Server protected error!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨ä¿æŠ¤æ€§é”™è¯¯!@":"Virtual Server protected error!@");
 	break;
       case EEXIST:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷¸²¸Ç!@":"Overwrites virtual server!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨è¦†ç›–!@":"Overwrites virtual server!@");
 	break;
       default:
-	PutCString((Ucdos)?"ĞéÄâ·şÎñÆ÷ÄÚ²¿´íÎó!@":"Virtual Server Intenal Error!@");
+	PutCString((Ucdos)?"è™šæ‹ŸæœåŠ¡å™¨å†…éƒ¨é”™è¯¯!@":"Virtual Server Intenal Error!@");
     }
   CWEnd(Status);
 }

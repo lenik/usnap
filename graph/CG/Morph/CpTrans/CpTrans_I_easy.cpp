@@ -4,11 +4,11 @@
 #include "CpTransI.h"
 
 /*
- * rTable, nTable	: ¹ØÁª±í
- * cpDst, nDst		: Ä¿±êµã£¬µ±ÓÐ±ØÒªÊ±Í¨¹ý²éÕÒÄ¿±êµã¼¯·¢ÏÖÆäËû¹ØÁª·½·¨
- * cDstEx, nDstEx	: ¶ÔÓÚÉÏÊö¹ØÁªÆäËûÄ¿±êµãÊ±ÐèÒªÅÅ³ýµÄÄ¿±êµãË÷Òý
- * ref, obj		: Ö¸¶¨¹ØÁª¶Ô
- * dist			: ¹ØÁª¶ÔµÄË÷Òý
+ * rTable, nTable	: å…³è”è¡¨
+ * cpDst, nDst		: ç›®æ ‡ç‚¹ï¼Œå½“æœ‰å¿…è¦æ—¶é€šè¿‡æŸ¥æ‰¾ç›®æ ‡ç‚¹é›†å‘çŽ°å…¶ä»–å…³è”æ–¹æ³•
+ * cDstEx, nDstEx	: å¯¹äºŽä¸Šè¿°å…³è”å…¶ä»–ç›®æ ‡ç‚¹æ—¶éœ€è¦æŽ’é™¤çš„ç›®æ ‡ç‚¹ç´¢å¼•
+ * ref, obj		: æŒ‡å®šå…³è”å¯¹
+ * dist			: å…³è”å¯¹çš„ç´¢å¼•
  */
 BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 			      INT		nTable,
@@ -22,21 +22,21 @@ BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 			      INT		obj,
 			      REAL		dist,
 			      DISTANCEPROC	distProc) {
-	LPPOINTR	outsTable	= NULL;	/* ¾Û¼¯¹ØÁª±í */
-	INT		ocounts		= 0;	/* ¾Û¼¯¹ØÁª±í³¤¶ÈÒÔ¼°Ê¹ÓÃ³¤¶È */
+	LPPOINTR	outsTable	= NULL;	/* èšé›†å…³è”è¡¨ */
+	INT		ocounts		= 0;	/* èšé›†å…³è”è¡¨é•¿åº¦ä»¥åŠä½¿ç”¨é•¿åº¦ */
 	INT		rcounts		= cp_rtcounts(rTable, nTable);
-						/* ¹ØÁª±íÊ¹ÓÃ³¤¶È */
-	BOOL		ret		= TRUE;	/* ·µ»ØÖµ */
+						/* å…³è”è¡¨ä½¿ç”¨é•¿åº¦ */
+	BOOL		ret		= TRUE;	/* è¿”å›žå€¼ */
 	INT		i, ii;
 
 	if (rcounts != 0) {
-		/* ³õÊ¼»¯¾Û¼¯¹ØÁª±í */
+		/* åˆå§‹åŒ–èšé›†å…³è”è¡¨ */
 		if ((outsTable = NEWA(POINTR, rcounts)) == NULL) {
 			return FALSE;
 		}
 		outsTable[0].ref	= -1;
 
-		/* ËÑË÷ÒÑ¹ØÁªµÄobj²¢´æÈë¾Û¼¯¹ØÁª±íÖÐ */
+		/* æœç´¢å·²å…³è”çš„objå¹¶å­˜å…¥èšé›†å…³è”è¡¨ä¸­ */
 		for (i = 0; i < rcounts; i++) {
 			if (rTable[i].obj == obj || rTable[i].ref != ref) {
 				cp_setrefer(outsTable, rcounts, rTable[i].ref, rTable[i].obj, rTable[i].dist, ocounts);
@@ -46,32 +46,32 @@ BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 	}
 
 	if (1) {
-		/* Ä¿±êµãÉÐÎ´±»¹ØÁª, ¼òµ¥µÄÉèÖÃ¹ØÁª */
+		/* ç›®æ ‡ç‚¹å°šæœªè¢«å…³è”, ç®€å•çš„è®¾ç½®å…³è” */
 		ret	= cp_setrefer(rTable, nTable, ref, obj, dist, rcounts);
 	} else {
-		/* Ä¿±êµãÒÑ±»Ò»¸ö»òÊý¸ö¹ØÁªµã¹ØÁª,
-		 * 1. ÅÐ¶ÏÊÇ·ñÐèÒªÖØÐÂ¹ØÁªÔ­¹ØÁªÖÐµÄ²¿·Ö»òÈ«²¿
-		 *	1.1 ¹ØÁª±íÖÐ²»°üÀ¨¹ØÁªµãÊÇÖ¸¶¨¹ØÁªµãµÄ¹ØÁª, ÒòÎªÕâÒ»¹ØÁª¿ÉÄÜÐèÒªÖØÐÂ¹ØÁª
-		 *	1.2 ¶ÔÓÚ[(¹ØÁªµÄ³¤¶È´óÓÚÖ¸¶¨¹ØÁªµÄ³¤¶È)µÄ²¿·Ö¹ØÁª]ÐèÒªÖØÐÂ¹ØÁª
-		 *		1.2.1 ÒòÎª²ÉÓÃµÝ¹é, ËùÒÔÃ»ÓÐ±ØÒªÖØÐÂ¹ØÁªÉÏÊö²¿·ÖÖÐµÄ·Ç×î¶Ì¹ØÁª
-		 * 2. ¶ÔÓÚÐèÒªÖØÐÂ¹ØÁªµÄµã(´Ë¹ØÁª±ØÔÚ¾Û¼¯¹ØÁª±íÖÐ)µÝ¹éµ÷ÓÃ±¾º¯Êý
-		 *	2.1 Îª±£Ö¤ÖØÐÂ¹ØÁªµ½ÆäËü±»¹ØÁªµã, Ìá¹©ÆÁ±ÎÄ¿±êµã¼¯
-		 *		2.1.1 Ìí¼ÓobjÎªÆÁ±ÎÄ¿±êµã
-		 *		2.1.2 ÆÁ±ÎÄ¿±êµã¼¯±ØÐë¶¯Ì¬Éú³É
-		 *	2.2 µÝ¹éµ÷ÓÃ±¾º¯Êý
-		 * 3. ¹ØÁªÖ¸¶¨µÄ¹ØÁª
-		 *	3.1 Èç¹û(±»¹ØÁªµãÊôÓÚÆÁ±ÎÄ¿±êµã¼¯)ÔòÖØÐÂÑ°ÕÒ±»¹ØÁªµã
-		 *		3.1.1 ÔÚ{Ä¿±êµã¼¯} - {ÆÁ±ÎÄ¿±êµã¼¯}ÖÐÑ°ÕÒ×îÊÊºÏµÄ¹ØÁª
-		 *		3.1.2 Èç¹û²»´æÔÚ×îÊÊºÏµÄ¹ØÁªÔòÇ¿ÖÆ¹ØÁªÖ¸¶¨¹ØÁª
-		 *	3.2 ¹ØÁªÖ¸¶¨¹ØÁª
+		/* ç›®æ ‡ç‚¹å·²è¢«ä¸€ä¸ªæˆ–æ•°ä¸ªå…³è”ç‚¹å…³è”,
+		 * 1. åˆ¤æ–­æ˜¯å¦éœ€è¦é‡æ–°å…³è”åŽŸå…³è”ä¸­çš„éƒ¨åˆ†æˆ–å…¨éƒ¨
+		 *	1.1 å…³è”è¡¨ä¸­ä¸åŒ…æ‹¬å…³è”ç‚¹æ˜¯æŒ‡å®šå…³è”ç‚¹çš„å…³è”, å› ä¸ºè¿™ä¸€å…³è”å¯èƒ½éœ€è¦é‡æ–°å…³è”
+		 *	1.2 å¯¹äºŽ[(å…³è”çš„é•¿åº¦å¤§äºŽæŒ‡å®šå…³è”çš„é•¿åº¦)çš„éƒ¨åˆ†å…³è”]éœ€è¦é‡æ–°å…³è”
+		 *		1.2.1 å› ä¸ºé‡‡ç”¨é€’å½’, æ‰€ä»¥æ²¡æœ‰å¿…è¦é‡æ–°å…³è”ä¸Šè¿°éƒ¨åˆ†ä¸­çš„éžæœ€çŸ­å…³è”
+		 * 2. å¯¹äºŽéœ€è¦é‡æ–°å…³è”çš„ç‚¹(æ­¤å…³è”å¿…åœ¨èšé›†å…³è”è¡¨ä¸­)é€’å½’è°ƒç”¨æœ¬å‡½æ•°
+		 *	2.1 ä¸ºä¿è¯é‡æ–°å…³è”åˆ°å…¶å®ƒè¢«å…³è”ç‚¹, æä¾›å±è”½ç›®æ ‡ç‚¹é›†
+		 *		2.1.1 æ·»åŠ objä¸ºå±è”½ç›®æ ‡ç‚¹
+		 *		2.1.2 å±è”½ç›®æ ‡ç‚¹é›†å¿…é¡»åŠ¨æ€ç”Ÿæˆ
+		 *	2.2 é€’å½’è°ƒç”¨æœ¬å‡½æ•°
+		 * 3. å…³è”æŒ‡å®šçš„å…³è”
+		 *	3.1 å¦‚æžœ(è¢«å…³è”ç‚¹å±žäºŽå±è”½ç›®æ ‡ç‚¹é›†)åˆ™é‡æ–°å¯»æ‰¾è¢«å…³è”ç‚¹
+		 *		3.1.1 åœ¨{ç›®æ ‡ç‚¹é›†} - {å±è”½ç›®æ ‡ç‚¹é›†}ä¸­å¯»æ‰¾æœ€é€‚åˆçš„å…³è”
+		 *		3.1.2 å¦‚æžœä¸å­˜åœ¨æœ€é€‚åˆçš„å…³è”åˆ™å¼ºåˆ¶å…³è”æŒ‡å®šå…³è”
+		 *	3.2 å…³è”æŒ‡å®šå…³è”
 		 */
 
-		/* Éè Ra = ref->obj, Rb(1..n) = ref'(1..n)->obj,
-		 * Èç¹û´æÔÚRb(j)ÇÒ|Rb(j)|Îª¾àÀë³¤ÓÚ|Ra|µÄËùÓÐRb(j1..jm)ÖÐ
-		 *	¾àÀë×î¶ÌµÄ¹ØÁª, Ôò¹ØÁªref->objÇÒÖØÐÂ¹ØÁªRb(j)->obj
-		 * ·ñÔòËµÃ÷ËùÓÐ|Rb(j)| < |Ra|,
-		 *	Èç¹û²»´æÔÚobj'ÊôÓÚcpDst, Ê¹ref->obj'¹ØÁª³É¹¦,
-		 *	ÔòÇ¿ÖÆ¹ØÁªref->obj.
+		/* è®¾ Ra = ref->obj, Rb(1..n) = ref'(1..n)->obj,
+		 * å¦‚æžœå­˜åœ¨Rb(j)ä¸”|Rb(j)|ä¸ºè·ç¦»é•¿äºŽ|Ra|çš„æ‰€æœ‰Rb(j1..jm)ä¸­
+		 *	è·ç¦»æœ€çŸ­çš„å…³è”, åˆ™å…³è”ref->objä¸”é‡æ–°å…³è”Rb(j)->obj
+		 * å¦åˆ™è¯´æ˜Žæ‰€æœ‰|Rb(j)| < |Ra|,
+		 *	å¦‚æžœä¸å­˜åœ¨obj'å±žäºŽcpDst, ä½¿ref->obj'å…³è”æˆåŠŸ,
+		 *	åˆ™å¼ºåˆ¶å…³è”ref->obj.
 		 */
 
 		/* 1 */

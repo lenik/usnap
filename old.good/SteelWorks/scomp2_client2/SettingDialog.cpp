@@ -67,7 +67,7 @@ void CSettingDialog::OnButtonBrowse()
 {
 	CFileDialog	fd(TRUE, "ini", "*.ini",
 				OFN_FILEMUSTEXIST,
-				"配置文件(*.ini)|*.ini|所有文件|*.*||");
+				"閰嶇疆鏂囦欢(*.ini)|*.ini|鎵�鏈夋枃浠秥*.*||");
 	if (fd.DoModal() == IDOK) {
 		this->m_strConfigFile = fd.GetPathName();
 		UpdateData(FALSE);
@@ -79,7 +79,7 @@ void CSettingDialog::OnOK()
 {
 	UpdateData(TRUE);
 	//if (this->m_bChkSave) {
-		// 保存设置
+		// 淇濆瓨璁剧疆
 		CWinApp *app = ::AfxGetApp();
 		this->UpdateData(TRUE);
 		app->WriteProfileString(_T("config"), _T("configfile"), this->m_strConfigFile);

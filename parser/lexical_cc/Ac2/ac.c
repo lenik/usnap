@@ -1,7 +1,7 @@
-// Automation compiler ±àÒëÄ£°åÎÄ¼ş
-// C++ °æ±¾
+// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶
+// C++ ç‰ˆæœ¬
 
-// ×´Ì¬³£Á¿
+// çŠ¶æ€å¸¸é‡
 
 
 #define A_ac_s                   	0x00000000
@@ -37,7 +37,7 @@
 #define A_ac_START               	0x00000000
 #define A_ac_END                 	0xFFFFFFFF
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 #define A_ac_calltype	_stdcall
 
 #include <list>
@@ -54,14 +54,14 @@ typedef stack<state> statestack;
 typedef character (A_ac_calltype *A_ac_input_proc)(buffers& ib, int protect_level);
 typedef void (A_ac_calltype *A_ac_user_proc)(state S1, state S2, character c, buffer& accept_buffer);
 
-// º¯ÊıÔ­ĞÍ
+// å‡½æ•°åŸå‹
 
 character A_ac_calltype A_ac_getc();
 character A_ac_calltype A_ac_input(buffers& ib, int pl);
 state A_ac_calltype A_ac_loop(A_ac_input_proc ip, int& pl, buffers& ib, buffers& ab, statestack& ss, state& s);
 bool A_ac_calltype A_ac_main();
 
-// ÓÃ»§º¯ÊıÔ­ĞÍ
+// ç”¨æˆ·å‡½æ•°åŸå‹
 
 void A_ac_calltype A_ac_clearB(state S1, state S2, character c, buffer& ab);
 void A_ac_calltype A_ac_init_S(state S1, state S2, character c, buffer& ab);
@@ -83,7 +83,7 @@ void A_ac_calltype A_ac_read_until_right_brace(state S1, state S2, character c, 
 void A_ac_calltype A_ac_set_procbody(state S1, state S2, character c, buffer& ab);
 void A_ac_calltype A_ac_save_userproc(state S1, state S2, character c, buffer& ab);
 
-// Ä¬ÈÏ´¦Àí
+// é»˜è®¤å¤„ç†
 
 character A_ac_calltype A_ac_getc() {
 	return (character)fgetc(stdin);
@@ -123,7 +123,7 @@ state A_ac_calltype A_ac_loop(
 	/* S is s */
 	character c = ip(ib, pl);
 
-// Ö÷´¦Àíº¯Êı
+// ä¸»å¤„ç†å‡½æ•°
 
 // Eb
 
@@ -1325,7 +1325,7 @@ case A_ac_s:
 	case '_':
 		break;
 	default:
-		{ adderror("»ñÈ¡×´Ì¬ÃûÊ±·¢ÏÖ·Ç·¨×Ö·û"); }
+		{ adderror("è·å–çŠ¶æ€åæ—¶å‘ç°éæ³•å­—ç¬¦"); }
 		break;
 } // switch c
 break;
@@ -1335,7 +1335,7 @@ case A_ac_s01:
 		A_ac_clearB(s, new_state, c, ab.front());
 		break;
 	default:
-		{ adderror("»ñÈ¡×´Ì¬ÃûÊ±·¢ÏÖ·Ç·¨×Ö·û¡£Èç¹ûĞ´×¢ÊÍÇëÓÃË«Ğ±¸Ü¡°//¡±"); }
+		{ adderror("è·å–çŠ¶æ€åæ—¶å‘ç°éæ³•å­—ç¬¦ã€‚å¦‚æœå†™æ³¨é‡Šè¯·ç”¨åŒæ–œæ â€œ//â€"); }
 		break;
 } // switch c
 break;
@@ -1522,7 +1522,7 @@ case A_ac_s1:
 	case '\\':
 		break;
 	default:
-		{ adderror("»ñÈ¡Ìø×ª½ÓÊÜ±í´ïÊ½Ê±·¢ÏÖ·Ç·¨×Ö·û¡£"); }
+		{ adderror("è·å–è·³è½¬æ¥å—è¡¨è¾¾å¼æ—¶å‘ç°éæ³•å­—ç¬¦ã€‚"); }
 		break;
 } // switch c
 break;
@@ -1672,7 +1672,7 @@ case A_ac_s13:
 	case '9':
 		break;
 	default:
-		{ adderror("»ñÈ¡ÌØÊâ½ÓÊÜ×Ö·ûÊ±·¢ÏÖ·Ç·¨×Ö·û¡£"); }
+		{ adderror("è·å–ç‰¹æ®Šæ¥å—å­—ç¬¦æ—¶å‘ç°éæ³•å­—ç¬¦ã€‚"); }
 		break;
 } // switch c
 break;
@@ -1849,7 +1849,7 @@ case A_ac_s21:
 	case '\r':
 		break;
 	default:
-		{ adderror("»ñÈ¡Ìø×ªÀàĞÍÊ±·¢ÏÖ·Ç·¨×Ö·û¡£"); }
+		{ adderror("è·å–è·³è½¬ç±»å‹æ—¶å‘ç°éæ³•å­—ç¬¦ã€‚"); }
 		break;
 } // switch c
 break;
@@ -1868,7 +1868,7 @@ case A_ac_s22:
 		A_ac_set_E_arrival(s, new_state, c, ab.front());
 		break;
 	default:
-		{ adderror("·Ç·¨ÊÂ¼şÀàĞÍ¡£"); }
+		{ adderror("éæ³•äº‹ä»¶ç±»å‹ã€‚"); }
 		break;
 } // switch c
 break;
@@ -1935,7 +1935,7 @@ case A_ac_s3:
 		A_ac_clearB(s, new_state, c, ab.front());
 		break;
 	default:
-		{ adderror("»ñÈ¡Ìø×ªÄ¿±ê×´Ì¬Ê±·¢ÏÖ·Ç·¨×´Ì¬Ãû¡£"); }
+		{ adderror("è·å–è·³è½¬ç›®æ ‡çŠ¶æ€æ—¶å‘ç°éæ³•çŠ¶æ€åã€‚"); }
 		break;
 } // switch c
 break;
@@ -3107,7 +3107,7 @@ bool A_ac_calltype A_ac_main() {
 }
 
 
-// È±Ê¡¿ò¼Ü
+// ç¼ºçœæ¡†æ¶
 
 #ifdef USE_A_ac_FRAME
 

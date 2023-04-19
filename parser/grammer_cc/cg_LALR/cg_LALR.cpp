@@ -4,7 +4,7 @@
 #include "cg_LALR.h"
 
 
-// Ö¸Ïò²úÉúÊ½µÄ²úÉúÊ½Ö¸ÕëÊı×é, C@speed;
+// æŒ‡å‘äº§ç”Ÿå¼çš„äº§ç”Ÿå¼æŒ‡é’ˆæ•°ç»„, C@speed;
 // symp[symbol_id] -> production.l == symbol_id
 production *symp;
 
@@ -19,15 +19,15 @@ void construct_firsts(symbol s, symbols& firsts) {
 	symbolss& rhs = symp[s]->r;
 	for (ssi = rhs.begin(); ssi != rhs.end(); ++ssi) {
 		if (ssi->size() > 0) {
-			// ·ÇÖÕ½á·û s ÓĞ >0 ¸ö²úÉúÊ½
+			// éç»ˆç»“ç¬¦ s æœ‰ >0 ä¸ªäº§ç”Ÿå¼
 			si = ssi->front();
 
 			if (si->size() > 0) {
-				// ¸Ã²úÉúÊ½²»Ö±½Óµ¼³ö¿Õ
+				// è¯¥äº§ç”Ÿå¼ä¸ç›´æ¥å¯¼å‡ºç©º
 				_s = si->front();
 
 				if (IS_NTS(_s)) {
-					// ²úÉúÊ½ÒÔ·ÇÖÕ½á·û¿ªÊ¼
+					// äº§ç”Ÿå¼ä»¥éç»ˆç»“ç¬¦å¼€å§‹
 					construct_firsts(_s, firsts);
 				} else {
 					firsts.push_back(_s);
@@ -45,7 +45,7 @@ void construct_follows(symbol s, follows& follows) {
 
 //
 
-// LALRÎÄ·¨µÄ FFP ¼¯ºÏ²úÉú·½·¨
+// LALRæ–‡æ³•çš„ FFP é›†åˆäº§ç”Ÿæ–¹æ³•
 
 
 int main(int argc, char* argv[])

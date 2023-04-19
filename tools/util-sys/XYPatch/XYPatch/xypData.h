@@ -1,25 +1,25 @@
 
 // XYPatch data file i/o
 
-LPCTSTR xypSign			= "ÏèÓî´ò²¹¶¡×¨¼Ò²¹¶¡ÎÄ¼ş1.00"
+LPCTSTR xypSign			= "ç¿”å®‡æ‰“è¡¥ä¸ä¸“å®¶è¡¥ä¸æ–‡ä»¶1.00"
 
 // entry prefix
-LPCTSTR xypDir			= "Ä¿Â¼:";
-LPCTSTR xypDir_			= "Ä¿Â¼½áÊø";
-LPCTSTR xypArt			= "ÎÄµµ:";
-LPCTSTR xypArt_			= "ÎÄµµ½áÊø";
+LPCTSTR xypDir			= "ç›®å½•:";
+LPCTSTR xypDir_			= "ç›®å½•ç»“æŸ";
+LPCTSTR xypArt			= "æ–‡æ¡£:";
+LPCTSTR xypArt_			= "æ–‡æ¡£ç»“æŸ";
 
-LPCTSTR xypPatch		= "²¹¶¡:";
-LPCTSTR xypPatch_		= "²¹¶¡½áÊø";
+LPCTSTR xypPatch		= "è¡¥ä¸:";
+LPCTSTR xypPatch_		= "è¡¥ä¸ç»“æŸ";
 
-// patch format  [00A95C70[/ÉúÃüÖµ][/1000[bWd][tF]][/1.0]] ...
+// patch format  [00A95C70[/ç”Ÿå‘½å€¼][/1000[bWd][tF]][/1.0]] ...
 
-LPCTSTR xypEnd			= "È«²¿½áÊø";
+LPCTSTR xypEnd			= "å…¨éƒ¨ç»“æŸ";
 
-LPCTSTR xypDataInline	= "ÄÚÇ¶Êı¾İ";
-LPCTSTR xypDataInline_	= "ÄÚÇ¶Êı¾İ½áÊø";
+LPCTSTR xypDataInline	= "å†…åµŒæ•°æ®";
+LPCTSTR xypDataInline_	= "å†…åµŒæ•°æ®ç»“æŸ";
 
-Global Const XYPatchFile = "ÏèÓî²¹¶¡.txt"
+Global Const XYPatchFile = "ç¿”å®‡è¡¥ä¸.txt"
 
 Type FileError
     Error As Boolean
@@ -48,13 +48,13 @@ Type TagData
 End Type
 
 Type PatchType
-    Address As Long         ' ½ø³ÌÆ«ÒÆµØÖ·
-    VarName As String       ' ÏÔÊ¾Ãû³Æ
-    Value As Long           ' ³õÊ¼Öµ
-        VarLength As String ' ±äÁ¿³¤¶È (byteµ¥Î») (B, W, D)
-        Locked As String    ' Ëø¶¨×´Ì¬ ('T', 'F')
+    Address As Long         ' è¿›ç¨‹åç§»åœ°å€
+    VarName As String       ' æ˜¾ç¤ºåç§°
+    Value As Long           ' åˆå§‹å€¼
+        VarLength As String ' å˜é‡é•¿åº¦ (byteå•ä½) (B, W, D)
+        Locked As String    ' é”å®šçŠ¶æ€ ('T', 'F')
     Version As String
-    ProcessId As Long       ' Á¬½Ó½ø³Ì
+    ProcessId As Long       ' è¿æ¥è¿›ç¨‹
 End Type
 
 Dim TEnumWindowsList As ComboBox
@@ -101,8 +101,8 @@ Function EnumPatch(Src As String, Optional Restart As Boolean = False) As PatchT
     Dim p As Integer, p2 As Integer
     If Restart Then pSrc = 1
 
-    EnumPatch.Address = 0   ' ±íÊ¾Ã¶¾ÙÍêÁË
-    EnumPatch.VarName = "Î´ÃüÃû"
+    EnumPatch.Address = 0   ' è¡¨ç¤ºæšä¸¾å®Œäº†
+    EnumPatch.VarName = "æœªå‘½å"
     EnumPatch.VarLength = "2"
     EnumPatch.Value = 0
     EnumPatch.Locked = "F"
@@ -158,7 +158,7 @@ Function GetNum(ByRef Src As String, Optional Ordix As Integer = 10) As Long
     Const NTable = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     GetNum = 0: RSrc = ""
 
-    ' È¡³öÓĞĞ§Êı×Ö
+    ' å–å‡ºæœ‰æ•ˆæ•°å­—
     For i = 1 To Len(Src)
         c = Mid(Src, i, 1)
         If InStr(1, Left(NTable, Ordix), UCase(c)) = 0 Then
@@ -169,7 +169,7 @@ Function GetNum(ByRef Src As String, Optional Ordix As Integer = 10) As Long
     Next
     Src = Right(Src, Len(Src) - i + 1)
 
-    ' ×ª»»³ÉÊı×Ö
+    ' è½¬æ¢æˆæ•°å­—
     If Ordix = 10 Then
         GetNum = Val(RSrc)
     Else
@@ -189,9 +189,9 @@ End Function
 
 Sub ErrorRunning(feFileError As FileError, nFile As Integer)
     If feFileError.LineNo = 0 Then
-        MsgBox feFileError.Message, vbOK, "ÔËĞĞÊ±·¢Éú´íÎó"
+        MsgBox feFileError.Message, vbOK, "è¿è¡Œæ—¶å‘ç”Ÿé”™è¯¯"
     Else
-        MsgBox XYSign + Chr(10) + "µÚ" + Str(feFileError.LineNo) + "ĞĞ´íÎó: " + Chr(10) + feFileError.Message, vbOKOnly
+        MsgBox XYSign + Chr(10) + "ç¬¬" + Str(feFileError.LineNo) + "è¡Œé”™è¯¯: " + Chr(10) + feFileError.Message, vbOKOnly
     End If
     Close #nFile
     'End
@@ -254,7 +254,7 @@ Function CheckNode(Node As NodeType, NodeClass As String) As FileError
 
     If Node.Icon < 1 Or Node.IconSelect < 1 Or Node.IconExpanded < 1 Then
         CheckNode.Error = True
-        CheckNode.Message = "ÀàĞÍ" + Str(Node.Icon) + Str(Node.IconSelect) + Str(Node.IconExpanded) + "Ã»ÕÒµ½!"
+        CheckNode.Message = "ç±»å‹" + Str(Node.Icon) + Str(Node.IconSelect) + Str(Node.IconExpanded) + "æ²¡æ‰¾åˆ°!"
         Exit Function
     End If
 
@@ -271,7 +271,7 @@ Exit Function
 
 FileReferError:
     CheckNode.Error = True
-    CheckNode.Message = "´ò¿ªÒıÓÃÎÄ¼ş" + Right(Node.Text, Len(Node.Text) - Len(XYFileRefer)) + "´íÎó: " + Err.Description
+    CheckNode.Message = "æ‰“å¼€å¼•ç”¨æ–‡ä»¶" + Right(Node.Text, Len(Node.Text) - Len(XYFileRefer)) + "é”™è¯¯: " + Err.Description
 
 End Function
 
@@ -310,13 +310,13 @@ On Error GoTo readerror
     If Not IsA(XYSign, s) Then
         ReadDir.Error = True
         ReadDir.LineNo = l
-        ReadDir.Message = "Õâ²»ÊÇ" + XYSign + ". Çë×ĞÏ¸¼ì²é. ±§Ç¸!"
+        ReadDir.Message = "è¿™ä¸æ˜¯" + XYSign + ". è¯·ä»”ç»†æ£€æŸ¥. æŠ±æ­‰!"
         Close #n
         Exit Function
     End If
 
     tvTreeView.Nodes.Clear
-    Set CurNode = tvTreeView.Nodes.Add(, , "Root", "ÏèÓî´ò²¹¶¡×¨¼Ò", 1, 2)
+    Set CurNode = tvTreeView.Nodes.Add(, , "Root", "ç¿”å®‡æ‰“è¡¥ä¸ä¸“å®¶", 1, 2)
     CurNode.Expanded = True
 
     Do While Not EOF(n)
@@ -324,7 +324,7 @@ On Error GoTo readerror
         Line Input #n, s: s = TrimF(s)
         If s <> "" Then
             If IsA(s, XYDir) Then
-                ' ¼ÓÈëÄ¿Â¼½áµã  Ä¿Â¼:<Ä¿Â¼Ãû>,,<Í¼±ê>,<Ñ¡Ôñ>,[<Õ¹¿ª>]
+                ' åŠ å…¥ç›®å½•ç»“ç‚¹  ç›®å½•:<ç›®å½•å>,,<å›¾æ ‡>,<é€‰æ‹©>,[<å±•å¼€>]
                 NodeDesc = GetNode(s, Len(XYDir))
                 ReadDir = CheckNode(NodeDesc, XYDir)
                 If ReadDir.Error Then ErrorRunning ReadDir, n
@@ -336,20 +336,20 @@ On Error GoTo readerror
                 Else
                     ReadDir.Error = True
                     ReadDir.LineNo = l
-                    ReadDir.Message = "Ä¿Â¼Ç¶ÌÓ³¬½ç"
+                    ReadDir.Message = "ç›®å½•åµŒé€ƒè¶…ç•Œ"
                     Close #n
                     Exit Function
                 End If
             ElseIf IsA(s, XYArt) Then
-                ' ¼ÓÈëµµ°¸  µµ°¸:<µµ°¸Ãû>,<Êı¾İ>,<Í¼±ê>,[<Ñ¡Ôñ>]
+                ' åŠ å…¥æ¡£æ¡ˆ  æ¡£æ¡ˆ:<æ¡£æ¡ˆå>,<æ•°æ®>,<å›¾æ ‡>,[<é€‰æ‹©>]
                 td.DataType = dtText
                 NodeDesc = GetNode(s, Len(XYArt))
                 ReadDir = CheckNode(NodeDesc, XYArt)
                 If ReadDir.Error Then ErrorRunning ReadDir, n
                 Set NewNode = tvTreeView.Nodes.Add(CurNode, tvwChild, , NodeDesc.Name, NodeDesc.Icon, NodeDesc.IconSelect)
-                ' ×°ÈëÊı¾İ
+                ' è£…å…¥æ•°æ®
                 If IsA(NodeDesc.Text, XYDataInline) Then
-                    ' ÄÚÇ¶Êı¾İ
+                    ' å†…åµŒæ•°æ®
                     td.Src = "-" + Chr(13) + Chr(10)
                     Do While Not EOF(n)
                         Line Input #n, ts
@@ -357,27 +357,27 @@ On Error GoTo readerror
                         td.Src = td.Src + Chr(13) + Chr(10) + ts
                     Loop
                 Else
-                    ' ÒÔĞĞÖ®ÄÚÊı¾İ»òÒıÓÃÎÄ¼ş
+                    ' ä»¥è¡Œä¹‹å†…æ•°æ®æˆ–å¼•ç”¨æ–‡ä»¶
                     td.Src = NodeDesc.Text
                 End If
                 NewNode.Tag = SetTag(td)
             ElseIf IsA(s, XYPatch) Then
-                ' ¼ÓÈë²¹¶¡  ²¹¶¡:<²¹¶¡Ãû>,<²¹¶¡´úÂë>,<Í¼±ê>,[<Ñ¡Ôñ>]
+                ' åŠ å…¥è¡¥ä¸  è¡¥ä¸:<è¡¥ä¸å>,<è¡¥ä¸ä»£ç >,<å›¾æ ‡>,[<é€‰æ‹©>]
                 td.DataType = dtPatch
                 NodeDesc = GetNode(s, Len(XYPatch))
                 ReadDir = CheckNode(NodeDesc, XYPatch)
                 If ReadDir.Error Then ErrorRunning ReadDir, n
                 Set NewNode = tvTreeView.Nodes.Add(CurNode, tvwChild, , NodeDesc.Name, NodeDesc.Icon, NodeDesc.IconSelect)
-                ' ×°ÈëÊı¾İ
+                ' è£…å…¥æ•°æ®
                 If IsA(NodeDesc.Text, XYDataInline) Then
-                    ' ÄÚÇ¶Êı¾İ
+                    ' å†…åµŒæ•°æ®
                     Do While Not EOF(n)
                         Line Input #n, ts
                         If IsA(ts, XYDataInlineX) Then Exit Do
                         td.Src = td.Src + ts
                     Loop
                 Else
-                    ' ÒÔĞĞÖ®ÄÚÊı¾İ»òÒıÓÃÎÄ¼ş
+                    ' ä»¥è¡Œä¹‹å†…æ•°æ®æˆ–å¼•ç”¨æ–‡ä»¶
                     td.Src = NodeDesc.Text
                 End If
                 NewNode.Tag = SetTag(td)
@@ -387,7 +387,7 @@ On Error GoTo readerror
             ElseIf False Then
                 ReadDir.Error = True
                 ReadDir.LineNo = l
-                ReadDir.Message = "Î´Öª½áµãÀàĞÍ: " + Left(s, 4) + "..."
+                ReadDir.Message = "æœªçŸ¥ç»“ç‚¹ç±»å‹: " + Left(s, 4) + "..."
                 Close #n
                 Exit Function
             End If
@@ -396,11 +396,11 @@ On Error GoTo readerror
 
     Close #n
 
-    ' Ã»·¢ÏÖ½áÊø±êÖ¾
+    ' æ²¡å‘ç°ç»“æŸæ ‡å¿—
     If Not AllWell Then
         ReadDir.Error = True
         ReadDir.LineNo = l
-        ReadDir.Message = "ÎŞ½áÎ²´íÎó!"
+        ReadDir.Message = "æ— ç»“å°¾é”™è¯¯!"
         Exit Function
     End If
 
@@ -408,12 +408,12 @@ Exit Function
 
 openerror:
     ReadDir.Error = True
-    ReadDir.Message = "´ò¿ª" + XYSign + "ÎÄ¼ş" + FN + "´íÎó: " + Chr(10) + Err.Description
+    ReadDir.Message = "æ‰“å¼€" + XYSign + "æ–‡ä»¶" + FN + "é”™è¯¯: " + Chr(10) + Err.Description
     Exit Function
 
 readerror:
     ReadDir.Error = True
-    ReadDir.Message = "¶ÁÈë" + XYSign + "ÎÄ¼ş" + FN + "´íÎó: " + Chr(10) + Err.Description
+    ReadDir.Message = "è¯»å…¥" + XYSign + "æ–‡ä»¶" + FN + "é”™è¯¯: " + Chr(10) + Err.Description
     Close #n
     Exit Function
 

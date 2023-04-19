@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// ·½·¨¼¯ºÏÀà
+// æ–¹æ³•é›†åˆç±»
 // CLSID: 00000000-4F45-0641-0002-486954656368
 
 OeSOMethodsCollection::OeSOMethodsCollection() {}

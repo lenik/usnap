@@ -3,10 +3,10 @@
 #include "coModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ÀíÂÛÄ£ĞÍ
+// ç†è®ºæ¨¡å‹
 
 
-// ½áµã
+// ç»“ç‚¹
 
 coF(coNode&)	coNode::operator =  (const coNode& o_o) {
 	if (this == &o_o) return *this;
@@ -96,7 +96,7 @@ coF(coREAL&)	coNode::operator [] (const coINT xyz_index) {
 	coA return pos.x;
 }
 
-// Á¬½á
+// è¿ç»“
 
 coP		coLink::coLink() {
 	co_new(nodes_seq, coNode_r[2]) {
@@ -152,7 +152,7 @@ coF(coBOOL)	coLink::be_refered_by(const coPath_r path_ref) const {
 	return path_ref->refered((const coLink_r)this);
 }
 
-// ²éÕÒ½áµã±íÖĞµÚÒ»´Î³öÏÖnode_queryµÄÎ»ÖÃ
+// æŸ¥æ‰¾ç»“ç‚¹è¡¨ä¸­ç¬¬ä¸€æ¬¡å‡ºç°node_queryçš„ä½ç½®
 coF(coNode_ra)	coLink::node_at(const coNode_r node_query) const {
 	coNode_ra r = NULL;
 	if (refered(node_query)) {
@@ -188,7 +188,7 @@ coF(coNode_r&)	coLink::operator [] (const coINT node_index) {
 	return nodes_seq[node_index];
 }
 
-// Â·
+// è·¯
 
 coP		coPath::~coPath() {
 	if (links_count != 0) co_dela(links);
@@ -252,4 +252,4 @@ coF(coLink_r&)	coPath::operator [] (const coINT link_index) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// ±í´ïÄ£ĞÍ
+// è¡¨è¾¾æ¨¡å‹

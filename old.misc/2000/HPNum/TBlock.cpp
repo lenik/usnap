@@ -26,18 +26,18 @@ void TBlock<T>::SetSize(UINT nNewSize, UINT nGrowBy) {
 		}
 		m_nSize = m_nMaxSize = 0;
 	} else {
-		// 1.���ڳ��ȳ��, ָ��С�ڵ�ǰ���Ȼ�ָ�����ڵ�ǰ����
-		// 2.���ڳ���Ƿȱ, ָ�����ڵ�ǰ��󳤶�
+		// 1.存在长度充分, 指定小于当前长度或指定大于当前长度
+		// 2.存在长度欠缺, 指定大于当前最大长度
 		if (nNewSize <= m_nMaxSize) {
 			if (nNewSize > m_nSize) {
 				memset(&m_pData[m_nSize], 0, (nNewSize - m_nSize) * sizeof(T));
 			}
 			m_nSize = nNewSize;
 		} else {
-			UINT nNewMaxSize; // �����µ���󳤶�
-			if (nNewSize < m_nMaxSize + m_nGrowBy) { // ��ǰ��󳤶�����һ���㹻
+			UINT nNewMaxSize; // 计算新的最大长度
+			if (nNewSize < m_nMaxSize + m_nGrowBy) { // 当前最大长度增长一截足够
 				nNewMaxSize = m_nMaxSize + m_nGrowBy;
-			} else {	// ����һ�ػ�����, ���ָ������ȷʵ������! (����һ���պ�������)
+			} else {	// 增长一截还不够, 这个指定长度确实够长的! (不必一定刚好整数截)
 				nNewMaxSize = nNewSize;
 			}
 			ASSERT(nNewMaxSize >= m_nMaxSize);		// no wrap around
@@ -46,7 +46,7 @@ void TBlock<T>::SetSize(UINT nNewSize, UINT nGrowBy) {
 			// for it may be m_nSize < nNewMaxSize < m_nMaxSize
 
 			T *pNewData = new T[nNewMaxSize];
-			if (m_pData != NULL) {	// ����Դ����NULL�����
+			if (m_pData != NULL) {	// 考虑源块是NULL的情况
 				memcpy(pNewData, m_pData, m_nSize * sizeof(T));
 				delete[] m_pData;
 				memset(&pNewData[m_nSize], 0, (nNewMaxSize - m_nSize) * sizeof(T));		// construct remaining elements

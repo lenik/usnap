@@ -145,9 +145,9 @@
 			}
 		#endif
 
-			TCHAR	err_prefix[1024] = TEXT("³ÌĞò·¢Éú´íÎó£º\n\t%s (%d, 0x%x)\nÇë×ÉÑ¯ÏµÍ³¹ÜÀíÔ±»ò¼¼ÊõÈËÔ±¡£");
+			TCHAR	err_prefix[1024] = TEXT("ç¨‹åºå‘ç”Ÿé”™è¯¯ï¼š\n\t%s (%d, 0x%x)\nè¯·å’¨è¯¢ç³»ç»Ÿç®¡ç†å‘˜æˆ–æŠ€æœ¯äººå‘˜ã€‚");
 
-			// ¶à·Å¼¸¸ö buffer ÒÔÓ¦¸¶err_prefixÖĞ¶à¸ö%s¡£
+			// å¤šæ”¾å‡ ä¸ª buffer ä»¥åº”ä»˜err_prefixä¸­å¤šä¸ª%sã€‚
 			wsprintf(sentence, err_prefix, buffer, uID, uID, buffer, buffer);
 	/*
 		#ifndef __silence_message

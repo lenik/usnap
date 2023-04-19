@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// �ӿ�������һ���ӿڡ��ӿڵ�ʵ���������С�
+// 接口类描述一个接口。接口的实现在类类中。
 // CLSID: 00000000-4F45-0611-0002-486954656368
 
 OeSOInterface::OeSOInterface() {

@@ -70,24 +70,24 @@ bmpA {
 
 # x@a.epfs segment [outgrowth]
 
-	- BSD: block split description ��ָ�����
-	  ������������ͼ��ķֿ�洢���ۺϣ��������Ϸ�д��ͼ��ʵ�����⣬����
-	  ��BSDʵ���м�����Ч����Ч�Ļ�����ƣ�ʹ��ͼ���װ�غ͸��ӿ��١�
+	- BSD: block split description 块分割描述
+	  本来用于描述图像的分块存储与综合，解决了游戏中大地图的实现问题，可以
+	  在BSD实现中加入有效、高效的缓存机制，使大图像的装载和更加快速。
 
-	  ��BSD�м���ͼ�������ںϷ�����ʹBSD��������������˾��нű����ܵĽ�
-	  ��������ͼ�������ⲿ��չ�ӿں͸��Ӹ��ӵ��ںϷ���ʹBSD��Ҫ�߱�����ͨ
-	  �õĽű����ܣ����ʹBSD����Ϊ�ű����ԡ�
+	  在BSD中加入图像处理和融合方案，使BSD从数据描述变成了具有脚本功能的脚
+	  本描述。图像处理的外部扩展接口和更加复杂的融合方案使BSD需要具备更加通
+	  用的脚本功能，这就使BSD更成为脚本语言。
 
-	- �� G �����У�ͨ������Ԫ�﷨ֱ�Ӷ� G ������չ�����ʹ G ��Ϊ����һ����
-	  �Եİ����壬��ȻBSDҲ��Ƕ�����С����� BSD �Ͳ���Ҫ�پ��нű���������
-	  ���Ľű����ܿ��Խ��� G �еı�׼�������
+	- 在 G 描述中，通过引入元语法直接对 G 本身扩展，这就使 G 成为几乎一切语
+	  言的包容体，自然BSD也能嵌入其中。这样 BSD 就不需要再具有脚本能力，基
+	  础的脚本功能可以借助 G 中的标准引入件。
 
-	- BSD ������İ�����
-		- �ο���[PackerC] PDS: Packer Description Script �������ű�
-		  PDS��6���Σ��ֱ����ڽű�����������չ�������ռ������루������
-		  �л���ѹ�����ܵȣ������ò����ȡ�
-	  BSD ��ҪΪͼ��ķֿ���������չ��������ʹ��֧�ַ�����������ͣ�
-	  ��ͳ�ΪEPFS���ۺϼ������� EPFS Integrating Language: (����Cordillera)
+	- BSD 更泛意的包描述
+		- 参考：[PackerC] PDS: Packer Description Script 包描述脚本
+		  PDS分6各段，分别用于脚本数据类型扩展、数据收集及编码（包括序
+		  列化和压缩加密等）、配置参数等。
+	  BSD 主要为图像的分块服务，如果扩展操作对象，使其支持泛意的数据类型，
+	  这就成为EPFS的综合集成语言 EPFS Integrating Language: (代号Cordillera)
 		- Integrating & Disintegrating
 
-	- [��ϵ����] Cordillera (ab.Cord)
+	- [脉系语言] Cordillera (ab.Cord)

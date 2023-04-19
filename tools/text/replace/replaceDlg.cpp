@@ -155,7 +155,7 @@ BOOL CReplaceDlg::OnInitDialog()
 		itemname.Format(_T("subdest%d"), i);
 		sp.second = app->GetProfileString(SECTION_REPDLG, itemname);
 		this->m_subslist.push_back(sp);
-		str.Format("Ìæ»»\"%s\"µ½\"%s\".", sp.first, sp.second);
+		str.Format("æ›¿æ¢\"%s\"åˆ°\"%s\".", sp.first, sp.second);
 		this->m_lstSubs.AddString(str);
 	}
 
@@ -289,7 +289,7 @@ void CReplaceDlg::OnButtonSadd()
 		sp.second = sd.m_strDest;
 		this->m_subslist.push_back(sp);
 		CString str;
-		str.Format("Ìæ»»\"%s\"µ½\"%s\".", sp.first, sp.second);
+		str.Format("æ›¿æ¢\"%s\"åˆ°\"%s\".", sp.first, sp.second);
 		this->m_lstSubs.AddString(str);
 	}
 }
@@ -328,7 +328,7 @@ void CReplaceDlg::OnDblclkListSubstitude()
 		sp.second = sd.m_strDest;
 		this->m_subslist.push_back(sp);
 		CString str;
-		str.Format("Ìæ»»\"%s\"µ½\"%s\".", sp.first, sp.second);
+		str.Format("æ›¿æ¢\"%s\"åˆ°\"%s\".", sp.first, sp.second);
 		this->m_lstSubs.AddString(str);
 	}
 }
@@ -353,10 +353,10 @@ void CReplaceDlg::OnButtonSclear()
 }
 
 struct SUBSTRUCT {
-	LPBYTE src;		// in  Ìæ»»Ô­Êı¾İ
-	LPBYTE dest;		// out Ìæ»»½á¹û
-	LPBYTE ssrc;		// in  Ä£°æÔ´Êı¾İ
-	LPBYTE sdest;		// in  Ä£°æÄ¿±êÊı¾İ
+	LPBYTE src;		// in  æ›¿æ¢åŸæ•°æ®
+	LPBYTE dest;		// out æ›¿æ¢ç»“æœ
+	LPBYTE ssrc;		// in  æ¨¡ç‰ˆæºæ•°æ®
+	LPBYTE sdest;		// in  æ¨¡ç‰ˆç›®æ ‡æ•°æ®
 	LONG nsrc;		// in
 	LONG ndest;		// out
 	LONG nssrc;		// in
@@ -425,7 +425,7 @@ void CReplaceDlg::OnButtonSubstitude()
 
 		f = fopen(fn, "r+b");
 		if (f == NULL) {
-			if (MessageBox(_T("´ò¿ªÎÄ¼ş´íÎó,¼ÌĞøÏÂÒ»¸öÎÄ¼şµÄÌæ»»?"), NULL, MB_YESNO) == IDNO) {
+			if (MessageBox(_T("æ‰“å¼€æ–‡ä»¶é”™è¯¯,ç»§ç»­ä¸‹ä¸€ä¸ªæ–‡ä»¶çš„æ›¿æ¢?"), NULL, MB_YESNO) == IDNO) {
 				break;
 			} else {
 				continue;
@@ -445,7 +445,7 @@ void CReplaceDlg::OnButtonSubstitude()
 		for (int iS = 0; iS < cSubs; iS++) {
 			CSTRPAIR& sp = this->geti(iS);
 
-			this->m_strSubcon.Format("Ìæ»»\"%s\"µ½\"%s\".", sp.first, sp.second);
+			this->m_strSubcon.Format("æ›¿æ¢\"%s\"åˆ°\"%s\".", sp.first, sp.second);
 			UpdateData(FALSE);
 
 			ss.ssrc = (LPBYTE)(LPCTSTR)sp.first;
@@ -461,7 +461,7 @@ void CReplaceDlg::OnButtonSubstitude()
 
 		f = fopen(fn, "wb");
 		if (f == NULL) {
-			if (MessageBox(_T("²»ÄÜĞ´ÈëÎÄ¼ş!¼ÌĞøÏÂÒ»¸öÎÄ¼şÌæ»»?"), NULL, MB_YESNO) == IDNO) {
+			if (MessageBox(_T("ä¸èƒ½å†™å…¥æ–‡ä»¶!ç»§ç»­ä¸‹ä¸€ä¸ªæ–‡ä»¶æ›¿æ¢?"), NULL, MB_YESNO) == IDNO) {
 				break;
 			} else {
 				continue;

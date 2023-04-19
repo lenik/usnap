@@ -19,7 +19,7 @@ CDetailDialog::CDetailDialog(CWnd* pParent /*=NULL*/, CString initText)
 	: CDialog(CDetailDialog::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CDetailDialog)
-	m_strInfo = _T("ÕýÔÚ¼ÓÔØ×é¼þÖÐ, ÇëÉÔºó...");
+	m_strInfo = _T("æ­£åœ¨åŠ è½½ç»„ä»¶ä¸­, è¯·ç¨åŽ...");
 	//}}AFX_DATA_INIT
 	this->bFirstInited	= FALSE;
 	this->m_strText		= initText;
@@ -57,7 +57,7 @@ void CDetailDialog::OnOK()
 void CDetailDialog::OnButtonSave()
 {
 	// TODO: Add your control notification handler code here
-	CFileDialog	fd(FALSE, _T("html"), _T("±È½Ï½á¹û.html"));
+	CFileDialog	fd(FALSE, _T("html"), _T("æ¯”è¾ƒç»“æžœ.html"));
 	if (fd.DoModal() == IDOK) {
 		TRY {
 			CString fn = fd.GetPathName();

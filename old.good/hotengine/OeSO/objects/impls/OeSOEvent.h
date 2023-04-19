@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// �¼������ڽ����¼�ӳ�䡣
+// 事件类用于建立事件映射。
 // CLSID: 00000000-4F45-0622-0002-486954656368
 
 OeSOEvent::OeSOEvent() {}

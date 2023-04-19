@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// 属性集合类
+// 灞炴�ч泦鍚堢被
 // CLSID: 00000000-4F45-0640-0002-486954656368
 
 OeSOAttributesCollection::OeSOAttributesCollection() {}

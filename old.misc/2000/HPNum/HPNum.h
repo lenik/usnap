@@ -19,7 +19,7 @@ public:
 	HPNum();
 
 // Attributes
-	UINT m_nLength;		// Êı¾İÁ÷³¤¶ÈÓ³Ïñ, Ö´ĞĞGetLength()ºóÓĞĞ§.
+	UINT m_nLength;		// æ•°æ®æµé•¿åº¦æ˜ åƒ, æ‰§è¡ŒGetLength()åæœ‰æ•ˆ.
 	UINT GetLength();
 	UINT SetLength(UINT);
 	UINT GetDL();
@@ -42,7 +42,7 @@ protected:
 	UINT m_nRadix;
 public:
 	Flag m_fFlag;
-	TBlock<BYTE> m_sData;	// Êı¾İÁ÷
+	TBlock<BYTE> m_sData;	// æ•°æ®æµ
 
 // m_sData operators
 public:
@@ -62,12 +62,12 @@ inline UINT HPNum::GetLength() {
 }
 
 inline UINT HPNum::SetLength(UINT nNewLength) {
-	if (nNewLength == 0) { // Ö¸¶¨ÖÃÁã
+	if (nNewLength == 0) { // æŒ‡å®šç½®é›¶
 		m_sData.SetSize(0);
 		m_nLength = m_nDL = 0;
-	} else {	// À©ÕÅ¿Õ¼ä, ²»¸Ä±äÔ­ÊıÖµ.
+	} else {	// æ‰©å¼ ç©ºé—´, ä¸æ”¹å˜åŸæ•°å€¼.
 		if (nNewLength < m_nLength) { Trim(); }
-		if (nNewLength > m_nLength) {	// À©ÕÅÊ±²»×öÑ¹Ëõ´¦Àí, ÒòÎªÓĞĞ©
+		if (nNewLength > m_nLength) {	// æ‰©å¼ æ—¶ä¸åšå‹ç¼©å¤„ç†, å› ä¸ºæœ‰äº›
 			m_sData.SetSize(nNewLength);
 		}
 	}
@@ -79,7 +79,7 @@ inline UINT HPNum::GetDL() {
 }
 
 inline UINT HPNum::SetDL(UINT nNewDL) {
-	ASSERT(nNewDL <= m_nLength);	// ×î¼«¶ËµÄÇé¿öÊÇÁãÎ»ÕûÊıÎ»
+	ASSERT(nNewDL <= m_nLength);	// æœ€æç«¯çš„æƒ…å†µæ˜¯é›¶ä½æ•´æ•°ä½
 	return m_nDL = nNewDL;
 }
 
@@ -123,21 +123,21 @@ template <class T> int _cmp(T a, T b) { if (a == b) { return 0; } else { return 
 
 class _HPBaseArith {
 protected:
-	UINT nCarry, nPos;	// ±»ĞŞ¸Ä½øÎ»Êı, µ¥ÔªÖ¸Õë
+	UINT nCarry, nPos;	// è¢«ä¿®æ”¹è¿›ä½æ•°, å•å…ƒæŒ‡é’ˆ
 protected:
 	HPNum *m_hnNum;
 public:
 	void Compare(HPNum &, HPNum &);
 	void AssignI(HPNum &, UINT nIndex, UINT nI);
-	int CmpI(HPNum &, UINT nIndex, UINT nI);	// ·µ»ØÕı¸ººÅ, -1, 0, 1
+	int CmpI(HPNum &, UINT nIndex, UINT nI);	// è¿”å›æ­£è´Ÿå·, -1, 0, 1
 	void AddI(HPNum &, UINT nIndex, UINT nI);
-	int SubI(HPNum &, UINT nIndex, UINT nI);	// ·µ»ØÕı¸ººÅ, -1, 0, 1
+	int SubI(HPNum &, UINT nIndex, UINT nI);	// è¿”å›æ­£è´Ÿå·, -1, 0, 1
 
 	void Shift(HPNum &, int);
 	void Adjust(HPNum &, UINT nIL, UINT nDL);
 public:
 	void Add(HPNum &b, HPNum &a);
-	int Sub(HPNum &b, HPNum &a);	// ·µ»ØÕı¸ººÅ, -1, 0, 1
+	int Sub(HPNum &b, HPNum &a);	// è¿”å›æ­£è´Ÿå·, -1, 0, 1
 	void Mul(HPNum &c, HPNum &a, HPNum &b);
 	void Div(HPNum &c, HPNum &a, HPNum &b);
 };

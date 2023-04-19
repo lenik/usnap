@@ -19,7 +19,7 @@ LONG		x;
 LONG		y;
 LONG		width;
 LONG		height;
-LONG		p;		// ע��ɨ���ߵķ�����ʵ�ʴ洢�ķ���֮��Ĺ�ϵ
+LONG		p;		// 注意扫描线的方向与实际存储的方向之间的关系
 
 DWORD		alpha1, alpha2;
 DWORD		miniDelay = 0;
@@ -56,7 +56,7 @@ BOOL	_stdcall FI_BitBlt_Fn(HDC		hDestDC,
 
 	BOOL		r = FALSE;
 
-	// ������ʼ��
+	// 变量初始化
 		sizeDest = sizeSrc = width * height;
 
 		bmiDest.bmiHeader.biWidth =
@@ -67,7 +67,7 @@ BOOL	_stdcall FI_BitBlt_Fn(HDC		hDestDC,
 		if ((bitsDest = new DWORD[sizeDest]) == NULL) goto L_1;
 		if ((bitsSrc  = new DWORD[sizeSrc]) == NULL) goto L_2;
 
-	// ��ȡԴͼ������
+	// 获取源图像数据
 	if (!(fntype & BITBLT_TESTCALLBACK)) {
 		if (fntype & BITBLT_ONLYSRC) {
 			for (p = 0; p < sizeDest; p++) bitsDest[p] = alpha2;
@@ -89,7 +89,7 @@ BOOL	_stdcall FI_BitBlt_Fn(HDC		hDestDC,
 		}
 	}
 
-	// ͼ�����
+	// 图像操作
 	if (!(fntype & BITBLT_TESTBITMAP)) {
 		p = 0;
 		switch (fntype & 0xFF) {
@@ -177,7 +177,7 @@ BOOL	_stdcall FI_BitBlt_Fn(HDC		hDestDC,
 			}
 		}
 
-	// ��������
+	// 结束返回
 	if (!(fntype & BITBLT_TESTCALLBACK)) {
 		L11:
 		L10:

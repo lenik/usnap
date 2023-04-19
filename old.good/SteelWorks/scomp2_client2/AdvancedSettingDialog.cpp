@@ -89,7 +89,7 @@ void CAdvancedSettingDialog::OnButtonBrowse()
 	// TODO: Add your control notification handler code here
 	CFileDialog	fd(TRUE, "scp", "*.scp",
 				OFN_FILEMUSTEXIST,
-				"Ä£ºý±È½Ï²å¼þ(*.scp)|*.scp|¶¯Ì¬Á´½Ó¿â(*.dll)|*.dll|ËùÓÐÎÄ¼þ|*.*||");
+				"æ¨¡ç³Šæ¯”è¾ƒæ’ä»¶(*.scp)|*.scp|åŠ¨æ€é“¾æŽ¥åº“(*.dll)|*.dll|æ‰€æœ‰æ–‡ä»¶|*.*||");
 	if (fd.DoModal() == IDOK) {
 		this->m_strPlugin	= fd.GetPathName();
 		UpdateData(FALSE);
@@ -111,26 +111,26 @@ void CAdvancedSettingDialog::OnButtonPluginHelp()
 	CString hstr;
 
 	hstr	= _T(
-			"<html><head><title>²å¼þ°ïÖú</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=gb2312\"></head>"
-			"<body bgcolor=\"#FFFFee\"><p><font size=\"+3\"><b><font color=\"#0000FF\">¼Æ·Ö²å¼þ¿ª·¢·½·¨</font></b></font></p>"
-			"<p>Ä£ºýÁ÷±È½Ï²å¼þÓÐÁ½ÖÖÀàÐÍ: ´«Í³µÄ<a href=\"#chapter1\">µ¼³öº¯Êý²å¼þ</a>(¶¯Ì¬Á´½Ó¿â)ºÍ<a href=\"#chapter2\">»ùÓÚActiveXµÄ×é¼þ²å¼þ</a>¡£ÏÂÃæ·Ö±ð½éÉÜ£º</p>"
-			"<p><a name=\"chapter1\"></a><font size=\"+2\">Ò»¡¢µ¼³öº¯Êý²å¼þ</font></p>"
-			"<blockquote><p>¶¯Ì¬Á´½Ó¿â(DLL)£ºÄÜ¹»ÔÚ½ø³ÌÔËÐÐÊ±¶¯Ì¬×°ÔØ£¬²¢½«µØÖ·¿Õ¼äÓ³ÉäÖÁ½ø³ÌµÄµØÖ·¿Õ¼ä¡£½ø³ÌÍ¨¹ýµ÷ÓÃÏµÍ³API/GetProcAddress»ñÈ¡¶¯Ì¬Á´½Ó¿âÖÐµÄµ¼³öº¯ÊýµØÖ·¡£ÒòÎªËüºÍ½ø³Ì´æÔÚÓÚÍ¬Ò»µØÖ·¿Õ¼ä£¬ËùÒÔ½ø³Ì¿ÉÒÔÖ±½Óµ÷ÓÃ¸Ãº¯Êý¡£</p>"
-			"<p>µ¼³öº¯Êý¸ñÊ½£º</p><blockquote> <table border=\"0\"><tr> <td>float _pascal score_for_stream_units_compare(</td>"
-			"<td>&nbsp;</td><td>&nbsp;</td></tr><tr> <td>&nbsp;</td><td>int match, <br>int unmatch, <br>int extra, <br>int lost</td><td>// Æ¥ÅäÊý<br>// ²»Æ¥ÅäÊý<br>// ¶àÓàÊý<br>// È±ÉÙÊý</td></tr>"
-			"<tr> <td> <div align=\"right\">)</div></td><td>;</td><td>&nbsp;</td></tr></table><p>(×¢Òâ´óÐ¡Ð´¡£) </p></blockquote><p>¾ÙÀý£º</p><blockquote> <p>float _pascal score_for_stream_units_compare(int match, int unmatch, int extra, int lost) {</p>"
-			"<blockquote> <p> float ret = 0; </p><p>ret = match - (unmatch + extra + lost) * 5; </p><p>if (ret &lt; 0) ret = 0; </p></blockquote><p>}</p></blockquote><p>×¢£º</p>"
-			"<blockquote> <p>_pascal±íÊ¾º¯ÊýÊ¹ÓÃpascal²ÎÊý´«µÝ¹æ·¶, ¿ÉÒÔÓÃWINAPI¡¢_stdcallµÈ´úÌæ, µ«²»ÄÜÓÃ_cdecl¡¢(Ê¡ÂÔ)µÈ, ·ñÔò»á²úÉúµ÷ÓÃÐ­Òé²»ÊÊÓÃ´íÎó¡£</p><p>²ÎÊýÖÐµÄintÊÇ32Î»ÕûÊý, Èç¹ûÊ¹ÓÃÖ§³ÖDLL±àÒëµÄBasicÓïÑÔÓ¦Ê¹ÓÃLongÀàÐÍ, ¶ø²»ÄÜÊ¹ÓÃIntegerÀàÐÍ(ËüÊÇ16Î»)¡£</p>"
-			"</blockquote></blockquote><p><a name=\"chapter2\"></a><font size=\"+2\">¶þ¡¢»ùÓÚActiveXµÄ×é¼þ²å¼þ</font></p><blockquote> <p>ActiveX£ºËüÊÇOLE2ºÍÎ¢ÈíX¼Æ»®µÄ²úÎï¡¢Ò»ÖÖ¿çÆ½Ì¨µÄ¡¢ÓëÓïÑÔÎÞ¹ØµÄ¶þ½øÖÆ¶ÔÏó¡£ËüÊÇ»ùÓÚCOMµÄ¡¢Ö§³ÖË«½Ó¿ÚµÄÀà¹æ·¶¡£ÔÚVisual BasicÖÐÓÐÈýÖÖActive "
-			"X¹¤³Ì£º²»¿É¼ûµÄActiveX DLL/EXE¡¢¿É¼ûµÄActiveX ¿Ø¼þ(OCX)¡¢ActiveX ÎÄµµDLL/EXE¡£ºóÃæ½«·Ö±ðÐðÊöÆäÖÐÃ¿Ò»ÏîµÄ²å¼þ¿ª·¢·½·¨¡£</p><p>COM£º×é¼þ¶ÔÏóÄ£ÐÍ¡£OLE2µÄµ×²ã¹¹Ôì£¬Win32(°üÀ¨Win95-Me)¡¢WinNTµÄ¹Ç¼Ü¡£ËüÊÇÃæÏò½Ó¿ÚµÄ(²»ÊÇÕæÕýÃæÏò¶ÔÏóµÄ)¡£</p>"
-			"<p>ÀàÃû³Æ£ºStreamUnitsComparePlugin</p><p>¼Æ·Ö·½·¨£º</p><blockquote> <table border=\"0\"><tr> <td>Public Function Score(</td><td>&nbsp;</td>"
+			"<html><head><title>æ’ä»¶å¸®åŠ©</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=gb2312\"></head>"
+			"<body bgcolor=\"#FFFFee\"><p><font size=\"+3\"><b><font color=\"#0000FF\">è®¡åˆ†æ’ä»¶å¼€å‘æ–¹æ³•</font></b></font></p>"
+			"<p>æ¨¡ç³Šæµæ¯”è¾ƒæ’ä»¶æœ‰ä¸¤ç§ç±»åž‹: ä¼ ç»Ÿçš„<a href=\"#chapter1\">å¯¼å‡ºå‡½æ•°æ’ä»¶</a>(åŠ¨æ€é“¾æŽ¥åº“)å’Œ<a href=\"#chapter2\">åŸºäºŽActiveXçš„ç»„ä»¶æ’ä»¶</a>ã€‚ä¸‹é¢åˆ†åˆ«ä»‹ç»ï¼š</p>"
+			"<p><a name=\"chapter1\"></a><font size=\"+2\">ä¸€ã€å¯¼å‡ºå‡½æ•°æ’ä»¶</font></p>"
+			"<blockquote><p>åŠ¨æ€é“¾æŽ¥åº“(DLL)ï¼šèƒ½å¤Ÿåœ¨è¿›ç¨‹è¿è¡Œæ—¶åŠ¨æ€è£…è½½ï¼Œå¹¶å°†åœ°å€ç©ºé—´æ˜ å°„è‡³è¿›ç¨‹çš„åœ°å€ç©ºé—´ã€‚è¿›ç¨‹é€šè¿‡è°ƒç”¨ç³»ç»ŸAPI/GetProcAddressèŽ·å–åŠ¨æ€é“¾æŽ¥åº“ä¸­çš„å¯¼å‡ºå‡½æ•°åœ°å€ã€‚å› ä¸ºå®ƒå’Œè¿›ç¨‹å­˜åœ¨äºŽåŒä¸€åœ°å€ç©ºé—´ï¼Œæ‰€ä»¥è¿›ç¨‹å¯ä»¥ç›´æŽ¥è°ƒç”¨è¯¥å‡½æ•°ã€‚</p>"
+			"<p>å¯¼å‡ºå‡½æ•°æ ¼å¼ï¼š</p><blockquote> <table border=\"0\"><tr> <td>float _pascal score_for_stream_units_compare(</td>"
+			"<td>&nbsp;</td><td>&nbsp;</td></tr><tr> <td>&nbsp;</td><td>int match, <br>int unmatch, <br>int extra, <br>int lost</td><td>// åŒ¹é…æ•°<br>// ä¸åŒ¹é…æ•°<br>// å¤šä½™æ•°<br>// ç¼ºå°‘æ•°</td></tr>"
+			"<tr> <td> <div align=\"right\">)</div></td><td>;</td><td>&nbsp;</td></tr></table><p>(æ³¨æ„å¤§å°å†™ã€‚) </p></blockquote><p>ä¸¾ä¾‹ï¼š</p><blockquote> <p>float _pascal score_for_stream_units_compare(int match, int unmatch, int extra, int lost) {</p>"
+			"<blockquote> <p> float ret = 0; </p><p>ret = match - (unmatch + extra + lost) * 5; </p><p>if (ret &lt; 0) ret = 0; </p></blockquote><p>}</p></blockquote><p>æ³¨ï¼š</p>"
+			"<blockquote> <p>_pascalè¡¨ç¤ºå‡½æ•°ä½¿ç”¨pascalå‚æ•°ä¼ é€’è§„èŒƒ, å¯ä»¥ç”¨WINAPIã€_stdcallç­‰ä»£æ›¿, ä½†ä¸èƒ½ç”¨_cdeclã€(çœç•¥)ç­‰, å¦åˆ™ä¼šäº§ç”Ÿè°ƒç”¨åè®®ä¸é€‚ç”¨é”™è¯¯ã€‚</p><p>å‚æ•°ä¸­çš„intæ˜¯32ä½æ•´æ•°, å¦‚æžœä½¿ç”¨æ”¯æŒDLLç¼–è¯‘çš„Basicè¯­è¨€åº”ä½¿ç”¨Longç±»åž‹, è€Œä¸èƒ½ä½¿ç”¨Integerç±»åž‹(å®ƒæ˜¯16ä½)ã€‚</p>"
+			"</blockquote></blockquote><p><a name=\"chapter2\"></a><font size=\"+2\">äºŒã€åŸºäºŽActiveXçš„ç»„ä»¶æ’ä»¶</font></p><blockquote> <p>ActiveXï¼šå®ƒæ˜¯OLE2å’Œå¾®è½¯Xè®¡åˆ’çš„äº§ç‰©ã€ä¸€ç§è·¨å¹³å°çš„ã€ä¸Žè¯­è¨€æ— å…³çš„äºŒè¿›åˆ¶å¯¹è±¡ã€‚å®ƒæ˜¯åŸºäºŽCOMçš„ã€æ”¯æŒåŒæŽ¥å£çš„ç±»è§„èŒƒã€‚åœ¨Visual Basicä¸­æœ‰ä¸‰ç§Active "
+			"Xå·¥ç¨‹ï¼šä¸å¯è§çš„ActiveX DLL/EXEã€å¯è§çš„ActiveX æŽ§ä»¶(OCX)ã€ActiveX æ–‡æ¡£DLL/EXEã€‚åŽé¢å°†åˆ†åˆ«å™è¿°å…¶ä¸­æ¯ä¸€é¡¹çš„æ’ä»¶å¼€å‘æ–¹æ³•ã€‚</p><p>COMï¼šç»„ä»¶å¯¹è±¡æ¨¡åž‹ã€‚OLE2çš„åº•å±‚æž„é€ ï¼ŒWin32(åŒ…æ‹¬Win95-Me)ã€WinNTçš„éª¨æž¶ã€‚å®ƒæ˜¯é¢å‘æŽ¥å£çš„(ä¸æ˜¯çœŸæ­£é¢å‘å¯¹è±¡çš„)ã€‚</p>"
+			"<p>ç±»åç§°ï¼šStreamUnitsComparePlugin</p><p>è®¡åˆ†æ–¹æ³•ï¼š</p><blockquote> <table border=\"0\"><tr> <td>Public Function Score(</td><td>&nbsp;</td>"
 			"<td>&nbsp;</td></tr><tr> <td>&nbsp;</td><td>ByVal match as Long, <br>ByVal unmatch as Long, <br>ByVal extra as Long, <br>"
-			"ByVal lost as Long</td><td>' Æ¥ÅäÊý<br>' ²»Æ¥ÅäÊý<br>' ¶àÓàÊý<br>' È±ÉÙÊý</td></tr><tr> <td> <div align=\"right\">)</div></td><td> as Single</td><td>&nbsp;</td></tr></table>"
-			"<p>Èç£º<br>Public Function Score(match, unmatch, extra, lost)</p><blockquote> <p>Score = match - (unmatch + extra + lost) * 5<br>If Score &lt; 0 Then Score = 0 </p></blockquote><p>End Function</p></blockquote>"
-			"<p>Ê×ÏÈÒÔActiveX DLLÎªÀý£ºÐÂ½¨ActiveX DLL¹¤³Ì£¬½«ÀàClass1ÖØÃüÃûÎªStreamUnitsComparePlugin£¬¼ÓÈëScore·½·¨¡£±£´æ¹¤³Ì£¬È·±£¹¤³ÌÃûºÍ¹¤³ÌÎÄ¼þÃûÏàÍ¬¡£±ÈÈçËµ£¬Èç¹û½«¹¤³Ì´æÈë¡°±È½Ï²å¼þ.vbp¡±£¬ÄÇÃ´½«¹¤³ÌÃû£¨¹¤³Ì1£©¸Ä³É£º±È½Ï²å¼þ¡£×îºóÉú³É¡°±È½Ï²å¼þ.dll¡±¡£ActiveX "
-			"EXEÓë´ËÏàÍ¬¡£ </p><p>¶ÔÓÚActiveX ¿Ø¼þ/ÎÄµµ DLL/EXE£¬·½·¨ÊÇÍêÈ«Ò»ÑùµÄ£¬Ò²ÊÇÌí¼Óº¯ÊýµÄ¹ý³Ì£¬Ö»ÊÇ¿Ø¼þ¶àÁËÒ»¸öÍ¼±ê¶øÒÑ¡£</p><p>&nbsp;</p></blockquote>"
-			"<hr><p align=\"center\"><font size=\"-1\" color=\"#006600\">TopCroak Software(ÌÒ¿ÇÈí¼þ) | Campo Accelerate(²ÝÔ­¼ÓËÙÒýÇæ) | Stream Works(Á÷´¦Àí)</font><font color=\"#006600\"><br>"
-			"<font size=\"-1\">×÷Õß£ºMr. DanSei(Ð»¼ÌÀ×) <br>Òâ¼ûºÍ½¨Òé£º<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p><p>&nbsp; </p>"
+			"ByVal lost as Long</td><td>' åŒ¹é…æ•°<br>' ä¸åŒ¹é…æ•°<br>' å¤šä½™æ•°<br>' ç¼ºå°‘æ•°</td></tr><tr> <td> <div align=\"right\">)</div></td><td> as Single</td><td>&nbsp;</td></tr></table>"
+			"<p>å¦‚ï¼š<br>Public Function Score(match, unmatch, extra, lost)</p><blockquote> <p>Score = match - (unmatch + extra + lost) * 5<br>If Score &lt; 0 Then Score = 0 </p></blockquote><p>End Function</p></blockquote>"
+			"<p>é¦–å…ˆä»¥ActiveX DLLä¸ºä¾‹ï¼šæ–°å»ºActiveX DLLå·¥ç¨‹ï¼Œå°†ç±»Class1é‡å‘½åä¸ºStreamUnitsComparePluginï¼ŒåŠ å…¥Scoreæ–¹æ³•ã€‚ä¿å­˜å·¥ç¨‹ï¼Œç¡®ä¿å·¥ç¨‹åå’Œå·¥ç¨‹æ–‡ä»¶åç›¸åŒã€‚æ¯”å¦‚è¯´ï¼Œå¦‚æžœå°†å·¥ç¨‹å­˜å…¥â€œæ¯”è¾ƒæ’ä»¶.vbpâ€ï¼Œé‚£ä¹ˆå°†å·¥ç¨‹åï¼ˆå·¥ç¨‹1ï¼‰æ”¹æˆï¼šæ¯”è¾ƒæ’ä»¶ã€‚æœ€åŽç”Ÿæˆâ€œæ¯”è¾ƒæ’ä»¶.dllâ€ã€‚ActiveX "
+			"EXEä¸Žæ­¤ç›¸åŒã€‚ </p><p>å¯¹äºŽActiveX æŽ§ä»¶/æ–‡æ¡£ DLL/EXEï¼Œæ–¹æ³•æ˜¯å®Œå…¨ä¸€æ ·çš„ï¼Œä¹Ÿæ˜¯æ·»åŠ å‡½æ•°çš„è¿‡ç¨‹ï¼Œåªæ˜¯æŽ§ä»¶å¤šäº†ä¸€ä¸ªå›¾æ ‡è€Œå·²ã€‚</p><p>&nbsp;</p></blockquote>"
+			"<hr><p align=\"center\"><font size=\"-1\" color=\"#006600\">TopCroak Software(æ¡ƒå£³è½¯ä»¶) | Campo Accelerate(è‰åŽŸåŠ é€Ÿå¼•æ“Ž) | Stream Works(æµå¤„ç†)</font><font color=\"#006600\"><br>"
+			"<font size=\"-1\">ä½œè€…ï¼šMr. DanSei(è°¢ç»§é›·) <br>æ„è§å’Œå»ºè®®ï¼š<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p><p>&nbsp; </p>"
 			"</body></html>"
 		);
 

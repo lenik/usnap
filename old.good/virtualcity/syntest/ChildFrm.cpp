@@ -71,9 +71,9 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 void CChildFrame::OnBoundModule()
 {
-	// 装在分析模块
+	// 瑁呭湪鍒嗘瀽妯″潡
 	CFileDialog fdOpen;
-	fdOpen.SetWindowText("加载分析模块");
+	fdOpen.SetWindowText("鍔犺浇鍒嗘瀽妯″潡");
 	fdOpen.DoModal();
 
 }

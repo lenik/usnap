@@ -1,7 +1,7 @@
-// Automation compiler ±àÒëÄ£°åÎÄ¼ş
-// C++ °æ±¾
+// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶
+// C++ ç‰ˆæœ¬
 
-// ×´Ì¬³£Á¿
+// çŠ¶æ€å¸¸é‡
 
 
 #define A_cc_s                   	0x00000000
@@ -14,7 +14,7 @@
 #define A_cc_START               	0x00000000
 #define A_cc_END                 	0x00000006
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 #define A_cc_calltype	_stdcall
 
 #include <list>
@@ -31,20 +31,20 @@ typedef stack<state> statestack;
 typedef character (A_cc_calltype *A_cc_input_proc)(buffers& ib, int protect_level);
 typedef void (A_cc_calltype *A_cc_user_proc)(state S1, state S2, character c, buffer& accept_buffer);
 
-// º¯ÊıÔ­ĞÍ
+// å‡½æ•°åŸå‹
 
 character A_cc_calltype A_cc_getc();
 character A_cc_calltype A_cc_input(buffers& ib, int pl);
 state A_cc_calltype A_cc_loop(A_cc_input_proc ip, int& pl, buffers& ib, buffers& ab, statestack& ss, state& s);
 bool A_cc_calltype A_cc_main();
 
-// ÓÃ»§º¯ÊıÔ­ĞÍ
+// ç”¨æˆ·å‡½æ•°åŸå‹
 
 void A_cc_calltype A_cc_out(state S1, state S2, character c, buffer& ab);
 void A_cc_calltype A_cc_out(state S1, state S2, character c, buffer& ab);
 void A_cc_calltype A_cc_clear(state S1, state S2, character c, buffer& ab);
 
-// Ä¬ÈÏ´¦Àí
+// é»˜è®¤å¤„ç†
 
 character A_cc_calltype A_cc_getc() {
 	return (character)fgetc(stdin);
@@ -84,7 +84,7 @@ state A_cc_calltype A_cc_loop(
 	/* S is s */
 	character c = ip(ib, pl);
 
-// Ö÷´¦Àíº¯Êı
+// ä¸»å¤„ç†å‡½æ•°
 
 // Eb
 
@@ -465,7 +465,7 @@ void A_cc_calltype A_cc_clear(state S1, state S2, character c, buffer& ab) {
 }
 
 
-// È±Ê¡¿ò¼Ü
+// ç¼ºçœæ¡†æ¶
 
 #ifdef USE_A_cc_FRAME
 void main() {

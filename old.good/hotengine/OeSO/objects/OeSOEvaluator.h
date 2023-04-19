@@ -1,7 +1,7 @@
 
 #pragma once
 
-// ��ֵ�����SOML�е�����ֵ��ִ��SOML�еķ����ȡ�
+// 求值器求解SOML中的属性值、执行SOML中的方法等。
 // CLSID: 00000000-4F45-0602-0002-486954656368
 class OeSOEvaluator :
 	public CComObjectRoot,

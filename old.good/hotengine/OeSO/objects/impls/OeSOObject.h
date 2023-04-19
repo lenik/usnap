@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// ¶ÔÏóÀà´æ·ÅÒ»¸ö¾ßÌåµÄ¶ÔÏó¡£
+// å¯¹è±¡ç±»å­˜æ”¾ä¸€ä¸ªå…·ä½“çš„å¯¹è±¡ã€‚
 // CLSID: 00000000-4F45-0610-0002-486954656368
 
 OeSOObject::OeSOObject() {
@@ -41,8 +41,8 @@ OeSOObject::put_name(BSTR newname) {
 }
 
 /*
- * attributes(ÊôÐÔ¼¯)ÊÇÀàÊôÐÔ¼¯ºÍ¶ÔÏóÊôÐÔ¼¯µÄÈ«¼¯, ±ØÐë¶¯Ì¬Éú³É.
- * ¶øÇÒÊÇÖ»¶ÁµÄ.
+ * attributes(å±žæ€§é›†)æ˜¯ç±»å±žæ€§é›†å’Œå¯¹è±¡å±žæ€§é›†çš„å…¨é›†, å¿…é¡»åŠ¨æ€ç”Ÿæˆ.
+ * è€Œä¸”æ˜¯åªè¯»çš„.
  */
 STDMETHODIMP
 OeSOObject::get_attributes(IOeSOAttributesCollection **ret) {

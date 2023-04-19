@@ -26,8 +26,8 @@ void main(int argc, char **argv) {
 
   if (argc < 3) {
     printf("\
-¸ñÊ½: ESFI <ÎÄÑ§ÉçÔİ´æÄ¿Â¼> <ÎÄÑ§Õ¾Ôİ´æÄ¿Â¼> \n\
-ÀıÈç¶«êÍÉçÎÄ¼ş´æÔÚ¸ùÄ¿Â¼ÏÂdh2Ä¿Â¼, ×ª»»ºóÎÄ¼ş×ª´æµ±Ç°Ä¿Â¼ÏÂesdoc\whÄ¿Â¼ÏÂ: \n\
+æ ¼å¼: ESFI <æ–‡å­¦ç¤¾æš‚å­˜ç›®å½•> <æ–‡å­¦ç«™æš‚å­˜ç›®å½•> \n\
+ä¾‹å¦‚ä¸œæ™–ç¤¾æ–‡ä»¶å­˜åœ¨æ ¹ç›®å½•ä¸‹dh2ç›®å½•, è½¬æ¢åæ–‡ä»¶è½¬å­˜å½“å‰ç›®å½•ä¸‹esdoc\whç›®å½•ä¸‹: \n\
 	>>>  ESFI \\DH2 ESDOC\\WH \n");
     return;
   }
@@ -52,29 +52,29 @@ void main(int argc, char **argv) {
 		process(f.ff_name);
 	      }
 	    } else {
-	      printf("Ã»ÓĞÕÒµ½ÎÄ¼ş");
+	      printf("æ²¡æœ‰æ‰¾åˆ°æ–‡ä»¶");
 	    } break;
 	  case 0x3E: break;				// F4
 	  case 0x3F:					// F5
-	    printf("ÊäÈëĞÂ³¤¶È: "); scanf("%d", &Config.HeadSize);
+	    printf("è¾“å…¥æ–°é•¿åº¦: "); scanf("%d", &Config.HeadSize);
 	    break;
 	  case 0x41:					// F7 F8
 	  case 0x42:
-	    printf(k == 0x41 ? "ÊäÈëÔ´Ä¿Â¼: " : "ÊäÈëÄ¿±êÄ¿Â¼: ");
+	    printf(k == 0x41 ? "è¾“å…¥æºç›®å½•: " : "è¾“å…¥ç›®æ ‡ç›®å½•: ");
 	    scanf("%s", k == 0x41 ? Config.YourPath : Config.MyPath);
 	    mdir (k == 0x41 ? 1 : 2,  k == 0x41 ? Config.YourPath : Config.MyPath);
             break;
 	  case 0x43:					// F9
-	    printf("ĞèÒª·ÖÀàÒ»Âğ? (y/n) ");
+	    printf("éœ€è¦åˆ†ç±»ä¸€å—? (y/n) ");
 	    if ((getche() | 0x20) == 'y') {
-	      printf("\nÊäÈë·ÖÀàÒ»: "); scanf("%s", Config.Class1);
+	      printf("\nè¾“å…¥åˆ†ç±»ä¸€: "); scanf("%s", Config.Class1);
 	    } else {
 	      Config.Class1[0] = '\0';
 	    } break;
 	  case 0x44:					// F10
-	    printf("ĞèÒª·ÖÀà¶şÂğ? (y/n) ");
+	    printf("éœ€è¦åˆ†ç±»äºŒå—? (y/n) ");
 	    if ((getche() | 0x20) == 'y') {
-	      printf("\nÊäÈë·ÖÀà¶ş: "); scanf("%s", Config.Class2);
+	      printf("\nè¾“å…¥åˆ†ç±»äºŒ: "); scanf("%s", Config.Class2);
 	    } else {
 	      Config.Class2[0] = '\0';
 	    } break;
@@ -140,12 +140,12 @@ void mdir(int s, char *dn) {
     }
     if (finddir(buf) == 0) { break; }
     else {
-      printf("Ä¿Â¼²»´æÔÚ, ÊÇ·ñ´´½¨? ");
+      printf("ç›®å½•ä¸å­˜åœ¨, æ˜¯å¦åˆ›å»º? ");
       if ((getche() | 0x20) == 'y') {
 	if (mkldir(buf) == 0) { break; }
-	else { printf("²»ÄÜ´´½¨Ä¿Â¼, ÇëÖØĞÂÊäÈë. \n"); }
+	else { printf("ä¸èƒ½åˆ›å»ºç›®å½•, è¯·é‡æ–°è¾“å…¥. \n"); }
       }
-      printf("\nÊäÈëÄ¿Â¼: "); scanf("%s", buf);
+      printf("\nè¾“å…¥ç›®å½•: "); scanf("%s", buf);
     }
   }
   strcpy(s == 1 ? Config.YourPath : Config.MyPath, buf);
@@ -153,28 +153,28 @@ void mdir(int s, char *dn) {
 
 void Title() {
   printf("\
-\n¶«êÍÎÄÑ§Éç<=>¶«êÍÎÄÑ§Õ¾	ÎÄµµ½Ó¿Ú	[ÄÚ²¿Ê¹ÓÃ]\n\
-*TopCroak Software* ÌÒ¿ÇÈí¼ş 	×÷Õß/Ğ»¼ÌÀ×	1999.4.29\n");
+\nä¸œæ™–æ–‡å­¦ç¤¾<=>ä¸œæ™–æ–‡å­¦ç«™	æ–‡æ¡£æ¥å£	[å†…éƒ¨ä½¿ç”¨]\n\
+*TopCroak Software* æ¡ƒå£³è½¯ä»¶ 	ä½œè€…/è°¢ç»§é›·	1999.4.29\n");
 }
 
 void End() {
-  printf("Õı³£ÍË³ö.\n");
+  printf("æ­£å¸¸é€€å‡º.\n");
 }
 
 void Menu() {
   Title();
   printf("\n\
-//////////////// Ö÷ ²Ë µ¥ ///////////////// \n\
-//  F2 - ÎÄÑ§Éç -> ÎÄÑ§Õ¾ \n\
-//  F3 - ÎÄÑ§Õ¾ -> ÎÄÑ§Éç \n\
-//  X  - ÍË³ö \n\
-////////////////  Ñ¡  Ïî  ///////////////// \n\
-//  F5 - ÏÔÊ¾ÎÄ¼şÍ·´óĞ¡:  %04d \n\
-//  F7 - Ô´Ä¿Â¼:     %s \n\
-//  F8 - Ä¿±êÄ¿Â¼:   %s \n\
+//////////////// ä¸» èœ å• ///////////////// \n\
+//  F2 - æ–‡å­¦ç¤¾ -> æ–‡å­¦ç«™ \n\
+//  F3 - æ–‡å­¦ç«™ -> æ–‡å­¦ç¤¾ \n\
+//  X  - é€€å‡º \n\
+////////////////  é€‰  é¡¹  ///////////////// \n\
+//  F5 - æ˜¾ç¤ºæ–‡ä»¶å¤´å¤§å°:  %04d \n\
+//  F7 - æºç›®å½•:     %s \n\
+//  F8 - ç›®æ ‡ç›®å½•:   %s \n\
 //-- \n\
-//  F9  - ·ÖÀàÒ»: %s \n\
-//  F10 - ·ÖÀà¶ş: %s \n\
+//  F9  - åˆ†ç±»ä¸€: %s \n\
+//  F10 - åˆ†ç±»äºŒ: %s \n\
 //// EAST DOCUMENTS INTERFACE ///////////// \n\
 /////////////////// TOPCROAK SOFTWARE ///// \n",
 Config.HeadSize,
@@ -183,7 +183,7 @@ Config.Class1, Config.Class2);
 }
 
 void HelpScreen() {
-  printf("[ÌÒ¿Ç]ÎŞ°ïÖúĞÅÏ¢\n");
+  printf("[æ¡ƒå£³]æ— å¸®åŠ©ä¿¡æ¯\n");
 }
 
 void process(char *fn) {
@@ -198,13 +198,13 @@ void process(char *fn) {
   strcat(you, fn);
   strcpy(me, Config.MyPath);
   strcat(me, fn);
-  printf("\nÎÄ¼ş: [%s] ", you);
+  printf("\næ–‡ä»¶: [%s] ", you);
   if ((f = fopen(you, "rb")) == NULL) {
-    printf("²»ÄÜ´ò¿ª¸ÃÎÄ¼ş.\n");
+    printf("ä¸èƒ½æ‰“å¼€è¯¥æ–‡ä»¶.\n");
     return;
   }
   if (OpenWpsFile(&f2, me, "wb") != 0) {
-    printf("²»ÄÜ´ò¿ªÄ¿±êÎÄ¼ş.\n");
+    printf("ä¸èƒ½æ‰“å¼€ç›®æ ‡æ–‡ä»¶.\n");
     fclose(f);
     return;
   }
@@ -221,15 +221,15 @@ void process(char *fn) {
     WpsSeek(f2, 0);
     if (Config.Class1[0] != '\0') { fputs("{bc}", f2.f); fputs(Config.Class1, f2.f); fputs("{/bc}", f2.f); }
     if (Config.Class2[0] != '\0') { fputs("{sc}", f2.f); fputs(Config.Class2, f2.f); fputs("{/sc}", f2.f); }
-    printf("ÊäÈëÌâÄ¿: "); scanf("%s", buf);
-      fputs("{ÌâÄ¿}", f2.f); fputs(buf, f2.f); fputs("{/ÌâÄ¿}", f2.f);
-    printf("ÊäÈë×÷Õß: "); scanf("%s", buf);
-      fputs("{×÷Õß}", f2.f); fputs(buf, f2.f); fputs("{/×÷Õß}", f2.f);
+    printf("è¾“å…¥é¢˜ç›®: "); scanf("%s", buf);
+      fputs("{é¢˜ç›®}", f2.f); fputs(buf, f2.f); fputs("{/é¢˜ç›®}", f2.f);
+    printf("è¾“å…¥ä½œè€…: "); scanf("%s", buf);
+      fputs("{ä½œè€…}", f2.f); fputs(buf, f2.f); fputs("{/ä½œè€…}", f2.f);
     while (WpsGetc(f2, &w) != EOF) {
       if (w == 0) { continue; }
-      if (fputc(w & 0xFF, f2.f) == EOF) { perror("Ğ´´íÎó!"); break; }
+      if (fputc(w & 0xFF, f2.f) == EOF) { perror("å†™é”™è¯¯!"); break; }
       if (w >= 0x100) {
-	if (fputc(w >> 8, f2.f) == EOF) { perror("Ğ´´íÎó!"); break; }
+	if (fputc(w >> 8, f2.f) == EOF) { perror("å†™é”™è¯¯!"); break; }
       }
     }
     puts("ok!");
@@ -251,18 +251,18 @@ void rprocess(char *fn) {
   strcat(t, "ESINTERF.ACE");
 
   if ((f = fopen(t, "wt")) == NULL) {
-    printf("´ò¿ªÁÙÊ±ÎÄ¼ş´íÎó");
+    printf("æ‰“å¼€ä¸´æ—¶æ–‡ä»¶é”™è¯¯");
     return;
   }
   if (fputs("\
 	  {bt}  --{au}\n\
 {w}", f) == EOF) {
-    printf("Ğ´ÁÙÊ±ÎÄ¼ş´íÎó! ");
+    printf("å†™ä¸´æ—¶æ–‡ä»¶é”™è¯¯! ");
     fclose(f);
     return;
   }
   fclose(f);
   sprintf(buf, "est %s %s >%s", t, me, you);
-  if (system(buf) != 0) { printf("ÒıÓÃ¶«êÍ·­ÒëÄ£¿éÊ±´íÎó, ¿ÉÄÜÊÇÄÚ´æ²»¹»»òEST.EXE¶ªÊ§. "); }
+  if (system(buf) != 0) { printf("å¼•ç”¨ä¸œæ™–ç¿»è¯‘æ¨¡å—æ—¶é”™è¯¯, å¯èƒ½æ˜¯å†…å­˜ä¸å¤Ÿæˆ–EST.EXEä¸¢å¤±. "); }
   return;
 }

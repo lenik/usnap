@@ -18,9 +18,9 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 			     BOOL		relDemonstrate,
 			     CPREFERPROC	referProc
 			     ) {
-	LPPOINTR	rtSrc;		/* Ô´¿ØÖÆµã -> Ä¿±ê¿ØÖÆµã ¹ØÁª±í */
-	LPPOINTR	rtDst;		/* Ä¿±ê¿ØÖÆµã -> Ô´¿ØÖÆµã ¹ØÁª±í */
-	LPPOINTR	rTable;		/* Á½¸ö¹ØÁª±íµÄºÏ²¢ */
+	LPPOINTR	rtSrc;		/* æºæ§åˆ¶ç‚¹ -> ç›®æ ‡æ§åˆ¶ç‚¹ å…³è”è¡¨ */
+	LPPOINTR	rtDst;		/* ç›®æ ‡æ§åˆ¶ç‚¹ -> æºæ§åˆ¶ç‚¹ å…³è”è¡¨ */
+	LPPOINTR	rTable;		/* ä¸¤ä¸ªå…³è”è¡¨çš„åˆå¹¶ */
 	REAL		Nearest;
 	INT		NearestI;
 	REAL		dist;
@@ -32,7 +32,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 	if (referProc == NULL) return FALSE;
 	if (transProc == NULL && relProc == NULL) return FALSE;
 
-	rtSrc	= NEWA(POINTR, nSrc);	/* ·ÖÅäÊı×é */
+	rtSrc	= NEWA(POINTR, nSrc);	/* åˆ†é…æ•°ç»„ */
 	rtDst	= NEWA(POINTR, nDst);
 	if (rtDst == NULL) {
 		if (rtSrc != NULL) DELETEA(rtSrc);
@@ -41,7 +41,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 	rtSrc[0].ref	= -1;
 	rtDst[0].ref	= -1;
 
-	// ¹ØÁª Ô´ -> Ä¿±ê
+	// å…³è” æº -> ç›®æ ‡
 	for (i = 0; i < nSrc; i++) {
 		Nearest		= -1;
 		for (ii = 0; ii < nDst; ii++) {
@@ -59,7 +59,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 		}
 	}
 
-	// ¹ØÁª Ô´ <- Ä¿±ê, µ±ÇÒ½öµ±Ä¿±êÎ´±»¹ØÁª
+	// å…³è” æº <- ç›®æ ‡, å½“ä¸”ä»…å½“ç›®æ ‡æœªè¢«å…³è”
 	for (i = 0; i < nDst; i++) {
 		INT	rtc	= cp_rtcounts(rtSrc, nSrc);
 		BOOL	refered	= FALSE;
@@ -91,20 +91,20 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 	}
 
 	if (relProc != NULL) {
-		/* ¼ì²âË«Ïò¹ØÁª±í */
-		relProc(rtSrc, cp_rtcounts(rtSrc, nSrc),	/* ¼ì²â·¶Î§ÓÅ»¯ */
+		/* æ£€æµ‹åŒå‘å…³è”è¡¨ */
+		relProc(rtSrc, cp_rtcounts(rtSrc, nSrc),	/* æ£€æµ‹èŒƒå›´ä¼˜åŒ– */
 			rtDst, cp_rtcounts(rtDst, nDst),
 			relParam
 			);
 	}
 
 	if (transProc != NULL) {
-		/* ºÏ²¢¹ØÁª±í²¢½øĞĞ²åÖµÔËËã */
+		/* åˆå¹¶å…³è”è¡¨å¹¶è¿›è¡Œæ’å€¼è¿ç®— */
 		if (sample < 0.005) sample	= 0.005;
 		while (TRUE) {
-			REAL	slider;		/* ²åÖµµã([0, 1]) */
-			LPPOINT	cp;		/* ²åÖµÑù±¾ */
-			INT	ncp1, ncp2;	/* ncp1 + ncp2 == cpÔªÊı */
+			REAL	slider;		/* æ’å€¼ç‚¹([0, 1]) */
+			LPPOINT	cp;		/* æ’å€¼æ ·æœ¬ */
+			INT	ncp1, ncp2;	/* ncp1 + ncp2 == cpå…ƒæ•° */
 			ncp1	= cp_rtcounts(rtSrc, nSrc);
 			ncp2	= cp_rtcounts(rtDst, nDst);
 
@@ -116,7 +116,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 			}
 			rTable	= NEWA(POINTR, ncp1 + ncp2);
 			if (rTable != NULL) {
-				/* ºÏ²¢¹ØÁª±í */
+				/* åˆå¹¶å…³è”è¡¨ */
 				INT	i1 = 0, i2 = 0;
 				INT	ref_serial = 0;
 				rTable[0].ref	= -1;
@@ -142,7 +142,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 							continue;
 						}
 					}
-					/* Ô¤²âÏÂÒ»¸öref_serial */
+					/* é¢„æµ‹ä¸‹ä¸€ä¸ªref_serial */
 					if (i1 < ncp1 && i2 < ncp2) {
 						if (rtSrc[i1].ref <= rtDst[i2].obj) {
 							ref_serial	= rtSrc[i1].ref;
@@ -162,7 +162,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 					ref_serial++;
 					if (ref_serial > ncp1 + ncp2) break;
 				}
-				/* °´ÕÕÄ¿±êÅÅĞò */
+				/* æŒ‰ç…§ç›®æ ‡æ’åº */
 				if (1) {
 					for (ii = 0; ii < i; ii++) {
 						int	iii;
@@ -186,7 +186,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 					}
 				}
 
-				/* ²åÖµÔËËã */
+				/* æ’å€¼è¿ç®— */
 				for (slider = 0; slider <= 1; slider += sample) {
 					for (ii = 0; ii < i; ii++) {
 						LPPOINT	ref	= cpSrc + rTable[ii].ref;
@@ -198,7 +198,7 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 				}
 				DELETEA(rTable);
 			} else {
-				/* ²»ÄÜºÏ²¢¹ØÁª±í, Ç¿ĞĞ²åÖµÔËËã */
+				/* ä¸èƒ½åˆå¹¶å…³è”è¡¨, å¼ºè¡Œæ’å€¼è¿ç®— */
 				for (slider = 0; slider <= 1; slider += sample) {
 					for (i = 0; i < ncp1; i++) {
 						LPPOINT	ref	= cpSrc + rtSrc[i].ref;
@@ -228,11 +228,11 @@ BOOL	STDCALL cp_transform(LPPOINT		cpSrc,
 }
 
 /*
- * rTable, nTable	: ¹ØÁª±í
- * cpDst, nDst		: Ä¿±êµã£¬µ±ÓĞ±ØÒªÊ±Í¨¹ı²éÕÒÄ¿±êµã¼¯·¢ÏÖÆäËû¹ØÁª·½·¨
- * cDstEx, nDstEx	: ¶ÔÓÚÉÏÊö¹ØÁªÆäËûÄ¿±êµãÊ±ĞèÒªÅÅ³ıµÄÄ¿±êµãË÷Òı
- * ref, obj		: Ö¸¶¨¹ØÁª¶Ô
- * dist			: ¹ØÁª¶ÔµÄË÷Òı
+ * rTable, nTable	: å…³è”è¡¨
+ * cpDst, nDst		: ç›®æ ‡ç‚¹ï¼Œå½“æœ‰å¿…è¦æ—¶é€šè¿‡æŸ¥æ‰¾ç›®æ ‡ç‚¹é›†å‘ç°å…¶ä»–å…³è”æ–¹æ³•
+ * cDstEx, nDstEx	: å¯¹äºä¸Šè¿°å…³è”å…¶ä»–ç›®æ ‡ç‚¹æ—¶éœ€è¦æ’é™¤çš„ç›®æ ‡ç‚¹ç´¢å¼•
+ * ref, obj		: æŒ‡å®šå…³è”å¯¹
+ * dist			: å…³è”å¯¹çš„ç´¢å¼•
  */
 BOOL	STDCALL cp_refer(LPPOINTR	rTable,
 			 INT		nTable,
@@ -246,21 +246,21 @@ BOOL	STDCALL cp_refer(LPPOINTR	rTable,
 			 INT		obj,
 			 REAL		dist,
 			 DISTANCEPROC	distProc) {
-	LPPOINTR	outsTable	= NULL;	/* ¾Û¼¯¹ØÁª±í */
-	INT		ocounts		= 0;	/* ¾Û¼¯¹ØÁª±í³¤¶ÈÒÔ¼°Ê¹ÓÃ³¤¶È */
+	LPPOINTR	outsTable	= NULL;	/* èšé›†å…³è”è¡¨ */
+	INT		ocounts		= 0;	/* èšé›†å…³è”è¡¨é•¿åº¦ä»¥åŠä½¿ç”¨é•¿åº¦ */
 	INT		rcounts		= cp_rtcounts(rTable, nTable);
-						/* ¹ØÁª±íÊ¹ÓÃ³¤¶È */
-	BOOL		ret		= TRUE;	/* ·µ»ØÖµ */
+						/* å…³è”è¡¨ä½¿ç”¨é•¿åº¦ */
+	BOOL		ret		= TRUE;	/* è¿”å›å€¼ */
 	INT		i, ii;
 
 	if (rcounts != 0) {
-		/* ³õÊ¼»¯¾Û¼¯¹ØÁª±í */
+		/* åˆå§‹åŒ–èšé›†å…³è”è¡¨ */
 		if ((outsTable = NEWA(POINTR, rcounts)) == NULL) {
 			return FALSE;
 		}
 		outsTable[0].ref	= -1;
 
-		/* ËÑË÷ÒÑ¹ØÁªµÄobj²¢´æÈë¾Û¼¯¹ØÁª±íÖĞ */
+		/* æœç´¢å·²å…³è”çš„objå¹¶å­˜å…¥èšé›†å…³è”è¡¨ä¸­ */
 		for (i = 0; i < rcounts; i++) {
 			if (rTable[i].obj == obj || rTable[i].ref != ref) {
 				cp_setrefer(outsTable, rcounts, rTable[i].ref, rTable[i].obj, rTable[i].dist, ocounts);
@@ -270,32 +270,32 @@ BOOL	STDCALL cp_refer(LPPOINTR	rTable,
 	}
 
 	if (ocounts == 0) {
-		/* Ä¿±êµãÉĞÎ´±»¹ØÁª, ¼òµ¥µÄÉèÖÃ¹ØÁª */
+		/* ç›®æ ‡ç‚¹å°šæœªè¢«å…³è”, ç®€å•çš„è®¾ç½®å…³è” */
 		ret	= cp_setrefer(rTable, nTable, ref, obj, dist, rcounts);
 	} else {
-		/* Ä¿±êµãÒÑ±»Ò»¸ö»òÊı¸ö¹ØÁªµã¹ØÁª,
-		 * 1. ÅĞ¶ÏÊÇ·ñĞèÒªÖØĞÂ¹ØÁªÔ­¹ØÁªÖĞµÄ²¿·Ö»òÈ«²¿
-		 *	1.1 ¹ØÁª±íÖĞ²»°üÀ¨¹ØÁªµãÊÇÖ¸¶¨¹ØÁªµãµÄ¹ØÁª, ÒòÎªÕâÒ»¹ØÁª¿ÉÄÜĞèÒªÖØĞÂ¹ØÁª
-		 *	1.2 ¶ÔÓÚ[(¹ØÁªµÄ³¤¶È´óÓÚÖ¸¶¨¹ØÁªµÄ³¤¶È)µÄ²¿·Ö¹ØÁª]ĞèÒªÖØĞÂ¹ØÁª
-		 *		1.2.1 ÒòÎª²ÉÓÃµİ¹é, ËùÒÔÃ»ÓĞ±ØÒªÖØĞÂ¹ØÁªÉÏÊö²¿·ÖÖĞµÄ·Ç×î¶Ì¹ØÁª
-		 * 2. ¶ÔÓÚĞèÒªÖØĞÂ¹ØÁªµÄµã(´Ë¹ØÁª±ØÔÚ¾Û¼¯¹ØÁª±íÖĞ)µİ¹éµ÷ÓÃ±¾º¯Êı
-		 *	2.1 Îª±£Ö¤ÖØĞÂ¹ØÁªµ½ÆäËü±»¹ØÁªµã, Ìá¹©ÆÁ±ÎÄ¿±êµã¼¯
-		 *		2.1.1 Ìí¼ÓobjÎªÆÁ±ÎÄ¿±êµã
-		 *		2.1.2 ÆÁ±ÎÄ¿±êµã¼¯±ØĞë¶¯Ì¬Éú³É
-		 *	2.2 µİ¹éµ÷ÓÃ±¾º¯Êı
-		 * 3. ¹ØÁªÖ¸¶¨µÄ¹ØÁª
-		 *	3.1 Èç¹û(±»¹ØÁªµãÊôÓÚÆÁ±ÎÄ¿±êµã¼¯)ÔòÖØĞÂÑ°ÕÒ±»¹ØÁªµã
-		 *		3.1.1 ÔÚ{Ä¿±êµã¼¯} - {ÆÁ±ÎÄ¿±êµã¼¯}ÖĞÑ°ÕÒ×îÊÊºÏµÄ¹ØÁª
-		 *		3.1.2 Èç¹û²»´æÔÚ×îÊÊºÏµÄ¹ØÁªÔòÇ¿ÖÆ¹ØÁªÖ¸¶¨¹ØÁª
-		 *	3.2 ¹ØÁªÖ¸¶¨¹ØÁª
+		/* ç›®æ ‡ç‚¹å·²è¢«ä¸€ä¸ªæˆ–æ•°ä¸ªå…³è”ç‚¹å…³è”,
+		 * 1. åˆ¤æ–­æ˜¯å¦éœ€è¦é‡æ–°å…³è”åŸå…³è”ä¸­çš„éƒ¨åˆ†æˆ–å…¨éƒ¨
+		 *	1.1 å…³è”è¡¨ä¸­ä¸åŒ…æ‹¬å…³è”ç‚¹æ˜¯æŒ‡å®šå…³è”ç‚¹çš„å…³è”, å› ä¸ºè¿™ä¸€å…³è”å¯èƒ½éœ€è¦é‡æ–°å…³è”
+		 *	1.2 å¯¹äº[(å…³è”çš„é•¿åº¦å¤§äºæŒ‡å®šå…³è”çš„é•¿åº¦)çš„éƒ¨åˆ†å…³è”]éœ€è¦é‡æ–°å…³è”
+		 *		1.2.1 å› ä¸ºé‡‡ç”¨é€’å½’, æ‰€ä»¥æ²¡æœ‰å¿…è¦é‡æ–°å…³è”ä¸Šè¿°éƒ¨åˆ†ä¸­çš„éæœ€çŸ­å…³è”
+		 * 2. å¯¹äºéœ€è¦é‡æ–°å…³è”çš„ç‚¹(æ­¤å…³è”å¿…åœ¨èšé›†å…³è”è¡¨ä¸­)é€’å½’è°ƒç”¨æœ¬å‡½æ•°
+		 *	2.1 ä¸ºä¿è¯é‡æ–°å…³è”åˆ°å…¶å®ƒè¢«å…³è”ç‚¹, æä¾›å±è”½ç›®æ ‡ç‚¹é›†
+		 *		2.1.1 æ·»åŠ objä¸ºå±è”½ç›®æ ‡ç‚¹
+		 *		2.1.2 å±è”½ç›®æ ‡ç‚¹é›†å¿…é¡»åŠ¨æ€ç”Ÿæˆ
+		 *	2.2 é€’å½’è°ƒç”¨æœ¬å‡½æ•°
+		 * 3. å…³è”æŒ‡å®šçš„å…³è”
+		 *	3.1 å¦‚æœ(è¢«å…³è”ç‚¹å±äºå±è”½ç›®æ ‡ç‚¹é›†)åˆ™é‡æ–°å¯»æ‰¾è¢«å…³è”ç‚¹
+		 *		3.1.1 åœ¨{ç›®æ ‡ç‚¹é›†} - {å±è”½ç›®æ ‡ç‚¹é›†}ä¸­å¯»æ‰¾æœ€é€‚åˆçš„å…³è”
+		 *		3.1.2 å¦‚æœä¸å­˜åœ¨æœ€é€‚åˆçš„å…³è”åˆ™å¼ºåˆ¶å…³è”æŒ‡å®šå…³è”
+		 *	3.2 å…³è”æŒ‡å®šå…³è”
 		 */
 
-		/* Éè Ra = ref->obj, Rb(1..n) = ref'(1..n)->obj,
-		 * Èç¹û´æÔÚRb(j)ÇÒ|Rb(j)|Îª¾àÀë³¤ÓÚ|Ra|µÄËùÓĞRb(j1..jm)ÖĞ
-		 *	¾àÀë×î¶ÌµÄ¹ØÁª, Ôò¹ØÁªref->objÇÒÖØĞÂ¹ØÁªRb(j)->obj
-		 * ·ñÔòËµÃ÷ËùÓĞ|Rb(j)| < |Ra|,
-		 *	Èç¹û²»´æÔÚobj'ÊôÓÚcpDst, Ê¹ref->obj'¹ØÁª³É¹¦,
-		 *	ÔòÇ¿ÖÆ¹ØÁªref->obj.
+		/* è®¾ Ra = ref->obj, Rb(1..n) = ref'(1..n)->obj,
+		 * å¦‚æœå­˜åœ¨Rb(j)ä¸”|Rb(j)|ä¸ºè·ç¦»é•¿äº|Ra|çš„æ‰€æœ‰Rb(j1..jm)ä¸­
+		 *	è·ç¦»æœ€çŸ­çš„å…³è”, åˆ™å…³è”ref->objä¸”é‡æ–°å…³è”Rb(j)->obj
+		 * å¦åˆ™è¯´æ˜æ‰€æœ‰|Rb(j)| < |Ra|,
+		 *	å¦‚æœä¸å­˜åœ¨obj'å±äºcpDst, ä½¿ref->obj'å…³è”æˆåŠŸ,
+		 *	åˆ™å¼ºåˆ¶å…³è”ref->obj.
 		 */
 
 		/* 1 */
@@ -386,8 +386,8 @@ BOOL	STDCALL cp_refer(LPPOINTR	rTable,
 BOOL	STDCALL cp_setrefer(LPPOINTR rTable, INT nTable, INT ref, INT obj, REAL dist, INT initp) {
 	INT	i;
 	for (i = initp; i < nTable; i++) {
-		/* ¶ÔÓÚ rTable[i].ref == ref ±íÏÖÔÚÖØĞÂ¹ØÁª */
-		/* ¶ÔÓÚ rTable[i].ref == NULL ±íÏÖÔÚĞÂÔö¹ØÁª */
+		/* å¯¹äº rTable[i].ref == ref è¡¨ç°åœ¨é‡æ–°å…³è” */
+		/* å¯¹äº rTable[i].ref == NULL è¡¨ç°åœ¨æ–°å¢å…³è” */
 		if (rTable[i].ref == ref || rTable[i].ref == -1) {
 			if (rTable[i].ref == -1) {
 				if (i + 1 < nTable) {

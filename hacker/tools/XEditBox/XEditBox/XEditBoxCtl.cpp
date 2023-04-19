@@ -130,7 +130,7 @@ BOOL CXEditBoxCtrl::CXEditBoxCtrlFactory::UpdateRegistry(BOOL bRegister)
 static const TCHAR BASED_CODE _szLicFileName[] = _T("XEditBox.lic");
 
 static const WCHAR BASED_CODE _szLicString[] =
-	L"Copyright (c) 2002 识惠软件公司·中国";
+	L"Copyright (c) 2002 璇嗘儬杞欢鍏徃路涓浗";
 
 
 /////////////////////////////////////////////////////////////////////////////

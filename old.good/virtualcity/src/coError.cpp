@@ -3,18 +3,18 @@
 
 co_tag_type(coErrorHash) co_error_hash[] = {
 	{
-		coe_none,			"Ã»ÓĞ´íÎó"
+		coe_none,			"æ²¡æœ‰é”™è¯¯"
 	}, {
-		coe_not_existed_node,		"½áµã²»´æÔÚ"
+		coe_not_existed_node,		"ç»“ç‚¹ä¸å­˜åœ¨"
 	}, {
-		coe_not_existed_link,		"Á¬½á²»´æÔÚ"
+		coe_not_existed_link,		"è¿ç»“ä¸å­˜åœ¨"
 	}, {
-		coe_not_existed_path,		"Â·²»´æÔÚ"
+		coe_not_existed_path,		"è·¯ä¸å­˜åœ¨"
 	}, {
-		coe_not_existed_map,		"µØÍ¼²»´æÔÚ"
+		coe_not_existed_map,		"åœ°å›¾ä¸å­˜åœ¨"
 	}, {
-		coe_not_existed_guider,		"µ¼ÓÎ¶ÔÏó²»´æÔÚ"
+		coe_not_existed_guider,		"å¯¼æ¸¸å¯¹è±¡ä¸å­˜åœ¨"
 	}, {
-		coe_uninit_enum,		"Ã¶¾Ù»Øµ÷ÉĞÎ´³õÊ¼»¯"
+		coe_uninit_enum,		"æšä¸¾å›è°ƒå°šæœªåˆå§‹åŒ–"
 	}
 };

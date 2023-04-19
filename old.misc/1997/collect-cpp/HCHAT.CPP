@@ -25,8 +25,8 @@ void main(){
   if (!InitEnv()) return;
   CW[Title].Clear();
     if (Ucdos) {
-      gotoxy(10, 1); PutCString("Ìì ÌÃ ÁÄ Ìì Õ¾    ºË ĞÄ ²â ÊÔ °æ C             ÖÆ ×÷ / Ğ» ¼Ì À×");
-      gotoxy(20, 2); PutCString("Ìì ÌÃ ÓĞ Â· Ç§ Íò Ìõ Òª ×ß ÄÄ Ìõ Ëæ Äã Ìô");
+      gotoxy(10, 1); PutCString("å¤© å ‚ èŠ å¤© ç«™    æ ¸ å¿ƒ æµ‹ è¯• ç‰ˆ C             åˆ¶ ä½œ / è°¢ ç»§ é›·");
+      gotoxy(20, 2); PutCString("å¤© å ‚ æœ‰ è·¯ åƒ ä¸‡ æ¡ è¦ èµ° å“ª æ¡ éš ä½  æŒ‘");
     } else {
       gotoxy(10, 1); PutCString("Heaven Chat Station   Kernel Testing Version C    Author DanSei");
       gotoxy(20, 2); PutCString("Each way go to heaven is available for you");

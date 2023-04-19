@@ -13,8 +13,8 @@
 #define MUSIC_FILE_MAXSIZE	65536
 #define BLOCKSIZE			16384
 
-#define MUSIC_FILE_HEADER	"���ļ���BasCode->����ת��������\r\n"
-#define MUSIC_FILE_FOOTER	"ллʹ�ñ�����! лл!\r\n�ҿ�����  ��Ȩ����\r\n"
+#define MUSIC_FILE_HEADER	"本文件由BasCode->简谱转换器产生\r\n"
+#define MUSIC_FILE_FOOTER	"谢谢使用本软件! 谢谢!\r\n桃壳软件  版权保留\r\n"
 #define MUSIC_FILE_MARKER	"\x1A ALL RIGHTS RESERVED.\r\n"
 #define SECSEPARATOR		"******\r\n"
 

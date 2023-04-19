@@ -5,21 +5,21 @@ typedef DWORD (_stdcall *BITBLTPROC)(DWORD, DWORD);
 typedef DWORD (_stdcall *BITBLTALPHAPROC)(DWORD, DWORD, DWORD);
 typedef BOOL  (_stdcall *BITBLTEXTENDPROC)(LPDWORD, LPDWORD, LONG, LONG, DWORD);
 
-#define BITBLT_SIMPLE			0x000001	// ͨ�ö�Ԫ�ص�
-#define BITBLT_BIDIRECTION		0x000002	// ˫���޸Ķ�Ԫ�ص�(ͨ����������ָ��)
-#define BITBLT_ALPHA			0x000003	// ������Ԫ�ص�
-#define BITBLT_ALPHA_H			0x000004	// ˮƽ������Ԫ�ص�
-#define BITBLT_ALPHA_V			0x000005	// ��ֱ������Ԫ�ص�
-#define BITBLT_EXTEND			0x0000FF	// ���д��ݻص�
+#define BITBLT_SIMPLE			0x000001	// 通用二元回调
+#define BITBLT_BIDIRECTION		0x000002	// 双向修改二元回调(通过传递两个指针)
+#define BITBLT_ALPHA			0x000003	// 常量三元回调
+#define BITBLT_ALPHA_H			0x000004	// 水平过渡三元回调
+#define BITBLT_ALPHA_V			0x000005	// 垂直过渡三元回调
+#define BITBLT_EXTEND			0x0000FF	// 阵列传递回调
 
-#define BITBLT_ONLYDEST			0x000100	// Դ�����ǳ���		alpha1
-#define BITBLT_ONLYSRC			0x000200	// Ŀ�������ǳ���	alpha2
+#define BITBLT_ONLYDEST			0x000100	// 源区域是常量		alpha1
+#define BITBLT_ONLYSRC			0x000200	// 目标区域是常量	alpha2
 
-#define BITBLT_TESTBITMAP		0x010000	// ������λͼ����
-#define BITBLT_TESTCALLBACK		0x020000	// �����Իص�����
+#define BITBLT_TESTBITMAP		0x010000	// 仅测试位图功能
+#define BITBLT_TESTCALLBACK		0x020000	// 仅测试回调功能
 
-#define FI_DESTKEY			0x00		// ͨ��Ŀ���
-#define FI_SRCKEY			0x01		// ͨ��Դ��
+#define FI_DESTKEY			0x00		// 通过目标键
+#define FI_SRCKEY			0x01		// 通过源键
 
 #define FI_GETADDRESS			0
 #define FI_GETVAL			1
@@ -40,12 +40,12 @@ typedef BOOL  (_stdcall *BITBLTEXTENDPROC)(LPDWORD, LPDWORD, LONG, LONG, DWORD);
 #define FI_VAR_SIZEDEST			14
 #define FI_VAR_SIZESRC			15
 
-#define FI_MAXDELAY			4096		// ���������ʱ. ���ڻָ���������
+#define FI_MAXDELAY			4096		// 最大锁定延时. 用于恢复锁定出错
 
 #define FI_MAXWIDTH			2048
 #define FI_MAXHEIGHT			2048
 
-// λ������
+// 位处理宏
 	#define	_I(X, Y)	((height - (Y) - 1) * width + (X))
 
 	#define	_A(A, B)	FI_BitBlt_Call_Add(A, B)
@@ -69,7 +69,7 @@ typedef BOOL  (_stdcall *BITBLTEXTENDPROC)(LPDWORD, LPDWORD, LONG, LONG, DWORD);
 	#define _NOLESS(N, S)	((N) < (S) ? (S) : (N))
 	#define _NOLESS0B(N)	((N) > 0xFF ? 0 : (N))
 
-// �ⲿ��������
+// 外部变量声明
 
 	extern BOOL		bRunning;
 

@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 
-// ³ÌĞò¶Î1£º¸ÄÎª 4 ¸ö·½Ïò¼ÆÊı £¨Ô­Îª 8 ¸ö·½Ïò£©
+// ç¨‹åºæ®µ1ï¼šæ”¹ä¸º 4 ä¸ªæ–¹å‘è®¡æ•° ï¼ˆåŸä¸º 8 ä¸ªæ–¹å‘ï¼‰
 
 void __declspec(naked) Seg1_4Count(int, int) {
 	__asm {
@@ -20,7 +20,7 @@ void __declspec(naked) Seg1_4Count(int, int) {
 		shl ebx, 5
 		add ebx, 1005700h
 
-		add ebx, edx		// edx=X(1Îªµ×), X(0Îªµ×+1)
+		add ebx, edx		// edx=X(1ä¸ºåº•), X(0ä¸ºåº•+1)
 		mov al, [ebx]
 		shr al, 7
 		add ecx, eax

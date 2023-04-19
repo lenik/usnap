@@ -190,7 +190,7 @@ void keymaker::digitalize(key_t *buf, long bufsize) {
 	// 1:
 
 	for (int i = 0; i < buflength; i++) {
-		// ×î±Æ½üµÄÑÓÊ± freqbase[mindiffi]
+		// æœ€é€¼è¿‘çš„å»¶æ—¶ freqbase[mindiffi]
 		int mindiff = MAX_TEMPLATE;
 		int mindiffi = 0;
 		for (int j = 0; j < nfreqs; i++) {
@@ -212,9 +212,9 @@ void keymaker::digitalize(key_t *buf, long bufsize) {
 	while (j < buflength) {
 
 (easy monitor)
-ÏÈ±£´æÕû¸ö²È²½´úÂë, ²È²½È«¾ÖÊ±¼ä(»òÊ±¼ä²î)
-²¢×÷¼´Ê±ÏÔÊ¾, ´ýÍê³Éºó½«¸´ºÏ²½Ê±¼äÑÓ³ÙÄÚµÄ
-²È²½ºÏ³É, µþ¼ÓÊ±¼ä(Èç¹ûÊÇÊ±¼ä²î).
+å…ˆä¿å­˜æ•´ä¸ªè¸©æ­¥ä»£ç , è¸©æ­¥å…¨å±€æ—¶é—´(æˆ–æ—¶é—´å·®)
+å¹¶ä½œå³æ—¶æ˜¾ç¤º, å¾…å®ŒæˆåŽå°†å¤åˆæ­¥æ—¶é—´å»¶è¿Ÿå†…çš„
+è¸©æ­¥åˆæˆ, å åŠ æ—¶é—´(å¦‚æžœæ˜¯æ—¶é—´å·®).
 
 	clock_t
 */

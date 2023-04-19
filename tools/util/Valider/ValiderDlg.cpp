@@ -445,7 +445,7 @@ int CValiderDlg::destproc(HANDLE h, UINT msg, DWORD p1, DWORD p2) {
 		counters[0] = 0;
 		break;
 	case FF_FILE:
-		//Ã»ÓĞ°ì·¨×öµ½Ê¹·´Ïì±éÀúÄÜ¹»ºöÂÔÕıÏò±éÀúÒÔ±ãÀú¹ıµÄÎÄ¼ş
+		//æ²¡æœ‰åŠæ³•åšåˆ°ä½¿åå“éå†èƒ½å¤Ÿå¿½ç•¥æ­£å‘éå†ä»¥ä¾¿å†è¿‡çš„æ–‡ä»¶
 		//    massert("unpossible reach here if 2 directories as same");
 		ASSERT(pcounter >= 0);
 		counters[pcounter]++;
@@ -527,11 +527,11 @@ void CValiderDlg::OnButtonStart()
 
 	this->m_strLog = _T("");
 
-	// ¶ÔsourceµÄÃ¿¸öÎÄ¼ş·ÖÎö { source } union { dest int source }
+	// å¯¹sourceçš„æ¯ä¸ªæ–‡ä»¶åˆ†æ { source } union { dest int source }
 	findfiles(this->m_strSource, -1, ::srcproc, (DWORD)this);
-	// ¶ÔdestµÄÃ¿¸öÎÄ¼ş·ÖÎö { dest } union { source int dest }
+	// å¯¹destçš„æ¯ä¸ªæ–‡ä»¶åˆ†æ { dest } union { source int dest }
 	findfiles(this->m_strDest, -1, ::destproc, (DWORD)this);
-	// µÃ³ö£º S+DS + D+SD == S + D + SD == S + D == E(entire)
+	// å¾—å‡ºï¼š S+DS + D+SD == S + D + SD == S + D == E(entire)
 
 	CString line;
 	line.Format(_T("total %d files, correct accumulate: %.2f, average: %.2f\r\n"),
@@ -589,7 +589,7 @@ float CValiderDlg::destfile() {
 	wsprintf(srcfile, _T("%s\\%s"), srcdir, this->m_strFileBase);
 
 	CFileStatus st;
-	// ·´Ïò±éÀúÖĞÖ»²éÕÒ¶àÓàµÄÎÄ¼ş
+	// åå‘éå†ä¸­åªæŸ¥æ‰¾å¤šä½™çš„æ–‡ä»¶
 	if (!CFile::GetStatus(srcfile, st)) {
 		massert("if 2 directories same, it won't come here");
 		CString line;

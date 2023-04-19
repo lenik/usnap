@@ -1,14 +1,14 @@
 
 /*
- * 标准图形处理 Standard Graphics Process
+ * 鏍囧噯鍥惧舰澶勭悊 Standard Graphics Process
  *
- * 桃壳高科技 2001
+ * 妗冨３楂樼鎶� 2001
  */
 
 #pragma once
 
-#pragma warning(disable: 4786)		// 调试符号名称太长
-#pragma warning(disable: 4519)		// 缺省模版参数只能用在模版类声明中
+#pragma warning(disable: 4786)		// 璋冭瘯绗﹀彿鍚嶇О澶暱
+#pragma warning(disable: 4519)		// 缂虹渷妯＄増鍙傛暟鍙兘鐢ㄥ湪妯＄増绫诲０鏄庝腑
 
 ///////////////////////////////////////////////////////////////////////////////
 //

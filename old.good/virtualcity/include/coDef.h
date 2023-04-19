@@ -26,23 +26,23 @@
 
 #endif
 
-// ĞéÄâ½Ó¿Ú
+// è™šæ‹Ÿæ¥å£
 #define interface	struct
 
-// ±ê×¼º¯Êı
+// æ ‡å‡†å‡½æ•°
 #define coP		_stdcall
 #define coF(TYPE)	TYPE _stdcall
 #define coSF		coRet _stdcall
 
-// ³éÏóº¯ÊıÀàĞÍ
+// æŠ½è±¡å‡½æ•°ç±»å‹
 #define coVP		virtual coP
 #define coVF(TYPE)	virtual coF(TYPE)
 #define coSVF		virtual coSF
 
-// µÍ¼¶×ª»»(ÓÃÓÚÍ¨ÓÃ²ÎÊı´«µİ)
+// ä½çº§è½¬æ¢(ç”¨äºé€šç”¨å‚æ•°ä¼ é€’)
 #define co_cast(type)	*(type *)&
 
-// ³£Á¿
+// å¸¸é‡
 
 #define co_PI			3.1416
 
@@ -54,4 +54,4 @@
 //
 #define co_ASSERT(exp)		ASSERT(exp)
 
-#define coA			// ¸½¼Ó´úÂë
+#define coA			// é™„åŠ ä»£ç 

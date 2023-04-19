@@ -194,10 +194,10 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 // For Test
 /*
-// ¶ÔVB×Ô¶¯»¯×Ö´®ÎÞÐ§, Ò²¾ÍÊÇËµVB´«¸øAPIµÄÊÇ×Ö´®µÄ¸±±¾
-// ²»¹ý¶ÔÔÚVBÖÐÃ÷È·ÉùÃ÷¹ýµÄ×Ö´®±äÁ¿È´ÓÐÐ§ (ÇÒ±ØÐëÉùÃ÷Îªas string, ²»¿Éas any
-// ÕâËµÃ÷ÈôÔÚVBÖÐÃ÷È·ÉùÃ÷Ä³±äÁ¿ºó, ¸Ã±äÁ¿¾Í²»ÔÙÊÇ×Ô¶¯»¯±äÁ¿, ¶øÊÇ¹Ì¶¨½á¹¹µÄ
-// ÆÕÍ¨ÄÚ´æ±äÁ¿ÁË. (×Ö´®¶ÔÓÚVBÀ´ËµÊÇBSTR, µ«ÒÑ¾­²»ÊÇ×Ô¶¯»¯ÖÐµÄÊôÓÚ²¿·ÖµÄBSTRÁË)
+// å¯¹VBè‡ªåŠ¨åŒ–å­—ä¸²æ— æ•ˆ, ä¹Ÿå°±æ˜¯è¯´VBä¼ ç»™APIçš„æ˜¯å­—ä¸²çš„å‰¯æœ¬
+// ä¸è¿‡å¯¹åœ¨VBä¸­æ˜Žç¡®å£°æ˜Žè¿‡çš„å­—ä¸²å˜é‡å´æœ‰æ•ˆ (ä¸”å¿…é¡»å£°æ˜Žä¸ºas string, ä¸å¯as any
+// è¿™è¯´æ˜Žè‹¥åœ¨VBä¸­æ˜Žç¡®å£°æ˜ŽæŸå˜é‡åŽ, è¯¥å˜é‡å°±ä¸å†æ˜¯è‡ªåŠ¨åŒ–å˜é‡, è€Œæ˜¯å›ºå®šç»“æž„çš„
+// æ™®é€šå†…å­˜å˜é‡äº†. (å­—ä¸²å¯¹äºŽVBæ¥è¯´æ˜¯BSTR, ä½†å·²ç»ä¸æ˜¯è‡ªåŠ¨åŒ–ä¸­çš„å±žäºŽéƒ¨åˆ†çš„BSTRäº†)
 VOID _stdcall lowerString(char *p) {
 	LONG len = getStringLengthA(p); 
 	LONG i; 
@@ -205,8 +205,8 @@ VOID _stdcall lowerString(char *p) {
 		p[i] |= 0x20; 
 	}
 }
-// VB·µ»Ø×Ô¶¨ÒåÀàÐÍÊ±£¬²»Ê±·µ»ØÕâÖÖÀàÐÍ±äÁ¿µÄµØÖ·£¬¶øÊÇÕû¸öÀàÐÍ±äÁ¿µÄÖµ
-// Ò²¾ÍÊÇËµ£¬·µ»ØµÄÊý¾ÝÒ»°ã²»Ö¹×Ö³¤£¨32Î»£©
+// VBè¿”å›žè‡ªå®šä¹‰ç±»åž‹æ—¶ï¼Œä¸æ—¶è¿”å›žè¿™ç§ç±»åž‹å˜é‡çš„åœ°å€ï¼Œè€Œæ˜¯æ•´ä¸ªç±»åž‹å˜é‡çš„å€¼
+// ä¹Ÿå°±æ˜¯è¯´ï¼Œè¿”å›žçš„æ•°æ®ä¸€èˆ¬ä¸æ­¢å­—é•¿ï¼ˆ32ä½ï¼‰
 struct S {
 	short	i; 
 	long	l1, l2; 

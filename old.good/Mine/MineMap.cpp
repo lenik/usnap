@@ -19,7 +19,7 @@ MineMap::MineMap() {
 			lookt[tY][tX] = init[tY][tX];
 		}
 	}
-	tX = tY = 1;	// (1,1)ÎªÖĞĞÄµã
+	tX = tY = 1;	// (1,1)ä¸ºä¸­å¿ƒç‚¹
 }
 
 void MineMap::randomMap() {
@@ -33,14 +33,14 @@ void MineMap::randomMap() {
 void MineMap::click(int x, int y) {
 	if (!map[y][x].bMined) map[y][x].state = OPENED;
 
-	// ÓĞ½â·ÖÎö
+	// æœ‰è§£åˆ†æ
 	BOOL hassolve = FALSE;
 	//while (!hassolve) {
 	//...
 
-	// 1.´æÔÚÉĞÎ´½âµ«¿ÉÒÔ½âµÄ¸ñ×Ó
+	// 1.å­˜åœ¨å°šæœªè§£ä½†å¯ä»¥è§£çš„æ ¼å­
 
-	// ½«ÆäÓàËæ»ú»¯
+	// å°†å…¶ä½™éšæœºåŒ–
 	int i, j;
 	BOOL needrandom[MAXH][MAXW];
 	int needrandom_count = 0;
@@ -74,8 +74,8 @@ void MineMap::click(int x, int y) {
 }
 
 BOOL MineMap::hint_byprob(int& x, int& y) {
-	double pmap[MAXH][MAXW];	// * ¸ÅÂÊ±í
-	int timestamp[MAXH][MAXW];	// Ê±Ğò
+	double pmap[MAXH][MAXW];	// * æ¦‚ç‡è¡¨
+	int timestamp[MAXH][MAXW];	// æ—¶åº
 	int i, j, _i, _j;
 	int T;
 	double prob = 0.0;
@@ -92,10 +92,10 @@ BOOL MineMap::hint_byprob(int& x, int& y) {
 	for (j = 0; j < height; j++) {
 		for (i = 0; i < width; i++) {
 			if (map[j][i].state == OPENED && map[j][i].areaCount > 0) {
-				prob = 0.0;	// ¸Ãµã°Ë·½Î´¿ªÆôµÄ¸ñ×Ó×Ü*¸ÅÂÊ
-				int t = 0;	// °Ë·½²ÎÓë¼ÆËã¸ñ×ÓÊı
-				int Tmax = 0;	// ×î½üµÄÊ±Ğò
-				int tmax = 0;	// ×î½üÊ±Ğò²ÎÓëµÄ¸ñ×ÓÊı
+				prob = 0.0;	// è¯¥ç‚¹å…«æ–¹æœªå¼€å¯çš„æ ¼å­æ€»*æ¦‚ç‡
+				int t = 0;	// å…«æ–¹å‚ä¸è®¡ç®—æ ¼å­æ•°
+				int Tmax = 0;	// æœ€è¿‘çš„æ—¶åº
+				int tmax = 0;	// æœ€è¿‘æ—¶åºå‚ä¸çš„æ ¼å­æ•°
 				for (_j = -1; _j <= 1; _j++) {
 					for (_i = -1; _i <= 1; _i++) {
 						if (j + _j < 0 || i + _i < 0 || j + _j >= height || i + _i >= width) {
@@ -114,10 +114,10 @@ BOOL MineMap::hint_byprob(int& x, int& y) {
 						}
 					}
 				}
-				// ¼ÓÈëĞÂ¸ÅÂÊ
-				prob = map[j][i].areaCount - prob;	// Ê£Óà¸ÅÂÊ
+				// åŠ å…¥æ–°æ¦‚ç‡
+				prob = map[j][i].areaCount - prob;	// å‰©ä½™æ¦‚ç‡
 				if (prob < 0) prob = 0;
-				prob /= (t - tmax);			// ¸üĞÂ¾ÉµÄ
+				prob /= (t - tmax);			// æ›´æ–°æ—§çš„
 				for (_j = -1; _j <= 1; _j++) {
 					for (_i = -1; _i <= 1; _i++) {
 						if (j + _j < 0 || i + _i < 0 || j + _j >= height || i + _i >= width) {
@@ -137,7 +137,7 @@ BOOL MineMap::hint_byprob(int& x, int& y) {
 	return TRUE;
 }
 
-// ÓÉ¿éÍÆÀíÕÒ³öµ±Ç°¿ÉÒÔµÃÖªµÄ½â, Èç¹ûÃ»ÓĞ¶¨½âÔò·µ»ØFALSE
+// ç”±å—æ¨ç†æ‰¾å‡ºå½“å‰å¯ä»¥å¾—çŸ¥çš„è§£, å¦‚æœæ²¡æœ‰å®šè§£åˆ™è¿”å›FALSE
 BOOL MineMap::hint_byblock(int& x, int& y) {
 	class MapList {
 	public:
@@ -148,7 +148,7 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 		MCLASS& grid(MAP map, int x, int y) {
 			return map[y * This->width + x];
 		}
-		// ²Î¿¼ÊÇÃ»±ØÒªµÄ
+		// å‚è€ƒæ˜¯æ²¡å¿…è¦çš„
 		MAP operator[](int index) {
 			MAPLIST::iterator it;
 			if (index >= m_list.size()) return NULL;
@@ -161,7 +161,7 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 		}
 		size_type size() { return m_list.size(); }
 	public:
-		typedef his::hashes<MCLASS, int> Xclass;	// ·ÖÀàºÅ -> À×Ä¿
+		typedef his::hashes<MCLASS, int> Xclass;	// åˆ†ç±»å· -> é›·ç›®
 		int *classNum(MCLASS classid) {
 			Xclass::hashlist::iterator it;
 			for (it = m_classes.m_list.begin(); it != m_classes.m_list.end(); ++it) {
@@ -169,9 +169,9 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 					return &(it->value);
 				}
 			}
-			return NULL;	// ·ÖÀàºÅÎ´¶¨Òå
+			return NULL;	// åˆ†ç±»å·æœªå®šä¹‰
 		}
-		// Ìí¼Ó·ÖÀà£¬·µ»ØÊÇ·ñ²úÉúÁËĞÂ½Úµã
+		// æ·»åŠ åˆ†ç±»ï¼Œè¿”å›æ˜¯å¦äº§ç”Ÿäº†æ–°èŠ‚ç‚¹
 		BOOL addClass(MCLASS classid, int num) {
 			Xclass::hashlist::iterator it;
 			for (it = m_classes.m_list.begin(); it != m_classes.m_list.end(); ++it) {
@@ -191,8 +191,8 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 	public:
 		MapList(const MineMap *pOuter) : m_list(MAPLIST()), m_classes(Xclass()) {}
 	public:
-		// ·µ»ØÔÚÖ¸¶¨ÇøÓòÖĞ¿ÉÓÃµÄMAP, ÈôÎŞ½«ĞÂ½¨Ò»¸ö²¢·µ»Ø¡£
-		// ×îºóµÄÉèÖÃ¹¤×÷½«ÓÉµ÷ÓÃÕßÍê³É¡£
+		// è¿”å›åœ¨æŒ‡å®šåŒºåŸŸä¸­å¯ç”¨çš„MAP, è‹¥æ— å°†æ–°å»ºä¸€ä¸ªå¹¶è¿”å›ã€‚
+		// æœ€åçš„è®¾ç½®å·¥ä½œå°†ç”±è°ƒç”¨è€…å®Œæˆã€‚
 		MAP availmap(BOOL *regiondesc, int width, int height, int cX, int cY, int mapX, int mapY) {
 			MAPLIST::iterator it;
 			BOOL available;
@@ -276,8 +276,8 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 	for (j = 0; j < height; j++) {
 		for (i = 0; i < width; i++) {
 			if (map[j][i].state == OPENED && map[j][i].areaCount > 0) {
-				// ÏÈ½«±ê×¼Çø¼ÆÊı¼ÓÈëmaplist¡£
-				//   1 Ìî³ä±ê×¼Çø
+				// å…ˆå°†æ ‡å‡†åŒºè®¡æ•°åŠ å…¥maplistã€‚
+				//   1 å¡«å……æ ‡å‡†åŒº
 				MCLASS cls[MAXTH][MAXTW];
 				++T;
 				Tnum = map[j][i].areaCount;
@@ -293,9 +293,9 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 					}
 				}
 
-				//   2 ¶ÔÕÕ±ê×¼Çø£¬¿´ÓĞÎŞÖØ¸´¡£ÈôÎŞÖØ¸´ÔòÌí¼Ó±ê×¼Çø
+				//   2 å¯¹ç…§æ ‡å‡†åŒºï¼Œçœ‹æœ‰æ— é‡å¤ã€‚è‹¥æ— é‡å¤åˆ™æ·»åŠ æ ‡å‡†åŒº
 				BOOL repeated = FALSE;
-				MCLASS pT;		// ÖØ¸´ÇøT´úÂë
+				MCLASS pT;		// é‡å¤åŒºTä»£ç 
 				MapList::size_type maps = maplist.size();
 
 				for (int mi = 0; mi < maps && !repeated; mi++) {
@@ -308,10 +308,10 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 							if (cls[_j][_i]) {
 								pT = pmap[(j + _j - tY) * width + (i + _i - tX)];
 								if (pT > 0) {
-									// ÔÚpmapÖĞ·¢ÏÖÒ»¸ñÖØ¸´¡£¼ì²â¸Ã¸ñÔÚpmapÖĞ¶ÔÓ¦TÇøÓò£¬
-									// ²¢½«´ËÇøÓòÓë±ê×¼Çø±È½Ï¿´ÊÇ·ñÈ«²¿ÖØµş¡£
-									// ÈôÈ«²¿ÖØµşÖ»ÄÜËµÃ÷±ê×¼ÇøÊÇ¸ÃTÇøÓòµÄ¸¸¼¯£¬ÉĞ²»ÄÜËµÃ÷È«²¿ÖØ¸´£¬
-									// ËùÒÔÒª½Ó×Å¼ì²âTÇøÓòÊÇ±ê×¼ÇøµÄ¸¸¼¯¡£
+									// åœ¨pmapä¸­å‘ç°ä¸€æ ¼é‡å¤ã€‚æ£€æµ‹è¯¥æ ¼åœ¨pmapä¸­å¯¹åº”TåŒºåŸŸï¼Œ
+									// å¹¶å°†æ­¤åŒºåŸŸä¸æ ‡å‡†åŒºæ¯”è¾ƒçœ‹æ˜¯å¦å…¨éƒ¨é‡å ã€‚
+									// è‹¥å…¨éƒ¨é‡å åªèƒ½è¯´æ˜æ ‡å‡†åŒºæ˜¯è¯¥TåŒºåŸŸçš„çˆ¶é›†ï¼Œå°šä¸èƒ½è¯´æ˜å…¨éƒ¨é‡å¤ï¼Œ
+									// æ‰€ä»¥è¦æ¥ç€æ£€æµ‹TåŒºåŸŸæ˜¯æ ‡å‡†åŒºçš„çˆ¶é›†ã€‚
 									//if (maplist.big_in_small(
 
 									int _x, _y;
@@ -320,14 +320,14 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 										for (_x = 0; _x < width && repeated2; _x++) {
 											MCLASS pT2;
 											pT2 = pmap[_y * width + _x];
-											// 1 ¸ÃµãÊôÓÚĞèÒª¼ì²âµÄÇøÓò£¬ÇÒ
-											//   ¸ÃµãËùÔÚÇøÓò×ø±êÈô³¬³ö±ê×¼ÇøÇø¼ä£¬
-											//   ÔòÏÔÈ»ËµÃ÷Õû¸öÇøÓòÓë±ê×¼Çø²»ÖØºÏ¡£
-											// 2 ¸ÃµãËùÔÚÇøÓò×ø±êÔÚ±ê×¼ÇøÇø¼äÄÚ£¬
-											//   ÔòÓë±ê×¼ÇøÇø¼äÖĞ¶ÔÓ¦µã±È½Ï¡£Èô²»Í¬ÔòÍ¬ÉÏ¡£
-											// ¶ÔÓ¦µã×ø±ê: y = j + _j - tY, x = i + _i - tX
+											// 1 è¯¥ç‚¹å±äºéœ€è¦æ£€æµ‹çš„åŒºåŸŸï¼Œä¸”
+											//   è¯¥ç‚¹æ‰€åœ¨åŒºåŸŸåæ ‡è‹¥è¶…å‡ºæ ‡å‡†åŒºåŒºé—´ï¼Œ
+											//   åˆ™æ˜¾ç„¶è¯´æ˜æ•´ä¸ªåŒºåŸŸä¸æ ‡å‡†åŒºä¸é‡åˆã€‚
+											// 2 è¯¥ç‚¹æ‰€åœ¨åŒºåŸŸåæ ‡åœ¨æ ‡å‡†åŒºåŒºé—´å†…ï¼Œ
+											//   åˆ™ä¸æ ‡å‡†åŒºåŒºé—´ä¸­å¯¹åº”ç‚¹æ¯”è¾ƒã€‚è‹¥ä¸åŒåˆ™åŒä¸Šã€‚
+											// å¯¹åº”ç‚¹åæ ‡: y = j + _j - tY, x = i + _i - tX
 											if (pT2 == pT) {
-												// ±ê×¼ÇøÇø¼äÎ»ÓÚmapÇø×ø±ê£ºj+(0..theight-1)-tY i+(0..twidth-1)-tX
+												// æ ‡å‡†åŒºåŒºé—´ä½äºmapåŒºåæ ‡ï¼šj+(0..theight-1)-tY i+(0..twidth-1)-tX
 												if (_y < j - tY
 													|| _y > j + theight - 1 - tY
 													|| _x < i - tX
@@ -366,7 +366,7 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 										}
 									}
 									if (repeated2) {
-										// ÍêÈ«ÖØ¸´
+										// å®Œå…¨é‡å¤
 										repeated = TRUE;
 									}
 
@@ -377,8 +377,8 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 				} // for mi
 
 				if (repeated) {
-					// ÓĞÖØ¸´¡£¶ÔÖØ¸´µÄTÇøÓòÀ×Ä¿¼ÆÊı½øĞĞ¸Ä½ø£¬
-					// Ñ¡È¡Ğ¡µÄÀ×Ä¿×÷Îª¸ÃÇøÓòµÄÀ×Ä¿¼ÆÊı¡£
+					// æœ‰é‡å¤ã€‚å¯¹é‡å¤çš„TåŒºåŸŸé›·ç›®è®¡æ•°è¿›è¡Œæ”¹è¿›ï¼Œ
+					// é€‰å–å°çš„é›·ç›®ä½œä¸ºè¯¥åŒºåŸŸçš„é›·ç›®è®¡æ•°ã€‚
 					int *classnum = maplist.classNum(pT);
 					if (classnum == NULL) {
 						__assume(0);
@@ -387,7 +387,7 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 						*classnum = Tnum;
 					}
 				} else {
-					// ÎŞÖØ¸´¡£Ìí¼Ó±ê×¼Çø¡£
+					// æ— é‡å¤ã€‚æ·»åŠ æ ‡å‡†åŒºã€‚
 					BOOL *region = new BOOL[theight * twidth];
 					for (_j = 0; _j < theight; _j++) {
 						for (_i = 0; _i < twidth; _i++) {
@@ -408,10 +408,10 @@ BOOL MineMap::hint_byblock(int& x, int& y) {
 				}
 
 				// sum lookt+P[j][i] ==> areaCount
-				// Pµã¸½½ülooktÇÒ£¡OPENEDµÄ¸ñ×ÓÓĞÎŞÒÑ±»±êºÅµÄ£¬
-				//	ÈôÓĞ£¬±êºÅÇøÊÇ·ñÓĞÈ«¸²¸ÇµÄ£¬ÈôÓĞÔò½«ÆäÀ×Ä¿´ÓP´¦¼õÈ¥£¬
-				//	²¢½«P±ê×¼Çø³ıÈ¥¸²¸ÇÇøµÄÊ£ÓàÇøÓòÉèÎªÊ£ÓàÀ×Ä¿£¬
-				//	²¢¼ÓÈëmaplistÁĞ±í¡£
+				// Pç‚¹é™„è¿‘looktä¸”ï¼OPENEDçš„æ ¼å­æœ‰æ— å·²è¢«æ ‡å·çš„ï¼Œ
+				//	è‹¥æœ‰ï¼Œæ ‡å·åŒºæ˜¯å¦æœ‰å…¨è¦†ç›–çš„ï¼Œè‹¥æœ‰åˆ™å°†å…¶é›·ç›®ä»På¤„å‡å»ï¼Œ
+				//	å¹¶å°†Pæ ‡å‡†åŒºé™¤å»è¦†ç›–åŒºçš„å‰©ä½™åŒºåŸŸè®¾ä¸ºå‰©ä½™é›·ç›®ï¼Œ
+				//	å¹¶åŠ å…¥mapliståˆ—è¡¨ã€‚
 
 			} // if map[j][i] OPENED
 		}

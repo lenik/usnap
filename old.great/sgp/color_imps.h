@@ -1,13 +1,13 @@
 
 
-// É«²Ê¿ÆÑ§ÖĞµÄÉ«²Ê
+// è‰²å½©ç§‘å­¦ä¸­çš„è‰²å½©
 
 #include <sgp/sgpdef.h>
 #include <sgp/color.h>
 
 SGP_BEGIN
 
-// É«²ÊÊµÏÖ(ÃæÏòÉ«²Ê¿ÆÑ§)½Ó¿Ú
+// è‰²å½©å®ç°(é¢å‘è‰²å½©ç§‘å­¦)æ¥å£
 class sgp_color_imps {
 public:
 	;
@@ -15,15 +15,15 @@ public:
 
 class sgp_color_imps_common {
 public:
-	// Ò»°ãÉ«µ÷Ö§³Ö
+	// ä¸€èˆ¬è‰²è°ƒæ”¯æŒ
 	class color_styles : public sgp_color_imps {
 	public:
-		redlize(sgp_color&, double factor);	// ºì»¯
-		greenlize(sgp_color&, double factor);	// ÂÌ»¯
-		bluelize(sgp_color&, double factor);	// À¶»¯
+		redlize(sgp_color&, double factor);	// çº¢åŒ–
+		greenlize(sgp_color&, double factor);	// ç»¿åŒ–
+		bluelize(sgp_color&, double factor);	// è“åŒ–
 
-		whitelize(sgp_color&, double factor);	// °×»¯
-		blacklize(sgp_color&, double factor);	// ºÚ»¯
+		whitelize(sgp_color&, double factor);	// ç™½åŒ–
+		blacklize(sgp_color&, double factor);	// é»‘åŒ–
 	};
 
 	class temp_styles : public sgp_color_imps {

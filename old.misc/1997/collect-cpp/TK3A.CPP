@@ -16,13 +16,13 @@ int	nwide = 20, ndepth = 4;
 void 	version(int k)
 {
 	printf("syntax:tk3 <dest> [<src=\"tksource.txt\">]\n\
-¸ñÊ½:  tk3 <±È½ÏÎÄ¼ş> [<Ä£°æÎÄ¼ş,Ä¬ÈÏtksource.txt>]\n");
+æ ¼å¼:  tk3 <æ¯”è¾ƒæ–‡ä»¶> [<æ¨¡ç‰ˆæ–‡ä»¶,é»˜è®¤tksource.txt>]\n");
 }
 
 int main(int argc, char **argv) {
 	FILE *feach, *ftmpl;
 
-	printf("fuzzy compare Ä£ºıÁ÷±È½Ï[ANSI] Ğ»¼ÌÀ×/ÌÒ¿ÇÈí¼ş 2001\n");
+	printf("fuzzy compare æ¨¡ç³Šæµæ¯”è¾ƒ[ANSI] è°¢ç»§é›·/æ¡ƒå£³è½¯ä»¶ 2001\n");
 	if ((argc <= 1) || (argc >= 4)) {
 		version(0);
 		return 2;
@@ -75,7 +75,7 @@ n:
 
  //Print Result...
 	printf("total: %d, %d\n", nt, ne);
-	printf("right:%d wrong:%d extra:%d lost:%d\nÕıÈ·:%d ´íÎó:%d ¶àÓà:%d È±ÉÙ:%d\n",
+	printf("right:%d wrong:%d extra:%d lost:%d\næ­£ç¡®:%d é”™è¯¯:%d å¤šä½™:%d ç¼ºå°‘:%d\n",
 		rr[0], rr[1], rr[2], rr[3],
 		rr[0], rr[1], rr[2], rr[3]
 		);

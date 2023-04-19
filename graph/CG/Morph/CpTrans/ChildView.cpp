@@ -195,7 +195,7 @@ void CChildView::OnSpeedFast()
 	// TODO: Add your command handler code here
 	char curval[20];
 	if (_sleep_val  > 0) _sleep_val--;
-	sprintf(curval, "µ±Ç°ËÙ¶È = %3.0f", _sleep_val);
+	sprintf(curval, "å½“å‰é€Ÿåº¦ = %3.0f", _sleep_val);
 	((CMainFrame *)GetParentFrame())->setStatus(0, curval);
 }
 
@@ -204,7 +204,7 @@ void CChildView::OnSpeedSlow()
 	// TODO: Add your command handler code here
 	char curval[20];
 	if (_sleep_val < 100) _sleep_val++;
-	sprintf(curval, "µ±Ç°ËÙ¶È = %3.0lf", _sleep_val);
+	sprintf(curval, "å½“å‰é€Ÿåº¦ = %3.0lf", _sleep_val);
 	((CMainFrame *)GetParentFrame())->setStatus(0, curval);
 }
 
@@ -217,7 +217,7 @@ BOOL	STDCALL CChildView::waitunit() {
 	DWORD		tick = GetTickCount();
 
 	if (IsChkWait) {
-		::MessageBox(NULL, "°´ÈÎÒâ¼ü¼ÌĞø", "µÈ´ı°´¼ü", MB_OK);
+		::MessageBox(NULL, "æŒ‰ä»»æ„é”®ç»§ç»­", "ç­‰å¾…æŒ‰é”®", MB_OK);
 	} else {
 		while (tick - GetTickCount() <= _sleep_val) {
 			waitcycle();
@@ -319,16 +319,16 @@ BOOL	STDCALL CChildView::chkrel(LPPOINTR rtSrc, INT nSrc, LPPOINTR rtDst, INT nD
 	LPPOINT		p1, p2;
 	TCHAR		numbuf[64];
 
-	textOut(pDC, 10, 10, "¿ØÖÆµã±äĞÎ", 0xAAAAAA);
+	textOut(pDC, 10, 10, "æ§åˆ¶ç‚¹å˜å½¢", 0xAAAAAA);
 
 	setBackColor(pDC, 0xFFFFFF);
 	setColor(pDC, 0);
 	pDC->Rectangle(D_X0 - 3, D_Y0 - 3, D_X1 + D_WIDTH + 3, D_Y0 + D_HEIGHT + 3);
-		textOut(pDC, D_X0, D_Y0 - 25, "Ô´¿ØÖÆµã-->Ä¿±ê¿ØÖÆµã", 0xAA0000);
+		textOut(pDC, D_X0, D_Y0 - 25, "æºæ§åˆ¶ç‚¹-->ç›®æ ‡æ§åˆ¶ç‚¹", 0xAA0000);
 	pDC->Rectangle(D_X0 - 1, D_Y0 - 1, D_X0 + D_WIDTH + 1, D_Y0 + D_HEIGHT + 1);
 	pDC->Rectangle(D_X1 - 1, D_Y0 - 1, D_X1 + D_WIDTH + 1, D_Y0 + D_HEIGHT + 1);
 	pDC->Rectangle(D_X0 - 3, D_Y1 - 3, D_X1 + D_WIDTH + 3, D_Y1 + D_HEIGHT + 3);
-		textOut(pDC, D_X0, D_Y1 - 25, "Ô´¿ØÖÆµã<--Ä¿±ê¿ØÖÆµã", 0xAA0000);
+		textOut(pDC, D_X0, D_Y1 - 25, "æºæ§åˆ¶ç‚¹<--ç›®æ ‡æ§åˆ¶ç‚¹", 0xAA0000);
 	pDC->Rectangle(D_X0 - 1, D_Y1 - 1, D_X0 + D_WIDTH + 1, D_Y1 + D_HEIGHT + 1);
 	pDC->Rectangle(D_X1 - 1, D_Y1 - 1, D_X1 + D_WIDTH + 1, D_Y1 + D_HEIGHT + 1);
 

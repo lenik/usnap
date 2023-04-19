@@ -1,7 +1,7 @@
-// Automation compiler ±àÒëÄ£°åÎÄ¼ş
-// C++ °æ±¾
+// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶
+// C++ ç‰ˆæœ¬
 
-// ×´Ì¬³£Á¿
+// çŠ¶æ€å¸¸é‡
 
 
 #define A_ig2_s                   	0x00000000
@@ -10,7 +10,7 @@
 #define A_ig2_START               	0x00000000
 #define A_ig2_END                 	0x00000002
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 #define A_ig2_calltype	_stdcall
 
 #include <list>
@@ -27,19 +27,19 @@ typedef stack<state> statestack;
 typedef character (A_ig2_calltype *A_ig2_input_proc)(buffers& ib, int protect_level);
 typedef void (A_ig2_calltype *A_ig2_user_proc)(state S1, state S2, character c, buffer& accept_buffer);
 
-// º¯ÊıÔ­ĞÍ
+// å‡½æ•°åŸå‹
 
 character A_ig2_calltype A_ig2_getc();
 character A_ig2_calltype A_ig2_input(buffers& ib, int pl);
 state A_ig2_calltype A_ig2_loop(A_ig2_input_proc ip, int& pl, buffers& ib, buffers& ab, statestack& ss, state& s);
 bool A_ig2_calltype A_ig2_main();
 
-// ÓÃ»§º¯ÊıÔ­ĞÍ
+// ç”¨æˆ·å‡½æ•°åŸå‹
 
 void A_ig2_calltype A_ig2_out(state S1, state S2, character c, buffer& ab);
 void A_ig2_calltype A_ig2_clear(state S1, state S2, character c, buffer& ab);
 
-// Ä¬ÈÏ´¦Àí
+// é»˜è®¤å¤„ç†
 
 character A_ig2_calltype A_ig2_getc() {
 	return (character)fgetc(stdin);
@@ -79,7 +79,7 @@ state A_ig2_calltype A_ig2_loop(
 	/* S is s */
 	character c = ip(ib, pl);
 
-// Ö÷´¦Àíº¯Êı
+// ä¸»å¤„ç†å‡½æ•°
 
 // Eb
 
@@ -583,7 +583,7 @@ void A_ig2_calltype A_ig2_clear(state S1, state S2, character c, buffer& ab) {
 }
 
 
-// È±Ê¡¿ò¼Ü
+// ç¼ºçœæ¡†æ¶
 
 #ifdef USE_A_ig2_FRAME
 void main() {

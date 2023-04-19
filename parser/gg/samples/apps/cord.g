@@ -3,7 +3,7 @@
 
 
 #
-# [Cordillera] ÂöÏµÓïÑÔ
+# [Cordillera] è„‰ç³»è¯­è¨€
 #
 
 
@@ -14,15 +14,15 @@
 
 #
 
-	- ³ÐÔØ¹ØÏµÊ÷
+	- æ‰¿è½½å…³ç³»æ ‘
 
-	- µ¥ÔªµÄÔ¤´¦ÀíÓë·´´¦Àí
+	- å•å…ƒçš„é¢„å¤„ç†ä¸Žåå¤„ç†
 
-	- ÈÝÆ÷Êý¾ÝµÄÉú³ÉÓëÈÝÆ÷·Ö½â
+	- å®¹å™¨æ•°æ®çš„ç”Ÿæˆä¸Žå®¹å™¨åˆ†è§£
 
 	- BSD by Cord
 
-	- ¼¯³Éµ½ G ·º»¯ÓïÑÔÖÐ
+	- é›†æˆåˆ° G æ³›åŒ–è¯­è¨€ä¸­
 
 
 
@@ -33,7 +33,7 @@ BITMAP Root {
 	external link "./large_bitmap.bmp";
 
 
-	# ×óÉÏ½Çµ¥ÔªÖØÔØ¶¨Òå
+	# å·¦ä¸Šè§’å•å…ƒé‡è½½å®šä¹‰
 	BITMAP unit_NWcorner {
 		override parent.region(0, 0, 50, 50);
 	}

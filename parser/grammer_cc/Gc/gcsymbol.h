@@ -22,9 +22,9 @@ class production;
 typedef std::list<production> productions;
 
 enum _assoc_enum {
-		left_assoc = 0,		// ×ó½áºÏÓÅÏÈ
-		right_assoc,		// ÓÒ½áºÏÓÅÏÈ
-		no_assoc		// ÎŞ½áºÏÓÅÏÈ
+		left_assoc = 0,		// å·¦ç»“åˆä¼˜å…ˆ
+		right_assoc,		// å³ç»“åˆä¼˜å…ˆ
+		no_assoc		// æ— ç»“åˆä¼˜å…ˆ
 };
 
 //	sym ->* (f1|f2|f3|..|fn).*, first(l)=union(f1,..,fn)
@@ -44,11 +44,11 @@ protected:
 class symbol_info {
 public:
 	sym thissym;
-	int precedence;		// Ä¬È»ÓÅÏÈ¼¶
-	_assoc_enum assoc;	// Ä¬È»½áºÏĞÔ
+	int precedence;		// é»˜ç„¶ä¼˜å…ˆçº§
+	_assoc_enum assoc;	// é»˜ç„¶ç»“åˆæ€§
 
 	typedef std::string symtype_type;
-	symtype_type type;	// ÀàĞÍÃèÊö
+	symtype_type type;	// ç±»å‹æè¿°
 
 	productions prods;
 };
@@ -64,7 +64,7 @@ public:
 	symmap		cachemap;
 
 public:
-	bool cache_by_sis();		// ¸ù¾İ·ûºÅ±í½¨Á¢»º´æ
+	bool cache_by_sis();		// æ ¹æ®ç¬¦å·è¡¨å»ºç«‹ç¼“å­˜
 	symbol_info *getsymbol(sym _s);
 };
 

@@ -109,15 +109,15 @@ END_MSG_MAP()
 
     LRESULT OnSetFocus(UINT uMsg ,WPARAM wParam,LPARAM lParam, BOOL& bHandled);
 public:
-	// ÊÓÇøµÄ¿í¶ÈºÍ¸ß¶È
+	// è§†åŒºçš„å®½åº¦å’Œé«˜åº¦
 	int				m_nWidth;
 	int				m_nHeight;
 
-	// Ë®Æ½ºÍ´¹Ö±µÄÒ³±ß¾à
+	// æ°´å¹³å’Œå‚ç›´çš„é¡µè¾¹è·
 	int				m_leftMargin;
 	int				m_topMargin;
 
-	// ÊÇ·ñÏÔÊ¾ÑÇÖŞ×Ö·û
+	// æ˜¯å¦æ˜¾ç¤ºäºšæ´²å­—ç¬¦
 	BOOL			m_bRawOutput;
 
 protected:

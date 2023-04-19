@@ -1,7 +1,7 @@
 
 #pragma once
 
-// ·ÖÎöÆ÷ÓÃÓÚ·ÖÎöSOMLÎÄµµ¡¢´ÓÊı¾İ¿âÖĞµ¼ÈëSOML¡¢±£´æSOMLµÈ, ²¢´´½¨Ó¦ÓÃÌå¶ÔÏó¡£
+// åˆ†æå™¨ç”¨äºåˆ†æSOMLæ–‡æ¡£ã€ä»æ•°æ®åº“ä¸­å¯¼å…¥SOMLã€ä¿å­˜SOMLç­‰, å¹¶åˆ›å»ºåº”ç”¨ä½“å¯¹è±¡ã€‚
 // CLSID: 00000000-4F45-0600-0002-486954656368
 class OeSOParser :
 	public CComObjectRoot,
@@ -23,29 +23,29 @@ public:
 public:
 	STDMETHOD_(void, Fire_onLoaded)();
 
-// ·ÖÎö
+// åˆ†æ
 public:
 	STDMETHOD(createLayout)(_xmlnode_t pnode, OeSOApplication *pApp);
 	STDMETHOD(createUnits)(_xmlnode_t pnode, OeSOApplication *pApp);
 	STDMETHOD(createObjects)(_xmlnode_t pnode, OeSOApplication *pApp);
 
-// ½âÎösoml
+// è§£æsoml
 public:
-	// Ô¤´¦ÀíSOML, Ä¿Ç°Îª¿Õ
+	// é¢„å¤„ç†SOML, ç›®å‰ä¸ºç©º
 	STDMETHOD(xmlp0)();
 
-	// ÎŞÊôĞÔ·ÖÎö½×¶Î
+	// æ— å±æ€§åˆ†æé˜¶æ®µ
 	STDMETHOD(xmlp1_interface)(_xmlnode_t pInterfaceNode, COeSOInterface **ret);
 	STDMETHOD(xmlp1_class)(_xmlnode_t pClassNode, COeSOClass **ret);
-	// ÊôĞÔ·ÖÎö½×¶Î
+	// å±æ€§åˆ†æé˜¶æ®µ
 	STDMETHOD(xmlp2_interface)(_xmlnode_t pInterfaceNode, COeSOInterface *pInterface, COeSOApplication *pApp);
 	STDMETHOD(xmlp2_class)(_xmlnode_t pClassNode, COeSOClass *pClass, COeSOApplication *pApp);
 	STDMETHOD(xmlp2_status)(_xmlnode_t pStatusNode, COeSOStatus *pStatus, COeSOApplication *pApp);
-	// ¶ÔÏó¹¹Ôì½×¶Î
+	// å¯¹è±¡æ„é€ é˜¶æ®µ
 	STDMETHOD(xmlp3_class)(_xmlnode_t pClassNode, COeSOClass *pClass, COeSOApplication *pApp);
 	STDMETHOD(xmlp3_object)(_xmlnode_t pObjectNode, COeSOObject **ret, COeSOApplication *pApp);
 protected:
-	// soml·ÖÎö¹¤¾ß
+	// somlåˆ†æå·¥å…·
 	STDMETHOD_(OeSOUnitTypeConstants,
 		xmlnode_getUnitType)(_xmlnode_t pNode);
 	STDMETHOD_(_bstr_t,
@@ -53,7 +53,7 @@ protected:
 	STDMETHOD_(_bstr_t,
 		xmlnode_getUnitClass)(_xmlnode_t pNode);
 
-// ·ÖÎö¹¤¾ß
+// åˆ†æå·¥å…·
 protected:
 	STDMETHOD_(BOOL,
 		coll_addUnit)(IOeSOCollection *pCollection, IDispatch *pUnit);

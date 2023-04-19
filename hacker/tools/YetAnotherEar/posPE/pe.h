@@ -23,6 +23,6 @@ section built-in type
 	pre-fix code		self-fixing code.
 
 
-	--- ���ʹ����֤����ǳ���ȫ�ı�ʹ�ã�---
+	--- 如何使许可证程序非常安全的被使用？---
 
 */

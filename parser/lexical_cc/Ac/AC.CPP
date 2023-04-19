@@ -385,7 +385,7 @@ void fcout(char *buf, bool buffered = false, bool reset_befores = false) {
 }
 
 void compile() {
-	// ·ÖÅä×´Ì¬ºÅ
+	// åˆ†é…çŠ¶æ€å·
 	long current_state_id	= 0;
 	long start_state	= 0;
 	long end_state		= -1;
@@ -399,7 +399,7 @@ void compile() {
 		} else if ((*i).name == "e") {
 			end_state	= current_state_id;
 		}
-		// ºÏ²¢ÌØÊâ·ûºÅ
+		// åˆå¹¶ç‰¹æ®Šç¬¦å·
 			if ((*i).all.defined) {
 				(*i).jmptable.push_back((*i).all);
 			}
@@ -412,12 +412,12 @@ void compile() {
 		current_state_id++;
 	}
 
-	// Ğ´ÎÄ¼şÍ·
+	// å†™æ–‡ä»¶å¤´
 	fprintf(fc,
-		"// Automation compiler ±àÒëÄ£°åÎÄ¼ş\n"
-		"// C++ °æ±¾\n"
+		"// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶\n"
+		"// C++ ç‰ˆæœ¬\n"
 		"\n"
-		"// ×´Ì¬³£Á¿\n"
+		"// çŠ¶æ€å¸¸é‡\n"
 		"\n"
 		"\n"
 		);
@@ -445,7 +445,7 @@ void compile() {
 
 	fprintf(fc,
 		"\n"
-		"// ÀàĞÍ¶¨Òå\n"
+		"// ç±»å‹å®šä¹‰\n"
 		"#define %scalltype	_stdcall\n"	// 1
 		"\n"
 		"#include <list>\n"
@@ -464,7 +464,7 @@ void compile() {
 		"typedef void (%scalltype *%suser_proc)(state S1, state S2, character c, buffer& accept_buffer); \n"
 							// 4, 5
 		"\n"
-		"// º¯ÊıÔ­ĞÍ\n"
+		"// å‡½æ•°åŸå‹\n"
 		"\n"
 		"character %scalltype %sgetc(); \n"	// 6, 7
 		"character %scalltype %sinput(buffers& ib, int pl); \n"
@@ -474,7 +474,7 @@ void compile() {
 		"bool %scalltype %smain(); \n"
 							// 13, 14
 		"\n"
-		"// ÓÃ»§º¯ÊıÔ­ĞÍ\n"
+		"// ç”¨æˆ·å‡½æ•°åŸå‹\n"
 		"\n",
 		a_name,
 		a_name, a_name,
@@ -485,7 +485,7 @@ void compile() {
 		a_name, a_name
 		);
 
-	// Ğ´ÓÃ»§º¯ÊıÔ­ĞÍ
+	// å†™ç”¨æˆ·å‡½æ•°åŸå‹
 	strings fnames;
 	strings::iterator fi;
 	for (i = sts.begin(); i != sts.end(); ++i) {
@@ -534,8 +534,8 @@ void compile() {
 		}
 	}
 
-	// È¡ÏûÖØ¸´Ïî
-	// iteratorÉ¾³ıºó¶Ôlist×´Ì¬µÄÓ°Ïì, ÈçÉ¾³ıiºó(*i)Ö¸ÏòºÎ´¦.
+	// å–æ¶ˆé‡å¤é¡¹
+	// iteratoråˆ é™¤åå¯¹listçŠ¶æ€çš„å½±å“, å¦‚åˆ é™¤iå(*i)æŒ‡å‘ä½•å¤„.
 	for (fi = fnames.begin(); fi != fnames.end(); ++fi) {
 		strings::iterator fi2;
 		for (fi2 = fi, ++fi2; fi2 != fnames.end(); ) {
@@ -554,10 +554,10 @@ void compile() {
 			);
 	}
 
-	// Ğ´Ä¬ÈÏ´¦Àí (1)
+	// å†™é»˜è®¤å¤„ç† (1)
 	fprintf(fc,
 		"\n"
-		"// Ä¬ÈÏ´¦Àí\n"
+		"// é»˜è®¤å¤„ç†\n"
 		"\n"
 		"character %scalltype %sgetc() {\n"		// 1, 2
 		"	return (character)fgetc(stdin); \n"
@@ -598,7 +598,7 @@ void compile() {
 		"	/* S is s */\n"
 		"	character c = ip(ib, pl); \n"
 		"\n"
-		"// Ö÷´¦Àíº¯Êı\n"
+		"// ä¸»å¤„ç†å‡½æ•°\n"
 		"\n",
 		a_name, a_name,
 		a_name, a_name,
@@ -606,9 +606,9 @@ void compile() {
 		a_name, a_name,
 		a_name
 		);
-	// Ğ´Ö÷´¦Àí²¿·Ö
+	// å†™ä¸»å¤„ç†éƒ¨åˆ†
 
-	// 1. Eb´¦Àí, ´¦ÀíµÄÍ¬Ê±¼ÇÂ¼ÊÇ·ñÌø×ª¼°Ìø×ªÀàĞÍ
+	// 1. Ebå¤„ç†, å¤„ç†çš„åŒæ—¶è®°å½•æ˜¯å¦è·³è½¬åŠè·³è½¬ç±»å‹
 		fprintf(fc,
 			"// Eb\n"
 			"\n"
@@ -647,8 +647,8 @@ void compile() {
 						break;
 					}
 				}
-				// ²»ÄÜ±£Ö¤bufferempty¾ÍÒÑÊä³öcase (char), Èç"case all: "
-				// ËùÒÔÔöÉècasehdr_outed´¥·¢
+				// ä¸èƒ½ä¿è¯bufferemptyå°±å·²è¾“å‡ºcase (char), å¦‚"case all: "
+				// æ‰€ä»¥å¢è®¾casehdr_outedè§¦å‘
 				if (casehdr_outed) {
 					fprintf(fc, "\t\tjump_type	= %d; \n", (*j).type);
 					fprintf(fc, "\t\tjump_switchs	= ");
@@ -676,11 +676,11 @@ void compile() {
 				}
 			} // for jmptable
 			if (bufferempty) {
-				// ½áÊøcase (state)
+				// ç»“æŸcase (state)
 				fprintf(fc, "} // switch c\n");
 				fprintf(fc, "break; \n");
 			} else {
-				// Ã»ÓĞcase(state)Êä³ö, Çå³ıfc»º³å
+				// æ²¡æœ‰case(state)è¾“å‡º, æ¸…é™¤fcç¼“å†²
 				fcout(NULL, false, true);
 			}
 		} // for sts
@@ -689,7 +689,7 @@ void compile() {
 			"\n"
 			);
 
-	// 2. B (»º³å) ´¦Àí
+	// 2. B (ç¼“å†²) å¤„ç†
 		fprintf(fc,
 			"		ab.front().push_front(c); \n"
 			"		if (jump_switchs != NULL) {\n"
@@ -721,7 +721,7 @@ void compile() {
 			"		} // if jump_switchs\n"
 			);
 
-	// 3. Ej´¦Àí, Ö´ĞĞ×´Ì¬ÉĞÎ´¸Ä±äÇ°µÄ²Ù×÷
+	// 3. Ejå¤„ç†, æ‰§è¡ŒçŠ¶æ€å°šæœªæ”¹å˜å‰çš„æ“ä½œ
 		fprintf(fc,
 			"// Ej\n"
 			"\n"
@@ -739,7 +739,7 @@ void compile() {
 				chars::iterator ci;
 				if (!(*j).defined) continue;
 				bool casehdr_outed = true;
-				// ÒòÎªelse:µÄ´æÔÚ, ËùÒÔ²»ÄÜÒòÎª(*j).Ej²»´æÔÚ¾Í²»Êä³öcasehdr
+				// å› ä¸ºelse:çš„å­˜åœ¨, æ‰€ä»¥ä¸èƒ½å› ä¸º(*j).Ejä¸å­˜åœ¨å°±ä¸è¾“å‡ºcasehdr
 				for (ci = (*j).chars.begin(); ci != (*j).chars.end(); ++ci) {
 					switch (((*ci) & 0xFF000000) >> 24) {
 					case 0:
@@ -762,8 +762,8 @@ void compile() {
 						break;
 					}
 				}
-				// ²»ÄÜ±£Ö¤bufferempty¾ÍÒÑÊä³öcase (char), Èç"case all: "
-				// ËùÒÔÔöÉècasehdr_outed´¥·¢
+				// ä¸èƒ½ä¿è¯bufferemptyå°±å·²è¾“å‡ºcase (char), å¦‚"case all: "
+				// æ‰€ä»¥å¢è®¾casehdr_outedè§¦å‘
 				if (casehdr_outed) {
 					if ((*j).Ej.size() > 0) {
 						fprintf(fc, "\t\t");
@@ -780,11 +780,11 @@ void compile() {
 				}
 			} // for jmptable
 			if (bufferempty) {
-				// ½áÊøcase (state)
+				// ç»“æŸcase (state)
 				fprintf(fc, "} // switch c\n");
 				fprintf(fc, "break; \n");
 			} else {
-				// Ã»ÓĞcase(state)Êä³ö, Çå³ıfc»º³å
+				// æ²¡æœ‰case(state)è¾“å‡º, æ¸…é™¤fcç¼“å†²
 				fcout(NULL, false, true);
 			}
 		} // for
@@ -794,14 +794,14 @@ void compile() {
 			"\n"
 			);
 
-	// 4. S (×´Ì¬ÇĞ»») ²Ù×÷
+	// 4. S (çŠ¶æ€åˆ‡æ¢) æ“ä½œ
 		fprintf(fc,
 			"\n"
 			"s	= new_state; \n"
 			"\n"
 			);
 
-	// 6. ¸ù¾İÄ¿±ê×´Ì¬½øĞĞEa´¦Àí, Ö´ĞĞ×´Ì¬µÖ´ïÊ±µÄ²Ù×÷
+	// 6. æ ¹æ®ç›®æ ‡çŠ¶æ€è¿›è¡ŒEaå¤„ç†, æ‰§è¡ŒçŠ¶æ€æŠµè¾¾æ—¶çš„æ“ä½œ
 		fprintf(fc,
 			"\n"
 			"	// Ea\n"
@@ -833,7 +833,7 @@ void compile() {
 			"\n"
 			);
 
-	// 5. Ee´¦Àí, Ö´ĞĞÌø×ª½áÊøºóµÄ²Ù×÷
+	// 5. Eeå¤„ç†, æ‰§è¡Œè·³è½¬ç»“æŸåçš„æ“ä½œ
 		fprintf(fc,
 			"// Ee\n"
 			"\n"
@@ -850,7 +850,7 @@ void compile() {
 			for (j = (*i).jmptable.begin(); j != (*i).jmptable.end(); ++j) {
 				chars::iterator ci;
 				if (!(*j).defined) continue;
-				// ÒòÎªelse:µÄ´æÔÚ, ËùÒÔ²»ÄÜÒòÎª(*j).Ee²»´æÔÚ¾Í²»Êä³öcasehdr
+				// å› ä¸ºelse:çš„å­˜åœ¨, æ‰€ä»¥ä¸èƒ½å› ä¸º(*j).Eeä¸å­˜åœ¨å°±ä¸è¾“å‡ºcasehdr
 				bool casehdr_outed = true;
 				for (ci = (*j).chars.begin(); ci != (*j).chars.end(); ++ci) {
 					switch (((*ci) & 0xFF000000) >> 24) {
@@ -874,8 +874,8 @@ void compile() {
 						break;
 					}
 				}
-				// ²»ÄÜ±£Ö¤bufferempty¾ÍÒÑÊä³öcase (char), Èç"case all: "
-				// ËùÒÔÔöÉècasehdr_outed´¥·¢
+				// ä¸èƒ½ä¿è¯bufferemptyå°±å·²è¾“å‡ºcase (char), å¦‚"case all: "
+				// æ‰€ä»¥å¢è®¾casehdr_outedè§¦å‘
 				if (casehdr_outed) {
 					if ((*j).Eb.size() > 0) {
 						fprintf(fc, "\t\t");
@@ -892,11 +892,11 @@ void compile() {
 				}
 			} // for jmptable
 			if (bufferempty) {
-				// ½áÊøcase (state)
+				// ç»“æŸcase (state)
 				fprintf(fc, "} // switch c\n");
 				fprintf(fc, "break; \n");
 			} else {
-				// Ã»ÓĞcase(state)Êä³ö, Çå³ıfc»º³å
+				// æ²¡æœ‰case(state)è¾“å‡º, æ¸…é™¤fcç¼“å†²
 				fcout(NULL, false, true);
 			}
 		} // for
@@ -906,7 +906,7 @@ void compile() {
 			"\n"
 			);
 
-	// Ğ´Ä¬ÈÏ´¦Àí (2)
+	// å†™é»˜è®¤å¤„ç† (2)
 	fprintf(fc,
 		"\n"
 		"	return s; \n"
@@ -947,14 +947,14 @@ void compile() {
 
 	fprintf(fc,
 		"\n"
-		"// È±Ê¡¿ò¼Ü\n"
+		"// ç¼ºçœæ¡†æ¶\n"
 		"\n"
 		"#ifdef USE_%sFRAME\n"			// 1
 		"\n",
 		a_name
 		);
 
-		// ÓÃ»§º¯ÊıÌå
+		// ç”¨æˆ·å‡½æ•°ä½“
 		for (fi = fnames.begin(); fi != fnames.end(); ++fi) {
 			fprintf(fc,
 				"void %scalltype %s%s(state S1, state S2, character c, buffer& ab) {\n"
@@ -965,7 +965,7 @@ void compile() {
 				);
 		}
 
-		// ¸¨ÖúÔªËØ
+		// è¾…åŠ©å…ƒç´ 
 		fprintf(fc,
 			"void main() {\n"
 			"	%smain(); \n"			// 2

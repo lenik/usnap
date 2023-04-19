@@ -59,7 +59,7 @@ OeTHash::put_value(VARIANT key, BSTR value) {
 			var.ChangeType(VT_I4);
 			if (var.lVal >= length) {
 				if (var.lVal == length) {
-					// 索引值处于边界则自动扩展
+					// 绱㈠紩鍊煎浜庤竟鐣屽垯鑷姩鎵╁睍
 					this->m_members.resize(length + 1);
 					this->m_members[length].first	= "autoname";
 					BSTR	autoindex;
@@ -128,7 +128,7 @@ OeTHash::put_key(VARIANT key, BSTR newkey) {
 			var.ChangeType(VT_I4);
 			if (var.lVal >= length) {
 				if (var.lVal == length) {
-					// 索引值处于边界则自动扩展
+					// 绱㈠紩鍊煎浜庤竟鐣屽垯鑷姩鎵╁睍
 					this->m_members.resize(length + 1);
 					this->m_members[length].first	= newkey;
 					this->m_members[length].second	= this->m_default;

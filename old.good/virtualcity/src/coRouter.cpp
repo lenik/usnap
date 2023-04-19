@@ -1,7 +1,7 @@
 
 #include "coRouter.h"
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 	coP	coRouter::coRouter(
 		solve_t		init_callback,
 		enum_t		init_enumerator,
@@ -14,7 +14,7 @@
 	m_callback	= init_callback;
 }
 
-// ³ÉÔ±Ã¶¾Ùº¯Êı
+// æˆå‘˜æšä¸¾å‡½æ•°
 	coSF	coRouter::enumpath(
 		coINT		node_count,
 		coNode_ra	node_seqs,
@@ -50,7 +50,7 @@
 		coRet	r;
 		filter_t old_filter;
 
-		// ½« ÄÚ²¿¹ıÂËÆ÷ ÁÙÊ±ÉèÖÃÎª Ô¤¶¨Òå¹ıÂËÁ¬½áÊı¹ıÂËÆ÷
+		// å°† å†…éƒ¨è¿‡æ»¤å™¨ ä¸´æ—¶è®¾ç½®ä¸º é¢„å®šä¹‰è¿‡æ»¤è¿ç»“æ•°è¿‡æ»¤å™¨
 		old_filter = m_filter;
 		m_filter = co_path_filter_links;
 		r = enumpath_f(node_count, node_seqs, 0, co_cast(coDATA32)max_delta_links);
@@ -66,7 +66,7 @@
 		coRet	r;
 		filter_t old_filter;
 
-		// ½« ÄÚ²¿¹ıÂËÆ÷ ÁÙÊ±ÉèÖÃÎª Ô¤¶¨Òå¹ıÂË¾àÀë¹ıÂËÆ÷
+		// å°† å†…éƒ¨è¿‡æ»¤å™¨ ä¸´æ—¶è®¾ç½®ä¸º é¢„å®šä¹‰è¿‡æ»¤è·ç¦»è¿‡æ»¤å™¨
 		old_filter = m_filter;
 		m_filter = co_path_filter_links;
 		r = enumpath_f(node_count, node_seqs, 0, co_cast(coDATA32)max_delta_dists);
@@ -90,7 +90,7 @@
 		return enum_path_limit_links(node_count, node_seqs, 0);
 	}
 
-// Ã¶¾Ù»Øµ÷ÉèÖÃº¯Êı
+// æšä¸¾å›è°ƒè®¾ç½®å‡½æ•°
 	coSF	coRouter::set_enum(enum_t new_enumerator) {
 		coRet	r;
 		co_setok(r);
@@ -127,7 +127,7 @@
 		return r;
 	}
 
-// Ô¤¶¨ÒåÃ¶¾Ùº¯Êı
+// é¢„å®šä¹‰æšä¸¾å‡½æ•°
 
 /////////////////////////////////////////////////////////////
 //
@@ -135,7 +135,7 @@
 //
 //
 //
-	// Ö÷Ã¶¾Ùº¯Êı Ã¶¾ÙËùÓĞÂ·¾¶, ÎŞ¹ıÂË
+	// ä¸»æšä¸¾å‡½æ•° æšä¸¾æ‰€æœ‰è·¯å¾„, æ— è¿‡æ»¤
 	coRet	coRouter::co_path_enumerator(
 		const coINT	node_count,
 		const coNode_ra	node_seqs,
@@ -144,16 +144,16 @@
 		coRet	r;
 		co_setok(r);
 
-		// »ù±¾ÈÎÎñ: ´ÓcoGuider::cityÖĞÃ¶¾Ù¾­¹ınode_seqsµÄËùÓĞ½áµã
-		// Ñ¡Ïî:¿ÉÒÔÑ¡ÔñÖ¸¶¨½ÚµãµÄË³ĞòÊÇ²»ÊÇ±ØĞèµÄ,
-		// µ±Ë³Ğò²»ÊÇ±ØĞèµÄÊ±ºò³ÌĞò¿ÉÒÔ°²ÅÅ½Úµã»ñÈ¡×îÓÅË³Ğò.
-		// ×Ô¶¯¼ÆËãË³Ğò¿ÉÒÔÔÚÁíÍâÒ»¸ö¹ı³ÌÖĞÍê³É.
+		// åŸºæœ¬ä»»åŠ¡: ä»coGuider::cityä¸­æšä¸¾ç»è¿‡node_seqsçš„æ‰€æœ‰ç»“ç‚¹
+		// é€‰é¡¹:å¯ä»¥é€‰æ‹©æŒ‡å®šèŠ‚ç‚¹çš„é¡ºåºæ˜¯ä¸æ˜¯å¿…éœ€çš„,
+		// å½“é¡ºåºä¸æ˜¯å¿…éœ€çš„æ—¶å€™ç¨‹åºå¯ä»¥å®‰æ’èŠ‚ç‚¹è·å–æœ€ä¼˜é¡ºåº.
+		// è‡ªåŠ¨è®¡ç®—é¡ºåºå¯ä»¥åœ¨å¦å¤–ä¸€ä¸ªè¿‡ç¨‹ä¸­å®Œæˆ.
 
 		//
 
 		return r;
 	}
-	// Ö÷Ã¶¾Ùº¯Êı Ã¶¾ÙËùÓĞÂ·¾¶, ÓĞ¹ıÂË
+	// ä¸»æšä¸¾å‡½æ•° æšä¸¾æ‰€æœ‰è·¯å¾„, æœ‰è¿‡æ»¤
 	coRet	coRouter::co_path_enumerator_f(
 		const coINT	node_count,
 		const coNode_ra	node_seqs,
@@ -167,12 +167,12 @@
 		// ......
 		return r;
 	}
-	// Ã¶¾Ù×î¶ÌÂ·¾¶
+	// æšä¸¾æœ€çŸ­è·¯å¾„
 	coRet	coRouter::co_path_shortest_links(
 		const coINT	node_count,
 		const coNode_ra	node_seqs,
 		const coDATA32	enum_context,
-		const filter_t	filter_callback,	// ¶ÔÏàÍ¬×î¶ÌÂ·¾¶µÄÉ¸Ñ¡
+		const filter_t	filter_callback,	// å¯¹ç›¸åŒæœ€çŸ­è·¯å¾„çš„ç­›é€‰
 		const coDATA32	filter_context,
 		const solve_t	enum_callback) {
 		//
@@ -182,12 +182,12 @@
 		return r;
 	}
 
-	// (Ô¤ÖÃ×î¶Ì¾àÀëÃ¶¾Ùº¯Êı)
+	// (é¢„ç½®æœ€çŸ­è·ç¦»æšä¸¾å‡½æ•°)
 	coRet	coRouter::co_path_shortest_dists(
 		const coINT	node_count,
 		const coNode_ra	node_seqs,
 		const coDATA32	enum_context,
-		const filter_t	filter_callback,	// ¶ÔÏàÍ¬×î¶ÌÂ·¾¶µÄÉ¸Ñ¡
+		const filter_t	filter_callback,	// å¯¹ç›¸åŒæœ€çŸ­è·¯å¾„çš„ç­›é€‰
 		const coDATA32	filter_context,
 		const solve_t	enum_callback) {
 		//
@@ -203,43 +203,43 @@
 //
 //
 /////////////////////////////////////////////////////////////
-	// Ô¤¶¨ÒåÏŞ¶¨Â·¾¶Á¬½áÊı¹ıÂËº¯Êı
+	// é¢„å®šä¹‰é™å®šè·¯å¾„è¿ç»“æ•°è¿‡æ»¤å‡½æ•°
 	coRet	coRouter::co_path_filter_links(
 		const coINT	node_count,
 		const coNode_ra	node_seqs_to_be_valid,
 		const coDATA32	max_delta_links,
 		const coRet_r	enum_status
 		) {
-		static coINT node_seq_count = 0;	// Ö÷Ã¶¾Ùº¯Êı½ÓÊÜµÄ¾­ÓÉ½áµãÊı
-		static coINT link_count_least = 0;	// ³õÊ¼»¯±£´æµÄ×îÉÙÁ¬½áÊı
+		static coINT node_seq_count = 0;	// ä¸»æšä¸¾å‡½æ•°æ¥å—çš„ç»ç”±ç»“ç‚¹æ•°
+		static coINT link_count_least = 0;	// åˆå§‹åŒ–ä¿å­˜çš„æœ€å°‘è¿ç»“æ•°
 		coRet	r, r_c;
 		co_setok(r);
 
-		if (co_isce(*enum_status)) {			// coerror¿ÉÓÃ
+		if (co_isce(*enum_status)) {			// coerrorå¯ç”¨
 			switch (enum_status->coerror) {
 			case coe_start:
 				node_seq_count = (coINT)enum_status->data;
 				return r;
 			case coe_init:
-				// ³õÊ¼»¯, ¼ÆËã×îÉÙÁ¬½áÊıºóÍË³ö¹ıÂË
-				// ÉèÖÃ»Øµ÷º¯ÊıÎª±£´æĞÅÏ¢»Øµ÷, ÓÃÒÔ±£´æ×î¶ÌÁ¬½áÊı
+				// åˆå§‹åŒ–, è®¡ç®—æœ€å°‘è¿ç»“æ•°åé€€å‡ºè¿‡æ»¤
+				// è®¾ç½®å›è°ƒå‡½æ•°ä¸ºä¿å­˜ä¿¡æ¯å›è°ƒ, ç”¨ä»¥ä¿å­˜æœ€çŸ­è¿ç»“æ•°
 				r_c = co_path_shortest_links(
 					node_seq_count,
 					(coNode_ra)enum_status->data,
-					(coDATA32)&link_count_least,	// ´«µİ¸øco_path_save_linksµÄlink_count_r
-					NULL,				// ¹ıÂË»Øµ÷
-					0,				// ¹ıÂËÉÏÏÂÎÄ
+					(coDATA32)&link_count_least,	// ä¼ é€’ç»™co_path_save_linksçš„link_count_r
+					NULL,				// è¿‡æ»¤å›è°ƒ
+					0,				// è¿‡æ»¤ä¸Šä¸‹æ–‡
 					co_path_save_links
 					);
 				if (coerror(r_c)) co_seter(r);
 				return r;
 			case coe_finish:
-				// Ã¶¾ÙÊÕÎ², ÍË³ö¹ıÂË
+				// æšä¸¾æ”¶å°¾, é€€å‡ºè¿‡æ»¤
 				return r;
 			}
 		}
 
-		// ¹ıÂË ³¬³ö×îÉÙÁ¬½áÂ·¾¶ ÏŞ¶¨Á¬½áÊıµÄ Â·¾¶
+		// è¿‡æ»¤ è¶…å‡ºæœ€å°‘è¿ç»“è·¯å¾„ é™å®šè¿ç»“æ•°çš„ è·¯å¾„
 		if (node_count - link_count_least <= (coINT)max_delta_links) {
 			co_setcn(r, coc_accept);
 		} else {
@@ -249,44 +249,44 @@
 		return r;
 	}
 
-	// Ô¤¶¨ÒåÏŞ¶¨Â·¾¶¾àÀë¹ıÂËº¯Êı
+	// é¢„å®šä¹‰é™å®šè·¯å¾„è·ç¦»è¿‡æ»¤å‡½æ•°
 	coRet	coRouter::co_path_filter_dist(
 		const coINT	node_count,
 		const coNode_ra	node_seqs_to_be_valid,
 		const coDATA32	max_delta_dist,
 		const coRet_r	enum_status
 		) {
-		static coINT	node_seq_count = 0;	// Ö÷Ã¶¾Ùº¯Êı½ÓÊÜµÄ¾­ÓÉ½áµãÊı
-		static coREAL	link_dist_shortest = 0;	// ³õÊ¼»¯±£´æµÄ×î¶Ì¾àÀë
+		static coINT	node_seq_count = 0;	// ä¸»æšä¸¾å‡½æ•°æ¥å—çš„ç»ç”±ç»“ç‚¹æ•°
+		static coREAL	link_dist_shortest = 0;	// åˆå§‹åŒ–ä¿å­˜çš„æœ€çŸ­è·ç¦»
 		coRet	r, r_c;
 		co_setok(r);
 
-		if (co_isce(*enum_status)) {			// coerror¿ÉÓÃ
+		if (co_isce(*enum_status)) {			// coerrorå¯ç”¨
 			switch (enum_status->coerror) {
 			case coe_start:
 				node_seq_count = (coINT)enum_status->data;
 				return r;
 			case coe_init:
-				// ³õÊ¼»¯, ¼ÆËã×î¶Ì¾àÀëºóÍË³ö¹ıÂË
-				// ÉèÖÃ»Øµ÷º¯ÊıÎª±£´æĞÅÏ¢»Øµ÷, ÓÃÒÔ±£´æ×î¶Ì¾àÀë
+				// åˆå§‹åŒ–, è®¡ç®—æœ€çŸ­è·ç¦»åé€€å‡ºè¿‡æ»¤
+				// è®¾ç½®å›è°ƒå‡½æ•°ä¸ºä¿å­˜ä¿¡æ¯å›è°ƒ, ç”¨ä»¥ä¿å­˜æœ€çŸ­è·ç¦»
 				r_c = co_path_shortest_links(
 					node_seq_count,
 					(coNode_ra)enum_status->data,
-					(coDATA32)&link_dist_shortest,	// ´«µİ¸øco_path_save_distµÄlink_dist_r
-					NULL,				// ¹ıÂË»Øµ÷
-					0,				// ¹ıÂËÉÏÏÂÎÄ
+					(coDATA32)&link_dist_shortest,	// ä¼ é€’ç»™co_path_save_distçš„link_dist_r
+					NULL,				// è¿‡æ»¤å›è°ƒ
+					0,				// è¿‡æ»¤ä¸Šä¸‹æ–‡
 					co_path_save_dist
 					);
 				if (coerror(r_c)) co_seter(r);
 				return r;
 			case coe_finish:
-				// Ã¶¾ÙÊÕÎ², ÍË³ö¹ıÂË
+				// æšä¸¾æ”¶å°¾, é€€å‡ºè¿‡æ»¤
 				return r;
 			}
 		}
 
-		// ¹ıÂË ³¬³ö×îÉÙÁ¬½áÂ·¾¶ ÏŞ¶¨¾àÀëµÄ Â·¾¶
-		// ¼ÆËã±¾Â·¾¶¾àÀë
+		// è¿‡æ»¤ è¶…å‡ºæœ€å°‘è¿ç»“è·¯å¾„ é™å®šè·ç¦»çš„ è·¯å¾„
+		// è®¡ç®—æœ¬è·¯å¾„è·ç¦»
 		coREAL	link_dist_current = 0;
 		for (int i = 0; i < node_count - 1; i++) {
 			link_dist_current +=
@@ -304,7 +304,7 @@
 		return r;
 	}
 
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æÁ¬½áÊı
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜è¿ç»“æ•°
 	coRet	coRouter::co_path_save_links(
 		const coINT	node_count,
 		const coNode_ra	node_seqs_to_be_processed,
@@ -319,7 +319,7 @@
 		return r;
 	}
 
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æ¾àÀë
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜è·ç¦»
 	coRet	coRouter::co_path_save_dist(
 		const coINT	node_count,
 		const coNode_ra	node_seqs_to_be_processed,
@@ -341,7 +341,7 @@
 		return r;
 	}
 
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æ½áµãĞòÁĞ
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜ç»“ç‚¹åºåˆ—
 	coRet	coRouter::co_path_save_nodes_seq(
 		const coINT	node_count,
 		const coNode_ra	node_seqs_to_be_processed,

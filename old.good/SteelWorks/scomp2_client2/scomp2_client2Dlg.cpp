@@ -233,7 +233,7 @@ BOOL CScomp2_client2Dlg::OnInitDialog()
 		}
 	}
 
-	this->m_strResult	= _T("ÕıÔÚ×¢²á³ÌĞòËùÔÚÄ¿Â¼ÏÂµÄ×é¼ş...");
+	this->m_strResult	= _T("æ­£åœ¨æ³¨å†Œç¨‹åºæ‰€åœ¨ç›®å½•ä¸‹çš„ç»„ä»¶...");
 	UpdateData(FALSE);
 
 	HMODULE	hmod;
@@ -255,7 +255,7 @@ BOOL CScomp2_client2Dlg::OnInitDialog()
 		FreeLibrary(hmod);
 	}
 
-	this->m_strResult	= _T("ÒÑ¾­×¢²áÁË³ÌĞòËùÔÚÄ¿Â¼ÏÂËùĞèµÄ×é¼ş¡£");
+	this->m_strResult	= _T("å·²ç»æ³¨å†Œäº†ç¨‹åºæ‰€åœ¨ç›®å½•ä¸‹æ‰€éœ€çš„ç»„ä»¶ã€‚");
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -343,7 +343,7 @@ void CScomp2_client2Dlg::OnButtonInsert()
 	CFileDialog	fd(TRUE, "txt", NULL,
 				OFN_ALLOWMULTISELECT |
 				OFN_FILEMUSTEXIST,
-				"ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş|*.*||");
+				"æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶|*.*||");
 	if (fd.DoModal() == IDOK) {
 		POSITION	pos;
 		CString		fn;
@@ -370,9 +370,9 @@ void CScomp2_client2Dlg::OnButtonRemove()
 
 void CScomp2_client2Dlg::OnButtonBrowseTemp()
 {
-	CFileDialog	fd(TRUE, "txt", "±È½ÏÄ£°æ.txt",
+	CFileDialog	fd(TRUE, "txt", "æ¯”è¾ƒæ¨¡ç‰ˆ.txt",
 				OFN_FILEMUSTEXIST,
-				"Ä£°æÎÄ¼ş(±È½ÏÄ£°æ.txt)|±È½ÏÄ£°æ.txt|ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş|*.*||");
+				"æ¨¡ç‰ˆæ–‡ä»¶(æ¯”è¾ƒæ¨¡ç‰ˆ.txt)|æ¯”è¾ƒæ¨¡ç‰ˆ.txt|æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶|*.*||");
 	if (fd.DoModal() == IDOK) {
 		m_fTemp	= fd.GetPathName();
 		UpdateData(FALSE);
@@ -429,14 +429,14 @@ void CScomp2_client2Dlg::OnButtonSetting()
 void CScomp2_client2Dlg::OnButtonBatch()
 {
 	res_easy_type res;
-	stream_units_work_bytes	tmp;	// ÓÃÓÚ²å¼ş²Ù×÷
+	stream_units_work_bytes	tmp;	// ç”¨äºæ’ä»¶æ“ä½œ
 
 	if (UpdateData(TRUE)) {
 		int	i;
-		CString body;		// HTMLÈ«²¿
-		CString	smid;		// HTMLÏêÏ¸²¿·Ö
-		CString each;		// HTMLµ¥¸ö¼ÇÂ¼
-		CString obj;		// ÎÄ¼şÃû
+		CString body;		// HTMLå…¨éƒ¨
+		CString	smid;		// HTMLè¯¦ç»†éƒ¨åˆ†
+		CString each;		// HTMLå•ä¸ªè®°å½•
+		CString obj;		// æ–‡ä»¶å
 
 		CString s_algor;
 		CString s_decor;
@@ -446,51 +446,51 @@ void CScomp2_client2Dlg::OnButtonBatch()
 
 		switch (this->configs.algor) {
 		case 0:
-			s_algor	= _T("ANSI×Ö·û´®");
+			s_algor	= _T("ANSIå­—ç¬¦ä¸²");
 			break;
 		case 1:
-			s_algor	= _T("Unicode×Ö·û´®");
+			s_algor	= _T("Unicodeå­—ç¬¦ä¸²");
 			break;
 		case 2:
-			s_algor	= _T("OLE×Ö·û´®");
+			s_algor	= _T("OLEå­—ç¬¦ä¸²");
 			break;
 		case 3:
-			s_algor	= _T("Multibyte±ä¿í×Ö·û´®");
+			s_algor	= _T("Multibyteå˜å®½å­—ç¬¦ä¸²");
 			break;
 		case 4:
-			s_algor	= _T("³¤´®(Long *)");
+			s_algor	= _T("é•¿ä¸²(Long *)");
 			break;
 		case 5:
-			s_algor	= _T("Î»´®");
+			s_algor	= _T("ä½ä¸²");
 			break;
 		}
 
 		switch (this->configs.decor) {
 		case 0:
-			s_decor	= _T("³£¹æÄ£Ê½");
+			s_decor	= _T("å¸¸è§„æ¨¡å¼");
 			break;
 		case 1:
-			s_decor	= _T("ºöÂÔÄ£°æÎÄ¼ş½áÎ²");
+			s_decor	= _T("å¿½ç•¥æ¨¡ç‰ˆæ–‡ä»¶ç»“å°¾");
 			break;
 		case 2:
-			s_decor	= _T("ºöÂÔ±È½ÏÎÄ¼ş½áÎ²");
+			s_decor	= _T("å¿½ç•¥æ¯”è¾ƒæ–‡ä»¶ç»“å°¾");
 			break;
 		case 3:
-			s_decor	= _T("×îĞ¡Ä£Ê½");
+			s_decor	= _T("æœ€å°æ¨¡å¼");
 			break;
 		}
 
-		s_score	= _T("ÕıÈ·-´íÎó*5-ÎóÔö*5-ÎóÂ©*5");
+		s_score	= _T("æ­£ç¡®-é”™è¯¯*5-è¯¯å¢*5-è¯¯æ¼*5");
 		if (score_plugin_mode != spm_none) {
-			s_score	= _T("Î´¹«¿ª");
+			s_score	= _T("æœªå…¬å¼€");
 		}
 
 		int saveExcel;
-		saveExcel	= MessageBox(_T("½«½á¹û±£´æÖÁExcelÎÄ¼şÃ´? Ñ¡Ôñ·ñ½«±£´æÖÁHTMLÎÄ¼ş, Ñ¡ÔñÊÇ±ØĞëÓĞOffice97»ò¸ü¸ßÖ§³Ö. "), _T("Ñ¡ÔñÊÇ·ñ±£´æExcelÎÄ¼ş"), MB_YESNO);
+		saveExcel	= MessageBox(_T("å°†ç»“æœä¿å­˜è‡³Excelæ–‡ä»¶ä¹ˆ? é€‰æ‹©å¦å°†ä¿å­˜è‡³HTMLæ–‡ä»¶, é€‰æ‹©æ˜¯å¿…é¡»æœ‰Office97æˆ–æ›´é«˜æ”¯æŒ. "), _T("é€‰æ‹©æ˜¯å¦ä¿å­˜Excelæ–‡ä»¶"), MB_YESNO);
 		if (saveExcel == IDCANCEL) return;
 
 		if (saveExcel == IDYES) {
-			CFileDialog	fd(FALSE, _T("xls"), _T("±È½Ï½á¹û.xls"));
+			CFileDialog	fd(FALSE, _T("xls"), _T("æ¯”è¾ƒç»“æœ.xls"));
 			if (fd.DoModal() != IDOK) return;
 
 			if (!this->m_excel_generator.CreateDispatch(_T("StreamWorkHelper01.G1"))) {
@@ -503,7 +503,7 @@ void CScomp2_client2Dlg::OnButtonBatch()
 			this->m_excel_generator.SetS_algor(s_algor);
 			this->m_excel_generator.SetS_decor(s_decor);
 			this->m_excel_generator.SetS_configfile(this->configs.filename);
-			// ÉĞÎ´½ØµôÀ©Õ¹Ãû
+			// å°šæœªæˆªæ‰æ‰©å±•å
 			this->m_excel_generator.SetS_scoreplugfile(this->configs.plugin);
 			this->m_excel_generator.SetN_d1(this->configs.depth);
 			this->m_excel_generator.SetN_w1(this->configs.width);
@@ -514,49 +514,49 @@ void CScomp2_client2Dlg::OnButtonBatch()
 			this->m_excel_generator.SetB_showExcelWindow(TRUE);
 		} else {
 			body	= _T("<html><body bgcolor=\"#CCFFCC\"><p><font size=\"-1\" color=\"#006600\">"
-					"±¾ÎÄÓÉ[Á÷´¦Àí|Ò»Î¬Á£¶ÈÁ÷(ÑÏ¸ñµ¥Ôª)|Ä£ºıÁ÷±È½Ï|¹¦ÄÜ½çÃæ|Beta|ÅúÁ¿±È½Ï]³ÌĞòÉú³É<br>"
-					"°æÈ¨±£Áô (C)TopCroak Software(ÌÒ¿ÇÈí¼ş), 1997-2001</font></p><p>"
-					"<font size=\"+3\"><u><i><b><font color=\"#000099\">ÅúÁ¿±È½Ï½á¹û±¨¸æ</i></font></b></u></font></p>"
+					"æœ¬æ–‡ç”±[æµå¤„ç†|ä¸€ç»´ç²’åº¦æµ(ä¸¥æ ¼å•å…ƒ)|æ¨¡ç³Šæµæ¯”è¾ƒ|åŠŸèƒ½ç•Œé¢|Beta|æ‰¹é‡æ¯”è¾ƒ]ç¨‹åºç”Ÿæˆ<br>"
+					"ç‰ˆæƒä¿ç•™ (C)TopCroak Software(æ¡ƒå£³è½¯ä»¶), 1997-2001</font></p><p>"
+					"<font size=\"+3\"><u><i><b><font color=\"#000099\">æ‰¹é‡æ¯”è¾ƒç»“æœæŠ¥å‘Š</i></font></b></u></font></p>"
 					"<table><tr><td>&gt;&gt;&gt;</td><td><table>"
 					);
 
-			each.Format(_T("<tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>Ä£°æÎÄ¼ş</i></font></div></td>"
+			each.Format(_T("<tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>æ¨¡ç‰ˆæ–‡ä»¶</i></font></div></td>"
 					"<td colspan=\"2\"><i>%s</i></td>"
-					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>Ê¹ÓÃËã·¨</i></font></div></td>"
+					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>ä½¿ç”¨ç®—æ³•</i></font></div></td>"
 					"<td colspan=\"2\"><i>%s</i></td>"
-					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>¸½¼ÓĞŞÊÎ</i></font></div></td>"
+					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>é™„åŠ ä¿®é¥°</i></font></div></td>"
 					"<td colspan=\"2\"><i>%s</i></td>"
-					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>±È½ÏÉî¶È</i></font></div></td>"
+					"</tr><tr> <td> <div align=\"right\"><font color=\"#0000CC\"><i>æ¯”è¾ƒæ·±åº¦</i></font></div></td>"
 					"<td><i>%d</i></td>"
-					"<td><i><font color=\"#003399\">×Ö</font></i></td></tr><tr> <td> "
-					"<div align=\"right\"><font color=\"#0000CC\"><i>±È½Ï¹ã¶È</i></font></div></td>"
+					"<td><i><font color=\"#003399\">å­—</font></i></td></tr><tr> <td> "
+					"<div align=\"right\"><font color=\"#0000CC\"><i>æ¯”è¾ƒå¹¿åº¦</i></font></div></td>"
 					"<td><i>%d</i></td>"
-					"<td><i><font color=\"#003399\">×Ö</font></i></td></tr><tr> <td> "
-					"<div align=\"right\"><font color=\"#0000CC\"><i>¼Æ·Ö·½·¨</i></font></div></td>"
+					"<td><i><font color=\"#003399\">å­—</font></i></td></tr><tr> <td> "
+					"<div align=\"right\"><font color=\"#0000CC\"><i>è®¡åˆ†æ–¹æ³•</i></font></div></td>"
 					"<td colspan=\"2\"><i>%s</i></td>"
 					"</tr><tr> <td colspan=\"3\"><font color=\"#0000CC\"><i></i></font></td></tr><tr> <td> "
-					"<div align=\"right\"><font color=\"#0000CC\"><i>¹²ÓĞ²ÎÓë×÷Æ·</i></font></div></td>"
+					"<div align=\"right\"><font color=\"#0000CC\"><i>å…±æœ‰å‚ä¸ä½œå“</i></font></div></td>"
 					"<td><i>%d</i></td>"
-					"<td><i><font color=\"#003399\">¼ş</font></i></td></tr><tr> <td> "
-					"<div align=\"right\"><font color=\"#0000CC\"><i>ÀÛ¼ÆÇé¿ö</i></font></div></td>"
+					"<td><i><font color=\"#003399\">ä»¶</font></i></td></tr><tr> <td> "
+					"<div align=\"right\"><font color=\"#0000CC\"><i>ç´¯è®¡æƒ…å†µ</i></font></div></td>"
 					"<td colspan=\"2\"><i>%s</i></td>"
 					"</tr></table></td></tr></table>"
-					"<p><i><font size=\"+2\"><u><b><font color=\"#330099\">ÏêÏ¸½á¹ûÁĞ±í</font></b></u></font></i></p>"
+					"<p><i><font size=\"+2\"><u><b><font color=\"#330099\">è¯¦ç»†ç»“æœåˆ—è¡¨</font></b></u></font></i></p>"
 					),
-					(LPCTSTR)this->m_fTemp,			// %s Ä£°æÎÄ¼ş
-					(LPCTSTR)s_algor,			// %s Ê¹ÓÃËã·¨
-					(LPCTSTR)s_decor,			// %s ¸½¼ÓĞŞÊÎ
-					configs.depth,				// %d ±È½ÏÉî¶È
-					configs.width,				// %d ±È½Ï¹ã¶È
-					(LPCTSTR)s_score,			// %s ¼Æ·Ö·½·¨
-					m_lstFComp.GetCount(),			// %d ¹²ÓĞ²ÎÓë×÷Æ·
-					_T("N/A")				// %s ÀÛ¼ÆÇé¿ö
+					(LPCTSTR)this->m_fTemp,			// %s æ¨¡ç‰ˆæ–‡ä»¶
+					(LPCTSTR)s_algor,			// %s ä½¿ç”¨ç®—æ³•
+					(LPCTSTR)s_decor,			// %s é™„åŠ ä¿®é¥°
+					configs.depth,				// %d æ¯”è¾ƒæ·±åº¦
+					configs.width,				// %d æ¯”è¾ƒå¹¿åº¦
+					(LPCTSTR)s_score,			// %s è®¡åˆ†æ–¹æ³•
+					m_lstFComp.GetCount(),			// %d å…±æœ‰å‚ä¸ä½œå“
+					_T("N/A")				// %s ç´¯è®¡æƒ…å†µ
 					);
 			body	+= each;
 			smid	= _T("<table><tr> <td>&gt;&gt;&gt;</td><td> <table>");
 		}
 
-		// ¼ÇÂ¼Éú³É
+		// è®°å½•ç”Ÿæˆ
 		for (i = 0; i < this->m_lstFComp.GetCount(); i++) {
 			this->m_lstFComp.GetText(i, obj);
 			this->m_lstFComp.SetCurSel(i);
@@ -566,7 +566,7 @@ void CScomp2_client2Dlg::OnButtonBatch()
 				obj.Delete(0, pp + 1);
 			}
 			showres(res);
-			// ÀÛ¼Æ½á¹û...
+			// ç´¯è®¡ç»“æœ...
 			if (saveExcel == IDYES) {
 				this->m_excel_generator.AddScore(
 					(LPCTSTR)obj,
@@ -581,12 +581,12 @@ void CScomp2_client2Dlg::OnButtonBatch()
 				if (score < 0) score = 0;
 				each.Format(_T(
 					"<tr><td><b><font color=\"#003333\">%s</font><b></td>"
-					"<td><font color=\"#0000FF\">ÕıÈ·£º%d</font></td>"
-					"<td><font color=\"#FF0000\">´íÎó£º%d</font></td>"
-					"<td><font color=\"#990099\">ÎóÔö£º%d</font></td>"
-					"<td><font color=\"#666600\">ÎóÂ©£º%d</font></td>"
+					"<td><font color=\"#0000FF\">æ­£ç¡®ï¼š%d</font></td>"
+					"<td><font color=\"#FF0000\">é”™è¯¯ï¼š%d</font></td>"
+					"<td><font color=\"#990099\">è¯¯å¢ï¼š%d</font></td>"
+					"<td><font color=\"#666600\">è¯¯æ¼ï¼š%d</font></td>"
 					"</tr><tr> <td>&nbsp;</td><td colspan=\"4\"><font color=\"#6666FF\">"
-					"¼Æ·Ö£º%s%d%s = %d-%d*5-%d*5-%d*5</font></td></tr><tr> <td colspan=\"5\"></td></tr>"
+					"è®¡åˆ†ï¼š%s%d%s = %d-%d*5-%d*5-%d*5</font></td></tr><tr> <td colspan=\"5\"></td></tr>"
 					),
 					(LPCTSTR)obj,
 					res.match,
@@ -602,20 +602,20 @@ void CScomp2_client2Dlg::OnButtonBatch()
 			}
 		}
 
-		// ½áÎ²²¿·Ö
+		// ç»“å°¾éƒ¨åˆ†
 		if (saveExcel == IDYES) {
-			this->m_strResult	= _T("ÕıÔÚÉú³ÉExcelÎÄ¼ş, ÇëÉÔºó...");
+			this->m_strResult	= _T("æ­£åœ¨ç”ŸæˆExcelæ–‡ä»¶, è¯·ç¨å...");
 			UpdateData(FALSE);
 			this->m_excel_generator.Generate();
-			this->m_strResult	= _T("ExcelÎÄ¼şÉú³ÉÍê±Ï¡£");
+			this->m_strResult	= _T("Excelæ–‡ä»¶ç”Ÿæˆå®Œæ¯•ã€‚");
 			UpdateData(FALSE);
 		} else {
 			smid	+= _T("</table></td></tr></table><br><hr><p align=\"center\"><font size=\"-1\" color=\"#006600\">"
-					"TopCroak Software(ÌÒ¿ÇÈí¼ş) | Campo Accelerate(²İÔ­¼ÓËÙÒıÇæ) | Stream Works(Á÷´¦Àí)</font><font color=\"#006600\"><br><font size=\"-1\">"
-					"×÷Õß£ºMr. DanSei(Ğ»¼ÌÀ×) <br>Òâ¼ûºÍ½¨Òé£º<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p></body></html>"
+					"TopCroak Software(æ¡ƒå£³è½¯ä»¶) | Campo Accelerate(è‰åŸåŠ é€Ÿå¼•æ“) | Stream Works(æµå¤„ç†)</font><font color=\"#006600\"><br><font size=\"-1\">"
+					"ä½œè€…ï¼šMr. DanSei(è°¢ç»§é›·) <br>æ„è§å’Œå»ºè®®ï¼š<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p></body></html>"
 					);
 			body	+= smid;
-			// µ¯³öDHTML´°¿Ú
+			// å¼¹å‡ºDHTMLçª—å£
 			CDetailDialog dd(NULL, body);
 			dd.DoModal();
 		}
@@ -623,7 +623,7 @@ void CScomp2_client2Dlg::OnButtonBatch()
 }
 
 void CScomp2_client2Dlg::showres(res_easy_type res) {
-	m_strResult.Format(_T("ÕıÈ·:%d, ´íÎó:%d, ¶àÓà:%d, È±ÉÙ:%d"),
+	m_strResult.Format(_T("æ­£ç¡®:%d, é”™è¯¯:%d, å¤šä½™:%d, ç¼ºå°‘:%d"),
 		res.match,
 		res.unmatch,
 		res.extra,
@@ -639,7 +639,7 @@ res_easy_type CScomp2_client2Dlg::compare(CString f1, CString f2, BOOL detail, B
 
 	if (bgetconfigs) this->getconfigs();
 
-	// ¶ÁÈëÎÄ¼ş×Ö½Ú(¸ù¾İÅäÖÃÓÅ»¯¶ÁÈë²¿·Ö»òÈ«²¿)
+	// è¯»å…¥æ–‡ä»¶å­—èŠ‚(æ ¹æ®é…ç½®ä¼˜åŒ–è¯»å…¥éƒ¨åˆ†æˆ–å…¨éƒ¨)
 		LPBYTE	data_me = NULL, data_obj = NULL;
 		LONG	size_me, size_obj;
 		TRY {
@@ -675,7 +675,7 @@ res_easy_type CScomp2_client2Dlg::compare(CString f1, CString f2, BOOL detail, B
 			return ret;
 		} END_CATCH;
 
-	// ¸ù¾İÓÃ»§ÅäÖÃÁ÷
+	// æ ¹æ®ç”¨æˆ·é…ç½®æµ
 		switch (this->configs.algor) {
 		case this->config_type::s_ole:
 		case this->config_type::s_unicode:
@@ -700,7 +700,7 @@ res_easy_type CScomp2_client2Dlg::compare(CString f1, CString f2, BOOL detail, B
 			s1	= new stream_units_work_bytes;
 			s2	= new stream_units_work_bytes;
 		}
-		s1->c.bid	= 0;		// Ç¿ÖÆµ¥Ïò
+		s1->c.bid	= 0;		// å¼ºåˆ¶å•å‘
 		s1->c.parts	= (stream_units_work::stream_units_work_compare::parts_enum)
 			this->configs.decor;	// decor_enum --> parts_enum
 		s1->c.w1	= this->configs.width;
@@ -735,7 +735,7 @@ res_easy_type CScomp2_client2Dlg::compare(CString f1, CString f2, BOOL detail, B
 		s1->init((void *)data_me, size_me, -1);
 		s2->init((void *)data_obj, size_obj, -1);
 
-	// ±È½Ï
+	// æ¯”è¾ƒ
 		if (s1->c.compare(*s2) == 0) {
 			ret.match	= s1->c.match;
 			ret.unmatch	= s1->c.unmatch;
@@ -743,13 +743,13 @@ res_easy_type CScomp2_client2Dlg::compare(CString f1, CString f2, BOOL detail, B
 			ret.lost	= s1->c.lost;
 
 			if (detail) {
-				// MessageBox(_T("ÏêÏ¸ĞÅÏ¢ÈçÏÂ:..."));
+				// MessageBox(_T("è¯¦ç»†ä¿¡æ¯å¦‚ä¸‹:..."));
 				this->showdetail(*s1, *s2);
 			}
 		} else {
-			MessageBox(_T("²ÎÊı´íÎó"));
+			MessageBox(_T("å‚æ•°é”™è¯¯"));
 		}
-	// ÍË³ö
+	// é€€å‡º
 		delete[] data_me;
 		delete[] data_obj;
 	return ret;
@@ -767,18 +767,18 @@ void CScomp2_client2Dlg::getconfigs() {
 	this->configs.precise	= (stream_units_work::stream_units_work_compare::compare_mode_enum)
 					app->GetProfileInt(_T("config"), _T("compare_mode"), 1);
 
-	// ÅäÖÃÏàÍ¬µ¥Ôª±í
+	// é…ç½®ç›¸åŒå•å…ƒè¡¨
 	TCHAR rets[16384], *prets = rets;
 	DWORD nsize;
-	nsize = ::GetPrivateProfileSection(_T("ÏàÍ¬µ¥Ôª±í"), rets, sizeof(rets), this->configs.filename);
+	nsize = ::GetPrivateProfileSection(_T("ç›¸åŒå•å…ƒè¡¨"), rets, sizeof(rets), this->configs.filename);
 	this->configs.sames.clear();
 	for (; prets - rets < nsize && *prets != _T('\0'); ) {
 		// prets += ::(lstrlen(prets) + 1)
-		// pretsÖ¸ÏòÒ»¸ö xxx=a1,b1;a2,b2,c2;a3,b3\0yyy=...\0\0 ±í
+		// pretsæŒ‡å‘ä¸€ä¸ª xxx=a1,b1;a2,b2,c2;a3,b3\0yyy=...\0\0 è¡¨
 		while (*prets != _T('=') && *prets) prets++;
 		if (*prets == _T('\0')) break;
-		prets++; // ºöÂÔµÈÊ½×ó±ß(°üÀ¨'=')
-		// ¹¹ÔìµÈÖµ±í
+		prets++; // å¿½ç•¥ç­‰å¼å·¦è¾¹(åŒ…æ‹¬'=')
+		// æ„é€ ç­‰å€¼è¡¨
 		szlist	szs;
 		size_t	c;
 		int	c_offset;
@@ -802,8 +802,8 @@ void CScomp2_client2Dlg::getconfigs() {
 					if (*p_column == _T(';') || *p_column == _T('\0')) {
 						p_section = p_column;
 						if (*p_column == _T(';')) p_section++;
-						// \0: Ò»·½ÃæÎªÁËÍ³Ò»¸ñÊ½¿ÉÒÔ+1,
-						//	ÁíÒ»·½Ãæ¿ÉÒÔ×¨ÃÅ´¦Àí+2, ÕâÀïÑ¡ÔñºóÕß¡£
+						// \0: ä¸€æ–¹é¢ä¸ºäº†ç»Ÿä¸€æ ¼å¼å¯ä»¥+1,
+						//	å¦ä¸€æ–¹é¢å¯ä»¥ä¸“é—¨å¤„ç†+2, è¿™é‡Œé€‰æ‹©åè€…ã€‚
 						break;
 					}
 					p_column++;
@@ -817,14 +817,14 @@ void CScomp2_client2Dlg::getconfigs() {
 		prets	= p_section + 1;
 	}
 
-	// ÅäÖÃºöÂÔ¼¯
-	nsize = ::GetPrivateProfileSection(_T("²»Í£µ¥Ôª±í"), rets, sizeof(rets), this->configs.filename);
+	// é…ç½®å¿½ç•¥é›†
+	nsize = ::GetPrivateProfileSection(_T("ä¸åœå•å…ƒè¡¨"), rets, sizeof(rets), this->configs.filename);
 	this->configs.skips.clear();
 	for (prets = rets; prets - rets < nsize && *prets != _T('\0'); ) {
-		// pretsÖ¸ÏòÒ»¸ö xxx=a1,b1...\0 ±í
+		// pretsæŒ‡å‘ä¸€ä¸ª xxx=a1,b1...\0 è¡¨
 		while (*prets != _T('=') && *prets) prets++;
 		if (*prets == _T('\0')) break;
-		prets++; // ºöÂÔµÈÊ½×ó±ß(°üÀ¨'=')
+		prets++; // å¿½ç•¥ç­‰å¼å·¦è¾¹(åŒ…æ‹¬'=')
 
 		size_t	c;
 		TCHAR	*p_section;
@@ -849,7 +849,7 @@ void CScomp2_client2Dlg::getconfigs() {
 	}
 
 #ifdef _DETAIL_DEBUG
-		// µ÷ÊÔ½á¹û
+		// è°ƒè¯•ç»“æœ
 		szlists::iterator	i;
 		szlist::iterator	ii;
 		CString			s;
@@ -876,7 +876,7 @@ void CScomp2_client2Dlg::getconfigs() {
 		MessageBox(s);
 #endif
 
-	// ÅäÖÃ²å¼ş
+	// é…ç½®æ’ä»¶
 	this->configs.plugin	= app->GetProfileString(_T("config"), _T("plugin"));
 
 	if (configs.plugin.GetLength() > 0) {
@@ -885,7 +885,7 @@ void CScomp2_client2Dlg::getconfigs() {
 		}
 		hmodPlugin	= LoadLibrary(configs.plugin);
 		if (hmodPlugin == NULL) {
-			::MessageBox(NULL, _T("×°ÔØ²å¼şÊ±·¢Éú´íÎó!"), NULL, 0);
+			::MessageBox(NULL, _T("è£…è½½æ’ä»¶æ—¶å‘ç”Ÿé”™è¯¯!"), NULL, 0);
 		}
 		stream_units_work::stream_units_work_compare::score_proc_type score_proc;
 		score_proc	= (stream_units_work::stream_units_work_compare::score_proc_type)
@@ -895,7 +895,7 @@ void CScomp2_client2Dlg::getconfigs() {
 			score_plugin_mode	= spm_dll;
 		}
 
-		// ÊÇ·ñ×é¼ş
+		// æ˜¯å¦ç»„ä»¶
 		/*
 		DllRegisterServer_proc sproc;
 		sproc	= (DllRegisterServer_proc)GetProcAddress(hmodPlugin, _T("DllRegisterServer"));
@@ -910,7 +910,7 @@ void CScomp2_client2Dlg::getconfigs() {
 		/*
 			score_plugin_mode	= spm_activex;
 		*/
-		// ²»ÊÇ×é¼ş
+		// ä¸æ˜¯ç»„ä»¶
 	} else {
 		if (hmodPlugin != NULL) {
 			FreeLibrary(hmodPlugin);
@@ -929,30 +929,30 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 	CString		unit;
 	int		cc;
 
-	body	= _T("<html><body bgcolor=\"#FFFFee\"><p><font size=\"-1\" color=\"#006600\">±¾ÎÄÓÉ[Á÷´¦Àí|Ò»Î¬Á£¶ÈÁ÷(ÑÏ¸ñµ¥Ôª)|Ä£ºıÁ÷±È½Ï|¹¦ÄÜ½çÃæ|Beta]³ÌĞòÉú³É<br>°æÈ¨±£Áô (C)TopCroak Software(ÌÒ¿ÇÈí¼ş), 1997-2001</font>"
-			"</p><table border=\"1\"><tr><td><font color=\"#000000\">·¶Àı: </font><font color=\"#006666\">ÕıÈ· </font><font color=\"#FF0000\">´íÎó<font color=\"#999999\">(Ô­ÎÄ) "
-			" </font></font><font color=\"#CC00CC\">ÎóÔö</font><font color=\"#666600\"> ÎóÂ©</font></td></tr></table><p>"
+	body	= _T("<html><body bgcolor=\"#FFFFee\"><p><font size=\"-1\" color=\"#006600\">æœ¬æ–‡ç”±[æµå¤„ç†|ä¸€ç»´ç²’åº¦æµ(ä¸¥æ ¼å•å…ƒ)|æ¨¡ç³Šæµæ¯”è¾ƒ|åŠŸèƒ½ç•Œé¢|Beta]ç¨‹åºç”Ÿæˆ<br>ç‰ˆæƒä¿ç•™ (C)TopCroak Software(æ¡ƒå£³è½¯ä»¶), 1997-2001</font>"
+			"</p><table border=\"1\"><tr><td><font color=\"#000000\">èŒƒä¾‹: </font><font color=\"#006666\">æ­£ç¡® </font><font color=\"#FF0000\">é”™è¯¯<font color=\"#999999\">(åŸæ–‡) "
+			" </font></font><font color=\"#CC00CC\">è¯¯å¢</font><font color=\"#666600\"> è¯¯æ¼</font></td></tr></table><p>"
 			);
 
-	// Éú³É±È½Ï½á¹û
+	// ç”Ÿæˆæ¯”è¾ƒç»“æœ
 	{
 		reslist::iterator i	= s.c.result.begin();
 		restype	res		= *i;
 		s.reset();
 		os.reset();
 
-		//    +--------------------------> 1. ÒÔs×öÖ÷Ñ­»·
-		//    |		  +--------------> 2. sÖĞ×îºó´íÎóÎªÖ¹, ºóÃæµÄÕıÈ·Áí´¦Àí
-		//    |		  |    +---------> 3. (ÒÔo×öÖ÷Ñ­»·)Èç¹û»¹ÓĞ´íÎó, ±ØÊÇoÓĞ¶àÓà
+		//    +--------------------------> 1. ä»¥såšä¸»å¾ªç¯
+		//    |		  +--------------> 2. sä¸­æœ€åé”™è¯¯ä¸ºæ­¢, åé¢çš„æ­£ç¡®å¦å¤„ç†
+		//    |		  |    +---------> 3. (ä»¥oåšä¸»å¾ªç¯)å¦‚æœè¿˜æœ‰é”™è¯¯, å¿…æ˜¯oæœ‰å¤šä½™
 		// s: | 1v 23456x | 7v |
 		// o: | 1v 23456x | 7v | 890
 		for (; !s.eof(); ) {
-			// ÒÔs×öÖ÷Ñ­»·, os¸ú×Å×ß. Óöµ½¼ÇÂ¼±íÖĞref¸²¸ÇÏîÁí´¦Àí.
+			// ä»¥såšä¸»å¾ªç¯, osè·Ÿç€èµ°. é‡åˆ°è®°å½•è¡¨ä¸­refè¦†ç›–é¡¹å¦å¤„ç†.
 			if (s.pd() != res.refaddr) {
 				unit	+= units_desc(s);
 				++s;
 			} else {
-				// ½«Ô­unitÖĞÊı¾İ×÷ÎªÕıÈ·Êı¾İ¸½ÔÚdataÖ®ºó
+				// å°†åŸunitä¸­æ•°æ®ä½œä¸ºæ­£ç¡®æ•°æ®é™„åœ¨dataä¹‹å
 					if (unit.GetLength() > 0) {
 						unit.Insert(0, _T("<font color=\"#006666\">"));
 						unit	+= _T(_FONT);
@@ -960,12 +960,12 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 						unit.Empty();
 					}
 
-				// ·ÖÎö´íÎóÀàĞÍ
+				// åˆ†æé”™è¯¯ç±»å‹
 					if (res.type == restype::end_of_list) break;
 					os.pd()	= res.objaddr;
 					switch (res.type) {
 					case restype::unmatch:
-						// os-´íÎó(s-Ô­ÎÄ)
+						// os-é”™è¯¯(s-åŸæ–‡)
 						unit	= _T("<font color=\"#FF0000\">");
 						for (cc = 0; cc < res.count; cc++) {
 							unit	+= units_desc(os);
@@ -979,7 +979,7 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 						unit	+= _T(")"_FONT);
 						break;
 					case restype::extra:
-						// os-¶àÓà
+						// os-å¤šä½™
 						unit	= _T("<font color=\"#CC00CC\">");
 						for (cc = 0; cc < res.count; cc++) {
 							unit	+= units_desc(os);
@@ -988,7 +988,7 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 						unit	+= _T(_FONT);
 						break;
 					case restype::lost:
-						// s-È±ÉÙ
+						// s-ç¼ºå°‘
 						unit	= _T("<font color=\"#666600\">");
 						for (cc = 0; cc < res.count; cc++) {
 							unit	+= units_desc(s);
@@ -999,12 +999,12 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 					}
 					data	+= unit;
 					unit.Empty();
-				// ×¼±¸ÏÂÒ»¸ö½á¹ûÖĞÄ¿±êsµØÖ·
+				// å‡†å¤‡ä¸‹ä¸€ä¸ªç»“æœä¸­ç›®æ ‡såœ°å€
 					++i;
 					res	= *i;
 			} // if ==
 		} // for
-		// ×îºó²¿·ÖÕıÈ·Êı¾İ(Èç¹û´æÔÚ)¸½ÔÚdataÖ®ºó
+		// æœ€åéƒ¨åˆ†æ­£ç¡®æ•°æ®(å¦‚æœå­˜åœ¨)é™„åœ¨dataä¹‹å
 		if (unit.GetLength() > 0) {
 			unit.Insert(0, _T("<font color=\"#006666\">"));
 			unit	+= _T(_FONT);
@@ -1013,7 +1013,7 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 		if (res.type != restype::end_of_list) {
 			//__assume(res.type == restype::extra);
 			if (res.type == restype::extra) {
-				// os-¶àÓà
+				// os-å¤šä½™
 				os.pd()	= res.objaddr;
 				unit	= _T("<font color=\"#CC00CC\">");
 				for (cc = 0; cc < res.count; cc++) {
@@ -1026,13 +1026,13 @@ void CScomp2_client2Dlg::showdetail(stream_units_work& s, stream_units_work& os)
 			++i;
 			res	= *i;
 		}
-		// ½áÊø±êÖ¾
-		data	+= _T("<font color=\"#000000\">¡ï</font>");
+		// ç»“æŸæ ‡å¿—
+		data	+= _T("<font color=\"#000000\">â˜…</font>");
 	}
 
 	body	+= data;
-	data	= _T("</p><hr><p align=\"center\"><font size=\"-1\" color=\"#006600\">TopCroak Software(ÌÒ¿ÇÈí¼ş) | Campo Accelerate(²İÔ­¼ÓËÙÒıÇæ) | Stream Works(Á÷´¦Àí)</font><font color=\"#006600\"><br>"
-			"<font size=\"-1\">×÷Õß£ºMr. DanSei(Ğ»¼ÌÀ×) <br>Òâ¼ûºÍ½¨Òé£º<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p><p>&nbsp; </p></body></html>"
+	data	= _T("</p><hr><p align=\"center\"><font size=\"-1\" color=\"#006600\">TopCroak Software(æ¡ƒå£³è½¯ä»¶) | Campo Accelerate(è‰åŸåŠ é€Ÿå¼•æ“) | Stream Works(æµå¤„ç†)</font><font color=\"#006600\"><br>"
+			"<font size=\"-1\">ä½œè€…ï¼šMr. DanSei(è°¢ç»§é›·) <br>æ„è§å’Œå»ºè®®ï¼š<a href=\"mailto:dansei@126.com\">dansei@126.com</a></font></font></p><p>&nbsp; </p></body></html>"
 			);
 	body	+= data;
 

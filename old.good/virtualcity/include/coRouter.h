@@ -1,5 +1,5 @@
 
-//	COM\µ¼ÓÎÄ£ĞÍ\Â·ÏßÃ¶¾Ù
+//	COM\å¯¼æ¸¸æ¨¡å‹\è·¯çº¿æšä¸¾
 //	2000.12.6
 
 #pragma once
@@ -7,167 +7,167 @@
 #include "coGuider.h"
 
 //
-// Ã¶¾Ùº¯ÊıÍ¨¹ıenum_statusÏò¹ıÂË»Øµ÷ºÍÓÃ»§»Øµ÷´«µİÃ¶¾Ù×´Ì¬,
-// µ± co_isce ÇÒ cook Ê±±íÊ¾×´Ì¬ĞÅÏ¢ÓĞĞ§
-//	*coerror*	*º¬Òå*		*data*
-//	coe_start	Ã¶¾Ù¿ªÊ¼	coINT node_count	(´«µİ¸ø¹ıÂËº¯Êı¾­ÓÉ½áµãÊı)
-//	coe_init	³õÊ¼»¯Ã¶¾Ù	coNode_ra node_seqs	(´«µİ¸ø¹ıÂËº¯Êı¾­ÓÉ½áµã)
-//	coe_try		Ã¶¾Ù½øĞĞ
-//	coe_finish	ÊÕÎ²Ã¶¾Ù
-//	coe_exit	Ã¶¾ÙÍË³ö
+// æšä¸¾å‡½æ•°é€šè¿‡enum_statuså‘è¿‡æ»¤å›è°ƒå’Œç”¨æˆ·å›è°ƒä¼ é€’æšä¸¾çŠ¶æ€,
+// å½“ co_isce ä¸” cook æ—¶è¡¨ç¤ºçŠ¶æ€ä¿¡æ¯æœ‰æ•ˆ
+//	*coerror*	*å«ä¹‰*		*data*
+//	coe_start	æšä¸¾å¼€å§‹	coINT node_count	(ä¼ é€’ç»™è¿‡æ»¤å‡½æ•°ç»ç”±ç»“ç‚¹æ•°)
+//	coe_init	åˆå§‹åŒ–æšä¸¾	coNode_ra node_seqs	(ä¼ é€’ç»™è¿‡æ»¤å‡½æ•°ç»ç”±ç»“ç‚¹)
+//	coe_try		æšä¸¾è¿›è¡Œ
+//	coe_finish	æ”¶å°¾æšä¸¾
+//	coe_exit	æšä¸¾é€€å‡º
 //
-// Ã¶¾Ù¹ıÂË»Øµ÷Í¨¹ı co_setok ºÍ co_setcn ÉèÖÃ¹ıÂË½á¹û,
-//	*control*	*º¬Òå*		*data*
-//	coc_accept	Ã¶¾Ù±»½ÓÊÜ
-//	coc_deny	Ã¶¾Ù±»·ñ¾ö
+// æšä¸¾è¿‡æ»¤å›è°ƒé€šè¿‡ co_setok å’Œ co_setcn è®¾ç½®è¿‡æ»¤ç»“æœ,
+//	*control*	*å«ä¹‰*		*data*
+//	coc_accept	æšä¸¾è¢«æ¥å—
+//	coc_deny	æšä¸¾è¢«å¦å†³
 //
-// ÓÃ»§×îÖÕ»áµ÷¿ÉÒÔÍ¨¹ıÉèÖÃ co_setok ºÍ co_setcn ¾ö¶¨Ã¶¾ÙµÄ½øĞĞÁ÷³Ì,
-//	*control*	*º¬Òå*		*data*
-//	coc_next	ÏÂÒ»¸ö
-//	coc_break	Ìø³ö
+// ç”¨æˆ·æœ€ç»ˆä¼šè°ƒå¯ä»¥é€šè¿‡è®¾ç½® co_setok å’Œ co_setcn å†³å®šæšä¸¾çš„è¿›è¡Œæµç¨‹,
+//	*control*	*å«ä¹‰*		*data*
+//	coc_next	ä¸‹ä¸€ä¸ª
+//	coc_break	è·³å‡º
 //
 
 class coRouter : public coGuider {
 
-	// »Øµ÷ÀàĞÍÉùÃ÷
+	// å›è°ƒç±»å‹å£°æ˜
 
-	// ¹ıÂË»Øµ÷º¯Êı, ¶ÔÒ»¸öÃ¶¾Ù½á¹û½øĞĞ¹ıÂË
+	// è¿‡æ»¤å›è°ƒå‡½æ•°, å¯¹ä¸€ä¸ªæšä¸¾ç»“æœè¿›è¡Œè¿‡æ»¤
 	typedef coRet (*filter_t)(
-		const coINT	node_count,			// ´ıÈÏ¿É½áµãĞòÁĞÊı
-		const coNode_ra	node_seqs_to_be_valid,		// ´ıÈÏ¿É½áµã
-		const coDATA32	filter_context,			// ¹ıÂËÉÏÏÂÎÄ
-		const coRet_r	enum_status			// Ã¶¾Ù×´Ì¬
+		const coINT	node_count,			// å¾…è®¤å¯ç»“ç‚¹åºåˆ—æ•°
+		const coNode_ra	node_seqs_to_be_valid,		// å¾…è®¤å¯ç»“ç‚¹
+		const coDATA32	filter_context,			// è¿‡æ»¤ä¸Šä¸‹æ–‡
+		const coRet_r	enum_status			// æšä¸¾çŠ¶æ€
 		);
-	// ½Ó¿Ú»Øµ÷º¯Êı, Ó¦ÓÃ³ÌĞò¿ÉÒÔ¶ÔÒ»¸ö×îÖÕ½á¹û½øĞĞ´¦Àí
+	// æ¥å£å›è°ƒå‡½æ•°, åº”ç”¨ç¨‹åºå¯ä»¥å¯¹ä¸€ä¸ªæœ€ç»ˆç»“æœè¿›è¡Œå¤„ç†
 	typedef coRet (*solve_t)(
-		const coINT	node_count,			// ×îÖÕÂ·Ïß½áµãÊı
-		const coNode_ra	node_seqs_to_be_processed,	// ×îÖÕÂ·Ïß½áµãĞòÁĞ
-		const coDATA32	enum_context,			// Ã¶¾ÙÉÏÏÂÎÄ
-		const coRet_r	enum_status			// Ã¶¾Ù×´Ì¬
+		const coINT	node_count,			// æœ€ç»ˆè·¯çº¿ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs_to_be_processed,	// æœ€ç»ˆè·¯çº¿ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context,			// æšä¸¾ä¸Šä¸‹æ–‡
+		const coRet_r	enum_status			// æšä¸¾çŠ¶æ€
 		);
-	// Ã¶¾Ù»Øµ÷º¯Êı, ¶ÔÖ¸¶¨µÄ½áµãĞòÁĞ½øĞĞÃ¶¾Ù, ÎŞ¹ıÂË
+	// æšä¸¾å›è°ƒå‡½æ•°, å¯¹æŒ‡å®šçš„ç»“ç‚¹åºåˆ—è¿›è¡Œæšä¸¾, æ— è¿‡æ»¤
 	typedef coRet (*enum_t)(
-		const coINT	node_count,			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs,			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context,			// ´«µİÃ¶¾ÙÉÏÏÂÎÄ
-		const solve_t	enum_callback			// ×îÖÕ»Øµ÷
+		const coINT	node_count,			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs,			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context,			// ä¼ é€’æšä¸¾ä¸Šä¸‹æ–‡
+		const solve_t	enum_callback			// æœ€ç»ˆå›è°ƒ
 		);
-	// Ã¶¾Ù»Øµ÷º¯Êı, ¶ÔÖ¸¶¨µÄ½áµãĞòÁĞ½øĞĞÃ¶¾Ù, ²¢»Øµ÷¹ıÂËº¯Êı
+	// æšä¸¾å›è°ƒå‡½æ•°, å¯¹æŒ‡å®šçš„ç»“ç‚¹åºåˆ—è¿›è¡Œæšä¸¾, å¹¶å›è°ƒè¿‡æ»¤å‡½æ•°
 	typedef coRet (*enum_filter_t)(
-		const coINT	node_count,			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs,			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context,			// ´«µİÃ¶¾ÙÉÏÏÂÎÄ
-		const filter_t	filter_callback,		// ¹ıÂËÆ÷»Øµ÷
-		const coDATA32	filter_context,			// ´«µİ¹ıÂËÆ÷»Øµ÷ÉÏÏÂÎÄ
-		const solve_t	enum_callback			// ×îÖÕ»Øµ÷
+		const coINT	node_count,			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs,			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context,			// ä¼ é€’æšä¸¾ä¸Šä¸‹æ–‡
+		const filter_t	filter_callback,		// è¿‡æ»¤å™¨å›è°ƒ
+		const coDATA32	filter_context,			// ä¼ é€’è¿‡æ»¤å™¨å›è°ƒä¸Šä¸‹æ–‡
+		const solve_t	enum_callback			// æœ€ç»ˆå›è°ƒ
 		);
 
-	// ÄÚ²¿Ã¶¾Ùº¯Êı
-	enum_t		m_enum;					// ÄÚ²¿Ã¶¾Ùº¯Êı
-	enum_filter_t	m_enum_filter;				// ÄÚ²¿´ø¹ıÂËÃ¶¾Ùº¯Êı
-	filter_t	m_filter;				// ÄÚ²¿¹ıÂËº¯Êı
-	solve_t		m_callback;				// ÄÚ²¿½Ó¿Ú»Øµ÷º¯Êı
+	// å†…éƒ¨æšä¸¾å‡½æ•°
+	enum_t		m_enum;					// å†…éƒ¨æšä¸¾å‡½æ•°
+	enum_filter_t	m_enum_filter;				// å†…éƒ¨å¸¦è¿‡æ»¤æšä¸¾å‡½æ•°
+	filter_t	m_filter;				// å†…éƒ¨è¿‡æ»¤å‡½æ•°
+	solve_t		m_callback;				// å†…éƒ¨æ¥å£å›è°ƒå‡½æ•°
 public:
-	// °ü×°º¯Êı
+	// åŒ…è£…å‡½æ•°
 
-	// Ã¶¾Ù ¾­ÓÉ½áµãĞòÁĞµÄ ËùÓĞÂ·¾¶
+	// æšä¸¾ ç»ç”±ç»“ç‚¹åºåˆ—çš„ æ‰€æœ‰è·¯å¾„
 	coSVF		enumpath(
-		const coINT	node_count,			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs,			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context			// Ã¶¾ÙÉÏÏÂÎÄ
+		const coINT	node_count,			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs,			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context			// æšä¸¾ä¸Šä¸‹æ–‡
 		);
-	// Ã¶¾Ù ¾­ÓÉ½áµãĞòÁĞ²¢Í¨¹ı¹ıÂËµÄ ËùÓĞÂ·¾¶
+	// æšä¸¾ ç»ç”±ç»“ç‚¹åºåˆ—å¹¶é€šè¿‡è¿‡æ»¤çš„ æ‰€æœ‰è·¯å¾„
 	coSVF		enumpath_f(
-		const coINT	node_count,			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs,			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context, 			// Ã¶¾ÙÉÏÏÂÎÄ
-		const coDATA32	filter_context			// ¹ıÂËÉÏÏÂÎÄ
+		const coINT	node_count,			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs,			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context, 			// æšä¸¾ä¸Šä¸‹æ–‡
+		const coDATA32	filter_context			// è¿‡æ»¤ä¸Šä¸‹æ–‡
 		);
-	// Ã¶¾Ù ³¬¹ı×îÉÙ½áµãÂ·¾¶ ÏŞ¶¨Á¬½áÊıµÄ ËùÓĞÂ·¾¶		*ÌØÀı*
+	// æšä¸¾ è¶…è¿‡æœ€å°‘ç»“ç‚¹è·¯å¾„ é™å®šè¿ç»“æ•°çš„ æ‰€æœ‰è·¯å¾„		*ç‰¹ä¾‹*
 	coSVF		enum_path_limit_links(
-		const coINT	node_count, 			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs, 			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coINT	max_delta_links			// ÏŞ¶¨Á¬½áÊı
+		const coINT	node_count, 			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs, 			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coINT	max_delta_links			// é™å®šè¿ç»“æ•°
 		);
-	// Ã¶¾à ³¬¹ı×î¶Ì¾àÀëÂ·¾¶ ÏŞ¶¨¾àÀëµÄ ËùÓĞÂ·¾¶		*ÌØÀı*
+	// æšè· è¶…è¿‡æœ€çŸ­è·ç¦»è·¯å¾„ é™å®šè·ç¦»çš„ æ‰€æœ‰è·¯å¾„		*ç‰¹ä¾‹*
 	coSVF		enum_path_limit_dists(
-		const coINT	node_count, 			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs, 			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coREAL	max_delta_dists			// ÏŞ¶¨¾àÀë
+		const coINT	node_count, 			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs, 			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coREAL	max_delta_dists			// é™å®šè·ç¦»
 		);
-	// ¾ßÓĞ ×îÉÙ½áµãµÄ Â·¾¶					*ÌØÀı* *È¡Ò»*
+	// å…·æœ‰ æœ€å°‘ç»“ç‚¹çš„ è·¯å¾„					*ç‰¹ä¾‹* *å–ä¸€*
 	coSVF		shortest_path_links(
-		const coINT	node_count, 			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs, 			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context			// Ã¶¾ÙÉÏÏÂÎÄ
+		const coINT	node_count, 			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs, 			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context			// æšä¸¾ä¸Šä¸‹æ–‡
 		);
-	// ¾ßÓĞ ×î¶Ì¾àÀëµÄ Â·¾¶					*ÌØÀı* *È¡Ò»*
+	// å…·æœ‰ æœ€çŸ­è·ç¦»çš„ è·¯å¾„					*ç‰¹ä¾‹* *å–ä¸€*
 	coSVF		shortest_path_dists(
-		const coINT	node_count,  			// Ö¸¶¨¾­ÓÉ½áµãÊı
-		const coNode_ra	node_seqs, 			// Ö¸¶¨¾­ÓÉ½áµãĞòÁĞ
-		const coDATA32	enum_context			// Ã¶¾ÙÉÏÏÂÎÄ
+		const coINT	node_count,  			// æŒ‡å®šç»ç”±ç»“ç‚¹æ•°
+		const coNode_ra	node_seqs, 			// æŒ‡å®šç»ç”±ç»“ç‚¹åºåˆ—
+		const coDATA32	enum_context			// æšä¸¾ä¸Šä¸‹æ–‡
 		);
 public:
-	coSVF		set_enum(enum_t);			// ÉèÖÃÎŞ¹ıÂËÃ¶¾Ù»Øµ÷
-	coSVF		set_enum_filter(enum_filter_t);		// ÉèÖÃ´ø¹ıÂËÃ¶¾Û»Øµ÷
-	coSVF		set_filter(filter_t);			// ÉèÖÃ¹ıÂËÆ÷
-	coSVF		set_callback(solve_t);			// ÉèÖÃ×îÖÕ»Øµ÷
+	coSVF		set_enum(enum_t);			// è®¾ç½®æ— è¿‡æ»¤æšä¸¾å›è°ƒ
+	coSVF		set_enum_filter(enum_filter_t);		// è®¾ç½®å¸¦è¿‡æ»¤æšèšå›è°ƒ
+	coSVF		set_filter(filter_t);			// è®¾ç½®è¿‡æ»¤å™¨
+	coSVF		set_callback(solve_t);			// è®¾ç½®æœ€ç»ˆå›è°ƒ
 public:
 	coRouter(
-		solve_t		init_callback = NULL,		// ³õÊ¼»¯×îÖÕ»Øµ÷
-		enum_t		init_enum = NULL,		// ³õÊ¼»¯ÎŞ¹ıÂË»Øµ÷
-		enum_filter_t	init_enum_filter = NULL,	// ³õÊ¼»¯´ø¹ıÂË»Øµ÷
-		filter_t	init_filter = NULL		// ³õÊ¼»¯¹ıÂËÆ÷
+		solve_t		init_callback = NULL,		// åˆå§‹åŒ–æœ€ç»ˆå›è°ƒ
+		enum_t		init_enum = NULL,		// åˆå§‹åŒ–æ— è¿‡æ»¤å›è°ƒ
+		enum_filter_t	init_enum_filter = NULL,	// åˆå§‹åŒ–å¸¦è¿‡æ»¤å›è°ƒ
+		filter_t	init_filter = NULL		// åˆå§‹åŒ–è¿‡æ»¤å™¨
 		);
 
 public:
-	// Ô¤¶¨ÒåÎŞ¹ıÂËÃ¶¾Ù
+	// é¢„å®šä¹‰æ— è¿‡æ»¤æšä¸¾
 	static coRet	co_path_enumerator(	const coINT	node_count,
 						const coNode_ra	node_seqs,
 						const coDATA32	enum_context,
 						const solve_t	enum_callback);
-	// Ô¤¶¨ÒåÓĞ¹ıÂËÃ¶¾Ù
+	// é¢„å®šä¹‰æœ‰è¿‡æ»¤æšä¸¾
 	static coRet	co_path_enumerator_f(	const coINT	node_count,
 						const coNode_ra	node_seqs,
 						const coDATA32	enum_context,
 						const filter_t	filter_callback,
 						const coDATA32	filter_context,
 						const solve_t	enum_callback);
-	// Ô¤¶¨ÒåÃ¶¾Ù / Á¬½áÌõ¼şÓÅ»¯
+	// é¢„å®šä¹‰æšä¸¾ / è¿ç»“æ¡ä»¶ä¼˜åŒ–
 	static coRet	co_path_shortest_links(	const coINT	node_count,
 						const coNode_ra	node_seqs,
 						const coDATA32	num_context,
 						const filter_t	filter_callback,
 						const coDATA32	filter_context,
 						const solve_t	enum_callback);
-	// Ô¤¶¨ÒåÃ¶¾Ù / ¾àÀëÌõ¼şÓÅ»¯
+	// é¢„å®šä¹‰æšä¸¾ / è·ç¦»æ¡ä»¶ä¼˜åŒ–
 	static coRet	co_path_shortest_dists(	const coINT	node_count,
 						const coNode_ra	node_seqs,
 						const coDATA32	enum_context,
 						const filter_t	filter_callback,
 						const coDATA32	filter_context,
 						const solve_t	enum_callback);
-	// Ô¤¶¨Òå¹ıÂËÆ÷ / ¹ıÂËÁ¬½áÌõ¼ş
+	// é¢„å®šä¹‰è¿‡æ»¤å™¨ / è¿‡æ»¤è¿ç»“æ¡ä»¶
 	static coRet	co_path_filter_links(	const coINT	node_count,
 						const coNode_ra	node_seqs_to_be_valid,
 						const coDATA32	max_delta_links,
 						const coRet_r	enum_status);
-	// Ô¤¶¨Òå¹ıÂËÆ÷ / ¹ıÂË¾àÀëÌõ¼ş
+	// é¢„å®šä¹‰è¿‡æ»¤å™¨ / è¿‡æ»¤è·ç¦»æ¡ä»¶
 	static coRet	co_path_filter_dist(	const coINT	node_count,
 						const coNode_ra	node_seqs_to_be_valid,
 						const coDATA32	max_delta_dist,
 						const coRet_r	enum_status);
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æÁ¬½áÊı
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜è¿ç»“æ•°
 	static coRet	co_path_save_links(	const coINT	node_count,
 						const coNode_ra	node_seqs_to_be_processed,
 						const coDATA32	link_count_r,
 						const coRet_r	enum_status);
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æ¾àÀë
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜è·ç¦»
 	static coRet	co_path_save_dist(	const coINT	node_count,
 						const coNode_ra	node_seqs_to_be_processed,
 						const coDATA32	link_dist_r,
 						const coRet_r	enum_status);
-	// Ô¤¶¨Òå×îÖÕ»Øµ÷ / ±£´æÂ·¾¶ĞÅÏ¢ / ±£´æ½áµãĞòÁĞ
+	// é¢„å®šä¹‰æœ€ç»ˆå›è°ƒ / ä¿å­˜è·¯å¾„ä¿¡æ¯ / ä¿å­˜ç»“ç‚¹åºåˆ—
 	static coRet	co_path_save_nodes_seq(	const coINT	node_count,
 						const coNode_ra	node_seqs_to_be_processed,
 						const coDATA32	*node_ra_r,

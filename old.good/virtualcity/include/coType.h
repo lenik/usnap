@@ -1,5 +1,5 @@
 
-//	COM\»ù±¾Êı¾İÀàĞÍ
+//	COM\åŸºæœ¬æ•°æ®ç±»å‹
 //	2000.12.6
 
 #pragma once
@@ -24,7 +24,7 @@
 	class i;					\
 	co_type(i);
 
-// Ô­Ê¼Êı¾İÀàĞÍ
+// åŸå§‹æ•°æ®ç±»å‹
 
 	#define coTRUE			1
 	#define coFALSE			0
@@ -58,9 +58,9 @@
 
 	co_def_type(_coString,		coString);
 
-// »ù±¾Êı¾İÀàĞÍ
+// åŸºæœ¬æ•°æ®ç±»å‹
 
-	// Ô­Ê¼Êı¾İÁĞ±íÀàĞÍ
+	// åŸå§‹æ•°æ®åˆ—è¡¨ç±»å‹
 		co_def_type(coList(coINT), 	coListINT);
 		co_def_type(coList(coREAL),	coListREAL);
 		co_def_type(coList(coString),	coListString);
@@ -69,34 +69,34 @@
 		co_def_type(coArray(coREAL),	coArrayREAL);
 		co_def_type(coArray(coString),	coArrayString);
 
-	// ¼¯ºÏÀàĞÍ
-	// Ä£°åÀà
+	// é›†åˆç±»å‹
+	// æ¨¡æ¿ç±»
 
-		// »ù±¾¼¯ºÏÀàÄ£°å
+		// åŸºæœ¬é›†åˆç±»æ¨¡æ¿
 		template <class oTYPE>
 		struct coSet {
-			coVF(coSet&)	operator =  (const coSet&);		// ¸³Öµ
-			coVF(coSet&)	operator += (const coSet&);		// ×·¼Ó
-			coF(coSet&)	operator += (const oTYPE&);		// ×·¼Ó
-			coVF(coSet&)	operator -= (const coSet&);		// É¾¼õ
-			coF(coSet&)	operator -= (const oTYPE&);		// É¾¼õ
+			coVF(coSet&)	operator =  (const coSet&);		// èµ‹å€¼
+			coVF(coSet&)	operator += (const coSet&);		// è¿½åŠ 
+			coF(coSet&)	operator += (const oTYPE&);		// è¿½åŠ 
+			coVF(coSet&)	operator -= (const coSet&);		// åˆ å‡
+			coF(coSet&)	operator -= (const oTYPE&);		// åˆ å‡
 
-			coVF(coSet) 	operator +  (const coSet&) const;	// ²¢
-			coF(coSet)	operator +  (const oTYPE&) const;	// ²¢
-			coVF(coSet) 	operator -  (const coSet&) const;	// ²î
-			coF(coSet) 	operator -  (const oTYPE&) const;	// ²î
+			coVF(coSet) 	operator +  (const coSet&) const;	// å¹¶
+			coF(coSet)	operator +  (const oTYPE&) const;	// å¹¶
+			coVF(coSet) 	operator -  (const coSet&) const;	// å·®
+			coF(coSet) 	operator -  (const oTYPE&) const;	// å·®
 
-			coVF(coBOOL)	operator == (const coSet&) const;	// ÏàµÈ
-			coVF(coBOOL)	operator != (const coSet&) const;	// ²»ÏàµÈ
-			coF(coBOOL)	operator >  (const oTYPE&) const;	// ÊôÓÚ
-			coVF(coBOOL)	operator >= (const coSet&) const;	// ×Ó¼¯
-			coVF(coBOOL)	operator <= (const coSet&) const;	// ¸¸¼¯
-			coVF(coBOOL)	operator >> (const coSet&) const;	// Õæ×Ó¼¯
-			coVF(coBOOL)	operator << (const coSet&) const;	// Õæ¸¸¼¯
+			coVF(coBOOL)	operator == (const coSet&) const;	// ç›¸ç­‰
+			coVF(coBOOL)	operator != (const coSet&) const;	// ä¸ç›¸ç­‰
+			coF(coBOOL)	operator >  (const oTYPE&) const;	// å±äº
+			coVF(coBOOL)	operator >= (const coSet&) const;	// å­é›†
+			coVF(coBOOL)	operator <= (const coSet&) const;	// çˆ¶é›†
+			coVF(coBOOL)	operator >> (const coSet&) const;	// çœŸå­é›†
+			coVF(coBOOL)	operator << (const coSet&) const;	// çœŸçˆ¶é›†
 
-			coVF(oTYPE)	operator [] (const coINT) const;	// È¡ÔªËØ
-			coVF(oTYPE&)	operator [] (const coINT);		// ÉèÖÃÔªËØ
-			coVP		operator coINT () const;		// È¡ÔªËØ¸öÊı
+			coVF(oTYPE)	operator [] (const coINT) const;	// å–å…ƒç´ 
+			coVF(oTYPE&)	operator [] (const coINT);		// è®¾ç½®å…ƒç´ 
+			coVP		operator coINT () const;		// å–å…ƒç´ ä¸ªæ•°
 		public:
 			coP		coSet();
 			coP		coSet(const coSet&);
@@ -106,22 +106,22 @@
 			coList(oTYPE)	m_data;
 		};
 /*
-		// Ä£ºı¼¯ºÏÀà
+		// æ¨¡ç³Šé›†åˆç±»
 		template<class oTYPE>
 		struct coSetF : public coSet<oTYPE> {
-			coVF(coSetF&)	operator =  (const coSetF&);		// ¸³Öµ
-			coVF(coSetF&)	operator += (const coSetF&);		// ×·¼Ó
-			coF(coSetF&)	operator += (const oTYPE&);		// ×·¼Ó
-			coVF(coSetF&)	operator -= (const coSetF&);		// É¾¼õ
-			coF(coSetF&)	operator -= (const oTYPE&);		// É¾¼õ
+			coVF(coSetF&)	operator =  (const coSetF&);		// èµ‹å€¼
+			coVF(coSetF&)	operator += (const coSetF&);		// è¿½åŠ 
+			coF(coSetF&)	operator += (const oTYPE&);		// è¿½åŠ 
+			coVF(coSetF&)	operator -= (const coSetF&);		// åˆ å‡
+			coF(coSetF&)	operator -= (const oTYPE&);		// åˆ å‡
 
-			// ±ê×¼Ä£ºıÔËËã
-			coVF(coSetF) 	operator +  (const coSetF&) const;	// ²¢
-			coF(coSetF)	operator +  (const oTYPE&) const;	// ²¢
-			coVF(coSetF) 	operator -  (const coSetF&) const;	// ²î
-			coF(coSetF) 	operator -  (const oTYPE&) const;	// ²î
+			// æ ‡å‡†æ¨¡ç³Šè¿ç®—
+			coVF(coSetF) 	operator +  (const coSetF&) const;	// å¹¶
+			coF(coSetF)	operator +  (const oTYPE&) const;	// å¹¶
+			coVF(coSetF) 	operator -  (const coSetF&) const;	// å·®
+			coF(coSetF) 	operator -  (const oTYPE&) const;	// å·®
 
-			// °®ÒòË¹Ì¹Ä£ºıÔËËã
+			// çˆ±å› æ–¯å¦æ¨¡ç³Šè¿ç®—
 			coVF(coSetF)	add_einstein(const coSetF&) const;
 			coF(coSetF)	add_einstein(const oTYPE&) const;
 			coVF(coSetF)	sub_einstein(const coSetF&) const;
@@ -129,17 +129,17 @@
 
 			//
 
-			coVF(coBOOL)	operator == (const coSetF&) const;	// ÏàµÈ
-			coVF(coBOOL)	operator != (const coSetF&) const;	// ²»ÏàµÈ
-			coF(coBOOL)	operator >  (const oTYPE&) const;	// ÊôÓÚ
-			coVF(coBOOL)	operator >= (const coSetF&) const;	// ×Ó¼¯
-			coVF(coBOOL)	operator <= (const coSetF&) const;	// ¸¸¼¯
-			coVF(coBOOL)	operator >> (const coSetF&) const;	// Õæ×Ó¼¯
-			coVF(coBOOL)	operator << (const coSetF&) const;	// Õæ¸¸¼¯
+			coVF(coBOOL)	operator == (const coSetF&) const;	// ç›¸ç­‰
+			coVF(coBOOL)	operator != (const coSetF&) const;	// ä¸ç›¸ç­‰
+			coF(coBOOL)	operator >  (const oTYPE&) const;	// å±äº
+			coVF(coBOOL)	operator >= (const coSetF&) const;	// å­é›†
+			coVF(coBOOL)	operator <= (const coSetF&) const;	// çˆ¶é›†
+			coVF(coBOOL)	operator >> (const coSetF&) const;	// çœŸå­é›†
+			coVF(coBOOL)	operator << (const coSetF&) const;	// çœŸçˆ¶é›†
 
-			coVF(oTYPE)	operator [] (const coINT) const;	// È¡ÔªËØ
-			coVF(oTYPE&)	operator [] (const coINT);		// ÉèÖÃÔªËØ
-			coVP		operator coINT () const;		// È¡ÔªËØ¸öÊı
+			coVF(oTYPE)	operator [] (const coINT) const;	// å–å…ƒç´ 
+			coVF(oTYPE&)	operator [] (const coINT);		// è®¾ç½®å…ƒç´ 
+			coVP		operator coINT () const;		// å–å…ƒç´ ä¸ªæ•°
 		public:
 			coP		coSetF();
 			coP		coSetF(const coSetF&);
@@ -147,24 +147,24 @@
 		private:
 			coINT		m_count;
 			struct co_item_fuzzy {
-				// ÔªËØÊı¾İ
+				// å…ƒç´ æ•°æ®
 				oTYPE	item;
-				// Á¥Êô¶È
+				// éš¶å±åº¦
 				coREAL	subjection;
 			//public:
-				// Êı¾İ²Ù×÷
+				// æ•°æ®æ“ä½œ
 
 			};
 			typedef co_item_fuzzy	coItemFuzzy;
 			coList(coItemFuzzy)	m_data;
 		};
 */
-	// »ù±¾¼¯ºÏÀà
+	// åŸºæœ¬é›†åˆç±»
 		co_def_type(coSet<coBOOL>,	coSetBOOL);
 		co_def_type(coSet<coINT>,	coSetINT);
 		co_def_type(coSet<coREAL>,	coSetREAL);
 
-// ¿Õ¼äÀàĞÍ
+// ç©ºé—´ç±»å‹
 
 	co_struct(coPT2);
 	co_struct(coPT3);
@@ -175,21 +175,21 @@
 		coREAL	x;
 		coREAL	y;
 	public:
-		// ÔËËã
+		// è¿ç®—
 		coVF(coPT2&)		operator =  (const coPT2& p2) { x = p2.x; y = p2.y; return *this; }
 		coVF(coPT2&)		operator += (const coPT2& p2) { x += p2.x; y += p2.y; return *this; }
 		coVF(coPT2&)		operator -= (const coPT2& p2) { x -= p2.x; y -= p2.y; return *this; }
 		coVF(coPT2)		operator +  (const coPT2& p2) const { coPT2 r(*this); r += p2; return r; }
 		coVF(coPT2)		operator -  (const coPT2& p2) const { coPT2 r(*this); r -= p2; return r; }
 
-		// ·ù½Ç
+		// å¹…è§’
 		coVF(coREAL)		arg() const { return atan2(y, x); }
-		// µ½Ô­µã¾àÀë
+		// åˆ°åŸç‚¹è·ç¦»
 		coVF(coREAL)		disto() const { return sqrt(x * x + y * y); }
-		// µ½ÁíÒ»µãµÄ¾àÀë
+		// åˆ°å¦ä¸€ç‚¹çš„è·ç¦»
 		coVF(coREAL)		disto(const coPT2& p2) const { return (p2 - *this).disto(); }
 
-		// ĞòºÅÈ¡×ø±êÖµ
+		// åºå·å–åæ ‡å€¼
 		coVF(coREAL)		operator [] (const coINT xyindex) const { return xyindex == 0 ? x : y; }
 		coVF(coREAL&)		operator [] (const coINT xyindex) { return xyindex == 0 ? x : y; }
 	public:
@@ -203,18 +203,18 @@
 		coREAL	y;
 		coREAL	z;
 	public:
-		// µ½Ô­µã¾àÀë
+		// åˆ°åŸç‚¹è·ç¦»
 		coVF(coREAL)		disto() const { return sqrt(x * x + y * y + z * z); }
-		// µ½ÁíÒ»µãµÄ¾àÀë
+		// åˆ°å¦ä¸€ç‚¹çš„è·ç¦»
 		coVF(coREAL)		disto(const coPT3& p2) const { return (p2 - *this).disto(); }
-		// ÔËËã
+		// è¿ç®—
 		coVF(coPT3&)		operator =  (const coPT3& p2) { x = p2.x; y = p2.y; z = p2.z; return *this; }
 		coVF(coPT3&)		operator += (const coPT3& p2) { x += p2.x; y += p2.y; z += p2.z; return *this; }
 		coVF(coPT3&)		operator -= (const coPT3& p2) { x -= p2.x; y -= p2.y; z -= p2.z; return *this; }
 		coVF(coPT3)		operator +  (const coPT3& p2) const { coPT3 r(*this); r += p2; return r; }
 		coVF(coPT3)		operator -  (const coPT3& p2) const { coPT3 r(*this); r -= p2; return r; }
 
-		// ĞòºÅÈ¡×ø±êÖµ
+		// åºå·å–åæ ‡å€¼
 		coVF(coREAL)		operator [] (coINT xyzindex) const { return xyzindex == 0 ? x : xyzindex == 1 ? y : z; }
 		coVF(coREAL&)		operator [] (coINT xyzindex) { return xyzindex == 0 ? x : xyzindex == 1 ? y : z; }
 	public:
@@ -223,12 +223,12 @@
 		coP			coPT3(const coPT3& o_o) { x = o_o.x; y = o_o.y; z = o_o.z; }
 	};
 
-// ·µ»ØÀàĞÍ ¼° ´íÎóÖµ
+// è¿”å›ç±»å‹ åŠ é”™è¯¯å€¼
 
-	// ÒıÈë´íÎóÀàĞÍ
+	// å¼•å…¥é”™è¯¯ç±»å‹
 	#include "coError.h"
 
-	// ¸´ºÏ·µ»ØÖµ¶ÔÏó
+	// å¤åˆè¿”å›å€¼å¯¹è±¡
 	struct co_tag_type(coRet) {
 		coBOOL			status;
 		coDATA8			avail;
@@ -246,14 +246,14 @@
 	};
 	co_def_type(co_tag_type(coRet), coRet);
 
-	#define co_avail_hresult	0x01		// ·µ»ØÖµÖĞµÄ hresult ²¿·ÖÓĞĞ§
-	#define co_avail_coerror	0x02		// ·µ»ØÖµÖĞµÄ coerror ²¿·ÖÓĞĞ§
-	#define co_avail_control	0x03		// ·µ»ØÖµÖĞµÄ control ²¿·ÖÓĞĞ§
-	#define co_avail_data_num	0x10		// ·µ»ØÖµÖĞµÄ data ²¿·ÖÓĞĞ§, ÇÒÎªÒ»ÊıÖµ
-	#define co_avail_data_pointer	0x20		// ·µ»ØÖµÖĞµÄ data ²¿·ÖÓĞĞ§, ÇÒÎªÒ»Ö¸Õë
-	#define co_avail_data_callback	0x30		// ·µ»ØÖµÖĞµÄ data ²¿·ÖÓĞĞ§, ÇÒÎªÒ»Ö¸Õë
+	#define co_avail_hresult	0x01		// è¿”å›å€¼ä¸­çš„ hresult éƒ¨åˆ†æœ‰æ•ˆ
+	#define co_avail_coerror	0x02		// è¿”å›å€¼ä¸­çš„ coerror éƒ¨åˆ†æœ‰æ•ˆ
+	#define co_avail_control	0x03		// è¿”å›å€¼ä¸­çš„ control éƒ¨åˆ†æœ‰æ•ˆ
+	#define co_avail_data_num	0x10		// è¿”å›å€¼ä¸­çš„ data éƒ¨åˆ†æœ‰æ•ˆ, ä¸”ä¸ºä¸€æ•°å€¼
+	#define co_avail_data_pointer	0x20		// è¿”å›å€¼ä¸­çš„ data éƒ¨åˆ†æœ‰æ•ˆ, ä¸”ä¸ºä¸€æŒ‡é’ˆ
+	#define co_avail_data_callback	0x30		// è¿”å›å€¼ä¸­çš„ data éƒ¨åˆ†æœ‰æ•ˆ, ä¸”ä¸ºä¸€æŒ‡é’ˆ
 
-	// ÉèÖÃ·µ»ØÖµ
+	// è®¾ç½®è¿”å›å€¼
 	#define co_setok(cret)		((cret).status = coCLEAR)
 	#define co_seter(cret)		((cret).status = coSET)
 	#define co_setce(cret, ce)	((cret).avail = co_avail_coerror, cret.coerror = (ce))
@@ -261,7 +261,7 @@
 	#define co_sethr(cret, hr)	((cret).avail = co_avail_hresult, cret.hresult = (hr))
 	#define co_sethe(cret, he)	((cret).avail = MAKE_RESULT(SEVERITY_ERROR, FACILITY_WINDOWS, (he)))
 
-	// ¼ì²â·µ»ØÖµ
+	// æ£€æµ‹è¿”å›å€¼
 	#define cook(cret)		((cret).status == coCLEAR)
 	#define coerror(cret)		((cret).status == coSET)
 	#define co_ishr(cret)		((cret).avail & co_avail_hresult)

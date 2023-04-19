@@ -3,10 +3,10 @@
 /* Socket I/O Framework for Data-Driven Application */
 
 
-应用程序自己操作SIOF，最后形成一个IO接口，包括：
+搴旂敤绋嬪簭鑷繁鎿嶄綔SIOF锛屾渶鍚庡舰鎴愪竴涓狪O鎺ュ彛锛屽寘鎷細
 nsios_t {
     in(x32_t sel, size_t, void *);
-    --> 这个接口将被替换:
+    --> 杩欎釜鎺ュ彛灏嗚鏇挎崲:
         nsio_t *nsnew(nsio_t *),
         void nsaddmod(nsio_t *, mod_t *);
     out(x32_t sel, size_t, void *);

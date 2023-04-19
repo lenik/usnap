@@ -1,5 +1,5 @@
 
-// ´Ê·¨·ÖÎö³ÌĞò ·ÖÎö
+// è¯æ³•åˆ†æç¨‹åº åˆ†æ
 
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
@@ -21,10 +21,10 @@
 	#include <stdlib.h>
 	#include <unistd.h>
 
-	// Ê¹ÓÃº¯ÊıÔ­ĞÍ
+	// ä½¿ç”¨å‡½æ•°åŸå‹
 	#define YY_USE_PROTOS
 
-	// constĞŞÊÎ·ûÓĞĞ§
+	// constä¿®é¥°ç¬¦æœ‰æ•ˆ
 	#define YY_USE_CONST
 
 #else	/* ! __cplusplus */
@@ -38,15 +38,15 @@
 #endif	/* ! __cplusplus */
 
 #ifdef __TURBOC__
-	 #pragma warn -rch		// ÎŞ·¨µ½´ïµÄ´úÂë
-	 #pragma warn -use		// ¶¨Òåµ«Î´Ê¹ÓÃ
+	 #pragma warn -rch		// æ— æ³•åˆ°è¾¾çš„ä»£ç 
+	 #pragma warn -use		// å®šä¹‰ä½†æœªä½¿ç”¨
 	#include <io.h>
 	#include <stdlib.h>
 	#define YY_USE_CONST
 	#define YY_USE_PROTOS
 #endif
 
-// ºêĞŞÊÎÌæ»»
+// å®ä¿®é¥°æ›¿æ¢
 	#ifdef YY_USE_CONST
 	#define yyconst const
 	#else

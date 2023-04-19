@@ -6,8 +6,8 @@
 // ...
 
 BOOL	_stdcall FI_BitBlt_E_Call_Brick(LPDWORD destBits, LPDWORD srcBits, LONG width, LONG height, DWORD brickOption) {
-	// brickFunc:	×©»¯¹¦ÄÜ
-	//		00	¾ùÔÈ·½×©
+	// brickFunc:	ç –åŒ–åŠŸèƒ½
+	//		00	å‡åŒ€æ–¹ç –
 	BYTE	brickFunc	= (BYTE)(brickOption >> 24);
 	BYTE	brickParam	= (BYTE)(brickOption >> 16);
 	BYTE	brickWidth	= (BYTE)(brickOption >> 8);
@@ -18,7 +18,7 @@ BOOL	_stdcall FI_BitBlt_E_Call_Brick(LPDWORD destBits, LPDWORD srcBits, LONG wid
 		if (brickWidth == 0 || brickHeight == 0) return TRUE;
 
 		if (brickParam & 0x01 == 0) {
-			// ²»¼ÆËãÆ«ÒÆ
+			// ä¸è®¡ç®—åç§»
 			alpha1	= 0;
 			alpha2	= 0;
 		} else {

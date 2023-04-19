@@ -10,16 +10,16 @@ public:
 	typedef sgp::linear_space<bool>	boolspace;
 	typedef boolspace::vector	vector;
 	typedef std::list<vector>	vectors;
-	typedef boolspace::box_range	range;		// ×Ó¿Õ¼ä
-	typedef std::list<range>	ranges;		// ×Ó¿Õ¼äÁĞ±í
-	typedef vectors			connection;	// Á¬½Óµã
-	typedef std::list<connection>	connections;	// Á¬½ÓµãÁĞ±í
+	typedef boolspace::box_range	range;		// å­ç©ºé—´
+	typedef std::list<range>	ranges;		// å­ç©ºé—´åˆ—è¡¨
+	typedef vectors			connection;	// è¿æ¥ç‚¹
+	typedef std::list<connection>	connections;	// è¿æ¥ç‚¹åˆ—è¡¨
 public:
 	boolspace map;
 public:
-	// ½¨Á¢Ò»¸öÔÚeach in connection´¦ÏàÁ¬µÄÃÔ¹¬
+	// å»ºç«‹ä¸€ä¸ªåœ¨each in connectionå¤„ç›¸è¿çš„è¿·å®«
 	void CreateMaze(range& mazerange, vectors& connection);
-	// ½¨Á¢Ò»¸öÁ¬½Óeach in connectionµÄÃÔ¹¬Í¨µÀ¡£×¢ÒâÒıÓÃ£¬µİ¹éÇ°±ØĞëÏÈ½¨Á¢¶ÔÏó¡£
+	// å»ºç«‹ä¸€ä¸ªè¿æ¥each in connectionçš„è¿·å®«é€šé“ã€‚æ³¨æ„å¼•ç”¨ï¼Œé€’å½’å‰å¿…é¡»å…ˆå»ºç«‹å¯¹è±¡ã€‚
 	void CreateWay(range& mazerange, vectors& connection);
 public:
 	BoxMaze();

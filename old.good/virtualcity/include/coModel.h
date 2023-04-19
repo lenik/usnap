@@ -1,18 +1,18 @@
 
-//	COM\ÀíÂÛÄ£ĞÍ
+//	COM\ç†è®ºæ¨¡å‹
 //	2000.12.6
 
 #pragma once
 
 #include "coType.h"
 
-// »ù±¾¶ÔÏó
-co_struct(coNode);				// ¼òµ¥½áµã
-co_struct(coLink);				// Á¬½á
-co_struct(coPath);				// Â·
-co_struct(coPlat);				// µØÍ¼
+// åŸºæœ¬å¯¹è±¡
+co_struct(coNode);				// ç®€å•ç»“ç‚¹
+co_struct(coLink);				// è¿ç»“
+co_struct(coPath);				// è·¯
+co_struct(coPlat);				// åœ°å›¾
 
-// »ù±¾¶ÔÏó¼¯½Ó¿Ú
+// åŸºæœ¬å¯¹è±¡é›†æ¥å£
 
 template<class oTYPE>
 interface coISets : coSet<oTYPE> {
@@ -22,15 +22,15 @@ co_def_type(coISets<coNode>,	coNodes);
 co_def_type(coISets<coLink>,	coLinks);
 co_def_type(coISets<coPath>,	coPaths);
 
-// ½áµã½á¹¹
+// ç»“ç‚¹ç»“æ„
 struct coNode {
 	coString	name;
 	coPT3		pos;
-	// ±»²Î¿¼»º³å
+	// è¢«å‚è€ƒç¼“å†²
 	coINT		link_refs_count;
 	coLink_ra	link_refs;
 public:
-	// ÔËËã
+	// è¿ç®—
 	coVF(coNode&)	operator =  (const coNode&);
 	coVF(coNode&)	operator += (const coNode&);
 	coVF(coNode&)	operator -= (const coNode&);
@@ -40,13 +40,13 @@ public:
 	coVF(coREAL)	disto() const;
 	coVF(coREAL)	disto(const coNode&) const;
 
-	// ±È½Ï
+	// æ¯”è¾ƒ
 	coVF(coBOOL)	operator == (const coNode&) const;
-	// ½áµã±»²Î¿¼
+	// ç»“ç‚¹è¢«å‚è€ƒ
 	coVF(coBOOL)	be_refered_by(const coLink_r link_ref) const;
 	coVF(coBOOL)	be_refered_by(const coPath_r path_ref) const;
 
-	// ×ø±ê·ÖÁ¿Ë÷ÒıĞÎÊ½
+	// åæ ‡åˆ†é‡ç´¢å¼•å½¢å¼
 	coVF(coREAL)	operator [] (const coINT xyz_index) const;
 	coVF(coREAL&)	operator [] (const coINT xyz_index);
 
@@ -57,7 +57,7 @@ public:
 	coVP		~coNode() {}
 };
 
-// Á¬½á½á¹¹
+// è¿ç»“ç»“æ„
 struct coLink {
 	coString	name;
 	coINT		nodes_seq_count;
@@ -68,11 +68,11 @@ public:
 	coVF(coREAL)	length() const;
 
 public:
-	// Á¬½á²Î¿¼ÁË½áµã
+	// è¿ç»“å‚è€ƒäº†ç»“ç‚¹
 	coVF(coBOOL)	refered(const coNode_r node_ref) const;
-	// Á¬½á±»²Î¿¼
+	// è¿ç»“è¢«å‚è€ƒ
 	coVF(coBOOL)	be_refered_by(const coPath_r path_ref) const;
-	// ²éÕÒ½áµã
+	// æŸ¥æ‰¾ç»“ç‚¹
 	coVF(coNode_ra)	node_at(const coNode_r node_query) const;
 
 	coVF(coLink& )	operator = (const coLink&);
@@ -87,18 +87,18 @@ public:
 	coVP		~coLink();
 };
 
-// Â·¾¶½á¹¹
+// è·¯å¾„ç»“æ„
 struct coPath {
 	coString	name;
 	coINT		links_count;
 	coLink_ra	links;
 
 public:
-	// Â·²Î¿¼ÁË½áµã
+	// è·¯å‚è€ƒäº†ç»“ç‚¹
 	coVF(coBOOL)	refered(const coNode_r node_ref) const;
-	// Â·²Î¿¼ÁËÁ¬½á
+	// è·¯å‚è€ƒäº†è¿ç»“
 	coVF(coBOOL)	refered(const coLink_r link_ref) const;
-	// ²éÕÒÁ¬½á
+	// æŸ¥æ‰¾è¿ç»“
 	coVF(coLink_ra)	link_at(const coLink_r link_query) const;
 
 	coVF(coPath&)	operator = (const coPath&);
@@ -112,7 +112,7 @@ public:
 	coVP		~coPath();
 };
 
-// µØÍ¼½á¹¹
+// åœ°å›¾ç»“æ„
 struct coPlat {
 	coString	name;
 	coINT		paths_count;
@@ -120,14 +120,14 @@ struct coPlat {
 
 public:
 
-//	COM\±í´ïÄ£ĞÍ
+//	COM\è¡¨è¾¾æ¨¡å‹
 
-// ±í´ï½áµã, ¿ÉÒÔÊÇÇøÓò
+// è¡¨è¾¾ç»“ç‚¹, å¯ä»¥æ˜¯åŒºåŸŸ
 interface coNode_exp;
 interface coLink_exp;
 
-interface coUtil; 				// ÔÓÎï
-interface coCity; 				// ³ÇÊĞ
+interface coUtil; 				// æ‚ç‰©
+interface coCity; 				// åŸå¸‚
 
 co_type(coNode_exp);
 co_type(coLink_exp);

@@ -17,7 +17,7 @@ int initg() {
 
 	if (errorcode != grOk)  /* an error occurred */
 	{
-	   printf("ÎŞ·¨³õÊ¼»¯Í¼ĞÎÉè±¸, ÇëÈ·±£*.BGIÎÄ¼şÔÚÆô¶¯Ä¿Â¼.\n");
+	   printf("æ— æ³•åˆå§‹åŒ–å›¾å½¢è®¾å¤‡, è¯·ç¡®ä¿*.BGIæ–‡ä»¶åœ¨å¯åŠ¨ç›®å½•.\n");
 	   exit(1);             /* return with error code */
 	}
 	cleardevice();
@@ -30,12 +30,12 @@ void main(int argc, char **argv) {
 	if (hasbeendone) exit(-1);
 
 	if (argc < 2) {
-		printf("¶à±ßĞÎÓëÔ²µÄ½»µãÊ¾Àı\n¸ñÊ½: \n\t%s <Êı¾İÎÄ¼ş>\n\n(ÇëÈ·±£ÔËĞĞÊ±VGA.BGIÎÄ¼şÔÚµ±Ç°Ä¿Â¼)", argv[0]);
+		printf("å¤šè¾¹å½¢ä¸åœ†çš„äº¤ç‚¹ç¤ºä¾‹\næ ¼å¼: \n\t%s <æ•°æ®æ–‡ä»¶>\n\n(è¯·ç¡®ä¿è¿è¡Œæ—¶VGA.BGIæ–‡ä»¶åœ¨å½“å‰ç›®å½•)", argv[0]);
 		return;
 	}
 	FILE *f = fopen(argv[1], "r");
 	if (f == NULL) {
-		//perror("ÎŞ·¨´ò¿ªÊı¾İÎÄ¼ş");
+		//perror("æ— æ³•æ‰“å¼€æ•°æ®æ–‡ä»¶");
 		return;
 	}
 

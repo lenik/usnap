@@ -193,9 +193,9 @@ HCURSOR CSComp_ClientDlg::OnQueryDragIcon()
 void CSComp_ClientDlg::OnButtonBrowseTemp()
 {
 	// TODO: Add your control notification handler code here
-	CFileDialog	fd(TRUE, "txt", "±È½ÏÄ£°æ.txt",
+	CFileDialog	fd(TRUE, "txt", "æ¯”è¾ƒæ¨¡ç‰ˆ.txt",
 				OFN_FILEMUSTEXIST,
-				"Ä£°æÎÄ¼ş(±È½ÏÄ£°æ.txt)|±È½ÏÄ£°æ.txt|ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş|*.*||");
+				"æ¨¡ç‰ˆæ–‡ä»¶(æ¯”è¾ƒæ¨¡ç‰ˆ.txt)|æ¯”è¾ƒæ¨¡ç‰ˆ.txt|æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶|*.*||");
 	if (fd.DoModal() == IDOK) {
 		m_fTemp	= fd.GetPathName();
 		UpdateData(FALSE);
@@ -209,7 +209,7 @@ void CSComp_ClientDlg::OnButtonInsert()
 	CFileDialog	fd(TRUE, "txt", NULL,
 				OFN_ALLOWMULTISELECT |
 				OFN_FILEMUSTEXIST,
-				"ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş|*.*||");
+				"æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶|*.*||");
 	if (fd.DoModal() == IDOK) {
 		POSITION	pos;
 		CString		fn;
@@ -287,7 +287,7 @@ void CSComp_ClientDlg::compfile(BOOL bDetail)
 			break;
 		case 5: // bit*
 			//stream_comp_word((LPBYTE)pTemp, (LPBYTE)pComp, nTemp * 8, nComp * 8, m_nWidth, m_nDepth, pcr, &size_cr);
-			MessageBox("Î»´®±È½ÏÉĞÓĞÎÊÌâ£¬¸Ä½øÖĞ¡£");
+			MessageBox("ä½ä¸²æ¯”è¾ƒå°šæœ‰é—®é¢˜ï¼Œæ”¹è¿›ä¸­ã€‚");
 			break;
 		default: ;
 		}
@@ -304,7 +304,7 @@ void CSComp_ClientDlg::compfile(BOOL bDetail)
 		}
 
 		stream_comp_validate(pcr, size_cr, crignore, 0x0F, 0);
-		m_strResult.Format("ÕıÈ·£º%d ´íÎó£º%d ÎóÔö£º%d ÒÅÂ©£º%d",
+		m_strResult.Format("æ­£ç¡®ï¼š%d é”™è¯¯ï¼š%d è¯¯å¢ï¼š%d é—æ¼ï¼š%d",
 					pcr[0], pcr[1], pcr[2], pcr[3]);
 		if (bDetail) {
 			char	*pRefResult	= NULL;

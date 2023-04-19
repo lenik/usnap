@@ -72,7 +72,7 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 STDAPI DllRegisterServer(void)
 {
     // registers object, typelib and all interfaces in typelib
-    //MessageBox(NULL, "ÕıÔÚ×¢²á×é¼ş, ÇëÉÔºó...", "²İÔ­Í¼ĞÎÍ¼ÏñÒıÇæ - ²İÔ­ËæÒâÈıÎ¬ 1.1", MB_OK);
+    //MessageBox(NULL, "æ­£åœ¨æ³¨å†Œç»„ä»¶, è¯·ç¨å...", "è‰åŸå›¾å½¢å›¾åƒå¼•æ“ - è‰åŸéšæ„ä¸‰ç»´ 1.1", MB_OK);
     return _Module.RegisterServer(TRUE);
 }
 

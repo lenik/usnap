@@ -27,7 +27,7 @@ BOOL	_stdcall EMemory_resetvar() {
 }
 
 // !!! be careful not to make delta = 0 !!!
-// »ñµÃ¶ÔÆëµ½deltaµÄ³¤¶È
+// è·å¾—å¯¹é½åˆ°deltaçš„é•¿åº¦
 LONG	_stdcall EBuffer_alignsize(LONG size, LONG delta) {
 	return (LONG)(size / delta + 1) * delta;
 }
@@ -94,10 +94,10 @@ BOOL	_stdcall FreeMemory(LPDWORD saveHandle) {
 	return TRUE;
 }
 
-// ÉèÖÃµ¥ÔªÊıÄ¿
-//	Èô lpb ÉĞÎ´·ÖÅä¿Õ¼äÔò·ÖÅä¿Õ¼ä
-//	Èô ÒÑ·ÖÅäµ¥ÔªÊı < ĞÂµ¥ÔªÊıÔòÖØĞÂ·ÖÅä¿Õ¼ä
-//	Ò»´Î·ÖÅä¿Õ¼äÒÔdeltanum*unitsizeÎªµ¥Î», ÒÑÊ¹ÓÃ¿Õ¼äÒ»°ã < ÒÑ·ÖÅä¿Õ¼ä
+// è®¾ç½®å•å…ƒæ•°ç›®
+//	è‹¥ lpb å°šæœªåˆ†é…ç©ºé—´åˆ™åˆ†é…ç©ºé—´
+//	è‹¥ å·²åˆ†é…å•å…ƒæ•° < æ–°å•å…ƒæ•°åˆ™é‡æ–°åˆ†é…ç©ºé—´
+//	ä¸€æ¬¡åˆ†é…ç©ºé—´ä»¥deltanum*unitsizeä¸ºå•ä½, å·²ä½¿ç”¨ç©ºé—´ä¸€èˆ¬ < å·²åˆ†é…ç©ºé—´
 BOOL	_stdcall EBuffer_setsize(LPBUFFERTYPE lpb, LONG newsize) {
 	if (lpb->deltanum < 1) lpb->deltanum	= 1;
 	if (lpb->unitsize < 1) lpb->unitsize	= 0x1000;
@@ -141,7 +141,7 @@ BOOL	_stdcall EBuffer_clear(LPBUFFERTYPE lpb) {
 	return FALSE;
 }
 
-// Ñ¹Ëõ¿Õ¼ä, Ê¹ÒÑ·ÖÅä¿Õ¼ä==ÒÑÊ¹ÓÃ¿Õ¼ä
+// å‹ç¼©ç©ºé—´, ä½¿å·²åˆ†é…ç©ºé—´==å·²ä½¿ç”¨ç©ºé—´
 BOOL	_stdcall EBuffer_compress(LPBUFFERTYPE lpb) {
 	LPVOID	newdata;
 

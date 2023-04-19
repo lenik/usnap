@@ -1,7 +1,7 @@
 
 #include "coType.h"
 
-// ¼¯ºÏ¹¹Ôì
+// é›†åˆæ„é€ 
 	template<class oTYPE>
 	coP		coSet<oTYPE>::coSet<oTYPE>() : m_count(0) {}
 
@@ -17,8 +17,8 @@
 		m_count = 0;
 	}
 
-// ¼¯ºÏÔËËã
-	// ¼¯ºÏ¸³Öµ
+// é›†åˆè¿ç®—
+	// é›†åˆèµ‹å€¼
 	template<class oTYPE>
 	coF(coSet<oTYPE>&)	coSet<oTYPE>::operator =  (const coSet<oTYPE>& o_s) {
 		coINT	i;
@@ -27,19 +27,19 @@
 		if (this == &o_s) return *this;
 
 		for (i = 0; i < m_count; ) {
-			// ½«²»ÊôÓÚo_sµÄÔªËØ´ÓthisÖĞ¼õÈ¥
+			// å°†ä¸å±äºo_sçš„å…ƒç´ ä»thisä¸­å‡å»
 			if (!(o_s > (*this)[i])) (*this) -= (*this)[i];
 			else i++;
 		}
 		for (i = 0; i < o_s_count; i++) {
-			// ½«²»ÊôÓÚthisµÄÔªËØ¼ÓÈëthisÖĞ
+			// å°†ä¸å±äºthisçš„å…ƒç´ åŠ å…¥thisä¸­
 			if (!(*this > o_s[i])) (*this) += o_s[i];
 		}
-		// m_count ½«×Ô¶¯¸ù¾İ -= / += ¸üĞÂ
+		// m_count å°†è‡ªåŠ¨æ ¹æ® -= / += æ›´æ–°
 		return (*this);
 	}
 
-	// ¼¯ºÏ²¢ÉÏÔªËØ
+	// é›†åˆå¹¶ä¸Šå…ƒç´ 
 	template <class oTYPE>
 	coF(coSet<oTYPE>&)	coSet<oTYPE>::operator += (const oTYPE& o_e) {
 		if (!(*this > o_e)) {
@@ -49,7 +49,7 @@
 		return *this;
 	}
 
-	// ¼¯ºÏ²¢ÉÏ¼¯ºÏ
+	// é›†åˆå¹¶ä¸Šé›†åˆ
 	template<class oTYPE>
 	coF(coSet<oTYPE>&)	coSet<oTYPE>::operator += (const coSet<oTYPE>& o_s) {
 		coINT	i;
@@ -60,7 +60,7 @@
 		return *this;
 	}
 
-	// ¼¯ºÏ¼õÈ¥ÔªËØ
+	// é›†åˆå‡å»å…ƒç´ 
 	template <class oTYPE>
 	coF(coSet<oTYPE>&)	coSet<oTYPE>::operator -= (const oTYPE& o_e) {
 		POSITION	pos;
@@ -72,7 +72,7 @@
 		return *this;
 	}
 
-	// ¼¯ºÏ¼õÈ¥¼¯ºÏ
+	// é›†åˆå‡å»é›†åˆ
 	template<class oTYPE>
 	coF(coSet<oTYPE>&)	coSet<oTYPE>::operator -= (const coSet<oTYPE>& o_s) {
 		coINT	i;
@@ -83,7 +83,7 @@
 		return *this;
 	}
 
-	// ¼¯ºÏÓëÔªËØ²¢¼¯
+	// é›†åˆä¸å…ƒç´ å¹¶é›†
 	template<class oTYPE>
 	coF(coSet<oTYPE>)	coSet<oTYPE>::operator +  (const oTYPE& o_e) const {
 		coSet<oTYPE>	r(*this);
@@ -91,7 +91,7 @@
 		return r;
 	}
 
-	// ¼¯ºÏÓë¼¯ºÏ²¢¼¯
+	// é›†åˆä¸é›†åˆå¹¶é›†
 	template<class oTYPE>
 	coF(coSet<oTYPE>)	coSet<oTYPE>::operator +  (const coSet<oTYPE>& o_s) const {
 		coSet<oTYPE>	r(*this);
@@ -99,7 +99,7 @@
 		return r;
 	}
 
-	// ¼¯ºÏÓëÔªËØ²î¼¯
+	// é›†åˆä¸å…ƒç´ å·®é›†
 	template<class oTYPE>
 	coF(coSet<oTYPE>)	coSet<oTYPE>::operator -  (const oTYPE& o_e) const {
 		coSet<oTYPE>	r(*this);
@@ -107,7 +107,7 @@
 		return r;
 	}
 
-	// ¼¯ºÏÓë¼¯ºÏ²î¼¯
+	// é›†åˆä¸é›†åˆå·®é›†
 	template<class oTYPE>
 	coF(coSet<oTYPE>)	coSet<oTYPE>::operator -  (const coSet<oTYPE>& o_s) const {
 		coSet<oTYPE>	r(*this);
@@ -115,15 +115,15 @@
 		return r;
 	}
 
-// ¼¯ºÏÅĞ¶Ï
-	// ¼¯ºÏÏàµÈ
+// é›†åˆåˆ¤æ–­
+	// é›†åˆç›¸ç­‰
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator == (const coSet<oTYPE>& o_s) const {
 		coBOOL	r = coTRUE;
 		if (m_count != o_s.m_count) r = coFALSE;
 		else {
 			for (coINT i = 0; i < m_count; i++) {
-				// Èôo_sÖĞÄ³¸öÔªËØ²»ÊôÓÚ´Ë¼¯ºÏ, Ôòo_sÓë´Ë¼¯ºÏ²»µÈ
+				// è‹¥o_sä¸­æŸä¸ªå…ƒç´ ä¸å±äºæ­¤é›†åˆ, åˆ™o_sä¸æ­¤é›†åˆä¸ç­‰
 				if (*this > o_s[i]) {
 					r = coFALSE;
 					break;
@@ -133,25 +133,25 @@
 		return r;
 	}
 
-	// ¼¯ºÏ²»µÈ
+	// é›†åˆä¸ç­‰
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator != (const coSet<oTYPE>& o_s) const {
 		return !(*this == o_s);
 	}
 
-	// ÔªËØÊôÓÚ¼¯ºÏ
+	// å…ƒç´ å±äºé›†åˆ
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator >  (const oTYPE& o_e) const {
 		return m_data.Find(o_e) != NULL;
 	}
 
-	// ¸ø¶¨¼¯ºÏÊÇ´Ë¼¯ºÏµÄ×Ó¼¯
+	// ç»™å®šé›†åˆæ˜¯æ­¤é›†åˆçš„å­é›†
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator >= (const coSet<oTYPE>& o_s) const {
 		coBOOL	r = coTRUE;
 		coINT	o_s_count = (coINT)o_s;
 		for (coINT i = 0; i < o_s_count; i++) {
-			// Èôo_sÖĞÄ³¸öÔªËØ²»ÊôÓÚ´Ë¼¯ºÏ, Ôòo_s²»ÊÇ´Ë¼¯ºÏµÄ×Ó¼¯
+			// è‹¥o_sä¸­æŸä¸ªå…ƒç´ ä¸å±äºæ­¤é›†åˆ, åˆ™o_sä¸æ˜¯æ­¤é›†åˆçš„å­é›†
 			if (!(*this > o_s[i])) {
 				r = coFALSE;
 				break;
@@ -160,12 +160,12 @@
 		return r;
 	}
 
-	// ´Ë¼¯ºÏÊÇ¸ø¶¨¼¯ºÏµÄ×Ó¼¯
+	// æ­¤é›†åˆæ˜¯ç»™å®šé›†åˆçš„å­é›†
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator <= (const coSet<oTYPE>& o_s) const {
 		coBOOL	r = coTRUE;
 		for (coINT i = 0; i < m_count; i++) {
-			// Èô´Ë¼¯ºÏÖĞÄ³¸öÔªËØ²»ÊôÓÚo_s, Ôò´Ë¼¯ºÏ²»ÊÇo_sµÄ×Ó¼¯
+			// è‹¥æ­¤é›†åˆä¸­æŸä¸ªå…ƒç´ ä¸å±äºo_s, åˆ™æ­¤é›†åˆä¸æ˜¯o_sçš„å­é›†
 			if (!(o_s > (*this)[i])) {
 				r = coFALSE;
 				break;
@@ -174,21 +174,21 @@
 		return r;
 	}
 
-	// ¸ø¶¨¼¯ºÏÊÇ´Ë¼¯ºÏµÄÕæ×Ó¼¯
+	// ç»™å®šé›†åˆæ˜¯æ­¤é›†åˆçš„çœŸå­é›†
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator >> (const coSet<oTYPE>& o_s) const {
 		return (*this >= o_s) && (*this != o_s);
 	}
 
-	// ´Ë¼¯ºÏÊÇ¸ø¶¨¼¯ºÏµÄÕæ×Ó¼¯
+	// æ­¤é›†åˆæ˜¯ç»™å®šé›†åˆçš„çœŸå­é›†
 	template<class oTYPE>
 	coF(coBOOL)	coSet<oTYPE>::operator << (const coSet<oTYPE>& o_s) const {
 		return (*this <= o_s) && (*this != o_s);
 	}
 
-// ¼¯ºÏ×ª»»
+// é›†åˆè½¬æ¢
 
-	// È¡ÔªËØ
+	// å–å…ƒç´ 
 	template<class oTYPE>
 	coF(oTYPE)	coSet<oTYPE>::operator [] (const coINT index) const {
 		coINT		list_index = (coINT)index;
@@ -196,7 +196,7 @@
 		return m_data.GetAt(pos);
 	}
 
-	// ÉèÖÃÔªËØ
+	// è®¾ç½®å…ƒç´ 
 	template<class oTYPE>
 	coF(oTYPE&)	coSet<oTYPE>::operator [] (const coINT index) {
 		coINT		list_index = (coINT)index;
@@ -204,7 +204,7 @@
 		return m_data.GetAt(pos);
 	}
 
-	// È¡ÔªËØ¸öÊı
+	// å–å…ƒç´ ä¸ªæ•°
 	template<class oTYPE>
 	coP		coSet<oTYPE>::operator coINT () const {
 		//return (coINT)m_data.GetCount();

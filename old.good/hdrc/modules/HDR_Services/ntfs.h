@@ -307,8 +307,8 @@ struct Attribute {
 /*
     $STANDARD_INFORMATION, Size: 48-72
     Always Resident
-    µ±NTFS¾í´Óv1.2Éı¼¶µ½v3.0Ê±£¬¸ÃÊôĞÔÖ±µ½±»·ÃÎÊÊ±²Å¸üĞÂ¡£
-    VersionºÍClassIDËÆºõ´ÓÎ´Ê¹ÓÃ¡£
+    å½“NTFSå·ä»v1.2å‡çº§åˆ°v3.0æ—¶ï¼Œè¯¥å±æ€§ç›´åˆ°è¢«è®¿é—®æ—¶æ‰æ›´æ–°ã€‚
+    Versionå’ŒClassIDä¼¼ä¹ä»æœªä½¿ç”¨ã€‚
 */
 struct AttrStandardInformation : public Attribute {
     typedef INT64 TIME64;
@@ -320,10 +320,10 @@ struct AttrStandardInformation : public Attribute {
     DWORD   MaxVersions;                // +24 0:Disabled.
     DWORD   Version;                    // +28 The file's version, if version enabled.
     DWORD   ClassId;                    // +2C
-    DWORD   OwnerId;                    // +30 (2K) Ë÷Òıµ½ $Quote ÎÄ¼şµÄ $O ºÍ $Q Ë÷Òı
-    DWORD   SecurityId;                 // +34 (2K) Ë÷Òıµ½ $Secure ÎÄ¼şµÄ $SII ºÍ $SDS Ë÷Òı
-    INT64   QuoteCharged;               // +38 0:Disabled, ·ñÔòÊÇÎÄ¼şËùÓĞÁ÷µÄ×ÜºÍ
-    INT64   USN;                        // +40 Updated Sequence Number, 0:Disabled. Ë÷Òıµ½ $UsnJrnl ÎÄ¼ş
+    DWORD   OwnerId;                    // +30 (2K) ç´¢å¼•åˆ° $Quote æ–‡ä»¶çš„ $O å’Œ $Q ç´¢å¼•
+    DWORD   SecurityId;                 // +34 (2K) ç´¢å¼•åˆ° $Secure æ–‡ä»¶çš„ $SII å’Œ $SDS ç´¢å¼•
+    INT64   QuoteCharged;               // +38 0:Disabled, å¦åˆ™æ˜¯æ–‡ä»¶æ‰€æœ‰æµçš„æ€»å’Œ
+    INT64   USN;                        // +40 Updated Sequence Number, 0:Disabled. ç´¢å¼•åˆ° $UsnJrnl æ–‡ä»¶
 };
 
 
@@ -332,16 +332,16 @@ struct AttrStandardInformation : public Attribute {
     $ATTRIBUTE_LIST
     Always Non-Resident
 
-    (±¾ÊôĞÔ½Ïº±¼û) µ±MFTÖĞÊôĞÔ±È½Ï¶àÊ±£¬¿ÉÒÔ°ÑËùÓĞÊôĞÔÒÆµ½MFTÍâ²¿£¬²¢ÉèÖÃÎª·Ç×¤Áô¡£
-    Èç¹û»¹²»¹»ÓÃ£¬Ôò¿ÉÒÔÊ¹ÓÃÊôĞÔÁĞ±í£¬½«ÆäËüÊôĞÔ·ÅÖÃµ½MFTÖĞÁíÒ»Ìõ¼ÇÂ¼£¬ÓÃ$ATTRIBUTE_LIST¶¨Î»¡£
+    (æœ¬å±æ€§è¾ƒç½•è§) å½“MFTä¸­å±æ€§æ¯”è¾ƒå¤šæ—¶ï¼Œå¯ä»¥æŠŠæ‰€æœ‰å±æ€§ç§»åˆ°MFTå¤–éƒ¨ï¼Œå¹¶è®¾ç½®ä¸ºéé©»ç•™ã€‚
+    å¦‚æœè¿˜ä¸å¤Ÿç”¨ï¼Œåˆ™å¯ä»¥ä½¿ç”¨å±æ€§åˆ—è¡¨ï¼Œå°†å…¶å®ƒå±æ€§æ”¾ç½®åˆ°MFTä¸­å¦ä¸€æ¡è®°å½•ï¼Œç”¨$ATTRIBUTE_LISTå®šä½ã€‚
 
-    ÔÚÏÂÁĞÇé¿ö¿ÉÄÜ»áÓÃµ½:
-        - ÓĞ´óÁ¿Ó²Á´½Ó, Òò´ËĞèÒª´óÁ¿ÎÄ¼şÃûÊôĞÔ
-        - ·Ç³£ÁãËé, ÒÔÖÁÓÚÒç³öMFT¼ÇÂ¼
-        - ÓĞ¸´ÔÓµÄ°²È«ÃèÊö·û (²»ÊÇÓÃÓÚ NTFS v3.0+)
-        - ÓĞ´óÁ¿ÃüÃûÁ÷
+    åœ¨ä¸‹åˆ—æƒ…å†µå¯èƒ½ä¼šç”¨åˆ°:
+        - æœ‰å¤§é‡ç¡¬é“¾æ¥, å› æ­¤éœ€è¦å¤§é‡æ–‡ä»¶åå±æ€§
+        - éå¸¸é›¶ç¢, ä»¥è‡³äºæº¢å‡ºMFTè®°å½•
+        - æœ‰å¤æ‚çš„å®‰å…¨æè¿°ç¬¦ (ä¸æ˜¯ç”¨äº NTFS v3.0+)
+        - æœ‰å¤§é‡å‘½åæµ
 
-    ÁíÍâÑĞ¾¿·¢ÏÖ vcnStart °´´ø·ûºÅÕûÊı²Ù×÷¡£
+    å¦å¤–ç ”ç©¶å‘ç° vcnStart æŒ‰å¸¦ç¬¦å·æ•´æ•°æ“ä½œã€‚
 */
 struct AttrAttributeList : public Attribute {
     DWORD   Type;                       // +00
@@ -358,20 +358,20 @@ struct AttrAttributeList : public Attribute {
 
 /*
     $FILE_NAME, Size: 68-578
-    NTFSÍ¨¹ı½¨Á¢¶àÎÄ¼şÃûÊôĞÔÀ´ÊµÏÖPOSIX·ç¸ñµÄÓ²Á´½Ó£¬Ã¿¸öÎÄ¼şÃûÊôĞÔÓĞ¸÷×ÔµÄdetailsºÍparent¡£
-    µ±É¾³ıÓ²Á´½ÓÎÄ¼şÊ±£¬´ÓMFTÖĞÒÆ³ıÎÄ¼şÃû£¬Ö±µ½×îºóÒ»¸öÒÆ³ıºóÉ¾³ıÊµ¼ÊµÄÎÄ¼ş¡£
-    Õâ¸öÊôĞÔÖĞ³ıÁËParentÓòÍâ£¬½öµ±ÎÄ¼şÃû¸ü¸ÄÊ±²Å¸üĞÂ¡£¶ø$STANDARD_INFORMATIONÔò×ÜÊÇ±£³Ö¸üĞÂ¡£
+    NTFSé€šè¿‡å»ºç«‹å¤šæ–‡ä»¶åå±æ€§æ¥å®ç°POSIXé£æ ¼çš„ç¡¬é“¾æ¥ï¼Œæ¯ä¸ªæ–‡ä»¶åå±æ€§æœ‰å„è‡ªçš„detailså’Œparentã€‚
+    å½“åˆ é™¤ç¡¬é“¾æ¥æ–‡ä»¶æ—¶ï¼Œä»MFTä¸­ç§»é™¤æ–‡ä»¶åï¼Œç›´åˆ°æœ€åä¸€ä¸ªç§»é™¤ååˆ é™¤å®é™…çš„æ–‡ä»¶ã€‚
+    è¿™ä¸ªå±æ€§ä¸­é™¤äº†ParentåŸŸå¤–ï¼Œä»…å½“æ–‡ä»¶åæ›´æ”¹æ—¶æ‰æ›´æ–°ã€‚è€Œ$STANDARD_INFORMATIONåˆ™æ€»æ˜¯ä¿æŒæ›´æ–°ã€‚
 */
 struct AttrFileName : public Attribute {
-    INT64   ParentDirectory;            // +00 Ö¸Ïò¸¸Ä¿Â¼µÄ¼ÇÂ¼ºÅ
+    INT64   ParentDirectory;            // +00 æŒ‡å‘çˆ¶ç›®å½•çš„è®°å½•å·
     TIME64    timeCreation;               // +08
     TIME64    timeAltered;                // +10
     TIME64    timeMFTChanged;             // +18
     TIME64    timeRead;                   // +20
     INT64   AllocatedSize;              // +28 allocated size of the file, aligned to cluster.
-    INT64   RealSize;                   // +30 ½öÖ¸Î´ÃüÃûÁ÷µÄ³¤¶È.
+    INT64   RealSize;                   // +30 ä»…æŒ‡æœªå‘½åæµçš„é•¿åº¦.
     DWORD   FilePermission;             // +38
-    DWORD   _used_by_EA_Reparse;        // +3C ¿ÉÄÜ°üº¬EA³¤¶ÈºÍReparseÀàĞÍ¡£
+    DWORD   _used_by_EA_Reparse;        // +3C å¯èƒ½åŒ…å«EAé•¿åº¦å’ŒReparseç±»å‹ã€‚
     BYTE    FilenameLength;             // +40
     BYTE    FilenameNamespace;          // +41
     // +42 Unicode Filename... (Not null-terminated)
@@ -382,9 +382,9 @@ struct AttrFileName : public Attribute {
 /*
     $OBJECT_ID, Size: 0-256, Windows 2000+
 
-    - DomainIdÄ¿Ç°Î´Ê¹ÓÃ, ½«À´¿ÉÄÜÓÃÓÚWindows 2000ÓòÖĞµÄ¼ÆËã»ú¡£
-    - ÊôĞÔ¿ÉÄÜÖ»ÓĞ16×Ö½Ú, ¼´Ö»ÓĞObjectIdÓĞĞ§¡£
-    - ÆäËüÈı¸ö¿ÉÄÜ´æÔÚµ«²»Ê¹ÓÃ¡£
+    - DomainIdç›®å‰æœªä½¿ç”¨, å°†æ¥å¯èƒ½ç”¨äºWindows 2000åŸŸä¸­çš„è®¡ç®—æœºã€‚
+    - å±æ€§å¯èƒ½åªæœ‰16å­—èŠ‚, å³åªæœ‰ObjectIdæœ‰æ•ˆã€‚
+    - å…¶å®ƒä¸‰ä¸ªå¯èƒ½å­˜åœ¨ä½†ä¸ä½¿ç”¨ã€‚
 */
 struct AttrObjectId : public Attribute {
     GUID    ObjectId;                   // +00 Unique Id assigned to file
@@ -488,7 +488,7 @@ struct AttrVolumeInformation : public Attribute {
         . $SDS
         . $J
         . $Max
-    - Í¨¹ı·ÖÅä¶à¸öÊı¾İÊôĞÔ, NTFS¿ÉÒÔºÜÈİÒ×µÄÊµÏÖHFSµÄÁ½²¿·ÖÎÄ¼ş½á¹¹(data & resource)
+    - é€šè¿‡åˆ†é…å¤šä¸ªæ•°æ®å±æ€§, NTFSå¯ä»¥å¾ˆå®¹æ˜“çš„å®ç°HFSçš„ä¸¤éƒ¨åˆ†æ–‡ä»¶ç»“æ„(data & resource)
 */
 struct AttrData : public Attribute {
     // +00: Any data...
@@ -519,7 +519,7 @@ struct IndexEntry {
 struct AttrIndexRoot : public Attribute {
     struct IndexRoot {
         DWORD   Type;                   // +00 Attribute Type
-        DWORD   CollationRule;          // +04 Ğ£¶Ô¹æÔò
+        DWORD   CollationRule;          // +04 æ ¡å¯¹è§„åˆ™
         DWORD   IAESize;                // +08 Size of Index Allocation Entry
         BYTE    ClustersPerRecord;      // +0C
         BYTE    _res1[3];
@@ -574,9 +574,9 @@ struct AttrIndexAllocation : public Attribute {
 /*
     $BITMAP, Size: 0-inf
 
-    Ä¿Ç°ÓÃÓÚÁ½¸ö·½Ãæ:
-    - ¶ÔÓÚË÷Òı, Î»Ö¸³öË÷Òı·ÖÅäµÄÒ»¸öVCN
-    - ¶ÔÓÚ$MFT, Î»Ö¸³öÄÇ¸öÎÄ¼ş¼ÇÂ¼±»Ê¹ÓÃ
+    ç›®å‰ç”¨äºä¸¤ä¸ªæ–¹é¢:
+    - å¯¹äºç´¢å¼•, ä½æŒ‡å‡ºç´¢å¼•åˆ†é…çš„ä¸€ä¸ªVCN
+    - å¯¹äº$MFT, ä½æŒ‡å‡ºé‚£ä¸ªæ–‡ä»¶è®°å½•è¢«ä½¿ç”¨
 */
 struct AttrBitmap : public Attribute {
     // +00: Bit fields...
@@ -602,9 +602,9 @@ struct AttrReparsePoint : public Attribute {
     WORD    _res1;                      // +06
     // +08: Reparse Data...
 
-    // ÎÄ¼şÊÇÏµÍ³ÖĞÆäËü¶ÔÏóµÄÒ»¸ö±ğÃû
+    // æ–‡ä»¶æ˜¯ç³»ç»Ÿä¸­å…¶å®ƒå¯¹è±¡çš„ä¸€ä¸ªåˆ«å
     inline BOOL IsAlias()           { return Type & 0x20000000; }
-    // ·ÃÎÊÊı¾İµÄµÚÒ»¸ö×Ö½Ú½«»áÓĞÒ»¶ÎÑÓÊ±(Èç´Å´øÇı¶¯Æ÷)
+    // è®¿é—®æ•°æ®çš„ç¬¬ä¸€ä¸ªå­—èŠ‚å°†ä¼šæœ‰ä¸€æ®µå»¶æ—¶(å¦‚ç£å¸¦é©±åŠ¨å™¨)
     inline BOOL IsHighLatency()     { return Type & 0x40000000; }
     inline BOOL IsMicrosoft()       { return Type & 0x80000000; }
 };
@@ -628,7 +628,7 @@ struct AttrEAInformation : public Attribute {
     $EA, Size: 0-65536
     Maybe Non-Resident.
 
-    - ÓÃÓÚÔÚNTFSÏÂÊµÏÖHPFSµÄÀ©Õ¹ÊôĞÔ. ²Î¿¼HPFSÎÄ¼şÏµÍ³.
+    - ç”¨äºåœ¨NTFSä¸‹å®ç°HPFSçš„æ‰©å±•å±æ€§. å‚è€ƒHPFSæ–‡ä»¶ç³»ç»Ÿ.
 */
 struct AttrEA : public Attribute {
     DWORD   NextEAOffset;               // +00 Conversely, is the size of this EA.
@@ -644,10 +644,10 @@ struct AttrEA : public Attribute {
 /*
     $LOGGED_UTILITY_STREAM, Size: 0-65536
 
-    - ×öÎªÒ»¸öÊôĞÔºÍÃüÃûÁ÷Ã»ÓĞÊ²Ã´Çø±ğ.
-    - ÔÚÕâ¸öÊôĞÔÉÏµÄ²Ù×÷½«±»¼ÇÈëÈÕÖ¾($LogFile), ÈçÍ¬Ò»°ãµÄÔªÊı¾İ¸ü¸Ä.
-    - ÓÃÓÚEFS, ËùÓĞ¼ÓÃÜµÄÎÄ¼şÓĞÕâ¸öÊôĞÔ, Ãû³ÆÎª$EFS.
-    - (?) ²Î¿¼ AIA
+    - åšä¸ºä¸€ä¸ªå±æ€§å’Œå‘½åæµæ²¡æœ‰ä»€ä¹ˆåŒºåˆ«.
+    - åœ¨è¿™ä¸ªå±æ€§ä¸Šçš„æ“ä½œå°†è¢«è®°å…¥æ—¥å¿—($LogFile), å¦‚åŒä¸€èˆ¬çš„å…ƒæ•°æ®æ›´æ”¹.
+    - ç”¨äºEFS, æ‰€æœ‰åŠ å¯†çš„æ–‡ä»¶æœ‰è¿™ä¸ªå±æ€§, åç§°ä¸º$EFS.
+    - (?) å‚è€ƒ AIA
 */
 struct AttrLoggedUtilityStream : public Attribute {
     // +00: Any Data...
@@ -854,7 +854,7 @@ struct FileLogFile {
 struct FileAttrDef {
     struct Record {
         WCHAR   Label[64];
-        DWORD   Type;                   // ÔÚMFTÖĞÊ¹ÓÃµÄÊıÖµ
+        DWORD   Type;                   // åœ¨MFTä¸­ä½¿ç”¨çš„æ•°å€¼
         DWORD   DisplayRule;
         DWORD   CollationRule;          // see CollationRuleType
         DWORD   Flags;
@@ -875,9 +875,9 @@ struct FileAttrDef {
         $SDH    ($INDEX_ROOT, $INDEX_ALLOCATION, $BITMAP)
         $SII    ($INDEX_ROOT, $INDEX_ALLOCATION, $BITMAP)
 
-    - ÔÚNTFS v1.2ÖĞÃ¿¸öÎÄ¼şµÄ$SECURITY_DESCRIPTOR ÊôĞÔ¼ÇÂ¼È«²¿µÄ°²È«ÃèÊö£¬ËüÃÇ¶¼¶àÊıÏàÍ¬¡£
-      ÔÚNTFS v3.0ÖĞÃ¿¸öÎÄ¼şµÄ$STANDARD_INFORMATIONÊôĞÔµÄSecurityIdÓòÖ¸Ïò$SecureÖĞµÄ¼ÇÂ¼£¬
-      Òò´Ë´æ´¢¸üÓĞĞ§ÂÊ¡£ (?) ÔÚ±ä»¯µÄ²¿·Ö²¹³ä$SECURITY_DESCRIPTORÊôĞÔ£¿
+    - åœ¨NTFS v1.2ä¸­æ¯ä¸ªæ–‡ä»¶çš„$SECURITY_DESCRIPTOR å±æ€§è®°å½•å…¨éƒ¨çš„å®‰å…¨æè¿°ï¼Œå®ƒä»¬éƒ½å¤šæ•°ç›¸åŒã€‚
+      åœ¨NTFS v3.0ä¸­æ¯ä¸ªæ–‡ä»¶çš„$STANDARD_INFORMATIONå±æ€§çš„SecurityIdåŸŸæŒ‡å‘$Secureä¸­çš„è®°å½•ï¼Œ
+      å› æ­¤å­˜å‚¨æ›´æœ‰æ•ˆç‡ã€‚ (?) åœ¨å˜åŒ–çš„éƒ¨åˆ†è¡¥å……$SECURITY_DESCRIPTORå±æ€§ï¼Ÿ
     -
 */
 struct FileSecure {
@@ -951,8 +951,8 @@ DWORD VcnToLcn(BYTE *pbDataRuns, DWORD Vcn, int err) {
     DWORD   vcn = 0;
     DWORD   v;
 
-    // Ò»°ã·½·¨ÊÇ½âÎöpbDataRuns²¢¹¹Ôì½á¹¹»¯, µ«pbDataRuns¿ÉÄÜ²»ÕıÈ·(²»¿É¿¿¼ÙÉè)¡£
-    // Òò´ËÕâÀï²ÉÓÃÒ»°ãµÄ·ÖÎö·½·¨¡£
+    // ä¸€èˆ¬æ–¹æ³•æ˜¯è§£æpbDataRunså¹¶æ„é€ ç»“æ„åŒ–, ä½†pbDataRunså¯èƒ½ä¸æ­£ç¡®(ä¸å¯é å‡è®¾)ã€‚
+    // å› æ­¤è¿™é‡Œé‡‡ç”¨ä¸€èˆ¬çš„åˆ†ææ–¹æ³•ã€‚
 
     BYTE b;
     while (b = *pbDataRuns) {

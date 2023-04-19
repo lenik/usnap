@@ -13,9 +13,9 @@ BOOL	_stdcall FI_BitBlt_E_Blur(HDC hDestDC, LONG destx, LONG desty, LONG width, 
 		(DWORD)FI_BitBlt_E_Call_Blur, blurOption);
 }
 BOOL	_stdcall FI_BitBlt_E_Call_Blur(LPDWORD destBits, LPDWORD srcBits, LONG width, LONG height, DWORD blurOption) {
-	// blurFunc:	Ä£ºý¹¦ÄÜ	00-FF ¶ÔÓ¦ÓÚ Èñ»¯-Ä£ºý»¯
-	// blurDepth:¡¡	Ä£ºýÉî¶È	00-FF ¶ÔÓ¦ÓÚ Ô½¸½½ü-Ô½¹ãÀ«
-	// blurLevel:	Ä£ºýµÈ¼¶	00-FF ¶ÔÓ¦ÓÚ Ô½Ô­Ê¼-Ô½Ä£ºý
+	// blurFunc:	æ¨¡ç³ŠåŠŸèƒ½	00-FF å¯¹åº”äºŽ é”åŒ–-æ¨¡ç³ŠåŒ–
+	// blurDepth:ã€€	æ¨¡ç³Šæ·±åº¦	00-FF å¯¹åº”äºŽ è¶Šé™„è¿‘-è¶Šå¹¿é˜”
+	// blurLevel:	æ¨¡ç³Šç­‰çº§	00-FF å¯¹åº”äºŽ è¶ŠåŽŸå§‹-è¶Šæ¨¡ç³Š
 	WORD	blurFunc	= (WORD)(blurOption >> 16);
 	BYTE	blurDepth	= (BYTE)(blurOption >> 8) & 0x0F;
 	double	blurLevel	= (LONG)(blurOption & 0xFF) - 128;

@@ -1,7 +1,7 @@
 
 #pragma once
 
-// 类集合类
+// 绫婚泦鍚堢被
 // CLSID: 00000000-4F45-0632-0002-486954656368
 class OeSOClassesCollection :
 	public CComObjectRoot,

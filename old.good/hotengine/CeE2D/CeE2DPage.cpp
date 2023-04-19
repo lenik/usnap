@@ -37,7 +37,7 @@ STDMETHODIMP
 CeE2DPage::init(LPDIRECTDRAWSURFACE lpDDS, DWORD nPages) {
 	//HRESULT			hr;
 	LPDIRECTDRAWSURFACE	lpdds = NULL;
-	// ณ๕สผปฏาณรๆ, ษ่ึรวะปปาณรๆ
+	// ๅๅงๅ–้กต้ข, ่ฎพ็ฝฎๅๆข้กต้ข
 	if (lpDDS == NULL || nPages < 0) return E_FAIL;
 
 	//hr = lpDDS->GetAttachedSurface(&ddscaps, &lpdds);

@@ -1,7 +1,7 @@
 
 #pragma once
 
-// ��������һ���ࡣһ�������ʵ�ֶ���ӿڣ���ֻ�ܼ̳�һ���ࡣ���Ҽ̳����뱾�಻�����ص��ӿڡ����������ʵ�����Ķ���
+// 类类描述一个类。一个类可以实现多个接口，但只能继承一个类。而且继承类与本类不能有重叠接口。类管理所有实例化的对象。
 // CLSID: 00000000-4F45-0612-0002-486954656368
 class OeSOClass :
 	public CComObjectRoot,
@@ -46,22 +46,22 @@ public:
 	DECLARE_NOT_AGGREGATABLE(OeSOClass)
 
 public:
-	// ��������
+	// 对象名字
 	_bstr_t				m_name;
-	// �̳���
+	// 继承类
 	IOeSOClass *			m_pInherits;
-	// �����༯
+	// 派生类集
 	COeSOClassesCollection *	m_derives;
-	// ʵ�ֽӿ�
+	// 实现接口
 	COeSOInterfacesCollection *	m_interfaces;
-	// �����Լ�
+	// 类属性集
 	COeSOAttributesCollection *	m_attributes;
-	// ��������ģ�漯
+	// 对象属性模版集
 	COeSOAttributesCollection *	m_objectAttributes;
-	// ������ (���ӵ��෽����)
+	// 方法集 (连接到类方法集)
 	COeSOMethodsCollection *	m_methods;
-	// �¼��� (���ӵ����¼���)
+	// 事件集 (连接到类事件集)
 	COeSOEventsCollection *		m_events;
-	// ʵ����
+	// 实例集
 	COeSOObjectsCollection *	m_instances;
 };

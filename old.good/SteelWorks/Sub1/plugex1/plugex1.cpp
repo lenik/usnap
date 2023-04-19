@@ -5,18 +5,18 @@
 
 #include "tchar.h"
 
-// ¼Æ·Ö²å¼şÊ¾Àı
+// è®¡åˆ†æ’ä»¶ç¤ºä¾‹
 
 float _stdcall score_for_stream_units_compare(int match, int unmatch, int extra, int lost) {
 	return (match - 3.f * unmatch - 2.f * (extra + lost)) / (match + unmatch + extra + lost);
 }
 
 void _stdcall about_for_plugin() {
-	MessageBox(NULL, _T("¼Æ·Ö²å¼şÑİÊ¾\n\n°æÈ¨±£Áô (C)ÌÒ¿ÇÈí¼ş 1997-2001"), _T("¹ØÓÚ±¾²å¼ş"), 0);
+	MessageBox(NULL, _T("è®¡åˆ†æ’ä»¶æ¼”ç¤º\n\nç‰ˆæƒä¿ç•™ (C)æ¡ƒå£³è½¯ä»¶ 1997-2001"), _T("å…³äºæœ¬æ’ä»¶"), 0);
 }
 
 LPTSTR _stdcall syntax_for_plugin() {
-	return _T("ÕıÈ· - 3 * ´íÎó - 2 * ÓàÂ©");
+	return _T("æ­£ç¡® - 3 * é”™è¯¯ - 2 * ä½™æ¼");
 }
 
 BOOL APIENTRY DllMain( HANDLE hModule,

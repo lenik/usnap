@@ -1,18 +1,18 @@
 
-//	³ÇÊĞ¶ÔÏóÄ£ĞÍ	COM
+//	åŸå¸‚å¯¹è±¡æ¨¡å‹	COM
 //
-//	×Ô¶¯²âÊÔ³ÌĞò
+//	è‡ªåŠ¨æµ‹è¯•ç¨‹åº
 //
-//	³õ¸å		2000.12.1
+//	åˆç¨¿		2000.12.1
 
 //
-// ×ÛºÏ¸÷Ä£¿éÊı¾İ½á¹¹
+// ç»¼åˆå„æ¨¡å—æ•°æ®ç»“æ„
 //
 
 #include "coGuider.h"
 #include "coRouter.h"
 
-// ×°Èë³ÇÊĞ¶ÔÏóÊı¾İÎÄ¼ş
+// è£…å…¥åŸå¸‚å¯¹è±¡æ•°æ®æ–‡ä»¶
 coRet	read_city_file(coSTR map_file, coCity_r city);
 
 coRet	read_city_file(coSTR map_file, coCity_r city) {
@@ -25,7 +25,7 @@ coRet	read_city_file(coSTR map_file, coCity_r city) {
 	return r;
 }
 
-// ÓÃ»§½çÃæ
+// ç”¨æˆ·ç•Œé¢
 #include <GWin.h>
 
 int PASCAL WinMain(HINSTANCE hInstance,

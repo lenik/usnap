@@ -5,11 +5,11 @@
 #include "CpTransI.h"
 
 /*
- * rTable, nTable	: ¹ØÁª±í
- * cpDst, nDst		: Ä¿±êµã£¬µ±ÓÐ±ØÒªÊ±Í¨¹ý²éÕÒÄ¿±êµã¼¯·¢ÏÖÆäËû¹ØÁª·½·¨
- * cDstEx, nDstEx	: ¶ÔÓÚÉÏÊö¹ØÁªÆäËûÄ¿±êµãÊ±ÐèÒªÅÅ³ýµÄÄ¿±êµãË÷Òý
- * ref, obj		: Ö¸¶¨¹ØÁª¶Ô
- * dist			: ¹ØÁª¶ÔµÄË÷Òý
+ * rTable, nTable	: å…³è”è¡¨
+ * cpDst, nDst		: ç›®æ ‡ç‚¹ï¼Œå½“æœ‰å¿…è¦æ—¶é€šè¿‡æŸ¥æ‰¾ç›®æ ‡ç‚¹é›†å‘çŽ°å…¶ä»–å…³è”æ–¹æ³•
+ * cDstEx, nDstEx	: å¯¹äºŽä¸Šè¿°å…³è”å…¶ä»–ç›®æ ‡ç‚¹æ—¶éœ€è¦æŽ’é™¤çš„ç›®æ ‡ç‚¹ç´¢å¼•
+ * ref, obj		: æŒ‡å®šå…³è”å¯¹
+ * dist			: å…³è”å¯¹çš„ç´¢å¼•
  */
 BOOL	STDCALL cp_refer_easy(LPPOINTR		rTable,
 			      INT		nTable,

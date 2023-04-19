@@ -222,7 +222,7 @@ int GetProcessList(CListBox *lb) {
 		TH32CS_SNAPPROCESS,
 		0);
 	if (hSnapshot == NULL) {
-		lb->MessageBox("刷新进程出错!", NULL, MB_OK);
+		lb->MessageBox("鍒锋柊杩涚▼鍑洪敊!", NULL, MB_OK);
 	} else {
 		if (Process32First(hSnapshot, &pe)) {
 			int n = lb->GetCount();
@@ -248,7 +248,7 @@ int GetProcessList(CComboBox *lb) {
 		TH32CS_SNAPPROCESS,
 		0);
 	if (hSnapshot == NULL) {
-		lb->MessageBox("刷新进程出错!", NULL, MB_OK);
+		lb->MessageBox("鍒锋柊杩涚▼鍑洪敊!", NULL, MB_OK);
 	} else {
 		if (Process32First(hSnapshot, &pe)) {
 			int n = lb->GetCount();
@@ -274,7 +274,7 @@ int GetModuleList(CListBox *lb, DWORD idProcess) {
 		TH32CS_SNAPMODULE,
 		idProcess);
 	if (hSnapshot == NULL) {
-		::MessageBox(NULL, "刷新进程出错! ", NULL, MB_OK);
+		::MessageBox(NULL, "鍒锋柊杩涚▼鍑洪敊! ", NULL, MB_OK);
 	} else {
 		if (Module32First(hSnapshot, &me)) {
 			int n = lb->GetCount();

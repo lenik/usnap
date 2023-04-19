@@ -56,12 +56,12 @@ DWORD _stdcall dword_shift_right(DWORD d, DWORD n);
 // 32bit platform
 
 /*
-	½Ø»ñÏûÏ¢
-	catchMessage½«ÓÃ»§ÏûÏ¢´¦Àíº¯Êý¹ÒÔÚ´°¿ÚhWndÔ­ÏûÏ¢´¦Àíº¯ÊýÇ°¶Ë£¬
-	ÓÃ»§»Øµ÷switchprocProc½ÓÊÜÔ­´°¿Ú´¦Àíº¯Êý²¢·µ»ØÓÃ»§Ö¸¶¨µÄÇ°ÖÃ
-	ÏûÏ¢´¦Àíº¯Êý£º
+	æˆªèŽ·æ¶ˆæ¯
+	catchMessageå°†ç”¨æˆ·æ¶ˆæ¯å¤„ç†å‡½æ•°æŒ‚åœ¨çª—å£hWndåŽŸæ¶ˆæ¯å¤„ç†å‡½æ•°å‰ç«¯ï¼Œ
+	ç”¨æˆ·å›žè°ƒswitchprocProcæŽ¥å—åŽŸçª—å£å¤„ç†å‡½æ•°å¹¶è¿”å›žç”¨æˆ·æŒ‡å®šçš„å‰ç½®
+	æ¶ˆæ¯å¤„ç†å‡½æ•°ï¼š
 		MSGPROC _stdcall switchprocProc(MSGPROC oldproc); 
-	ÓÃ»§µÄÇ°ÖÃÏûÏ¢´¦Àíº¯Êý±ØÐëÔÚ×îºóÁ´ÈëÔ­ÏûÏ¢´¦Àíº¯Êý:
+	ç”¨æˆ·çš„å‰ç½®æ¶ˆæ¯å¤„ç†å‡½æ•°å¿…é¡»åœ¨æœ€åŽé“¾å…¥åŽŸæ¶ˆæ¯å¤„ç†å‡½æ•°:
 		chainMessage(oldproc, ...)
 */
 

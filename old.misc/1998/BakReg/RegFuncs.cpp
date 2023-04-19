@@ -1,7 +1,7 @@
 /*
- * PrintError	±¨¸æ´íÎó, ²¢Êä³öµ½Reporter
- *   hWnd		ÏÔÊ¾´°¿Ú
- *   lpHint		±¨¸æÐÅÏ¢
+ * PrintError	æŠ¥å‘Šé”™è¯¯, å¹¶è¾“å‡ºåˆ°Reporter
+ *   hWnd		æ˜¾ç¤ºçª—å£
+ *   lpHint		æŠ¥å‘Šä¿¡æ¯
  *   e
  */
 void PrintError(HWND hWnd, LPSTR lpHint, DWORD e) {
@@ -43,10 +43,10 @@ struct StrAssoc {
 };
 
 /*
- * PreKey		Ô¤´¦Àí¼üÃû, Èç¹û¼üÃûÒÔÏµÍ³Ô¤¶¨Òå¼üÃû¿ªÊ¼, Ôòµ÷¹ýÔ¤¶¨Òå¼üÃûÇ°×º,
- *				²¢·µ»Ø¶ÔÓ¦Ô¤¶¨Òå¼ü±ú; ·ñÔòÄ¬ÈÏÊ¹ÓÃÔ¤¶¨ÒåHKEY_USERS¼ü.
- *   *_lpStr		Ô¤´¦Àí¼üÃû
- * ·µ»Ø:		Ô¤¶¨Òå¼ü±ú
+ * PreKey		é¢„å¤„ç†é”®å, å¦‚æžœé”®åä»¥ç³»ç»Ÿé¢„å®šä¹‰é”®åå¼€å§‹, åˆ™è°ƒè¿‡é¢„å®šä¹‰é”®åå‰ç¼€,
+ *				å¹¶è¿”å›žå¯¹åº”é¢„å®šä¹‰é”®æŸ„; å¦åˆ™é»˜è®¤ä½¿ç”¨é¢„å®šä¹‰HKEY_USERSé”®.
+ *   *_lpStr		é¢„å¤„ç†é”®å
+ * è¿”å›ž:		é¢„å®šä¹‰é”®æŸ„
  */
 INT PreKey(LPSTR *_lpStr) {
 	int i, l;
@@ -72,13 +72,13 @@ INT PreKey(LPSTR *_lpStr) {
 BOOL bSub = FALSE;
 
 /*
- * PerCmdLine	ÃüÁîÐÐÔ¤´¦Àí
- *   lpCmdLine		ÃüÁîÐÐ
- *   *hKeyS			·µ»ØÔ´¼ü±ú
- *   *hKeyD			·µ»ØÄ¿±ê¼ü±ú
- *   *strNameS		·µ»ØÔ´¼üÃû
- *   *strNameD		·µ»ØÄ¿±ê¼üÃû
- * ·µ»Ø:		´íÎó´úÂë
+ * PerCmdLine	å‘½ä»¤è¡Œé¢„å¤„ç†
+ *   lpCmdLine		å‘½ä»¤è¡Œ
+ *   *hKeyS			è¿”å›žæºé”®æŸ„
+ *   *hKeyD			è¿”å›žç›®æ ‡é”®æŸ„
+ *   *strNameS		è¿”å›žæºé”®å
+ *   *strNameD		è¿”å›žç›®æ ‡é”®å
+ * è¿”å›ž:		é”™è¯¯ä»£ç 
  */
 int PerCmdLine(LPSTR lpCmdLine, HKEY *hKeyS, HKEY *hKeyD, LPSTR *strNameS, LPSTR *strNameD) {
 	LPSTR lpA1 = "", lpA2 = "Backup";
@@ -110,30 +110,30 @@ int PerCmdLine(LPSTR lpCmdLine, HKEY *hKeyS, HKEY *hKeyD, LPSTR *strNameS, LPSTR
 		}
 	}
 
-	r->Append("´ò¿ªÔ´¼ü: ");
+	r->Append("æ‰“å¼€æºé”®: ");
 	r->Append(lpA1);
 	*hKeyS = sa[a = PreKey(&lpA1)].hkVal;
 	l = lstrlen(lpA1) == 0 ? ERROR_SUCCESS : RegOpenKey(*hKeyS, lpA1, hKeyS);
 	if (l == ERROR_SUCCESS) {
-		r->Append("³É¹¦!\r\n");
+		r->Append("æˆåŠŸ!\r\n");
 	} else {
-		r->Append("Ê§°Ü: ");
-		PrintError(NULL, "´ò¿ª³õÊ¼Ô´¼ü´íÎó: ", l);
+		r->Append("å¤±è´¥: ");
+		PrintError(NULL, "æ‰“å¼€åˆå§‹æºé”®é”™è¯¯: ", l);
 		return 1;
 	}
 
-	r->Append("´ò¿ªÄ¿±ê¼ü: ");
+	r->Append("æ‰“å¼€ç›®æ ‡é”®: ");
 	r->Append(lpA2);
 	*hKeyD = sa[b = PreKey(&lpA2)].hkVal;
 	if (lstrlen(lpA2) == 0) {
-		r->Append("³É¹¦!");
+		r->Append("æˆåŠŸ!");
 		l = ERROR_SUCCESS;
 	} else {
 		l = RegCreateKey(*hKeyD, lpA2, hKeyD);
 		if (l == ERROR_SUCCESS) {
-			r->Append("³É¹¦");
+			r->Append("æˆåŠŸ");
 		} else {
-			PrintError(NULL, bSpecify == TRUE ? "´ò¿ª³õÊ¼Ö¸¶¨Ä¿±ê¼ü´íÎó: " : "´ò¿ª³õÊ¼È±Ê¡Ä¿±ê¼ü´íÎó: ", l);
+			PrintError(NULL, bSpecify == TRUE ? "æ‰“å¼€åˆå§‹æŒ‡å®šç›®æ ‡é”®é”™è¯¯: " : "æ‰“å¼€åˆå§‹ç¼ºçœç›®æ ‡é”®é”™è¯¯: ", l);
 			RegCloseKey(*hKeyS);
 			return 2;
 		}

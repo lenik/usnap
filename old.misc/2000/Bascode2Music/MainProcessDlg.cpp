@@ -88,9 +88,9 @@ void CMainProcessDlg::OnBeginTran()
 	// TODO: Add your control notification handler code here
 	if (this->UpdateData()) {
 		if (Translate()) {
-			m_TransReport = "×ª»»³É¹¦!";
+			m_TransReport = "è½¬æ¢æˆåŠŸ!";
 		} else {
-			m_TransReport = "×ª»»Ê§°Ü!";
+			m_TransReport = "è½¬æ¢å¤±è´¥!";
 		}
 		this->UpdateData(FALSE);
 	}
@@ -98,15 +98,15 @@ void CMainProcessDlg::OnBeginTran()
 
 struct Note {
 public:
-	static int defo;	// µ±Ç°Òô½×
-	static int defl;	// µ±Ç°ËÙÂÊ
-	CHAR i;	// ÒôÃû
-	int o;	// Òô½×
-	int l;	// ËÙÂÊ
-	CHAR m1;	// ±¸×¢ ¶¥ĞĞ1
-	CHAR m2;	// ±¸×¢ ¶¥ĞĞ2
-	CHAR c1;	// ±¸×¢ µ×ĞĞ1
-	CHAR c2;	// ±¸×¢ µ×ĞĞ2
+	static int defo;	// å½“å‰éŸ³é˜¶
+	static int defl;	// å½“å‰é€Ÿç‡
+	CHAR i;	// éŸ³å
+	int o;	// éŸ³é˜¶
+	int l;	// é€Ÿç‡
+	CHAR m1;	// å¤‡æ³¨ é¡¶è¡Œ1
+	CHAR m2;	// å¤‡æ³¨ é¡¶è¡Œ2
+	CHAR c1;	// å¤‡æ³¨ åº•è¡Œ1
+	CHAR c2;	// å¤‡æ³¨ åº•è¡Œ2
 	Note *n;
 public:
 	Note() { o = defo; l = defl; i = '0'; n = NULL; m1 = m2 = c1 = c2 = '\0'; }
@@ -117,9 +117,9 @@ int Note::defl = 4;
 
 struct Music {
 	Note *line;
-	int beats;	// Ã¿Òô½Ú½ÚÅÄÊı
-	int btop;		// Áô³ö¶¥ĞĞÊı
-	int bbot;		// Áô³öµ×ĞĞÊı
+	int beats;	// æ¯éŸ³èŠ‚èŠ‚æ‹æ•°
+	int btop;		// ç•™å‡ºé¡¶è¡Œæ•°
+	int bbot;		// ç•™å‡ºåº•è¡Œæ•°
 	struct Music *next;
 	Music() { line = NULL; beats = 4; btop = bbot = 0; next = NULL; }
 };
@@ -127,11 +127,11 @@ struct Music {
 int CMainProcessDlg::Translate() {
 	HLOCAL hSrc, hDest;
 	LPSTR lpSrc, lpDest;
-	CHAR c; // con: O È±Ê¡Òô½× L È±Ê¡ËÙÂÊ l Ö¸¶¨ËÙÂÊ
+	CHAR c; // con: O ç¼ºçœéŸ³é˜¶ L ç¼ºçœé€Ÿç‡ l æŒ‡å®šé€Ÿç‡
 	UINT nRead, nCount = 0, nPoint = 0;
 	CFile *fin, *fout;
 
-	// ¶ÁÈëÊı¾İ
+	// è¯»å…¥æ•°æ®
 	hSrc = LocalAlloc(LMEM_MOVEABLE, MUSIC_FILE_MAXSIZE);
 	lpSrc = (LPSTR)LocalLock(hSrc);
 
@@ -148,7 +148,7 @@ int CMainProcessDlg::Translate() {
 		//...
 	}
 
-	// ×ª»¯Êı¾İ
+	// è½¬åŒ–æ•°æ®
 	Note *line, *nFirst;
 	nFirst = line = new Note;
 	while (nPoint < nCount) {
@@ -172,7 +172,7 @@ int CMainProcessDlg::Translate() {
 				line->i = c > 'b' ? c - 'c' + '1' : c - 'a' + '6';
 				line->l = GetNum(lpSrc + nPoint, Note::defl);
 			}
-			if (c == 'p' || c == 'r') {	// ĞİÖ¹·û
+			if (c == 'p' || c == 'r') {	// ä¼‘æ­¢ç¬¦
 				line = line->n = new Note;
 				line->i = '0';
 				line->o = 0;
@@ -182,41 +182,41 @@ int CMainProcessDlg::Translate() {
 		}
 	}
 
-	// ½«Ê×½áµãÓÃÓÚÆğÊ¼·û
-	// nFirst = nFirst->n;		// ÆúÈ¥ÎŞÓÃ½áµã
+	// å°†é¦–ç»“ç‚¹ç”¨äºèµ·å§‹ç¬¦
+	// nFirst = nFirst->n;		// å¼ƒå»æ— ç”¨ç»“ç‚¹
 
 	LocalUnlock(hSrc);
 	LocalFree(hSrc);
 
-	// ¸ñÊ½´¦Àí
+	// æ ¼å¼å¤„ç†
 
-	// 1. Éú³É·ûºÅ
-	float fullbeat;			// ±¾Òô½ÚÊ£ÓàÅÄÊı
-	float delaybeat = 0;	// ÉÏÒ»Òô½ÚÑÓĞøÅÄÊı
-	float cbeat;			// µ±Ç°Òô·ûÕ¼ÓÃÅÄÊı
+	// 1. ç”Ÿæˆç¬¦å·
+	float fullbeat;			// æœ¬éŸ³èŠ‚å‰©ä½™æ‹æ•°
+	float delaybeat = 0;	// ä¸Šä¸€éŸ³èŠ‚å»¶ç»­æ‹æ•°
+	float cbeat;			// å½“å‰éŸ³ç¬¦å ç”¨æ‹æ•°
 	Note *addn;
 	nFirst->i = '|';
 
 	line = nFirst->n;
 	while (line != NULL) {
 		if (delaybeat < m_nBeats) {
-			// ÈÎºÎÒ»¸öÒô½ÚÖ®ÄÚdelaybeat(°üÀ¨0)¶¼½«µ½Õâ, ÇÒÑÓĞø´¦ÀíÍê±Ï!
-			fullbeat = m_nBeats - delaybeat;	// ±¾Òô½ÚÊ£Óà½ÚÅÄÊıÈ¥µôÉÏÒô½ÚÑÓĞø½ÚÅÄÊı
+			// ä»»ä½•ä¸€ä¸ªéŸ³èŠ‚ä¹‹å†…delaybeat(åŒ…æ‹¬0)éƒ½å°†åˆ°è¿™, ä¸”å»¶ç»­å¤„ç†å®Œæ¯•!
+			fullbeat = m_nBeats - delaybeat;	// æœ¬éŸ³èŠ‚å‰©ä½™èŠ‚æ‹æ•°å»æ‰ä¸ŠéŸ³èŠ‚å»¶ç»­èŠ‚æ‹æ•°
 			delaybeat = 0;
 			for (; fullbeat > 0 && line != NULL;) {
 				cbeat = TakeBeat(line->l);
-				if (cbeat <= fullbeat) {	// ÔÚ±¾Òô½ÚÄÚ
-					//{ ... } // ·ÇÕûÊı´¦Àí
+				if (cbeat <= fullbeat) {	// åœ¨æœ¬éŸ³èŠ‚å†…
+					//{ ... } // éæ•´æ•°å¤„ç†
 					fullbeat -= cbeat;
 					if (fullbeat > 0 && line->n != NULL) line = line->n;
 					else break;
-				} else {					// ÓĞÑÓĞøÖÁÏÂÒ»Òô½Ú
+				} else {					// æœ‰å»¶ç»­è‡³ä¸‹ä¸€éŸ³èŠ‚
 					line->l = Takel(fullbeat);
 					delaybeat = cbeat - fullbeat;
 					fullbeat = 0;
 				}
 			}
-			if (fullbeat > 0) {	// ×îÄ©Òô½Ú
+			if (fullbeat > 0) {	// æœ€æœ«éŸ³èŠ‚
 				addn = new Note;
 				addn->i = '0';
 				addn->l = Takel(fullbeat);
@@ -227,43 +227,43 @@ int CMainProcessDlg::Translate() {
 		} else {
 			delaybeat -= m_nBeats;
 		}
-		// Ò»¸öÒô½Ú½áÊø, Éú³É½Ú·û
+		// ä¸€ä¸ªéŸ³èŠ‚ç»“æŸ, ç”ŸæˆèŠ‚ç¬¦
 		addn = new Note;
 		addn->i = '|';
-		// ĞŞ¸ÄÁ´±í
+		// ä¿®æ”¹é“¾è¡¨
 		addn->n = line->n;
 		line->n = addn;
-		if (delaybeat > 0) {		// ÓĞÑÓĞø¼ÓÉÏÑÓÒô·û  \__/
+		if (delaybeat > 0) {		// æœ‰å»¶ç»­åŠ ä¸Šå»¶éŸ³ç¬¦  \__/
 			line->c1 = (line->c1 == '/') ? '_' : '\\';
 			addn->c1 = '_';
 			Note *addi = new Note;
 			addi->i = line->i;
 			addi->c1 = '/';
-			// ²åÈëÁ´±í
+			// æ’å…¥é“¾è¡¨
 			addi->n = addn->n;
 			addn->n = addi;
 			line->n = addn;
-			// Ö¸ÏòÏÂÒ»¸öÑÓĞøÒô·û
+			// æŒ‡å‘ä¸‹ä¸€ä¸ªå»¶ç»­éŸ³ç¬¦
 			line = addi;
 			if (delaybeat < m_nBeats) {
-				line->l = Takel(delaybeat); // ÑÓĞøÒ»¸öÒô½ÚÄÚ, ´¦ÀíÍê±Ï
-				// Ö¸ÏòÏÂÒ»¸öĞÂÒô·û¿ªÊ¼
+				line->l = Takel(delaybeat); // å»¶ç»­ä¸€ä¸ªéŸ³èŠ‚å†…, å¤„ç†å®Œæ¯•
+				// æŒ‡å‘ä¸‹ä¸€ä¸ªæ–°éŸ³ç¬¦å¼€å§‹
 				line = line->n;
 			} else {
 				line->l = Takel(m_nBeats);
 			}
 		} else {
-			// Ö¸ÏòÏÂÒ»¸öĞÂÒô·û¿ªÊ¼
+			// æŒ‡å‘ä¸‹ä¸€ä¸ªæ–°éŸ³ç¬¦å¼€å§‹
 			line = addn->n;
 		}
 	}
 	line = nFirst->n;
 
-	// 2. Éú³É¶ÎÂä
-	int scount = 0;			// Òô½Ú¼ÆÊı
+	// 2. ç”Ÿæˆæ®µè½
+	int scount = 0;			// éŸ³èŠ‚è®¡æ•°
 	Music *m = new Music, *mFirst = m, *addm;
 	m->line = line;
-	// 2.1 ·Ö¶Î
+	// 2.1 åˆ†æ®µ
 	while (line != NULL && line->n != NULL) {
 		if (line->i == '|') scount++;
 		if (scount >= 5) {
@@ -277,12 +277,12 @@ int CMainProcessDlg::Translate() {
 		}
 		line = line->n;
 	}
-	// 2.2 ¸÷¶Î´¦Àí, Éú³ÉÁô¿ÕÊı
-	int omax = 0;		// ×î¸ßÒô½×
-	int omin = 0;		// ×îµÍÒô½×
-	int lmax = 0;		// ×î¿ìËÙÂÊµ×ÏßÊı (l4 = 0, l8 = 2, l16 = 3, ...)
-	int tmax = 0;		// ×î¸ß¶¥±¸×¢
-	int tmin = 0;		// ×îµÍµ×±¸×¢
+	// 2.2 å„æ®µå¤„ç†, ç”Ÿæˆç•™ç©ºæ•°
+	int omax = 0;		// æœ€é«˜éŸ³é˜¶
+	int omin = 0;		// æœ€ä½éŸ³é˜¶
+	int lmax = 0;		// æœ€å¿«é€Ÿç‡åº•çº¿æ•° (l4 = 0, l8 = 2, l16 = 3, ...)
+	int tmax = 0;		// æœ€é«˜é¡¶å¤‡æ³¨
+	int tmin = 0;		// æœ€ä½åº•å¤‡æ³¨
 	m = mFirst;
 	while (m != NULL) {
 		line = m->line;
@@ -303,28 +303,28 @@ int CMainProcessDlg::Translate() {
 		m = m->next;
 	}
 
-	// Éú³É¼ò³ªÊı¾İ
+	// ç”Ÿæˆç®€å”±æ•°æ®
 	hDest = LocalAlloc(LMEM_MOVEABLE, MUSIC_FILE_MAXSIZE * 5);
 	lpDest = (LPSTR)LocalLock(hDest);
 	nPoint = 0;
 
 	m = mFirst;
 	while (m != NULL) {
-		// Éú³É¸÷¶ÎÊı¾İ
-		int mbegin = 0, cbegin = 0;		// ±¸×¢ÆğÊ¼µã
+		// ç”Ÿæˆå„æ®µæ•°æ®
+		int mbegin = 0, cbegin = 0;		// å¤‡æ³¨èµ·å§‹ç‚¹
 		int t;
 		BOOL ddelay = FALSE;
 		for (int si = m->btop; si >= -(m->bbot); si--) {
 			line = m->line;
 			while (line != NULL) {
 				lpDest[nPoint] = ' ';
-				if (si > 0) {	// ÔÚÃ¿ĞĞ»ùÏßÉÏ·½Êä³öÒô½×
+				if (si > 0) {	// åœ¨æ¯è¡ŒåŸºçº¿ä¸Šæ–¹è¾“å‡ºéŸ³é˜¶
 					t = line->o;
 					if ((t + 1) / 2 >= si) lpDest[nPoint] = (2 * si > t) ? '.' : ':';
 					if (si == (t + 1) / 2 + 1 && line->m1 != '\0') lpDest[nPoint] = line->m1;
 					if (si == (t + 1) / 2 + 2 && line->m2 != '\0') lpDest[nPoint] = line->m2;
 				}
-				if (si == 0) {	// »ùÏßÉÏÊä³öÒôÃû¼°·Ö½Ú·û
+				if (si == 0) {	// åŸºçº¿ä¸Šè¾“å‡ºéŸ³ååŠåˆ†èŠ‚ç¬¦
 					lpDest[nPoint] = line->i;
 				}
 				if (si < 0) {
@@ -332,7 +332,7 @@ int CMainProcessDlg::Translate() {
 					int tl = (TakeLines(line->l) + 1) / 2;
 					if (tl >= t) lpDest[nPoint] = (2 * t > TakeLines(line->l)) ? '-' : '=';
 					if (t > tl) {
-						if (line->o < 0) { // µÍÒô½×·ÅÔÚÏÂ»®ÏßÏÂÃæ
+						if (line->o < 0) { // ä½éŸ³é˜¶æ”¾åœ¨ä¸‹åˆ’çº¿ä¸‹é¢
 							int o = -line->o;
 							if (tl + (o + 1) / 2 >= t) {
 								lpDest[nPoint] = (2 * (t - tl) > o) ? '.' : ':';
@@ -368,7 +368,7 @@ int CMainProcessDlg::Translate() {
 	}
 	lpDest[nPoint] = '\0';
 
-	// Çå³ıÁ´±í
+	// æ¸…é™¤é“¾è¡¨
 	m = mFirst;
 	while (m != NULL) {
 		line = m->line;
@@ -382,7 +382,7 @@ int CMainProcessDlg::Translate() {
 		mFirst = m;
 	}
 
-	// Êä³öÖÁÎÄ¼ş
+	// è¾“å‡ºè‡³æ–‡ä»¶
 	if (!m_chkDestClip) {
 		int Length = lstrlen(lpDest) + 1;
 		fout = new CFile(m_DestName, CFile::modeCreate | CFile::modeWrite | CFile::typeText);

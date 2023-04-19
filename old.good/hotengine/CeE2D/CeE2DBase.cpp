@@ -25,7 +25,7 @@ CeE2DBase::~CeE2DBase() {
 	}
 }
 
-// ³õÊ¼»¯»ù±¾¿â, ÉèÖÃĞ­×÷Ä£Ê½
+// åˆå§‹åŒ–åŸºæœ¬åº“, è®¾ç½®åä½œæ¨¡å¼
 STDMETHODIMP
 CeE2DBase::init(HWND hWnd) {
 	LPDIRECTDRAW	lpDD = NULL;
@@ -48,16 +48,16 @@ CeE2DBase::init(HWND hWnd) {
 	return NOERROR;
 }
 
-// ÉèÖÃ·Ö±æÂÊ, Èç¹û¿í¶È»ò¸ß¶ÈÎª0ÔòÉèÖÃÎª´°¿ÚÄ£Ê½
-// Èç¹ûÉèÖÃÄ£Ê½ÓëÉÏ´ÎÏàÍ¬Ôò²»Ö´ĞĞ, ·ñÔòÈ¡ÏûÉÏ´ÎµÄÉèÖÃÄ£Ê½.
-// Èç¹ûÉèÖÃÊ§°Ü½«ÊÔÍ¼ÉèÖÃ³É´°¿ÚÄ£Ê½, µ«ÎŞ·¨»Ö¸´ÉÏ´ÎµÄÉèÖÃÄ£Ê½
+// è®¾ç½®åˆ†è¾¨ç‡, å¦‚æœå®½åº¦æˆ–é«˜åº¦ä¸º0åˆ™è®¾ç½®ä¸ºçª—å£æ¨¡å¼
+// å¦‚æœè®¾ç½®æ¨¡å¼ä¸ä¸Šæ¬¡ç›¸åŒåˆ™ä¸æ‰§è¡Œ, å¦åˆ™å–æ¶ˆä¸Šæ¬¡çš„è®¾ç½®æ¨¡å¼.
+// å¦‚æœè®¾ç½®å¤±è´¥å°†è¯•å›¾è®¾ç½®æˆçª—å£æ¨¡å¼, ä½†æ— æ³•æ¢å¤ä¸Šæ¬¡çš„è®¾ç½®æ¨¡å¼
 STDMETHODIMP
 CeE2DBase::Resolution(LONG width, LONG height, LONG depth, BOOL *ret) {
 	BOOL	inWindow = width == 0 || height == 0;
 	HRESULT	hr;
 
 	if (this->m_bInited) {
-		// Èç¹ûÉèÖÃÏàÍ¬ÔòÖ±½Ó·µ»Ø
+		// å¦‚æœè®¾ç½®ç›¸åŒåˆ™ç›´æ¥è¿”å›
 		if (this->m_bInWindowMode == TRUE) {
 			if (inWindow == TRUE) {
 				return NOERROR;
@@ -73,7 +73,7 @@ CeE2DBase::Resolution(LONG width, LONG height, LONG depth, BOOL *ret) {
 		}
 
 		this->m_bInited = FALSE;
-		// ½¨Á¢ĞÂ»·¾³
+		// å»ºç«‹æ–°ç¯å¢ƒ
 		LPDIRECTDRAW	lpDD;
 		hr = DirectDrawCreate(NULL, &lpDD, NULL);
 		if (FAILED(hr)) return hr;
@@ -111,7 +111,7 @@ CeE2DBase::Resolution(LONG width, LONG height, LONG depth, BOOL *ret) {
 
 STDMETHODIMP
 CeE2DBase::CreatePage(LONG width, LONG height, LONG nAdditionPages, BOOL bOffScreen, ICeE2DPage **ret) {
-	// ÖÁÉÙ½¨Á¢Ö÷Ò³Ãæ
+	// è‡³å°‘å»ºç«‹ä¸»é¡µé¢
 	HRESULT		hr;
 	DDSURFACEDESC	ddsd;
 	LPDIRECTDRAWSURFACE lpdds;

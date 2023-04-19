@@ -12,7 +12,7 @@
 
 static int _num_info_lost = 0;
 
-// ¿ìËÙÇå³ıÄÚ´æ
+// å¿«é€Ÿæ¸…é™¤å†…å­˜
 static void stream_comp_memreset(void *mem, size_t size) {
 	register size_t p = 0;
 	for (; p < size; p += sizeof(long))
@@ -21,26 +21,26 @@ static void stream_comp_memreset(void *mem, size_t size) {
 		*(char *)((int)mem + p) = 0;
 }
 
-// Á÷±È½Ï
-// ref[]	²Î¿¼Á÷, ³¤¶Èsize_ref
-// obj[]	ÊµÀıÁ÷, ³¤¶Èsize_obj
-// search_depth	±È½ÏÉî¶È (±ØĞë´óÓÚ0)
-// same_size	ÈÏÎª²¿·ÖÏàÍ¬µÄ×îĞ¡³¤¶È
-// cr		±È½Ï½á¹ûÊı¾İµÄÁĞ±í, Èç¹ûÎªNULLÔò²»´æ´¢±È½Ï½á¹û
-//			´æ´¢±È½Ï½á¹û, ·ÖÎªËÄÖÖÀàĞÍ:
-//				ÒìÍ¬(1): ±»ÈÏÎªÊÇ²»ÏàÍ¬µÄÊı¾İ
-//				¶àÓà(2): ±»ÈÏÎªÊÇ¶àÓàµÄÊı¾İ
-//				È±ÉÙ(3): ±»ÈÏÎªÊÇÈ±ÉÙµÄÊı¾İ
-//				½áÊø(0): ±íÊ¾ÁĞ±í½áÊø
-//			·µ»ØÊ±°´ (ÀàĞÍ, refÎ»ÖÃ, objÎ»ÖÃ, ÀàĞÍ, refÎ»ÖÃ, objÎ»ÖÃ...), ÔÚÁĞ±íµÄ×î¶¥²¿4¸öÊı¾İÓÃÓÚ´æ·Å
-//				ÏàÍ¬Êı ÒìÍ¬Êı ¶àÓàÊı È±ÉÙÊı
-//			½áÊø·ûÕ¼ÓÃÈı¸öÎ»ÖÃ
-// psize_cr	crÌá¹©µÄ³¤¶È, Í¬Ê±ÓÃÓÚ·µ»ØÊµ¼ÊÊ¹ÓÃµÄ³¤¶È(°üÀ¨½áÊø·û)
+// æµæ¯”è¾ƒ
+// ref[]	å‚è€ƒæµ, é•¿åº¦size_ref
+// obj[]	å®ä¾‹æµ, é•¿åº¦size_obj
+// search_depth	æ¯”è¾ƒæ·±åº¦ (å¿…é¡»å¤§äº0)
+// same_size	è®¤ä¸ºéƒ¨åˆ†ç›¸åŒçš„æœ€å°é•¿åº¦
+// cr		æ¯”è¾ƒç»“æœæ•°æ®çš„åˆ—è¡¨, å¦‚æœä¸ºNULLåˆ™ä¸å­˜å‚¨æ¯”è¾ƒç»“æœ
+//			å­˜å‚¨æ¯”è¾ƒç»“æœ, åˆ†ä¸ºå››ç§ç±»å‹:
+//				å¼‚åŒ(1): è¢«è®¤ä¸ºæ˜¯ä¸ç›¸åŒçš„æ•°æ®
+//				å¤šä½™(2): è¢«è®¤ä¸ºæ˜¯å¤šä½™çš„æ•°æ®
+//				ç¼ºå°‘(3): è¢«è®¤ä¸ºæ˜¯ç¼ºå°‘çš„æ•°æ®
+//				ç»“æŸ(0): è¡¨ç¤ºåˆ—è¡¨ç»“æŸ
+//			è¿”å›æ—¶æŒ‰ (ç±»å‹, refä½ç½®, objä½ç½®, ç±»å‹, refä½ç½®, objä½ç½®...), åœ¨åˆ—è¡¨çš„æœ€é¡¶éƒ¨4ä¸ªæ•°æ®ç”¨äºå­˜æ”¾
+//				ç›¸åŒæ•° å¼‚åŒæ•° å¤šä½™æ•° ç¼ºå°‘æ•°
+//			ç»“æŸç¬¦å ç”¨ä¸‰ä¸ªä½ç½®
+// psize_cr	cræä¾›çš„é•¿åº¦, åŒæ—¶ç”¨äºè¿”å›å®é™…ä½¿ç”¨çš„é•¿åº¦(åŒ…æ‹¬ç»“æŸç¬¦)
 //
-// ²ÎÊı´íÎóÊ±·µ»ØSTREAM_COMP_ERROR, ·ñÔò·µ»Ø 0
+// å‚æ•°é”™è¯¯æ—¶è¿”å›STREAM_COMP_ERROR, å¦åˆ™è¿”å› 0
 
-// ¶ÔÓÚ²»Í¬ÀàĞÍµÄÁ½¸öÁ÷, Ó¦¸ÃÌá¹©²»Í¬ÀàĞÍ¼äµÄÏàµÈ(==)ÔËËã·ûµÄ¶¨Òå
-// ¶ÔÓÚÌØÊâÀàĞÍ(Èç·Ç¶¨¿íÁ÷, Ï¡Êè¾ØÕóÁ÷), ±ØĞëÌá¹©ÕâÖÖÁ÷µÄÔªËØÌáÈ¡ÔËËã([])ºÍÀàĞÍ¼äµÄÏàµÈ(==)ÔËËã
+// å¯¹äºä¸åŒç±»å‹çš„ä¸¤ä¸ªæµ, åº”è¯¥æä¾›ä¸åŒç±»å‹é—´çš„ç›¸ç­‰(==)è¿ç®—ç¬¦çš„å®šä¹‰
+// å¯¹äºç‰¹æ®Šç±»å‹(å¦‚éå®šå®½æµ, ç¨€ç–çŸ©é˜µæµ), å¿…é¡»æä¾›è¿™ç§æµçš„å…ƒç´ æå–è¿ç®—([])å’Œç±»å‹é—´çš„ç›¸ç­‰(==)è¿ç®—
 
 #define STREAM_COMP_UNMATCH		0x1
 #define STREAM_COMP_EXTRA		0x2
@@ -65,9 +65,9 @@ typedef char 		CHAR;
 typedef CHAR		*LPSTR, *LPCTSTR, *LPTSTR;
 typedef unsigned long	DWORD;
 
-// Á÷±È½Ï Ex
+// æµæ¯”è¾ƒ Ex
 
-// ¶à×Ö½Ú´úÂë×Ö´®Á÷ÀàĞÍ¡£ÓÃÓÚ±È½Ï¶àÓïÑÔ¼ĞÔÓ×Ö´®
+// å¤šå­—èŠ‚ä»£ç å­—ä¸²æµç±»å‹ã€‚ç”¨äºæ¯”è¾ƒå¤šè¯­è¨€å¤¹æ‚å­—ä¸²
 struct MBCS {
 	LPBYTE	_str;
 
@@ -105,14 +105,14 @@ int pascal reset_num_info_lost();
 #include <stddef.h>
 
 int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t search_depth, size_t same_size, size_t *cr, size_t *psize_cr) {
-	size_t	pr_press = 0;		// refµÄÈ·ÈÏÎ»ÖÃ (ÉĞÎ´Ê¹ÓÃ)
-	size_t	po_press = 0;		// objµÄÈ·ÈÏÎ»ÖÃ (ÉĞÎ´Ê¹ÓÃ)
-	size_t	pr_cur = 0;		// refµÄµ±Ç°Î»ÖÃ
-	size_t	po_cur = 0;		// objµÄµ±Ç°Î»ÖÃ
-	LONG	rd;			// refµÄµ±Ç°Êı¾İ
-	LONG	od;			// objµÄµ±Ç°Êı¾İ
-	size_t	pr_f, po_f;		// ÓÃÓÚ²éÕÒµÄÎ»ÖÃ±äÁ¿
-	size_t	pcr = 0;		// ÁĞ±íµÄµ±Ç°Î»ÖÃ
+	size_t	pr_press = 0;		// refçš„ç¡®è®¤ä½ç½® (å°šæœªä½¿ç”¨)
+	size_t	po_press = 0;		// objçš„ç¡®è®¤ä½ç½® (å°šæœªä½¿ç”¨)
+	size_t	pr_cur = 0;		// refçš„å½“å‰ä½ç½®
+	size_t	po_cur = 0;		// objçš„å½“å‰ä½ç½®
+	LONG	rd;			// refçš„å½“å‰æ•°æ®
+	LONG	od;			// objçš„å½“å‰æ•°æ®
+	size_t	pr_f, po_f;		// ç”¨äºæŸ¥æ‰¾çš„ä½ç½®å˜é‡
+	size_t	pcr = 0;		// åˆ—è¡¨çš„å½“å‰ä½ç½®
 	int	same = 0;
 	size_t	*save_match	= cr;
 	size_t	*save_unmatch	= cr + 1;
@@ -121,7 +121,7 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 	size_t	size_cr = 0;
 	size_t	cr_used = 0;
 
-	// ³õÊ¼»¯¼ÆÊı
+	// åˆå§‹åŒ–è®¡æ•°
 
 	if (psize_cr) size_cr = *psize_cr;
 	if (search_depth < 1) return STREAM_COMP_ERROR;
@@ -143,7 +143,7 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 	if (save_unmatch)	*save_unmatch	= 0;
 	if (save_match)		*save_match	= 0;
 
-	// ±È½Ï¸²¸Ç²¿·Ö (Á½¸öÁ÷µÄÖØµş²¿·Ö²¢²»ÊÇmin(size_ref,size_obj), ¶øÒª¿´ÆäÊµ¼ÊÇé¿ö)
+	// æ¯”è¾ƒè¦†ç›–éƒ¨åˆ† (ä¸¤ä¸ªæµçš„é‡å éƒ¨åˆ†å¹¶ä¸æ˜¯min(size_ref,size_obj), è€Œè¦çœ‹å…¶å®é™…æƒ…å†µ)
 
 	while (pr_cur < size_ref && po_cur < size_obj) {
 		rd = ref[pr_cur];
@@ -154,11 +154,11 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 			goto moveright;
 		}
 
-		// ÊÇ·ñÈ±ÉÙ?
+		// æ˜¯å¦ç¼ºå°‘?
 		for (pr_f = pr_cur; pr_f < pr_cur + search_depth && pr_f < size_ref; pr_f++) {
 			LONG rd = ref[pr_f];
 			if (rd == (LONG)od) {
-				// ÕÒµ½Ò»¸öÏàÍ¬µã, ÅĞ¶Ï¸Ãµã¸½½üÊÇ·ñÏàÍ¬
+				// æ‰¾åˆ°ä¸€ä¸ªç›¸åŒç‚¹, åˆ¤æ–­è¯¥ç‚¹é™„è¿‘æ˜¯å¦ç›¸åŒ
 				same = 1;
 				for (size_t pr_f2 = pr_f; pr_f2 < pr_f + same_size && pr_f2 < size_ref; pr_f2++) {
 					LONG rd = ref[pr_f2];
@@ -166,8 +166,8 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 					if (!(rd == (LONG)od)) same = 0;
 				}
 				if (same) {
-					// ÔÚÖ¸¶¨Éî¶ÈÄÚÕÒµ½ÁËÏàÍ¬Çø, ÈÏÎªÈ±ÉÙ.
-					// È±ÉÙµÄ²¿·ÖÊÇpr_cur...pr_f(°üÀ¨pr_cur)
+					// åœ¨æŒ‡å®šæ·±åº¦å†…æ‰¾åˆ°äº†ç›¸åŒåŒº, è®¤ä¸ºç¼ºå°‘.
+					// ç¼ºå°‘çš„éƒ¨åˆ†æ˜¯pr_cur...pr_f(åŒ…æ‹¬pr_cur)
 					for (pr_f2 = pr_cur; pr_f2 < pr_f; pr_f2++) {
 						if (save_lost) (*save_lost)++;
 						if (cr != NULL) {
@@ -178,20 +178,20 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 							if (pcr + 3 >= size_cr) cr = NULL;
 						} else _num_info_lost++;
 					}
-					// ÒòÎªÕâ²¿·ÖÈ±ÁË, ËùÒÔÌø¹ıÈ¥
+					// å› ä¸ºè¿™éƒ¨åˆ†ç¼ºäº†, æ‰€ä»¥è·³è¿‡å»
 					pr_cur = pr_f;
 					goto moveright;
 				}
-				// ÅöÇÉÏàÍ¬
+				// ç¢°å·§ç›¸åŒ
 				continue;
 			}
 		}
 
-		// ÊÇ·ñ¶àÓà?
+		// æ˜¯å¦å¤šä½™?
 		for (po_f = po_cur; po_f < po_cur + search_depth && po_f < size_obj; po_f++) {
 			LONG od = obj[po_f];
 			if (rd == (LONG)od) {
-				// ÕÒµ½Ò»¸öÏàÍ¬µã, ÅĞ¶Ï¸Ãµã¸½½üÊÇ·ñÏàÍ¬
+				// æ‰¾åˆ°ä¸€ä¸ªç›¸åŒç‚¹, åˆ¤æ–­è¯¥ç‚¹é™„è¿‘æ˜¯å¦ç›¸åŒ
 				same = 1;
 				for (size_t po_f2 = po_f; po_f2 < po_f + same_size && po_f2 < size_obj; po_f2++) {
 					LONG od = obj[po_f2];
@@ -199,8 +199,8 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 					if (!(rd == (LONG)od)) same = 0;
 				}
 				if (same) {
-					// ÔÚÖ¸¶¨Éî¶ÈÄÚÕÒµ½ÁËÏàÍ¬Çø, ÈÏÎª¶àÓà.
-					// ¶àÓàµÄ²¿·ÖÊÇpo_cur...po_f(°üÀ¨po_cur)
+					// åœ¨æŒ‡å®šæ·±åº¦å†…æ‰¾åˆ°äº†ç›¸åŒåŒº, è®¤ä¸ºå¤šä½™.
+					// å¤šä½™çš„éƒ¨åˆ†æ˜¯po_cur...po_f(åŒ…æ‹¬po_cur)
 					for (po_f2 = po_cur; po_f2 < po_f; po_f2++) {
 						if (save_extra) (*save_extra)++;
 						if (cr != NULL) {
@@ -211,16 +211,16 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 							if (pcr + 3 >= size_cr) cr = NULL;
 						} else _num_info_lost++;
 					}
-					// ÒòÎªÕâ²¿·Ö¶àÁË, ²»±Ø²Î¿¼Ìø¹ıÈ¥
+					// å› ä¸ºè¿™éƒ¨åˆ†å¤šäº†, ä¸å¿…å‚è€ƒè·³è¿‡å»
 					po_cur = po_f;
 					goto moveright;
 				}
-				// ÅöÇÉÏàÍ¬
+				// ç¢°å·§ç›¸åŒ
 				continue;
 			}
 		}
 
-		// ´íÎó´¦Àí
+		// é”™è¯¯å¤„ç†
 		if (save_unmatch) (*save_unmatch)++;
 		if (cr != NULL) {
 			cr[pcr++] = STREAM_COMP_UNMATCH;
@@ -230,7 +230,7 @@ int stream_comp(MBCS ref, MBCS obj, size_t size_ref, size_t size_obj, size_t sea
 			if (pcr + 3 >= size_cr) cr = NULL;
 		} else _num_info_lost++;
 
-moveright:	// ÏòÓÒÈ·ÈÏ
+moveright:	// å‘å³ç¡®è®¤
 		pr_cur++;
 		po_cur++;
 		if (pr_press + search_depth <= pr_cur) {
@@ -239,11 +239,11 @@ moveright:	// ÏòÓÒÈ·ÈÏ
 		}
 	} // while
 
-	// ¸²¸Ç²¿·Ö±È½ÏÍê±Ï, È»ºó±È½Ï½ØÎ²
+	// è¦†ç›–éƒ¨åˆ†æ¯”è¾ƒå®Œæ¯•, ç„¶åæ¯”è¾ƒæˆªå°¾
 
 	if (pr_cur < size_ref) {
-		// ²Î¿¼Á÷ÉĞÓĞ¶àÓà, ×öÈ±ÉÙ´¦Àí
-		// È±ÉÙµÄ²¿·ÖÊÇpr_cur...size_ref(°üÀ¨pr_cur, ²»°üÀ¨size_ref)
+		// å‚è€ƒæµå°šæœ‰å¤šä½™, åšç¼ºå°‘å¤„ç†
+		// ç¼ºå°‘çš„éƒ¨åˆ†æ˜¯pr_cur...size_ref(åŒ…æ‹¬pr_cur, ä¸åŒ…æ‹¬size_ref)
 		for (pr_f = pr_cur; pr_f < size_ref; pr_f++) {
 			if (save_lost) (*save_lost)++;
 			if (cr != NULL) {
@@ -256,8 +256,8 @@ moveright:	// ÏòÓÒÈ·ÈÏ
 		}
 	}
 	if (po_cur < size_obj) {
-		// ÊµÀıÁ÷ÉĞÓĞ¶àÓà, ×ö¶àÓà´¦Àí
-		// ¶àÓàµÄ²¿·ÖÊÇpo_cur...size_obj(°üÀ¨po_cur, ²»°üÀ¨size_obj)
+		// å®ä¾‹æµå°šæœ‰å¤šä½™, åšå¤šä½™å¤„ç†
+		// å¤šä½™çš„éƒ¨åˆ†æ˜¯po_cur...size_obj(åŒ…æ‹¬po_cur, ä¸åŒ…æ‹¬size_obj)
 		for (po_f = po_cur; po_f < size_obj; po_f++) {
 			if (save_extra) (*save_extra)++;
 			if (cr != NULL) {
@@ -270,7 +270,7 @@ moveright:	// ÏòÓÒÈ·ÈÏ
 		}
 	}
 
-	// ¸½¼Ó½áÊø·û
+	// é™„åŠ ç»“æŸç¬¦
 	if (cr != NULL) {
 		cr[pcr++] = 0;
 		cr[pcr++] = 0;
@@ -284,16 +284,16 @@ moveright:	// ÏòÓÒÈ·ÈÏ
 }
 
 /*
- * ÃÀ»¯Á÷±È½Ï½á¹û
+ * ç¾åŒ–æµæ¯”è¾ƒç»“æœ
  *
- * cr		Á÷±È½Ï½á¹û
- * size_cr	Á÷±È½Ï½á¹ûµÄ³¤¶È(°üÀ¨Í·²¿4¸öµ¥ÔªºÍ½áÊø·û3¸öµ¥Ôª)
- * rbuf		²Î¿¼Á÷µÄÃÀ»¯±È½Ï½á¹û
- * psize_rbuf	rbufÌá¹©µÄ³¤¶È, Í¬Ê±ÓÃÓÚ·µ»ØÊµ¼ÊÊ¹ÓÃµÄ³¤¶È. Èç¹û <= 0 ·µ»ØĞèÒªµÄ³¤¶È
- * obuf		ÊµÀıÁ÷µÄÃÀ»¯±È½Ï½á¹û
- * psize_obuf	obufÌá¹©µÄ³¤¶È, Í¬Ê±ÓÃÓÚ·µ»ØÊµ¼ÊÊ¹ÓÃµÄ³¤¶È. Èç¹û <= 0 ·µ»ØĞèÒªµÄ³¤¶È
+ * cr		æµæ¯”è¾ƒç»“æœ
+ * size_cr	æµæ¯”è¾ƒç»“æœçš„é•¿åº¦(åŒ…æ‹¬å¤´éƒ¨4ä¸ªå•å…ƒå’Œç»“æŸç¬¦3ä¸ªå•å…ƒ)
+ * rbuf		å‚è€ƒæµçš„ç¾åŒ–æ¯”è¾ƒç»“æœ
+ * psize_rbuf	rbufæä¾›çš„é•¿åº¦, åŒæ—¶ç”¨äºè¿”å›å®é™…ä½¿ç”¨çš„é•¿åº¦. å¦‚æœ <= 0 è¿”å›éœ€è¦çš„é•¿åº¦
+ * obuf		å®ä¾‹æµçš„ç¾åŒ–æ¯”è¾ƒç»“æœ
+ * psize_obuf	obufæä¾›çš„é•¿åº¦, åŒæ—¶ç”¨äºè¿”å›å®é™…ä½¿ç”¨çš„é•¿åº¦. å¦‚æœ <= 0 è¿”å›éœ€è¦çš„é•¿åº¦
  *
- * ÃÀ»¯±È½Ï½á¹ûÖĞ¸½¼Ó½áÊø·û'\0'
+ * ç¾åŒ–æ¯”è¾ƒç»“æœä¸­é™„åŠ ç»“æŸç¬¦'\0'
  */
 int	pascal stream_comp_pretty_result(size_t *cr, size_t size_cr, char *rbuf, size_t *psize_rbuf, char *obuf, size_t *psize_obuf) {
 	size_t size_rbuf, size_obuf;
@@ -371,7 +371,7 @@ int	pascal stream_comp_pretty_result(size_t *cr, size_t size_cr, char *rbuf, siz
 	for (pcr = 0; pcr < size_obuf_used; pcr++)
 		if (obuf[pcr] == 0) obuf[pcr] = STREAM_COMP_FILLBLANK_C;
 
-	// ½áÊø·û'\0' (ÉèÖÃÒÑ¾­°üÀ¨ÔÚmemsetÖĞÁË, ÕâÀïÖ»ĞèÔö¼Ó¼ÆÊı
+	// ç»“æŸç¬¦'\0' (è®¾ç½®å·²ç»åŒ…æ‹¬åœ¨memsetä¸­äº†, è¿™é‡Œåªéœ€å¢åŠ è®¡æ•°
 	if (size_rbuf_used < size_rbuf) size_rbuf_used++;
 	if (size_obuf_used < size_obuf) size_obuf_used++;
 

@@ -25,7 +25,7 @@ float _stdcall	advanced_score(size_t match, size_t unmatch, size_t extra, size_t
 }
 
 
-// º¯Êı²ÎÊıµÄÏßĞÔ¹À¼Æ
+// å‡½æ•°å‚æ•°çš„çº¿æ€§ä¼°è®¡
 void compute_k(stream_units_work::stream_units_work_compare::score_proc_type sp, float& k0, float& k1, float& k2, float& k3, float& k4) {
 	k0	= sp(0, 0, 0, 0);
 	k1	= sp(1, 0, 0, 0) - k0;

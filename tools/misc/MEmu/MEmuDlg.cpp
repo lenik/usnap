@@ -194,7 +194,7 @@ void CMEmuDlg::OnRadioTypeOnce()
 {
 	// TODO: Add your control notification handler code here
 	if (m_bFileOpened) {
-		int r = MessageBox("ÎÄ¼þÒÑ´ò¿ª, ½«Æä¹Ø±Õ?", NULL, MB_YESNOCANCEL | MB_ICONQUESTION);
+		int r = MessageBox("æ–‡ä»¶å·²æ‰“å¼€, å°†å…¶å…³é—­?", NULL, MB_YESNOCANCEL | MB_ICONQUESTION);
 		if (r != IDYES) return;
 	}
 	UpdateData();
@@ -220,7 +220,7 @@ void CMEmuDlg::OnRadioTypeFreq()
 	};
 
 	if (m_bFileOpened) {
-		int r = MessageBox("ÎÄ¼þÒÑ´ò¿ª, ½«Æä¹Ø±Õ?", NULL, MB_YESNOCANCEL | MB_ICONQUESTION);
+		int r = MessageBox("æ–‡ä»¶å·²æ‰“å¼€, å°†å…¶å…³é—­?", NULL, MB_YESNOCANCEL | MB_ICONQUESTION);
 		if (r != IDYES) return;
 	}
 	UpdateData();
@@ -240,7 +240,7 @@ void CMEmuDlg::OnButtonClose()
 		m_strSize = "0";
 		UpdateData(FALSE);
 	} else {
-		MessageBox("ÎÄ¼þÒÑ¹Ø±Õ");
+		MessageBox("æ–‡ä»¶å·²å…³é—­");
 	}
 }
 

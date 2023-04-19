@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// ÊÂ¼ş¼¯ºÏÀà
+// äº‹ä»¶é›†åˆç±»
 // CLSID: 00000000-4F45-0642-0002-486954656368
 
 OeSOEventsCollection::OeSOEventsCollection() {}

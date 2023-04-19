@@ -15,7 +15,7 @@ CeE3DControl::CeE3DControl() {}
 CeE3DControl::~CeE3DControl() {}
 
 
-// µ±Ç°Ë÷ÒıÉ«, Ä¬ÈÏÖµÎª0
+// å½“å‰ç´¢å¼•è‰², é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentColorIndexi(LONG *retLONG) {
@@ -31,7 +31,7 @@ CeE3DControl::put_CurrentColorIndexi(LONG newLONG) {
 }
 
 
-// µ±Ç°Ë÷ÒıÉ«, Ä¬ÈÏÖµÎª0
+// å½“å‰ç´¢å¼•è‰², é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentColorIndexf(float *retfloat) {
@@ -46,7 +46,7 @@ CeE3DControl::put_CurrentColorIndexf(float newfloat) {
 }
 
 
-// µ±Ç°ÎÆÀí×ø±ê, Ä¬ÈÏÖµÎª0,0,1
+// å½“å‰çº¹ç†åæ ‡, é»˜è®¤å€¼ä¸º0,0,1
 
 STDMETHODIMP
 CeE3DControl::get_CurrentTextureCoords(float *retfloat) {
@@ -61,7 +61,7 @@ CeE3DControl::put_CurrentTextureCoords(float newfloat) {
 }
 
 
-// µ±Ç°·¨Ïß, Ä¬ÈÏÖµÎª0,1
+// å½“å‰æ³•çº¿, é»˜è®¤å€¼ä¸º0,1
 
 STDMETHODIMP
 CeE3DControl::get_CurrentNormal(float *retfloat) {
@@ -76,7 +76,7 @@ CeE3DControl::put_CurrentNormal(float newfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±ê, Ä¬ÈÏÖµÎª0,0,1
+// å½“å‰å…‰æ …åæ ‡, é»˜è®¤å€¼ä¸º0,0,1
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterPosition(float *retfloat) {
@@ -91,7 +91,7 @@ CeE3DControl::put_CurrentRasterPosition(float newfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±ê¾àÀë, Ä¬ÈÏÖµÎª0
+// å½“å‰å…‰æ …åæ ‡è·ç¦», é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterDistance(float *retfloat) {
@@ -100,7 +100,7 @@ CeE3DControl::get_CurrentRasterDistance(float *retfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êRGBAÖµ, Ä¬ÈÏÖµÎª1,1,1,1
+// å½“å‰å…‰æ …åæ ‡RGBAå€¼, é»˜è®¤å€¼ä¸º1,1,1,1
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterColori(LONG *retLONG) {
@@ -110,7 +110,7 @@ CeE3DControl::get_CurrentRasterColori(LONG *retLONG) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êRGBAÖµ, Ä¬ÈÏÖµÎª1,1,1,2
+// å½“å‰å…‰æ …åæ ‡RGBAå€¼, é»˜è®¤å€¼ä¸º1,1,1,2
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterColorf(float *retfloat) {
@@ -119,7 +119,7 @@ CeE3DControl::get_CurrentRasterColorf(float *retfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êË÷ÒıÉ«, Ä¬ÈÏÖµÎª1
+// å½“å‰å…‰æ …åæ ‡ç´¢å¼•è‰², é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterIndexi(LONG *retLONG) {
@@ -129,7 +129,7 @@ CeE3DControl::get_CurrentRasterIndexi(LONG *retLONG) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êË÷ÒıÉ«, Ä¬ÈÏÖµÎª2
+// å½“å‰å…‰æ …åæ ‡ç´¢å¼•è‰², é»˜è®¤å€¼ä¸º2
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterIndexf(float *retfloat) {
@@ -138,7 +138,7 @@ CeE3DControl::get_CurrentRasterIndexf(float *retfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êÎÆÀí×ø±ê, Ä¬ÈÏÖµÎª0,0,0
+// å½“å‰å…‰æ …åæ ‡çº¹ç†åæ ‡, é»˜è®¤å€¼ä¸º0,0,0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterTexture(float *retfloat) {
@@ -153,7 +153,7 @@ CeE3DControl::put_CurrentRasterTexture(float newfloat) {
 }
 
 
-// µ±Ç°¹âÕ¤×ø±êÊÇ·ñÓĞĞ§, Ä¬ÈÏÖµÎªCEE3D_TRUE
+// å½“å‰å…‰æ …åæ ‡æ˜¯å¦æœ‰æ•ˆ, é»˜è®¤å€¼ä¸ºCEE3D_TRUE
 
 STDMETHODIMP
 CeE3DControl::get_CurrentRasterPositionValid(BOOL *retBOOL) {
@@ -163,7 +163,7 @@ CeE3DControl::get_CurrentRasterPositionValid(BOOL *retBOOL) {
 }
 
 
-// µ±Ç°±ßÔµ±êÖ¾, Ä¬ÈÏÖµÎªCEE3D_TRUE
+// å½“å‰è¾¹ç¼˜æ ‡å¿—, é»˜è®¤å€¼ä¸ºCEE3D_TRUE
 
 STDMETHODIMP
 CeE3DControl::get_CurrentEdgeFlag(BOOL *retBOOL) {
@@ -179,7 +179,7 @@ CeE3DControl::put_CurrentEdgeFlag(BOOL newBOOL) {
 }
 
 
-// Ä£ĞÍÈ¡¾°¾ØÕó¶ÑÕ», Ä¬ÈÏÖµÎªµ¥Î»¾ØÕó
+// æ¨¡å‹å–æ™¯çŸ©é˜µå †æ ˆ, é»˜è®¤å€¼ä¸ºå•ä½çŸ©é˜µ
 
 STDMETHODIMP
 CeE3DControl::get_MatrixModelView(float *retfloat) {
@@ -188,7 +188,7 @@ CeE3DControl::get_MatrixModelView(float *retfloat) {
 }
 
 
-// Í¶Ó°¾ØÕó¶ÑÕ», Ä¬ÈÏÖµÎªµ¥Î»¾ØÕó
+// æŠ•å½±çŸ©é˜µå †æ ˆ, é»˜è®¤å€¼ä¸ºå•ä½çŸ©é˜µ
 
 STDMETHODIMP
 CeE3DControl::get_MatrixProjection(float *retfloat) {
@@ -197,7 +197,7 @@ CeE3DControl::get_MatrixProjection(float *retfloat) {
 }
 
 
-// ÎÆÀí¾ØÕó¶ÑÕ», Ä¬ÈÏÖµÎªµ¥Î»¾ØÕó
+// çº¹ç†çŸ©é˜µå †æ ˆ, é»˜è®¤å€¼ä¸ºå•ä½çŸ©é˜µ
 
 STDMETHODIMP
 CeE3DControl::get_MatrixTexutre(float *retfloat) {
@@ -206,7 +206,7 @@ CeE3DControl::get_MatrixTexutre(float *retfloat) {
 }
 
 
-// ÊÓ´°×ø±ê, Ä¬ÈÏÖµÎªÎŞ
+// è§†çª—åæ ‡, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_Viewport(LONG *retLONG) {
@@ -216,7 +216,7 @@ CeE3DControl::get_Viewport(LONG *retLONG) {
 }
 
 
-// Éî¶È»º³åÇø·¶Î§, Ä¬ÈÏÖµÎª1
+// æ·±åº¦ç¼“å†²åŒºèŒƒå›´, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::GetDepthRange(float *r1, float *r2) {
@@ -234,7 +234,7 @@ CeE3DControl::SetDepthRange(float r1, float r2) {
 }
 
 
-// Ä£ĞÍÈ¡Ó°¾ØÕó¶ÑÕ»Ö¸Õë, Ä¬ÈÏÖµÎª1
+// æ¨¡å‹å–å½±çŸ©é˜µå †æ ˆæŒ‡é’ˆ, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_ModelViewStackDepth(LONG *retLONG) {
@@ -244,7 +244,7 @@ CeE3DControl::get_ModelViewStackDepth(LONG *retLONG) {
 }
 
 
-// Í¶Ó°¾ØÕó¶ÑÕ»Ö¸Õë, Ä¬ÈÏÖµÎª1
+// æŠ•å½±çŸ©é˜µå †æ ˆæŒ‡é’ˆ, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_ProjectionStackDepth(LONG *retLONG) {
@@ -254,7 +254,7 @@ CeE3DControl::get_ProjectionStackDepth(LONG *retLONG) {
 }
 
 
-// µ±Ç°¾ØÕóÀàĞÍ, Ä¬ÈÏÖµÎªCEE3D_MODELVIEW
+// å½“å‰çŸ©é˜µç±»å‹, é»˜è®¤å€¼ä¸ºCEE3D_MODELVIEW
 
 STDMETHODIMP
 CeE3DControl::get_CurrentMatrixMode(LONG *retLONG) {
@@ -270,7 +270,7 @@ CeE3DControl::put_CurrentMatrixMode(LONG newLONG) {
 }
 
 
-// µ±Ç°·¨Ïß¹æ¸ñ»¯, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å½“å‰æ³•çº¿è§„æ ¼åŒ–, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_Normalize(BOOL *retBOOL) {
@@ -290,7 +290,7 @@ CeE3DControl::put_Normalize(BOOL newBOOL) {
 }
 
 
-// Ê¹ÓÃ¼¤»îµÄ²Ã¼õÆ½Ãæ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// ä½¿ç”¨æ¿€æ´»çš„è£å‡å¹³é¢, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseClipPlane(LONG index, BOOL *retBOOL) {
@@ -310,7 +310,7 @@ CeE3DControl::put_UseClipPlane(LONG index, BOOL newBOOL) {
 }
 
 
-// ÎíÑÕÉ«, Ä¬ÈÏÖµÎª0,0,0
+// é›¾é¢œè‰², é»˜è®¤å€¼ä¸º0,0,0
 
 STDMETHODIMP
 CeE3DControl::get_FogColor(float *retfloat) {
@@ -325,7 +325,7 @@ CeE3DControl::put_FogColor(float newfloat) {
 }
 
 
-// ÎíµÄË÷ÒıÉ«, Ä¬ÈÏÖµÎª0
+// é›¾çš„ç´¢å¼•è‰², é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_FogColorIndex(float *retfloat) {
@@ -340,7 +340,7 @@ CeE3DControl::put_FogColorIndex(float newfloat) {
 }
 
 
-// ÎíÅ¨¶ÈÖ¸Êı, Ä¬ÈÏÖµÎª1
+// é›¾æµ“åº¦æŒ‡æ•°, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_FogDensity(float *retfloat) {
@@ -355,7 +355,7 @@ CeE3DControl::put_FogDensity(float newfloat) {
 }
 
 
-// ÎíÏßĞÍ·½³ÌµÄ¿ªÊ¼, Ä¬ÈÏÖµÎª0
+// é›¾çº¿å‹æ–¹ç¨‹çš„å¼€å§‹, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_FogStart(float *retfloat) {
@@ -370,7 +370,7 @@ CeE3DControl::put_FogStart(float newfloat) {
 }
 
 
-// ÎíÏßĞÍ·½³ÌµÄ½áÊø, Ä¬ÈÏÖµÎª1
+// é›¾çº¿å‹æ–¹ç¨‹çš„ç»“æŸ, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_FogEnd(float *retfloat) {
@@ -385,7 +385,7 @@ CeE3DControl::put_FogEnd(float newfloat) {
 }
 
 
-// ÎíÄ£Ê½, Ä¬ÈÏÖµÎªCEE3D_EXP
+// é›¾æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_EXP
 
 STDMETHODIMP
 CeE3DControl::get_CurrentFogMode(LONG *retLONG) {
@@ -401,7 +401,7 @@ CeE3DControl::put_CurrentFogMode(LONG newLONG) {
 }
 
 
-// ÊÇ·ñ½øĞĞÎíĞ§¹û¼ÆËã, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦è¿›è¡Œé›¾æ•ˆæœè®¡ç®—, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseFog(BOOL *retBOOL) {
@@ -421,7 +421,7 @@ CeE3DControl::put_UseFog(BOOL newBOOL) {
 }
 
 
-// ÒõÓ°´¦ÀíÄ£Ê½, Ä¬ÈÏÖµÎªCEE3D_SMOOTH
+// é˜´å½±å¤„ç†æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_SMOOTH
 
 STDMETHODIMP
 CeE3DControl::get_ShadeModel(LONG *retLONG) {
@@ -437,7 +437,7 @@ CeE3DControl::put_ShadeModel(LONG newLONG) {
 }
 
 
-// ÔÊĞíÊ¹ÓÃ¹âÕÕ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å…è®¸ä½¿ç”¨å…‰ç…§, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseLighting(BOOL *retBOOL) {
@@ -457,7 +457,7 @@ CeE3DControl::put_UseLighting(BOOL newBOOL) {
 }
 
 
-// ²ÄÖÊÏµÊı, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æè´¨ç³»æ•°, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseColorMaterial(BOOL *retBOOL) {
@@ -477,7 +477,7 @@ CeE3DControl::put_UseColorMaterial(BOOL newBOOL) {
 }
 
 
-// ¸ú×Ùµ±Ç°ÑÕÉ«µÄ²ÄÖÊÏµÊı, Ä¬ÈÏÖµÎªCEE3D_AMBIENT_AND_DIFFUSE
+// è·Ÿè¸ªå½“å‰é¢œè‰²çš„æè´¨ç³»æ•°, é»˜è®¤å€¼ä¸ºCEE3D_AMBIENT_AND_DIFFUSE
 
 STDMETHODIMP
 CeE3DControl::get_ColorMaterialParameter(LONG face, LONG *retLONG) {
@@ -487,7 +487,7 @@ CeE3DControl::get_ColorMaterialParameter(LONG face, LONG *retLONG) {
 }
 
 
-// ÊÜÑÕÉ«¸ú×ÙÓ°ÏìµÄÍâ¹Û, Ä¬ÈÏÖµÎªCEE3D_FRONT_AND_BACK
+// å—é¢œè‰²è·Ÿè¸ªå½±å“çš„å¤–è§‚, é»˜è®¤å€¼ä¸ºCEE3D_FRONT_AND_BACK
 
 STDMETHODIMP
 CeE3DControl::get_ColorMaterialFace(LONG face, LONG *retLONG) {
@@ -503,7 +503,7 @@ CeE3DControl::put_ColorMaterialFace(LONG face, LONG newLONG) {
 }
 
 
-// ³¡¾°·º¹âÇ¿¶È, Ä¬ÈÏÖµÎª.2,.2,.2,1
+// åœºæ™¯æ³›å…‰å¼ºåº¦, é»˜è®¤å€¼ä¸º.2,.2,.2,1
 
 STDMETHODIMP
 CeE3DControl::get_LightModelAmbient(float *retfloat) {
@@ -518,7 +518,7 @@ CeE3DControl::put_LightModelAmbient(float newfloat) {
 }
 
 
-// ¹Û²ìµãÊÇ·ñÔÚ³¡ÄÚ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// è§‚å¯Ÿç‚¹æ˜¯å¦åœ¨åœºå†…, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_LightModelUseLocalViewer(BOOL *retBOOL) {
@@ -538,7 +538,7 @@ CeE3DControl::put_LightModelUseLocalViewer(BOOL newBOOL) {
 }
 
 
-// ²ÉÓÃË«Ãæ¹âÕÕ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// é‡‡ç”¨åŒé¢å…‰ç…§, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_LightModeUseTwoSide(BOOL *retBOOL) {
@@ -558,7 +558,7 @@ CeE3DControl::put_LightModeUseTwoSide(BOOL newBOOL) {
 }
 
 
-// Ê¹ÓÃÖÆ¶¨¹âÔ´, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// ä½¿ç”¨åˆ¶å®šå…‰æº, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseLight(LONG whichlight, BOOL *retBOOL) {
@@ -578,7 +578,7 @@ CeE3DControl::put_UseLight(LONG whichlight, BOOL newBOOL) {
 }
 
 
-// ¹âÔ´Ë÷ÒıÉ«, Ä¬ÈÏÖµÎª1,1
+// å…‰æºç´¢å¼•è‰², é»˜è®¤å€¼ä¸º1,1
 
 STDMETHODIMP
 CeE3DControl::get_LightColorIndexes(float *retfloat) {
@@ -592,7 +592,7 @@ CeE3DControl::put_LightColorIndexes(float newfloat) {
 }
 
 
-// µã³ß´ç, Ä¬ÈÏÖµÎª1
+// ç‚¹å°ºå¯¸, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_PointSize(float *retfloat) {
@@ -607,7 +607,7 @@ CeE3DControl::put_PointSize(float newfloat) {
 }
 
 
-// µã·´×ßÑù, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// ç‚¹åèµ°æ ·, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseSmoothPoint(BOOL *retBOOL) {
@@ -627,7 +627,7 @@ CeE3DControl::put_UseSmoothPoint(BOOL newBOOL) {
 }
 
 
-// Ïß¿í, Ä¬ÈÏÖµÎª1
+// çº¿å®½, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_LineWidth(float *retfloat) {
@@ -642,7 +642,7 @@ CeE3DControl::put_LineWidth(float newfloat) {
 }
 
 
-// Ïß·´×ßÑù, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// çº¿åèµ°æ ·, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseSmoothLine(BOOL *retBOOL) {
@@ -662,7 +662,7 @@ CeE3DControl::put_UseSmoothLine(BOOL newBOOL) {
 }
 
 
-// ÏßÌî³äÍ¼°¸, Ä¬ÈÏÖµÎª1S
+// çº¿å¡«å……å›¾æ¡ˆ, é»˜è®¤å€¼ä¸º1S
 
 STDMETHODIMP
 CeE3DControl::get_StippleLinePattern(LONG *retLONG) {
@@ -678,7 +678,7 @@ CeE3DControl::SetStippleLinePattern(LONG factor, LONG newLONG) {
 }
 
 
-// ÖØ¸´ÏßÌî³äÍ¼°¸, Ä¬ÈÏÖµÎª1
+// é‡å¤çº¿å¡«å……å›¾æ¡ˆ, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_StippleLineRepeat(LONG *retLONG) {
@@ -688,7 +688,7 @@ CeE3DControl::get_StippleLineRepeat(LONG *retLONG) {
 }
 
 
-// ÊÇ·ñÏßÌî³ä, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦çº¿å¡«å……, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseStippleLine(BOOL *retBOOL) {
@@ -708,7 +708,7 @@ CeE3DControl::put_UseStippleLine(BOOL newBOOL) {
 }
 
 
-// ÊÇ·ñÌŞ³ı¶à±ßĞÎ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦å‰”é™¤å¤šè¾¹å½¢, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseCullFace(BOOL *retBOOL) {
@@ -728,7 +728,7 @@ CeE3DControl::put_UseCullFace(BOOL newBOOL) {
 }
 
 
-// ÌŞ³ı¶à±ßĞÎµÄÃæ, Ä¬ÈÏÖµÎªCEE3D_BACK
+// å‰”é™¤å¤šè¾¹å½¢çš„é¢, é»˜è®¤å€¼ä¸ºCEE3D_BACK
 
 STDMETHODIMP
 CeE3DControl::get_CullFaceMode(LONG *retLONG) {
@@ -744,7 +744,7 @@ CeE3DControl::put_CullFaceMode(LONG newLONG) {
 }
 
 
-// ¶à±ßĞÎ³¯Ç°µÄÃæµÄË³ÄæÊ±Õë, Ä¬ÈÏÖµÎªCEE3D_CCW
+// å¤šè¾¹å½¢æœå‰çš„é¢çš„é¡ºé€†æ—¶é’ˆ, é»˜è®¤å€¼ä¸ºCEE3D_CCW
 
 STDMETHODIMP
 CeE3DControl::get_FrontFaceDirection(LONG *retLONG) {
@@ -760,7 +760,7 @@ CeE3DControl::put_FrontFaceDirection(LONG newLONG) {
 }
 
 
-// ¶à±ßĞÎ·´×ßÑù, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å¤šè¾¹å½¢åèµ°æ ·, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseSmoothPolygon(BOOL *retBOOL) {
@@ -780,7 +780,7 @@ CeE3DControl::put_UseSmoothPolygon(BOOL newBOOL) {
 }
 
 
-// ¶à±ßĞÎ¹âÕ¤»¯Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_FILL
+// å¤šè¾¹å½¢å…‰æ …åŒ–æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_FILL
 
 STDMETHODIMP
 CeE3DControl::get_PolygonMode(LONG *retLONG) {
@@ -796,7 +796,7 @@ CeE3DControl::SetPolygonMode(LONG face, LONG newLONG) {
 }
 
 
-// ¶à±ßĞÎÌî³äÍ¼°¸, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å¤šè¾¹å½¢å¡«å……å›¾æ¡ˆ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_StipplePolygonPattern(BOOL *retBOOL) {
@@ -816,7 +816,7 @@ CeE3DControl::put_StipplePolygonPattern(BOOL newBOOL) {
 }
 
 
-// ²Ã¼õ¼ìÑé, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// è£å‡æ£€éªŒ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseScissor(BOOL *retBOOL) {
@@ -836,7 +836,7 @@ CeE3DControl::put_UseScissor(BOOL newBOOL) {
 }
 
 
-// ²Ã¼õ¿ò, Ä¬ÈÏÖµÎªÎŞ
+// è£å‡æ¡†, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_ScissorBox(LONG *retLONG) {
@@ -852,7 +852,7 @@ CeE3DControl::SetScissorBox(LONG x, LONG y, LONG width, LONG height) {
 }
 
 
-// Ä£°æ¼ìÑé, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ¨¡ç‰ˆæ£€éªŒ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseStencil(BOOL *retBOOL) {
@@ -872,7 +872,7 @@ CeE3DControl::put_UseStencil(BOOL newBOOL) {
 }
 
 
-// Ä£°æ¹¦ÄÜ, Ä¬ÈÏÖµÎªCEE3D_ALWAYS
+// æ¨¡ç‰ˆåŠŸèƒ½, é»˜è®¤å€¼ä¸ºCEE3D_ALWAYS
 
 STDMETHODIMP
 CeE3DControl::get_StencilFunc(LONG *retLONG) {
@@ -888,7 +888,7 @@ CeE3DControl::put_StencilFunc(LONG newLONG) {
 }
 
 
-// Ä£°æ±êÊ¶, Ä¬ÈÏÖµÎª1....
+// æ¨¡ç‰ˆæ ‡è¯†, é»˜è®¤å€¼ä¸º1....
 
 STDMETHODIMP
 CeE3DControl::get_StencilValueMask(LONG *retLONG) {
@@ -904,7 +904,7 @@ CeE3DControl::put_StencilValueMask(LONG newLONG) {
 }
 
 
-// Ä£°æ¼ìÑé²Î¿¼Öµ, Ä¬ÈÏÖµÎª0
+// æ¨¡ç‰ˆæ£€éªŒå‚è€ƒå€¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_StencilReference(LONG *retLONG) {
@@ -924,7 +924,7 @@ CeE3DControl::put_StencilReference(LONG newLONG) {
 }
 
 
-// Ä£°æ¼ìÑéÊ§°Ü, Ä¬ÈÏÖµÎªCEE3D_KEEP
+// æ¨¡ç‰ˆæ£€éªŒå¤±è´¥, é»˜è®¤å€¼ä¸ºCEE3D_KEEP
 
 STDMETHODIMP
 CeE3DControl::get_StencilFailure(LONG *retLONG) {
@@ -946,7 +946,7 @@ CeE3DControl::put_StencilFailure(LONG newLONG) {
 }
 
 
-// Ä£°æ¼ìÑéÍ¨¹ı,Éî¶È¼ìÑéÊ§°Ü, Ä¬ÈÏÖµÎªCEE3D_KEEP
+// æ¨¡ç‰ˆæ£€éªŒé€šè¿‡,æ·±åº¦æ£€éªŒå¤±è´¥, é»˜è®¤å€¼ä¸ºCEE3D_KEEP
 
 STDMETHODIMP
 CeE3DControl::get_StencilPassFailDepth(LONG *retLONG) {
@@ -968,7 +968,7 @@ CeE3DControl::put_StencilPassFailDepth(LONG newLONG) {
 }
 
 
-// Ä£°æ,Éî¶È¼ìÑéÍ¨¹ı, Ä¬ÈÏÖµÎªCEE3D_KEEP
+// æ¨¡ç‰ˆ,æ·±åº¦æ£€éªŒé€šè¿‡, é»˜è®¤å€¼ä¸ºCEE3D_KEEP
 
 STDMETHODIMP
 CeE3DControl::get_StencilPassPassDepth(LONG *retLONG) {
@@ -990,7 +990,7 @@ CeE3DControl::put_StencilPassPassDepth(LONG newLONG) {
 }
 
 
-// ÔÊĞí¦Á¼ìÑé, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å…è®¸Î±æ£€éªŒ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseAlpha(BOOL *retBOOL) {
@@ -1010,7 +1010,7 @@ CeE3DControl::put_UseAlpha(BOOL newBOOL) {
 }
 
 
-// ¦Á¼ìÑéº¯Êı, Ä¬ÈÏÖµÎªCEE3D_ALWAYS
+// Î±æ£€éªŒå‡½æ•°, é»˜è®¤å€¼ä¸ºCEE3D_ALWAYS
 
 STDMETHODIMP
 CeE3DControl::get_AlphaTestFunc(LONG *retLONG) {
@@ -1030,7 +1030,7 @@ CeE3DControl::put_AlphaTestFunc(LONG newLONG) {
 }
 
 
-// ¦Á¼ìÑé²Î¿¼Öµ, Ä¬ÈÏÖµÎª0
+// Î±æ£€éªŒå‚è€ƒå€¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_AlphaTestReference(float *retfloat) {
@@ -1049,7 +1049,7 @@ CeE3DControl::put_AlphaTestReference(float newfloat) {
 }
 
 
-// Éî¶È¼ìÑéº¯Êı, Ä¬ÈÏÖµÎªCEE3D_LESS
+// æ·±åº¦æ£€éªŒå‡½æ•°, é»˜è®¤å€¼ä¸ºCEE3D_LESS
 
 STDMETHODIMP
 CeE3DControl::get_DepthFunc(LONG *retLONG) {
@@ -1065,7 +1065,7 @@ CeE3DControl::put_DepthFunc(LONG newLONG) {
 }
 
 
-// ÈÚºÏÔËËã, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// èåˆè¿ç®—, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseBlend(BOOL *retBOOL) {
@@ -1085,8 +1085,8 @@ CeE3DControl::put_UseBlend(BOOL newBOOL) {
 }
 
 
-// Ô´ÈÚºÏÔËËã, Ä¬ÈÏÖµÎªCEE3D_ONE
-// Ä¿±êÈÚºÏº¯Êı, Ä¬ÈÏÖµÎªCEE3D_ZERO
+// æºèåˆè¿ç®—, é»˜è®¤å€¼ä¸ºCEE3D_ONE
+// ç›®æ ‡èåˆå‡½æ•°, é»˜è®¤å€¼ä¸ºCEE3D_ZERO
 
 STDMETHODIMP
 CeE3DControl::get_BlendSourceSfactor(LONG *retLONG) {
@@ -1109,7 +1109,7 @@ CeE3DControl::put_BlendSource(LONG sfactor, LONG dfactor) {
 }
 
 
-// Âß¼­²Ù×÷, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// é€»è¾‘æ“ä½œ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseLogicOperation(BOOL *retBOOL) {
@@ -1129,7 +1129,7 @@ CeE3DControl::put_UseLogicOperation(BOOL newBOOL) {
 }
 
 
-// Âß¼­²Ù×÷Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_COPY
+// é€»è¾‘æ“ä½œæ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_COPY
 
 STDMETHODIMP
 CeE3DControl::get_LogicOperationMode(LONG *retLONG) {
@@ -1145,7 +1145,7 @@ CeE3DControl::put_LogicOperationMode(LONG newLONG) {
 }
 
 
-// ¶¶¶¯²Ù×÷, Ä¬ÈÏÖµÎªCEE3D_TRUE
+// æŠ–åŠ¨æ“ä½œ, é»˜è®¤å€¼ä¸ºCEE3D_TRUE
 
 STDMETHODIMP
 CeE3DControl::get_UseDither(BOOL *retBOOL) {
@@ -1165,7 +1165,7 @@ CeE3DControl::put_UseDither(BOOL newBOOL) {
 }
 
 
-// ÒªĞ´ÈëµÄ»º³åÇø, Ä¬ÈÏÖµÎªÎŞ
+// è¦å†™å…¥çš„ç¼“å†²åŒº, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_DrawBuffer(LONG *retLONG) {
@@ -1181,7 +1181,7 @@ CeE3DControl::put_DrawBuffer(LONG newLONG) {
 }
 
 
-// Ë÷ÒıÉ«»º´æÇøÎ»Æ½ÃæµÄĞ´ÆÁ±Î, Ä¬ÈÏÖµÎª1....
+// ç´¢å¼•è‰²ç¼“å­˜åŒºä½å¹³é¢çš„å†™å±è”½, é»˜è®¤å€¼ä¸º1....
 
 STDMETHODIMP
 CeE3DControl::get_ColorIndexWriteMask(LONG *retLONG) {
@@ -1197,7 +1197,7 @@ CeE3DControl::put_ColorIndexWriteMask(LONG newLONG) {
 }
 
 
-// Ğ´ÈëÉî¶È»º´æ, Ä¬ÈÏÖµÎªCEE3D_TRUE
+// å†™å…¥æ·±åº¦ç¼“å­˜, é»˜è®¤å€¼ä¸ºCEE3D_TRUE
 
 STDMETHODIMP
 CeE3DControl::get_DepthWriteMask(BOOL *retBOOL) {
@@ -1217,7 +1217,7 @@ CeE3DControl::put_DepthWriteMask(BOOL newBOOL) {
 }
 
 
-// Ğ´ÈëÄ£°æ»º´æ, Ä¬ÈÏÖµÎª1....
+// å†™å…¥æ¨¡ç‰ˆç¼“å­˜, é»˜è®¤å€¼ä¸º1....
 
 STDMETHODIMP
 CeE3DControl::get_StencilWriteMask(LONG *retLONG) {
@@ -1233,7 +1233,7 @@ CeE3DControl::put_StencilWriteMask(LONG newLONG) {
 }
 
 
-// Çå³ıÑÕÉ«»º´æRGBAÖµ, Ä¬ÈÏÖµÎª0,0,0
+// æ¸…é™¤é¢œè‰²ç¼“å­˜RGBAå€¼, é»˜è®¤å€¼ä¸º0,0,0
 
 STDMETHODIMP
 CeE3DControl::get_ColorClearValue(LONG RGBA_index, float *retfloat) {
@@ -1250,7 +1250,7 @@ CeE3DControl::SetColorClearValue(float r, float g, float b, float a) {
 }
 
 
-// Çå³ıÑÕÉ«Ö¸ÊıÖµ, Ä¬ÈÏÖµÎª0
+// æ¸…é™¤é¢œè‰²æŒ‡æ•°å€¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_ColorIndexClearValue(float *retfloat) {
@@ -1265,7 +1265,7 @@ CeE3DControl::put_ColorIndexClearValue(float newfloat) {
 }
 
 
-// Çå³ıÉî¶È»º´æÖµ, Ä¬ÈÏÖµÎª1
+// æ¸…é™¤æ·±åº¦ç¼“å­˜å€¼, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_DepthClearValue(LONG *retLONG) {
@@ -1281,7 +1281,7 @@ CeE3DControl::put_DepthClearValue(LONG newLONG) {
 }
 
 
-// Çå³ıÄ£°æ»º´æÖµ, Ä¬ÈÏÖµÎª0
+// æ¸…é™¤æ¨¡ç‰ˆç¼“å­˜å€¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_StencilClearValue(LONG *retLONG) {
@@ -1297,7 +1297,7 @@ CeE3DControl::put_StencilClearValue(LONG newLONG) {
 }
 
 
-// Çå³ıÀÛ¼Ó»º´æÖµ, Ä¬ÈÏÖµÎª0
+// æ¸…é™¤ç´¯åŠ ç¼“å­˜å€¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_AccumClearValue(float *retfloat) {
@@ -1312,7 +1312,7 @@ CeE3DControl::put_AccumClearValue(float newfloat) {
 }
 
 
-// Î´´ò°ü½»»»±ÈÌØ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æœªæ‰“åŒ…äº¤æ¢æ¯”ç‰¹, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UnpackSwapBytes(BOOL *retBOOL) {
@@ -1328,7 +1328,7 @@ CeE3DControl::put_UnpackSwapBytes(BOOL newBOOL) {
 }
 
 
-// Î´´ò°üĞĞ³¤¶È, Ä¬ÈÏÖµÎª0
+// æœªæ‰“åŒ…è¡Œé•¿åº¦, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_UnpackRowLength(LONG *retLONG) {
@@ -1344,7 +1344,7 @@ CeE3DControl::put_UnpackRowLength(LONG newLONG) {
 }
 
 
-// Î´´ò°üºöÂÔĞĞ, Ä¬ÈÏÖµÎª0
+// æœªæ‰“åŒ…å¿½ç•¥è¡Œ, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_UnpackSkipRows(LONG *retLONG) {
@@ -1360,7 +1360,7 @@ CeE3DControl::put_UnpackSkipRows(LONG newLONG) {
 }
 
 
-// Î´´ò°üºöÂÔÏñËØ, Ä¬ÈÏÖµÎª0
+// æœªæ‰“åŒ…å¿½ç•¥åƒç´ , é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_UnpackSkipPixels(LONG *retLONG) {
@@ -1376,7 +1376,7 @@ CeE3DControl::put_UnpackSkipPixels(LONG newLONG) {
 }
 
 
-// Î´´ò°ü¶ÔÆë, Ä¬ÈÏÖµÎª4
+// æœªæ‰“åŒ…å¯¹é½, é»˜è®¤å€¼ä¸º4
 
 STDMETHODIMP
 CeE3DControl::get_UnpackAlignment(LONG *retLONG) {
@@ -1392,7 +1392,7 @@ CeE3DControl::put_UnpackAlignment(LONG newLONG) {
 }
 
 
-// ´ò°ü½»»»±ÈÌØ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ‰“åŒ…äº¤æ¢æ¯”ç‰¹, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_PackSwapBytes(BOOL *retBOOL) {
@@ -1408,7 +1408,7 @@ CeE3DControl::put_PackSwapBytes(BOOL newBOOL) {
 }
 
 
-// ´ò°üµÚÒ»¸öLSB, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ‰“åŒ…ç¬¬ä¸€ä¸ªLSB, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_PackLSBFirst(BOOL *retBOOL) {
@@ -1424,7 +1424,7 @@ CeE3DControl::put_PackLSBFirst(BOOL newBOOL) {
 }
 
 
-// ´ò°üĞĞ³¤¶È, Ä¬ÈÏÖµÎª0
+// æ‰“åŒ…è¡Œé•¿åº¦, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_PackRowLength(LONG *retLONG) {
@@ -1440,7 +1440,7 @@ CeE3DControl::put_PackRowLength(LONG newLONG) {
 }
 
 
-// ´ò°üºöÂÔĞĞ, Ä¬ÈÏÖµÎª0
+// æ‰“åŒ…å¿½ç•¥è¡Œ, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_PackSkipRows(LONG *retLONG) {
@@ -1456,7 +1456,7 @@ CeE3DControl::put_PackSkipRows(LONG newLONG) {
 }
 
 
-// ´ò°üºöÂÔÏñËØ, Ä¬ÈÏÖµÎª0
+// æ‰“åŒ…å¿½ç•¥åƒç´ , é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_PackSkipPixels(LONG *retLONG) {
@@ -1472,7 +1472,7 @@ CeE3DControl::put_PackSkipPixels(LONG newLONG) {
 }
 
 
-// ´ò°ü¶ÔÆë, Ä¬ÈÏÖµÎª4
+// æ‰“åŒ…å¯¹é½, é»˜è®¤å€¼ä¸º4
 
 STDMETHODIMP
 CeE3DControl::get_PackAlignment(LONG *retLONG) {
@@ -1488,7 +1488,7 @@ CeE3DControl::put_PackAlignment(LONG newLONG) {
 }
 
 
-// ÊÇ·ñÓÃ²é¶Ô±í´úÌæÑÕÉ«»òË÷ÒıÉ«, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦ç”¨æŸ¥å¯¹è¡¨ä»£æ›¿é¢œè‰²æˆ–ç´¢å¼•è‰², é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseColorMap(BOOL *retBOOL) {
@@ -1508,7 +1508,7 @@ CeE3DControl::put_UseColorMap(BOOL newBOOL) {
 }
 
 
-// ÊÇ·ñÓÃ²é¶Ô±í´úÌæÄ£°æ, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦ç”¨æŸ¥å¯¹è¡¨ä»£æ›¿æ¨¡ç‰ˆ, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseStencilMap(BOOL *retBOOL) {
@@ -1528,7 +1528,7 @@ CeE3DControl::put_UseStencilMap(BOOL newBOOL) {
 }
 
 
-// Ë÷ÒıÒÆÎ», Ä¬ÈÏÖµÎª0
+// ç´¢å¼•ç§»ä½, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_IndexShift(LONG *retLONG) {
@@ -1544,7 +1544,7 @@ CeE3DControl::put_IndexShift(LONG newLONG) {
 }
 
 
-// Ë÷ÒıÆ«ÒÆ, Ä¬ÈÏÖµÎª0
+// ç´¢å¼•åç§», é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_IndexOffset(LONG *retLONG) {
@@ -1560,7 +1560,7 @@ CeE3DControl::put_IndexOffset(LONG newLONG) {
 }
 
 
-// XÏñËØµÄËõ·ÅÒò×Ó, Ä¬ÈÏÖµÎª
+// Xåƒç´ çš„ç¼©æ”¾å› å­, é»˜è®¤å€¼ä¸º
 
 STDMETHODIMP
 CeE3DControl::get_ZoomX(float *retfloat) {
@@ -1577,7 +1577,7 @@ CeE3DControl::put_ZoomX(float newfloat) {
 }
 
 
-// YÏñËØµÄËõ·ÅÒò×Ó, Ä¬ÈÏÖµÎª
+// Yåƒç´ çš„ç¼©æ”¾å› å­, é»˜è®¤å€¼ä¸º
 
 STDMETHODIMP
 CeE3DControl::get_ZoomY(float *retfloat) {
@@ -1594,7 +1594,7 @@ CeE3DControl::put_ZoomY(float newfloat) {
 }
 
 
-// ¶ÁÈ¡»º´æÇø×ÊÔ´, Ä¬ÈÏÖµÎªÎŞ
+// è¯»å–ç¼“å­˜åŒºèµ„æº, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_ReadBuffer(LONG *retLONG) {
@@ -1610,7 +1610,7 @@ CeE3DControl::put_ReadBuffer(LONG newLONG) {
 }
 
 
-// ÔÊĞíÒ»Î¬Ó³Éä, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å…è®¸ä¸€ç»´æ˜ å°„, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseMap1(BOOL *retBOOL) {
@@ -1629,7 +1629,7 @@ CeE3DControl::put_UseMap1(BOOL newBOOL) {
 }
 
 
-// ÔÊĞí¶şÎ¬Ó³Éä, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// å…è®¸äºŒç»´æ˜ å°„, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_UseMap2(BOOL *retBOOL) {
@@ -1648,7 +1648,7 @@ CeE3DControl::put_UseMap2(BOOL newBOOL) {
 }
 
 
-// ¶şÎ¬Ó³ÉäµÄÍø¸ñÓë½Úµã, Ä¬ÈÏÖµÎª1;0,1
+// äºŒç»´æ˜ å°„çš„ç½‘æ ¼ä¸èŠ‚ç‚¹, é»˜è®¤å€¼ä¸º1;0,1
 
 STDMETHODIMP
 CeE3DControl::get_Map2GridDomain(float *retfloat) {
@@ -1657,7 +1657,7 @@ CeE3DControl::get_Map2GridDomain(float *retfloat) {
 }
 
 
-// Ò»Î¬Ó³ÉäµÄÍø¸ñÓòµÄ¼ä¸ôÊıÄ¿, Ä¬ÈÏÖµÎª1
+// ä¸€ç»´æ˜ å°„çš„ç½‘æ ¼åŸŸçš„é—´éš”æ•°ç›®, é»˜è®¤å€¼ä¸º1
 
 STDMETHODIMP
 CeE3DControl::get_Map1GridSegments(float *retfloat) {
@@ -1666,7 +1666,7 @@ CeE3DControl::get_Map1GridSegments(float *retfloat) {
 }
 
 
-// ¶şÎ¬Ó³ÉäµÄÍø¸ñÓòµÄ¼ä¸ôÊıÄ¿, Ä¬ÈÏÖµÎª1,1
+// äºŒç»´æ˜ å°„çš„ç½‘æ ¼åŸŸçš„é—´éš”æ•°ç›®, é»˜è®¤å€¼ä¸º1,1
 
 STDMETHODIMP
 CeE3DControl::get_Map2GridSegments(float *retfloat) {
@@ -1675,7 +1675,7 @@ CeE3DControl::get_Map2GridSegments(float *retfloat) {
 }
 
 
-// ÊÇ·ñÔÊĞí×Ô¶¯Çó½â·¨ÏòÁ¿, Ä¬ÈÏÖµÎªCEE3D_FALSE
+// æ˜¯å¦å…è®¸è‡ªåŠ¨æ±‚è§£æ³•å‘é‡, é»˜è®¤å€¼ä¸ºCEE3D_FALSE
 
 STDMETHODIMP
 CeE3DControl::get_AutoNormalize(BOOL *retBOOL) {
@@ -1695,7 +1695,7 @@ CeE3DControl::put_AutoNormalize(BOOL newBOOL) {
 }
 
 
-// Í¸ÊÓĞ£ÕıµÄÒşº¬Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_DONT_CARE
+// é€è§†æ ¡æ­£çš„éšå«æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_DONT_CARE
 
 STDMETHODIMP
 CeE3DControl::get_PerspectiveCorrectionHint(LONG *retLONG) {
@@ -1710,7 +1710,7 @@ CeE3DControl::put_PerspectiveCorrectionHint(LONG newLONG) {
 	return NOERROR;
 }
 
-// ·´×ßÑùµãµÄÒşº¬Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_DONT_CARE
+// åèµ°æ ·ç‚¹çš„éšå«æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_DONT_CARE
 
 STDMETHODIMP
 CeE3DControl::get_PointSmoothHint(LONG *retLONG) {
@@ -1720,7 +1720,7 @@ CeE3DControl::get_PointSmoothHint(LONG *retLONG) {
 }
 
 
-// ·´×ßÑùÏßµÄÒşº¬Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_DONT_CARE
+// åèµ°æ ·çº¿çš„éšå«æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_DONT_CARE
 
 STDMETHODIMP
 CeE3DControl::get_LineSmoothHint(LONG *retLONG) {
@@ -1730,7 +1730,7 @@ CeE3DControl::get_LineSmoothHint(LONG *retLONG) {
 }
 
 
-// ·´×ßÑù¶à±ßĞÎµÄÒşº¬Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_DONT_CARE
+// åèµ°æ ·å¤šè¾¹å½¢çš„éšå«æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_DONT_CARE
 
 STDMETHODIMP
 CeE3DControl::get_PolygonSmoothHint(LONG *retLONG) {
@@ -1740,7 +1740,7 @@ CeE3DControl::get_PolygonSmoothHint(LONG *retLONG) {
 }
 
 
-// ÎíµÄÒşº¬Ä£Ê½, Ä¬ÈÏÖµÎªCEE3D_DONT_CARE
+// é›¾çš„éšå«æ¨¡å¼, é»˜è®¤å€¼ä¸ºCEE3D_DONT_CARE
 
 STDMETHODIMP
 CeE3DControl::get_FogHint(LONG *retLONG) {
@@ -1750,7 +1750,7 @@ CeE3DControl::get_FogHint(LONG *retLONG) {
 }
 
 
-// ¹âÔ´ÊıÄ¿µÄ×î´óÖµ, Ä¬ÈÏÖµÎª8
+// å…‰æºæ•°ç›®çš„æœ€å¤§å€¼, é»˜è®¤å€¼ä¸º8
 
 STDMETHODIMP
 CeE3DControl::get_MaxLights(LONG *retLONG) {
@@ -1760,7 +1760,7 @@ CeE3DControl::get_MaxLights(LONG *retLONG) {
 }
 
 
-// ¼ô²ÃÆ½ÃæµÄ×î´óÖµ, Ä¬ÈÏÖµÎª6
+// å‰ªè£å¹³é¢çš„æœ€å¤§å€¼, é»˜è®¤å€¼ä¸º6
 
 STDMETHODIMP
 CeE3DControl::get_MaxClipPlanes(LONG *retLONG) {
@@ -1770,7 +1770,7 @@ CeE3DControl::get_MaxClipPlanes(LONG *retLONG) {
 }
 
 
-// Ä£ĞÍÈ¡¾°¾ØÕó¶ÑÕ»µÄ×î´óÉî¶È, Ä¬ÈÏÖµÎª32
+// æ¨¡å‹å–æ™¯çŸ©é˜µå †æ ˆçš„æœ€å¤§æ·±åº¦, é»˜è®¤å€¼ä¸º32
 
 STDMETHODIMP
 CeE3DControl::get_MaxModelViewStackDepth(LONG *retLONG) {
@@ -1780,7 +1780,7 @@ CeE3DControl::get_MaxModelViewStackDepth(LONG *retLONG) {
 }
 
 
-// Í¶Ó°¾ØÕó¶ÑÕ»µÄ×î´óÉî¶È, Ä¬ÈÏÖµÎª2
+// æŠ•å½±çŸ©é˜µå †æ ˆçš„æœ€å¤§æ·±åº¦, é»˜è®¤å€¼ä¸º2
 
 STDMETHODIMP
 CeE3DControl::get_MaxProjectionStackDepth(LONG *retLONG) {
@@ -1790,7 +1790,7 @@ CeE3DControl::get_MaxProjectionStackDepth(LONG *retLONG) {
 }
 
 
-// ÎÆÀí¾ØÕó¶ÑÕ»µÄ×î´óÉî¶È, Ä¬ÈÏÖµÎª2
+// çº¹ç†çŸ©é˜µå †æ ˆçš„æœ€å¤§æ·±åº¦, é»˜è®¤å€¼ä¸º2
 
 STDMETHODIMP
 CeE3DControl::get_MaxTextureStackDepth(LONG *retLONG) {
@@ -1800,7 +1800,7 @@ CeE3DControl::get_MaxTextureStackDepth(LONG *retLONG) {
 }
 
 
-// ÑÇÏñËØµÄ×ÖÎ»Êı, Ä¬ÈÏÖµÎª4
+// äºšåƒç´ çš„å­—ä½æ•°, é»˜è®¤å€¼ä¸º4
 
 STDMETHODIMP
 CeE3DControl::get_SubPixelBits(LONG *retLONG) {
@@ -1810,7 +1810,7 @@ CeE3DControl::get_SubPixelBits(LONG *retLONG) {
 }
 
 
-// ÎÆÀíÍ¼ÏñµÄ×î´ó³ß´ç, Ä¬ÈÏÖµÎª64
+// çº¹ç†å›¾åƒçš„æœ€å¤§å°ºå¯¸, é»˜è®¤å€¼ä¸º64
 
 STDMETHODIMP
 CeE3DControl::get_MaxTextureSize(LONG *retLONG) {
@@ -1820,7 +1820,7 @@ CeE3DControl::get_MaxTextureSize(LONG *retLONG) {
 }
 
 
-// ÏÔÊ¾ÁĞ±íÇ¶Ì×µÄ×î´óÉî¶È, Ä¬ÈÏÖµÎª64
+// æ˜¾ç¤ºåˆ—è¡¨åµŒå¥—çš„æœ€å¤§æ·±åº¦, é»˜è®¤å€¼ä¸º64
 
 STDMETHODIMP
 CeE3DControl::get_MaxListNesting(LONG *retLONG) {
@@ -1830,7 +1830,7 @@ CeE3DControl::get_MaxListNesting(LONG *retLONG) {
 }
 
 
-// ÇóÖµÆäÖ§³ÖµÄ×î´ó·½³Ì½×Êı, Ä¬ÈÏÖµÎª8
+// æ±‚å€¼å…¶æ”¯æŒçš„æœ€å¤§æ–¹ç¨‹é˜¶æ•°, é»˜è®¤å€¼ä¸º8
 
 STDMETHODIMP
 CeE3DControl::get_MaxEvalOrder(LONG *retLONG) {
@@ -1840,7 +1840,7 @@ CeE3DControl::get_MaxEvalOrder(LONG *retLONG) {
 }
 
 
-// ÊÓ´°Ö§³ÖµÄ×î´ó³ß´ç, Ä¬ÈÏÖµÎªÎŞ
+// è§†çª—æ”¯æŒçš„æœ€å¤§å°ºå¯¸, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_MaxViewportDims(LONG *retLONG) {
@@ -1850,7 +1850,7 @@ CeE3DControl::get_MaxViewportDims(LONG *retLONG) {
 }
 
 
-// ÊôĞÔ¶ÑÕ»×î´óÉî¶È, Ä¬ÈÏÖµÎª16
+// å±æ€§å †æ ˆæœ€å¤§æ·±åº¦, é»˜è®¤å€¼ä¸º16
 
 STDMETHODIMP
 CeE3DControl::get_MaxAttribStackDepth(LONG *retLONG) {
@@ -1860,7 +1860,7 @@ CeE3DControl::get_MaxAttribStackDepth(LONG *retLONG) {
 }
 
 
-// ÑÕÉ«×´Ì¬, Ä¬ÈÏÖµÎªÎŞ
+// é¢œè‰²çŠ¶æ€, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_InRGBAMode(BOOL *retBOOL) {
@@ -1880,7 +1880,7 @@ CeE3DControl::put_InRGBAMode(BOOL newBOOL) {
 }
 
 
-// Ë÷ÒıÉ«×´Ì¬, Ä¬ÈÏÖµÎªÎŞ
+// ç´¢å¼•è‰²çŠ¶æ€, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_InColorIndexMode(BOOL *retBOOL) {
@@ -1900,7 +1900,7 @@ CeE3DControl::put_InColorIndexMode(BOOL newBOOL) {
 }
 
 
-// ÊÇ·ñÖ§³ÖË«»º´æÇø, Ä¬ÈÏÖµÎªÎŞ
+// æ˜¯å¦æ”¯æŒåŒç¼“å­˜åŒº, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_SupportDoubleBuffer(BOOL *retBOOL) {
@@ -1920,7 +1920,7 @@ CeE3DControl::put_SupportDoubleBuffer(BOOL newBOOL) {
 }
 
 
-// ÊÇ·ñÖ§³Ö×óÓÒ»º´æÇø, Ä¬ÈÏÖµÎªÎŞ
+// æ˜¯å¦æ”¯æŒå·¦å³ç¼“å­˜åŒº, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_SupportStereo(BOOL *retBOOL) {
@@ -1930,7 +1930,7 @@ CeE3DControl::get_SupportStereo(BOOL *retBOOL) {
 }
 
 
-// ·´×ßÑùµãµÄ³ß´ç·¶Î§, Ä¬ÈÏÖµÎª1,1
+// åèµ°æ ·ç‚¹çš„å°ºå¯¸èŒƒå›´, é»˜è®¤å€¼ä¸º1,1
 
 STDMETHODIMP
 CeE3DControl::get_PointSizeRange(float *retfloat) {
@@ -1939,7 +1939,7 @@ CeE3DControl::get_PointSizeRange(float *retfloat) {
 }
 
 
-// ·´×ßÑùµãÏàÁÚ³ß´çµÄ²î±ğ, Ä¬ÈÏÖµÎªÎŞ
+// åèµ°æ ·ç‚¹ç›¸é‚»å°ºå¯¸çš„å·®åˆ«, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_PointSizeGranularity(float *retfloat) {
@@ -1948,7 +1948,7 @@ CeE3DControl::get_PointSizeGranularity(float *retfloat) {
 }
 
 
-// ·´×ßÑùÏßµÄ³ß´ç·¶Î§, Ä¬ÈÏÖµÎª1,1
+// åèµ°æ ·çº¿çš„å°ºå¯¸èŒƒå›´, é»˜è®¤å€¼ä¸º1,1
 
 STDMETHODIMP
 CeE3DControl::get_LineWidthRange(float *retfloat) {
@@ -1957,7 +1957,7 @@ CeE3DControl::get_LineWidthRange(float *retfloat) {
 }
 
 
-// ·´×ßÑùÏßÏàÁÚ³ß´çµÄ²î±ğ, Ä¬ÈÏÖµÎªÎŞ
+// åèµ°æ ·çº¿ç›¸é‚»å°ºå¯¸çš„å·®åˆ«, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_LineWidthGranularity(float *retfloat) {
@@ -1966,7 +1966,7 @@ CeE3DControl::get_LineWidthGranularity(float *retfloat) {
 }
 
 
-// ÑÕÉ«»º³åÇøµÄºìÉ«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// é¢œè‰²ç¼“å†²åŒºçš„çº¢è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_RedBits(LONG *retLONG) {
@@ -1976,7 +1976,7 @@ CeE3DControl::get_RedBits(LONG *retLONG) {
 }
 
 
-// ÑÕÉ«»º³åÇøµÄÂÌÉ«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// é¢œè‰²ç¼“å†²åŒºçš„ç»¿è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_GreenBits(LONG *retLONG) {
@@ -1986,7 +1986,7 @@ CeE3DControl::get_GreenBits(LONG *retLONG) {
 }
 
 
-// ÑÕÉ«»º³åÇøµÄÀ¶É«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// é¢œè‰²ç¼“å†²åŒºçš„è“è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_BlueBits(LONG *retLONG) {
@@ -1996,7 +1996,7 @@ CeE3DControl::get_BlueBits(LONG *retLONG) {
 }
 
 
-// ÑÕÉ«»º³åÇøµÄ¦ÁÎ»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// é¢œè‰²ç¼“å†²åŒºçš„Î±ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_AlphaBits(LONG *retLONG) {
@@ -2006,7 +2006,7 @@ CeE3DControl::get_AlphaBits(LONG *retLONG) {
 }
 
 
-// Ë÷ÒıÉ«»º³åÇøµÄÎ»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// ç´¢å¼•è‰²ç¼“å†²åŒºçš„ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_IndexBits(LONG *retLONG) {
@@ -2016,7 +2016,7 @@ CeE3DControl::get_IndexBits(LONG *retLONG) {
 }
 
 
-// Éî¶È»º³åÇøµÄÎ»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// æ·±åº¦ç¼“å†²åŒºçš„ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_DepthBits(LONG *retLONG) {
@@ -2026,7 +2026,7 @@ CeE3DControl::get_DepthBits(LONG *retLONG) {
 }
 
 
-// Ä£°æ»º³åÇøµÄÎ»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// æ¨¡ç‰ˆç¼“å†²åŒºçš„ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_StencilBits(LONG *retLONG) {
@@ -2036,7 +2036,7 @@ CeE3DControl::get_StencilBits(LONG *retLONG) {
 }
 
 
-// ÀÛ¼Ó»º³åÇøµÄºìÉ«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// ç´¯åŠ ç¼“å†²åŒºçš„çº¢è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_AccumRedBits(LONG *retLONG) {
@@ -2046,7 +2046,7 @@ CeE3DControl::get_AccumRedBits(LONG *retLONG) {
 }
 
 
-// ÀÛ¼Ó»º³åÇøµÄÂÌÉ«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// ç´¯åŠ ç¼“å†²åŒºçš„ç»¿è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_AccumGreenBits(LONG *retLONG) {
@@ -2056,7 +2056,7 @@ CeE3DControl::get_AccumGreenBits(LONG *retLONG) {
 }
 
 
-// ÀÛ¼Ó»º³åÇøµÄÀ¶É«Î»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// ç´¯åŠ ç¼“å†²åŒºçš„è“è‰²ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_AccumBlueBits(LONG *retLONG) {
@@ -2066,7 +2066,7 @@ CeE3DControl::get_AccumBlueBits(LONG *retLONG) {
 }
 
 
-// ÀÛ¼Ó»º³åÇøµÄ¦ÁÎ»Æ½ÃæÊıÄ¿, Ä¬ÈÏÖµÎªÎŞ
+// ç´¯åŠ ç¼“å†²åŒºçš„Î±ä½å¹³é¢æ•°ç›®, é»˜è®¤å€¼ä¸ºæ— 
 
 STDMETHODIMP
 CeE3DControl::get_AccumAlphaBits(LONG *retLONG) {
@@ -2076,7 +2076,7 @@ CeE3DControl::get_AccumAlphaBits(LONG *retLONG) {
 }
 
 
-// ÏÔÊ¾ÁĞ±í¾ØÕó»ù, Ä¬ÈÏÖµÎª0
+// æ˜¾ç¤ºåˆ—è¡¨çŸ©é˜µåŸº, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CallListBase(LONG *retLONG) {
@@ -2086,7 +2086,7 @@ CeE3DControl::get_CallListBase(LONG *retLONG) {
 }
 
 
-// µ±Ç°ÏÔÊ¾ÁĞ±íË÷Òı, Ä¬ÈÏÖµÎª0
+// å½“å‰æ˜¾ç¤ºåˆ—è¡¨ç´¢å¼•, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CallListIndex(LONG *retLONG) {
@@ -2102,7 +2102,7 @@ CeE3DControl::put_CallListIndex(LONG newLONG) {
 }
 
 
-// ¹¹ÔìµÄÏÔÊ¾ÁĞ±íÄ£Ê½, Ä¬ÈÏÖµÎª0
+// æ„é€ çš„æ˜¾ç¤ºåˆ—è¡¨æ¨¡å¼, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CallListMode(LONG *retLONG) {
@@ -2118,7 +2118,7 @@ CeE3DControl::put_CallListMode(LONG newLONG) {
 }
 
 
-// ÊôĞÔ¶ÑÕ»Éî¶ÈÖ¸Õë, Ä¬ÈÏÖµÎª0
+// å±æ€§å †æ ˆæ·±åº¦æŒ‡é’ˆ, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentAttribStackDepth(LONG *retLONG) {
@@ -2128,7 +2128,7 @@ CeE3DControl::get_CurrentAttribStackDepth(LONG *retLONG) {
 }
 
 
-// Ãû³Æ¶ÑÕ»Éî¶È, Ä¬ÈÏÖµÎª0
+// åç§°å †æ ˆæ·±åº¦, é»˜è®¤å€¼ä¸º0
 
 STDMETHODIMP
 CeE3DControl::get_CurrentNameStackDepth(LONG *retLONG) {

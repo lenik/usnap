@@ -1,10 +1,10 @@
 
-//	COM\µ¼ÓÎÄ£ĞÍ
+//	COM\å¯¼æ¸¸æ¨¡å‹
 //	2000.12.1
 
 
-// ¹ÜÀíÂ·Ïß
-// ¿ÉÀ©Õ¹¡¢Ìá¹©Íâ²¿½Ó¿Ú
+// ç®¡ç†è·¯çº¿
+// å¯æ‰©å±•ã€æä¾›å¤–éƒ¨æ¥å£
 
 #pragma once
 
@@ -16,7 +16,7 @@ co_type(coGuider);
 
 interface coGuider {
 	coSTR		name;
-	// µ¼ÓÎËùÊô³ÇÊĞ
+	// å¯¼æ¸¸æ‰€å±åŸå¸‚
 	coCity_r	city;
 public:
 	coSVF		querydata(coID_r didr, coRet_r retr) const = 0;

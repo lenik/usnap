@@ -6,9 +6,9 @@
 BoxMaze::BoxMaze() {}
 
 void BoxMaze::CreateMaze(BoxMaze::range& mazerange, BoxMaze::vectors& connection) {
-	// ½¨Á¢ÕıÈ·Í¨µÀ
+	// å»ºç«‹æ­£ç¡®é€šé“
 	CreateWay(mazerange, connection);
-	// ½¨Á¢ÔÓÆßÔÓ°Ë¸¨Öú¹ÜµÀ
+	// å»ºç«‹æ‚ä¸ƒæ‚å…«è¾…åŠ©ç®¡é“
 	// ...
 }
 
@@ -19,37 +19,37 @@ void BoxMaze::CreateWay(BoxMaze::range& mazerange, BoxMaze::vectors& connection)
 	vector& cl = current.first = rl;
 	vector& cr = current.second = rr;
 
-	// (noneed)ĞèÇĞ¸îµÄ¿Õ¼äÎ¬, ÓÃÓÚÇĞ¸îµÄÄâµİ¹é
-	// ¶ÔÓÚÒ»¸öNÎ¬¿Õ¼ä, ¿ª·½ÇĞ¸îÊıÄ¿Îª 2^N
+	// (noneed)éœ€åˆ‡å‰²çš„ç©ºé—´ç»´, ç”¨äºåˆ‡å‰²çš„æ‹Ÿé€’å½’
+	// å¯¹äºä¸€ä¸ªNç»´ç©ºé—´, å¼€æ–¹åˆ‡å‰²æ•°ç›®ä¸º 2^N
 	//std::vector<bool> should_be_cut;
 
-	// ÇĞ¸îµÄÄâµİ¹éÕ», intÔÚ¿ª·½£¨ÕÛ°ë£©ÇĞ¸îÖĞÎª 1~2, 0
+	// åˆ‡å‰²çš„æ‹Ÿé€’å½’æ ˆ, intåœ¨å¼€æ–¹ï¼ˆæŠ˜åŠï¼‰åˆ‡å‰²ä¸­ä¸º 1~2, 0
 	std::vector<int> cutted;
 
 	cutted.resize(map.dimensions, 1);
 
-	// ÇĞ¸îµÄÄâµİ¹é, ½«¿Õ¼ä¸î³É 2^N ¸ö×Ó¿Õ¼ä
+	// åˆ‡å‰²çš„æ‹Ÿé€’å½’, å°†ç©ºé—´å‰²æˆ 2^N ä¸ªå­ç©ºé—´
 	ranges	cuts;
-	int i = 0;					// ÕıÔÚÇĞ¸îµÄÎ¬Ë÷Òı
-	while (i >= 0) {				// ÅĞ¶ÏÊÇ·ñ»ØËİµ½×î¿ªÊ¼Ö®Ç°
-		if (i == map.dimensions) {		// ÅĞ¶ÏÒ¶½áµã³ÉÁ¢Ìõ¼ş
-			// Õ»¶¥Ö¸Ïò×îµ×Î¬, ¼ÓÈë×Ó¿Õ¼ä
+	int i = 0;					// æ­£åœ¨åˆ‡å‰²çš„ç»´ç´¢å¼•
+	while (i >= 0) {				// åˆ¤æ–­æ˜¯å¦å›æº¯åˆ°æœ€å¼€å§‹ä¹‹å‰
+		if (i == map.dimensions) {		// åˆ¤æ–­å¶ç»“ç‚¹æˆç«‹æ¡ä»¶
+			// æ ˆé¡¶æŒ‡å‘æœ€åº•ç»´, åŠ å…¥å­ç©ºé—´
 			cuts.push_back(current);
 			i--;
 		} else {
 			switch (cutted[i]) {
-			case 1: // ×ó°ë²¿, ÓĞ¿ÉÄÜ±ÈÓÒ°ë²¿´óÒ»¸öµ¥Ôª
+			case 1: // å·¦åŠéƒ¨, æœ‰å¯èƒ½æ¯”å³åŠéƒ¨å¤§ä¸€ä¸ªå•å…ƒ
 				if (rr[i] - rl[i] >= 2) {
 					cl[i] = rl[i];
 					cr[i] = rl[i] + (rr[i] - rl[i]) / 2;
 					cutted[i++] = 2;
 				} else {
-					// width=0(A/B),1(A)(B) ²»ĞèÕÛ°ë
+					// width=0(A/B),1(A)(B) ä¸éœ€æŠ˜åŠ
 					cr[i] = rr[i];
 					cutted[i++] = 0;
 				}
 				break;
-			case 2: // ÓÒ°ë²¿
+			case 2: // å³åŠéƒ¨
 				cl[i] = cr[i] + 1;
 				cr[i] = rr[i];
 				cutted[i++] = 0;
@@ -64,7 +64,7 @@ void BoxMaze::CreateWay(BoxMaze::range& mazerange, BoxMaze::vectors& connection)
 #ifdef _DEBUG
 	_r = cuts;
 #endif
-	// ¸ù¾İ×Ó¿Õ¼ä´´½¨Ëæ»ú¹ÜµÀ¡£
-	// Ä¿Ç°Ö»ÄÜÈ¡ C(2,connections.size()) µÄ×éºÏ£¬¶Ô×éºÏÖĞÃ¿Ò»¶ÔÇó³ö¹ÜµÀ¡£
+	// æ ¹æ®å­ç©ºé—´åˆ›å»ºéšæœºç®¡é“ã€‚
+	// ç›®å‰åªèƒ½å– C(2,connections.size()) çš„ç»„åˆï¼Œå¯¹ç»„åˆä¸­æ¯ä¸€å¯¹æ±‚å‡ºç®¡é“ã€‚
 
 }

@@ -1,9 +1,9 @@
 
-// campoFormat.h 数据格式
+// campoFormat.h 鏁版嵁鏍煎紡
 
 #pragma once
 
-// 资源格式
+// 璧勬簮鏍煎紡
 
 #define CCGENERAL_COMMANDCHAR		'!'
 #define CCGENERAL_STRINGCODE		'~'

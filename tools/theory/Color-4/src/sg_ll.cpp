@@ -1386,7 +1386,7 @@ YY_RULE_SETUP
 #line 192 ".\\sg_l.l"
 {
 			/* eats up */
-			/* ��һ��Լ�ǳ���Ҫ�����ڶ��֡�*/
+			/* 这一规约非常重要，用于断字。*/
 		}
 	YY_BREAK
 case 22:

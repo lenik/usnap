@@ -1,8 +1,8 @@
 
 /*
- * Discrete space Í¨ÓÃÀëÉ¢¿Õ¼ä
+ * Discrete space é€šç”¨ç¦»æ•£ç©ºé—´
  *
- * ÌÒ¿Ç¸ß¿Æ¼¼ 2001
+ * æ¡ƒå£³é«˜ç§‘æŠ€ 2001
  */
 
 #pragma once
@@ -33,8 +33,8 @@ public:
 	typedef std::pair<vector, vector> box_range;
 
 private:
-	his::smart_pointer<int> _dimcache;		// ¸÷Î¬µÄÏÂ±ê»º´æ
-	his::smart_pointer<size_type> _dimpitchcache;	// ¸÷Î¬µÄ¿ç¾à»º´æ
+	his::smart_pointer<int> _dimcache;		// å„ç»´çš„ä¸‹æ ‡ç¼“å­˜
+	his::smart_pointer<size_type> _dimpitchcache;	// å„ç»´çš„è·¨è·ç¼“å­˜
 public:
 	int dimensions;
 	typedef std::list<int> dimension_list_type;
@@ -97,7 +97,7 @@ protected:
 			for (i = 0; li != dimension_list.end(); ++li) {
 				_dimcache[i++] = *li;
 			}
-			_dimpitchcache[dims - 1] = 1;	// ×îÓÒÎ¬(µ×Î¬)¾ßÓĞ´æ´¢Á¬ĞøĞÔ, ¿ç¾àÎª1.
+			_dimpitchcache[dims - 1] = 1;	// æœ€å³ç»´(åº•ç»´)å…·æœ‰å­˜å‚¨è¿ç»­æ€§, è·¨è·ä¸º1.
 			for (i = dims - 2; i >= 0; i--) {
 				_dimpitchcache[i] = _dimcache[i + 1] * _dimpitchcache[i + 1];
 			}

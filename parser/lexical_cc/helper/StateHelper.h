@@ -36,7 +36,7 @@ struct jmp {
 typedef list<jmp> jmps;
 
 struct state {
-	long s_id;	// ºóÆÚ·ÖÅäµÄĞòºÅ
+	long s_id;	// åæœŸåˆ†é…çš„åºå·
 	string name;
 	jmp all;
 	jmp any;

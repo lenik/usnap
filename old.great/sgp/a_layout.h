@@ -98,9 +98,9 @@ public:
 	typedef _layer_prop layer_properties_type;
 
 	struct _layout_properties {
-		// ·­×ªÍ¸Ã÷Óò£¬clip¸²¸ÇÖ®´¦½«±ä³É²»Í¸Ã÷¡£
+		// ç¿»è½¬é€æ˜åŸŸï¼Œclipè¦†ç›–ä¹‹å¤„å°†å˜æˆä¸é€æ˜ã€‚
 		bool invert_transparency;
-		// ¼Ì³ĞÍ¸Ã÷Óò£¬½«¸Ã²ãµÄÍ¸Ã÷Óò´«µİÖÁÏÂÃæÒ»²ã£¨Á´±íÖĞÎ»ÓÚÇ°Ãæ£©¡£
+		// ç»§æ‰¿é€æ˜åŸŸï¼Œå°†è¯¥å±‚çš„é€æ˜åŸŸä¼ é€’è‡³ä¸‹é¢ä¸€å±‚ï¼ˆé“¾è¡¨ä¸­ä½äºå‰é¢ï¼‰ã€‚
 		bool inherit_transparency;
 		inline _layout_properties() : invert_transparency(false) {}
 	};
@@ -122,8 +122,8 @@ public:
 	bool build_opaque_list();
 
 	layer *position(_t x, _t y);
-	// precise Ä£Ê½½«¸ù¾İ²ãÖĞclipÓë(x,y)ÖØµş³Ì¶È·µ»Ø²ã£¬
-	// µ±(x,y)clip±ß½ç´¦Ê±½«·Ç³£ÓĞÓÃ¡£
+	// precise æ¨¡å¼å°†æ ¹æ®å±‚ä¸­clipä¸(x,y)é‡å ç¨‹åº¦è¿”å›å±‚ï¼Œ
+	// å½“(x,y)clipè¾¹ç•Œå¤„æ—¶å°†éå¸¸æœ‰ç”¨ã€‚
 	layer *position_by_grid(grid_type x, grid_type y, bool precise = false);
 
 

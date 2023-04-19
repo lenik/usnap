@@ -35,8 +35,8 @@ struct wmfHeader2 {
 };
 
 struct wmfRecord {
-	DWORD	cb;			// 记录长度, 以WORD计算
-	WORD	fn;			// WMF 功能代号
+	DWORD	cb;			// 璁板綍闀垮害, 浠ORD璁＄畻
+	WORD	fn;			// WMF 鍔熻兘浠ｅ彿
 };
 
 #pragma pack(pop, hdrsetting)

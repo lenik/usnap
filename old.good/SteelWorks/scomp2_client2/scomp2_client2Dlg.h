@@ -13,7 +13,7 @@
 #include "streamworkhelper01.h"
 
 struct res_easy_type {
-	int	op;		// ²Ù×÷±êÖ¾, 0³É¹¦, ·ñÔòÊ§°Ü
+	int	op;		// æ“ä½œæ ‡å¿—, 0æˆåŠŸ, å¦åˆ™å¤±è´¥
 	int	match;
 	int	unmatch;
 	int	extra;
@@ -57,8 +57,8 @@ public:
 				precise;
 		int		com_error;
 
-		szlists		sames;		// ÈÏÎªµÈÍ¬×Ö·ûÁĞ±í
-		szlist		skips;		// ºöÂÔ¼¯
+		szlists		sames;		// è®¤ä¸ºç­‰åŒå­—ç¬¦åˆ—è¡¨
+		szlist		skips;		// å¿½ç•¥é›†
 
 		CString		filename;
 		CString		plugin;

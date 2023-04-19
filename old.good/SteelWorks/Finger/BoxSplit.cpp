@@ -25,4 +25,4 @@ public:
 
 template<class UNITTYPE>
 BOOL splitBox::InsertSepX(UINTTYPE sx) {
-	// ²åÈë×İÏò·Ö¸îÏß
+	// æ’å…¥çºµå‘åˆ†å‰²çº¿

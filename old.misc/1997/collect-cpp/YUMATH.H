@@ -1,5 +1,5 @@
-/* ѡ��: ��C���Ӹ�λ�����㺯����Ӧ��һ��
-	  --- ɽ��ʡ���Ƿ�̨����19��  Ԫ��ԥ
+/* 选自: 给C增加高位数运算函数及应用一例
+	  --- 山西省晋城风台东街19号  元晋豫
 	 <<Computer Programming Skills & Maintenance 1998-3>>
 */
 

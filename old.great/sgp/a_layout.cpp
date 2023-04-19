@@ -229,7 +229,7 @@ bool layered_layout<_t, _layer_prop>::build_opaque_list() {
 	layers_type::iterator layer_it = _layers.begin();
 	if (layer_it == _layers.end()) return true;
 
-	// ¿´ÆðÀ´¾ÍÏñÔÚ²ã¶¥¶ËÕÖ×ÅÒ»²ãÍ¸Ã÷µÄ²ã¡£
+	// çœ‹èµ·æ¥å°±åƒåœ¨å±‚é¡¶ç«¯ç½©ç€ä¸€å±‚é€æ˜Žçš„å±‚ã€‚
 	transparencys.push_back((*layer_it)->_rect);
 /*
 	for (; layer_it != _layers.end(); ++layer_it) {

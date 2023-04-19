@@ -145,7 +145,7 @@ void CWmfviewView::OnViewInfo()
 		pDoc->m_file.Read((LPVOID)&hdr, sizeof(wmfHeader));
 		pDoc->m_file.Seek(pos, CFile::begin);
 
-		m_infoDlg.SetWindowText("WMF文件信息" + pDoc->m_file.GetFileName());
+		m_infoDlg.SetWindowText("WMF鏂囦欢淇℃伅" + pDoc->m_file.GetFileName());
 		m_infoDlg.m_strKEY.Format(PRN_IDS_FIXNUM, hdr.key, hdr.key);
 		m_infoDlg.m_strHMF.Format(PRN_IDS_NUM, hdr.hmf, hdr.hmf);
 		m_infoDlg.m_strINCH.Format(PRN_IDS_NUM, hdr.inch, hdr.inch);
@@ -170,16 +170,16 @@ void CWmfviewView::OnViewInfo2()
 		pDoc->m_file.Read((LPVOID)&hdr2, sizeof(wmfHeader2));
 		pDoc->m_file.Seek(pos, CFile::begin);
 
-		m_info2Dlg.SetWindowText("WMF头部信息:" + pDoc->m_file.GetFileName());
+		m_info2Dlg.SetWindowText("WMF澶撮儴淇℃伅:" + pDoc->m_file.GetFileName());
 		switch (hdr2.mtType) {
 		case 0:
-			m_info2Dlg.m_strTYPE = "0/在内存中";
+			m_info2Dlg.m_strTYPE = "0/鍦ㄥ唴瀛樹腑";
 			break;
 		case 1:
-			m_info2Dlg.m_strTYPE = "1/在文件中";
+			m_info2Dlg.m_strTYPE = "1/鍦ㄦ枃浠朵腑";
 			break;
 		default:
-			m_info2Dlg.m_strTYPE.Format("%d'%x/未知类型", hdr2.mtType, hdr2.mtType);
+			m_info2Dlg.m_strTYPE.Format("%d'%x/鏈煡绫诲瀷", hdr2.mtType, hdr2.mtType);
 		}
 		m_info2Dlg.m_strHDRSIZE.Format(PRN_IDS_NUM, hdr2.mtHeaderSize, hdr2.mtHeaderSize);
 		m_info2Dlg.m_strMAXREC.Format(PRN_IDS_NUM, hdr2.mtMaxRecords, hdr2.mtMaxRecords);

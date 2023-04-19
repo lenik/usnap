@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// ·ÖÎöÆ÷ÓÃÓÚ·ÖÎöSOMLÎÄµµ¡¢´ÓÊı¾İ¿âÖĞµ¼ÈëSOML¡¢±£´æSOMLµÈ, ²¢´´½¨Ó¦ÓÃÌå¶ÔÏó¡£
+// åˆ†æå™¨ç”¨äºåˆ†æSOMLæ–‡æ¡£ã€ä»æ•°æ®åº“ä¸­å¯¼å…¥SOMLã€ä¿å­˜SOMLç­‰, å¹¶åˆ›å»ºåº”ç”¨ä½“å¯¹è±¡ã€‚
 // CLSID: 00000000-4F45-0600-0002-486954656368
 
 #ifdef _DEBUG
@@ -43,7 +43,7 @@ OeSOParser::loadSOML(BSTR soml, VARIANT_BOOL *ret) {
 	*ret	= m_pSOML->loadXML(soml);
 
 	if (*ret) {
-		// (Ô¤´¦Àí)½âÎö×°ÈëµÄSOML
+		// (é¢„å¤„ç†)è§£æè£…å…¥çš„SOML
 		//*ret	= xmlp0();
 		if (*ret) {
 			_CT("fire_onLoaded");
@@ -59,26 +59,26 @@ OeSOParser::loadSOML(BSTR soml, VARIANT_BOOL *ret) {
 
 STDMETHODIMP
 OeSOParser::createApplication(IOeSOApplication **ret) {
-	// ´´½¨Ó¦ÓÃ³ÌĞò
+	// åˆ›å»ºåº”ç”¨ç¨‹åº
 	//
-	// Ò» ÎŞÊôĞÔ·ÖÎö½×¶Î	¹¹ÔìÁ£¶È½á¹¹ (²½1)
-	// ¶ş ÊôĞÔ·ÖÎö½×¶Î	ÍêÉÆÀàĞÍ,½¨Á¢Ó³Éä (²½234)
-	// Èı ¶ÔÏó¹¹Ôì½×¶Î	×°ÔØ¶ÔÏó·ÖÅä´æ´¢ (²½5)
+	// ä¸€ æ— å±æ€§åˆ†æé˜¶æ®µ	æ„é€ ç²’åº¦ç»“æ„ (æ­¥1)
+	// äºŒ å±æ€§åˆ†æé˜¶æ®µ	å®Œå–„ç±»å‹,å»ºç«‹æ˜ å°„ (æ­¥234)
+	// ä¸‰ å¯¹è±¡æ„é€ é˜¶æ®µ	è£…è½½å¯¹è±¡åˆ†é…å­˜å‚¨ (æ­¥5)
 	//
-	// 1¡¢Á£¶ÈÉú³É (ÓÃÓÚºóĞøÒıÓÃ, ¿ÉÒÔÈÏÎªÊÇ¶ÔÏóÔ¤¶¨Òå)
-	//	Éú³É×îĞ¡Á£¶ÈµÄ¸÷¸ö¶ÔÏó.
-	//	µ±³ö´íÊ±ÇåÀí¶ÔÏó.
-	//	Éú³ÉµÄ¹ı³ÌÖĞ×÷Ò»Ğ©»ù±¾Á¬½Ó¹¤×÷(ĞÎÊ½¼Ì³Ğ).
+	// 1ã€ç²’åº¦ç”Ÿæˆ (ç”¨äºåç»­å¼•ç”¨, å¯ä»¥è®¤ä¸ºæ˜¯å¯¹è±¡é¢„å®šä¹‰)
+	//	ç”Ÿæˆæœ€å°ç²’åº¦çš„å„ä¸ªå¯¹è±¡.
+	//	å½“å‡ºé”™æ—¶æ¸…ç†å¯¹è±¡.
+	//	ç”Ÿæˆçš„è¿‡ç¨‹ä¸­ä½œä¸€äº›åŸºæœ¬è¿æ¥å·¥ä½œ(å½¢å¼ç»§æ‰¿).
 	//
-	// 2¡¢ÓïÒå¼Ì³Ğ, °üÀ¨
-	//	½Ó¿Ú¶à¼Ì³Ğ
-	//	Àà¶à½Ó¿ÚÊµÏÖ
-	//	¸÷ÖÖÊôĞÔºÍ²ÎÊıÀàĞÍ
-	// 3¡¢½¨Á¢Á´½Ó¼°Ó³Éä
-	// 4¡¢½¨Á¢µ÷¶ÈÌæÉí
+	// 2ã€è¯­ä¹‰ç»§æ‰¿, åŒ…æ‹¬
+	//	æ¥å£å¤šç»§æ‰¿
+	//	ç±»å¤šæ¥å£å®ç°
+	//	å„ç§å±æ€§å’Œå‚æ•°ç±»å‹
+	// 3ã€å»ºç«‹é“¾æ¥åŠæ˜ å°„
+	// 4ã€å»ºç«‹è°ƒåº¦æ›¿èº«
 	//
-	// 5. ¶ÔÏó¹¹Ôì
-	//	¶ÔÏóÉú³É, ¾²Ì¬ÊôĞÔÉú³É
+	// 5. å¯¹è±¡æ„é€ 
+	//	å¯¹è±¡ç”Ÿæˆ, é™æ€å±æ€§ç”Ÿæˆ
 	//
 
 	HRESULT hr;
@@ -151,9 +151,9 @@ OeSOParser::createLayout(_xmlnode_t pnode, OeSOApplication *pApp) {
 		nodeType	= pnodei->nodeType;
 		switch (nodeType) {
 		case MSXML2::NODE_ELEMENT:
-			// ½¨Á¢¶¥¼¶½áµã
-			// ½Ó¿Ú½áµã*:	Ê¹ÓÃĞÎÊ½¼Ì³Ğ½Ó¿Ú. ²»³õÊ¼»¯ÓïÒå¼Ì³ĞµÄ¶à½Ó¿Ú.
-			// Àà½áµã*:	Ê¹ÓÃĞÎÊ½¼Ì³ĞÀà. ²»³õÊ¼»¯ÓïÒåÊµÏÖµÄ¶à½Ó¿Ú.
+			// å»ºç«‹é¡¶çº§ç»“ç‚¹
+			// æ¥å£ç»“ç‚¹*:	ä½¿ç”¨å½¢å¼ç»§æ‰¿æ¥å£. ä¸åˆå§‹åŒ–è¯­ä¹‰ç»§æ‰¿çš„å¤šæ¥å£.
+			// ç±»ç»“ç‚¹*:	ä½¿ç”¨å½¢å¼ç»§æ‰¿ç±». ä¸åˆå§‹åŒ–è¯­ä¹‰å®ç°çš„å¤šæ¥å£.
 			switch (xmlnode_getUnitType(pnodei)) {
 			case OeSOUnitInterface:
 				{
@@ -200,12 +200,12 @@ OeSOParser::xmlp0() {
 	return S_OK;
 }
 
-// Ò»½×½Ó¿Ú½á¹¹½âÎö
-//	Éú³É×îĞ¡Á£¶ÈµÄ¸÷¸ö¶ÔÏó.
-//	µ±³ö´íÊ±ÇåÀí¶ÔÏó.
-//	Éú³ÉµÄ¹ı³ÌÖĞ×÷Ò»Ğ©»ù±¾Á¬½Ó¹¤×÷(ĞÎÊ½¼Ì³Ğ).
-// pInterfaceNode	½Ó¿Ú½áµã
-// **ret		·µ»ØÉú³É½Ó¿Ú¶¥¼¶¶ÔÏó
+// ä¸€é˜¶æ¥å£ç»“æ„è§£æ
+//	ç”Ÿæˆæœ€å°ç²’åº¦çš„å„ä¸ªå¯¹è±¡.
+//	å½“å‡ºé”™æ—¶æ¸…ç†å¯¹è±¡.
+//	ç”Ÿæˆçš„è¿‡ç¨‹ä¸­ä½œä¸€äº›åŸºæœ¬è¿æ¥å·¥ä½œ(å½¢å¼ç»§æ‰¿).
+// pInterfaceNode	æ¥å£ç»“ç‚¹
+// **ret		è¿”å›ç”Ÿæˆæ¥å£é¡¶çº§å¯¹è±¡
 STDMETHODIMP
 OeSOParser::xmlp1_interface(_xmlnode_t pInterfaceNode, COeSOInterface **ret) {
 	int	i;
@@ -213,10 +213,10 @@ OeSOParser::xmlp1_interface(_xmlnode_t pInterfaceNode, COeSOInterface **ret) {
 	int	clength = pInterfaceNode->childNodes->length;
 	HRESULT	hr;
 
-	// Éú³É½Ó¿Ú¶ÔÏó
+	// ç”Ÿæˆæ¥å£å¯¹è±¡
 	COeSOInterface	*pg = new COeSOInterface;
 
-	// ½âÎö±¾½Ó¿Ú
+	// è§£ææœ¬æ¥å£
 	pg->m_name	= generate_unique_name();
 	for (i = 0; i < alength; i++) {
 		_xmlnode_t	p = pInterfaceNode->attributes->item[i];
@@ -227,7 +227,7 @@ OeSOParser::xmlp1_interface(_xmlnode_t pInterfaceNode, COeSOInterface **ret) {
 		}
 	}
 
-	// ½âÎö×Ó½Ó¿Ú
+	// è§£æå­æ¥å£
 	for (i = 0; i < clength; i++) {
 		_xmlnode_t	p;
 		int		nodeType;
@@ -265,10 +265,10 @@ OeSOParser::xmlp1_class(_xmlnode_t pClassNode, COeSOClass **ret) {
 	int	clength = pClassNode->childNodes->length;
 	HRESULT	hr;
 
-	// Éú³ÉÀà¶ÔÏó
+	// ç”Ÿæˆç±»å¯¹è±¡
 	COeSOClass	*pg = new COeSOClass;
 
-	// ½âÎö±¾Àà
+	// è§£ææœ¬ç±»
 	pg->m_name	= generate_unique_name();
 	for (i = 0; i < alength; i++) {
 		_xmlnode_t	p = pClassNode->attributes->item[i];
@@ -279,7 +279,7 @@ OeSOParser::xmlp1_class(_xmlnode_t pClassNode, COeSOClass **ret) {
 		}
 	}
 
-	// ½âÎö×ÓÀà
+	// è§£æå­ç±»
 	for (i = 0; i < clength; i++) {
 		_xmlnode_t	p;
 		int		nodeType;

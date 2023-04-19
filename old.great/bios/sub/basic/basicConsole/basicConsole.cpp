@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 /*
-// 使用定时器检测信息的到来
+// 浣跨敤瀹氭椂鍣ㄦ娴嬩俊鎭殑鍒版潵
 void CALLBACK mytimer(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime) {
 	MessageBox(NULL, "Hello", NULL, 0);
 }

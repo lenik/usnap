@@ -28,21 +28,21 @@ TSmallHexEditImpl::TSmallHexEditImpl() {
     m_nRows         = 16;
     m_nColumns      = 16;
     m_pbBinary      = (BYTE *)
-        "2	Î¢ĞÍÊ®Áù½øÖÆ±à¼­Æ÷ SmallHexEditor£¬ISmallHexEditor\n"
+        "2	å¾®å‹åå…­è¿›åˆ¶ç¼–è¾‘å™¨ SmallHexEditorï¼ŒISmallHexEditor\n"
         "  w	BinaryPointer, Length, Font, Rows, Columns\n"
         "  w	AsiaSupport, ReadOnly, Dirty\n"
-        "  w	~PassBOF ¨¤ BOOL	ÈÆ»Øµ×²¿£¬×ÜÊÇË¢ĞÂ¡£\n"
-        "  w	~PageEOF ¨¤ BOOL	ÈÆ»Ø¶¥²¿£¬×ÜÊÇË¢ĞÂ¡£\n"
+        "  w	~PassBOF Ã  BOOL	ç»•å›åº•éƒ¨ï¼Œæ€»æ˜¯åˆ·æ–°ã€‚\n"
+        "  w	~PageEOF Ã  BOOL	ç»•å›é¡¶éƒ¨ï¼Œæ€»æ˜¯åˆ·æ–°ã€‚\n"
         "  w	~Modified\n"
         "   n	Motivation\n"
         "   n	Objective\n"
         "   n	Sandbox\n"
-        "   1	ÖÎÑ§Òª²»ÒªÑÏ½÷£¿»¹ÊÇÑÏ½÷Ò»µãµÄºÃ¡£\n"
+        "   1	æ²»å­¦è¦ä¸è¦ä¸¥è°¨ï¼Ÿè¿˜æ˜¯ä¸¥è°¨ä¸€ç‚¹çš„å¥½ã€‚\n"
         "   2\n"
         "  w	BinaryPointer, Length, Font, Rows, Columns\n"
         "  w	AsiaSupport, ReadOnly, Dirty\n"
-        "  w	~PassBOF ¨¤ BOOL	ÈÆ»Øµ×²¿£¬×ÜÊÇË¢ĞÂ¡£\n"
-        "  w	~PageEOF ¨¤ BOOL	ÈÆ»Ø¶¥²¿£¬×ÜÊÇË¢ĞÂ¡£\n"
+        "  w	~PassBOF Ã  BOOL	ç»•å›åº•éƒ¨ï¼Œæ€»æ˜¯åˆ·æ–°ã€‚\n"
+        "  w	~PageEOF Ã  BOOL	ç»•å›é¡¶éƒ¨ï¼Œæ€»æ˜¯åˆ·æ–°ã€‚\n"
         "  w	~Modified\n"
         ;
     m_nLength       = strlen((char *)m_pbBinary);

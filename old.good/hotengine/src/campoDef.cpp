@@ -3,24 +3,24 @@
 
 #include "campoDef.h"
 
-// Ӧ�ó���ص����� ���ڿ������̵� ����ֵ
-#define ENUMLIST_BREAK			0			// ȡ��ö��
-#define ENUMLIST_NEXT			1			// ö����һ��
-#define ENUMLIST_PREVIOUS		2			// ö��ǰһ��
-#define ENUMLIST_REUSE			3			// ��ö��һ��
-#define ENUMLIST_GOHEAD			4			// �ص�ͷ�� ö��
-#define ENUMLIST_GOEND			5			// ö�����һ��
+// 应用程序回调函数 用于控制流程的 返回值
+#define ENUMLIST_BREAK			0			// 取消枚举
+#define ENUMLIST_NEXT			1			// 枚举下一个
+#define ENUMLIST_PREVIOUS		2			// 枚举前一个
+#define ENUMLIST_REUSE			3			// 再枚举一次
+#define ENUMLIST_GOHEAD			4			// 回到头部 枚举
+#define ENUMLIST_GOEND			5			// 枚举最后一个
 
-#define ENUMLIST_ERRORED		10			// ö��ʱ����
+#define ENUMLIST_ERRORED		10			// 枚举时错误
 
-// EnumElements �����ķ���ֵ
-#define ENUMLIST_ERROROCCURED		FALSE			// ö��ʱ��������
+// EnumElements 方法的返回值
+#define ENUMLIST_ERROROCCURED		FALSE			// 枚举时发生错误
 
-#define ENUMLIST_ALLPASSED		100			// ȫ��ͨ��
-#define ENUMLIST_BREAKED		101			// ö�ٱ�ȡ��
-#define ENUMLIST_COMPLEX		103			// ��һ������ö�� (��������_BREAK, _ERRORED����������)
+#define ENUMLIST_ALLPASSED		100			// 全部通过
+#define ENUMLIST_BREAKED		101			// 枚举被取消
+#define ENUMLIST_COMPLEX		103			// 是一个复杂枚举 (包括除了_BREAK, _ERRORED的其它控制)
 
-// ָ���б���ö�ٹ���
+// 指针列表的枚举过程
 int cPtrList::EnumElements(PTRENUMFUNC enumFunc, LPVOID param) {
 	POSITION	position;
 	LPVOID		element;
@@ -29,7 +29,7 @@ int cPtrList::EnumElements(PTRENUMFUNC enumFunc, LPVOID param) {
 
 	for (position = GetHeadPosition(); position != NULL; ) {
 		element = GetAt(position);
-		// ���û�����̲���ȡ����ֵ
+		// 调用会调过程并获取返回值
 		if ((control = enumFunc(element, param)) == ENUMLIST_NEXT) {
 			GetNext(position);
 			continue;

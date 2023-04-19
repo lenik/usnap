@@ -141,18 +141,18 @@ CHexEditCtlCtrl::CHexEditCtlCtrl()
 
 #ifdef _DEBUG
 	m_lpData = (LPBYTE)strdup(
-		"ASSOC    ��ʾ���޸��ļ���չ��������\n"
-		"AT       �ƻ��ڼ���������е�����ͳ���\n"
-		"ATTRIB   ��ʾ������ļ����ԡ�\n"
-		"BREAK    ���û������չʽ CTRL+C ��顣\n"
-		"CACLS    ��ʾ���޸��ļ��ķ��ʿ����б�(ACLs)��\n"
-		"CALL     ����һ�����������������һ����\n"
-		"CD       ��ʾ��ǰĿ¼�����ƻ�����ġ�\n"
-		"CHCP     ��ʾ�����û����ҳ����\n"
-		"CHDIR    ��ʾ��ǰĿ¼�����ƻ�����ġ�\n"
-		"CHKDSK   �����̲���ʾ״̬���档\n"
-		"CHKNTFS  ��ʾ���޸�����ʱ����̼�顣\n"
-		"CLS      �����Ļ��\n"
+		"ASSOC    显示或修改文件扩展名关联。\n"
+		"AT       计划在计算机上运行的命令和程序。\n"
+		"ATTRIB   显示或更改文件属性。\n"
+		"BREAK    设置或清除扩展式 CTRL+C 检查。\n"
+		"CACLS    显示或修改文件的访问控制列表(ACLs)。\n"
+		"CALL     从另一个批处理程序调用这一个。\n"
+		"CD       显示当前目录的名称或将其更改。\n"
+		"CHCP     显示或设置活动代码页数。\n"
+		"CHDIR    显示当前目录的名称或将其更改。\n"
+		"CHKDSK   检查磁盘并显示状态报告。\n"
+		"CHKNTFS  显示或修改启动时间磁盘检查。\n"
+		"CLS      清除屏幕。\n"
 		);
 	m_nDataLength = strlen((char* ) m_lpData);
 	m_bRawOutput = TRUE;

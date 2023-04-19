@@ -445,11 +445,11 @@ void CEmDlg::OnButtonBegin()
 		UpdateData(FALSE);
 
 		if (nData[D_SRC1] == 0 || nData[D_SRC2] == 0) {
-			MessageBox("Ô´Êı¾İ¿Õ! ");
+			MessageBox("æºæ•°æ®ç©º! ");
 			goto Clean;
 		}
 		if (nData[D_SRC1] != nData[D_SRC2]) {
-			int r = MessageBox("Á½¸öÔ´Êı¾İ³¤¶È²»Ò»ÖÂ! ÊÇ·ñ¼ÌĞø?", "Ñ¯ÎÊ", MB_YESNOCANCEL | MB_ICONQUESTION);
+			int r = MessageBox("ä¸¤ä¸ªæºæ•°æ®é•¿åº¦ä¸ä¸€è‡´! æ˜¯å¦ç»§ç»­?", "è¯¢é—®", MB_YESNOCANCEL | MB_ICONQUESTION);
 			if (r != IDYES) goto Clean;
 		}
 
@@ -482,13 +482,13 @@ void CEmDlg::OnButtonBegin()
 						if (!bModifyAll) {
 							int r;
 							CString str;
-							str.Format("ÕÒµ½Ò»´¦Æ¥Åä(Î»ÖÃ%d, %xH), ÊÇ·ñÌæ»»? ", pos, pos);
-							r = MessageBox(str, "Êı¾İÕÒµ½", MB_YESNOCANCEL | MB_ICONQUESTION);
+							str.Format("æ‰¾åˆ°ä¸€å¤„åŒ¹é…(ä½ç½®%d, %xH), æ˜¯å¦æ›¿æ¢? ", pos, pos);
+							r = MessageBox(str, "æ•°æ®æ‰¾åˆ°", MB_YESNOCANCEL | MB_ICONQUESTION);
 							if (r == IDCANCEL) goto Clean;
 							if (r == IDYES) {
 								// modify it
 								bShouldModify = TRUE;
-								r = MessageBox("È«²¿Ìæ»»Âğ?", "ÊÇ·ñÈ«²¿Ìæ»»", MB_YESNOCANCEL | MB_ICONQUESTION);
+								r = MessageBox("å…¨éƒ¨æ›¿æ¢å—?", "æ˜¯å¦å…¨éƒ¨æ›¿æ¢", MB_YESNOCANCEL | MB_ICONQUESTION);
 								if (r == IDCANCEL) goto Clean;
 								bModifyAll = r == IDYES ? TRUE : FALSE;
 							}
@@ -499,7 +499,7 @@ void CEmDlg::OnButtonBegin()
 				} // if match single
 			} CATCH (CFileException, e) {
 				e->ReportError();
-				m_strStatus = "²éÕÒÆ¥Åä´®Ê±·¢Éú´íÎó";
+				m_strStatus = "æŸ¥æ‰¾åŒ¹é…ä¸²æ—¶å‘ç”Ÿé”™è¯¯";
 				goto Clean;
 			} END_CATCH;
 
@@ -523,13 +523,13 @@ void CEmDlg::OnButtonBegin()
 					}
 				} CATCH (CFileException, e) {
 					e->ReportError();
-					m_strStatus = "ĞŞ¸ÄÎÄ¼şÊÇ·¢Éú´íÎó";
+					m_strStatus = "ä¿®æ”¹æ–‡ä»¶æ˜¯å‘ç”Ÿé”™è¯¯";
 					goto Clean;
 				} END_CATCH;
 			}
 			pos++;
 		} // while fFindByte >= 0
-		m_strStatus = "ĞŞ¸Ä³É¹¦!";
+		m_strStatus = "ä¿®æ”¹æˆåŠŸ!";
 	// x) Clean part
 Clean:
 		f1.Close();
@@ -573,7 +573,7 @@ void CEmDlg::OnCheckSavestate()
 	return;
 
 Error:
-	MessageBox("±£´æÑ¡ÏîÊı¾İÊ±³ö´í");
+	MessageBox("ä¿å­˜é€‰é¡¹æ•°æ®æ—¶å‡ºé”™");
 
 }
 

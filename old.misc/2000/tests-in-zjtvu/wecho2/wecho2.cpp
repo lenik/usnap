@@ -15,12 +15,12 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	FILE *f;
 
 	if (lpCmdLine[0] == '\0') {
-		int r = MessageBox(NULL, "¼ÓÈë¿ÕÐÐÃ´?", NULL, MB_YESNO);
+		int r = MessageBox(NULL, "åŠ å…¥ç©ºè¡Œä¹ˆ?", NULL, MB_YESNO);
 		if (r != IDYES) return 0;
 	}
 	f = fopen(LIST_FILENAME, "a");
 	if (f == NULL) {
-		MessageBox(NULL, "´ò¿ªÁÐ±íÎÄ¼þ´íÎó", NULL, MB_OK);
+		MessageBox(NULL, "æ‰“å¼€åˆ—è¡¨æ–‡ä»¶é”™è¯¯", NULL, MB_OK);
 		return -1;
 	}
 

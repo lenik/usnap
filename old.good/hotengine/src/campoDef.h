@@ -1,24 +1,24 @@
 
 
-// ²İÔ­ÓÎÏ·¿ª·¢Æ½Ì¨
+// è‰åŸæ¸¸æˆå¼€å‘å¹³å°
 
-// dansei, 2000.9 ÖĞ¹úÕã½­
+// dansei, 2000.9 ä¸­å›½æµ™æ±Ÿ
 
-// campoDef.h ¶¨ÒåÎÄ¼ş
+// campoDef.h å®šä¹‰æ–‡ä»¶
 
-// campoÀàÃüÃû·¨:
-//		c	campoÏà¶Ô¶ÀÁ¢Àà			dc		campoÏà¶Ô·Ç¶ÀÁ¢Àà
-//		cs(dcs)	campo½á¹¹Àà(½á¹¹ĞÎÊ½µÄÀà)
+// campoç±»å‘½åæ³•:
+//		c	campoç›¸å¯¹ç‹¬ç«‹ç±»			dc		campoç›¸å¯¹éç‹¬ç«‹ç±»
+//		cs(dcs)	campoç»“æ„ç±»(ç»“æ„å½¢å¼çš„ç±»)
 //
 
-// ÉùÃ÷
+// å£°æ˜
 
 #pragma once
 
 #include <stdarg.h>
 
-// ¶¨ÒåcampoÀàµÄÍ¨ÓÃºê
-// ÓÃÓÚ½« ¶ÔÏóÀà ×ª»»³É ÀàĞÍ
+// å®šä¹‰campoç±»çš„é€šç”¨å®
+// ç”¨äºå°† å¯¹è±¡ç±» è½¬æ¢æˆ ç±»å‹
 
 
 #define declare_c_tag_type(cType)		_##cType
@@ -42,7 +42,7 @@
 
 // general campo datatypes
 
-// cColorÑÕÉ«Àà
+// cColoré¢œè‰²ç±»
 class cColor {
 	enum _ecColor {
 		RGB,
@@ -64,14 +64,14 @@ public:
 };
 
 
-// (·Ç¶ÀÁ¢) Ö¸ÕëÁĞ±íÀà
+// (éç‹¬ç«‹) æŒ‡é’ˆåˆ—è¡¨ç±»
 typedef int (*PTRENUMFUNC)(LPVOID, LPVOID);
 class dcPtrList : public CPtrList {
 public:
 	int EnumElements(PTRENUMFUNC enumFunc, LPVOID content);
 };
 
-// ×ÊÔ´¸ñÊ½
+// èµ„æºæ ¼å¼
 
 #define CCGENERAL_COMMANDCHAR		'!'
 #define CCGENERAL_STRINGCODE		'~'

@@ -6,7 +6,7 @@
 #include "OeSO.h"
 #include "OeSODeclares.h"
 
-// 应用体类, 管理类和接口集合
+// 搴旂敤浣撶被, 绠＄悊绫诲拰鎺ュ彛闆嗗悎
 // CLSID: 00000000-4F45-0660-0002-486954656368
 
 OeSOApplication::OeSOApplication() {

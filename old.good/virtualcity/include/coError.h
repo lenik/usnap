@@ -3,11 +3,11 @@
 
 #include "coType.h"
 
-// ÌØÊâ´íÎó
+// ç‰¹æ®Šé”™è¯¯
 	enum co_tag_type(coRetError) {
 		coe_none = 0,
 
-		// com´íÎó
+		// comé”™è¯¯
 		coe_not_existed_node,
 		coe_not_existed_link,
 		coe_not_existed_path,
@@ -16,47 +16,47 @@
 
 		coe_not_existed_guider,
 
-		// µ÷ÓÃ´íÎó
+		// è°ƒç”¨é”™è¯¯
 		coe_uninit_enum,
 
-		// ÏûÏ¢
+		// æ¶ˆæ¯
 
-		// ·¢³öÏûÏ¢
+		// å‘å‡ºæ¶ˆæ¯
 		coe_start,
 		coe_init,
 		coe_try,
 		coe_retry,
 		coe_finish,
 		coe_exit,
-		// ·µ»ØÏûÏ¢
+		// è¿”å›æ¶ˆæ¯
 		coe_processed,
 		coe_skipped
 	};
 	co_def_type(co_tag_type(coRetError), coRetError);
 
-// ¿ØÖÆ³£Á¿
+// æ§åˆ¶å¸¸é‡
 	enum co_tag_type(coRetControl) {
-		// ¿ØÖÆÁ÷³Ì (±ê×¼)
+		// æ§åˆ¶æµç¨‹ (æ ‡å‡†)
 		coc_continue,				// N2 = N1 + 1
-		coc_break,				// Ìø³ö
-		coc_errorbreak,				// Ìø³ö (ÒòÎª³ö´í)
-		// ¿ØÖÆÁ÷³Ì (À©Õ¹)
+		coc_break,				// è·³å‡º
+		coc_errorbreak,				// è·³å‡º (å› ä¸ºå‡ºé”™)
+		// æ§åˆ¶æµç¨‹ (æ‰©å±•)
 		coc_previous,				// N2 = N1 - 1
 		coc_again,				// N2 = N1
 		coc_skip,				// N2 = N2 + 2
 		coc_skips,				// N2 = N2 + data + 1
-		coc_home,				// ¾Ö²¿Ê¼
-		coc_end,				// ¾Ö²¿Î²
-		coc_first,				// Ê¼
-		coc_last,				// Î²
-		coc_before_first,			// ³¬Ô½ÉÏ½ç
-		coc_after_last,				// ³¬Ô½ÏÂ½ç
-		// ¿ØÖÆ×´Ì¬
-		coc_query,				// Ñ¯ÎÊÊÇ·ñ½ÓÊÜ
-		coc_accept,				// ½ÓÊÜ
-		coc_deny, 				// ¾Ü¾ø
-		coc_casual, 				// ¾ù¿ÉÎŞ·¨È·¶¨
-		coc_unknown				// Î´Öª
+		coc_home,				// å±€éƒ¨å§‹
+		coc_end,				// å±€éƒ¨å°¾
+		coc_first,				// å§‹
+		coc_last,				// å°¾
+		coc_before_first,			// è¶…è¶Šä¸Šç•Œ
+		coc_after_last,				// è¶…è¶Šä¸‹ç•Œ
+		// æ§åˆ¶çŠ¶æ€
+		coc_query,				// è¯¢é—®æ˜¯å¦æ¥å—
+		coc_accept,				// æ¥å—
+		coc_deny, 				// æ‹’ç»
+		coc_casual, 				// å‡å¯æ— æ³•ç¡®å®š
+		coc_unknown				// æœªçŸ¥
 	};
 	co_def_type(co_tag_type(coRetControl), coRetControl);
 

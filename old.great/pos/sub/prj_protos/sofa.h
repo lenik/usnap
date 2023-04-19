@@ -2,7 +2,7 @@
 // SOFA Model
 
 // Space Org, Framework, Arch
-// �ռ���֯����ܡ��ṹ
+// 空间组织、框架、结构
 
 
 

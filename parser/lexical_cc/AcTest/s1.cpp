@@ -1,12 +1,12 @@
 
-// Automation compiler ±àÒëÄ£°åÎÄ¼ş
-// C++ °æ±¾
+// Automation compiler ç¼–è¯‘æ¨¡æ¿æ–‡ä»¶
+// C++ ç‰ˆæœ¬
 
-// ×´Ì¬³£Á¿
+// çŠ¶æ€å¸¸é‡
 
 ~constants
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 
 #define @calltype	_stdcall
 
@@ -24,18 +24,18 @@ typedef stack<state> statestack;
 typedef character (@calltype *@input_proc)(buffers& ib, int protect_level);
 typedef void (@calltype *@user_proc)(state S1, state S2, character c, buffer& accept_buffer);
 
-// º¯ÊıÔ­ĞÍ
+// å‡½æ•°åŸå‹
 
 character @calltype @getc();
 character @calltype @input(buffers& ib, int pl);
 state @calltype @loop(@input_proc ip, int& pl, buffers& ib, buffers& ab, statestack& ss, state& s);
 bool @calltype @main();
 
-// ÓÃ»§º¯ÊıÔ­ĞÍ
+// ç”¨æˆ·å‡½æ•°åŸå‹
 
 ~userprocs
 
-// Ä¬ÈÏ´¦Àí
+// é»˜è®¤å¤„ç†
 
 character @calltype @getc() {
 	return (character)fgetc(stdin);
@@ -59,7 +59,7 @@ character @calltype @input(buffers& ib, int pl) {
 	return r;
 }
 
-// Ö÷´¦Àíº¯Êı
+// ä¸»å¤„ç†å‡½æ•°
 
 state @calltype @loop(
 	@input_proc ip,
@@ -101,7 +101,7 @@ bool @calltype @main() {
 	return true;
 }
 
-// È±Ê¡¿ò¼Ü
+// ç¼ºçœæ¡†æ¶
 
 #ifdef USE_DEFAULT_FRAME
 void main() {

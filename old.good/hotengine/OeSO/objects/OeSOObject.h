@@ -1,7 +1,7 @@
 
 #pragma once
 
-// ¶ÔÏóÀà´æ·ÅÒ»¸ö¾ßÌåµÄ¶ÔÏó¡£
+// å¯¹è±¡ç±»å­˜æ”¾ä¸€ä¸ªå…·ä½“çš„å¯¹è±¡ã€‚
 // CLSID: 00000000-4F45-0610-0002-486954656368
 class OeSOObject :
 	public CComObjectRoot,
@@ -40,15 +40,15 @@ public:
 
 public:
 	BOOL				m_inited;
-	// ¶ÔÏóÃû×Ö
+	// å¯¹è±¡åå­—
 	_bstr_t				m_name;
-	// ¶ÔÏóÊôÀà
+	// å¯¹è±¡å±ç±»
 	IOeSOClass *			m_pOfclass;
-	// ¶ÔÏóÊôĞÔ¼¯(²»°üÀ¨ÀàÊôĞÔ¼¯)
+	// å¯¹è±¡å±æ€§é›†(ä¸åŒ…æ‹¬ç±»å±æ€§é›†)
 	COeSOAttributesCollection *	m_attributes;
-	// ·½·¨¼¯ (Á¬½Óµ½Àà·½·¨¼¯)
+	// æ–¹æ³•é›† (è¿æ¥åˆ°ç±»æ–¹æ³•é›†)
 	COeSOMethodsCollection *	m_methods;
-	// ÊÂ¼ş¼¯ (Á¬½Óµ½ÀàÊÂ¼ş¼¯)
+	// äº‹ä»¶é›† (è¿æ¥åˆ°ç±»äº‹ä»¶é›†)
 	COeSOEventsCollection *		m_events;
 
 	//COeSOClass			m;

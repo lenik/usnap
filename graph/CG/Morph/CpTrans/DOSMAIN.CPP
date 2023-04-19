@@ -159,7 +159,7 @@ void OnSpeedFast()
 	// TODO: Add your command handler code here
 	char curval[20];
 	if (_sleep_val > 0) _sleep_val--;
-	sprintf(curval, "当前速度 = %3.0f", _sleep_val);
+	sprintf(curval, "褰撳墠閫熷害 = %3.0f", _sleep_val);
 	setStatus(0, curval);
 }
 
@@ -168,7 +168,7 @@ void OnSpeedSlow()
 	// TODO: Add your command handler code here
 	char curval[20];
 	if (_sleep_val < 100) _sleep_val++;
-	sprintf(curval, "当前速度 = %3.0lf", _sleep_val);
+	sprintf(curval, "褰撳墠閫熷害 = %3.0lf", _sleep_val);
 	setStatus(0, curval);
 }
 

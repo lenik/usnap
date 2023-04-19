@@ -3,7 +3,7 @@
 
 #include <list>
 
-// ²úÉúÊ½½á¹¹
+// äº§ç”Ÿå¼ç»“æ„
 
 typedef int symbol;
 struct production;
