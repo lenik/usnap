@@ -7,11 +7,14 @@
 #define COS51_SUNIT_C
 #include "sunit.h"
 
-void putchar(char c) {
-    send(c);
+int putchar(int c) {
+    if (send((char) c))
+        return c;
+    else
+        return EOF;
 }
 
-char getchar() {
+int getchar() {
     return recv();
 }
 

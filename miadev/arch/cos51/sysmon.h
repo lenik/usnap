@@ -6,13 +6,13 @@
 void getsfr_tab() __naked;
 void setsfr_tab() __naked;
 
-byte getsfr(register byte addr)
+BYTE getsfr(register BYTE addr)
 __naked __reentrant  __using(0);
 
-void _setsfr(register word addr_val)
+void _setsfr(register WORD addr_val)
 __naked __reentrant  __using(0);
 
 #define setsfr(addr, val) \
-    _setsfr( ((word) (addr) << 8) | (val) )
+    _setsfr( ((WORD) (addr) << 8) | (val) )
 
 #endif

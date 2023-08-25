@@ -69,7 +69,7 @@
 
 // Common extension points
 
-void led8Set(byte index, byte mask) {
+void led8Set(BYTE index, BYTE mask) {
     LED8_SETADDR(index);
     P0 = mask;
 }

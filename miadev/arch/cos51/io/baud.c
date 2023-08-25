@@ -15,7 +15,7 @@
  * = XTAL / (12 * k300 * 300 * 32x)
  * = XTAL_57600 / (2 * k300 * x)
  */
-void setTimer1Baud300(unsigned xtal_57600, byte k300) {
+void setTimer1Baud300(unsigned xtal_57600, BYTE k300) {
     unsigned c;
 
     // if (! (PCON & SMOD)) k300 <<= 1;
@@ -58,7 +58,7 @@ void setTimer1Baud300(unsigned xtal_57600, byte k300) {
  * = XTAL / (2 * k300 * 300 * 32x)
  * = XTAL_9600 / (2 * k300 * x)
  */
-void setTimer2Baud300(unsigned xtal_9600, byte k300) {
+void setTimer2Baud300(unsigned xtal_9600, BYTE k300) {
     unsigned c;
 
     if (!(PCON & SMOD))
@@ -74,7 +74,7 @@ void setTimer2Baud300(unsigned xtal_9600, byte k300) {
     c = ~c + 1;
 
     TH2 = RCAP2H = c >> 8;
-    TL2 = RCAP2L = (byte) c;
+    TL2 = RCAP2L = (BYTE) c;
 
     ET2 = 0;
     TR2 = 1;

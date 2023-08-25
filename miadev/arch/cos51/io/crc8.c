@@ -1,19 +1,19 @@
 #include "crc8.h"
 
 #ifdef CRC8_FLY
-static byte polynomial = 0;
+static BYTE polynomial = 0;
 #else
-static __xdata byte crc8tab[0x100];
+static __xdata BYTE crc8tab[0x100];
 #endif
 
-static byte crc;
+static BYTE crc;
 
-void crc8Init(byte _polynomial) {
+void crc8Init(BYTE _polynomial) {
 #ifdef CRC8_FLY
     polynomial = _polynomial;
 #else
-    byte val = 0;
-    byte bitIndex;
+    BYTE val = 0;
+    BYTE bitIndex;
     do {
         crc = val;
         for (bitIndex = 0; bitIndex < 8; ++bitIndex)
@@ -32,9 +32,9 @@ void crc8Reset() {
     crc = 0;
 }
 
-byte crc8Update(byte b) {
+BYTE crc8Update(BYTE b) {
 #ifdef CRC8_FLY
-    byte bitIndex;
+    BYTE bitIndex;
     crc ^= b;
     for (bitIndex = 0; bitIndex < 8; bitIndex++)
         if (crc & 0x80)
@@ -47,7 +47,7 @@ byte crc8Update(byte b) {
     return crc;
 }
 
-byte crc8UpdateBlock(byte *pblock, byte n) {
+BYTE crc8UpdateBlock(BYTE *pblock, BYTE n) {
     while (n--)
         crc8Update(*pblock++);
     return crc;

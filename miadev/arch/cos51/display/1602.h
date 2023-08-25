@@ -1,9 +1,9 @@
 #ifndef COS51_1602_H
 #define COS51_1602_H
 
-#include <8051.h>
+#include <8052.h>
 
-#include "types.h"
+#include "../types.h"
 
 #ifndef LCD1602_D_PORT
 #define LCD1602_D_PORT 0x80 // P0
@@ -85,24 +85,24 @@ __sfr __at(LCD1602_D_PORT) LCD1602_D;
         (0x80 | (LCD1602_OFFSET(row, col) & 0x7f))
 
 void lcd1602Init();
-void lcd1602DisplayFlags(byte flags);
+void lcd1602DisplayFlags(BYTE flags);
 void lcd1602PowerOn();
 void lcd1602PowerOff();
-byte lcd1602ReadStatus();
+BYTE lcd1602ReadStatus();
 void lcd1602Wait();
-byte lcd1602GetRow();
-void lcd1602WriteCommand(byte command);
-byte lcd1602ReadData();
-void lcd1602WriteData(byte data);
+BYTE lcd1602GetRow();
+void lcd1602WriteCommand(BYTE command);
+BYTE lcd1602ReadData();
+void lcd1602WriteData(BYTE data);
 
 void lcd1602Clear();
-void lcd1602Scroll(char n);
+void lcd1602Scroll(int8 n);
 void lcd1602ScrollUp();
 void lcd1602ScrollDown();
-void lcd1602At(byte row, byte col);
-void lcd1602PutcharAt(byte row, byte col, char c);
+void lcd1602At(BYTE row, BYTE col);
+void lcd1602PutcharAt(BYTE row, BYTE col, char c);
 void lcd1602Putchar(char c);
 void lcd1602Puts(const char *p);
-void lcd1602PutsAt(byte row, byte col, const char *p);
+void lcd1602PutsAt(BYTE row, BYTE col, const char *p);
 
 #endif

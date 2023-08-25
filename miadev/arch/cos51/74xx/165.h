@@ -5,7 +5,7 @@
 
 #define X165_READ_BITS(b, n, sh_ld, clk, in) \
     do { \
-        byte i = n + 1; \
+        BYTE i = n + 1; \
         sh_ld = 0; /* load */ \
         sh_ld = 1; /* shift */ \
         while (--i) { \

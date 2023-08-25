@@ -4,27 +4,27 @@
 #include "../types.h"
 
 /**
- * If arglen is longer than len, the extra bytes are ignored, and 1 is returned.
+ * If arglen is longer than len, the extra BYTEs are ignored, and 1 is returned.
  *
  * @return carry/overflow bit
  */
-byte apnAdd(byte *apn, byte len, const byte *arg, byte arglen);
+bool apnAdd(BYTE *apn, BYTE len, const BYTE *arg, BYTE arglen);
 
-void apnNeg(byte *apn, byte len);
+void apnNeg(BYTE *apn, BYTE len);
 
 /**
  * @param div must be 0 < div ≤ 0x10
  * @return remainder. Always return 0xff if div==0 or >0x10.
  */
-byte apnDiv4(byte *apn, byte len, byte div);
+BYTE apnDiv4(BYTE *apn, BYTE len, BYTE div);
 
 /**
- * @return the extra byte, non-zero if overflow.
+ * @return the extra BYTE, non-zero if overflow.
  */
-byte apnMul8(byte *apn, byte len, byte mul);
+BYTE apnMul8(BYTE *apn, BYTE len, BYTE mul);
 
-//byte apnShiftLeft(byte *apn, byte len, byte n);
-//byte apnShiftRight(byte *apn, byte len, byte n);
+//BYTE apnShiftLeft(BYTE *apn, BYTE len, BYTE n);
+//BYTE apnShiftRight(BYTE *apn, BYTE len, BYTE n);
 
 /**
  * @param buf must be large enough to hold the result string (include '\0').
@@ -32,6 +32,6 @@ byte apnMul8(byte *apn, byte len, byte mul);
  * @param ordix must >= 2 and <= 16
  * @return length of the result string (exclude '\0').
  */
-word apnToString(char *buf, byte *apn, byte len, byte ordix);
+WORD apnToString(char *buf, BYTE *apn, BYTE len, BYTE ordix);
 
 #endif

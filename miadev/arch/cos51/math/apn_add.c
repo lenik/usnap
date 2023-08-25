@@ -3,9 +3,9 @@
 #include <8051.h>
 #define __CY CY // PSW.7
 
-bool apnAdd(byte *apn, byte len, const byte *arg, byte arglen) {
-    byte i;
-    byte x;
+bool apnAdd(BYTE *apn, BYTE len, const BYTE *arg, BYTE arglen) {
+    BYTE i;
+    BYTE x;
     __bit carry = 0;
     __bit overflow = 0;
 

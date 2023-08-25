@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-byte irdaParse();
+BYTE irdaParse();
 
 #endif

@@ -46,8 +46,8 @@
 
 #define onewireWriteByte(port, b) \
     do { \
-        byte __i = 8 + 1; \
-        byte __b = b; \
+        BYTE __i = 8 + 1; \
+        BYTE __b = b; \
         while (--__i) { \
             onewireWriteBit((port), __b); \
             __b >>= 1; \
@@ -74,7 +74,7 @@
 
 #define onewireReadByte(port, b) \
     do { \
-        byte __i = 8 + 1; \
+        BYTE __i = 8 + 1; \
         while (--__i) { \
             onewireReadBit(port, CY); \
             __asm rlc

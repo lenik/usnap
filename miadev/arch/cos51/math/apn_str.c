@@ -1,4 +1,5 @@
 #include "apn.h"
+#include "util.h"
 
 #define N2C(n) ((n) < 10 ? 0x30 + (n) : 0x57 + (n))
 #define C2N(c) ((c) <= 0x39 ? (c) - 0x30 : (c) - 0x57)
@@ -9,13 +10,13 @@
  * @param ordix must >= 2 and <= 16
  * @return length of the result string (exclude '\0').
  */
-word apnToString(char *buf, byte *apn, byte len, byte div/*ordix*/) {
-    byte x;
-    byte a = 0; // dividend
-    byte quo4 = 0; // 4bit|4bit
-    byte rem4 = 0;
+WORD apnToString(char *buf, BYTE *apn, BYTE len, BYTE div/*ordix*/) {
+    BYTE x;
+    BYTE a = 0; // dividend
+    BYTE quo4 = 0; // 4bit|4bit
+    BYTE rem4 = 0;
     __bit lead = 0;
-    word cc = 0;
+    WORD cc = 0;
 
     if (div == 0 || div > 0x10) {
         *buf = 0;

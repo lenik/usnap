@@ -30,17 +30,17 @@
 #define CRAZYKBD_REPEAT_RATE 30
 #endif
 
-extern __xdata byte *crazykbd_state;
-extern __xdata byte *crazykbd_scan;
+extern __xdata BYTE *crazykbd_state;
+extern __xdata BYTE *crazykbd_scan;
 
-byte crazykbd_poll() {
-    __xdata byte *state = crazykbd_state;
-    __xdata byte *scan = crazykbd_scan;
+BYTE crazykbd_poll() {
+    __xdata BYTE *state = crazykbd_state;
+    __xdata BYTE *scan = crazykbd_scan;
     keyscan_t keys = kbd_scan(crazykbd_scan);
     keyscan_t changes = 0;
-    byte st = 0, sc = 0, stb, scb;
+    BYTE st = 0, sc = 0, stb, scb;
     int keyScan = 0;
-    byte bitMask = 0x80;
+    BYTE bitMask = 0x80;
     while (keys) {
         if (! (keyScan & 7)) {
             st = *state++;

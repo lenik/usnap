@@ -2,8 +2,8 @@
 #include "led8.h"
 #include "math/apn.h"
 
-extern __xdata byte led8Cache[];
-extern byte led8Count;
+extern __xdata BYTE led8Cache[];
+extern BYTE led8Count;
 
 /**
  *
@@ -15,7 +15,7 @@ extern byte led8Count;
  * -----  ,7
  *   3
  */
-static __code byte led8tab[] = {
+static __code BYTE led8tab[] = {
 //
         0x00, // 00000000 32  20  space
         0x82, // 10000010 33  21  !
@@ -114,8 +114,8 @@ static __code byte led8tab[] = {
         0x01, // 00000001 126 7E  ~
         };
 
-void led8Draw(byte index, char c) {
-    byte mask = c;
+void led8Draw(BYTE index, char c) {
+    BYTE mask = c;
     if (index >= led8Count)
         return;
     mask -= 0x20;
@@ -127,7 +127,7 @@ void led8Draw(byte index, char c) {
 }
 
 void led8Refresh() {
-    byte i, mask;
+    BYTE i, mask;
     for (i = 0; i < led8Count; i++) {
         mask = led8Cache[i];
         led8Set(i, mask);
@@ -135,7 +135,7 @@ void led8Refresh() {
 }
 
 void led8Puts(const char *mesg) {
-    byte index = 0;
+    BYTE index = 0;
     char c;
     while (c = *mesg++) {
         led8Draw(index++, c);
@@ -143,24 +143,24 @@ void led8Puts(const char *mesg) {
             break;
     }
     while (index++ < led8Count)
-        led8Set(i, 0);
+        led8Set(index, 0);
 }
 
 /**
  * @param apn arbitrary number.
- * @param cb bytes of apn
+ * @param cb BYTEs of apn
  * @param frac10 fractional width, [0, frac10^10)
  */
-void led8PutNum(const byte *apn, byte cb, byte frac10)
+void led8PutNum(const BYTE *apn, BYTE cb, BYTE frac10)
 __reentrant {
-    byte pos = led8Count;
-    byte buf[17]; // led8Count + 1, 16+1 is just fine.
-    byte *p;
+    BYTE pos = led8Count;
+    BYTE buf[17]; // led8Count + 1, 16+1 is just fine.
+    BYTE *p;
 
     // log(0x100, 10^16) ~ 6.64
     if (cb > 6)
         cb = 6;
-    cc = apnToString(buf, apn, cb, 10);
+    int cc = apnToString(buf, apn, cb, 10);
 
     p = buf + cc;
     while (cc-- && pos)

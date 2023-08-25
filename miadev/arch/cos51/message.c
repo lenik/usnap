@@ -1,5 +1,5 @@
 #include <assert.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "message.h"
@@ -66,7 +66,7 @@ void enqueue_void(m_t message) {
         statMDrops++;
 }
 
-void enqueue_b(m_t message, byte param) {
+void enqueue_b(m_t message, BYTE param) {
     statMTotal++;
     if (compact(2)) {
         mbuf[end++] = message;
@@ -76,7 +76,7 @@ void enqueue_b(m_t message, byte param) {
         statMDrops++;
 }
 
-void enqueue_bb(m_t message, byte param, byte byteData) {
+void enqueue_bb(m_t message, BYTE param, BYTE byteData) {
     statMTotal++;
     if (compact(3)) {
         mbuf[end++] = message;
@@ -87,23 +87,23 @@ void enqueue_bb(m_t message, byte param, byte byteData) {
         statMDrops++;
 
 }
-void enqueue_w(m_t message, word data) {
+void enqueue_w(m_t message, WORD data) {
     statMTotal++;
     if (compact(3)) {
         mbuf[end++] = message;
-        *(word *) &mbuf[end] = data;
+        *(WORD *) &mbuf[end] = data;
         end += 2;
         end %= size;
     } else
         statMDrops++;
 }
 
-void enqueue_bw(m_t message, byte param, word data) {
+void enqueue_bw(m_t message, BYTE param, WORD data) {
     statMTotal++;
     if (compact(4)) {
         mbuf[end++] = message;
         mbuf[end++] = param;
-        *(word *) &mbuf[end] = data;
+        *(WORD *) &mbuf[end] = data;
         end += 2;
         end %= size;
     } else
@@ -117,7 +117,7 @@ bool dequeue() {
     if (end == start)
         return false;
 
-    {
+    // 1
         // assert (op, param, data) in a linear space.
         m_t message = mbuf[start++];
         // FORCE-LINEAR   start %= size;
@@ -126,8 +126,8 @@ bool dequeue() {
         char payloadSize = payloadFormat >> 1;
         // assert (end - start > payloadSize);
 
-        byte param;
-        word data;
+        BYTE param;
+        WORD data;
 
         switch (payloadFormat) {
         case 0: // 00.0
@@ -149,14 +149,14 @@ bool dequeue() {
 
         case 5: // 10.1
             param = 0;
-            data = *(word *) &mbuf[start];
+            data = *(WORD *) &mbuf[start];
             start += 2;
             break;
 
         case 6: // 11.0
         case 7: // 11.1
             param = mbuf[start++];
-            data = *(word *) &mbuf[start];
+            data = *(WORD *) &mbuf[start];
             start += 2;
             break;
 
@@ -165,16 +165,14 @@ bool dequeue() {
             param = data = 0;
         }
         start %= size;
-    }
 
-    {
+    // 2
         int i;
         for (i = 0; i < handlerCount; i++) {
             MessageHandler handler = handlerTable[i];
             if ((*handler)(message, param, data))
                 break;
         }
-    }
     return true;
 }
 

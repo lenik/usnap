@@ -86,7 +86,7 @@ void usleep2(register unsigned int us) {
  */
 #define _DJNZ_CYCLE     (XTAL / XMUL * 2)
 
-void udelayTiny(register byte us) {
+void udelayTiny(register BYTE us) {
     us;
     __asm           // ..(CALL)
         subb a, #9  // .
@@ -136,10 +136,10 @@ void msleep1(unsigned int ms) { while (ms > 30) { usleep1(29991); ms -= 30; } us
 void msleep2(unsigned int ms) { while (ms > 30) { usleep2(29991); ms -= 30; } usleep2(ms * 1000); }
 void mdelay(unsigned int ms)  { while (ms > 30) { udelay(29991); ms -= 30; }  udelay(ms * 1000); }
 
-void sleep0(byte sec) { byte t; while (sec--) for (t = 0; t < 33; t++) usleep0(30300); }
-void sleep1(byte sec) { byte t; while (sec--) for (t = 0; t < 33; t++) usleep1(30300); }
-void sleep2(byte sec) { byte t; while (sec--) for (t = 0; t < 33; t++) usleep2(30300); }
-void delay(byte sec)  { byte t; while (sec--) for (t = 0; t < 33; t++) udelay(30300); }
+void sleep0(BYTE sec) { BYTE t; while (sec--) for (t = 0; t < 33; t++) usleep0(30300); }
+void sleep1(BYTE sec) { BYTE t; while (sec--) for (t = 0; t < 33; t++) usleep1(30300); }
+void sleep2(BYTE sec) { BYTE t; while (sec--) for (t = 0; t < 33; t++) usleep2(30300); }
+void delay(BYTE sec)  { BYTE t; while (sec--) for (t = 0; t < 33; t++) udelay(30300); }
 
 //#ifdef TIMER_HUB
 void sleepTimerProc0() { timerProc0 = NULL; }

@@ -5,7 +5,7 @@
 #include <cos51/display/1602.h>
 #include <cos51/dk/hc6800.h>
 
-void slsend(byte c) {
+void slsend(BYTE c) {
     while (!TI)
         ;
     SBUF = c;
@@ -45,6 +45,7 @@ void main() {
     }
 }
 
-void putchar(char c) {
+int putchar(int c) {
     lcd1602Putchar(c);
+    return c;
 }

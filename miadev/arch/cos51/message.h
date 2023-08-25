@@ -41,7 +41,7 @@ typedef struct _PollEntry {
     /**
      * @return non-zero if there has event been enqueued.
      */
-    byte (*poll)();
+    BYTE (*poll)();
 
     int pollInterval;
 
@@ -53,7 +53,7 @@ extern const PollEntry *pollTable;
 /**
  * @return non-zero if the message is handled.
  */
-typedef byte (*MessageHandler)(m_t message, byte param, word ndata) __reentrant;
+typedef BYTE (*MessageHandler)(m_t message, BYTE param, WORD ndata) __reentrant;
 
 // extern int handlerCount;
 // SDCC-BUGFIX: declare/define type mismatches: (in large-mode only)
@@ -70,17 +70,17 @@ void initMQ(
         int mbufSize
 );
 
-typedef __xdata byte *mbuf_t;
+typedef __xdata BYTE *mbuf_t;
 
 extern mbuf_t mbuf;
 extern __xdata int statMTotal;
 extern __xdata int statMDrops;
 
 void enqueue_void(m_t message);
-void enqueue_b(m_t message, byte param);
-void enqueue_bb(m_t message, byte param, byte byteData);
-void enqueue_w(m_t message, word data);
-void enqueue_bw(m_t message, byte param, word data);
+void enqueue_b(m_t message, BYTE param);
+void enqueue_bb(m_t message, BYTE param, BYTE byteData);
+void enqueue_w(m_t message, WORD data);
+void enqueue_bw(m_t message, BYTE param, WORD data);
 
 /**
  * @return false if the queue is empty.

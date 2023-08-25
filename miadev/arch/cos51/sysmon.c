@@ -50,7 +50,7 @@
  * addr must be passed by DPL, must be 80..ff
  * @return in DPL
  */
-byte getsfr(register byte addr)
+BYTE getsfr(register BYTE addr)
 __naked __reentrant __using(0) {
     addr;
     __asm
@@ -116,7 +116,7 @@ __naked {
  * val  must be passed by dpl
  * @return in DPL
  */
-void _setsfr(register word addr_val)
+void _setsfr(register WORD addr_val)
 __naked __reentrant __using(0) {
     addr_val;
     __asm

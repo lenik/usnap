@@ -3,6 +3,6 @@
 /**
  * Not implemented.
  */
-byte irdaParse() {
+BYTE irdaParse() {
     return 0;
 }

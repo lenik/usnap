@@ -17,15 +17,15 @@
 #define CRC8_SAE_J1850  0x1d    //
 #define CRC8_WCDMA      0d9b
 
-void crc8Init(byte polynomial);
+void crc8Init(BYTE polynomial);
 
 void crc8Reset();
-byte crc8Update(byte b);
+BYTE crc8Update(BYTE b);
 
 /**
  * @param pblock non-null pointer to the block buffer
  * @param size 0..255
  */
-byte crc8UpdateBlock(byte *pblock, byte size);
+BYTE crc8UpdateBlock(BYTE *pblock, BYTE size);
 
 #endif

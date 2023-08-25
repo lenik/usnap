@@ -13,12 +13,12 @@
             LCD1602_RW = rw;
 #endif
 
-static byte displayFlags = LCD1602CMD_DISPLAY(1, 1, 1);
+static BYTE displayFlags = LCD1602CMD_DISPLAY(1, 1, 1);
 
 #ifdef LCD1602_BACK
 
-static byte gaddr = 0;
-static __xdata byte backbuf[LCD1602_MEMSIZE];
+static BYTE gaddr = 0;
+static __xdata BYTE backbuf[LCD1602_MEMSIZE];
 
 #   define CURROW \
         (gaddr >> LCD1602_HDEPTH)
@@ -79,8 +79,8 @@ static __xdata byte backbuf[LCD1602_MEMSIZE];
 #endif
 
 void lcd1602Init() {
-    byte mode = LCD1602CMD_MODE_827;
-    byte times = 3;
+    BYTE mode = LCD1602CMD_MODE_827;
+    BYTE times = 3;
     mdelay(15);
     while (times--) {
         lcd1602WriteCommand(mode);
@@ -91,7 +91,7 @@ void lcd1602Init() {
     lcd1602WriteCommand(LCD1602CMD_CLEAR);
 }
 
-void lcd1602DisplayFlags(byte flags) {
+void lcd1602DisplayFlags(BYTE flags) {
     displayFlags = flags;
     lcd1602WriteCommand(displayFlags);
 }
@@ -104,7 +104,7 @@ void lcd1602PowerOff() {
     lcd1602WriteCommand(LCD1602CMD_OFF);
 }
 
-byte lcd1602ReadStatus() {
+BYTE lcd1602ReadStatus() {
     LCD1602_SELECT(0, 1);
     LCD1602_EN = 1;
     udelay_4();
@@ -118,18 +118,18 @@ void lcd1602Wait() {
 #endif
 }
 
-byte lcd1602GetRow() {
-    byte addr = lcd1602ReadStatus() & 0x7f;
+BYTE lcd1602GetRow() {
+    BYTE addr = lcd1602ReadStatus() & 0x7f;
     return addr >> LCD1602_HDEPTH;
 }
 
-byte lcd1602GetColumn() {
-    byte addr = lcd1602ReadStatus(); // & 0x7f
+BYTE lcd1602GetColumn() {
+    BYTE addr = lcd1602ReadStatus(); // & 0x7f
     return addr & LCD1602_HMASK;
 }
 
-byte lcd1602ReadData() {
-    byte data;
+BYTE lcd1602ReadData() {
+    BYTE data;
     lcd1602Wait();
     LCD1602_SELECT(1, 1);
     // Tas(140): init address
@@ -142,7 +142,7 @@ byte lcd1602ReadData() {
     return data;
 }
 
-void lcd1602WriteCommand(byte command) {
+void lcd1602WriteCommand(BYTE command) {
     lcd1602Wait();
     LCD1602_SELECT(0, 0);
     // Tas(140+): init address...
@@ -161,7 +161,7 @@ void lcd1602WriteCommand(byte command) {
 //    P1_5=1;
 }
 
-void lcd1602WriteData(byte data) {
+void lcd1602WriteData(BYTE data) {
     lcd1602Wait();
     LCD1602_SELECT(1, 0);
     LCD1602_EN = 1;
@@ -175,7 +175,7 @@ void lcd1602Clear() {
     CLEAR();
 }
 
-void lcd1602Scroll(char n) {
+void lcd1602Scroll(int8 n) {
     while (n < 0) {
         lcd1602WriteCommand(LCD1603CMD_SCROLL_L);
         n++;
@@ -188,9 +188,9 @@ void lcd1602Scroll(char n) {
 
 void lcd1602ScrollUp() {
     char x, y;
-    byte src = LCD1602_OFFSET(1, 0);
-    byte dst = LCD1602_OFFSET(0, 0);
-    byte ch;
+    BYTE src = LCD1602_OFFSET(1, 0);
+    BYTE dst = LCD1602_OFFSET(0, 0);
+    BYTE ch;
     for (y = 1; y < LCD1602_HEIGHT; y++) {
         for (x = 0; x < LCD1602_WIDTH; x++) {
             GET(src, ch);
@@ -210,9 +210,9 @@ void lcd1602ScrollUp() {
 
 void lcd1602ScrollDown() {
     char x, y;
-    byte src = LCD1602_OFFSET(LCD1602_HEIGHT - 1, 0);
-    byte dst = LCD1602_OFFSET(LCD1602_HEIGHT, 0);
-    byte ch;
+    BYTE src = LCD1602_OFFSET(LCD1602_HEIGHT - 1, 0);
+    BYTE dst = LCD1602_OFFSET(LCD1602_HEIGHT, 0);
+    BYTE ch;
     for (y = 1; y < LCD1602_HEIGHT; y++) {
         src -= LCD1602_PITCH - LCD1602_WIDTH;
         dst -= LCD1602_PITCH - LCD1602_WIDTH;
@@ -230,12 +230,12 @@ void lcd1602ScrollDown() {
     }
 }
 
-void lcd1602At(byte row, byte col) {
+void lcd1602At(BYTE row, BYTE col) {
     AT(LCD1602CMD_DDRAM_AT(row, col));
 }
 
-void lcd1602PutcharAt(byte row, byte col, char c) {
-    byte addr = row * LCD1602_PITCH + col;
+void lcd1602PutcharAt(BYTE row, BYTE col, char c) {
+    BYTE addr = row * LCD1602_PITCH + col;
     PUT_AT(addr, c);
 }
 
@@ -243,7 +243,7 @@ void lcd1602Putchar(char c) {
     if (c == '\n') {
         // can't read the cursor address (unless set explicitly)
         // require LCD1602_BACK to work.
-        byte row = CURROW; // lcd1602GetRow();
+        BYTE row = CURROW; // lcd1602GetRow();
         if (row == LCD1602_HEIGHT - 1)
             lcd1602ScrollUp();
         else
@@ -260,7 +260,7 @@ void lcd1602Puts(const char *p) {
         lcd1602Putchar(c);
 }
 
-void lcd1602PutsAt(byte row, byte col, const char *p) {
+void lcd1602PutsAt(BYTE row, BYTE col, const char *p) {
     lcd1602At(row, col);
     lcd1602Puts(p);
 }

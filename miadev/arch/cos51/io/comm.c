@@ -7,16 +7,16 @@
  * Serial Communication Implementation
  */
 
-extern __xdata char sendbuf[];
-extern __xdata char recvbuf[];
-extern byte sendbuf_size; // must <= 255
-extern byte recvbuf_size; // must <= 255
+extern __xdata BYTE sendbuf[];
+extern __xdata BYTE recvbuf[];
+extern BYTE sendbuf_size; // must <= 255
+extern BYTE recvbuf_size; // must <= 255
 
-static volatile byte sendp = 0;
-static volatile byte buffp = 0;
+static volatile BYTE sendp = 0;
+static volatile BYTE buffp = 0;
 
-static volatile byte readp = 0;
-static volatile byte recvp = 0;
+static volatile BYTE readp = 0;
+static volatile BYTE recvp = 0;
 
 static volatile bool send_empty = 1;
 static volatile bool send_full = 0;
@@ -65,7 +65,7 @@ __interrupt(4) __using(RBANK_COS51) {
     }
 }
 
-bool send(char ch) {
+bool send(BYTE ch) {
     while (send_full) {
         if (timeout_proc && timeout_proc())
             return 0;
@@ -87,14 +87,14 @@ bool send(char ch) {
     return 1;
 }
 
-char recv() {
-    char ch;
+int recv() {
+    unsigned char ch;
     if (recv_empty) {
         REN = 1;
         while (recv_empty) {
             if (timeout_proc && timeout_proc()) {
                 recv_timeout = 1;
-                return (char) -1;
+                return -1;
             }
         }
     }
@@ -109,11 +109,11 @@ char recv() {
     ES = 1;
 
     recv_timeout = 0;
-    return ch;
+    return (int) ch;
 }
 
-word sendblob(char *p, word size) {
-    word remain = size;
+WORD sendblob(char *p, WORD size) {
+    WORD remain = size;
     while (remain) {
         if (!send(*p++))
             break;
@@ -122,8 +122,8 @@ word sendblob(char *p, word size) {
     return size - remain;
 }
 
-word recvblob(char *p, word size) {
-    word remain = 0;
+WORD recvblob(char *p, WORD size) {
+    WORD remain = 0;
     char ch;
     while (remain) {
         ch = recv();
@@ -135,7 +135,7 @@ word recvblob(char *p, word size) {
     return size - remain;
 }
 
-byte available() {
+size_t available() {
     if (recv_empty)
         return 0;
     if (readp < recvp)

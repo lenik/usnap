@@ -22,21 +22,21 @@ void slapUnregister(int port) {
 #define PAYLOAD     2
 #define CHECKSUM    3
 
-static byte slapState = HEAD;
+static BYTE slapState = HEAD;
 
-extern __xdata byte slapPayloadBuffer[];
-static __xdata byte *slapPtr = NULL;
-static byte slapPort = 0;
-static byte slapPayloadLen = 0;
-static byte slapRemain = 0;
-static byte slapCRC = 0;
+extern __xdata BYTE slapPayloadBuffer[];
+static __xdata BYTE *slapPtr = NULL;
+static BYTE slapPort = 0;
+static BYTE slapPayloadLen = 0;
+static BYTE slapRemain = 0;
+static BYTE slapCRC = 0;
 
 __xdata int statSlapPackets = 0;
 __xdata int statSlapDelivered = 0;
 __xdata int statSlapCrcError = 0;
 __xdata int statSlapSyncs = 0;
 
-void slapRecv(byte b) {
+void slapRecv(BYTE b) {
     switch (slapState) {
     case HEAD:
         crc8Reset();
@@ -83,7 +83,7 @@ void slapRecv(byte b) {
     slapCRC = crc8Update(b);
 }
 
-void slapRecvBlock(byte *pblock, byte cb) {
+void slapRecvBlock(BYTE *pblock, BYTE cb) {
     while (cb--)
         slapRecv(*pblock++);
 }

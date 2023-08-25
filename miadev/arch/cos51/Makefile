@@ -5,7 +5,7 @@ CFLAGS = --std-c99
 FREEFLAGS = -DNDEBUG
 CHECKFLAGS = --debug
 
-CCLIB = sdcclib
+CCLIB = sdar -rc
 
 HEADERS = $(wildcard *.h)
 MODULES = $(basename $(wildcard *.c))

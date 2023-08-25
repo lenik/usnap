@@ -4,8 +4,11 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-typedef unsigned char byte;
-typedef unsigned short word;
-typedef unsigned long dword;
+typedef unsigned char BYTE;
+typedef unsigned short WORD;
+typedef unsigned long DWORD;
+
+typedef signed char int8;
+typedef short int16;
 
 #endif

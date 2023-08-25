@@ -3,19 +3,19 @@
 
 #include "message.h"
 
-typedef byte keyscan_t;
+typedef BYTE keyscan_t;
 
 /**
  * The user must implement this function to read the underlying I/O ports.
  *
- * @param mem Bit buffer packed in bytes.
+ * @param mem Bit buffer packed in BYTEs.
  * @return bit numbers indicating the count of key button.
  */
-keyscan_t kbd_scan(byte *mem);
+keyscan_t kbd_scan(BYTE *mem);
 
 /* key-scan-index/char-ascii translate table */
 extern __xdata char *kbd_transtab;
 
-byte crazykbd_poll();
+BYTE crazykbd_poll();
 
 #endif

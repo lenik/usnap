@@ -10,7 +10,7 @@
 #include "hc6800.h"
 #include "../74xx/165.h"
 
-__data __at(0x2f) byte KBD;
+__data __at(0x2f) BYTE KBD;
 __bit __at(0x78) K0;
 __bit __at(0x79) K1;
 __bit __at(0x7a) K2;
