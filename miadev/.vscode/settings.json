@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.lex": "lex",
+        "*.yacc": "bison",
+        "1602.h": "c",
+        "8052.h": "c",
+        "types.h": "c",
+        "apn.h": "c",
+        "stdbool.h": "c",
+        "variant": "c",
+        "chrono": "c"
+    },
+    "C_Cpp.default.includePath": [
+        "/usr/share/sdcc/include/",
+        "/usr/share/sdcc/include/mcs51"
+    ],
+    "C_Cpp.default.compileCommands": "builddir/compile_commands.json"
+}
